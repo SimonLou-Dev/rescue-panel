@@ -1,0 +1,152 @@
+// Body
+$body-bg: #f8fafc;
+
+// Typography
+$font-family-sans-serif: 'Nunito', sans-serif;
+$font-size-base: 0.9rem;
+$line-height-base: 1.6;
+
+// Colors
+$blue: #3490dc;
+$indigo: #6574cd;
+$purple: #9561e2;
+$pink: #f66d9b;
+$red: #e3342f;
+$orange: #f6993f;
+$yellow: #ffed4a;
+$green: #38c172;
+$teal: #4dc0b5;
+$cyan: #6cb2eb;
+
+//My Colors
+$bg: #313124;
+$light_blue: #00FFFF;
+$medium_blue: #004662;
+$dark_blue: #0C2646;
+
+$disabled: #303030;
+
+$green_light: #00FF00;
+$red_light: #FF0000;
+
+
+//border radius
+$border-radius: 30px;
+
+
+//Glow function
+@function text_glow($color){
+    @return 0 0 30px $color;
+}
+@function box_glow($color, $blur: 20px, $size: 7px){
+    @return 0 0 $blur $size $color;
+}
+//Defaults
+h1{
+    font-family: "Baloo Thambi 2", serif;
+    font-weight: 800;
+    font-size: 30px;
+    color: $light_blue;
+}
+h2{
+    font-family: "Baloo Thambi 2", serif;
+    font-weight: 700;
+    font-size: 25px;
+    color: $light_blue;
+}
+h3{
+    font-family: "Baloo Thambi 2", serif;
+    font-weight: 600;
+    font-size: 20px;
+    color: $light_blue;
+}
+h4{
+    font-family: "Baloo Thambi 2", serif;
+    font-weight: 500;
+    font-size: 20px;
+    color: $light_blue;
+}
+h5{
+    font-family: "Baloo Thambi 2", serif;
+    font-weight: 400;
+    font-size: 18px;
+    color: $light_blue;
+}
+h6{
+    font-family: "Baloo Thambi 2", serif;
+    font-weight: 300;
+    font-size: 15px;
+    color: $light_blue;
+}
+h1, h2, h3, h4, h5, h6{
+    margin: 0 0;
+}
+input, select, textarea {
+    color: $light_blue;
+    background-color: $medium_blue;
+    margin: 10px 0;
+    font-size: 20px;
+    font-family: 'Baloo Thambi 2', monospace;
+    font-weight: 500;
+    box-shadow: none;
+    border: none;
+    border-radius: $border-radius;
+    padding: 10px;
+
+    &::placeholder {
+        color: $light_blue;
+    }
+
+    &:-webkit-autofill {
+        background-color: $medium_blue !important;
+        color: $light_blue !important;
+    }
+}
+a, p, label{
+    color: $light_blue;
+    font-family: "Baloo Thambi 2", monospace;
+    font-weight: normal;
+    font-size: 20px;
+}
+
+.Title{
+    font-size: 35px;
+    font-family: 'Baloo Thambi 2', monospace;
+    font-weight: 900;
+    text-align: center;
+    margin-bottom: 10px;
+}
+a{
+    text-decoration: none;
+}
+
+.Form-Line{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: center;
+}
+.btn{
+    height: fit-content;
+    width: fit-content;
+    padding: 10px 20px;
+    background-color: $medium_blue;
+    color: $light_blue;
+    border-radius: $border-radius;
+    font-family: "Baloo Thambi 2", monospace;
+    font-weight: 600;
+    font-size: 25px;
+    border: none;
+    cursor: pointer;
+    transition: 400ms cubic-bezier(0.28,-0.46, 0.33, 1.5);
+    &:hover{
+        -webkit-transform: scale(1.2);
+    }
+}
+
+.form-error{
+    p{
+        color: $red_light;
+        margin: 0;
+    }
+}

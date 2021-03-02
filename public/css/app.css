@@ -1,0 +1,2443 @@
+h1 {
+  font-family: "Baloo Thambi 2", serif;
+  font-weight: 800;
+  font-size: 30px;
+  color: #00FFFF;
+}
+
+h2 {
+  font-family: "Baloo Thambi 2", serif;
+  font-weight: 700;
+  font-size: 25px;
+  color: #00FFFF;
+}
+
+h3 {
+  font-family: "Baloo Thambi 2", serif;
+  font-weight: 600;
+  font-size: 20px;
+  color: #00FFFF;
+}
+
+h4 {
+  font-family: "Baloo Thambi 2", serif;
+  font-weight: 500;
+  font-size: 20px;
+  color: #00FFFF;
+}
+
+h5 {
+  font-family: "Baloo Thambi 2", serif;
+  font-weight: 400;
+  font-size: 18px;
+  color: #00FFFF;
+}
+
+h6 {
+  font-family: "Baloo Thambi 2", serif;
+  font-weight: 300;
+  font-size: 15px;
+  color: #00FFFF;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  margin: 0 0;
+}
+
+input, select, textarea {
+  color: #00FFFF;
+  background-color: #004662;
+  margin: 10px 0;
+  font-size: 20px;
+  font-family: "Baloo Thambi 2", monospace;
+  font-weight: 500;
+  box-shadow: none;
+  border: none;
+  border-radius: 30px;
+  padding: 10px;
+}
+input::-moz-placeholder, select::-moz-placeholder, textarea::-moz-placeholder {
+  color: #00FFFF;
+}
+input:-ms-input-placeholder, select:-ms-input-placeholder, textarea:-ms-input-placeholder {
+  color: #00FFFF;
+}
+input::placeholder, select::placeholder, textarea::placeholder {
+  color: #00FFFF;
+}
+input:-webkit-autofill, select:-webkit-autofill, textarea:-webkit-autofill {
+  background-color: #004662 !important;
+  color: #00FFFF !important;
+}
+
+a, p, label {
+  color: #00FFFF;
+  font-family: "Baloo Thambi 2", monospace;
+  font-weight: normal;
+  font-size: 20px;
+}
+
+.Title {
+  font-size: 35px;
+  font-family: "Baloo Thambi 2", monospace;
+  font-weight: 900;
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+a {
+  text-decoration: none;
+}
+
+.Form-Line {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: center;
+}
+
+.btn {
+  height: -webkit-fit-content;
+  height: -moz-fit-content;
+  height: fit-content;
+  width: -webkit-fit-content;
+  width: -moz-fit-content;
+  width: fit-content;
+  padding: 10px 20px;
+  background-color: #004662;
+  color: #00FFFF;
+  border-radius: 30px;
+  font-family: "Baloo Thambi 2", monospace;
+  font-weight: 600;
+  font-size: 25px;
+  border: none;
+  cursor: pointer;
+  transition: 400ms cubic-bezier(0.28, -0.46, 0.33, 1.5);
+}
+.btn:hover {
+  -webkit-transform: scale(1.2);
+}
+
+.form-error p {
+  color: #FF0000;
+  margin: 0;
+}
+
+html {
+  position: fixed;
+  padding: 0;
+  margin: 0;
+  height: 100vh;
+  width: 100vw;
+  background-color: orange;
+  top: 0;
+  left: 0;
+}
+
+body {
+  padding: 0;
+  margin: 0;
+  height: 100vh;
+  width: 100vw;
+}
+
+#app {
+  height: 100vh;
+  width: 100vw;
+  background-color: #313124;
+}
+
+#layout {
+  height: 100vh;
+  overflow-x: hidden !important;
+}
+@media (max-width: 1600px) {
+  #layout {
+    overflow-y: auto;
+  }
+  #layout .mobildisabled {
+    display: none;
+  }
+}
+
+.notifs {
+  top: 0;
+  right: 0;
+  position: fixed;
+  z-index: 154400;
+  width: 20%;
+  min-width: 290px;
+  height: 100vh;
+  padding-top: 60px;
+}
+.notifs .notifications {
+  width: 95%;
+  margin-right: 5%;
+  height: 150px;
+  margin-bottom: 5px;
+  border-radius: 30px;
+  display: flex;
+  overflow: hidden;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.notifs .notifications .notif-header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 0 15px 0 15px;
+}
+.notifs .notifications .notif-header button {
+  background-color: transparent;
+  border: none;
+}
+.notifs .notifications .notif-separator {
+  height: 2px;
+  width: 100%;
+  background-color: #004662;
+}
+.notifs .notifications .notif-content {
+  padding: 0 15px 0 15px;
+}
+.notifs .notifications .notif-content p {
+  margin: 0;
+  text-indent: 20px;
+  font-size: 18px;
+}
+.notifs .notifications .progress-bar {
+  width: 100%;
+  height: 15px;
+  background-color: #0C2646;
+}
+.notifs .notifications .progress-bar .progress {
+  height: 15px;
+  border-radius: 15px 0;
+  background-color: #004662;
+}
+.notifs .success {
+  background-color: green;
+}
+.notifs .warning {
+  background-color: orange;
+}
+.notifs .danger {
+  background-color: red;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background-color: rgba(143, 143, 143, 0.1);
+  border-radius: 30px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #000;
+  border-radius: 30px;
+}
+
+.OnService {
+  color: #00FF00;
+  font-family: "Baloo Thambi 2", monospace;
+  font-weight: 600;
+  font-size: 25px;
+  text-shadow: 0 0 30px #00FF00;
+}
+
+.OffService {
+  color: #FF0000;
+  font-family: "Baloo Thambi 2", monospace;
+  font-weight: 600;
+  font-size: 25px;
+  text-shadow: 0 0 30px #FF0000;
+}
+
+#service {
+  height: 66px;
+  width: 240px;
+  z-index: 4;
+  border-radius: 90px;
+  background-color: #004662;
+  margin: 10px;
+  padding: 5px;
+  border: none;
+  box-shadow: none;
+  transition: all 400ms cubic-bezier(0.51, -1.15, 0.48, 2.27);
+  cursor: pointer;
+}
+#service:hover {
+  transform: scale(1.1);
+  -webkit-transform: scale(1.1);
+}
+#service:active {
+  -webkit-box-shadow: none;
+  border: none;
+}
+#service:disabled {
+  cursor: default;
+  color: #1a202c;
+  text-shadow: none;
+  transition: none;
+  transform: none;
+}
+
+.menu-content {
+  background-color: #0C2646;
+  width: 270px;
+  position: fixed;
+  margin-left: 0;
+  margin-top: 0;
+  height: 100vh;
+}
+.menu-content .Menusepartor {
+  height: 2px;
+  width: 100%;
+  background-color: #00FFFF;
+  margin: 10px 0;
+}
+.menu-content #Logo {
+  margin-top: 20px;
+  width: 100%;
+  height: 250px;
+  display: flex;
+  justify-content: center;
+}
+.menu-content #Logo a {
+  margin: 10px auto 0 auto;
+  padding: 0;
+  width: -webkit-fit-content;
+  width: -moz-fit-content;
+  width: fit-content;
+}
+.menu-content #Logo a img {
+  width: 220px;
+}
+.menu-content #logout {
+  width: 30px;
+  margin: 5px;
+  border-radius: 30px;
+  height: 30px;
+  padding: 5px;
+  z-index: 14;
+  position: fixed;
+  background-color: #00FFFF;
+  box-shadow: 0 0 20px 1px #00FFFF;
+  transition: all 400ms cubic-bezier(0.51, -1.15, 0.48, 2.27);
+  cursor: pointer;
+}
+.menu-content #logout:hover {
+  -webkit-transform: scale(1.1);
+  box-shadow: 0 0 30px 2px #00FFFF;
+}
+.menu-content .navigation {
+  height: calc(100vh - 512px);
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+.menu-content .Menu-Item {
+  padding: 0 10px 0 10px;
+}
+.menu-content .Menu-Item .Menu_title {
+  position: relative;
+  overflow: hidden;
+  padding-right: 10px;
+}
+.menu-content .Menu-Item .Menu_title span {
+  font-size: 27px;
+  margin-left: 5px;
+  padding: 0 5px 0 12px;
+  z-index: 12;
+  border-left: 7px #004662 solid;
+  width: -webkit-fit-content;
+  width: -moz-fit-content;
+  width: fit-content;
+  position: relative;
+}
+.menu-content .Menu-Item .Menu_title span::after {
+  position: absolute;
+  width: 300px;
+  height: 2px;
+  top: 50%;
+  left: calc(100% + 5px);
+  content: " ";
+  background-color: #004662;
+  z-index: 0;
+}
+.menu-content .Menu-Item .Menu_title::before {
+  position: absolute;
+  width: 10px;
+  height: 2px;
+  top: 51%;
+  left: 11px;
+  background-color: #004662;
+  content: " ";
+  z-index: 0;
+}
+.menu-content .Menu-Item .Menu-list {
+  margin-left: 5px;
+}
+.menu-content .Menu-Item .Menu-list li::marker {
+  color: #004662;
+}
+.menu-content .Menu-Item .Menu-list li a {
+  font-family: "Baloo Thambi 2", monospace;
+  text-decoration: none;
+  font-size: 20px;
+  font-weight: 600;
+}
+.menu-content .Copyright {
+  width: 100%;
+}
+.menu-content .Copyright p {
+  text-align: center !important;
+  color: #004662 !important;
+  font-family: "Baloo Thambi 2", monospace;
+  font-size: 20px;
+  font-weight: 700;
+}
+
+@media (min-width: 1100px) {
+  .closed-menu {
+    display: none;
+  }
+
+  #Close {
+    display: none;
+  }
+}
+@media (max-width: 1100px) {
+  .close .menu-content {
+    display: none;
+  }
+  .close .closed-menu {
+    position: fixed;
+    border-radius: 0 0 30px 0;
+    background-color: #0C2646;
+    padding: 10px 12px 12px 10px;
+  }
+  .close .closed-menu button {
+    cursor: pointer;
+    border: none;
+    background-color: #004662;
+    border-radius: 30px;
+    font-size: 25px;
+    padding: 5px 15px;
+    color: #00FFFF;
+    font-family: "Baloo Thambi 2", monospace;
+    font-weight: 700;
+    transition: 400ms cubic-bezier(0.28, -0.46, 0.33, 1.5);
+  }
+  .close .closed-menu button:hover {
+    -webkit-transform: scale(1.2);
+  }
+
+  .open .closed-menu {
+    display: none;
+  }
+  .open .menu-content #Close {
+    z-index: 14;
+    position: fixed;
+    left: 160px;
+    top: 5px;
+  }
+  .open .menu-content #Close button {
+    cursor: pointer;
+    border: none;
+    background-color: #004662;
+    border-radius: 30px;
+    font-size: 25px;
+    padding: 5px 15px;
+    color: #00FFFF;
+    font-family: "Baloo Thambi 2", monospace;
+    font-weight: 700;
+    transition: 400ms cubic-bezier(0.28, -0.46, 0.33, 1.5);
+  }
+  .open .menu-content #Close button:hover {
+    -webkit-transform: scale(1.2);
+  }
+  .open .menu-content .Version {
+    display: none;
+  }
+  .open .menu-content .Menusepartor:last-child {
+    display: none;
+    visibility: hidden;
+  }
+}
+@media (min-width: 1100px) {
+  #content {
+    margin-left: 270px;
+  }
+}
+.switch-container {
+  display: flex;
+  margin: auto auto;
+  z-index: 1;
+}
+.switch-container .payed_switch {
+  height: 0;
+  width: 0;
+  visibility: hidden;
+}
+.switch-container .payed_switchLabel {
+  z-index: 1;
+  margin: auto auto;
+  cursor: pointer;
+  text-indent: -9999px;
+  width: 100px;
+  height: 30px;
+  background: #FF0000;
+  box-shadow: 0 0 20px 7px #FF0000;
+  display: block;
+  border-radius: 100px;
+  position: relative;
+  transition: 400ms cubic-bezier(0.28, -0.46, 0.33, 1.5);
+}
+.switch-container .payed_switchLabel::after {
+  z-index: 1;
+  content: " ";
+  position: absolute;
+  top: -5px;
+  left: -5px;
+  width: 40px;
+  height: 40px;
+  background: #222;
+  border-radius: 90px;
+  transition: 400ms cubic-bezier(0.28, -0.46, 0.33, 1.5);
+}
+.switch-container .payed_switch:checked + .payed_switchLabel {
+  background: #00FF00;
+  box-shadow: 0 0 20px 7px #00FF00;
+  z-index: 1;
+}
+.switch-container .payed_switch:checked + .payed_switchLabel:after {
+  left: calc(100% + 5px);
+  transform: translateX(-100%);
+  z-index: 1;
+}
+.switch-container .payed_switchLabel:active:after {
+  width: 40px;
+  z-index: 1;
+}
+
+#Main-Page {
+  display: flex;
+  flex-direction: column;
+  padding: 30px;
+}
+#Main-Page .Personnel_service {
+  background-color: #0C2646;
+  width: 100%;
+  height: 250px;
+  border-radius: 30px;
+  padding: 10px;
+}
+#Main-Page .Personnel_service h1 {
+  padding-left: 20px;
+  font-size: 60px;
+  margin: 0 auto;
+}
+#Main-Page .Annonces {
+  margin-top: 35px;
+  background-color: #0C2646;
+  width: 100%;
+  min-height: 200px;
+  border-radius: 30px;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+}
+#Main-Page .Annonces h1 {
+  padding-left: 20px;
+  font-size: 60px;
+  margin: 0 auto;
+  text-align: center;
+}
+#Main-Page .Annonces .Annonces-List {
+  margin: 0 auto;
+  width: 100%;
+  height: calc(100vh - 464px);
+  overflow-y: scroll;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+#Main-Page .Annonces .Annonces-List .Annonce-Card {
+  background-color: #004662;
+  margin: 10px;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  border-radius: 30px;
+  overflow-y: auto;
+  height: 350px;
+  width: 45%;
+}
+#Main-Page .Annonces .Annonces-List .Annonce-Card .Title {
+  font-size: 30px;
+  text-align: center;
+  margin: 0 auto;
+}
+#Main-Page .Annonces .Annonces-List .Annonce-Card .Separator {
+  margin: 5px auto;
+  content: " ";
+  width: 100%;
+  text-align: center;
+  background-color: #00FFFF;
+  height: 2px;
+}
+#Main-Page .Annonces .Annonces-List .Annonce-Card .Text {
+  font-size: 25px;
+  text-indent: 20px;
+}
+#Main-Page .Annonces .Annonces-List .Annonce-Card .Date {
+  font-size: 27px;
+  text-align: center;
+}
+
+.Personnel-list {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  width: 100%;
+  height: 150px;
+  overflow-y: auto;
+}
+.Personnel-list .Personnel-card {
+  margin: 10px;
+  background-color: #004662;
+  border-radius: 30px;
+  height: -webkit-min-content;
+  height: -moz-min-content;
+  height: min-content;
+  padding: 6px 10px;
+}
+.Personnel-list .Personnel-card h5 {
+  margin: 0;
+  font-size: 25px;
+}
+
+#Rapport-Patient {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+}
+#Rapport-Patient .Header {
+  padding-top: 10px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  width: 100%;
+}
+#Rapport-Patient .Header .Title {
+  background-color: #0C2646;
+  border-radius: 30px;
+  padding: 20px;
+}
+#Rapport-Patient .Header .Title h1 {
+  font-size: 30px;
+  font-family: "Baloo Thambi 2", monospace;
+  font-weight: 700;
+  text-align: center;
+}
+#Rapport-Patient .Header .pdf {
+  margin-top: 15px;
+  background-color: #0C2646;
+  border-radius: 30px;
+  padding: 10px;
+  height: -webkit-min-content;
+  height: -moz-min-content;
+  height: min-content;
+}
+#Rapport-Patient .Header .pdf a {
+  text-decoration: none;
+  font-size: 20px;
+  font-family: "Baloo Thambi 2", monospace;
+  font-weight: 700;
+}
+#Rapport-Patient .Header .submit {
+  background-color: #0C2646;
+  border-radius: 30px;
+  padding: 10px 15px;
+  display: flex;
+}
+#Rapport-Patient .Header .submit button {
+  margin: auto auto;
+  cursor: pointer;
+  background-color: #004662;
+  color: #00FFFF;
+  font-size: 20px;
+  padding: 5px;
+  font-family: "Baloo Thambi 2", monospace;
+  font-weight: 700;
+  border: none;
+  border-radius: 30px;
+  box-shadow: none;
+  transition: all 400ms cubic-bezier(0.51, -1.15, 0.48, 2.27);
+}
+#Rapport-Patient .Header .submit button:hover {
+  -webkit-transform: scale(1.1);
+}
+#Rapport-Patient .Header .submit button:active {
+  -webkit-transform: rotate(-5deg);
+}
+#Rapport-Patient .content {
+  padding: 10px;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+}
+#Rapport-Patient .content .Rapport-Card {
+  margin: 10px;
+  display: flex;
+  flex-direction: column;
+  padding: 15px;
+  background-color: #0C2646;
+  border-radius: 30px;
+  width: -webkit-fit-content;
+  width: -moz-fit-content;
+  width: fit-content;
+}
+#Rapport-Patient .content .Rapport-Card h1 {
+  font-size: 30px;
+  font-family: "Baloo Thambi 2", monospace;
+  font-weight: 600;
+  text-align: center;
+  margin-bottom: 10px;
+}
+#Rapport-Patient .content .Rapport-Card .Form-Group {
+  height: 100%;
+  max-height: 320px;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+}
+#Rapport-Patient .content .Rapport-Card .Form-Group input, #Rapport-Patient .content .Rapport-Card .Form-Group select, #Rapport-Patient .content .Rapport-Card .Form-Group textarea {
+  padding: 10px;
+  margin: 10px 0;
+  font-size: 20px;
+  font-family: "Baloo Thambi 2", monospace;
+  font-weight: 500;
+  box-shadow: none;
+  border: none;
+  border-radius: 30px;
+  background-color: #004662;
+  color: #00FFFF;
+}
+#Rapport-Patient .content .Rapport-Card .Form-Group input::-moz-placeholder, #Rapport-Patient .content .Rapport-Card .Form-Group select::-moz-placeholder, #Rapport-Patient .content .Rapport-Card .Form-Group textarea::-moz-placeholder {
+  font-family: "Baloo Thambi 2", monospace;
+  font-weight: 500;
+  color: #00FFFF;
+}
+#Rapport-Patient .content .Rapport-Card .Form-Group input:-ms-input-placeholder, #Rapport-Patient .content .Rapport-Card .Form-Group select:-ms-input-placeholder, #Rapport-Patient .content .Rapport-Card .Form-Group textarea:-ms-input-placeholder {
+  font-family: "Baloo Thambi 2", monospace;
+  font-weight: 500;
+  color: #00FFFF;
+}
+#Rapport-Patient .content .Rapport-Card .Form-Group input::placeholder, #Rapport-Patient .content .Rapport-Card .Form-Group select::placeholder, #Rapport-Patient .content .Rapport-Card .Form-Group textarea::placeholder {
+  font-family: "Baloo Thambi 2", monospace;
+  font-weight: 500;
+  color: #00FFFF;
+}
+#Rapport-Patient .content .Rapport-Card .description {
+  display: flex;
+  flex-direction: column;
+}
+#Rapport-Patient .content .Rapport-Card .description textarea {
+  min-width: 600px;
+  min-height: 80px;
+  border-radius: 30px;
+  border: none;
+}
+#Rapport-Patient .content .Rapport-Card .ATA {
+  display: flex;
+  flex-direction: row;
+}
+#Rapport-Patient .content .Rapport-Card .ATA label {
+  line-height: 30px;
+  margin: auto 5px;
+}
+#Rapport-Patient .content .Rapport-Card .facture input[type=checkbox] {
+  height: 0;
+  width: 0;
+  visibility: hidden;
+}
+#Rapport-Patient .content .Rapport-Card .facture #switch {
+  margin: auto auto;
+  cursor: pointer;
+  text-indent: -9999px;
+  width: 100px;
+  height: 30px;
+  background: #FF0000;
+  box-shadow: 0 0 20px 7px #FF0000;
+  display: block;
+  border-radius: 100px;
+  position: relative;
+  transition: 400ms cubic-bezier(0.28, -0.46, 0.33, 1.5);
+}
+#Rapport-Patient .content .Rapport-Card .facture #switch::after {
+  content: "";
+  position: absolute;
+  top: -5px;
+  left: -5px;
+  width: 40px;
+  height: 40px;
+  background: #222;
+  border-radius: 90px;
+  transition: 400ms cubic-bezier(0.28, -0.46, 0.33, 1.5);
+}
+#Rapport-Patient .content .Rapport-Card .facture input:checked + #switch {
+  background: #00FF00;
+  box-shadow: 0 0 20px 7px #00FF00;
+}
+#Rapport-Patient .content .Rapport-Card .facture input:checked + #switch:after {
+  left: calc(100% + 5px);
+  transform: translateX(-100%);
+}
+#Rapport-Patient .content .Rapport-Card .facture #switch:active:after {
+  width: 40px;
+}
+
+.plan {
+  margin-top: 20px !important;
+  margin-left: 15px;
+  display: flex;
+  flex-direction: column;
+  background-color: #0C2646;
+  padding: 15px;
+  height: calc(100vh - 70px);
+  border-radius: 30px;
+}
+.plan h4 {
+  margin-top: 10px;
+  text-align: center;
+  font-weight: 600;
+  font-size: 30px;
+}
+.plan .Patient-List {
+  height: 600px;
+  width: 500px;
+  background-color: #004662;
+  overflow-y: auto;
+  border-radius: 30px;
+  padding: 15px;
+}
+.plan .Patient-List .Patient-list-card {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  margin-bottom: 10px;
+}
+.plan .Patient-List .Patient-list-card h5:first-child {
+  width: 40%;
+}
+.plan .Patient-List .Patient-list-card h5:last-child {
+  width: 10%;
+}
+.plan .Patient-List .Patient-list-card button {
+  cursor: pointer;
+  background-color: transparent;
+  box-shadow: none;
+  border: none;
+  transition: all 300ms cubic-bezier(0.19, -1.55, 0.75, 2.43);
+}
+.plan .Patient-List .Patient-list-card button:hover {
+  -webkit-transform: scale(1.1);
+  -webkit-transform: rotate(7deg);
+}
+.plan .Patient-List .Patient-list-card button img {
+  max-width: 40px;
+}
+.plan .Patient-List .Patient-list-card h5 {
+  margin: auto;
+  font-family: "Baloo Thambi 2", monospace;
+  font-size: 25px;
+  font-weight: 600;
+}
+.plan .PersonnelList ul {
+  height: 200px;
+  width: 500px;
+  background-color: #004662;
+  border-radius: 30px;
+  padding: 15px;
+  display: flex;
+  justify-content: space-evenly;
+  flex-direction: row;
+  flex-wrap: wrap;
+  overflow-y: auto;
+}
+.plan .PersonnelList ul li {
+  margin: 10px;
+  background-color: #0C2646;
+  border-radius: 30px;
+  padding: 10px;
+  height: -webkit-fit-content;
+  height: -moz-fit-content;
+  height: fit-content;
+  width: -webkit-fit-content;
+  width: -moz-fit-content;
+  width: fit-content;
+  list-style: none;
+  color: #00FFFF;
+  font-size: 25px;
+  font-family: "Baloo Thambi 2", monospace;
+  font-weight: 600;
+}
+
+.PU-non-Participant {
+  display: flex;
+  justify-content: center;
+  height: 100vh;
+}
+.PU-non-Participant .card {
+  display: flex;
+  flex-direction: column;
+  margin: auto;
+  background-color: #0C2646;
+  border-radius: 30px;
+  padding: 15px;
+}
+.PU-non-Participant .card button {
+  margin: 0 auto;
+}
+
+.urgence_disabled {
+  display: flex;
+  height: 100%;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+  width: 100%;
+  padding: 10px;
+}
+@media (min-width: 1600px) {
+  .urgence_disabled {
+    flex-direction: row;
+  }
+}
+@media (max-width: 1600px) {
+  .urgence_disabled {
+    flex-direction: column;
+  }
+  .urgence_disabled div {
+    margin: 0 auto !important;
+  }
+}
+.urgence_disabled .starter {
+  background-color: #0C2646;
+  padding: 10px;
+  height: -webkit-fit-content;
+  height: -moz-fit-content;
+  height: fit-content;
+  border-radius: 30px;
+  margin: auto 0;
+}
+@media (max-width: 1600px) {
+  .urgence_disabled .starter {
+    margin-bottom: 20px !important;
+    width: 90%;
+  }
+}
+.urgence_disabled .starter h1 {
+  font-size: 35px;
+  font-family: "Baloo Thambi 2", monospace;
+  font-weight: 600;
+  text-align: center;
+  margin-bottom: 10px;
+}
+.urgence_disabled .starter form {
+  display: flex;
+  flex-direction: column;
+}
+.urgence_disabled .starter form .Line-Form-group {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 100%;
+}
+.urgence_disabled .starter form .Line-Form-group input, .urgence_disabled .starter form .Line-Form-group select {
+  width: 80%;
+}
+.urgence_disabled .starter form .Line-Form-group label {
+  margin: auto 0;
+}
+.urgence_disabled .starter form button {
+  margin: auto;
+  color: #FF0000;
+  text-transform: uppercase;
+  text-shadow: 0 0 30px #FF0000;
+  transition: all 400ms cubic-bezier(0.51, -1.15, 0.48, 2.27);
+}
+
+.title-contain {
+  background-color: #0C2646;
+  border-radius: 30px;
+  padding: 5px;
+}
+.title-contain h1 {
+  font-size: 58px;
+  padding: 5px;
+}
+
+.UrgenceEnabled {
+  padding: 10px;
+  width: 100%;
+  display: flex;
+  height: 100%;
+  flex-wrap: nowrap;
+  justify-content: space-evenly;
+}
+@media (min-width: 1600px) {
+  .UrgenceEnabled {
+    flex-direction: row;
+  }
+}
+@media (max-width: 1600px) {
+  .UrgenceEnabled {
+    flex-direction: column;
+  }
+  .UrgenceEnabled div {
+    margin: 0 auto;
+  }
+}
+.UrgenceEnabled .urgence {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+}
+.UrgenceEnabled .urgence .Header {
+  margin-bottom: 10px;
+  max-width: 700px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+.UrgenceEnabled .urgence .Header .alert-creator {
+  background-color: #0C2646;
+  border-radius: 30px;
+  padding: 5px;
+  margin: 10px;
+}
+.UrgenceEnabled .urgence .Header .alert-creator h2 {
+  font-size: 40px;
+  font-weight: 600;
+  padding: 5px;
+}
+.UrgenceEnabled .urgence .Header .disable-btn-contain {
+  background-color: #0C2646;
+  border-radius: 30px;
+  padding: 5px 15px;
+  margin: 10px;
+  display: flex;
+}
+.UrgenceEnabled .urgence .Header .disable-btn-contain button {
+  text-transform: uppercase;
+  color: #FF0000;
+  text-shadow: 0 0 30px #FF0000;
+  font-size: 30px;
+}
+.UrgenceEnabled .urgence .AddPatient {
+  background-color: #0C2646;
+  border-radius: 30px;
+  padding: 5px 5px 20px 5px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.UrgenceEnabled .urgence .AddPatient form {
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 40px 80px 70px 80px 80px 80px 70px 80px 40px;
+  grid-template-rows: repeat(3, 80px);
+  grid-template-areas: ". name name name . vorname vorname vorname ." ". vlabel vlabel vselect vselect vselect . facture ." ". label . select select select . submit .";
+}
+.UrgenceEnabled .urgence .AddPatient form .Namefield {
+  grid-area: name;
+}
+.UrgenceEnabled .urgence .AddPatient form .Voramefield {
+  grid-area: vorname;
+}
+.UrgenceEnabled .urgence .AddPatient form .Labelfield {
+  margin: auto;
+  grid-area: label;
+  display: flex;
+}
+.UrgenceEnabled .urgence .AddPatient form .Labelfield label {
+  margin: auto;
+  font-size: 20px;
+}
+.UrgenceEnabled .urgence .AddPatient form .Selectfield {
+  grid-area: select;
+}
+.UrgenceEnabled .urgence .AddPatient form .LabelfieldV {
+  grid-area: vlabel;
+  margin: auto 0;
+  display: flex;
+}
+.UrgenceEnabled .urgence .AddPatient form .SelectfieldV {
+  grid-area: vselect;
+}
+.UrgenceEnabled .urgence .AddPatient form .switch-container {
+  grid-area: facture;
+}
+.UrgenceEnabled .urgence .AddPatient form .Buttonfield {
+  margin: auto;
+  grid-area: submit;
+}
+.UrgenceEnabled .urgence .Participants {
+  margin-bottom: 20px;
+  background-color: #0C2646;
+  border-radius: 30px;
+  padding: 10px;
+}
+.UrgenceEnabled .urgence .Participants .Personnel-list {
+  max-width: 720px;
+}
+
+.RecherchePatient {
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+}
+.RecherchePatient .header {
+  max-width: -webkit-fit-content;
+  max-width: -moz-fit-content;
+  max-width: fit-content;
+  margin: auto;
+}
+.RecherchePatient .PatientRechercheContent {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: space-around;
+  margin-top: 20px;
+}
+@media (max-width: 1600px) {
+  .RecherchePatient .PatientRechercheContent {
+    flex-direction: column !important;
+  }
+}
+.RecherchePatient .PatientRechercheContent .PatientInfos {
+  width: 68%;
+  padding: 10px;
+  height: calc(100vh - 170px);
+  border-radius: 30px;
+  background-color: #0C2646;
+}
+@media (max-width: 1600px) {
+  .RecherchePatient .PatientRechercheContent .PatientInfos {
+    height: 100%;
+    width: 90%;
+    margin: 20px auto;
+  }
+}
+.RecherchePatient .PatientRechercheContent .PatientInfos .Infos-Header {
+  padding: 5px 20px;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: center;
+}
+.RecherchePatient .PatientRechercheContent .PatientInfos .Infos-Header .Title {
+  display: flex;
+  background-color: #004662;
+  border-radius: 30px;
+  padding: 5px;
+}
+.RecherchePatient .PatientRechercheContent .PatientInfos .Infos-Header .Title h1 {
+  margin: auto;
+}
+.RecherchePatient .PatientRechercheContent .PatientInfos .form form {
+  width: 100%;
+  display: grid;
+}
+@media (min-width: 900px) {
+  .RecherchePatient .PatientRechercheContent .PatientInfos .form form {
+    grid-template-columns: 2% repeat(8, 12%) 2%;
+    grid-template-rows: repeat(8, 23px 65px);
+  }
+  .RecherchePatient .PatientRechercheContent .PatientInfos .form form .DescLabel {
+    grid-row-start: 2;
+    grid-row-end: 2;
+    grid-column-start: 2;
+    grid-column-end: 2;
+  }
+  .RecherchePatient .PatientRechercheContent .PatientInfos .form form .InterTypeLabel {
+    display: flex;
+    grid-row-start: 8;
+    grid-row-end: 8;
+    grid-column-start: 2;
+    grid-column-end: 4;
+  }
+  .RecherchePatient .PatientRechercheContent .PatientInfos .form form .InterTypeLabel label {
+    margin: auto 0;
+  }
+  .RecherchePatient .PatientRechercheContent .PatientInfos .form form .BroumLabel {
+    display: flex;
+    grid-row-start: 10;
+    grid-row-end: 10;
+    grid-column-start: 2;
+    grid-column-end: 4;
+  }
+  .RecherchePatient .PatientRechercheContent .PatientInfos .form form .BroumLabel label {
+    margin: auto 0;
+  }
+  .RecherchePatient .PatientRechercheContent .PatientInfos .form form .TarifLabel {
+    display: flex;
+    grid-row-start: 12;
+    grid-row-end: 12;
+    grid-column-start: 2;
+    grid-column-end: 4;
+  }
+  .RecherchePatient .PatientRechercheContent .PatientInfos .form form .TarifLabel label {
+    margin: auto 0;
+  }
+  .RecherchePatient .PatientRechercheContent .PatientInfos .form form .DescInput {
+    grid-row-start: 3;
+    grid-row-end: 7;
+    grid-column-start: 2;
+    grid-column-end: 10;
+  }
+  .RecherchePatient .PatientRechercheContent .PatientInfos .form form .InterInput {
+    grid-row-start: 8;
+    grid-row-end: 8;
+    grid-column-start: 5;
+    grid-column-end: 8;
+  }
+  .RecherchePatient .PatientRechercheContent .PatientInfos .form form .InterInput select {
+    width: 100%;
+    height: 100%;
+  }
+  .RecherchePatient .PatientRechercheContent .PatientInfos .form form .BroumInput {
+    grid-row-start: 10;
+    grid-row-end: 10;
+    grid-column-start: 5;
+    grid-column-end: 8;
+  }
+  .RecherchePatient .PatientRechercheContent .PatientInfos .form form .BroumInput select {
+    width: 100%;
+    height: 100%;
+  }
+  .RecherchePatient .PatientRechercheContent .PatientInfos .form form .TarifInput {
+    grid-row-start: 12;
+    grid-row-end: 12;
+    grid-column-start: 5;
+    grid-column-end: 8;
+  }
+  .RecherchePatient .PatientRechercheContent .PatientInfos .form form .TarifInput input {
+    width: 100%;
+    height: 100%;
+  }
+  .RecherchePatient .PatientRechercheContent .PatientInfos .form form .ATA {
+    grid-row-start: 14;
+    grid-row-end: 14;
+    grid-column-start: 2;
+    grid-column-end: 10;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+  }
+  .RecherchePatient .PatientRechercheContent .PatientInfos .form form .ATA label {
+    margin: auto 0;
+    font-size: 25px;
+    font-weight: 550;
+  }
+  .RecherchePatient .PatientRechercheContent .PatientInfos .form form .submit {
+    grid-row-start: 16;
+    grid-row-end: 16;
+    grid-column-start: 3;
+    grid-column-end: 5;
+  }
+  .RecherchePatient .PatientRechercheContent .PatientInfos .form form .PDF {
+    grid-row-start: 16;
+    grid-row-end: 16;
+    grid-column-start: 8;
+    grid-column-end: 10;
+  }
+}
+@media (max-width: 900px) {
+  .RecherchePatient .PatientRechercheContent .PatientInfos .form form {
+    grid-template-columns: 2% repeat(8, 12%) 2%;
+    grid-template-rows: repeat(12, 23px 65px);
+  }
+  .RecherchePatient .PatientRechercheContent .PatientInfos .form form .DescLabel {
+    grid-row-start: 2;
+    grid-row-end: 2;
+    grid-column-start: 2;
+    grid-column-end: 4;
+  }
+  .RecherchePatient .PatientRechercheContent .PatientInfos .form form .DescInput {
+    grid-row-start: 3;
+    grid-row-end: 7;
+    grid-column-start: 2;
+    grid-column-end: 10;
+  }
+  .RecherchePatient .PatientRechercheContent .PatientInfos .form form .InterTypeLabel {
+    display: flex;
+    grid-row-start: 8;
+    grid-row-end: 8;
+    grid-column-start: 2;
+    grid-column-end: 5;
+  }
+  .RecherchePatient .PatientRechercheContent .PatientInfos .form form .InterTypeLabel label {
+    margin: auto 0;
+  }
+  .RecherchePatient .PatientRechercheContent .PatientInfos .form form .BroumLabel {
+    display: flex;
+    grid-row-start: 10;
+    grid-row-end: 10;
+    grid-column-start: 2;
+    grid-column-end: 5;
+  }
+  .RecherchePatient .PatientRechercheContent .PatientInfos .form form .BroumLabel label {
+    margin: auto 0;
+  }
+  .RecherchePatient .PatientRechercheContent .PatientInfos .form form .TarifLabel {
+    display: flex;
+    grid-row-start: 12;
+    grid-row-end: 12;
+    grid-column-start: 2;
+    grid-column-end: 5;
+  }
+  .RecherchePatient .PatientRechercheContent .PatientInfos .form form .TarifLabel label {
+    margin: auto 0;
+  }
+  .RecherchePatient .PatientRechercheContent .PatientInfos .form form .InterInput {
+    grid-row-start: 8;
+    grid-row-end: 8;
+    grid-column-start: 6;
+    grid-column-end: 8;
+  }
+  .RecherchePatient .PatientRechercheContent .PatientInfos .form form .InterInput select {
+    width: 100%;
+    height: 100%;
+  }
+  .RecherchePatient .PatientRechercheContent .PatientInfos .form form .BroumInput {
+    grid-row-start: 10;
+    grid-row-end: 10;
+    grid-column-start: 6;
+    grid-column-end: 8;
+  }
+  .RecherchePatient .PatientRechercheContent .PatientInfos .form form .BroumInput select {
+    width: 100%;
+    height: 100%;
+  }
+  .RecherchePatient .PatientRechercheContent .PatientInfos .form form .TarifInput {
+    grid-row-start: 12;
+    grid-row-end: 12;
+    grid-column-start: 6;
+    grid-column-end: 8;
+  }
+  .RecherchePatient .PatientRechercheContent .PatientInfos .form form .TarifInput input {
+    width: 100%;
+    height: 100%;
+  }
+  .RecherchePatient .PatientRechercheContent .PatientInfos .form form .ATA {
+    grid-row-start: 14;
+    grid-row-end: 17;
+    grid-column-start: 2;
+    grid-column-end: 10;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+  }
+  .RecherchePatient .PatientRechercheContent .PatientInfos .form form .ATA label {
+    margin: auto 0;
+    font-size: 25px;
+    font-weight: 550;
+  }
+  .RecherchePatient .PatientRechercheContent .PatientInfos .form form .submit {
+    grid-row-start: 20;
+    grid-row-end: 20;
+    grid-column-start: 3;
+    grid-column-end: 5;
+  }
+  .RecherchePatient .PatientRechercheContent .PatientInfos .form form .PDF {
+    grid-row-start: 22;
+    grid-row-end: 22;
+    grid-column-start: 3;
+    grid-column-end: 5;
+  }
+}
+.RecherchePatient .PatientRechercheContent .PatientInfos .form form input:disabled, .RecherchePatient .PatientRechercheContent .PatientInfos .form form select:disabled, .RecherchePatient .PatientRechercheContent .PatientInfos .form form textarea:disabled, .RecherchePatient .PatientRechercheContent .PatientInfos .form form button:disabled {
+  opacity: 0.7;
+  transition: none;
+}
+.RecherchePatient .PatientRechercheContent .PatientInfos .form form input:disabled:hover, .RecherchePatient .PatientRechercheContent .PatientInfos .form form select:disabled:hover, .RecherchePatient .PatientRechercheContent .PatientInfos .form form textarea:disabled:hover, .RecherchePatient .PatientRechercheContent .PatientInfos .form form button:disabled:hover {
+  -webkit-transform: scale(1);
+}
+.RecherchePatient .PatientRechercheContent .Recherche {
+  width: 28%;
+  height: calc(100vh - 170px);
+  overflow-y: auto;
+  border-radius: 30px;
+  background-color: #0C2646;
+  overflow-x: hidden;
+  display: flex;
+  flex-direction: column;
+}
+@media (max-width: 1600px) {
+  .RecherchePatient .PatientRechercheContent .Recherche {
+    height: 100%;
+    width: 90%;
+    margin: 20px auto;
+  }
+}
+.RecherchePatient .PatientRechercheContent .Recherche .FormRecherche {
+  display: flex;
+  width: 100%;
+  padding: 10px;
+  border-bottom: black 1px solid;
+}
+.RecherchePatient .PatientRechercheContent .Recherche .FormRecherche form {
+  display: flex;
+  flex-direction: row;
+  margin: 0 auto;
+}
+@media (max-width: 1600px) {
+  .RecherchePatient .PatientRechercheContent .Recherche .FormRecherche form input {
+    width: calc(100% - 90px);
+  }
+}
+.RecherchePatient .PatientRechercheContent .Recherche .FormRecherche form button {
+  margin: auto 5px;
+  display: flex;
+  height: 60px;
+  left: 50%;
+}
+.RecherchePatient .PatientRechercheContent .Recherche .FormRecherche form button img {
+  margin: auto;
+  height: 25px;
+}
+.RecherchePatient .PatientRechercheContent .Recherche .Interventions {
+  display: flex;
+  flex-direction: column;
+  margin: 15px auto;
+  width: 80%;
+  background-color: #004662;
+  border-radius: 30px;
+}
+.RecherchePatient .PatientRechercheContent .Recherche .Interventions h3 {
+  margin: 10px auto;
+  background-color: #0C2646;
+  font-size: 25px;
+  font-weight: 700;
+  padding: 5px 10px;
+  border-radius: 30px;
+}
+.RecherchePatient .PatientRechercheContent .Recherche .Interventions .InterventionsList {
+  height: 400px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  margin: 10px auto;
+}
+.RecherchePatient .PatientRechercheContent .Recherche .Interventions .InterventionsList .InterventionItem {
+  margin: 0 auto;
+  padding: 10px 5px;
+  border-bottom: black 1px solid;
+}
+.RecherchePatient .PatientRechercheContent .Recherche .Interventions .InterventionsList .InterventionItem button {
+  cursor: pointer;
+  background-color: transparent;
+  border: none;
+  font-size: 20px;
+  font-weight: 600;
+  font-family: "Baloo Thambi 2", monospace;
+  color: #00FFFF;
+}
+.RecherchePatient .PatientRechercheContent .Recherche .infos {
+  padding: 15px;
+}
+@media (max-width: 1600px) {
+  .RecherchePatient .PatientRechercheContent .Recherche .infos {
+    margin: 0 auto;
+    width: 80%;
+  }
+}
+.RecherchePatient .PatientRechercheContent .Recherche .infos .inline {
+  padding: 15px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+@media (max-width: 1600px) {
+  .RecherchePatient .PatientRechercheContent .Recherche .infos .inline {
+    flex-direction: column !important;
+    justify-content: normal !important;
+  }
+}
+.RecherchePatient .PatientRechercheContent .Recherche .infos .inline input {
+  width: 60%;
+}
+.RecherchePatient .PatientRechercheContent .Recherche .infos .inline label {
+  margin: auto 0;
+}
+
+.Services {
+  padding: 15px;
+  display: flex;
+  height: 95vh;
+  flex-direction: column;
+  justify-content: space-between;
+}
+@media (min-width: 1100px) and (max-width: 1200px) {
+  .Services {
+    overflow-x: scroll;
+  }
+}
+.Services section {
+  height: -webkit-min-content;
+  height: -moz-min-content;
+  height: min-content;
+}
+.Services .title-contain {
+  max-width: -webkit-fit-content;
+  max-width: -moz-fit-content;
+  max-width: fit-content;
+  margin: 0 auto;
+}
+.Services .week {
+  margin: 0 auto;
+}
+.Services .week table {
+  width: 800px;
+  border-collapse: collapse;
+  border-radius: 30px;
+  background-color: #0C2646;
+  display: block;
+  height: 300px;
+  overflow-y: scroll;
+}
+.Services .week table tr {
+  border: black 1px solid;
+  border-left: none;
+  border-right: none;
+}
+.Services .week table tr:first-child {
+  border-top: none;
+}
+.Services .week table tr:last-child {
+  border-bottom: none;
+}
+.Services .week table .head {
+  position: -webkit-sticky;
+  position: sticky;
+  top: 0;
+  border-bottom: black 1px solid;
+  background-color: #004662;
+  z-index: 10;
+  border-left: 1px black solid;
+  border-right: 1px black solid;
+}
+.Services .week table .head:first-child {
+  border-left: none;
+}
+.Services .week table .head:last-child {
+  border-right: none;
+}
+.Services .week table td {
+  width: 200px;
+  padding: 5px;
+  text-align: center;
+  font-family: "Baloo Thambi 2", monospace;
+  font-size: 25px;
+  color: #00FFFF;
+  border: black 1px solid;
+  border-top: none;
+  border-bottom: none;
+}
+.Services .week table td:first-child {
+  border-left: none;
+}
+.Services .week table td:last-child {
+  border-right: none;
+}
+.Services .week table .body {
+  width: 800px;
+  padding-top: 40px;
+}
+.Services .week table .header {
+  width: 800px;
+  background-color: #004662;
+  height: 40px;
+}
+.Services .week-list {
+  margin: 0 auto;
+}
+.Services .week-list table {
+  width: 900px;
+  height: 300px;
+  border-collapse: collapse;
+  border-radius: 30px;
+  background-color: #0C2646;
+}
+.Services .week-list table tr {
+  border: black 1px solid;
+  border-left: none;
+  border-right: none;
+}
+.Services .week-list table tr:last-child {
+  border-bottom: none;
+}
+.Services .week-list table td {
+  width: 200px;
+  padding: 5px;
+  text-align: center;
+  font-family: "Baloo Thambi 2", monospace;
+  font-size: 25px;
+  color: #00FFFF;
+  border: black 1px solid;
+  border-top: none;
+  border-bottom: none;
+}
+.Services .week-list table td:first-child {
+  border-left: none;
+}
+.Services .week-list table td:last-child {
+  border-right: none;
+}
+.Services .week-list table .body {
+  width: 800px;
+}
+.Services .week-list table .header {
+  width: 800px;
+  background-color: #004662;
+}
+.Services .week-list table .header tr:first-child {
+  border-top: none;
+}
+
+.impayes {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+}
+.impayes .header {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: space-evenly;
+}
+.impayes .header .pdf_Generator {
+  margin: auto 0;
+  padding: 15px;
+  background-color: #0C2646;
+  border-radius: 30px;
+}
+.impayes .header .pdf_Generator form {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+}
+.impayes .header .pdf_Generator form label {
+  margin: auto 10px;
+}
+.impayes .header .pdf_Generator form .btn {
+  margin: auto 10px;
+}
+.impayes .impayelist {
+  margin: 0 auto;
+  display: flex;
+  height: 80vh;
+  width: 80%;
+  background-color: #0C2646;
+  overflow-y: auto;
+  border-radius: 30px;
+  padding-bottom: 10px;
+}
+.impayes .impayelist .ImpayeTableContainer {
+  width: 100%;
+}
+.impayes .impayelist .ImpayeTableContainer table {
+  top: 0;
+  width: 100%;
+  border-collapse: collapse;
+}
+.impayes .impayelist .ImpayeTableContainer table tr {
+  width: 100%;
+  border: black 1px solid;
+  border-left: none;
+  border-right: none;
+}
+.impayes .impayelist .ImpayeTableContainer table tr:first-child {
+  border-top: none;
+}
+.impayes .impayelist .ImpayeTableContainer table tr:last-child {
+  border-bottom: none;
+}
+.impayes .impayelist .ImpayeTableContainer table .head {
+  position: -webkit-sticky;
+  position: sticky;
+  top: 0;
+  border-bottom: black 1px solid;
+  background-color: #004662;
+  z-index: 10;
+  border-left: 1px black solid;
+  border-right: 1px black solid;
+}
+.impayes .impayelist .ImpayeTableContainer table .head:first-child {
+  border-left: none;
+}
+.impayes .impayelist .ImpayeTableContainer table .head:last-child {
+  border-right: none;
+}
+.impayes .impayelist .ImpayeTableContainer table td {
+  width: 20%;
+  padding: 5px;
+  text-align: center;
+  font-family: "Baloo Thambi 2", monospace;
+  font-size: 25px;
+  color: #00FFFF;
+  height: 70px;
+  border: black 1px solid;
+  border-top: none;
+  border-bottom: none;
+}
+.impayes .impayelist .ImpayeTableContainer table td:first-child {
+  border-left: none;
+}
+.impayes .impayelist .ImpayeTableContainer table td:last-child {
+  border-right: none;
+}
+.impayes .impayelist .ImpayeTableContainer table thead tr {
+  border-bottom: 1px black solid !important;
+}
+.impayes .add-facture-form {
+  height: 100vh;
+  width: calc(100vw - 270px);
+  position: fixed;
+  z-index: 21;
+  display: flex;
+  justify-content: center;
+}
+.impayes .add-facture-form .card-facture {
+  margin: auto;
+  width: 700px;
+  height: 300px;
+  background-color: #0C2646;
+  border: 1px solid #00FFFF;
+  box-shadow: 0 0 15px 0px #00FFFF;
+  border-radius: 30px;
+  padding: 15px;
+}
+.impayes .add-facture-form .card-facture h1 {
+  text-align: center;
+  font-size: 35px;
+}
+.impayes .add-facture-form .card-facture form {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+.impayes .add-facture-form .card-facture form .content {
+  margin-top: 15px;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+}
+.impayes .add-facture-form .card-facture form .content .switch-container {
+  margin-top: 15px;
+}
+.impayes .add-facture-form .card-facture form .footer {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+}
+
+.RapportHorraire {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+}
+.RapportHorraire .header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+}
+.RapportHorraire .header .semaine-select {
+  margin: auto 0;
+}
+.RapportHorraire .header .semaine-select form {
+  background-color: #0C2646;
+  border-radius: 30px;
+  padding: 10px;
+  display: flex;
+  flex-direction: row;
+}
+.RapportHorraire .header .semaine-select form input {
+  margin: 0 10px;
+}
+.RapportHorraire .header .semaine-select form label, .RapportHorraire .header .semaine-select form button {
+  margin: auto 0;
+}
+.RapportHorraire .rapport-table-container {
+  margin: 25px auto;
+  height: 80vh;
+  width: 90%;
+  padding-bottom: 10px;
+  background-color: #0C2646;
+  border-radius: 30px;
+  overflow-y: scroll;
+}
+.RapportHorraire .rapport-table-container .rapport-table {
+  width: 100%;
+  height: 100%;
+  border-collapse: collapse;
+  display: table;
+}
+.RapportHorraire .rapport-table-container .rapport-table .row {
+  display: table-row;
+  height: 40px;
+  border-top: 1px black solid;
+  border-bottom: 1px black solid;
+}
+.RapportHorraire .rapport-table-container .rapport-table .row:first-child {
+  border-top: none !important;
+}
+.RapportHorraire .rapport-table-container .rapport-table .row:last-child {
+  border-bottom: none !important;
+}
+.RapportHorraire .rapport-table-container .rapport-table .cell {
+  border-left: 1px black solid;
+  border-right: 1px black solid;
+  width: 10%;
+  display: table-cell;
+  vertical-align: middle;
+}
+.RapportHorraire .rapport-table-container .rapport-table .cell p {
+  text-align: center;
+}
+.RapportHorraire .rapport-table-container .rapport-table .head {
+  position: -webkit-sticky;
+  position: sticky;
+  top: 0;
+  border-bottom: black 1px solid;
+  background-color: #004662;
+  z-index: 10;
+  border-left: 1px black solid;
+  border-right: 1px black solid;
+}
+.RapportHorraire .rapport-table-container .rapport-table .head:first-child {
+  border-left: none;
+}
+.RapportHorraire .rapport-table-container .rapport-table .head:last-child {
+  border-right: none;
+}
+.RapportHorraire .rapport-table-container .rapport-table .column-1 {
+  text-wrap: normal;
+  border-left: none !important;
+}
+.RapportHorraire .rapport-table-container .rapport-table .column-10 {
+  border-right: none !important;
+}
+.RapportHorraire .rapport-table-container .rapport-table .table-header {
+  background-color: #004662;
+  border-top: none !important;
+  position: -webkit-sticky;
+  position: sticky;
+  top: 0;
+}
+
+.ContentManagement {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.ContentManagement .header {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: center;
+  margin-bottom: 10px;
+  height: 151px;
+}
+.ContentManagement .content-mgt {
+  width: 97%;
+  margin: 0 auto;
+  height: calc(100vh - 200px);
+  overflow-y: scroll;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  flex-wrap: wrap;
+  padding-top: 10px;
+}
+.ContentManagement .content-mgt .ContentCard {
+  width: 400px;
+  margin: 20px;
+  height: 500px;
+  background-color: #0C2646;
+  border-radius: 30px;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+}
+.ContentManagement .content-mgt .ContentCard h1 {
+  text-align: center;
+  font-weight: 700;
+  font-size: 35px;
+}
+.ContentManagement .content-mgt .ContentCard:last-child {
+  margin-bottom: 100px;
+}
+.ContentManagement .content-mgt .ContentCard .item-list, .ContentManagement .content-mgt .ContentCard textarea {
+  margin: 0 auto;
+  background-color: #004662;
+  border-radius: 30px 0 0 30px;
+  padding: 10px;
+  height: 300px;
+  overflow-y: auto;
+  width: 90%;
+}
+.ContentManagement .content-mgt .ContentCard .item-list .item, .ContentManagement .content-mgt .ContentCard textarea .item {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  flex-wrap: nowrap;
+  width: 100%;
+  border-bottom: 1px black solid;
+  height: 50px;
+  padding: 5px 0;
+}
+.ContentManagement .content-mgt .ContentCard .item-list .item button, .ContentManagement .content-mgt .ContentCard textarea .item button {
+  cursor: pointer;
+  background-color: transparent;
+  border: none;
+  transition: 500ms ease-in-out;
+}
+.ContentManagement .content-mgt .ContentCard .item-list .item button img, .ContentManagement .content-mgt .ContentCard textarea .item button img {
+  height: 40px;
+}
+.ContentManagement .content-mgt .ContentCard .item-list .item button:hover, .ContentManagement .content-mgt .ContentCard textarea .item button:hover {
+  -webkit-transform: rotate(6deg);
+}
+.ContentManagement .content-mgt .ContentCard .item-list .item p, .ContentManagement .content-mgt .ContentCard textarea .item p {
+  margin: auto 0;
+  font-size: 25px;
+}
+.ContentManagement .content-mgt .ContentCard form {
+  margin: 10px auto;
+  display: flex;
+  flex-direction: column;
+  width: 90%;
+}
+.ContentManagement .content-mgt .ContentCard form button {
+  margin-top: 10px;
+  margin-right: 0;
+  margin-left: auto;
+}
+
+.PersonnelList {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+.PersonnelList .header {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+.PersonnelList .header button {
+  margin: auto 0;
+}
+.PersonnelList .list-personnel {
+  margin: 10px auto;
+  background-color: #0C2646;
+  border-radius: 30px;
+  width: 90%;
+  height: calc(100vh - 151px);
+  overflow-y: scroll;
+  flex-grow: 1;
+}
+.PersonnelList .list-personnel table {
+  border-collapse: collapse;
+  width: 100%;
+}
+.PersonnelList .list-personnel table th {
+  position: -webkit-sticky;
+  position: sticky;
+  top: 0;
+  border-bottom: black 1px solid;
+  background-color: #004662;
+  z-index: 10;
+  border-left: 1px black solid;
+  border-right: 1px black solid;
+}
+.PersonnelList .list-personnel table th:first-child {
+  border-left: none;
+}
+.PersonnelList .list-personnel table th:last-child {
+  border-right: none;
+}
+.PersonnelList .list-personnel table .id {
+  width: 10%;
+  text-align: center;
+}
+.PersonnelList .list-personnel table .name {
+  width: 40%;
+  text-align: center;
+}
+.PersonnelList .list-personnel table .grade {
+  width: 50%;
+}
+.PersonnelList .list-personnel table th, .PersonnelList .list-personnel table td {
+  font-family: "Baloo Thambi 2", monospace;
+  font-weight: 500;
+  font-size: 25px;
+  color: #00FFFF;
+  border-left: black 1px solid;
+  border-right: 1px black solid;
+}
+.PersonnelList .list-personnel table th:first-child, .PersonnelList .list-personnel table td:first-child {
+  border-left: none;
+}
+.PersonnelList .list-personnel table th:last-child, .PersonnelList .list-personnel table td:last-child {
+  border-right: none;
+}
+.PersonnelList .list-personnel table td:last-child form {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+.PersonnelList .list-personnel table td:last-child form select {
+  width: 300px;
+  margin-right: 20px;
+}
+.PersonnelList .list-personnel table td:last-child form button {
+  margin: auto 0;
+}
+.PersonnelList .list-personnel table tr {
+  border-top: 1px black solid;
+  border-bottom: 1px black solid;
+}
+.PersonnelList .list-personnel table tr:first-child {
+  border-top: none;
+}
+.PersonnelList .list-personnel table tr:last-child {
+  border-bottom: none;
+}
+
+.Login, .Register {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+}
+.Login .Form, .Register .Form {
+  margin: auto auto;
+  background-color: #0C2646;
+  border-radius: 30px;
+  padding: 10px;
+}
+.Login .Form form, .Register .Form form {
+  display: flex;
+  flex-direction: column;
+}
+.Login .Form form h1, .Register .Form form h1 {
+  text-align: center;
+  font-size: 40px;
+  font-weight: 900;
+  color: #00FFFF;
+}
+.Login .Form form label, .Register .Form form label {
+  margin-top: 10px;
+  font-size: 30px;
+  font-weight: 600;
+}
+.Login .Form form .btn-contain, .Register .Form form .btn-contain {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  margin-top: 10px;
+}
+
+.remboursement {
+  display: flex;
+  width: 100%;
+  height: 95vh;
+  padding: 10px;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.remboursement .title-contain {
+  width: -webkit-min-content;
+  width: -moz-min-content;
+  width: min-content;
+  margin: 0 40px 0 auto;
+}
+.remboursement .MainContainer {
+  height: -webkit-max-content;
+  height: -moz-max-content;
+  height: max-content;
+  width: 80vw;
+  margin: 0 auto;
+}
+.remboursement .MainContainer .selector {
+  margin-left: 25px;
+}
+.remboursement .MainContainer .selector button {
+  border: none;
+  background-color: #0C2646;
+  font-size: 28px;
+  font-family: "Baloo Thambi 2" monospace;
+  color: #00FFFF;
+  font-weight: 600;
+  margin-left: 10px;
+  padding: 10px;
+  border-radius: 25px 25px 0 0;
+  border-top: 1px black solid;
+  border-left: 1px black solid;
+  border-right: 1px black solid;
+}
+.remboursement .MainContainer .selector .unselected {
+  background-color: #004662;
+  cursor: pointer;
+}
+.remboursement .MainContainer .myview {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  background-color: #0C2646;
+  border-radius: 30px;
+}
+.remboursement .MainContainer .myview .add {
+  width: 49%;
+  min-width: 300px;
+  display: flex;
+}
+.remboursement .MainContainer .myview .add form {
+  margin: 0 auto;
+  width: 60%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  max-height: 300px;
+}
+.remboursement .MainContainer .myview .add form h2 {
+  text-align: center;
+}
+.remboursement .MainContainer .myview .add form button {
+  margin: 0 0 0 auto;
+}
+.remboursement .MainContainer .myview .list-content {
+  display: flex;
+  width: 42%;
+  padding: 30px;
+}
+.remboursement .MainContainer .myview .list-content .list {
+  display: flex;
+  flex-direction: column;
+  height: 700px;
+  overflow-y: auto;
+  margin: 0 auto;
+  background-color: #004662;
+  border-radius: 30px;
+  width: 70%;
+  min-width: 300px;
+  padding: 5px;
+}
+.remboursement .MainContainer .myview .list-content .list .row {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin-bottom: 10px;
+  cursor: default;
+}
+.remboursement .MainContainer .myview .list-content .list .row h5 {
+  font-size: 22px;
+  line-height: 30px;
+}
+.remboursement .MainContainer .myview .list-content .list .row button {
+  background: transparent;
+  border: none;
+  cursor: pointer !important;
+}
+.remboursement .MainContainer .myview .list-content .list .row button img {
+  width: 30px;
+  transition: all 200ms;
+}
+.remboursement .MainContainer .myview .list-content .list .row button img:hover {
+  -webkit-transform: scale(1.2);
+}
+.remboursement .MainContainer .adminview {
+  display: flex;
+  flex-direction: column;
+  background-color: #0C2646;
+  border-radius: 30px;
+  width: 100%;
+  height: calc(100vh - 206px);
+  overflow-y: scroll;
+}
+.remboursement .MainContainer .adminview .table-head {
+  display: flex;
+  width: 100%;
+  height: 200px;
+}
+.remboursement .MainContainer .adminview .table-head form {
+  display: flex;
+  flex-direction: row;
+  padding: 10px;
+}
+.remboursement .MainContainer .adminview .table-head form label {
+  font-size: 28px;
+  margin: auto 10px auto 10px;
+  font-weight: 500;
+}
+.remboursement .MainContainer .adminview .table-head form button {
+  margin: auto 0 auto 10px;
+}
+.remboursement .MainContainer .adminview .table-head form input {
+  width: 70px;
+}
+.remboursement .MainContainer .adminview table {
+  border-collapse: collapse;
+  height: 500px;
+  width: 100%;
+  overflow-y: scroll;
+  border-radius: 30px;
+}
+.remboursement .MainContainer .adminview table .head {
+  position: -webkit-sticky;
+  position: sticky;
+  color: #00FFFF;
+  text-align: center;
+  padding: 10px;
+  height: 40px;
+  font-family: "Baloo Thambi 2", monospace;
+  font-weight: 600;
+  font-size: 25px;
+  top: 0;
+  background-color: #004662;
+}
+.remboursement .MainContainer .adminview table tbody tr {
+  height: 30px;
+  border-top: black 1px solid;
+  border-bottom: black 1px solid;
+}
+.remboursement .MainContainer .adminview table tbody tr td {
+  text-align: center;
+  padding: 10px;
+  font-family: "Baloo Thambi 2", monospace;
+  font-weight: 500;
+  font-size: 20px;
+  color: #00FFFF;
+  border-left: 1px black solid;
+  border-right: 1px black solid;
+}
+.remboursement .MainContainer .adminview table tbody tr td:last-child {
+  border-right: none !important;
+}
+.remboursement .MainContainer .adminview table tbody tr td:first-child {
+  border-left: none !important;
+}
+.remboursement .MainContainer .adminview table .id {
+  width: 70px;
+}
+
+.card-ok {
+  position: fixed;
+  right: 10px;
+  bottom: 10px;
+  padding: 15px;
+  border: #00FFFF 1px solid;
+  background-color: #0C2646;
+  border-radius: 30px;
+  width: 300px;
+  height: 200px;
+  display: flex;
+  flex-direction: column;
+}
+.card-ok h1 {
+  text-align: center;
+  font-size: 25px;
+}
+.card-ok button {
+  margin: 0 auto;
+}
+
+.card-error {
+  position: fixed;
+  right: 10px;
+  bottom: 10px;
+  padding: 15px;
+  border: #00FFFF 1px solid;
+  background-color: #0C2646;
+  border-radius: 30px;
+  width: 300px;
+  height: 200px;
+  display: flex;
+  flex-direction: column;
+}
+.card-error h1 {
+  text-align: center;
+  color: #FF0000 !important;
+}
+.card-error button {
+  margin: 0 auto;
+}
+
+.Logs {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+.Logs .header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  margin-bottom: 30px;
+  height: 130px;
+}
+.Logs .header .logs-select {
+  display: flex;
+  padding: 7px 20px;
+  background-color: #0C2646;
+  border-radius: 30px;
+}
+.Logs .header .logs-select select {
+  margin: auto;
+}
+.Logs .log-list {
+  margin: 0 auto;
+  height: calc(100vh - 250px);
+  background-color: #0C2646;
+  border-radius: 30px;
+  width: 90%;
+  padding: 10px;
+}
+.Logs .log-list .logs-header {
+  padding: 10px;
+  width: calc(100% - 20px);
+  height: 80px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  border-bottom: 1px #00FFFF solid;
+}
+.Logs .log-list .logs-header p {
+  font-weight: 600;
+  font-size: 30px;
+  margin: auto 0;
+}
+.Logs .log-list .logs-header .pages {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  width: 550px;
+}
+.Logs .log-list .logs-header .pages label {
+  margin: auto 0;
+}
+.Logs .log-list .logs-header .pages button {
+  cursor: pointer;
+  background-color: transparent;
+  border: none;
+  font-size: 30px;
+  font-weight: 600;
+  color: #00FFFF;
+}
+.Logs .log-list .logs-header .pages p {
+  font-size: 30px;
+}
+.Logs .log-list .logs-header .pages button, .Logs .log-list .logs-header .pages p {
+  margin: auto 0;
+  height: 45px;
+}
+.Logs .log-list .logs-header .pages select {
+  width: 150px;
+}
+.Logs .log-list .table {
+  overflow-y: scroll;
+  max-height: calc(100% - 110px);
+  margin-top: 15px;
+}
+.Logs .log-list .table table {
+  top: 0;
+  width: 100%;
+  border-collapse: collapse;
+}
+.Logs .log-list .table table tr {
+  width: 100%;
+  border: black 1px solid;
+  border-left: none;
+  border-right: none;
+}
+.Logs .log-list .table table thead {
+  position: -webkit-sticky;
+  position: sticky;
+  top: 0;
+  border-bottom: black 1px solid;
+  background-color: #004662;
+  z-index: 10;
+  border-left: 1px black solid;
+  border-right: 1px black solid;
+}
+.Logs .log-list .table table td, .Logs .log-list .table table th {
+  padding: 5px;
+  text-align: center;
+  font-family: "Baloo Thambi 2", monospace;
+  font-size: 25px;
+  color: #00FFFF;
+  height: 70px;
+  border: black 1px solid;
+  border-top: none;
+  border-bottom: none;
+}
+.Logs .log-list .table table thead tr {
+  border-bottom: 1px black solid !important;
+}
+
+.BugRepport {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+}
+.BugRepport .Repport-Card {
+  margin: auto;
+  width: 40%;
+  background-color: #0C2646;
+  border-radius: 30px;
+  padding: 20px;
+}
+.BugRepport .Repport-Card h1 {
+  font-weight: 700;
+  font-size: 35px;
+  text-align: center;
+}
+.BugRepport .Repport-Card form {
+  display: flex;
+  flex-direction: column;
+}
+.BugRepport .Repport-Card button {
+  margin: 0 0 0 auto;
+}
+
+.load {
+  display: flex;
+  width: 100%;
+  height: 100%;
+}
+.load img {
+  margin: auto auto;
+}

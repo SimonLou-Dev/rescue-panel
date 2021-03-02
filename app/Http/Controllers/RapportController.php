@@ -1,0 +1,358 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Models\Factures;
+use App\Models\HospitalList;
+use App\Models\InterType;
+use App\Models\Patient;
+use App\Models\Rapport;
+
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Http;
+use function PHPUnit\Framework\isEmpty;
+use function PHPUnit\Framework\isNull;
+
+class RapportController extends Controller
+{
+    public function getforinter(Request $request): \Illuminate\Http\JsonResponse
+    {
+        $intertype = InterType::all();
+        $broum = HospitalList::all();
+        return response()->json(['status'=>'OK', 'intertype'=>$intertype, 'transport'=>$broum]);
+    }
+
+    public function addRapport(Request $request): \Illuminate\Http\JsonResponse
+    {
+        $Patient = $this->PatientExist($request->name, $request->prenom);
+        if(is_null($Patient)) {
+            $Patient = new Patient();
+            $Patient->name = $request->name;
+            $Patient->vorname = $request->prenom;
+            $Patient->tel = $request->tel;
+            $Patient->save();
+            $Patient = Patient::where('name', $request->name)->where('vorname', $request->prenom)->first();
+        }
+        $patient_id = $Patient->id;
+
+
+        $facture = new Factures();
+        $rapport = new Rapport();
+        $facture->patient_id = $patient_id;
+        $facture->payed = $request->payed;
+        $facture->price = (integer) $request->montant;
+
+
+        $rapport->patientID = $patient_id;
+        $rapport->InterType= (integer) $request->type;
+        $rapport->transport= (integer) $request->transport;
+        $rapport->description = $request->desc;
+        $rapport->prix = (integer) $request->montant;
+        $rapport->ATA_start = date('Y/m/d H:i:s', strtotime($request->startdate . ' ' . $request->starttime));
+        $rapport->ATA_end = date('Y/m/d H:i:s', strtotime($request->enddate . ' ' . $request->endtime));
+        $rapport->save();
+        $facture->rapport_id = $rapport->id;
+        $facture->save();
+        $type = InterType::where('id', $rapport->InterType)->first();
+        $transport =  HospitalList::where('id', $rapport->transport)->first();
+        if($rapport->ATA_start == $rapport->ATA_end){
+            $ata = 'non ';
+        }else{
+            $ata = 'Du ' . date('Y/m/d H:i', strtotime($rapport->ATA_start)) . ' au ' . date('Y/m/d H:i', strtotime($rapport->ATA_end));
+        }
+
+        if($facture->payed){
+            $fact= 'Payée : ' . $facture->price;
+        }else{
+            $fact= 'Impayée : ' . $facture->price;
+        }
+        Http::post(env('WEBHOOK_RI'),[
+            'embeds'=>[
+                [
+                    'title'=>'Ajout d\'un rapport :',
+                    'color'=>'1285790',
+                    'fields'=>[
+                        [
+                            'name'=>'Patient : ',
+                            'value'=>$request->prenom . ' ' . $request->name,
+                            'inline'=>true
+                        ],[
+                            'name'=>'Type d\'intervention : ',
+                            'value'=>$rapport->Inter->name,
+                            'inline'=>true
+                        ],[
+                            'name'=>'Transport : ',
+                            'value'=>$transport->name,
+                            'inline'=>true
+                        ],[
+                            'name'=>'ATA : ',
+                            'value'=>$ata,
+                            'inline'=>false
+                        ],[
+                            'name'=>'Facture : ',
+                            'value'=>$fact.'$',
+                            'inline'=>false
+                        ]
+                        ,[
+                            'name'=>'Description : ',
+                            'value'=>$rapport->description,
+                            'inline'=>false
+                        ]
+                    ],
+                    'footer'=>[
+                        'text' => 'Rapport de : ' . Auth::user()->name,
+                    ]
+                ]
+            ]
+        ]);
+        Http::post(env('WEBHOOK_FACTURE'),[
+            'embeds'=>[
+                [
+                    'title'=>'Nouvelle facture :',
+                    'color'=>'13436400',
+                    'fields'=>[
+                        [
+                            'name'=>'Patient : ',
+                            'value'=>$request->prenom . ' ' . $request->name,
+                            'inline'=>true
+                        ],[
+                            'name'=>'Facture : ',
+                            'value'=>$fact.'$',
+                            'inline'=>true
+                        ]
+                    ],
+                    'footer'=>[
+                        'text' => 'Ajoutée par : ' . Auth::user()->name
+                    ]
+                ]
+            ]
+        ]);
+
+        return response()->json(['facture'=>$facture, 'rapport'=>$rapport, 'patient'=>$Patient], 201);
+    }
+
+    public function search(Request $request, string $text): \Illuminate\Http\JsonResponse
+    {
+        $text = explode(" ", $text);
+        $prenom = $text[0];
+        if(count($text) > 1){
+            $nom = $text[1];
+        }else{
+            $nom = null;
+        }
+        $patient = Patient::where('vorname', 'LIKE', $prenom.'%')->orWhere('name', 'LIKE', '%'.$nom.'%')->take(6)->get();
+        return response()->json(['status'=>'OK', 'list'=>$patient]);
+    }
+
+    public function getClient(Request $request, string $text): \Illuminate\Http\JsonResponse
+    {
+
+        $text = explode(" ", $text);
+        $prenom = $text[0];
+        if(count($text) > 1){
+            $nom = $text[1];
+            $patient = $this->PatientExist($nom, $prenom);
+            if(!is_null($patient)){
+                $inter = Rapport::where('patientID', $patient->id)->orderBy('id', 'desc')->get();
+
+                return response()->json(['status'=>'OK', 'patient'=>$patient, 'inter'=>$inter]);
+            }
+        }
+        return response()->json(['status'=>'erreur pas de patient']);
+    }
+
+    public function getInter(Request $request, $id): \Illuminate\Http\JsonResponse
+    {
+        $inter  = Rapport::where('id', $id)->first();
+        $types = InterType::all();
+        $broum =HospitalList::all();
+        return response()->json(['status'=>'OK', 'rapport'=>$inter, 'types'=>$types,'broum'=>$broum]);
+    }
+
+    public function updateRapport(Request $request, $id): \Illuminate\Http\JsonResponse
+    {
+        $rapport = Rapport::where('id', $id)->first();
+        $facture = $rapport->facture;
+        $facture->price = (integer) $request->montant;
+        $rapport->InterType= (integer) $request->type;
+        $rapport->transport= (integer) $request->transport;
+        $rapport->description = $request->desc;
+        $rapport->prix = (integer) $request->montant;
+        if($request->starttime != '00:00'){
+            $rapport->ATA_start = date('Y/m/d H:i:s', strtotime($request->startdate . ' ' . $request->starttime));
+            $rapport->ATA_end = date('Y/m/d H:i:s', strtotime($request->enddate . ' ' . $request->endtime));
+        }
+        $facture->save();
+        $rapport->save();
+        return response()->json(['status'=>'OK'],201);
+    }
+
+    public function getRapportById(Request $request, $id): \Illuminate\Http\JsonResponse
+    {
+        $rapport = Rapport::where('id', $id)->first();
+        $patient = $rapport->Patient;
+        $raportlist = Rapport::where('patientID', $patient->id)->get();
+        return response()->json(['status'=>'ok', 'rapport'=>$rapport, 'patient'=>$patient, 'rapportlist'=>$raportlist]);
+    }
+
+    private function PatientExist(string $name, string $vorname): ?Patient{
+        $patient = Patient::where('name', 'LIKE', $name)->where('vorname','LIKE', $vorname);
+        if($patient->count() == 1){
+            return $patient->first();
+        }
+        return null;
+    }
+
+    public function getAllimpaye(Request $request): \Illuminate\Http\JsonResponse
+    {
+        $impaye = Factures::where('payed', false)->orderBy('id', 'desc')->get();
+        $size = count($impaye);
+        $a = 0;
+        while ($a < $size){
+            $patient = $impaye[$a]->patient;
+
+            $a++;
+        }
+        return response()->json(['status'=>'OK', 'impaye'=>$impaye]);
+    }
+
+    public function paye(Request $request, $id): \Illuminate\Http\JsonResponse
+    {
+        $facture = Factures::where('id', $id)->first();
+        $facture->payed = true;
+        $facture->save();
+        Http::post(env('WEBHOOK_FACTURE'),[
+            'embeds'=>[
+                [
+                    'title'=>'Facture payée :',
+                    'color'=>'13436400 ',
+                    'fields'=>[
+                        [
+                            'name'=>'Patient : ',
+                            'value'=>$facture->patient->vorname . ' '.$facture->patient->name,
+                            'inline'=>true
+                        ],[
+                            'name'=>'Montant : ',
+                            'value'=>$facture->price .'$',
+                            'inline'=>true
+                        ]
+                    ],
+                    'footer'=>[
+                        'text' => 'Confirmation de payement : ' . Auth::user()->name
+                    ]
+                ]
+            ]
+        ]);
+        return response()->json(['status'=>'OK']);
+    }
+
+    public function addFacture(Request $request): \Illuminate\Http\JsonResponse
+    {
+            /*
+               payed: this.state.payed,
+                name: this.state.name,
+                montant: this.state.montant,
+             */
+        $name = explode(" ", $request->name);
+
+        $Patient = $this->PatientExist($name[1], $name[0]);
+        if(is_null($Patient)) {
+            $Patient = new Patient();
+            $Patient->name = $name[1];
+            $Patient->vorname = $name[0];
+            $Patient->tel = $request->tel;
+            $Patient->save();
+        }
+        $facture = new Factures();
+        $facture->patient_id = $Patient->id;
+        $facture->payed = $request->payed;
+        $facture->price = $request->montant;
+        $facture->save();
+        if($facture->payed){
+            $fact= 'Payée : ' . $facture->price .'$';
+        }else{
+            $fact= 'Impayée : ' . $facture->price .'$';
+        }
+        Http::post(env('WEBHOOK_FACTURE'),[
+            'embeds'=>[
+                [
+                    'title'=>'Nouvelle facture :',
+                    'color'=>'13436400 ',
+                    'fields'=>[
+                        [
+                            'name'=>'Patient : ',
+                            'value'=>$request->name,
+                            'inline'=>true
+                        ],[
+                            'name'=>'Facture : ',
+                            'value'=>$fact,
+                            'inline'=>true
+                        ]
+                    ],
+                    'footer'=>[
+                        'text' => 'Ajoutée de : ' . Auth::user()->name
+                    ]
+                ]
+            ]
+        ]);
+        return response()->json(['status'=>'OK'],201);
+    }
+
+    public function updatePatientTel(Request $request, $id): \Illuminate\Http\JsonResponse
+    {
+        $patient = Patient::where('id', $id)->first();
+        $patient->tel = $request->tel;
+        $patient->name = $request->nom;
+        $patient->vorname = $request->prenom;
+        $patient->save();
+        return response()->json(['status'=>'OK'],201);
+    }
+
+    public function makeRapportPdf(Request $request, $id){
+        $data = array();
+        $rapport = Rapport::where('id', $id)->first();
+
+        $pdf = \PDF::loadView('pdf.rapport', compact('rapport'))->setOptions(['isRemoteEnabled'=>true, 'isHtml5ParserEnabled'=>true, 'isPhpEnabled'=>true, 'debugPng'=>true, 'setBasePath'=>$_SERVER['DOCUMENT_ROOT'], 'chroot'=>public_path()]);
+        $pdf->getDomPDF()->setHttpContext(
+            stream_context_create([
+                'ssl' => [
+                    'allow_self_signed'=> TRUE,
+                    'verify_peer' => FALSE,
+                    'verify_peer_name' => FALSE,
+                ]
+            ])
+        );
+        $name = 'patient_'.$id.'.pdf';
+        return $pdf->stream($name);
+    }
+
+    public function makeImpayPdf(Request $request, $from , $to){
+        //2021-01-05
+        $impaye = Factures::where('payed', false)->where('created_at', '>', $from)->where('created_at', '<', $to)->orderBy('id', 'desc')->get();
+        $a = 0;
+        while ($a < count($impaye)){
+            $impaye[$a]->patient;
+            $a++;
+        }
+
+        $infos = ['from'=>date('d/m/Y', strtotime($from)),'to'=>date('d/m/Y', strtotime($to))];
+        $data = ['infos'=>$infos, 'impaye'=>$impaye];
+
+
+        $pdf = \PDF::loadView('pdf.factures', compact('data'))->setOptions(['isRemoteEnabled'=>true, 'isHtml5ParserEnabled'=>true, 'isPhpEnabled'=>true, 'debugPng'=>true, 'setBasePath'=>$_SERVER['DOCUMENT_ROOT'], 'chroot'=>public_path()]);
+        $pdf->getDomPDF()->setHttpContext(
+            stream_context_create([
+                'ssl' => [
+                    'allow_self_signed'=> TRUE,
+                    'verify_peer' => FALSE,
+                    'verify_peer_name' => FALSE,
+                ]
+            ])
+        );
+        $name = 'impaye_'.time().'.pdf';
+        return $pdf->stream($name);
+    }
+
+
+}
