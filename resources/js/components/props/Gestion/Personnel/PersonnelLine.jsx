@@ -23,24 +23,44 @@ class PersonnelLine extends React.Component {
             <tr>
                 <td className={'id'}>{this.state.id}</td>
                 <td className={'name'}>{this.state.name}</td>
+                <td className={'tel'}>0000-0000-0000</td>
+                <td className={'compte'}>000000000</td>
                 <td className={'grade'}>
                     <form onSubmit={this.isupdate}>
                         <select value={this.state.grade} onChange={(e)=>{this.setState({grade: e.target.value})}}>
-                            <option value={0}>user</option>
-                            <option value={1}>Resident</option>
-                            <option value={2}>Caregiver</option>
-                            <option value={3}>Nurse</option>
-                            <option value={4}>Doctor</option>
-                            <option value={5}>Senior Doctor</option>
-                            <option value={6}>Team Manager</option>
-                            <option value={7}>Assistant - Chief </option>
-                            <option value={8}>Paramedical - Chief</option>
-                            <option value={9}>Paramedical - Chief</option>
-                            <option value={10}>Inspecteur</option>
-                            <option value={11}>Développeur</option>
+                            <optgroup label={'pas d\'accès'}>
+                                <option value={0}>user</option>
+                            </optgroup>
+                            <optgroup label={'membre'}>
+                                <option value={1}>Resident</option>
+                                <option value={2}>Caregiver</option>
+                                <option value={3}>Nurse</option>
+                                <option value={4}>Doctor</option>
+                            </optgroup>
+                            <optgroup label={'référents'}>
+                                <option value={5}>Senior Doctor</option>
+                                <option value={6}>Team Manager</option>
+                            </optgroup>
+                            <optgroup label={'direction'}>
+                                <option value={7}>Assistant - Chief </option>
+                                <option value={8}>Paramedical - Chief</option>
+                            </optgroup>
+                            <optgroup label={'autre'}>
+                                <option value={9}>Inspecteur</option>
+                                <option value={10}>Développeur</option>
+                            </optgroup>
+
                         </select>
                         <button type={'submit'} className={'btn'}>valider</button>
                     </form>
+                </td>
+                <td className={'pilote'}>
+                    <div className={'pilote-btn'}>
+                        <input type="checkbox" id={"toggle"+this.props.id}/>
+                        <div>
+                            <label htmlFor={"toggle"+this.props.id}/>
+                        </div>
+                    </div>
                 </td>
             </tr>
         )

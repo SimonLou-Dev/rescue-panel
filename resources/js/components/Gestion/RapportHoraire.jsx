@@ -1,6 +1,7 @@
 import React from 'react';
 import Row from "../props/Gestion/horaire/Row";
 import axios from "axios";
+import PagesTitle from "../props/utils/PagesTitle";
 
 class RapportHoraire extends React.Component {
     constructor(props) {
@@ -57,9 +58,7 @@ class RapportHoraire extends React.Component {
 
                 <div className={'RapportHorraire'}>
                     <section className={'header'}>
-                        <div className={'title-contain'}>
-                            <h1>Rapport horaire</h1>
-                        </div>
+                        <PagesTitle title={'Rapport horaire'}/>
                         <div className={'semaine-select'}>
                             <form onSubmit={this.submit}>
                                 <label>Semaine :</label>
@@ -116,7 +115,7 @@ class RapportHoraire extends React.Component {
                             {this.state.service &&
                             this.state.service.map((item)=>
                                 item.user.grade < 10 &&
-                                <Row key={item.id} inService={item.user.OnService} itemid={item.id} update={this.update} userid={item.user.id} name={item.user.name} dimanche={item.dimanche.substring(-1,5)} lundi={item.lundi.substring(-1,5)} mardi={item.mardi.substring(-1,5)} mercredi={item.mercredi.substring(-1,5)} jeudi={item.jeudi.substring(-1,5)} vendredi={item.vendredi.substring(-1,5)} samedi={item.samedi.substring(-1,5)} total={item.total.substring(-1,5)}/>
+                                <Row key={item.id} inService={item.user.OnService} itemid={item.id} update={this.update} userid={item.user.id} name={item.user.name} dimanche={item.dimanche} lundi={item.lundi} mardi={item.mardi} mercredi={item.mercredi} jeudi={item.jeudi} vendredi={item.vendredi} samedi={item.samedi} total={item.total}/>
                             )
                             }
 

@@ -1,6 +1,7 @@
 import React from 'react';
 import axios from "axios";
 import dateFormat from "dateformat";
+import PagesTitle from "../props/utils/PagesTitle";
 
 class Services extends React.Component {
     constructor(props) {
@@ -27,9 +28,7 @@ class Services extends React.Component {
     render() {
         return (
             <div className={'Services'}>
-                <div className={'title-contain'}>
-                    <h1>Services</h1>
-                </div>
+                <PagesTitle title={'Services'}/>
                 <section className={'week'}>
                     {!this.state.data &&
                     <div className={'load'}>

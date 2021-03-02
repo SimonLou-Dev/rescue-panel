@@ -1,6 +1,8 @@
 import axios from 'axios';
 import React from 'react';
 import PersonnelLine from "../props/Gestion/Personnel/PersonnelLine";
+import PagesTitle from "../props/utils/PagesTitle";
+import TableBottom from "../props/utils/TableBottom";
 
 class PersonnelList extends React.Component {
     constructor(props){
@@ -28,9 +30,7 @@ class PersonnelList extends React.Component {
         return (
                     <div className={"PersonnelList"}>
                         <section className={'header'}>
-                            <div className={'title-contain'}>
-                                <h1>Personnel</h1>
-                            </div>
+                            <PagesTitle title={'Liste du personnel'}/>
                         </section>
                         <section className={'list-personnel'}>
                             <table>
@@ -38,7 +38,10 @@ class PersonnelList extends React.Component {
                                     <tr>
                                         <th className={'id'}>id</th>
                                         <th className={'name'}>nom prénom</th>
+                                        <th className={'tel'}>n° de tel</th>
+                                        <th className={'compte'}>n° de compte</th>
                                         <th className={'grade'}>grade</th>
+                                        <th className={'pilote'}>pilote</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -51,6 +54,7 @@ class PersonnelList extends React.Component {
                                     }
                                 </tbody>
                             </table>
+                            <TableBottom placeholder={'rechercher un nom'} page={1} pages={5}/>
                         </section>
                     </div>
                 )

@@ -1,6 +1,7 @@
 import React from 'react';
 import axios from "axios";
 import dateFormat from "dateformat";
+import PagesTitle from "../props/utils/PagesTitle";
 
 class Logs extends React.Component {
     constructor(props) {
@@ -44,9 +45,7 @@ class Logs extends React.Component {
         return (
             <div className={'Logs'}>
                 <section className={'header'}>
-                    <div className={'title-contain'}>
-                        <h1>Logs</h1>
-                    </div>
+                    <PagesTitle title={'Logs'}/>
                     <div className={'logs-select'}>
                             <select value={this.state.type} onChange={(e)=>{
                                 this.setState({type: e.target.value});

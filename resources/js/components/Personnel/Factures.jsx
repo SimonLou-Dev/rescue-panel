@@ -1,8 +1,9 @@
 import React from 'react';
 import dateFormat from "dateformat";
 import axios from "axios";
+import PagesTitle from "../props/utils/PagesTitle";
 
-class Impayes extends React.Component {
+class Factures extends React.Component {
     constructor(props) {
         super(props);
         this.state=  {
@@ -84,7 +85,7 @@ class Impayes extends React.Component {
             <div className={"impayes"}>
                 <section className={'header'} style={{filter: this.state.addfacture ? 'blur(5px)' : 'none'}}>
                     <div className={'title-contain'}>
-                        <h1>Factures</h1>
+                        <PagesTitle title={'Factures'}/>
                     </div>
                     <div className={'Add-facture'}>
                         <button className={'btn'} onClick={()=>{this.setState({addfacture:true})}}>Ajouter une facture</button>
@@ -182,4 +183,4 @@ class Impayes extends React.Component {
     };
 }
 
-export default Impayes;
+export default Factures;

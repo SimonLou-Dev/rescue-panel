@@ -354,16 +354,12 @@ body{
     }
 }
 
-
-
-
 //Page margin
 @media (min-width: 1100px){
     #content{
         margin-left: 270px;
     }
 }
-
 
 //Switch
 .switch-container{
@@ -1888,15 +1884,119 @@ body{
                 }
             }
             .id{
-                width: 10%;
+                width: 5%;
                 text-align: center;
             }
             .name{
-                width: 40%;
+                width: 20%;
                 text-align: center;
             }
+            .tel{
+                width: 15%;
+                text-align: center;
+            }
+            .compte{
+                width: 15%;
+                text-align: center;
+            }
+            .pilote{
+                width: 15%;
+                .pilote-btn{
+                    *::before, *::after {
+                        transition: 400ms all ease-in-out 50ms;
+                        box-sizing: border-box;
+                        backface-visibility: hidden;
+                    }
+                    /*Button is :CHECKED*/
+
+                    input[type="checkbox"]:checked ~ div {
+                        background: rgba(73,168,68,1);
+                        box-shadow: 0 0 2px rgba(73,168,68,1);
+                    }
+
+                    input[type="checkbox"]:checked ~ div label {
+
+                        transform: translate(60px);
+                    }
+
+                    input[type="checkbox"] ~ div label {
+                        transition: 300ms all ease-in-out 50ms;
+                    }
+
+                    /*shared*/
+                    div,
+                    label {
+                        border-radius: 50px;
+                    }
+
+                    input[type="checkbox"] {
+                        display: none;
+                    }
+
+                    /*'un':checked state*/
+                    div {
+                        height: 40px;
+                        width: 80px;
+                        background: rgba(43, 43, 43, 1);
+                        position: relative;
+                        top: 0;
+                        left: calc(50% - 35px);
+                        box-shadow: 0 0 2px rgba(43,43,43,1);
+
+                    }
+                    label {
+                        height: 40px;
+                        width: 40px;
+                        background: rgba(255, 255, 255, 1);
+                        position: absolute;
+                        top: 0;
+                        left: -15px;
+                        cursor: pointer;
+                    }
+                    label::before {
+                        content: '';
+                        height: 60px;
+                        width: 5px;
+                        position: absolute;
+                        top: calc(50% - 30px);
+                        left: calc(50% - 2.5px);
+                        transform: rotate(45deg);
+                    }
+
+                    label::after {
+                        content: '';
+                        height: 5px;
+                        width: 60px;
+                        position: absolute;
+                        top: calc(50% - 2.5px);
+                        left: calc(50% - 30px);
+                        transform: rotate(45deg);
+                    }
+
+                    label::before,
+                    label::after{
+                        background: rgba(43,43,43,1);
+                        border-radius: 5px;
+                    }
+
+                    /* pesduo class on toggle */
+
+                    input[type="checkbox"]:checked ~ div label::before{
+                        height: 32px;
+                        top: calc(55% - 19px);
+                        left: calc(60% + 2px);
+                        background: rgba(73,168,68,1);
+                    }
+                    input[type="checkbox"]:checked ~ div label::after{
+                        width: 21px;
+                        top: calc(95% - 17px);
+                        left: calc(22.5% - 7px);
+                        background: rgba(73,168,68,1);
+                    }
+                }
+            }
             .grade{
-                width: 50%;
+                width: 30%;
             }
             th, td{
                 font-family: "Baloo Thambi 2", monospace;
@@ -1977,7 +2077,6 @@ body{
         }
     }
 }
-
 .remboursement{
     display: flex;
     width: 100%;
@@ -1999,7 +2098,7 @@ body{
                 border: none;
                 background-color: $dark_blue;
                 font-size: 28px;
-                font-family: 'Baloo Thambi 2' monospace;
+                font-family: 'Baloo Thambi 2', monospace;
                 color: $light_blue;
                 font-weight: 600;
                 margin-left: 10px;
@@ -2157,7 +2256,6 @@ body{
         }
     }
 }
-
 
 
 .card-ok{
@@ -2342,10 +2440,6 @@ body{
         }
     }
 }
-
-
-
-
 
 //loader
 .load{

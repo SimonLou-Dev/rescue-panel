@@ -4,6 +4,7 @@ import InterventionItem from "../props/Patient/Recherche/InterventionItem";
 import axios from "axios";
 import dateFormat from 'dateformat';
 import * as queryString from "querystring";
+import PagesTitle from "../props/utils/PagesTitle";
 export const rootUrl = document.querySelector('body').getAttribute('data-root-url');
 class RecherchePatient extends React.Component {
     constructor(props) {
@@ -98,9 +99,7 @@ class RecherchePatient extends React.Component {
         return (
             <div className={'RecherchePatient'}>
                 <section className={'header'}>
-                    <div className={"title-contain"}>
-                        <h1 className={"Title"}>Dossiers des patients</h1>
-                    </div>
+                    <PagesTitle title={'Dossiers patients'}/>
                 </section>
                 <section className={'PatientRechercheContent'}>
                     <section className={'Recherche'}>

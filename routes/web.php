@@ -25,22 +25,44 @@ Route::get('/', function () {
 
 Route::get('/patient/{a}', function (){
     if(Auth::user()->grade == 0){
-        return redirect()->route('logout');
+        return redirect()->route('ANA');
     }
    return view("app");
+})->middleware('guest');
+
+
+Route::get('/bugrepport', function (){
+    if(Auth::user()->grade == 0){
+        return redirect()->route('ANA');
+    }
+    return view("app");
 })->middleware('auth');
 
 Route::get('/personnel/{a}', function (){
     if(Auth::user()->grade == 0){
-        return redirect()->route('logout');
+        return redirect()->route('ANA');
     }
     return view("app");
 })->middleware('auth');
 
 Route::get('/gestion/{a}', function (){
     if(Auth::user()->grade == 0){
-        return redirect()->route('logout');
+        return redirect()->route('ANA');
     }
+    return view("app");
+})->middleware('auth');
+
+
+
+Route::get('/sendmail', function (){
+    return view("app");
+})->middleware('guest');
+
+Route::get('/ANA', function (){
+    return view("app");
+})->name('ANA');
+
+Route::get('/reset/?', function (){
     return view("app");
 })->middleware('auth');
 

@@ -9,6 +9,11 @@ class Personnel extends React.Component{
                 <ul className="Menu-list">
                     <li className={'mobildisabled'}><NavLink to={'/personnel/service'}>Service</NavLink></li>
                     <li><NavLink to={'/personnel/factures'}>Factures</NavLink></li>
+                    <li><NavLink to={'/personnel/remboursement'}>Remboursement</NavLink></li>
+                    <li><NavLink to={'/personnel/informations'}>Informations</NavLink></li>
+                    <li><NavLink to={'/personnel/moncompte'}>Mon Compte</NavLink></li>
+                    <li><NavLink to={'/personnel/livret'}>Mes formations</NavLink></li>
+                    <li><NavLink to={'/personnel/vols'}>Carnet de vol</NavLink></li>
                 </ul>
             </div>
         );

@@ -1,6 +1,7 @@
 import React from 'react';
 import ContentCard, {rootUrl} from "../props/Gestion/Content/ContentCard";
 import axios from "axios";
+import PagesTitle from "../props/utils/PagesTitle";
 
 
 class ContentManagement extends React.Component {
@@ -32,9 +33,7 @@ class ContentManagement extends React.Component {
         return (
             <div className={'ContentManagement'}>
                 <section className={'header'}>
-                    <div className={"title-contain"}>
-                        <h1>Gestion de contenu</h1>
-                    </div>
+                    <PagesTitle title={'Gestion de contenu'}/>
                 </section>
                 <section className={'content-mgt'}>
                     <ContentCard type={1}/>

@@ -4,6 +4,7 @@ import Facturation from "../props/Patient/Rapport/Facturation";
 import Informations from "../props/Patient/Rapport/Informations";
 import ATA from "../props/Patient/Rapport/ATA";
 import axios from "axios";
+import PagesTitle from "../props/utils/PagesTitle";
 
 class Rapport extends React.Component{
 
@@ -100,9 +101,7 @@ class Rapport extends React.Component{
                     <div className={"submit"}>
                         <button type={"submit"}>Enregistrer</button>
                     </div>
-                    <div className={'Title'}>
-                        <h1>Rapport Patient</h1>
-                    </div>
+                    <PagesTitle title={'Rapport patient'}/>
                 </div>
                 <div className={'content'}>
 
