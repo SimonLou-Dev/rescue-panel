@@ -68,7 +68,7 @@ class PersonnelList extends React.Component {
             )
         }
 
-    };
+    }
 }
 
 export default PersonnelList;

@@ -2,6 +2,8 @@ import React from 'react';
 import Row from "../props/Gestion/horaire/Row";
 import axios from "axios";
 import PagesTitle from "../props/utils/PagesTitle";
+import TableBottom from "../props/utils/TableBottom";
+
 
 class RapportHoraire extends React.Component {
     constructor(props) {
@@ -66,7 +68,7 @@ class RapportHoraire extends React.Component {
                                 <button type={'submit'} className={'btn'}>Valider</button>
                             </form>
                         </div>
-                        <button className={'btn'} onClick={async (e)=>{
+                        <button className={'btn add-perso'} onClick={async (e)=>{
                             var req = await axios({
                                 url: '/data/service/addwors',
                                 method: 'GET'
@@ -82,7 +84,6 @@ class RapportHoraire extends React.Component {
                                 <div className={'cell head column-1'}>
                                     <p>agent</p>
                                 </div>
-
                                 <div className={'cell head column-2'}>
                                     <p>lundi</p>
                                 </div>
@@ -120,6 +121,7 @@ class RapportHoraire extends React.Component {
                             }
 
                         </div>
+                        <TableBottom placeholder={'rechercher un nom'} page={1} pages={5}/>
                     </section>
 
                 </div>
@@ -133,7 +135,7 @@ class RapportHoraire extends React.Component {
         }
 
 
-    };
+    }
 }
 
 export default RapportHoraire;

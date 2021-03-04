@@ -1935,32 +1935,26 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => __WEBPACK_DEFAULT_EXPORT__
 /* harmony export */ });
 /* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
-/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
-/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _components_Login__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./components/Login */ "./resources/js/components/Login.jsx");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! react-dom */ "./node_modules/react-dom/index.js");
+/* harmony import */ var _components_Login__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./components/Login */ "./resources/js/components/Login.jsx");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react-dom */ "./node_modules/react-dom/index.js");
 /* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
 /* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router/esm/react-router.js");
-/* harmony import */ var _components_Layout__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./components/Layout */ "./resources/js/components/Layout.jsx");
-/* harmony import */ var _public_css_app_css__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../public/css/app.css */ "./public/css/app.css");
-/* harmony import */ var _components_Register__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./components/Register */ "./resources/js/components/Register.jsx");
-/* harmony import */ var _components_Mdpreset__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./components/Mdpreset */ "./resources/js/components/Mdpreset.jsx");
-/* harmony import */ var _components_Mdpreset__WEBPACK_IMPORTED_MODULE_8___default = /*#__PURE__*/__webpack_require__.n(_components_Mdpreset__WEBPACK_IMPORTED_MODULE_8__);
-/* harmony import */ var _components_Error__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./components/Error */ "./resources/js/components/Error.jsx");
-/* harmony import */ var _components_Error__WEBPACK_IMPORTED_MODULE_9___default = /*#__PURE__*/__webpack_require__.n(_components_Error__WEBPACK_IMPORTED_MODULE_9__);
-/* harmony import */ var _components_Emailsender__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./components/Emailsender */ "./resources/js/components/Emailsender.jsx");
-/* harmony import */ var _components_Emailsender__WEBPACK_IMPORTED_MODULE_10___default = /*#__PURE__*/__webpack_require__.n(_components_Emailsender__WEBPACK_IMPORTED_MODULE_10__);
-/* harmony import */ var _components_props_notifs_Notifs__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./components/props/notifs/Notifs */ "./resources/js/components/props/notifs/Notifs.jsx");
+/* harmony import */ var _components_Layout__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./components/Layout */ "./resources/js/components/Layout.jsx");
+/* harmony import */ var _public_css_app_css__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../public/css/app.css */ "./public/css/app.css");
+/* harmony import */ var _components_Register__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./components/Register */ "./resources/js/components/Register.jsx");
+/* harmony import */ var _components_Mdpreset__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./components/Mdpreset */ "./resources/js/components/Mdpreset.jsx");
+/* harmony import */ var _components_Mdpreset__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(_components_Mdpreset__WEBPACK_IMPORTED_MODULE_7__);
+/* harmony import */ var _components_Error__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./components/Error */ "./resources/js/components/Error.jsx");
+/* harmony import */ var _components_Error__WEBPACK_IMPORTED_MODULE_8___default = /*#__PURE__*/__webpack_require__.n(_components_Error__WEBPACK_IMPORTED_MODULE_8__);
+/* harmony import */ var _components_Emailsender__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./components/Emailsender */ "./resources/js/components/Emailsender.jsx");
+/* harmony import */ var _components_Emailsender__WEBPACK_IMPORTED_MODULE_9___default = /*#__PURE__*/__webpack_require__.n(_components_Emailsender__WEBPACK_IMPORTED_MODULE_9__);
+/* harmony import */ var _components_props_notifs_Notifs__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./components/props/notifs/Notifs */ "./resources/js/components/props/notifs/Notifs.jsx");
+/* harmony import */ var _components_props_utils_Notifications__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./components/props/utils/Notifications */ "./resources/js/components/props/utils/Notifications.jsx");
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 
 
-
-
-function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
-
-function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -2007,6 +2001,7 @@ __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
 
 
 
+
 var notifs = true;
 
 var App = /*#__PURE__*/function (_React$Component) {
@@ -2015,98 +2010,44 @@ var App = /*#__PURE__*/function (_React$Component) {
   var _super = _createSuper(App);
 
   function App(props) {
-    var _this;
-
     _classCallCheck(this, App);
 
-    _this = _super.call(this, props);
-    _this.state = {
-      notif: false,
-      notifs: []
-    };
-    _this.removenotif = _this.removenotif.bind(_assertThisInitialized(_this));
-    return _this;
+    return _super.call(this, props);
   }
 
   _createClass(App, [{
-    key: "removenotif",
-    value: function () {
-      var _removenotif = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_1___default().mark(function _callee(id) {
-        var a;
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_1___default().wrap(function _callee$(_context) {
-          while (1) {
-            switch (_context.prev = _context.next) {
-              case 0:
-                notifs = this.state.notifs;
-                notifs.splice(id, 1);
-                a = 0;
-                notifs.forEach(function (notif) {
-                  notif.id = a;
-                  a++;
-                });
-                this.setState({
-                  notifs: notifs
-                });
-
-              case 5:
-              case "end":
-                return _context.stop();
-            }
-          }
-        }, _callee, this);
-      }));
-
-      function removenotif(_x) {
-        return _removenotif.apply(this, arguments);
-      }
-
-      return removenotif;
-    }()
-  }, {
     key: "render",
     value: function render() {
-      var _this2 = this;
-
       return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)(react_router_dom__WEBPACK_IMPORTED_MODULE_12__.BrowserRouter, {
         children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)(react_router_dom__WEBPACK_IMPORTED_MODULE_13__.Switch, {
           children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_13__.Route, {
             path: "/login",
-            component: _components_Login__WEBPACK_IMPORTED_MODULE_2__.default
+            component: _components_Login__WEBPACK_IMPORTED_MODULE_1__.default
           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_13__.Route, {
             path: "/register",
-            component: _components_Register__WEBPACK_IMPORTED_MODULE_7__.default
+            component: _components_Register__WEBPACK_IMPORTED_MODULE_6__.default
           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_13__.Route, {
             path: "/reset/*",
-            component: (_components_Mdpreset__WEBPACK_IMPORTED_MODULE_8___default())
+            component: (_components_Mdpreset__WEBPACK_IMPORTED_MODULE_7___default())
           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_13__.Route, {
             path: "/sendmail",
-            component: (_components_Emailsender__WEBPACK_IMPORTED_MODULE_10___default())
+            component: (_components_Emailsender__WEBPACK_IMPORTED_MODULE_9___default())
           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_13__.Route, {
             path: "/ANA",
-            component: (_components_Error__WEBPACK_IMPORTED_MODULE_9___default())
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_components_Layout__WEBPACK_IMPORTED_MODULE_5__.default, {})]
-        }), this.state.notif && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", {
-          className: 'notifs',
-          children: this.state.notifs.map(function (notif) {
-            return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_components_props_notifs_Notifs__WEBPACK_IMPORTED_MODULE_11__.default, {
-              remove: _this2.removenotif,
-              id: notif.id,
-              type: notif.type,
-              raison: notif.raison
-            }, notif.id);
-          })
-        })]
+            component: (_components_Error__WEBPACK_IMPORTED_MODULE_8___default())
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_components_Layout__WEBPACK_IMPORTED_MODULE_4__.default, {})]
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_components_props_utils_Notifications__WEBPACK_IMPORTED_MODULE_11__.default, {})]
       });
     }
   }]);
 
   return App;
-}(react__WEBPACK_IMPORTED_MODULE_3__.Component);
+}(react__WEBPACK_IMPORTED_MODULE_2__.Component);
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (App);
 
 if (document.getElementById('app')) {
-  react_dom__WEBPACK_IMPORTED_MODULE_4__.render( /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(App, {}), document.getElementById('app'));
+  react_dom__WEBPACK_IMPORTED_MODULE_3__.render( /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(App, {}), document.getElementById('app'));
 }
 
 /***/ }),
@@ -2351,10 +2292,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var _props_Gestion_Content_ContentCard__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../props/Gestion/Content/ContentCard */ "./resources/js/components/props/Gestion/Content/ContentCard.jsx");
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_4__);
-/* harmony import */ var _props_utils_PagesTitle__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../props/utils/PagesTitle */ "./resources/js/components/props/utils/PagesTitle.jsx");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _props_utils_PagesTitle__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../props/utils/PagesTitle */ "./resources/js/components/props/utils/PagesTitle.jsx");
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 
@@ -2389,7 +2329,6 @@ function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.g
 
 
 
-
 var ContentManagement = /*#__PURE__*/function (_React$Component) {
   _inherits(ContentManagement, _React$Component);
 
@@ -2412,7 +2351,6 @@ var ContentManagement = /*#__PURE__*/function (_React$Component) {
     key: "submit",
     value: function () {
       var _submit = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_1___default().mark(function _callee(e) {
-        var req;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_1___default().wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
@@ -2420,12 +2358,12 @@ var ContentManagement = /*#__PURE__*/function (_React$Component) {
                 e.preventDefault();
 
                 if (!(this.state.content !== "" && this.state.title !== "")) {
-                  _context.next = 6;
+                  _context.next = 5;
                   break;
                 }
 
                 _context.next = 4;
-                return axios__WEBPACK_IMPORTED_MODULE_4___default()({
+                return axios__WEBPACK_IMPORTED_MODULE_3___default()({
                   method: 'post',
                   url: '/data/gestion/content/add/5',
                   data: {
@@ -2435,13 +2373,12 @@ var ContentManagement = /*#__PURE__*/function (_React$Component) {
                 });
 
               case 4:
-                req = _context.sent;
                 this.setState({
                   content: '',
                   title: ''
                 });
 
-              case 6:
+              case 5:
               case "end":
                 return _context.stop();
             }
@@ -2464,22 +2401,22 @@ var ContentManagement = /*#__PURE__*/function (_React$Component) {
         className: 'ContentManagement',
         children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("section", {
           className: 'header',
-          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_props_utils_PagesTitle__WEBPACK_IMPORTED_MODULE_5__.default, {
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_props_utils_PagesTitle__WEBPACK_IMPORTED_MODULE_4__.default, {
             title: 'Gestion de contenu'
           })
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("section", {
           className: 'content-mgt',
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_props_Gestion_Content_ContentCard__WEBPACK_IMPORTED_MODULE_3__.default, {
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(ContentCard, {
             type: 1
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_props_Gestion_Content_ContentCard__WEBPACK_IMPORTED_MODULE_3__.default, {
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(ContentCard, {
             type: 2
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_props_Gestion_Content_ContentCard__WEBPACK_IMPORTED_MODULE_3__.default, {
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(ContentCard, {
             type: 3
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_props_Gestion_Content_ContentCard__WEBPACK_IMPORTED_MODULE_3__.default, {
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(ContentCard, {
             type: 4
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_props_Gestion_Content_ContentCard__WEBPACK_IMPORTED_MODULE_3__.default, {
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(ContentCard, {
             type: 5
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_props_Gestion_Content_ContentCard__WEBPACK_IMPORTED_MODULE_3__.default, {
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(ContentCard, {
             type: 6
           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
             className: 'ContentCard annonces',
@@ -3263,6 +3200,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_4__);
 /* harmony import */ var _props_utils_PagesTitle__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../props/utils/PagesTitle */ "./resources/js/components/props/utils/PagesTitle.jsx");
+/* harmony import */ var _props_utils_TableBottom__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../props/utils/TableBottom */ "./resources/js/components/props/utils/TableBottom.jsx");
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 
@@ -3292,6 +3230,7 @@ function _assertThisInitialized(self) { if (self === void 0) { throw new Referen
 function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
 
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
 
 
 
@@ -3445,7 +3384,7 @@ var RapportHoraire = /*#__PURE__*/function (_React$Component) {
                 })]
               })
             }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("button", {
-              className: 'btn',
+              className: 'btn add-perso',
               onClick: /*#__PURE__*/function () {
                 var _ref = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_1___default().mark(function _callee3(e) {
                   var req;
@@ -3480,9 +3419,9 @@ var RapportHoraire = /*#__PURE__*/function (_React$Component) {
               }(),
               children: "Ajouter tout le personnel"
             })]
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("section", {
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("section", {
             className: 'rapport-table-container',
-            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
               className: 'rapport-table',
               children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
                 className: 'row table-header',
@@ -3554,7 +3493,11 @@ var RapportHoraire = /*#__PURE__*/function (_React$Component) {
                   total: item.total
                 }, item.id);
               })]
-            })
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_props_utils_TableBottom__WEBPACK_IMPORTED_MODULE_6__.default, {
+              placeholder: 'rechercher un nom',
+              page: 1,
+              pages: 5
+            })]
           })]
         });
       } else {
@@ -3598,8 +3541,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _props_Menu_Personnel__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./props/Menu/Personnel */ "./resources/js/components/props/Menu/Personnel.jsx");
 /* harmony import */ var _props_Menu_Patient__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./props/Menu/Patient */ "./resources/js/components/props/Menu/Patient.jsx");
 /* harmony import */ var _props_Menu_Gestion__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./props/Menu/Gestion */ "./resources/js/components/props/Menu/Gestion.jsx");
-/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_28__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
-/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_29__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router/esm/react-router.js");
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_27__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_28__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router/esm/react-router.js");
 /* harmony import */ var _Main__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./Main */ "./resources/js/components/Main.jsx");
 /* harmony import */ var _Patient_rapport__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./Patient/rapport */ "./resources/js/components/Patient/rapport.jsx");
 /* harmony import */ var _Patient_RecherchePatient__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./Patient/RecherchePatient */ "./resources/js/components/Patient/RecherchePatient.jsx");
@@ -3610,16 +3553,15 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Gestion_PersonnelList__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ./Gestion/PersonnelList */ "./resources/js/components/Gestion/PersonnelList.jsx");
 /* harmony import */ var _Gestion_Logs__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ./Gestion/Logs */ "./resources/js/components/Gestion/Logs.jsx");
 /* harmony import */ var _Gestion_Permissions__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! ./Gestion/Permissions */ "./resources/js/components/Gestion/Permissions.jsx");
-/* harmony import */ var react_cjs_react_production_min__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! react/cjs/react.production.min */ "./node_modules/react/cjs/react.production.min.js");
-/* harmony import */ var _Patient_BCController__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! ./Patient/BCController */ "./resources/js/components/Patient/BCController.jsx");
-/* harmony import */ var _Gestion_AFormaController__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(/*! ./Gestion/AFormaController */ "./resources/js/components/Gestion/AFormaController.jsx");
-/* harmony import */ var _Gestion_InfoGestion__WEBPACK_IMPORTED_MODULE_21__ = __webpack_require__(/*! ./Gestion/InfoGestion */ "./resources/js/components/Gestion/InfoGestion.jsx");
-/* harmony import */ var _Personnel_Informations__WEBPACK_IMPORTED_MODULE_22__ = __webpack_require__(/*! ./Personnel/Informations */ "./resources/js/components/Personnel/Informations.jsx");
-/* harmony import */ var _Personnel_MonCompte__WEBPACK_IMPORTED_MODULE_23__ = __webpack_require__(/*! ./Personnel/MonCompte */ "./resources/js/components/Personnel/MonCompte.jsx");
-/* harmony import */ var _Personnel_FormationsController__WEBPACK_IMPORTED_MODULE_24__ = __webpack_require__(/*! ./Personnel/FormationsController */ "./resources/js/components/Personnel/FormationsController.jsx");
-/* harmony import */ var _Personnel_CarnetVol__WEBPACK_IMPORTED_MODULE_25__ = __webpack_require__(/*! ./Personnel/CarnetVol */ "./resources/js/components/Personnel/CarnetVol.jsx");
-/* harmony import */ var _Personnel_Remboursement__WEBPACK_IMPORTED_MODULE_26__ = __webpack_require__(/*! ./Personnel/Remboursement */ "./resources/js/components/Personnel/Remboursement.jsx");
-/* harmony import */ var _BugRepport__WEBPACK_IMPORTED_MODULE_27__ = __webpack_require__(/*! ./BugRepport */ "./resources/js/components/BugRepport.jsx");
+/* harmony import */ var _Patient_BCController__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! ./Patient/BCController */ "./resources/js/components/Patient/BCController.jsx");
+/* harmony import */ var _Gestion_AFormaController__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! ./Gestion/AFormaController */ "./resources/js/components/Gestion/AFormaController.jsx");
+/* harmony import */ var _Gestion_InfoGestion__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(/*! ./Gestion/InfoGestion */ "./resources/js/components/Gestion/InfoGestion.jsx");
+/* harmony import */ var _Personnel_Informations__WEBPACK_IMPORTED_MODULE_21__ = __webpack_require__(/*! ./Personnel/Informations */ "./resources/js/components/Personnel/Informations.jsx");
+/* harmony import */ var _Personnel_MonCompte__WEBPACK_IMPORTED_MODULE_22__ = __webpack_require__(/*! ./Personnel/MonCompte */ "./resources/js/components/Personnel/MonCompte.jsx");
+/* harmony import */ var _Personnel_FormationsController__WEBPACK_IMPORTED_MODULE_23__ = __webpack_require__(/*! ./Personnel/FormationsController */ "./resources/js/components/Personnel/FormationsController.jsx");
+/* harmony import */ var _Personnel_CarnetVol__WEBPACK_IMPORTED_MODULE_24__ = __webpack_require__(/*! ./Personnel/CarnetVol */ "./resources/js/components/Personnel/CarnetVol.jsx");
+/* harmony import */ var _Personnel_Remboursement__WEBPACK_IMPORTED_MODULE_25__ = __webpack_require__(/*! ./Personnel/Remboursement */ "./resources/js/components/Personnel/Remboursement.jsx");
+/* harmony import */ var _BugRepport__WEBPACK_IMPORTED_MODULE_26__ = __webpack_require__(/*! ./BugRepport */ "./resources/js/components/BugRepport.jsx");
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 
@@ -3676,10 +3618,8 @@ function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.g
 
 
 
-
 var service_state = false;
 var rootUrl = document.querySelector('body').getAttribute('data-root-url');
-var admin;
 
 var Layout = /*#__PURE__*/function (_React$Component) {
   _inherits(Layout, _React$Component);
@@ -3798,7 +3738,8 @@ var Layout = /*#__PURE__*/function (_React$Component) {
               children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("a", {
                 href: '/logout',
                 children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("img", {
-                  src: '/assets/images/logout.svg'
+                  src: '/assets/images/logout.svg',
+                  alt: ''
                 })
               })
             }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", {
@@ -3813,10 +3754,11 @@ var Layout = /*#__PURE__*/function (_React$Component) {
               })
             }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", {
               id: "Logo",
-              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_28__.NavLink, {
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_27__.NavLink, {
                 to: '/',
                 children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("img", {
-                  src: '/assets/images/BCFD.svg'
+                  src: '/assets/images/BCFD.svg',
+                  alt: ''
                 })
               })
             }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", {
@@ -3843,65 +3785,65 @@ var Layout = /*#__PURE__*/function (_React$Component) {
           })]
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
           id: "content",
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_29__.Route, {
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_28__.Route, {
             exact: true,
             path: "/",
             component: _Main__WEBPACK_IMPORTED_MODULE_8__.default
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_29__.Route, {
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_28__.Route, {
             path: '/bugrepport',
-            component: _BugRepport__WEBPACK_IMPORTED_MODULE_27__.default
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_29__.Route, {
+            component: _BugRepport__WEBPACK_IMPORTED_MODULE_26__.default
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_28__.Route, {
             path: "/patient/rapport",
             component: _Patient_rapport__WEBPACK_IMPORTED_MODULE_9__.default
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_29__.Route, {
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_28__.Route, {
             path: '/patient/blackcode',
-            component: _Patient_BCController__WEBPACK_IMPORTED_MODULE_19__.default
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_29__.Route, {
+            component: _Patient_BCController__WEBPACK_IMPORTED_MODULE_18__.default
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_28__.Route, {
             path: '/patient/dossiers',
             component: _Patient_RecherchePatient__WEBPACK_IMPORTED_MODULE_10__.default
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_29__.Route, {
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_28__.Route, {
             path: '/personnel/service',
             component: _Personnel_Services__WEBPACK_IMPORTED_MODULE_11__.default
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_29__.Route, {
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_28__.Route, {
             path: '/personnel/factures',
             component: _Personnel_Factures__WEBPACK_IMPORTED_MODULE_12__.default
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_29__.Route, {
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_28__.Route, {
             path: '/personnel/informations',
-            component: _Personnel_Informations__WEBPACK_IMPORTED_MODULE_22__.default
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_29__.Route, {
+            component: _Personnel_Informations__WEBPACK_IMPORTED_MODULE_21__.default
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_28__.Route, {
             path: '/personnel/moncompte',
-            component: _Personnel_MonCompte__WEBPACK_IMPORTED_MODULE_23__.default
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_29__.Route, {
+            component: _Personnel_MonCompte__WEBPACK_IMPORTED_MODULE_22__.default
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_28__.Route, {
             path: '/personnel/livret',
-            component: _Personnel_FormationsController__WEBPACK_IMPORTED_MODULE_24__.default
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_29__.Route, {
+            component: _Personnel_FormationsController__WEBPACK_IMPORTED_MODULE_23__.default
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_28__.Route, {
             path: '/personnel/vols',
-            component: _Personnel_CarnetVol__WEBPACK_IMPORTED_MODULE_25__.default
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_29__.Route, {
+            component: _Personnel_CarnetVol__WEBPACK_IMPORTED_MODULE_24__.default
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_28__.Route, {
             path: '/personnel/factures',
             component: _Personnel_Factures__WEBPACK_IMPORTED_MODULE_12__.default
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_29__.Route, {
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_28__.Route, {
             path: '/personnel/remboursement',
-            component: _Personnel_Remboursement__WEBPACK_IMPORTED_MODULE_26__.default
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_29__.Route, {
+            component: _Personnel_Remboursement__WEBPACK_IMPORTED_MODULE_25__.default
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_28__.Route, {
             path: '/gestion/rapport',
             component: _Gestion_RapportHoraire__WEBPACK_IMPORTED_MODULE_13__.default
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_29__.Route, {
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_28__.Route, {
             path: '/gestion/content',
             component: _Gestion_ContentManagement__WEBPACK_IMPORTED_MODULE_14__.default
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_29__.Route, {
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_28__.Route, {
             path: '/gestion/personnel',
             component: _Gestion_PersonnelList__WEBPACK_IMPORTED_MODULE_15__.default
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_29__.Route, {
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_28__.Route, {
             path: '/gestion/log',
             component: _Gestion_Logs__WEBPACK_IMPORTED_MODULE_16__.default
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_29__.Route, {
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_28__.Route, {
             path: '/gestion/formation',
-            component: _Gestion_AFormaController__WEBPACK_IMPORTED_MODULE_20__.default
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_29__.Route, {
+            component: _Gestion_AFormaController__WEBPACK_IMPORTED_MODULE_19__.default
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_28__.Route, {
             path: '/gestion/informations',
-            component: _Gestion_InfoGestion__WEBPACK_IMPORTED_MODULE_21__.default
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_29__.Route, {
+            component: _Gestion_InfoGestion__WEBPACK_IMPORTED_MODULE_20__.default
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_28__.Route, {
             path: '/gestion/perm',
             component: _Gestion_Permissions__WEBPACK_IMPORTED_MODULE_17__.default
           })]
@@ -4254,11 +4196,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react-dom */ "./node_modules/react-dom/index.js");
-/* harmony import */ var _props_Main_AnnonceCard__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./props/Main/AnnonceCard */ "./resources/js/components/props/Main/AnnonceCard.jsx");
-/* harmony import */ var _props_Main_PersonnelList__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./props/Main/PersonnelList */ "./resources/js/components/props/Main/PersonnelList.jsx");
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_6__);
+/* harmony import */ var _props_Main_AnnonceCard__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./props/Main/AnnonceCard */ "./resources/js/components/props/Main/AnnonceCard.jsx");
+/* harmony import */ var _props_Main_PersonnelList__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./props/Main/PersonnelList */ "./resources/js/components/props/Main/PersonnelList.jsx");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_5__);
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 
@@ -4294,8 +4235,6 @@ function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.g
 
 
 
-
-
 var Main = /*#__PURE__*/function (_React$Component) {
   _inherits(Main, _React$Component);
 
@@ -4325,7 +4264,7 @@ var Main = /*#__PURE__*/function (_React$Component) {
               case 0:
                 this.hasdata(false);
                 _context.next = 3;
-                return axios__WEBPACK_IMPORTED_MODULE_6___default()({
+                return axios__WEBPACK_IMPORTED_MODULE_5___default()({
                   url: '/data/annonces',
                   method: 'GET'
                 });
@@ -4363,7 +4302,7 @@ var Main = /*#__PURE__*/function (_React$Component) {
     value: function render() {
       return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
         id: "Main-Page",
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_props_Main_PersonnelList__WEBPACK_IMPORTED_MODULE_5__.default, {}), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_props_Main_PersonnelList__WEBPACK_IMPORTED_MODULE_4__.default, {}), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
           className: 'Annonces',
           children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h1", {
             children: "Annonces : "
@@ -4376,7 +4315,7 @@ var Main = /*#__PURE__*/function (_React$Component) {
                 alt: ''
               })
             }), this.state.data && this.state.annonces.map(function (annonce) {
-              return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_props_Main_AnnonceCard__WEBPACK_IMPORTED_MODULE_4__.default, {
+              return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_props_Main_AnnonceCard__WEBPACK_IMPORTED_MODULE_3__.default, {
                 title: annonce.title,
                 content: annonce.content,
                 date: annonce.posted_at
@@ -4420,7 +4359,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _props_utils_PagesTitle__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../props/utils/PagesTitle */ "./resources/js/components/props/utils/PagesTitle.jsx");
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
 
 
 
@@ -4447,22 +4388,536 @@ function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.g
 
 
 
-var BCController = /*#__PURE__*/function (_React$Component) {
-  _inherits(BCController, _React$Component);
 
-  var _super = _createSuper(BCController);
+var BCBase = /*#__PURE__*/function (_React$Component) {
+  _inherits(BCBase, _React$Component);
+
+  var _super = _createSuper(BCBase);
+
+  function BCBase(props) {
+    var _this;
+
+    _classCallCheck(this, BCBase);
+
+    _this = _super.call(this, props);
+    _this.state = {
+      add: false
+    };
+    return _this;
+  }
+
+  _createClass(BCBase, [{
+    key: "render",
+    value: function render() {
+      var _this2 = this;
+
+      return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
+        className: "BC-base",
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("section", {
+          className: "header",
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_props_utils_PagesTitle__WEBPACK_IMPORTED_MODULE_3__.default, {
+            title: 'Black Codes'
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("button", {
+            className: 'btn',
+            onClick: function onClick() {
+              return _this2.setState({
+                add: true
+              });
+            },
+            children: "Ajouter un BC"
+          })]
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("section", {
+          className: "contain",
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
+            className: "BC-List",
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h1", {
+              children: "En cours"
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
+              className: "card",
+              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h3", {
+                children: "Fusiallade"
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h4", {
+                children: "Los santos long beach"
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", {
+                className: "separator"
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
+                className: 'rowed',
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h5", {
+                  children: "Secouristes : "
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h5", {
+                  children: "7"
+                })]
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
+                className: 'rowed',
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h5", {
+                  children: "Victimes : "
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h5", {
+                  children: "12"
+                })]
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", {
+                className: "separator"
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h4", {
+                children: "00/00/0000 \xE0 00h00"
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h4", {
+                children: "alerte de Jean Claude Bernard"
+              })]
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
+              className: "card",
+              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h3", {
+                children: "Fusiallade"
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h4", {
+                children: "Los santos long beach"
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", {
+                className: "separator"
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
+                className: 'rowed',
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h5", {
+                  children: "Secouristes : "
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h5", {
+                  children: "7"
+                })]
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
+                className: 'rowed',
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h5", {
+                  children: "Victimes : "
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h5", {
+                  children: "12"
+                })]
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", {
+                className: "separator"
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h4", {
+                children: "00/00/0000 \xE0 00h00"
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h4", {
+                children: "alerte de Jean Claude Bernard"
+              })]
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
+              className: "card",
+              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h3", {
+                children: "Fusiallade"
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h4", {
+                children: "Los santos long beach"
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", {
+                className: "separator"
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
+                className: 'rowed',
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h5", {
+                  children: "Secouristes : "
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h5", {
+                  children: "7"
+                })]
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
+                className: 'rowed',
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h5", {
+                  children: "Victimes : "
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h5", {
+                  children: "12"
+                })]
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", {
+                className: "separator"
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h4", {
+                children: "00/00/0000 \xE0 00h00"
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h4", {
+                children: "alerte de Jean Claude Bernard"
+              })]
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
+              className: "card",
+              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h3", {
+                children: "Fusiallade"
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h4", {
+                children: "Los santos long beach"
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", {
+                className: "separator"
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
+                className: 'rowed',
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h5", {
+                  children: "Secouristes : "
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h5", {
+                  children: "7"
+                })]
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
+                className: 'rowed',
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h5", {
+                  children: "Victimes : "
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h5", {
+                  children: "12"
+                })]
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", {
+                className: "separator"
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h4", {
+                children: "00/00/0000 \xE0 00h00"
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h4", {
+                children: "alerte de Jean Claude Bernard"
+              })]
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
+              className: "card",
+              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h3", {
+                children: "Fusiallade"
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h4", {
+                children: "Los santos long beach"
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", {
+                className: "separator"
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
+                className: 'rowed',
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h5", {
+                  children: "Secouristes : "
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h5", {
+                  children: "7"
+                })]
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
+                className: 'rowed',
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h5", {
+                  children: "Victimes : "
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h5", {
+                  children: "12"
+                })]
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", {
+                className: "separator"
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h4", {
+                children: "00/00/0000 \xE0 00h00"
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h4", {
+                children: "alerte de Jean Claude Bernard"
+              })]
+            })]
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
+            className: "BC-List",
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h1", {
+              children: "Anciens"
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
+              className: "card",
+              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h3", {
+                children: "Fusiallade"
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h4", {
+                children: "Los santos long beach"
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", {
+                className: "separator"
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
+                className: 'rowed',
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h5", {
+                  children: "Secouristes : "
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h5", {
+                  children: "7"
+                })]
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
+                className: 'rowed',
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h5", {
+                  children: "Victimes : "
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h5", {
+                  children: "12"
+                })]
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", {
+                className: "separator"
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h4", {
+                children: "du 00/00/0000 \xE0 00h00"
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h4", {
+                children: "au 00/00/0000 \xE0 00h00"
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h4", {
+                children: "alerte de Jean Claude Bernard"
+              })]
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
+              className: "card",
+              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h3", {
+                children: "Fusiallade"
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h4", {
+                children: "Los santos long beach"
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", {
+                className: "separator"
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
+                className: 'rowed',
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h5", {
+                  children: "Secouristes : "
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h5", {
+                  children: "7"
+                })]
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
+                className: 'rowed',
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h5", {
+                  children: "Victimes : "
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h5", {
+                  children: "12"
+                })]
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", {
+                className: "separator"
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h4", {
+                children: "du 00/00/0000 \xE0 00h00"
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h4", {
+                children: "au 00/00/0000 \xE0 00h00"
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h4", {
+                children: "alerte de Jean Claude Bernard"
+              })]
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
+              className: "card",
+              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h3", {
+                children: "Fusiallade"
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h4", {
+                children: "Los santos long beach"
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", {
+                className: "separator"
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
+                className: 'rowed',
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h5", {
+                  children: "Secouristes : "
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h5", {
+                  children: "7"
+                })]
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
+                className: 'rowed',
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h5", {
+                  children: "Victimes : "
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h5", {
+                  children: "12"
+                })]
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", {
+                className: "separator"
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h4", {
+                children: "du 00/00/0000 \xE0 00h00"
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h4", {
+                children: "au 00/00/0000 \xE0 00h00"
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h4", {
+                children: "alerte de Jean Claude Bernard"
+              })]
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
+              className: "card",
+              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h3", {
+                children: "Fusiallade"
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h4", {
+                children: "Los santos long beach"
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", {
+                className: "separator"
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
+                className: 'rowed',
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h5", {
+                  children: "Secouristes : "
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h5", {
+                  children: "7"
+                })]
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
+                className: 'rowed',
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h5", {
+                  children: "Victimes : "
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h5", {
+                  children: "12"
+                })]
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", {
+                className: "separator"
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h4", {
+                children: "du 00/00/0000 \xE0 00h00"
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h4", {
+                children: "au 00/00/0000 \xE0 00h00"
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h4", {
+                children: "alerte de Jean Claude Bernard"
+              })]
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
+              className: "card",
+              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h3", {
+                children: "Fusiallade"
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h4", {
+                children: "Los santos long beach"
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", {
+                className: "separator"
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
+                className: 'rowed',
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h5", {
+                  children: "Secouristes : "
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h5", {
+                  children: "7"
+                })]
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
+                className: 'rowed',
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h5", {
+                  children: "Victimes : "
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h5", {
+                  children: "12"
+                })]
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", {
+                className: "separator"
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h4", {
+                children: "du 00/00/0000 \xE0 00h00"
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h4", {
+                children: "au 00/00/0000 \xE0 00h00"
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h4", {
+                children: "alerte de Jean Claude Bernard"
+              })]
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
+              className: "card",
+              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h3", {
+                children: "Fusiallade"
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h4", {
+                children: "Los santos long beach"
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", {
+                className: "separator"
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
+                className: 'rowed',
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h5", {
+                  children: "Secouristes : "
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h5", {
+                  children: "7"
+                })]
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
+                className: 'rowed',
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h5", {
+                  children: "Victimes : "
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h5", {
+                  children: "12"
+                })]
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", {
+                className: "separator"
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h4", {
+                children: "du 00/00/0000 \xE0 00h00"
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h4", {
+                children: "au 00/00/0000 \xE0 00h00"
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h4", {
+                children: "alerte de Jean Claude Bernard"
+              })]
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
+              className: "card",
+              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h3", {
+                children: "Fusiallade"
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h4", {
+                children: "Los santos long beach"
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", {
+                className: "separator"
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
+                className: 'rowed',
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h5", {
+                  children: "Secouristes : "
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h5", {
+                  children: "7"
+                })]
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
+                className: 'rowed',
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h5", {
+                  children: "Victimes : "
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h5", {
+                  children: "12"
+                })]
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", {
+                className: "separator"
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h4", {
+                children: "du 00/00/0000 \xE0 00h00"
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h4", {
+                children: "au 00/00/0000 \xE0 00h00"
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h4", {
+                children: "alerte de Jean Claude Bernard"
+              })]
+            })]
+          })]
+        }), this.state.add && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("section", {
+          className: 'popup',
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
+            className: 'popup-content',
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h1", {
+              children: "Ajouter un BC"
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("form", {
+              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
+                className: 'row',
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("input", {
+                  type: 'text',
+                  placeholder: 'lieux'
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("select", {
+                  defaultValue: 1,
+                  children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", {
+                    value: 1,
+                    disabled: true,
+                    children: "add"
+                  })
+                })]
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
+                className: 'btn-contain',
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("button", {
+                  onClick: function onClick() {
+                    return _this2.setState({
+                      add: false
+                    });
+                  },
+                  className: 'btn',
+                  children: "fermer"
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("button", {
+                  type: 'submit',
+                  className: 'btn',
+                  children: "Ajouter"
+                })]
+              })]
+            })]
+          })
+        })]
+      });
+    }
+  }]);
+
+  return BCBase;
+}(react__WEBPACK_IMPORTED_MODULE_1__.Component);
+
+var BCLast = /*#__PURE__*/function (_React$Component2) {
+  _inherits(BCLast, _React$Component2);
+
+  var _super2 = _createSuper(BCLast);
+
+  function BCLast() {
+    _classCallCheck(this, BCLast);
+
+    return _super2.apply(this, arguments);
+  }
+
+  _createClass(BCLast, [{
+    key: "render",
+    value: function render() {
+      return null;
+    }
+  }]);
+
+  return BCLast;
+}(react__WEBPACK_IMPORTED_MODULE_1__.Component);
+
+var BCView = /*#__PURE__*/function (_React$Component3) {
+  _inherits(BCView, _React$Component3);
+
+  var _super3 = _createSuper(BCView);
+
+  function BCView() {
+    _classCallCheck(this, BCView);
+
+    return _super3.apply(this, arguments);
+  }
+
+  _createClass(BCView, [{
+    key: "render",
+    value: function render() {
+      return null;
+    }
+  }]);
+
+  return BCView;
+}(react__WEBPACK_IMPORTED_MODULE_1__.Component);
+
+var BCController = /*#__PURE__*/function (_React$Component4) {
+  _inherits(BCController, _React$Component4);
+
+  var _super4 = _createSuper(BCController);
 
   function BCController(props) {
+    var _this3;
+
     _classCallCheck(this, BCController);
 
-    return _super.call(this, props);
+    _this3 = _super4.call(this, props);
+    _this3.state = {
+      status: 0
+    };
+    return _this3;
   }
 
   _createClass(BCController, [{
     key: "render",
     value: function render() {
-      return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", {
-        "class": ""
+      return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
+        className: "BC-Container",
+        children: [this.state.status === 0 && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(BCBase, {}), this.state.status === 1 && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(BCView, {}), this.state.status === 3 && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(BCLast, {}), this.state.status === null && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", {
+          className: 'load',
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("img", {
+            src: '/assets/images/loading.svg',
+            alt: ''
+          })
+        })]
       });
     }
   }]);
@@ -4615,7 +5070,6 @@ var RecherchePatient = /*#__PURE__*/function (_React$Component) {
     key: "updatetel",
     value: function () {
       var _updatetel = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_1___default().mark(function _callee2(e) {
-        var req;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_1___default().wrap(function _callee2$(_context2) {
           while (1) {
             switch (_context2.prev = _context2.next) {
@@ -4633,9 +5087,6 @@ var RecherchePatient = /*#__PURE__*/function (_React$Component) {
                 });
 
               case 3:
-                req = _context2.sent;
-
-              case 4:
               case "end":
                 return _context2.stop();
             }
@@ -5420,7 +5871,6 @@ var Factures = /*#__PURE__*/function (_React$Component) {
     key: "paye",
     value: function () {
       var _paye = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_1___default().mark(function _callee2(id) {
-        var req;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_1___default().wrap(function _callee2$(_context2) {
           while (1) {
             switch (_context2.prev = _context2.next) {
@@ -5432,10 +5882,9 @@ var Factures = /*#__PURE__*/function (_React$Component) {
                 });
 
               case 2:
-                req = _context2.sent;
                 this.componentDidMount();
 
-              case 4:
+              case 3:
               case "end":
                 return _context2.stop();
             }
@@ -6215,990 +6664,997 @@ var Adminview = /*#__PURE__*/function (_React$Component2) {
               children: "Valider"
             })]
           })
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("table", {
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("thead", {
-            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("tr", {
-              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                className: 'head id',
-                children: "id"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                className: 'head pseudo',
-                children: "pseudo"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                className: 'head total',
-                children: "total en $"
-              })]
-            })
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("tbody", {
-            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("tr", {
-              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                className: 'id',
-                children: "1"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                className: 'pseudo',
-                children: "Simon Lou"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                className: 'total',
-                children: "140$"
-              })]
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("tr", {
-              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                className: 'id',
-                children: "1"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                className: 'pseudo',
-                children: "Simon Lou"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                className: 'total',
-                children: "140$"
-              })]
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("tr", {
-              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                className: 'id',
-                children: "1"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                className: 'pseudo',
-                children: "Simon Lou"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                className: 'total',
-                children: "140$"
-              })]
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("tr", {
-              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                className: 'id',
-                children: "1"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                className: 'pseudo',
-                children: "Simon Lou"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                className: 'total',
-                children: "140$"
-              })]
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("tr", {
-              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                className: 'id',
-                children: "1"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                className: 'pseudo',
-                children: "Simon Lou"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                className: 'total',
-                children: "140$"
-              })]
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("tr", {
-              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                className: 'id',
-                children: "1"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                className: 'pseudo',
-                children: "Simon Lou"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                className: 'total',
-                children: "140$"
-              })]
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("tr", {
-              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                className: 'id',
-                children: "1"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                className: 'pseudo',
-                children: "Simon Lou"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                className: 'total',
-                children: "140$"
-              })]
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("tr", {
-              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                className: 'id',
-                children: "1"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                className: 'pseudo',
-                children: "Simon Lou"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                className: 'total',
-                children: "140$"
-              })]
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("tr", {
-              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                className: 'id',
-                children: "1"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                className: 'pseudo',
-                children: "Simon Lou"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                className: 'total',
-                children: "140$"
-              })]
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("tr", {
-              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                className: 'id',
-                children: "1"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                className: 'pseudo',
-                children: "Simon Lou"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                className: 'total',
-                children: "140$"
-              })]
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("tr", {
-              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                className: 'id',
-                children: "1"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                className: 'pseudo',
-                children: "Simon Lou"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                className: 'total',
-                children: "140$"
-              })]
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("tr", {
-              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                className: 'id',
-                children: "1"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                className: 'pseudo',
-                children: "Simon Lou"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                className: 'total',
-                children: "140$"
-              })]
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("tr", {
-              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                className: 'id',
-                children: "1"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                className: 'pseudo',
-                children: "Simon Lou"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                className: 'total',
-                children: "140$"
-              })]
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("tr", {
-              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                className: 'id',
-                children: "1"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                className: 'pseudo',
-                children: "Simon Lou"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                className: 'total',
-                children: "140$"
-              })]
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("tr", {
-              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                className: 'id',
-                children: "1"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                className: 'pseudo',
-                children: "Simon Lou"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                className: 'total',
-                children: "140$"
-              })]
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("tr", {
-              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                className: 'id',
-                children: "1"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                className: 'pseudo',
-                children: "Simon Lou"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                className: 'total',
-                children: "140$"
-              })]
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("tr", {
-              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                className: 'id',
-                children: "1"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                className: 'pseudo',
-                children: "Simon Lou"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                className: 'total',
-                children: "140$"
-              })]
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("tr", {
-              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                className: 'id',
-                children: "1"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                className: 'pseudo',
-                children: "Simon Lou"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                className: 'total',
-                children: "140$"
-              })]
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("tr", {
-              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                className: 'id',
-                children: "1"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                className: 'pseudo',
-                children: "Simon Lou"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                className: 'total',
-                children: "140$"
-              })]
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("tr", {
-              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                className: 'id',
-                children: "1"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                className: 'pseudo',
-                children: "Simon Lou"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                className: 'total',
-                children: "140$"
-              })]
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("tr", {
-              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                className: 'id',
-                children: "1"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                className: 'pseudo',
-                children: "Simon Lou"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                className: 'total',
-                children: "140$"
-              })]
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("tr", {
-              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                className: 'id',
-                children: "1"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                className: 'pseudo',
-                children: "Simon Lou"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                className: 'total',
-                children: "140$"
-              })]
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("tr", {
-              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                className: 'id',
-                children: "1"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                className: 'pseudo',
-                children: "Simon Lou"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                className: 'total',
-                children: "140$"
-              })]
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("tr", {
-              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                className: 'id',
-                children: "1"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                className: 'pseudo',
-                children: "Simon Lou"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                className: 'total',
-                children: "140$"
-              })]
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("tr", {
-              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                className: 'id',
-                children: "1"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                className: 'pseudo',
-                children: "Simon Lou"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                className: 'total',
-                children: "140$"
-              })]
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("tr", {
-              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                className: 'id',
-                children: "1"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                className: 'pseudo',
-                children: "Simon Lou"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                className: 'total',
-                children: "140$"
-              })]
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("tr", {
-              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                className: 'id',
-                children: "1"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                className: 'pseudo',
-                children: "Simon Lou"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                className: 'total',
-                children: "140$"
-              })]
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("tr", {
-              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                className: 'id',
-                children: "1"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                className: 'pseudo',
-                children: "Simon Lou"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                className: 'total',
-                children: "140$"
-              })]
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("tr", {
-              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                className: 'id',
-                children: "1"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                className: 'pseudo',
-                children: "Simon Lou"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                className: 'total',
-                children: "140$"
-              })]
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("tr", {
-              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                className: 'id',
-                children: "1"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                className: 'pseudo',
-                children: "Simon Lou"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                className: 'total',
-                children: "140$"
-              })]
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("tr", {
-              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                className: 'id',
-                children: "1"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                className: 'pseudo',
-                children: "Simon Lou"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                className: 'total',
-                children: "140$"
-              })]
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("tr", {
-              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                className: 'id',
-                children: "1"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                className: 'pseudo',
-                children: "Simon Lou"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                className: 'total',
-                children: "140$"
-              })]
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("tr", {
-              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                className: 'id',
-                children: "1"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                className: 'pseudo',
-                children: "Simon Lou"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                className: 'total',
-                children: "140$"
-              })]
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("tr", {
-              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                className: 'id',
-                children: "1"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                className: 'pseudo',
-                children: "Simon Lou"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                className: 'total',
-                children: "140$"
-              })]
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("tr", {
-              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                className: 'id',
-                children: "1"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                className: 'pseudo',
-                children: "Simon Lou"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                className: 'total',
-                children: "140$"
-              })]
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("tr", {
-              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                className: 'id',
-                children: "1"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                className: 'pseudo',
-                children: "Simon Lou"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                className: 'total',
-                children: "140$"
-              })]
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("tr", {
-              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                className: 'id',
-                children: "1"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                className: 'pseudo',
-                children: "Simon Lou"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                className: 'total',
-                children: "140$"
-              })]
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("tr", {
-              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                className: 'id',
-                children: "1"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                className: 'pseudo',
-                children: "Simon Lou"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                className: 'total',
-                children: "140$"
-              })]
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("tr", {
-              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                className: 'id',
-                children: "1"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                className: 'pseudo',
-                children: "Simon Lou"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                className: 'total',
-                children: "140$"
-              })]
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("tr", {
-              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                className: 'id',
-                children: "1"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                className: 'pseudo',
-                children: "Simon Lou"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                className: 'total',
-                children: "140$"
-              })]
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("tr", {
-              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                className: 'id',
-                children: "1"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                className: 'pseudo',
-                children: "Simon Lou"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                className: 'total',
-                children: "140$"
-              })]
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("tr", {
-              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                className: 'id',
-                children: "1"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                className: 'pseudo',
-                children: "Simon Lou"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                className: 'total',
-                children: "140$"
-              })]
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("tr", {
-              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                className: 'id',
-                children: "1"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                className: 'pseudo',
-                children: "Simon Lou"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                className: 'total',
-                children: "140$"
-              })]
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("tr", {
-              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                className: 'id',
-                children: "1"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                className: 'pseudo',
-                children: "Simon Lou"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                className: 'total',
-                children: "140$"
-              })]
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("tr", {
-              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                className: 'id',
-                children: "1"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                className: 'pseudo',
-                children: "Simon Lou"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                className: 'total',
-                children: "140$"
-              })]
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("tr", {
-              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                className: 'id',
-                children: "1"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                className: 'pseudo',
-                children: "Simon Lou"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                className: 'total',
-                children: "140$"
-              })]
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("tr", {
-              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                className: 'id',
-                children: "1"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                className: 'pseudo',
-                children: "Simon Lou"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                className: 'total',
-                children: "140$"
-              })]
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("tr", {
-              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                className: 'id',
-                children: "1"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                className: 'pseudo',
-                children: "Simon Lou"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                className: 'total',
-                children: "140$"
-              })]
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("tr", {
-              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                className: 'id',
-                children: "1"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                className: 'pseudo',
-                children: "Simon Lou"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                className: 'total',
-                children: "140$"
-              })]
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("tr", {
-              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                className: 'id',
-                children: "1"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                className: 'pseudo',
-                children: "Simon Lou"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                className: 'total',
-                children: "140$"
-              })]
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("tr", {
-              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                className: 'id',
-                children: "1"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                className: 'pseudo',
-                children: "Simon Lou"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                className: 'total',
-                children: "140$"
-              })]
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("tr", {
-              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                className: 'id',
-                children: "1"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                className: 'pseudo',
-                children: "Simon Lou"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                className: 'total',
-                children: "140$"
-              })]
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("tr", {
-              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                className: 'id',
-                children: "1"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                className: 'pseudo',
-                children: "Simon Lou"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                className: 'total',
-                children: "140$"
-              })]
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("tr", {
-              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                className: 'id',
-                children: "1"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                className: 'pseudo',
-                children: "Simon Lou"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                className: 'total',
-                children: "140$"
-              })]
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("tr", {
-              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                className: 'id',
-                children: "1"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                className: 'pseudo',
-                children: "Simon Lou"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                className: 'total',
-                children: "140$"
-              })]
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("tr", {
-              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                className: 'id',
-                children: "1"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                className: 'pseudo',
-                children: "Simon Lou"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                className: 'total',
-                children: "140$"
-              })]
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("tr", {
-              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                className: 'id',
-                children: "1"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                className: 'pseudo',
-                children: "Simon Lou"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                className: 'total',
-                children: "140$"
-              })]
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("tr", {
-              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                className: 'id',
-                children: "1"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                className: 'pseudo',
-                children: "Simon Lou"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                className: 'total',
-                children: "140$"
-              })]
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("tr", {
-              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                className: 'id',
-                children: "1"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                className: 'pseudo',
-                children: "Simon Lou"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                className: 'total',
-                children: "140$"
-              })]
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("tr", {
-              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                className: 'id',
-                children: "1"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                className: 'pseudo',
-                children: "Simon Lou"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                className: 'total',
-                children: "140$"
-              })]
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("tr", {
-              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                className: 'id',
-                children: "1"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                className: 'pseudo',
-                children: "Simon Lou"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                className: 'total',
-                children: "140$"
-              })]
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("tr", {
-              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                className: 'id',
-                children: "1"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                className: 'pseudo',
-                children: "Simon Lou"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                className: 'total',
-                children: "140$"
-              })]
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("tr", {
-              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                className: 'id',
-                children: "1"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                className: 'pseudo',
-                children: "Simon Lou"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                className: 'total',
-                children: "140$"
-              })]
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("tr", {
-              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                className: 'id',
-                children: "1"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                className: 'pseudo',
-                children: "Simon Lou"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                className: 'total',
-                children: "140$"
-              })]
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("tr", {
-              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                className: 'id',
-                children: "1"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                className: 'pseudo',
-                children: "Simon Lou"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                className: 'total',
-                children: "140$"
-              })]
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("tr", {
-              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                className: 'id',
-                children: "1"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                className: 'pseudo',
-                children: "Simon Lou"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                className: 'total',
-                children: "140$"
-              })]
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("tr", {
-              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                className: 'id',
-                children: "1"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                className: 'pseudo',
-                children: "Simon Lou"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                className: 'total',
-                children: "140$"
-              })]
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("tr", {
-              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                className: 'id',
-                children: "1"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                className: 'pseudo',
-                children: "Simon Lou"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                className: 'total',
-                children: "140$"
-              })]
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("tr", {
-              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                className: 'id',
-                children: "1"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                className: 'pseudo',
-                children: "Simon Lou"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                className: 'total',
-                children: "140$"
-              })]
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("tr", {
-              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                className: 'id',
-                children: "1"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                className: 'pseudo',
-                children: "Simon Lou"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                className: 'total',
-                children: "140$"
-              })]
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("tr", {
-              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                className: 'id',
-                children: "1"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                className: 'pseudo',
-                children: "Simon Lou"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                className: 'total',
-                children: "140$"
-              })]
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("tr", {
-              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                className: 'id',
-                children: "1"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                className: 'pseudo',
-                children: "Simon Lou"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                className: 'total',
-                children: "140$"
-              })]
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("tr", {
-              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                className: 'id',
-                children: "1"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                className: 'pseudo',
-                children: "Simon Lou"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                className: 'total',
-                children: "140$"
-              })]
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("tr", {
-              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                className: 'id',
-                children: "1"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                className: 'pseudo',
-                children: "Simon Lou"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                className: 'total',
-                children: "140$"
-              })]
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("tr", {
-              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                className: 'id',
-                children: "1"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                className: 'pseudo',
-                children: "Simon Lou"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                className: 'total',
-                children: "140$"
-              })]
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("tr", {
-              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                className: 'id',
-                children: "1"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                className: 'pseudo',
-                children: "Simon Lou"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                className: 'total',
-                children: "140$"
-              })]
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("tr", {
-              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                className: 'id',
-                children: "1"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                className: 'pseudo',
-                children: "Simon Lou"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                className: 'total',
-                children: "140$"
-              })]
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("tr", {
-              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                className: 'id',
-                children: "1"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                className: 'pseudo',
-                children: "Simon Lou"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                className: 'total',
-                children: "140$"
-              })]
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("tr", {
-              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                className: 'id',
-                children: "1"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                className: 'pseudo',
-                children: "Simon Lou"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                className: 'total',
-                children: "140$"
-              })]
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("tr", {
-              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                className: 'id',
-                children: "1"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                className: 'pseudo',
-                children: "Simon Lou"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                className: 'total',
-                children: "140$"
-              })]
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("tr", {
-              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                className: 'id',
-                children: "1"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                className: 'pseudo',
-                children: "Simon Lou"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                className: 'total',
-                children: "140$"
-              })]
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("tr", {
-              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                className: 'id',
-                children: "1"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                className: 'pseudo',
-                children: "Simon Lou"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                className: 'total',
-                children: "140$"
-              })]
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("tr", {
-              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                className: 'id',
-                children: "1"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                className: 'pseudo',
-                children: "Simon Lou"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                className: 'total',
-                children: "140$"
-              })]
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("tr", {
-              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                className: 'id',
-                children: "1"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                className: 'pseudo',
-                children: "Simon Lou"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                className: 'total',
-                children: "140$"
-              })]
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("tr", {
-              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                className: 'id',
-                children: "1"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                className: 'pseudo',
-                children: "Simon Lou"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                className: 'total',
-                children: "140$"
-              })]
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("tr", {
-              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                className: 'id',
-                children: "1"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                className: 'pseudo',
-                children: "Simon Lou"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                className: 'total',
-                children: "140$"
-              })]
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("tr", {
-              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                className: 'id',
-                children: "1"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                className: 'pseudo',
-                children: "Simon Lou"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                className: 'total',
-                children: "140$"
-              })]
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("tr", {
-              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                className: 'id',
-                children: "1"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                className: 'pseudo',
-                children: "Simon Lou"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                className: 'total',
-                children: "140$"
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
+          className: 'table-container',
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("table", {
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("thead", {
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("tr", {
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
+                  className: 'head id',
+                  children: "id"
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
+                  className: 'head pseudo',
+                  children: "pseudo"
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
+                  className: 'head total',
+                  children: "total en $"
+                })]
+              })
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("tbody", {
+              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("tr", {
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
+                  className: 'id',
+                  children: "1"
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
+                  className: 'pseudo',
+                  children: "Simon Lou"
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
+                  className: 'total',
+                  children: "140$"
+                })]
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("tr", {
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
+                  className: 'id',
+                  children: "1"
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
+                  className: 'pseudo',
+                  children: "Simon Lou"
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
+                  className: 'total',
+                  children: "140$"
+                })]
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("tr", {
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
+                  className: 'id',
+                  children: "1"
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
+                  className: 'pseudo',
+                  children: "Simon Lou"
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
+                  className: 'total',
+                  children: "140$"
+                })]
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("tr", {
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
+                  className: 'id',
+                  children: "1"
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
+                  className: 'pseudo',
+                  children: "Simon Lou"
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
+                  className: 'total',
+                  children: "140$"
+                })]
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("tr", {
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
+                  className: 'id',
+                  children: "1"
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
+                  className: 'pseudo',
+                  children: "Simon Lou"
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
+                  className: 'total',
+                  children: "140$"
+                })]
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("tr", {
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
+                  className: 'id',
+                  children: "1"
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
+                  className: 'pseudo',
+                  children: "Simon Lou"
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
+                  className: 'total',
+                  children: "140$"
+                })]
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("tr", {
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
+                  className: 'id',
+                  children: "1"
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
+                  className: 'pseudo',
+                  children: "Simon Lou"
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
+                  className: 'total',
+                  children: "140$"
+                })]
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("tr", {
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
+                  className: 'id',
+                  children: "1"
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
+                  className: 'pseudo',
+                  children: "Simon Lou"
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
+                  className: 'total',
+                  children: "140$"
+                })]
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("tr", {
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
+                  className: 'id',
+                  children: "1"
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
+                  className: 'pseudo',
+                  children: "Simon Lou"
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
+                  className: 'total',
+                  children: "140$"
+                })]
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("tr", {
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
+                  className: 'id',
+                  children: "1"
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
+                  className: 'pseudo',
+                  children: "Simon Lou"
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
+                  className: 'total',
+                  children: "140$"
+                })]
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("tr", {
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
+                  className: 'id',
+                  children: "1"
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
+                  className: 'pseudo',
+                  children: "Simon Lou"
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
+                  className: 'total',
+                  children: "140$"
+                })]
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("tr", {
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
+                  className: 'id',
+                  children: "1"
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
+                  className: 'pseudo',
+                  children: "Simon Lou"
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
+                  className: 'total',
+                  children: "140$"
+                })]
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("tr", {
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
+                  className: 'id',
+                  children: "1"
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
+                  className: 'pseudo',
+                  children: "Simon Lou"
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
+                  className: 'total',
+                  children: "140$"
+                })]
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("tr", {
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
+                  className: 'id',
+                  children: "1"
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
+                  className: 'pseudo',
+                  children: "Simon Lou"
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
+                  className: 'total',
+                  children: "140$"
+                })]
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("tr", {
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
+                  className: 'id',
+                  children: "1"
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
+                  className: 'pseudo',
+                  children: "Simon Lou"
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
+                  className: 'total',
+                  children: "140$"
+                })]
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("tr", {
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
+                  className: 'id',
+                  children: "1"
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
+                  className: 'pseudo',
+                  children: "Simon Lou"
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
+                  className: 'total',
+                  children: "140$"
+                })]
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("tr", {
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
+                  className: 'id',
+                  children: "1"
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
+                  className: 'pseudo',
+                  children: "Simon Lou"
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
+                  className: 'total',
+                  children: "140$"
+                })]
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("tr", {
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
+                  className: 'id',
+                  children: "1"
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
+                  className: 'pseudo',
+                  children: "Simon Lou"
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
+                  className: 'total',
+                  children: "140$"
+                })]
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("tr", {
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
+                  className: 'id',
+                  children: "1"
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
+                  className: 'pseudo',
+                  children: "Simon Lou"
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
+                  className: 'total',
+                  children: "140$"
+                })]
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("tr", {
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
+                  className: 'id',
+                  children: "1"
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
+                  className: 'pseudo',
+                  children: "Simon Lou"
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
+                  className: 'total',
+                  children: "140$"
+                })]
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("tr", {
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
+                  className: 'id',
+                  children: "1"
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
+                  className: 'pseudo',
+                  children: "Simon Lou"
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
+                  className: 'total',
+                  children: "140$"
+                })]
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("tr", {
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
+                  className: 'id',
+                  children: "1"
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
+                  className: 'pseudo',
+                  children: "Simon Lou"
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
+                  className: 'total',
+                  children: "140$"
+                })]
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("tr", {
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
+                  className: 'id',
+                  children: "1"
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
+                  className: 'pseudo',
+                  children: "Simon Lou"
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
+                  className: 'total',
+                  children: "140$"
+                })]
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("tr", {
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
+                  className: 'id',
+                  children: "1"
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
+                  className: 'pseudo',
+                  children: "Simon Lou"
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
+                  className: 'total',
+                  children: "140$"
+                })]
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("tr", {
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
+                  className: 'id',
+                  children: "1"
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
+                  className: 'pseudo',
+                  children: "Simon Lou"
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
+                  className: 'total',
+                  children: "140$"
+                })]
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("tr", {
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
+                  className: 'id',
+                  children: "1"
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
+                  className: 'pseudo',
+                  children: "Simon Lou"
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
+                  className: 'total',
+                  children: "140$"
+                })]
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("tr", {
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
+                  className: 'id',
+                  children: "1"
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
+                  className: 'pseudo',
+                  children: "Simon Lou"
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
+                  className: 'total',
+                  children: "140$"
+                })]
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("tr", {
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
+                  className: 'id',
+                  children: "1"
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
+                  className: 'pseudo',
+                  children: "Simon Lou"
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
+                  className: 'total',
+                  children: "140$"
+                })]
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("tr", {
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
+                  className: 'id',
+                  children: "1"
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
+                  className: 'pseudo',
+                  children: "Simon Lou"
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
+                  className: 'total',
+                  children: "140$"
+                })]
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("tr", {
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
+                  className: 'id',
+                  children: "1"
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
+                  className: 'pseudo',
+                  children: "Simon Lou"
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
+                  className: 'total',
+                  children: "140$"
+                })]
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("tr", {
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
+                  className: 'id',
+                  children: "1"
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
+                  className: 'pseudo',
+                  children: "Simon Lou"
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
+                  className: 'total',
+                  children: "140$"
+                })]
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("tr", {
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
+                  className: 'id',
+                  children: "1"
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
+                  className: 'pseudo',
+                  children: "Simon Lou"
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
+                  className: 'total',
+                  children: "140$"
+                })]
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("tr", {
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
+                  className: 'id',
+                  children: "1"
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
+                  className: 'pseudo',
+                  children: "Simon Lou"
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
+                  className: 'total',
+                  children: "140$"
+                })]
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("tr", {
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
+                  className: 'id',
+                  children: "1"
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
+                  className: 'pseudo',
+                  children: "Simon Lou"
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
+                  className: 'total',
+                  children: "140$"
+                })]
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("tr", {
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
+                  className: 'id',
+                  children: "1"
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
+                  className: 'pseudo',
+                  children: "Simon Lou"
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
+                  className: 'total',
+                  children: "140$"
+                })]
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("tr", {
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
+                  className: 'id',
+                  children: "1"
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
+                  className: 'pseudo',
+                  children: "Simon Lou"
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
+                  className: 'total',
+                  children: "140$"
+                })]
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("tr", {
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
+                  className: 'id',
+                  children: "1"
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
+                  className: 'pseudo',
+                  children: "Simon Lou"
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
+                  className: 'total',
+                  children: "140$"
+                })]
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("tr", {
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
+                  className: 'id',
+                  children: "1"
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
+                  className: 'pseudo',
+                  children: "Simon Lou"
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
+                  className: 'total',
+                  children: "140$"
+                })]
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("tr", {
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
+                  className: 'id',
+                  children: "1"
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
+                  className: 'pseudo',
+                  children: "Simon Lou"
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
+                  className: 'total',
+                  children: "140$"
+                })]
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("tr", {
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
+                  className: 'id',
+                  children: "1"
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
+                  className: 'pseudo',
+                  children: "Simon Lou"
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
+                  className: 'total',
+                  children: "140$"
+                })]
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("tr", {
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
+                  className: 'id',
+                  children: "1"
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
+                  className: 'pseudo',
+                  children: "Simon Lou"
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
+                  className: 'total',
+                  children: "140$"
+                })]
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("tr", {
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
+                  className: 'id',
+                  children: "1"
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
+                  className: 'pseudo',
+                  children: "Simon Lou"
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
+                  className: 'total',
+                  children: "140$"
+                })]
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("tr", {
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
+                  className: 'id',
+                  children: "1"
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
+                  className: 'pseudo',
+                  children: "Simon Lou"
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
+                  className: 'total',
+                  children: "140$"
+                })]
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("tr", {
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
+                  className: 'id',
+                  children: "1"
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
+                  className: 'pseudo',
+                  children: "Simon Lou"
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
+                  className: 'total',
+                  children: "140$"
+                })]
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("tr", {
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
+                  className: 'id',
+                  children: "1"
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
+                  className: 'pseudo',
+                  children: "Simon Lou"
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
+                  className: 'total',
+                  children: "140$"
+                })]
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("tr", {
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
+                  className: 'id',
+                  children: "1"
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
+                  className: 'pseudo',
+                  children: "Simon Lou"
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
+                  className: 'total',
+                  children: "140$"
+                })]
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("tr", {
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
+                  className: 'id',
+                  children: "1"
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
+                  className: 'pseudo',
+                  children: "Simon Lou"
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
+                  className: 'total',
+                  children: "140$"
+                })]
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("tr", {
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
+                  className: 'id',
+                  children: "1"
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
+                  className: 'pseudo',
+                  children: "Simon Lou"
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
+                  className: 'total',
+                  children: "140$"
+                })]
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("tr", {
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
+                  className: 'id',
+                  children: "1"
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
+                  className: 'pseudo',
+                  children: "Simon Lou"
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
+                  className: 'total',
+                  children: "140$"
+                })]
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("tr", {
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
+                  className: 'id',
+                  children: "1"
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
+                  className: 'pseudo',
+                  children: "Simon Lou"
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
+                  className: 'total',
+                  children: "140$"
+                })]
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("tr", {
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
+                  className: 'id',
+                  children: "1"
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
+                  className: 'pseudo',
+                  children: "Simon Lou"
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
+                  className: 'total',
+                  children: "140$"
+                })]
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("tr", {
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
+                  className: 'id',
+                  children: "1"
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
+                  className: 'pseudo',
+                  children: "Simon Lou"
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
+                  className: 'total',
+                  children: "140$"
+                })]
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("tr", {
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
+                  className: 'id',
+                  children: "1"
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
+                  className: 'pseudo',
+                  children: "Simon Lou"
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
+                  className: 'total',
+                  children: "140$"
+                })]
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("tr", {
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
+                  className: 'id',
+                  children: "1"
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
+                  className: 'pseudo',
+                  children: "Simon Lou"
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
+                  className: 'total',
+                  children: "140$"
+                })]
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("tr", {
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
+                  className: 'id',
+                  children: "1"
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
+                  className: 'pseudo',
+                  children: "Simon Lou"
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
+                  className: 'total',
+                  children: "140$"
+                })]
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("tr", {
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
+                  className: 'id',
+                  children: "1"
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
+                  className: 'pseudo',
+                  children: "Simon Lou"
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
+                  className: 'total',
+                  children: "140$"
+                })]
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("tr", {
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
+                  className: 'id',
+                  children: "1"
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
+                  className: 'pseudo',
+                  children: "Simon Lou"
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
+                  className: 'total',
+                  children: "140$"
+                })]
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("tr", {
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
+                  className: 'id',
+                  children: "1"
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
+                  className: 'pseudo',
+                  children: "Simon Lou"
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
+                  className: 'total',
+                  children: "140$"
+                })]
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("tr", {
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
+                  className: 'id',
+                  children: "1"
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
+                  className: 'pseudo',
+                  children: "Simon Lou"
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
+                  className: 'total',
+                  children: "140$"
+                })]
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("tr", {
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
+                  className: 'id',
+                  children: "1"
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
+                  className: 'pseudo',
+                  children: "Simon Lou"
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
+                  className: 'total',
+                  children: "140$"
+                })]
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("tr", {
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
+                  className: 'id',
+                  children: "1"
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
+                  className: 'pseudo',
+                  children: "Simon Lou"
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
+                  className: 'total',
+                  children: "140$"
+                })]
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("tr", {
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
+                  className: 'id',
+                  children: "1"
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
+                  className: 'pseudo',
+                  children: "Simon Lou"
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
+                  className: 'total',
+                  children: "140$"
+                })]
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("tr", {
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
+                  className: 'id',
+                  children: "1"
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
+                  className: 'pseudo',
+                  children: "Simon Lou"
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
+                  className: 'total',
+                  children: "140$"
+                })]
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("tr", {
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
+                  className: 'id',
+                  children: "1"
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
+                  className: 'pseudo',
+                  children: "Simon Lou"
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
+                  className: 'total',
+                  children: "140$"
+                })]
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("tr", {
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
+                  className: 'id',
+                  children: "1"
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
+                  className: 'pseudo',
+                  children: "Simon Lou"
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
+                  className: 'total',
+                  children: "140$"
+                })]
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("tr", {
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
+                  className: 'id',
+                  children: "1"
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
+                  className: 'pseudo',
+                  children: "Simon Lou"
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
+                  className: 'total',
+                  children: "140$"
+                })]
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("tr", {
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
+                  className: 'id',
+                  children: "1"
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
+                  className: 'pseudo',
+                  children: "Simon Lou"
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
+                  className: 'total',
+                  children: "140$"
+                })]
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("tr", {
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
+                  className: 'id',
+                  children: "1"
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
+                  className: 'pseudo',
+                  children: "Simon Lou"
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
+                  className: 'total',
+                  children: "140$"
+                })]
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("tr", {
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
+                  className: 'id',
+                  children: "1"
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
+                  className: 'pseudo',
+                  children: "Simon Lou"
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
+                  className: 'total',
+                  children: "140$"
+                })]
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("tr", {
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
+                  className: 'id',
+                  children: "1"
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
+                  className: 'pseudo',
+                  children: "Simon Lou"
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
+                  className: 'total',
+                  children: "140$"
+                })]
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("tr", {
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
+                  className: 'id',
+                  children: "1"
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
+                  className: 'pseudo',
+                  children: "Simon Lou"
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
+                  className: 'total',
+                  children: "140$"
+                })]
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("tr", {
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
+                  className: 'id',
+                  children: "1"
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
+                  className: 'pseudo',
+                  children: "Simon Lou"
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
+                  className: 'total',
+                  children: "140$"
+                })]
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("tr", {
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
+                  className: 'id',
+                  children: "1"
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
+                  className: 'pseudo',
+                  children: "Simon Lou"
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
+                  className: 'total',
+                  children: "140$"
+                })]
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("tr", {
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
+                  className: 'id',
+                  children: "1"
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
+                  className: 'pseudo',
+                  children: "Simon Lou"
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
+                  className: 'total',
+                  children: "140$"
+                })]
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("tr", {
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
+                  className: 'id',
+                  children: "1"
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
+                  className: 'pseudo',
+                  children: "Simon Lou"
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
+                  className: 'total',
+                  children: "140$"
+                })]
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("tr", {
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
+                  className: 'id',
+                  children: "1"
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
+                  className: 'pseudo',
+                  children: "Simon Lou"
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
+                  className: 'total',
+                  children: "140$"
+                })]
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("tr", {
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
+                  className: 'id',
+                  children: "1"
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
+                  className: 'pseudo',
+                  children: "Simon Lou"
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
+                  className: 'total',
+                  children: "140$"
+                })]
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("tr", {
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
+                  className: 'id',
+                  children: "1"
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
+                  className: 'pseudo',
+                  children: "Simon Lou"
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
+                  className: 'total',
+                  children: "140$"
+                })]
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("tr", {
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
+                  className: 'id',
+                  children: "1"
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
+                  className: 'pseudo',
+                  children: "Simon Lou"
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
+                  className: 'total',
+                  children: "140$"
+                })]
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("tr", {
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
+                  className: 'id',
+                  children: "1"
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
+                  className: 'pseudo',
+                  children: "Simon Lou"
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
+                  className: 'total',
+                  children: "140$"
+                })]
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("tr", {
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
+                  className: 'id',
+                  children: "1"
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
+                  className: 'pseudo',
+                  children: "Simon Lou"
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
+                  className: 'total',
+                  children: "140$"
+                })]
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("tr", {
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
+                  className: 'id',
+                  children: "1"
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
+                  className: 'pseudo',
+                  children: "Simon Lou"
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
+                  className: 'total',
+                  children: "140$"
+                })]
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("tr", {
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
+                  className: 'id',
+                  children: "1"
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
+                  className: 'pseudo',
+                  children: "Simon Lou"
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
+                  className: 'total',
+                  children: "140$"
+                })]
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("tr", {
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
+                  className: 'id',
+                  children: "1"
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
+                  className: 'pseudo',
+                  children: "Simon Lou"
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
+                  className: 'total',
+                  children: "140$"
+                })]
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("tr", {
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
+                  className: 'id',
+                  children: "1"
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
+                  className: 'pseudo',
+                  children: "Simon Lou"
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
+                  className: 'total',
+                  children: "140$"
+                })]
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("tr", {
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
+                  className: 'id',
+                  children: "1"
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
+                  className: 'pseudo',
+                  children: "Simon Lou"
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
+                  className: 'total',
+                  children: "140$"
+                })]
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("tr", {
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
+                  className: 'id',
+                  children: "1"
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
+                  className: 'pseudo',
+                  children: "Simon Lou"
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
+                  className: 'total',
+                  children: "140$"
+                })]
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("tr", {
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
+                  className: 'id',
+                  children: "2"
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
+                  className: 'pseudo',
+                  children: "Simon Lou"
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
+                  className: 'total',
+                  children: "140$"
+                })]
               })]
             })]
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_props_utils_TableBottom__WEBPACK_IMPORTED_MODULE_3__.default, {
+            placeholder: 'rechercher un nom',
+            page: 1,
+            pages: 5
           })]
         })]
       });
@@ -7933,332 +8389,6 @@ var Register = /*#__PURE__*/function (_React$Component) {
 
 /***/ }),
 
-/***/ "./resources/js/components/props/Gestion/Content/ContentCard.jsx":
-/*!***********************************************************************!*\
-  !*** ./resources/js/components/props/Gestion/Content/ContentCard.jsx ***!
-  \***********************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "rootUrl": () => /* binding */ rootUrl,
-/* harmony export */   "default": () => __WEBPACK_DEFAULT_EXPORT__
-/* harmony export */ });
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
-/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
-/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_3__);
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
-
-
-
-
-
-function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
-
-function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
-
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
-
-function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
-
-function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
-
-function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
-
-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-
-function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
-
-function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
-
-
-
-var rootUrl = document.querySelector('body').getAttribute('data-root-url');
-
-var ContentCard = /*#__PURE__*/function (_React$Component) {
-  _inherits(ContentCard, _React$Component);
-
-  var _super = _createSuper(ContentCard);
-
-  function ContentCard(props) {
-    var _this;
-
-    _classCallCheck(this, ContentCard);
-
-    _this = _super.call(this, props);
-    _this.state = {
-      title: "",
-      path: "",
-      items: [],
-      formcontent: '',
-      type: _this.props.type,
-      data: false
-    };
-    _this.post = _this.post.bind(_assertThisInitialized(_this));
-    _this["delete"] = _this["delete"].bind(_assertThisInitialized(_this));
-    _this.display = _this.display.bind(_assertThisInitialized(_this));
-    return _this;
-  }
-
-  _createClass(ContentCard, [{
-    key: "componentDidMount",
-    value: function () {
-      var _componentDidMount = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_1___default().mark(function _callee() {
-        var req;
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_1___default().wrap(function _callee$(_context) {
-          while (1) {
-            switch (_context.prev = _context.next) {
-              case 0:
-                _context.t0 = this.props.type;
-                _context.next = _context.t0 === 1 ? 3 : _context.t0 === 2 ? 5 : _context.t0 === 3 ? 7 : _context.t0 === 4 ? 9 : _context.t0 === 5 ? 11 : _context.t0 === 6 ? 13 : 15;
-                break;
-
-              case 3:
-                this.setState({
-                  title: "Types d'intervention"
-                });
-                return _context.abrupt("break", 16);
-
-              case 5:
-                this.setState({
-                  title: "Liste des hôpitaux"
-                });
-                return _context.abrupt("break", 16);
-
-              case 7:
-                this.setState({
-                  title: "Types de plan d'urgence"
-                });
-                return _context.abrupt("break", 16);
-
-              case 9:
-                this.setState({
-                  title: "Types de blessures"
-                });
-                return _context.abrupt("break", 16);
-
-              case 11:
-                this.setState({
-                  title: "Liste des annonces"
-                });
-                return _context.abrupt("break", 16);
-
-              case 13:
-                this.setState({
-                  title: "Vetements BC"
-                });
-                return _context.abrupt("break", 16);
-
-              case 15:
-                return _context.abrupt("break", 16);
-
-              case 16:
-                _context.next = 18;
-                return axios__WEBPACK_IMPORTED_MODULE_3___default()({
-                  method: 'GET',
-                  url: '/data/gestion/content/get/' + this.props.type
-                });
-
-              case 18:
-                req = _context.sent;
-                this.setState({
-                  items: req.data.data,
-                  data: true
-                });
-
-              case 20:
-              case "end":
-                return _context.stop();
-            }
-          }
-        }, _callee, this);
-      }));
-
-      function componentDidMount() {
-        return _componentDidMount.apply(this, arguments);
-      }
-
-      return componentDidMount;
-    }()
-  }, {
-    key: "post",
-    value: function () {
-      var _post = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_1___default().mark(function _callee2(e) {
-        var req;
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_1___default().wrap(function _callee2$(_context2) {
-          while (1) {
-            switch (_context2.prev = _context2.next) {
-              case 0:
-                e.preventDefault();
-
-                if (!(this.state.formcontent !== "")) {
-                  _context2.next = 6;
-                  break;
-                }
-
-                _context2.next = 4;
-                return axios__WEBPACK_IMPORTED_MODULE_3___default()({
-                  url: '/data/gestion/content/add/' + this.state.type,
-                  method: 'POST',
-                  data: {
-                    formcontent: this.state.formcontent
-                  }
-                });
-
-              case 4:
-                req = _context2.sent;
-
-                if (req.status === 201) {
-                  this.setState({
-                    formcontent: ''
-                  });
-                  this.componentDidMount();
-                }
-
-              case 6:
-              case "end":
-                return _context2.stop();
-            }
-          }
-        }, _callee2, this);
-      }));
-
-      function post(_x) {
-        return _post.apply(this, arguments);
-      }
-
-      return post;
-    }()
-  }, {
-    key: "delete",
-    value: function () {
-      var _delete2 = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_1___default().mark(function _callee3(e) {
-        var infos, req;
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_1___default().wrap(function _callee3$(_context3) {
-          while (1) {
-            switch (_context3.prev = _context3.next) {
-              case 0:
-                infos = e.target.getAttribute('data').split('_');
-                _context3.next = 3;
-                return axios__WEBPACK_IMPORTED_MODULE_3___default()({
-                  method: 'delete',
-                  url: '/data/gestion/content/delete/' + infos[0] + '/' + infos[1]
-                });
-
-              case 3:
-                req = _context3.sent;
-
-                if (req.status === 204) {
-                  this.componentDidMount();
-                }
-
-              case 5:
-              case "end":
-                return _context3.stop();
-            }
-          }
-        }, _callee3, this);
-      }));
-
-      function _delete(_x2) {
-        return _delete2.apply(this, arguments);
-      }
-
-      return _delete;
-    }()
-  }, {
-    key: "display",
-    value: function display(id) {
-      if (this.props.type === 1) {
-        if (id === 1) {
-          return 'none';
-        }
-      }
-
-      if (this.props.type === 2) {
-        if (id === 1) {
-          return 'none';
-        }
-      }
-
-      return 'block';
-    }
-  }, {
-    key: "render",
-    value: function render() {
-      var _this2 = this;
-
-      return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
-        className: 'ContentCard',
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h1", {
-          children: this.state.title
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
-          className: "item-list",
-          children: [this.state.data && this.state.items.map(function (item) {
-            return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
-              className: 'item',
-              children: [item.name && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("p", {
-                children: item.name
-              }), item.title && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("p", {
-                children: item.title
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("button", {
-                style: {
-                  display: _this2.display(item.id)
-                },
-                onClick: _this2["delete"],
-                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("img", {
-                  alt: "",
-                  data: _this2.state.type + '_' + item.id,
-                  src: rootUrl + 'assets/images/cancel.png'
-                })
-              })]
-            }, item.id);
-          }), !this.state.data && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", {
-            className: 'load',
-            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("img", {
-              src: '/assets/images/loading.svg',
-              alt: ''
-            })
-          })]
-        }), this.state.type !== 5 && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("form", {
-          method: "POST",
-          onSubmit: this.post,
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("input", {
-            type: "text",
-            value: this.state.formcontent,
-            maxLength: "30",
-            onChange: function onChange(e) {
-              _this2.setState({
-                formcontent: e.target.value
-              });
-            }
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("button", {
-            type: 'submit',
-            className: 'btn',
-            children: "Ajouter"
-          })]
-        })]
-      });
-    }
-  }]);
-
-  return ContentCard;
-}(react__WEBPACK_IMPORTED_MODULE_2__.Component);
-
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (ContentCard);
-
-/***/ }),
-
 /***/ "./resources/js/components/props/Gestion/Personnel/PersonnelLine.jsx":
 /*!***************************************************************************!*\
   !*** ./resources/js/components/props/Gestion/Personnel/PersonnelLine.jsx ***!
@@ -8333,7 +8463,6 @@ var PersonnelLine = /*#__PURE__*/function (_React$Component) {
     key: "isupdate",
     value: function () {
       var _isupdate = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_1___default().mark(function _callee(e) {
-        var req;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_1___default().wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
@@ -8346,10 +8475,9 @@ var PersonnelLine = /*#__PURE__*/function (_React$Component) {
                 });
 
               case 3:
-                req = _context.sent;
                 this.props.update();
 
-              case 5:
+              case 4:
               case "end":
                 return _context.stop();
             }
@@ -8544,7 +8672,6 @@ var Row = /*#__PURE__*/function (_React$Component) {
     key: "update",
     value: function () {
       var _update = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_1___default().mark(function _callee() {
-        var req;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_1___default().wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
@@ -8566,9 +8693,6 @@ var Row = /*#__PURE__*/function (_React$Component) {
                 });
 
               case 3:
-                req = _context.sent;
-
-              case 4:
               case "end":
                 return _context.stop();
             }
@@ -9478,7 +9602,6 @@ var Service = /*#__PURE__*/function (_React$Component) {
       var _OffServiceClicked = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_1___default().mark(function _callee() {
         var _this2 = this;
 
-        var req;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_1___default().wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
@@ -9496,7 +9619,6 @@ var Service = /*#__PURE__*/function (_React$Component) {
                 });
 
               case 3:
-                req = _context.sent;
                 this.timerID = setInterval(function () {
                   return _this2.cooldown();
                 }, 1000);
@@ -9506,7 +9628,7 @@ var Service = /*#__PURE__*/function (_React$Component) {
                   });
                 }, 2 * 60 * 1000);
 
-              case 6:
+              case 5:
               case "end":
                 return _context.stop();
             }
@@ -9526,7 +9648,6 @@ var Service = /*#__PURE__*/function (_React$Component) {
       var _OnServiceCliked = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_1___default().mark(function _callee2() {
         var _this3 = this;
 
-        var req;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_1___default().wrap(function _callee2$(_context2) {
           while (1) {
             switch (_context2.prev = _context2.next) {
@@ -9544,7 +9665,6 @@ var Service = /*#__PURE__*/function (_React$Component) {
                 });
 
               case 3:
-                req = _context2.sent;
                 this.timerID = setInterval(function () {
                   return _this3.cooldown();
                 }, 1000);
@@ -9554,7 +9674,7 @@ var Service = /*#__PURE__*/function (_React$Component) {
                   });
                 }, 2 * 60 * 1000);
 
-              case 6:
+              case 5:
               case "end":
                 return _context2.stop();
             }
@@ -10721,10 +10841,7 @@ var notifs = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "tick",
     value: function tick() {
-      this.color();
-      this.setState({
-        time: this.state.time - 0.2
-      });
+      this.color(); //this.setState({time: this.state.time-0.2})
 
       if (this.state.time < 1) {
         this.props.remove(this.props.id);
@@ -10797,6 +10914,142 @@ var notifs = /*#__PURE__*/function (_React$Component) {
 }(react__WEBPACK_IMPORTED_MODULE_1__.Component);
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (notifs);
+
+/***/ }),
+
+/***/ "./resources/js/components/props/utils/Notifications.jsx":
+/*!***************************************************************!*\
+  !*** ./resources/js/components/props/utils/Notifications.jsx ***!
+  \***************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => __WEBPACK_DEFAULT_EXPORT__
+/* harmony export */ });
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _notifs_Notifs__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../notifs/Notifs */ "./resources/js/components/props/notifs/Notifs.jsx");
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+
+
+
+var table = [];
+
+function notiifate(test) {
+  console.log('test');
+}
+
+var Notifications = /*#__PURE__*/function (_React$Component) {
+  _inherits(Notifications, _React$Component);
+
+  var _super = _createSuper(Notifications);
+
+  function Notifications(props) {
+    var _this;
+
+    _classCallCheck(this, Notifications);
+
+    _this = _super.call(this, props);
+    _this.state = {
+      notif: true,
+      notifs: table,
+      mounted: false
+    };
+    _this.removenotif = _this.removenotif.bind(_assertThisInitialized(_this));
+    _this.addnotifs = _this.addnotifs.bind(_assertThisInitialized(_this));
+    return _this;
+  }
+
+  _createClass(Notifications, [{
+    key: "removenotif",
+    value: function removenotif(id) {
+      var notifs = this.state.notifs;
+      notifs.splice(id, 1);
+      var a = 0;
+      notifs.forEach(function (notif) {
+        notif.id = a;
+        a++;
+      });
+      this.setState({
+        notifs: notifs
+      });
+    }
+  }, {
+    key: "addnotifs",
+    value: function addnotifs(type, raison) {
+      var notifs = this.state.notifs;
+      var len = notifs.length;
+      var id;
+
+      if (len > 0) {
+        id = len;
+      } else {
+        id = 0;
+      }
+
+      notifs.push({
+        id: id,
+        type: type,
+        raison: raison
+      });
+      this.setState({
+        notif: true,
+        notifs: notifs
+      });
+    }
+  }, {
+    key: "render",
+    value: function render() {
+      var _this2 = this;
+
+      return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", {
+        className: 'notifs',
+        style: {
+          position: this.state.notif ? 'fixed' : 'hidden'
+        },
+        children: this.state.notifs.map(function (notif) {
+          return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_notifs_Notifs__WEBPACK_IMPORTED_MODULE_3__.default, {
+            remove: _this2.removenotif,
+            id: notif.id,
+            type: notif.type,
+            raison: notif.raison
+          }, notif.id);
+        })
+      });
+    }
+  }]);
+
+  return Notifications;
+}(react__WEBPACK_IMPORTED_MODULE_1__.Component);
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Notifications);
 
 /***/ }),
 
@@ -15424,7 +15677,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "h1 {\n  font-family: \"Baloo Thambi 2\", serif;\n  font-weight: 800;\n  font-size: 30px;\n  color: #00FFFF;\n}\n\nh2 {\n  font-family: \"Baloo Thambi 2\", serif;\n  font-weight: 700;\n  font-size: 25px;\n  color: #00FFFF;\n}\n\nh3 {\n  font-family: \"Baloo Thambi 2\", serif;\n  font-weight: 600;\n  font-size: 20px;\n  color: #00FFFF;\n}\n\nh4 {\n  font-family: \"Baloo Thambi 2\", serif;\n  font-weight: 500;\n  font-size: 20px;\n  color: #00FFFF;\n}\n\nh5 {\n  font-family: \"Baloo Thambi 2\", serif;\n  font-weight: 400;\n  font-size: 18px;\n  color: #00FFFF;\n}\n\nh6 {\n  font-family: \"Baloo Thambi 2\", serif;\n  font-weight: 300;\n  font-size: 15px;\n  color: #00FFFF;\n}\n\nh1, h2, h3, h4, h5, h6 {\n  margin: 0 0;\n}\n\ninput, select, textarea {\n  color: #00FFFF;\n  background-color: #004662;\n  margin: 10px 0;\n  font-size: 20px;\n  font-family: \"Baloo Thambi 2\", monospace;\n  font-weight: 500;\n  box-shadow: none;\n  border: none;\n  border-radius: 30px;\n  padding: 10px;\n}\ninput::-moz-placeholder, select::-moz-placeholder, textarea::-moz-placeholder {\n  color: #00FFFF;\n}\ninput:-ms-input-placeholder, select:-ms-input-placeholder, textarea:-ms-input-placeholder {\n  color: #00FFFF;\n}\ninput::placeholder, select::placeholder, textarea::placeholder {\n  color: #00FFFF;\n}\ninput:-webkit-autofill, select:-webkit-autofill, textarea:-webkit-autofill {\n  background-color: #004662 !important;\n  color: #00FFFF !important;\n}\n\na, p, label {\n  color: #00FFFF;\n  font-family: \"Baloo Thambi 2\", monospace;\n  font-weight: normal;\n  font-size: 20px;\n}\n\n.Title {\n  font-size: 35px;\n  font-family: \"Baloo Thambi 2\", monospace;\n  font-weight: 900;\n  text-align: center;\n  margin-bottom: 10px;\n}\n\na {\n  text-decoration: none;\n}\n\n.Form-Line {\n  display: flex;\n  flex-direction: row;\n  flex-wrap: nowrap;\n  justify-content: center;\n}\n\n.btn {\n  height: -webkit-fit-content;\n  height: -moz-fit-content;\n  height: fit-content;\n  width: -webkit-fit-content;\n  width: -moz-fit-content;\n  width: fit-content;\n  padding: 10px 20px;\n  background-color: #004662;\n  color: #00FFFF;\n  border-radius: 30px;\n  font-family: \"Baloo Thambi 2\", monospace;\n  font-weight: 600;\n  font-size: 25px;\n  border: none;\n  cursor: pointer;\n  transition: 400ms cubic-bezier(0.28, -0.46, 0.33, 1.5);\n}\n.btn:hover {\n  -webkit-transform: scale(1.2);\n}\n\n.form-error p {\n  color: #FF0000;\n  margin: 0;\n}\n\n.TableBottom {\n  background-color: #004662;\n  width: 100%;\n  height: 100px;\n  position: -webkit-sticky;\n  position: sticky;\n  bottom: 0;\n  border-top: 1px #0C2646 solid;\n  display: flex;\n  flex-direction: row;\n  flex-wrap: nowrap;\n  justify-content: space-between;\n}\n.TableBottom .searsh {\n  display: flex;\n}\n.TableBottom .searsh input {\n  margin: auto 20px;\n  background-color: #0C2646;\n}\n.TableBottom .pages {\n  display: flex;\n  flex-direction: row;\n  justify-content: space-evenly;\n  padding-right: 30px;\n}\n.TableBottom .pages button {\n  background-color: #0C2646;\n  border-radius: 20px;\n  font-size: 30px;\n  font-weight: 700;\n  border: none;\n  color: #00FFFF;\n  margin: auto 0;\n  font-family: \"Baloo Thambi 2\", monospace;\n  padding: 5px 20px;\n  cursor: pointer;\n  transition: all 500ms;\n}\n.TableBottom .pages button:hover {\n  transform: scale(1.2) rotate(5deg);\n}\n.TableBottom .pages h5 {\n  font-size: 30px;\n  font-weight: 700;\n  margin: auto 10px;\n}\n\nhtml {\n  position: fixed;\n  padding: 0;\n  margin: 0;\n  height: 100vh;\n  width: 100vw;\n  background-color: orange;\n  top: 0;\n  left: 0;\n}\n\nbody {\n  padding: 0;\n  margin: 0;\n  height: 100vh;\n  width: 100vw;\n}\n\n#app {\n  height: 100vh;\n  width: 100vw;\n  background-color: #313124;\n}\n\n#layout {\n  height: 100vh;\n  overflow-x: hidden !important;\n}\n@media (max-width: 1600px) {\n  #layout {\n    overflow-y: auto;\n  }\n  #layout .mobildisabled {\n    display: none;\n  }\n}\n\n.notifs {\n  top: 0;\n  right: 0;\n  position: fixed;\n  z-index: 154400;\n  width: 20%;\n  min-width: 290px;\n  height: 100vh;\n  padding-top: 60px;\n}\n.notifs .notifications {\n  width: 95%;\n  margin-right: 5%;\n  height: 150px;\n  margin-bottom: 5px;\n  border-radius: 30px;\n  display: flex;\n  overflow: hidden;\n  flex-direction: column;\n  justify-content: space-between;\n}\n.notifs .notifications .notif-header {\n  display: flex;\n  flex-direction: row;\n  justify-content: space-between;\n  padding: 0 15px 0 15px;\n}\n.notifs .notifications .notif-header button {\n  background-color: transparent;\n  border: none;\n}\n.notifs .notifications .notif-separator {\n  height: 2px;\n  width: 100%;\n  background-color: #004662;\n}\n.notifs .notifications .notif-content {\n  padding: 0 15px 0 15px;\n}\n.notifs .notifications .notif-content p {\n  margin: 0;\n  text-indent: 20px;\n  font-size: 18px;\n}\n.notifs .notifications .progress-bar {\n  width: 100%;\n  height: 15px;\n  background-color: #0C2646;\n}\n.notifs .notifications .progress-bar .progress {\n  height: 15px;\n  border-radius: 15px 0;\n  background-color: #004662;\n}\n.notifs .success {\n  background-color: green;\n}\n.notifs .warning {\n  background-color: orange;\n}\n.notifs .danger {\n  background-color: red;\n}\n\n::-webkit-scrollbar {\n  width: 10px;\n}\n\n::-webkit-scrollbar-track {\n  background-color: rgba(143, 143, 143, 0.1);\n  border-radius: 30px;\n}\n\n::-webkit-scrollbar-thumb {\n  background: #000;\n  border-radius: 30px;\n}\n\n.OnService {\n  color: #00FF00;\n  font-family: \"Baloo Thambi 2\", monospace;\n  font-weight: 600;\n  font-size: 25px;\n  text-shadow: 0 0 30px #00FF00;\n}\n\n.OffService {\n  color: #FF0000;\n  font-family: \"Baloo Thambi 2\", monospace;\n  font-weight: 600;\n  font-size: 25px;\n  text-shadow: 0 0 30px #FF0000;\n}\n\n#service {\n  height: 66px;\n  width: 240px;\n  z-index: 4;\n  border-radius: 90px;\n  background-color: #004662;\n  margin: 10px;\n  padding: 5px;\n  border: none;\n  box-shadow: none;\n  transition: all 400ms cubic-bezier(0.51, -1.15, 0.48, 2.27);\n  cursor: pointer;\n}\n#service:hover {\n  transform: scale(1.1);\n  -webkit-transform: scale(1.1);\n}\n#service:active {\n  -webkit-box-shadow: none;\n  border: none;\n}\n#service:disabled {\n  cursor: default;\n  color: #1a202c;\n  text-shadow: none;\n  transition: none;\n  transform: none;\n}\n\n.menu-content {\n  background-color: #0C2646;\n  width: 270px;\n  position: fixed;\n  margin-left: 0;\n  margin-top: 0;\n  height: 100vh;\n}\n.menu-content .Menusepartor {\n  height: 2px;\n  width: 100%;\n  background-color: #00FFFF;\n  margin: 10px 0;\n}\n.menu-content #Logo {\n  margin-top: 20px;\n  width: 100%;\n  height: 250px;\n  display: flex;\n  justify-content: center;\n}\n.menu-content #Logo a {\n  margin: 10px auto 0 auto;\n  padding: 0;\n  width: -webkit-fit-content;\n  width: -moz-fit-content;\n  width: fit-content;\n}\n.menu-content #Logo a img {\n  width: 220px;\n}\n.menu-content #logout {\n  width: 30px;\n  margin: 5px;\n  border-radius: 30px;\n  height: 30px;\n  padding: 5px;\n  z-index: 14;\n  position: fixed;\n  background-color: #00FFFF;\n  box-shadow: 0 0 20px 1px #00FFFF;\n  transition: all 400ms cubic-bezier(0.51, -1.15, 0.48, 2.27);\n  cursor: pointer;\n}\n.menu-content #logout:hover {\n  -webkit-transform: scale(1.1);\n  box-shadow: 0 0 30px 2px #00FFFF;\n}\n.menu-content .navigation {\n  height: calc(100vh - 512px);\n  overflow-y: auto;\n  overflow-x: hidden;\n}\n.menu-content .Menu-Item {\n  padding: 0 10px 0 10px;\n}\n.menu-content .Menu-Item .Menu_title {\n  position: relative;\n  overflow: hidden;\n  padding-right: 10px;\n}\n.menu-content .Menu-Item .Menu_title span {\n  font-size: 27px;\n  margin-left: 5px;\n  padding: 0 5px 0 12px;\n  z-index: 12;\n  border-left: 7px #004662 solid;\n  width: -webkit-fit-content;\n  width: -moz-fit-content;\n  width: fit-content;\n  position: relative;\n}\n.menu-content .Menu-Item .Menu_title span::after {\n  position: absolute;\n  width: 300px;\n  height: 2px;\n  top: 50%;\n  left: calc(100% + 5px);\n  content: \" \";\n  background-color: #004662;\n  z-index: 0;\n}\n.menu-content .Menu-Item .Menu_title::before {\n  position: absolute;\n  width: 10px;\n  height: 2px;\n  top: 51%;\n  left: 11px;\n  background-color: #004662;\n  content: \" \";\n  z-index: 0;\n}\n.menu-content .Menu-Item .Menu-list {\n  margin-left: 5px;\n}\n.menu-content .Menu-Item .Menu-list li::marker {\n  color: #004662;\n}\n.menu-content .Menu-Item .Menu-list li a {\n  font-family: \"Baloo Thambi 2\", monospace;\n  text-decoration: none;\n  font-size: 20px;\n  font-weight: 600;\n}\n.menu-content .Copyright {\n  width: 100%;\n}\n.menu-content .Copyright p {\n  text-align: center !important;\n  color: #004662 !important;\n  font-family: \"Baloo Thambi 2\", monospace;\n  font-size: 20px;\n  font-weight: 700;\n}\n\n@media (min-width: 1100px) {\n  .closed-menu {\n    display: none;\n  }\n\n  #Close {\n    display: none;\n  }\n}\n@media (max-width: 1100px) {\n  .close .menu-content {\n    display: none;\n  }\n  .close .closed-menu {\n    position: fixed;\n    border-radius: 0 0 30px 0;\n    background-color: #0C2646;\n    padding: 10px 12px 12px 10px;\n  }\n  .close .closed-menu button {\n    cursor: pointer;\n    border: none;\n    background-color: #004662;\n    border-radius: 30px;\n    font-size: 25px;\n    padding: 5px 15px;\n    color: #00FFFF;\n    font-family: \"Baloo Thambi 2\", monospace;\n    font-weight: 700;\n    transition: 400ms cubic-bezier(0.28, -0.46, 0.33, 1.5);\n  }\n  .close .closed-menu button:hover {\n    -webkit-transform: scale(1.2);\n  }\n\n  .open .closed-menu {\n    display: none;\n  }\n  .open .menu-content #Close {\n    z-index: 14;\n    position: fixed;\n    left: 160px;\n    top: 5px;\n  }\n  .open .menu-content #Close button {\n    cursor: pointer;\n    border: none;\n    background-color: #004662;\n    border-radius: 30px;\n    font-size: 25px;\n    padding: 5px 15px;\n    color: #00FFFF;\n    font-family: \"Baloo Thambi 2\", monospace;\n    font-weight: 700;\n    transition: 400ms cubic-bezier(0.28, -0.46, 0.33, 1.5);\n  }\n  .open .menu-content #Close button:hover {\n    -webkit-transform: scale(1.2);\n  }\n  .open .menu-content .Version {\n    display: none;\n  }\n  .open .menu-content .Menusepartor:last-child {\n    display: none;\n    visibility: hidden;\n  }\n}\n@media (min-width: 1100px) {\n  #content {\n    margin-left: 270px;\n  }\n}\n.switch-container {\n  display: flex;\n  margin: auto auto;\n  z-index: 1;\n}\n.switch-container .payed_switch {\n  height: 0;\n  width: 0;\n  visibility: hidden;\n}\n.switch-container .payed_switchLabel {\n  z-index: 1;\n  margin: auto auto;\n  cursor: pointer;\n  text-indent: -9999px;\n  width: 100px;\n  height: 30px;\n  background: #FF0000;\n  box-shadow: 0 0 20px 7px #FF0000;\n  display: block;\n  border-radius: 100px;\n  position: relative;\n  transition: 400ms cubic-bezier(0.28, -0.46, 0.33, 1.5);\n}\n.switch-container .payed_switchLabel::after {\n  z-index: 1;\n  content: \" \";\n  position: absolute;\n  top: -5px;\n  left: -5px;\n  width: 40px;\n  height: 40px;\n  background: #222;\n  border-radius: 90px;\n  transition: 400ms cubic-bezier(0.28, -0.46, 0.33, 1.5);\n}\n.switch-container .payed_switch:checked + .payed_switchLabel {\n  background: #00FF00;\n  box-shadow: 0 0 20px 7px #00FF00;\n  z-index: 1;\n}\n.switch-container .payed_switch:checked + .payed_switchLabel:after {\n  left: calc(100% + 5px);\n  transform: translateX(-100%);\n  z-index: 1;\n}\n.switch-container .payed_switchLabel:active:after {\n  width: 40px;\n  z-index: 1;\n}\n\n#Main-Page {\n  display: flex;\n  flex-direction: column;\n  padding: 30px;\n}\n#Main-Page .Personnel_service {\n  background-color: #0C2646;\n  width: 100%;\n  height: 250px;\n  border-radius: 30px;\n  padding: 10px;\n}\n#Main-Page .Personnel_service h1 {\n  padding-left: 20px;\n  font-size: 60px;\n  margin: 0 auto;\n}\n#Main-Page .Annonces {\n  margin-top: 35px;\n  background-color: #0C2646;\n  width: 100%;\n  min-height: 200px;\n  border-radius: 30px;\n  padding: 10px;\n  display: flex;\n  flex-direction: column;\n}\n#Main-Page .Annonces h1 {\n  padding-left: 20px;\n  font-size: 60px;\n  margin: 0 auto;\n  text-align: center;\n}\n#Main-Page .Annonces .Annonces-List {\n  margin: 0 auto;\n  width: 100%;\n  height: calc(100vh - 464px);\n  overflow-y: scroll;\n  display: flex;\n  flex-direction: row;\n  flex-wrap: wrap;\n  justify-content: center;\n}\n#Main-Page .Annonces .Annonces-List .Annonce-Card {\n  background-color: #004662;\n  margin: 10px;\n  padding: 10px;\n  display: flex;\n  flex-direction: column;\n  justify-content: space-between;\n  border-radius: 30px;\n  overflow-y: auto;\n  height: 350px;\n  width: 45%;\n}\n#Main-Page .Annonces .Annonces-List .Annonce-Card .Title {\n  font-size: 30px;\n  text-align: center;\n  margin: 0 auto;\n}\n#Main-Page .Annonces .Annonces-List .Annonce-Card .Separator {\n  margin: 5px auto;\n  content: \" \";\n  width: 100%;\n  text-align: center;\n  background-color: #00FFFF;\n  height: 2px;\n}\n#Main-Page .Annonces .Annonces-List .Annonce-Card .Text {\n  font-size: 25px;\n  text-indent: 20px;\n}\n#Main-Page .Annonces .Annonces-List .Annonce-Card .Date {\n  font-size: 27px;\n  text-align: center;\n}\n\n.Personnel-list {\n  display: flex;\n  flex-direction: row;\n  flex-wrap: wrap;\n  width: 100%;\n  height: 150px;\n  overflow-y: auto;\n}\n.Personnel-list .Personnel-card {\n  margin: 10px;\n  background-color: #004662;\n  border-radius: 30px;\n  height: -webkit-min-content;\n  height: -moz-min-content;\n  height: min-content;\n  padding: 6px 10px;\n}\n.Personnel-list .Personnel-card h5 {\n  margin: 0;\n  font-size: 25px;\n}\n\n#Rapport-Patient {\n  display: flex;\n  flex-direction: column;\n  width: 100%;\n  height: 100%;\n}\n#Rapport-Patient .Header {\n  padding-top: 10px;\n  display: flex;\n  flex-direction: row;\n  justify-content: space-evenly;\n  width: 100%;\n}\n#Rapport-Patient .Header .Title {\n  background-color: #0C2646;\n  border-radius: 30px;\n  padding: 20px;\n}\n#Rapport-Patient .Header .Title h1 {\n  font-size: 30px;\n  font-family: \"Baloo Thambi 2\", monospace;\n  font-weight: 700;\n  text-align: center;\n}\n#Rapport-Patient .Header .pdf {\n  margin-top: 15px;\n  background-color: #0C2646;\n  border-radius: 30px;\n  padding: 10px;\n  height: -webkit-min-content;\n  height: -moz-min-content;\n  height: min-content;\n}\n#Rapport-Patient .Header .pdf a {\n  text-decoration: none;\n  font-size: 20px;\n  font-family: \"Baloo Thambi 2\", monospace;\n  font-weight: 700;\n}\n#Rapport-Patient .Header .submit {\n  background-color: #0C2646;\n  border-radius: 30px;\n  padding: 10px 15px;\n  display: flex;\n}\n#Rapport-Patient .Header .submit button {\n  margin: auto auto;\n  cursor: pointer;\n  background-color: #004662;\n  color: #00FFFF;\n  font-size: 20px;\n  padding: 5px;\n  font-family: \"Baloo Thambi 2\", monospace;\n  font-weight: 700;\n  border: none;\n  border-radius: 30px;\n  box-shadow: none;\n  transition: all 400ms cubic-bezier(0.51, -1.15, 0.48, 2.27);\n}\n#Rapport-Patient .Header .submit button:hover {\n  -webkit-transform: scale(1.1);\n}\n#Rapport-Patient .Header .submit button:active {\n  -webkit-transform: rotate(-5deg);\n}\n#Rapport-Patient .content {\n  padding: 10px;\n  display: flex;\n  flex-direction: row;\n  flex-wrap: wrap;\n  justify-content: space-evenly;\n}\n#Rapport-Patient .content .Rapport-Card {\n  margin: 10px;\n  display: flex;\n  flex-direction: column;\n  padding: 15px;\n  background-color: #0C2646;\n  border-radius: 30px;\n  width: -webkit-fit-content;\n  width: -moz-fit-content;\n  width: fit-content;\n}\n#Rapport-Patient .content .Rapport-Card h1 {\n  font-size: 30px;\n  font-family: \"Baloo Thambi 2\", monospace;\n  font-weight: 600;\n  text-align: center;\n  margin-bottom: 10px;\n}\n#Rapport-Patient .content .Rapport-Card .Form-Group {\n  height: 100%;\n  max-height: 320px;\n  display: flex;\n  flex-direction: column;\n  flex-wrap: wrap;\n  justify-content: space-evenly;\n}\n#Rapport-Patient .content .Rapport-Card .Form-Group input, #Rapport-Patient .content .Rapport-Card .Form-Group select, #Rapport-Patient .content .Rapport-Card .Form-Group textarea {\n  padding: 10px;\n  margin: 10px 0;\n  font-size: 20px;\n  font-family: \"Baloo Thambi 2\", monospace;\n  font-weight: 500;\n  box-shadow: none;\n  border: none;\n  border-radius: 30px;\n  background-color: #004662;\n  color: #00FFFF;\n}\n#Rapport-Patient .content .Rapport-Card .Form-Group input::-moz-placeholder, #Rapport-Patient .content .Rapport-Card .Form-Group select::-moz-placeholder, #Rapport-Patient .content .Rapport-Card .Form-Group textarea::-moz-placeholder {\n  font-family: \"Baloo Thambi 2\", monospace;\n  font-weight: 500;\n  color: #00FFFF;\n}\n#Rapport-Patient .content .Rapport-Card .Form-Group input:-ms-input-placeholder, #Rapport-Patient .content .Rapport-Card .Form-Group select:-ms-input-placeholder, #Rapport-Patient .content .Rapport-Card .Form-Group textarea:-ms-input-placeholder {\n  font-family: \"Baloo Thambi 2\", monospace;\n  font-weight: 500;\n  color: #00FFFF;\n}\n#Rapport-Patient .content .Rapport-Card .Form-Group input::placeholder, #Rapport-Patient .content .Rapport-Card .Form-Group select::placeholder, #Rapport-Patient .content .Rapport-Card .Form-Group textarea::placeholder {\n  font-family: \"Baloo Thambi 2\", monospace;\n  font-weight: 500;\n  color: #00FFFF;\n}\n#Rapport-Patient .content .Rapport-Card .description {\n  display: flex;\n  flex-direction: column;\n}\n#Rapport-Patient .content .Rapport-Card .description textarea {\n  min-width: 600px;\n  min-height: 80px;\n  border-radius: 30px;\n  border: none;\n}\n#Rapport-Patient .content .Rapport-Card .ATA {\n  display: flex;\n  flex-direction: row;\n}\n#Rapport-Patient .content .Rapport-Card .ATA label {\n  line-height: 30px;\n  margin: auto 5px;\n}\n#Rapport-Patient .content .Rapport-Card .facture input[type=checkbox] {\n  height: 0;\n  width: 0;\n  visibility: hidden;\n}\n#Rapport-Patient .content .Rapport-Card .facture #switch {\n  margin: auto auto;\n  cursor: pointer;\n  text-indent: -9999px;\n  width: 100px;\n  height: 30px;\n  background: #FF0000;\n  box-shadow: 0 0 20px 7px #FF0000;\n  display: block;\n  border-radius: 100px;\n  position: relative;\n  transition: 400ms cubic-bezier(0.28, -0.46, 0.33, 1.5);\n}\n#Rapport-Patient .content .Rapport-Card .facture #switch::after {\n  content: \"\";\n  position: absolute;\n  top: -5px;\n  left: -5px;\n  width: 40px;\n  height: 40px;\n  background: #222;\n  border-radius: 90px;\n  transition: 400ms cubic-bezier(0.28, -0.46, 0.33, 1.5);\n}\n#Rapport-Patient .content .Rapport-Card .facture input:checked + #switch {\n  background: #00FF00;\n  box-shadow: 0 0 20px 7px #00FF00;\n}\n#Rapport-Patient .content .Rapport-Card .facture input:checked + #switch:after {\n  left: calc(100% + 5px);\n  transform: translateX(-100%);\n}\n#Rapport-Patient .content .Rapport-Card .facture #switch:active:after {\n  width: 40px;\n}\n\n.plan {\n  margin-top: 20px !important;\n  margin-left: 15px;\n  display: flex;\n  flex-direction: column;\n  background-color: #0C2646;\n  padding: 15px;\n  height: calc(100vh - 70px);\n  border-radius: 30px;\n}\n.plan h4 {\n  margin-top: 10px;\n  text-align: center;\n  font-weight: 600;\n  font-size: 30px;\n}\n.plan .Patient-List {\n  height: 600px;\n  width: 500px;\n  background-color: #004662;\n  overflow-y: auto;\n  border-radius: 30px;\n  padding: 15px;\n}\n.plan .Patient-List .Patient-list-card {\n  width: 100%;\n  display: flex;\n  flex-direction: row;\n  margin-bottom: 10px;\n}\n.plan .Patient-List .Patient-list-card h5:first-child {\n  width: 40%;\n}\n.plan .Patient-List .Patient-list-card h5:last-child {\n  width: 10%;\n}\n.plan .Patient-List .Patient-list-card button {\n  cursor: pointer;\n  background-color: transparent;\n  box-shadow: none;\n  border: none;\n  transition: all 300ms cubic-bezier(0.19, -1.55, 0.75, 2.43);\n}\n.plan .Patient-List .Patient-list-card button:hover {\n  -webkit-transform: scale(1.1);\n  -webkit-transform: rotate(7deg);\n}\n.plan .Patient-List .Patient-list-card button img {\n  max-width: 40px;\n}\n.plan .Patient-List .Patient-list-card h5 {\n  margin: auto;\n  font-family: \"Baloo Thambi 2\", monospace;\n  font-size: 25px;\n  font-weight: 600;\n}\n.plan .PersonnelList ul {\n  height: 200px;\n  width: 500px;\n  background-color: #004662;\n  border-radius: 30px;\n  padding: 15px;\n  display: flex;\n  justify-content: space-evenly;\n  flex-direction: row;\n  flex-wrap: wrap;\n  overflow-y: auto;\n}\n.plan .PersonnelList ul li {\n  margin: 10px;\n  background-color: #0C2646;\n  border-radius: 30px;\n  padding: 10px;\n  height: -webkit-fit-content;\n  height: -moz-fit-content;\n  height: fit-content;\n  width: -webkit-fit-content;\n  width: -moz-fit-content;\n  width: fit-content;\n  list-style: none;\n  color: #00FFFF;\n  font-size: 25px;\n  font-family: \"Baloo Thambi 2\", monospace;\n  font-weight: 600;\n}\n\n.PU-non-Participant {\n  display: flex;\n  justify-content: center;\n  height: 100vh;\n}\n.PU-non-Participant .card {\n  display: flex;\n  flex-direction: column;\n  margin: auto;\n  background-color: #0C2646;\n  border-radius: 30px;\n  padding: 15px;\n}\n.PU-non-Participant .card button {\n  margin: 0 auto;\n}\n\n.urgence_disabled {\n  display: flex;\n  height: 100%;\n  flex-wrap: wrap;\n  justify-content: space-evenly;\n  width: 100%;\n  padding: 10px;\n}\n@media (min-width: 1600px) {\n  .urgence_disabled {\n    flex-direction: row;\n  }\n}\n@media (max-width: 1600px) {\n  .urgence_disabled {\n    flex-direction: column;\n  }\n  .urgence_disabled div {\n    margin: 0 auto !important;\n  }\n}\n.urgence_disabled .starter {\n  background-color: #0C2646;\n  padding: 10px;\n  height: -webkit-fit-content;\n  height: -moz-fit-content;\n  height: fit-content;\n  border-radius: 30px;\n  margin: auto 0;\n}\n@media (max-width: 1600px) {\n  .urgence_disabled .starter {\n    margin-bottom: 20px !important;\n    width: 90%;\n  }\n}\n.urgence_disabled .starter h1 {\n  font-size: 35px;\n  font-family: \"Baloo Thambi 2\", monospace;\n  font-weight: 600;\n  text-align: center;\n  margin-bottom: 10px;\n}\n.urgence_disabled .starter form {\n  display: flex;\n  flex-direction: column;\n}\n.urgence_disabled .starter form .Line-Form-group {\n  display: flex;\n  flex-direction: row;\n  justify-content: space-between;\n  width: 100%;\n}\n.urgence_disabled .starter form .Line-Form-group input, .urgence_disabled .starter form .Line-Form-group select {\n  width: 80%;\n}\n.urgence_disabled .starter form .Line-Form-group label {\n  margin: auto 0;\n}\n.urgence_disabled .starter form button {\n  margin: auto;\n  color: #FF0000;\n  text-transform: uppercase;\n  text-shadow: 0 0 30px #FF0000;\n  transition: all 400ms cubic-bezier(0.51, -1.15, 0.48, 2.27);\n}\n\n.title-contain {\n  background-color: #0C2646;\n  border-radius: 30px;\n  padding: 5px;\n}\n.title-contain h1 {\n  font-size: 58px;\n  padding: 5px;\n}\n\n.UrgenceEnabled {\n  padding: 10px;\n  width: 100%;\n  display: flex;\n  height: 100%;\n  flex-wrap: nowrap;\n  justify-content: space-evenly;\n}\n@media (min-width: 1600px) {\n  .UrgenceEnabled {\n    flex-direction: row;\n  }\n}\n@media (max-width: 1600px) {\n  .UrgenceEnabled {\n    flex-direction: column;\n  }\n  .UrgenceEnabled div {\n    margin: 0 auto;\n  }\n}\n.UrgenceEnabled .urgence {\n  display: flex;\n  flex-direction: column;\n  justify-content: space-around;\n}\n.UrgenceEnabled .urgence .Header {\n  margin-bottom: 10px;\n  max-width: 700px;\n  display: flex;\n  flex-direction: row;\n  justify-content: center;\n  flex-wrap: wrap;\n}\n.UrgenceEnabled .urgence .Header .alert-creator {\n  background-color: #0C2646;\n  border-radius: 30px;\n  padding: 5px;\n  margin: 10px;\n}\n.UrgenceEnabled .urgence .Header .alert-creator h2 {\n  font-size: 40px;\n  font-weight: 600;\n  padding: 5px;\n}\n.UrgenceEnabled .urgence .Header .disable-btn-contain {\n  background-color: #0C2646;\n  border-radius: 30px;\n  padding: 5px 15px;\n  margin: 10px;\n  display: flex;\n}\n.UrgenceEnabled .urgence .Header .disable-btn-contain button {\n  text-transform: uppercase;\n  color: #FF0000;\n  text-shadow: 0 0 30px #FF0000;\n  font-size: 30px;\n}\n.UrgenceEnabled .urgence .AddPatient {\n  background-color: #0C2646;\n  border-radius: 30px;\n  padding: 5px 5px 20px 5px;\n  display: flex;\n  flex-direction: column;\n  justify-content: center;\n}\n.UrgenceEnabled .urgence .AddPatient form {\n  margin: 0 auto;\n  display: grid;\n  grid-template-columns: 40px 80px 70px 80px 80px 80px 70px 80px 40px;\n  grid-template-rows: repeat(3, 80px);\n  grid-template-areas: \". name name name . vorname vorname vorname .\" \". vlabel vlabel vselect vselect vselect . facture .\" \". label . select select select . submit .\";\n}\n.UrgenceEnabled .urgence .AddPatient form .Namefield {\n  grid-area: name;\n}\n.UrgenceEnabled .urgence .AddPatient form .Voramefield {\n  grid-area: vorname;\n}\n.UrgenceEnabled .urgence .AddPatient form .Labelfield {\n  margin: auto;\n  grid-area: label;\n  display: flex;\n}\n.UrgenceEnabled .urgence .AddPatient form .Labelfield label {\n  margin: auto;\n  font-size: 20px;\n}\n.UrgenceEnabled .urgence .AddPatient form .Selectfield {\n  grid-area: select;\n}\n.UrgenceEnabled .urgence .AddPatient form .LabelfieldV {\n  grid-area: vlabel;\n  margin: auto 0;\n  display: flex;\n}\n.UrgenceEnabled .urgence .AddPatient form .SelectfieldV {\n  grid-area: vselect;\n}\n.UrgenceEnabled .urgence .AddPatient form .switch-container {\n  grid-area: facture;\n}\n.UrgenceEnabled .urgence .AddPatient form .Buttonfield {\n  margin: auto;\n  grid-area: submit;\n}\n.UrgenceEnabled .urgence .Participants {\n  margin-bottom: 20px;\n  background-color: #0C2646;\n  border-radius: 30px;\n  padding: 10px;\n}\n.UrgenceEnabled .urgence .Participants .Personnel-list {\n  max-width: 720px;\n}\n\n.RecherchePatient {\n  display: flex;\n  flex-direction: column;\n  padding: 10px;\n}\n.RecherchePatient .header {\n  max-width: -webkit-fit-content;\n  max-width: -moz-fit-content;\n  max-width: fit-content;\n  margin: auto;\n}\n.RecherchePatient .PatientRechercheContent {\n  display: flex;\n  flex-direction: row;\n  flex-wrap: nowrap;\n  justify-content: space-around;\n  margin-top: 20px;\n}\n@media (max-width: 1600px) {\n  .RecherchePatient .PatientRechercheContent {\n    flex-direction: column !important;\n  }\n}\n.RecherchePatient .PatientRechercheContent .PatientInfos {\n  width: 68%;\n  padding: 10px;\n  height: calc(100vh - 170px);\n  border-radius: 30px;\n  background-color: #0C2646;\n}\n@media (max-width: 1600px) {\n  .RecherchePatient .PatientRechercheContent .PatientInfos {\n    height: 100%;\n    width: 90%;\n    margin: 20px auto;\n  }\n}\n.RecherchePatient .PatientRechercheContent .PatientInfos .Infos-Header {\n  padding: 5px 20px;\n  display: flex;\n  flex-direction: row;\n  flex-wrap: nowrap;\n  justify-content: center;\n}\n.RecherchePatient .PatientRechercheContent .PatientInfos .Infos-Header .Title {\n  display: flex;\n  background-color: #004662;\n  border-radius: 30px;\n  padding: 5px;\n}\n.RecherchePatient .PatientRechercheContent .PatientInfos .Infos-Header .Title h1 {\n  margin: auto;\n}\n.RecherchePatient .PatientRechercheContent .PatientInfos .form form {\n  width: 100%;\n  display: grid;\n}\n@media (min-width: 900px) {\n  .RecherchePatient .PatientRechercheContent .PatientInfos .form form {\n    grid-template-columns: 2% repeat(8, 12%) 2%;\n    grid-template-rows: repeat(8, 23px 65px);\n  }\n  .RecherchePatient .PatientRechercheContent .PatientInfos .form form .DescLabel {\n    grid-row-start: 2;\n    grid-row-end: 2;\n    grid-column-start: 2;\n    grid-column-end: 2;\n  }\n  .RecherchePatient .PatientRechercheContent .PatientInfos .form form .InterTypeLabel {\n    display: flex;\n    grid-row-start: 8;\n    grid-row-end: 8;\n    grid-column-start: 2;\n    grid-column-end: 4;\n  }\n  .RecherchePatient .PatientRechercheContent .PatientInfos .form form .InterTypeLabel label {\n    margin: auto 0;\n  }\n  .RecherchePatient .PatientRechercheContent .PatientInfos .form form .BroumLabel {\n    display: flex;\n    grid-row-start: 10;\n    grid-row-end: 10;\n    grid-column-start: 2;\n    grid-column-end: 4;\n  }\n  .RecherchePatient .PatientRechercheContent .PatientInfos .form form .BroumLabel label {\n    margin: auto 0;\n  }\n  .RecherchePatient .PatientRechercheContent .PatientInfos .form form .TarifLabel {\n    display: flex;\n    grid-row-start: 12;\n    grid-row-end: 12;\n    grid-column-start: 2;\n    grid-column-end: 4;\n  }\n  .RecherchePatient .PatientRechercheContent .PatientInfos .form form .TarifLabel label {\n    margin: auto 0;\n  }\n  .RecherchePatient .PatientRechercheContent .PatientInfos .form form .DescInput {\n    grid-row-start: 3;\n    grid-row-end: 7;\n    grid-column-start: 2;\n    grid-column-end: 10;\n  }\n  .RecherchePatient .PatientRechercheContent .PatientInfos .form form .InterInput {\n    grid-row-start: 8;\n    grid-row-end: 8;\n    grid-column-start: 5;\n    grid-column-end: 8;\n  }\n  .RecherchePatient .PatientRechercheContent .PatientInfos .form form .InterInput select {\n    width: 100%;\n    height: 100%;\n  }\n  .RecherchePatient .PatientRechercheContent .PatientInfos .form form .BroumInput {\n    grid-row-start: 10;\n    grid-row-end: 10;\n    grid-column-start: 5;\n    grid-column-end: 8;\n  }\n  .RecherchePatient .PatientRechercheContent .PatientInfos .form form .BroumInput select {\n    width: 100%;\n    height: 100%;\n  }\n  .RecherchePatient .PatientRechercheContent .PatientInfos .form form .TarifInput {\n    grid-row-start: 12;\n    grid-row-end: 12;\n    grid-column-start: 5;\n    grid-column-end: 8;\n  }\n  .RecherchePatient .PatientRechercheContent .PatientInfos .form form .TarifInput input {\n    width: 100%;\n    height: 100%;\n  }\n  .RecherchePatient .PatientRechercheContent .PatientInfos .form form .ATA {\n    grid-row-start: 14;\n    grid-row-end: 14;\n    grid-column-start: 2;\n    grid-column-end: 10;\n    display: flex;\n    flex-direction: row;\n    flex-wrap: nowrap;\n    justify-content: space-between;\n  }\n  .RecherchePatient .PatientRechercheContent .PatientInfos .form form .ATA label {\n    margin: auto 0;\n    font-size: 25px;\n    font-weight: 550;\n  }\n  .RecherchePatient .PatientRechercheContent .PatientInfos .form form .submit {\n    grid-row-start: 16;\n    grid-row-end: 16;\n    grid-column-start: 3;\n    grid-column-end: 5;\n  }\n  .RecherchePatient .PatientRechercheContent .PatientInfos .form form .PDF {\n    grid-row-start: 16;\n    grid-row-end: 16;\n    grid-column-start: 8;\n    grid-column-end: 10;\n  }\n}\n@media (max-width: 900px) {\n  .RecherchePatient .PatientRechercheContent .PatientInfos .form form {\n    grid-template-columns: 2% repeat(8, 12%) 2%;\n    grid-template-rows: repeat(12, 23px 65px);\n  }\n  .RecherchePatient .PatientRechercheContent .PatientInfos .form form .DescLabel {\n    grid-row-start: 2;\n    grid-row-end: 2;\n    grid-column-start: 2;\n    grid-column-end: 4;\n  }\n  .RecherchePatient .PatientRechercheContent .PatientInfos .form form .DescInput {\n    grid-row-start: 3;\n    grid-row-end: 7;\n    grid-column-start: 2;\n    grid-column-end: 10;\n  }\n  .RecherchePatient .PatientRechercheContent .PatientInfos .form form .InterTypeLabel {\n    display: flex;\n    grid-row-start: 8;\n    grid-row-end: 8;\n    grid-column-start: 2;\n    grid-column-end: 5;\n  }\n  .RecherchePatient .PatientRechercheContent .PatientInfos .form form .InterTypeLabel label {\n    margin: auto 0;\n  }\n  .RecherchePatient .PatientRechercheContent .PatientInfos .form form .BroumLabel {\n    display: flex;\n    grid-row-start: 10;\n    grid-row-end: 10;\n    grid-column-start: 2;\n    grid-column-end: 5;\n  }\n  .RecherchePatient .PatientRechercheContent .PatientInfos .form form .BroumLabel label {\n    margin: auto 0;\n  }\n  .RecherchePatient .PatientRechercheContent .PatientInfos .form form .TarifLabel {\n    display: flex;\n    grid-row-start: 12;\n    grid-row-end: 12;\n    grid-column-start: 2;\n    grid-column-end: 5;\n  }\n  .RecherchePatient .PatientRechercheContent .PatientInfos .form form .TarifLabel label {\n    margin: auto 0;\n  }\n  .RecherchePatient .PatientRechercheContent .PatientInfos .form form .InterInput {\n    grid-row-start: 8;\n    grid-row-end: 8;\n    grid-column-start: 6;\n    grid-column-end: 8;\n  }\n  .RecherchePatient .PatientRechercheContent .PatientInfos .form form .InterInput select {\n    width: 100%;\n    height: 100%;\n  }\n  .RecherchePatient .PatientRechercheContent .PatientInfos .form form .BroumInput {\n    grid-row-start: 10;\n    grid-row-end: 10;\n    grid-column-start: 6;\n    grid-column-end: 8;\n  }\n  .RecherchePatient .PatientRechercheContent .PatientInfos .form form .BroumInput select {\n    width: 100%;\n    height: 100%;\n  }\n  .RecherchePatient .PatientRechercheContent .PatientInfos .form form .TarifInput {\n    grid-row-start: 12;\n    grid-row-end: 12;\n    grid-column-start: 6;\n    grid-column-end: 8;\n  }\n  .RecherchePatient .PatientRechercheContent .PatientInfos .form form .TarifInput input {\n    width: 100%;\n    height: 100%;\n  }\n  .RecherchePatient .PatientRechercheContent .PatientInfos .form form .ATA {\n    grid-row-start: 14;\n    grid-row-end: 17;\n    grid-column-start: 2;\n    grid-column-end: 10;\n    display: flex;\n    flex-direction: row;\n    flex-wrap: wrap;\n    justify-content: space-evenly;\n  }\n  .RecherchePatient .PatientRechercheContent .PatientInfos .form form .ATA label {\n    margin: auto 0;\n    font-size: 25px;\n    font-weight: 550;\n  }\n  .RecherchePatient .PatientRechercheContent .PatientInfos .form form .submit {\n    grid-row-start: 20;\n    grid-row-end: 20;\n    grid-column-start: 3;\n    grid-column-end: 5;\n  }\n  .RecherchePatient .PatientRechercheContent .PatientInfos .form form .PDF {\n    grid-row-start: 22;\n    grid-row-end: 22;\n    grid-column-start: 3;\n    grid-column-end: 5;\n  }\n}\n.RecherchePatient .PatientRechercheContent .PatientInfos .form form input:disabled, .RecherchePatient .PatientRechercheContent .PatientInfos .form form select:disabled, .RecherchePatient .PatientRechercheContent .PatientInfos .form form textarea:disabled, .RecherchePatient .PatientRechercheContent .PatientInfos .form form button:disabled {\n  opacity: 0.7;\n  transition: none;\n}\n.RecherchePatient .PatientRechercheContent .PatientInfos .form form input:disabled:hover, .RecherchePatient .PatientRechercheContent .PatientInfos .form form select:disabled:hover, .RecherchePatient .PatientRechercheContent .PatientInfos .form form textarea:disabled:hover, .RecherchePatient .PatientRechercheContent .PatientInfos .form form button:disabled:hover {\n  -webkit-transform: scale(1);\n}\n.RecherchePatient .PatientRechercheContent .Recherche {\n  width: 28%;\n  height: calc(100vh - 170px);\n  overflow-y: auto;\n  border-radius: 30px;\n  background-color: #0C2646;\n  overflow-x: hidden;\n  display: flex;\n  flex-direction: column;\n}\n@media (max-width: 1600px) {\n  .RecherchePatient .PatientRechercheContent .Recherche {\n    height: 100%;\n    width: 90%;\n    margin: 20px auto;\n  }\n}\n.RecherchePatient .PatientRechercheContent .Recherche .FormRecherche {\n  display: flex;\n  width: 100%;\n  padding: 10px;\n  border-bottom: black 1px solid;\n}\n.RecherchePatient .PatientRechercheContent .Recherche .FormRecherche form {\n  display: flex;\n  flex-direction: row;\n  margin: 0 auto;\n}\n@media (max-width: 1600px) {\n  .RecherchePatient .PatientRechercheContent .Recherche .FormRecherche form input {\n    width: calc(100% - 90px);\n  }\n}\n.RecherchePatient .PatientRechercheContent .Recherche .FormRecherche form button {\n  margin: auto 5px;\n  display: flex;\n  height: 60px;\n  left: 50%;\n}\n.RecherchePatient .PatientRechercheContent .Recherche .FormRecherche form button img {\n  margin: auto;\n  height: 25px;\n}\n.RecherchePatient .PatientRechercheContent .Recherche .Interventions {\n  display: flex;\n  flex-direction: column;\n  margin: 15px auto;\n  width: 80%;\n  background-color: #004662;\n  border-radius: 30px;\n}\n.RecherchePatient .PatientRechercheContent .Recherche .Interventions h3 {\n  margin: 10px auto;\n  background-color: #0C2646;\n  font-size: 25px;\n  font-weight: 700;\n  padding: 5px 10px;\n  border-radius: 30px;\n}\n.RecherchePatient .PatientRechercheContent .Recherche .Interventions .InterventionsList {\n  height: 400px;\n  overflow-y: auto;\n  display: flex;\n  flex-direction: column;\n  margin: 10px auto;\n}\n.RecherchePatient .PatientRechercheContent .Recherche .Interventions .InterventionsList .InterventionItem {\n  margin: 0 auto;\n  padding: 10px 5px;\n  border-bottom: black 1px solid;\n}\n.RecherchePatient .PatientRechercheContent .Recherche .Interventions .InterventionsList .InterventionItem button {\n  cursor: pointer;\n  background-color: transparent;\n  border: none;\n  font-size: 20px;\n  font-weight: 600;\n  font-family: \"Baloo Thambi 2\", monospace;\n  color: #00FFFF;\n}\n.RecherchePatient .PatientRechercheContent .Recherche .infos {\n  padding: 15px;\n}\n@media (max-width: 1600px) {\n  .RecherchePatient .PatientRechercheContent .Recherche .infos {\n    margin: 0 auto;\n    width: 80%;\n  }\n}\n.RecherchePatient .PatientRechercheContent .Recherche .infos .inline {\n  padding: 15px;\n  display: flex;\n  flex-direction: row;\n  justify-content: space-between;\n}\n@media (max-width: 1600px) {\n  .RecherchePatient .PatientRechercheContent .Recherche .infos .inline {\n    flex-direction: column !important;\n    justify-content: normal !important;\n  }\n}\n.RecherchePatient .PatientRechercheContent .Recherche .infos .inline input {\n  width: 60%;\n}\n.RecherchePatient .PatientRechercheContent .Recherche .infos .inline label {\n  margin: auto 0;\n}\n\n.Services {\n  padding: 15px;\n  display: flex;\n  height: 95vh;\n  flex-direction: column;\n  justify-content: space-between;\n}\n@media (min-width: 1100px) and (max-width: 1200px) {\n  .Services {\n    overflow-x: scroll;\n  }\n}\n.Services section {\n  height: -webkit-min-content;\n  height: -moz-min-content;\n  height: min-content;\n}\n.Services .title-contain {\n  max-width: -webkit-fit-content;\n  max-width: -moz-fit-content;\n  max-width: fit-content;\n  margin: 0 auto;\n}\n.Services .week {\n  margin: 0 auto;\n}\n.Services .week table {\n  width: 800px;\n  border-collapse: collapse;\n  border-radius: 30px;\n  background-color: #0C2646;\n  display: block;\n  height: 300px;\n  overflow-y: scroll;\n}\n.Services .week table tr {\n  border: black 1px solid;\n  border-left: none;\n  border-right: none;\n}\n.Services .week table tr:first-child {\n  border-top: none;\n}\n.Services .week table tr:last-child {\n  border-bottom: none;\n}\n.Services .week table .head {\n  position: -webkit-sticky;\n  position: sticky;\n  top: 0;\n  border-bottom: black 1px solid;\n  background-color: #004662;\n  z-index: 10;\n  border-left: 1px black solid;\n  border-right: 1px black solid;\n}\n.Services .week table .head:first-child {\n  border-left: none;\n}\n.Services .week table .head:last-child {\n  border-right: none;\n}\n.Services .week table td {\n  width: 200px;\n  padding: 5px;\n  text-align: center;\n  font-family: \"Baloo Thambi 2\", monospace;\n  font-size: 25px;\n  color: #00FFFF;\n  border: black 1px solid;\n  border-top: none;\n  border-bottom: none;\n}\n.Services .week table td:first-child {\n  border-left: none;\n}\n.Services .week table td:last-child {\n  border-right: none;\n}\n.Services .week table .body {\n  width: 800px;\n  padding-top: 40px;\n}\n.Services .week table .header {\n  width: 800px;\n  background-color: #004662;\n  height: 40px;\n}\n.Services .week-list {\n  margin: 0 auto;\n}\n.Services .week-list table {\n  width: 900px;\n  height: 300px;\n  border-collapse: collapse;\n  border-radius: 30px;\n  background-color: #0C2646;\n}\n.Services .week-list table tr {\n  border: black 1px solid;\n  border-left: none;\n  border-right: none;\n}\n.Services .week-list table tr:last-child {\n  border-bottom: none;\n}\n.Services .week-list table td {\n  width: 200px;\n  padding: 5px;\n  text-align: center;\n  font-family: \"Baloo Thambi 2\", monospace;\n  font-size: 25px;\n  color: #00FFFF;\n  border: black 1px solid;\n  border-top: none;\n  border-bottom: none;\n}\n.Services .week-list table td:first-child {\n  border-left: none;\n}\n.Services .week-list table td:last-child {\n  border-right: none;\n}\n.Services .week-list table .body {\n  width: 800px;\n}\n.Services .week-list table .header {\n  width: 800px;\n  background-color: #004662;\n}\n.Services .week-list table .header tr:first-child {\n  border-top: none;\n}\n\n.impayes {\n  height: 100vh;\n  display: flex;\n  flex-direction: column;\n  justify-content: space-evenly;\n}\n.impayes .header {\n  display: flex;\n  flex-direction: row;\n  flex-wrap: nowrap;\n  justify-content: space-evenly;\n}\n.impayes .header .pdf_Generator {\n  margin: auto 0;\n  padding: 15px;\n  background-color: #0C2646;\n  border-radius: 30px;\n}\n.impayes .header .pdf_Generator form {\n  display: flex;\n  flex-direction: row;\n  justify-content: space-evenly;\n}\n.impayes .header .pdf_Generator form label {\n  margin: auto 10px;\n}\n.impayes .header .pdf_Generator form .btn {\n  margin: auto 10px;\n}\n.impayes .impayelist {\n  margin: 0 auto;\n  display: flex;\n  height: 80vh;\n  width: 80%;\n  background-color: #0C2646;\n  overflow-y: auto;\n  border-radius: 30px;\n  padding-bottom: 10px;\n}\n.impayes .impayelist .ImpayeTableContainer {\n  width: 100%;\n}\n.impayes .impayelist .ImpayeTableContainer table {\n  top: 0;\n  width: 100%;\n  border-collapse: collapse;\n}\n.impayes .impayelist .ImpayeTableContainer table tr {\n  width: 100%;\n  border: black 1px solid;\n  border-left: none;\n  border-right: none;\n}\n.impayes .impayelist .ImpayeTableContainer table tr:first-child {\n  border-top: none;\n}\n.impayes .impayelist .ImpayeTableContainer table tr:last-child {\n  border-bottom: none;\n}\n.impayes .impayelist .ImpayeTableContainer table .head {\n  position: -webkit-sticky;\n  position: sticky;\n  top: 0;\n  border-bottom: black 1px solid;\n  background-color: #004662;\n  z-index: 10;\n  border-left: 1px black solid;\n  border-right: 1px black solid;\n}\n.impayes .impayelist .ImpayeTableContainer table .head:first-child {\n  border-left: none;\n}\n.impayes .impayelist .ImpayeTableContainer table .head:last-child {\n  border-right: none;\n}\n.impayes .impayelist .ImpayeTableContainer table td {\n  width: 20%;\n  padding: 5px;\n  text-align: center;\n  font-family: \"Baloo Thambi 2\", monospace;\n  font-size: 25px;\n  color: #00FFFF;\n  height: 70px;\n  border: black 1px solid;\n  border-top: none;\n  border-bottom: none;\n}\n.impayes .impayelist .ImpayeTableContainer table td:first-child {\n  border-left: none;\n}\n.impayes .impayelist .ImpayeTableContainer table td:last-child {\n  border-right: none;\n}\n.impayes .impayelist .ImpayeTableContainer table thead tr {\n  border-bottom: 1px black solid !important;\n}\n.impayes .add-facture-form {\n  height: 100vh;\n  width: calc(100vw - 270px);\n  position: fixed;\n  z-index: 21;\n  display: flex;\n  justify-content: center;\n}\n.impayes .add-facture-form .card-facture {\n  margin: auto;\n  width: 700px;\n  height: 300px;\n  background-color: #0C2646;\n  border: 1px solid #00FFFF;\n  box-shadow: 0 0 15px 0px #00FFFF;\n  border-radius: 30px;\n  padding: 15px;\n}\n.impayes .add-facture-form .card-facture h1 {\n  text-align: center;\n  font-size: 35px;\n}\n.impayes .add-facture-form .card-facture form {\n  width: 100%;\n  display: flex;\n  flex-direction: column;\n}\n.impayes .add-facture-form .card-facture form .content {\n  margin-top: 15px;\n  display: flex;\n  flex-direction: row;\n  flex-wrap: wrap;\n  justify-content: space-evenly;\n}\n.impayes .add-facture-form .card-facture form .content .switch-container {\n  margin-top: 15px;\n}\n.impayes .add-facture-form .card-facture form .footer {\n  margin-top: 20px;\n  display: flex;\n  flex-direction: row;\n  justify-content: space-evenly;\n}\n\n.RapportHorraire {\n  width: 100%;\n  height: 100%;\n  display: flex;\n  flex-direction: column;\n  justify-content: space-around;\n}\n.RapportHorraire .header {\n  display: flex;\n  flex-direction: row;\n  justify-content: space-around;\n}\n.RapportHorraire .header .semaine-select {\n  margin: auto 0;\n}\n.RapportHorraire .header .semaine-select form {\n  background-color: #0C2646;\n  border-radius: 30px;\n  padding: 10px;\n  display: flex;\n  flex-direction: row;\n}\n.RapportHorraire .header .semaine-select form input {\n  margin: 0 10px;\n}\n.RapportHorraire .header .semaine-select form label, .RapportHorraire .header .semaine-select form button {\n  margin: auto 0;\n}\n.RapportHorraire .rapport-table-container {\n  margin: 25px auto;\n  height: 80vh;\n  width: 90%;\n  padding-bottom: 10px;\n  background-color: #0C2646;\n  border-radius: 30px;\n  overflow-y: scroll;\n}\n.RapportHorraire .rapport-table-container .rapport-table {\n  width: 100%;\n  height: 100%;\n  border-collapse: collapse;\n  display: table;\n}\n.RapportHorraire .rapport-table-container .rapport-table .row {\n  display: table-row;\n  height: 40px;\n  border-top: 1px black solid;\n  border-bottom: 1px black solid;\n}\n.RapportHorraire .rapport-table-container .rapport-table .row:first-child {\n  border-top: none !important;\n}\n.RapportHorraire .rapport-table-container .rapport-table .row:last-child {\n  border-bottom: none !important;\n}\n.RapportHorraire .rapport-table-container .rapport-table .cell {\n  border-left: 1px black solid;\n  border-right: 1px black solid;\n  width: 10%;\n  display: table-cell;\n  vertical-align: middle;\n}\n.RapportHorraire .rapport-table-container .rapport-table .cell p {\n  text-align: center;\n}\n.RapportHorraire .rapport-table-container .rapport-table .head {\n  position: -webkit-sticky;\n  position: sticky;\n  top: 0;\n  border-bottom: black 1px solid;\n  background-color: #004662;\n  z-index: 10;\n  border-left: 1px black solid;\n  border-right: 1px black solid;\n}\n.RapportHorraire .rapport-table-container .rapport-table .head:first-child {\n  border-left: none;\n}\n.RapportHorraire .rapport-table-container .rapport-table .head:last-child {\n  border-right: none;\n}\n.RapportHorraire .rapport-table-container .rapport-table .column-1 {\n  text-wrap: normal;\n  border-left: none !important;\n}\n.RapportHorraire .rapport-table-container .rapport-table .column-10 {\n  border-right: none !important;\n}\n.RapportHorraire .rapport-table-container .rapport-table .table-header {\n  background-color: #004662;\n  border-top: none !important;\n  position: -webkit-sticky;\n  position: sticky;\n  top: 0;\n}\n\n.ContentManagement {\n  width: 100%;\n  height: 100%;\n  display: flex;\n  flex-direction: column;\n  justify-content: center;\n}\n.ContentManagement .header {\n  display: flex;\n  flex-direction: row;\n  flex-wrap: nowrap;\n  justify-content: center;\n  margin-bottom: 10px;\n  height: 151px;\n}\n.ContentManagement .content-mgt {\n  width: 97%;\n  margin: 0 auto;\n  height: calc(100vh - 200px);\n  overflow-y: scroll;\n  display: flex;\n  flex-direction: row;\n  justify-content: space-evenly;\n  flex-wrap: wrap;\n  padding-top: 10px;\n}\n.ContentManagement .content-mgt .ContentCard {\n  width: 400px;\n  margin: 20px;\n  height: 500px;\n  background-color: #0C2646;\n  border-radius: 30px;\n  padding: 10px;\n  display: flex;\n  flex-direction: column;\n  justify-content: space-around;\n}\n.ContentManagement .content-mgt .ContentCard h1 {\n  text-align: center;\n  font-weight: 700;\n  font-size: 35px;\n}\n.ContentManagement .content-mgt .ContentCard:last-child {\n  margin-bottom: 100px;\n}\n.ContentManagement .content-mgt .ContentCard .item-list, .ContentManagement .content-mgt .ContentCard textarea {\n  margin: 0 auto;\n  background-color: #004662;\n  border-radius: 30px 0 0 30px;\n  padding: 10px;\n  height: 300px;\n  overflow-y: auto;\n  width: 90%;\n}\n.ContentManagement .content-mgt .ContentCard .item-list .item, .ContentManagement .content-mgt .ContentCard textarea .item {\n  display: flex;\n  flex-direction: row;\n  justify-content: space-between;\n  flex-wrap: nowrap;\n  width: 100%;\n  border-bottom: 1px black solid;\n  height: 50px;\n  padding: 5px 0;\n}\n.ContentManagement .content-mgt .ContentCard .item-list .item button, .ContentManagement .content-mgt .ContentCard textarea .item button {\n  cursor: pointer;\n  background-color: transparent;\n  border: none;\n  transition: 500ms ease-in-out;\n}\n.ContentManagement .content-mgt .ContentCard .item-list .item button img, .ContentManagement .content-mgt .ContentCard textarea .item button img {\n  height: 40px;\n}\n.ContentManagement .content-mgt .ContentCard .item-list .item button:hover, .ContentManagement .content-mgt .ContentCard textarea .item button:hover {\n  -webkit-transform: rotate(6deg);\n}\n.ContentManagement .content-mgt .ContentCard .item-list .item p, .ContentManagement .content-mgt .ContentCard textarea .item p {\n  margin: auto 0;\n  font-size: 25px;\n}\n.ContentManagement .content-mgt .ContentCard form {\n  margin: 10px auto;\n  display: flex;\n  flex-direction: column;\n  width: 90%;\n}\n.ContentManagement .content-mgt .ContentCard form button {\n  margin-top: 10px;\n  margin-right: 0;\n  margin-left: auto;\n}\n\n.PersonnelList {\n  width: 100%;\n  height: 100%;\n  display: flex;\n  flex-direction: column;\n  justify-content: center;\n  flex-wrap: wrap;\n}\n.PersonnelList .header {\n  display: flex;\n  flex-direction: row;\n  justify-content: center;\n}\n.PersonnelList .header button {\n  margin: auto 0;\n}\n.PersonnelList .list-personnel {\n  margin: 10px auto;\n  background-color: #0C2646;\n  border-radius: 30px;\n  width: 90%;\n  height: calc(100vh - 151px);\n  overflow-y: scroll;\n  flex-grow: 1;\n}\n.PersonnelList .list-personnel table {\n  border-collapse: collapse;\n  width: 100%;\n}\n.PersonnelList .list-personnel table th {\n  position: -webkit-sticky;\n  position: sticky;\n  top: 0;\n  border-bottom: black 1px solid;\n  background-color: #004662;\n  z-index: 10;\n  border-left: 1px black solid;\n  border-right: 1px black solid;\n}\n.PersonnelList .list-personnel table th:first-child {\n  border-left: none;\n}\n.PersonnelList .list-personnel table th:last-child {\n  border-right: none;\n}\n.PersonnelList .list-personnel table .id {\n  width: 5%;\n  text-align: center;\n}\n.PersonnelList .list-personnel table .name {\n  width: 20%;\n  text-align: center;\n}\n.PersonnelList .list-personnel table .tel {\n  width: 15%;\n  text-align: center;\n}\n.PersonnelList .list-personnel table .compte {\n  width: 15%;\n  text-align: center;\n}\n.PersonnelList .list-personnel table .pilote {\n  width: 15%;\n}\n.PersonnelList .list-personnel table .pilote .pilote-btn {\n  /*Button is :CHECKED*/\n  /*shared*/\n  /*'un':checked state*/\n  /* pesduo class on toggle */\n}\n.PersonnelList .list-personnel table .pilote .pilote-btn *::before, .PersonnelList .list-personnel table .pilote .pilote-btn *::after {\n  transition: 400ms all ease-in-out 50ms;\n  box-sizing: border-box;\n  -webkit-backface-visibility: hidden;\n          backface-visibility: hidden;\n}\n.PersonnelList .list-personnel table .pilote .pilote-btn input[type=checkbox]:checked ~ div {\n  background: #49a844;\n  box-shadow: 0 0 2px #49a844;\n}\n.PersonnelList .list-personnel table .pilote .pilote-btn input[type=checkbox]:checked ~ div label {\n  transform: translate(60px);\n}\n.PersonnelList .list-personnel table .pilote .pilote-btn input[type=checkbox] ~ div label {\n  transition: 300ms all ease-in-out 50ms;\n}\n.PersonnelList .list-personnel table .pilote .pilote-btn div,\n.PersonnelList .list-personnel table .pilote .pilote-btn label {\n  border-radius: 50px;\n}\n.PersonnelList .list-personnel table .pilote .pilote-btn input[type=checkbox] {\n  display: none;\n}\n.PersonnelList .list-personnel table .pilote .pilote-btn div {\n  height: 40px;\n  width: 80px;\n  background: #2b2b2b;\n  position: relative;\n  top: 0;\n  left: calc(50% - 35px);\n  box-shadow: 0 0 2px #2b2b2b;\n}\n.PersonnelList .list-personnel table .pilote .pilote-btn label {\n  height: 40px;\n  width: 40px;\n  background: white;\n  position: absolute;\n  top: 0;\n  left: -15px;\n  cursor: pointer;\n}\n.PersonnelList .list-personnel table .pilote .pilote-btn label::before {\n  content: \"\";\n  height: 60px;\n  width: 5px;\n  position: absolute;\n  top: calc(50% - 30px);\n  left: calc(50% - 2.5px);\n  transform: rotate(45deg);\n}\n.PersonnelList .list-personnel table .pilote .pilote-btn label::after {\n  content: \"\";\n  height: 5px;\n  width: 60px;\n  position: absolute;\n  top: calc(50% - 2.5px);\n  left: calc(50% - 30px);\n  transform: rotate(45deg);\n}\n.PersonnelList .list-personnel table .pilote .pilote-btn label::before,\n.PersonnelList .list-personnel table .pilote .pilote-btn label::after {\n  background: #2b2b2b;\n  border-radius: 5px;\n}\n.PersonnelList .list-personnel table .pilote .pilote-btn input[type=checkbox]:checked ~ div label::before {\n  height: 32px;\n  top: calc(55% - 19px);\n  left: calc(60% + 2px);\n  background: #49a844;\n}\n.PersonnelList .list-personnel table .pilote .pilote-btn input[type=checkbox]:checked ~ div label::after {\n  width: 21px;\n  top: calc(95% - 17px);\n  left: calc(22.5% - 7px);\n  background: #49a844;\n}\n.PersonnelList .list-personnel table .grade {\n  width: 30%;\n}\n.PersonnelList .list-personnel table th, .PersonnelList .list-personnel table td {\n  font-family: \"Baloo Thambi 2\", monospace;\n  font-weight: 500;\n  font-size: 25px;\n  color: #00FFFF;\n  border-left: black 1px solid;\n  border-right: 1px black solid;\n}\n.PersonnelList .list-personnel table th:first-child, .PersonnelList .list-personnel table td:first-child {\n  border-left: none;\n}\n.PersonnelList .list-personnel table th:last-child, .PersonnelList .list-personnel table td:last-child {\n  border-right: none;\n}\n.PersonnelList .list-personnel table td:last-child form {\n  display: flex;\n  flex-direction: row;\n  justify-content: center;\n}\n.PersonnelList .list-personnel table td:last-child form select {\n  width: 300px;\n  margin-right: 20px;\n}\n.PersonnelList .list-personnel table td:last-child form button {\n  margin: auto 0;\n}\n.PersonnelList .list-personnel table tr {\n  border-top: 1px black solid;\n  border-bottom: 1px black solid;\n}\n.PersonnelList .list-personnel table tr:first-child {\n  border-top: none;\n}\n.PersonnelList .list-personnel table tr:last-child {\n  border-bottom: none;\n}\n\n.Login, .Register {\n  width: 100%;\n  height: 100%;\n  display: flex;\n  justify-content: center;\n}\n.Login .Form, .Register .Form {\n  margin: auto auto;\n  background-color: #0C2646;\n  border-radius: 30px;\n  padding: 10px;\n}\n.Login .Form form, .Register .Form form {\n  display: flex;\n  flex-direction: column;\n}\n.Login .Form form h1, .Register .Form form h1 {\n  text-align: center;\n  font-size: 40px;\n  font-weight: 900;\n  color: #00FFFF;\n}\n.Login .Form form label, .Register .Form form label {\n  margin-top: 10px;\n  font-size: 30px;\n  font-weight: 600;\n}\n.Login .Form form .btn-contain, .Register .Form form .btn-contain {\n  display: flex;\n  flex-direction: row;\n  justify-content: space-evenly;\n  margin-top: 10px;\n}\n\n.remboursement {\n  display: flex;\n  width: 100%;\n  height: 95vh;\n  padding: 10px;\n  flex-direction: column;\n  justify-content: space-between;\n}\n.remboursement .title-contain {\n  width: -webkit-min-content;\n  width: -moz-min-content;\n  width: min-content;\n  margin: 0 40px 0 auto;\n}\n.remboursement .MainContainer {\n  height: -webkit-max-content;\n  height: -moz-max-content;\n  height: max-content;\n  width: 80vw;\n  margin: 0 auto;\n}\n.remboursement .MainContainer .selector {\n  margin-left: 25px;\n}\n.remboursement .MainContainer .selector button {\n  border: none;\n  background-color: #0C2646;\n  font-size: 28px;\n  font-family: \"Baloo Thambi 2\", monospace;\n  color: #00FFFF;\n  font-weight: 600;\n  margin-left: 10px;\n  padding: 10px;\n  border-radius: 25px 25px 0 0;\n  border-top: 1px black solid;\n  border-left: 1px black solid;\n  border-right: 1px black solid;\n}\n.remboursement .MainContainer .selector .unselected {\n  background-color: #004662;\n  cursor: pointer;\n}\n.remboursement .MainContainer .myview {\n  display: flex;\n  flex-direction: row;\n  flex-wrap: wrap;\n  background-color: #0C2646;\n  border-radius: 30px;\n}\n.remboursement .MainContainer .myview .add {\n  width: 49%;\n  min-width: 300px;\n  display: flex;\n}\n.remboursement .MainContainer .myview .add form {\n  margin: 0 auto;\n  width: 60%;\n  display: flex;\n  flex-direction: column;\n  justify-content: space-around;\n  max-height: 300px;\n}\n.remboursement .MainContainer .myview .add form h2 {\n  text-align: center;\n}\n.remboursement .MainContainer .myview .add form button {\n  margin: 0 0 0 auto;\n}\n.remboursement .MainContainer .myview .list-content {\n  display: flex;\n  width: 42%;\n  padding: 30px;\n}\n.remboursement .MainContainer .myview .list-content .list {\n  display: flex;\n  flex-direction: column;\n  height: 700px;\n  overflow-y: auto;\n  margin: 0 auto;\n  background-color: #004662;\n  border-radius: 30px;\n  width: 70%;\n  min-width: 300px;\n  padding: 5px;\n}\n.remboursement .MainContainer .myview .list-content .list .row {\n  display: flex;\n  flex-direction: row;\n  justify-content: space-between;\n  margin-bottom: 10px;\n  cursor: default;\n}\n.remboursement .MainContainer .myview .list-content .list .row h5 {\n  font-size: 22px;\n  line-height: 30px;\n}\n.remboursement .MainContainer .myview .list-content .list .row button {\n  background: transparent;\n  border: none;\n  cursor: pointer !important;\n}\n.remboursement .MainContainer .myview .list-content .list .row button img {\n  width: 30px;\n  transition: all 200ms;\n}\n.remboursement .MainContainer .myview .list-content .list .row button img:hover {\n  -webkit-transform: scale(1.2);\n}\n.remboursement .MainContainer .adminview {\n  display: flex;\n  flex-direction: column;\n  background-color: #0C2646;\n  border-radius: 30px;\n  width: 100%;\n  height: calc(100vh - 206px);\n  overflow-y: scroll;\n}\n.remboursement .MainContainer .adminview .table-head {\n  display: flex;\n  width: 100%;\n  height: 200px;\n}\n.remboursement .MainContainer .adminview .table-head form {\n  display: flex;\n  flex-direction: row;\n  padding: 10px;\n}\n.remboursement .MainContainer .adminview .table-head form label {\n  font-size: 28px;\n  margin: auto 10px auto 10px;\n  font-weight: 500;\n}\n.remboursement .MainContainer .adminview .table-head form button {\n  margin: auto 0 auto 10px;\n}\n.remboursement .MainContainer .adminview .table-head form input {\n  width: 70px;\n}\n.remboursement .MainContainer .adminview table {\n  border-collapse: collapse;\n  height: 500px;\n  width: 100%;\n  overflow-y: scroll;\n  border-radius: 30px;\n}\n.remboursement .MainContainer .adminview table .head {\n  position: -webkit-sticky;\n  position: sticky;\n  color: #00FFFF;\n  text-align: center;\n  padding: 10px;\n  height: 40px;\n  font-family: \"Baloo Thambi 2\", monospace;\n  font-weight: 600;\n  font-size: 25px;\n  top: 0;\n  background-color: #004662;\n}\n.remboursement .MainContainer .adminview table tbody tr {\n  height: 30px;\n  border-top: black 1px solid;\n  border-bottom: black 1px solid;\n}\n.remboursement .MainContainer .adminview table tbody tr td {\n  text-align: center;\n  padding: 10px;\n  font-family: \"Baloo Thambi 2\", monospace;\n  font-weight: 500;\n  font-size: 20px;\n  color: #00FFFF;\n  border-left: 1px black solid;\n  border-right: 1px black solid;\n}\n.remboursement .MainContainer .adminview table tbody tr td:last-child {\n  border-right: none !important;\n}\n.remboursement .MainContainer .adminview table tbody tr td:first-child {\n  border-left: none !important;\n}\n.remboursement .MainContainer .adminview table .id {\n  width: 70px;\n}\n\n.card-ok {\n  position: fixed;\n  right: 10px;\n  bottom: 10px;\n  padding: 15px;\n  border: #00FFFF 1px solid;\n  background-color: #0C2646;\n  border-radius: 30px;\n  width: 300px;\n  height: 200px;\n  display: flex;\n  flex-direction: column;\n}\n.card-ok h1 {\n  text-align: center;\n  font-size: 25px;\n}\n.card-ok button {\n  margin: 0 auto;\n}\n\n.card-error {\n  position: fixed;\n  right: 10px;\n  bottom: 10px;\n  padding: 15px;\n  border: #00FFFF 1px solid;\n  background-color: #0C2646;\n  border-radius: 30px;\n  width: 300px;\n  height: 200px;\n  display: flex;\n  flex-direction: column;\n}\n.card-error h1 {\n  text-align: center;\n  color: #FF0000 !important;\n}\n.card-error button {\n  margin: 0 auto;\n}\n\n.Logs {\n  width: 100%;\n  height: 100vh;\n  display: flex;\n  flex-direction: column;\n}\n.Logs .header {\n  display: flex;\n  flex-direction: row;\n  justify-content: space-around;\n  margin-bottom: 30px;\n  height: 130px;\n}\n.Logs .header .logs-select {\n  display: flex;\n  padding: 7px 20px;\n  background-color: #0C2646;\n  border-radius: 30px;\n}\n.Logs .header .logs-select select {\n  margin: auto;\n}\n.Logs .log-list {\n  margin: 0 auto;\n  height: calc(100vh - 250px);\n  background-color: #0C2646;\n  border-radius: 30px;\n  width: 90%;\n  padding: 10px;\n}\n.Logs .log-list .logs-header {\n  padding: 10px;\n  width: calc(100% - 20px);\n  height: 80px;\n  display: flex;\n  flex-direction: row;\n  justify-content: space-between;\n  border-bottom: 1px #00FFFF solid;\n}\n.Logs .log-list .logs-header p {\n  font-weight: 600;\n  font-size: 30px;\n  margin: auto 0;\n}\n.Logs .log-list .logs-header .pages {\n  display: flex;\n  flex-direction: row;\n  justify-content: space-evenly;\n  width: 550px;\n}\n.Logs .log-list .logs-header .pages label {\n  margin: auto 0;\n}\n.Logs .log-list .logs-header .pages button {\n  cursor: pointer;\n  background-color: transparent;\n  border: none;\n  font-size: 30px;\n  font-weight: 600;\n  color: #00FFFF;\n}\n.Logs .log-list .logs-header .pages p {\n  font-size: 30px;\n}\n.Logs .log-list .logs-header .pages button, .Logs .log-list .logs-header .pages p {\n  margin: auto 0;\n  height: 45px;\n}\n.Logs .log-list .logs-header .pages select {\n  width: 150px;\n}\n.Logs .log-list .table {\n  overflow-y: scroll;\n  max-height: calc(100% - 110px);\n  margin-top: 15px;\n}\n.Logs .log-list .table table {\n  top: 0;\n  width: 100%;\n  border-collapse: collapse;\n}\n.Logs .log-list .table table tr {\n  width: 100%;\n  border: black 1px solid;\n  border-left: none;\n  border-right: none;\n}\n.Logs .log-list .table table thead {\n  position: -webkit-sticky;\n  position: sticky;\n  top: 0;\n  border-bottom: black 1px solid;\n  background-color: #004662;\n  z-index: 10;\n  border-left: 1px black solid;\n  border-right: 1px black solid;\n}\n.Logs .log-list .table table td, .Logs .log-list .table table th {\n  padding: 5px;\n  text-align: center;\n  font-family: \"Baloo Thambi 2\", monospace;\n  font-size: 25px;\n  color: #00FFFF;\n  height: 70px;\n  border: black 1px solid;\n  border-top: none;\n  border-bottom: none;\n}\n.Logs .log-list .table table thead tr {\n  border-bottom: 1px black solid !important;\n}\n\n.BugRepport {\n  width: 100%;\n  height: 100vh;\n  display: flex;\n}\n.BugRepport .Repport-Card {\n  margin: auto;\n  width: 40%;\n  background-color: #0C2646;\n  border-radius: 30px;\n  padding: 20px;\n}\n.BugRepport .Repport-Card h1 {\n  font-weight: 700;\n  font-size: 35px;\n  text-align: center;\n}\n.BugRepport .Repport-Card form {\n  display: flex;\n  flex-direction: column;\n}\n.BugRepport .Repport-Card button {\n  margin: 0 0 0 auto;\n}\n\n.load {\n  display: flex;\n  width: 100%;\n  height: 100%;\n}\n.load img {\n  margin: auto auto;\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "h1 {\n  font-family: \"Baloo Thambi 2\", serif;\n  font-weight: 800;\n  font-size: 30px;\n  color: #00FFFF;\n}\n\nh2 {\n  font-family: \"Baloo Thambi 2\", serif;\n  font-weight: 700;\n  font-size: 25px;\n  color: #00FFFF;\n}\n\nh3 {\n  font-family: \"Baloo Thambi 2\", serif;\n  font-weight: 600;\n  font-size: 20px;\n  color: #00FFFF;\n}\n\nh4 {\n  font-family: \"Baloo Thambi 2\", serif;\n  font-weight: 500;\n  font-size: 20px;\n  color: #00FFFF;\n}\n\nh5 {\n  font-family: \"Baloo Thambi 2\", serif;\n  font-weight: 400;\n  font-size: 18px;\n  color: #00FFFF;\n}\n\nh6 {\n  font-family: \"Baloo Thambi 2\", serif;\n  font-weight: 300;\n  font-size: 15px;\n  color: #00FFFF;\n}\n\nh1, h2, h3, h4, h5, h6 {\n  margin: 0 0;\n}\n\ninput, select, textarea {\n  color: #00FFFF;\n  background-color: #004662;\n  margin: 10px 0;\n  font-size: 20px;\n  font-family: \"Baloo Thambi 2\", monospace;\n  font-weight: 500;\n  box-shadow: none;\n  border: none;\n  border-radius: 30px;\n  padding: 10px;\n}\ninput::-moz-placeholder, select::-moz-placeholder, textarea::-moz-placeholder {\n  color: #00FFFF;\n}\ninput:-ms-input-placeholder, select:-ms-input-placeholder, textarea:-ms-input-placeholder {\n  color: #00FFFF;\n}\ninput::placeholder, select::placeholder, textarea::placeholder {\n  color: #00FFFF;\n}\ninput:-webkit-autofill, select:-webkit-autofill, textarea:-webkit-autofill {\n  background-color: #004662 !important;\n  color: #00FFFF !important;\n}\n\na, p, label {\n  color: #00FFFF;\n  font-family: \"Baloo Thambi 2\", monospace;\n  font-weight: normal;\n  font-size: 20px;\n}\n\n.Title {\n  font-size: 35px;\n  font-family: \"Baloo Thambi 2\", monospace;\n  font-weight: 900;\n  text-align: center;\n  margin-bottom: 10px;\n}\n\na {\n  text-decoration: none;\n}\n\n.Form-Line {\n  display: flex;\n  flex-direction: row;\n  flex-wrap: nowrap;\n  justify-content: center;\n}\n\n.btn {\n  height: -webkit-fit-content;\n  height: -moz-fit-content;\n  height: fit-content;\n  width: -webkit-fit-content;\n  width: -moz-fit-content;\n  width: fit-content;\n  padding: 10px 20px;\n  background-color: #004662;\n  color: #00FFFF;\n  border-radius: 30px;\n  font-family: \"Baloo Thambi 2\", monospace;\n  font-weight: 600;\n  font-size: 25px;\n  border: none;\n  cursor: pointer;\n  transition: 400ms cubic-bezier(0.28, -0.46, 0.33, 1.5);\n}\n.btn:hover {\n  -webkit-transform: scale(1.2);\n}\n\n.form-error p {\n  color: #FF0000;\n  margin: 0;\n}\n\n.TableBottom {\n  background-color: #004662;\n  width: 100%;\n  height: 100px;\n  position: -webkit-sticky;\n  position: sticky;\n  bottom: 0;\n  border-top: 1px #0C2646 solid;\n  display: flex;\n  flex-direction: row;\n  flex-wrap: nowrap;\n  justify-content: space-between;\n  z-index: 10;\n}\n.TableBottom .searsh {\n  display: flex;\n}\n.TableBottom .searsh input {\n  margin: auto 20px;\n  background-color: #0C2646;\n}\n.TableBottom .pages {\n  display: flex;\n  flex-direction: row;\n  justify-content: space-evenly;\n  padding-right: 30px;\n}\n.TableBottom .pages button {\n  background-color: #0C2646;\n  border-radius: 20px;\n  font-size: 30px;\n  font-weight: 700;\n  border: none;\n  color: #00FFFF;\n  margin: auto 0;\n  font-family: \"Baloo Thambi 2\", monospace;\n  padding: 5px 20px;\n  cursor: pointer;\n  transition: all 500ms;\n}\n.TableBottom .pages button:hover {\n  transform: scale(1.2) rotate(5deg);\n}\n.TableBottom .pages h5 {\n  font-size: 30px;\n  font-weight: 700;\n  margin: auto 10px;\n}\n\n.title-contain {\n  background-color: #0C2646;\n  border-radius: 30px;\n  padding: 5px;\n}\n.title-contain h1 {\n  font-size: 58px;\n  padding: 5px;\n}\n\nhtml {\n  position: fixed;\n  padding: 0;\n  margin: 0;\n  height: 100vh;\n  width: 100vw;\n  background-color: orange;\n  top: 0;\n  left: 0;\n}\n\nbody {\n  padding: 0;\n  margin: 0;\n  height: 100vh;\n  width: 100vw;\n}\n\n#app {\n  height: 100vh;\n  width: 100vw;\n  background-color: #313124;\n}\n\n#layout {\n  height: 100vh;\n  overflow-x: hidden !important;\n}\n@media (max-width: 1600px) {\n  #layout {\n    overflow-y: auto;\n  }\n  #layout .mobildisabled {\n    display: none;\n  }\n}\n\n.notifs {\n  top: 0;\n  right: 0;\n  z-index: 154400;\n  width: 20%;\n  min-width: 290px;\n  height: 100vh;\n  padding-top: 60px;\n}\n.notifs .notifications {\n  width: 95%;\n  margin-right: 5%;\n  height: 150px;\n  margin-bottom: 5px;\n  border-radius: 30px;\n  display: flex;\n  overflow: hidden;\n  flex-direction: column;\n  justify-content: space-between;\n}\n.notifs .notifications .notif-header {\n  display: flex;\n  flex-direction: row;\n  justify-content: space-between;\n  padding: 0 15px 0 15px;\n}\n.notifs .notifications .notif-header button {\n  background-color: transparent;\n  border: none;\n}\n.notifs .notifications .notif-separator {\n  height: 2px;\n  width: 100%;\n  background-color: #004662;\n}\n.notifs .notifications .notif-content {\n  padding: 0 15px 0 15px;\n}\n.notifs .notifications .notif-content p {\n  margin: 0;\n  text-indent: 20px;\n  font-size: 18px;\n}\n.notifs .notifications .progress-bar {\n  width: 100%;\n  height: 15px;\n  background-color: #0C2646;\n}\n.notifs .notifications .progress-bar .progress {\n  height: 15px;\n  border-radius: 15px 0;\n  background-color: #004662;\n}\n.notifs .success {\n  background-color: green;\n}\n.notifs .warning {\n  background-color: orange;\n}\n.notifs .danger {\n  background-color: red;\n}\n\n::-webkit-scrollbar {\n  width: 10px;\n}\n\n::-webkit-scrollbar-track {\n  background-color: rgba(143, 143, 143, 0.1);\n  border-radius: 30px;\n}\n\n::-webkit-scrollbar-thumb {\n  background: #000;\n  border-radius: 30px;\n}\n\n.OnService {\n  color: #00FF00;\n  font-family: \"Baloo Thambi 2\", monospace;\n  font-weight: 600;\n  font-size: 25px;\n  text-shadow: 0 0 30px #00FF00;\n}\n\n.OffService {\n  color: #FF0000;\n  font-family: \"Baloo Thambi 2\", monospace;\n  font-weight: 600;\n  font-size: 25px;\n  text-shadow: 0 0 30px #FF0000;\n}\n\n#service {\n  height: 66px;\n  width: 240px;\n  z-index: 4;\n  border-radius: 90px;\n  background-color: #004662;\n  margin: 10px;\n  padding: 5px;\n  border: none;\n  box-shadow: none;\n  transition: all 400ms cubic-bezier(0.51, -1.15, 0.48, 2.27);\n  cursor: pointer;\n}\n#service:hover {\n  transform: scale(1.1);\n  -webkit-transform: scale(1.1);\n}\n#service:active {\n  -webkit-box-shadow: none;\n  border: none;\n}\n#service:disabled {\n  cursor: default;\n  color: #1a202c;\n  text-shadow: none;\n  transition: none;\n  transform: none;\n}\n\n.menu-content {\n  background-color: #0C2646;\n  width: 270px;\n  position: fixed;\n  margin-left: 0;\n  margin-top: 0;\n  height: 100vh;\n}\n.menu-content .Menusepartor {\n  height: 2px;\n  width: 100%;\n  background-color: #00FFFF;\n  margin: 10px 0;\n}\n.menu-content #Logo {\n  margin-top: 20px;\n  width: 100%;\n  height: 250px;\n  display: flex;\n  justify-content: center;\n}\n.menu-content #Logo a {\n  margin: 10px auto 0 auto;\n  padding: 0;\n  width: -webkit-fit-content;\n  width: -moz-fit-content;\n  width: fit-content;\n}\n.menu-content #Logo a img {\n  width: 220px;\n}\n.menu-content #logout {\n  width: 30px;\n  margin: 5px;\n  border-radius: 30px;\n  height: 30px;\n  padding: 5px;\n  z-index: 14;\n  position: fixed;\n  background-color: #00FFFF;\n  box-shadow: 0 0 20px 1px #00FFFF;\n  transition: all 400ms cubic-bezier(0.51, -1.15, 0.48, 2.27);\n  cursor: pointer;\n}\n.menu-content #logout:hover {\n  -webkit-transform: scale(1.1);\n  box-shadow: 0 0 30px 2px #00FFFF;\n}\n.menu-content .navigation {\n  height: calc(100vh - 512px);\n  overflow-y: auto;\n  overflow-x: hidden;\n}\n.menu-content .Menu-Item {\n  padding: 0 10px 0 10px;\n}\n.menu-content .Menu-Item .Menu_title {\n  position: relative;\n  overflow: hidden;\n  padding-right: 10px;\n}\n.menu-content .Menu-Item .Menu_title span {\n  font-size: 27px;\n  margin-left: 5px;\n  padding: 0 5px 0 12px;\n  z-index: 12;\n  border-left: 7px #004662 solid;\n  width: -webkit-fit-content;\n  width: -moz-fit-content;\n  width: fit-content;\n  position: relative;\n}\n.menu-content .Menu-Item .Menu_title span::after {\n  position: absolute;\n  width: 300px;\n  height: 2px;\n  top: 50%;\n  left: calc(100% + 5px);\n  content: \" \";\n  background-color: #004662;\n  z-index: 0;\n}\n.menu-content .Menu-Item .Menu_title::before {\n  position: absolute;\n  width: 10px;\n  height: 2px;\n  top: 51%;\n  left: 11px;\n  background-color: #004662;\n  content: \" \";\n  z-index: 0;\n}\n.menu-content .Menu-Item .Menu-list {\n  margin-left: 5px;\n}\n.menu-content .Menu-Item .Menu-list li::marker {\n  color: #004662;\n}\n.menu-content .Menu-Item .Menu-list li a {\n  font-family: \"Baloo Thambi 2\", monospace;\n  text-decoration: none;\n  font-size: 20px;\n  font-weight: 600;\n}\n.menu-content .Copyright {\n  width: 100%;\n}\n.menu-content .Copyright p {\n  text-align: center !important;\n  color: #004662 !important;\n  font-family: \"Baloo Thambi 2\", monospace;\n  font-size: 20px;\n  font-weight: 700;\n}\n\n@media (min-width: 1100px) {\n  .closed-menu {\n    display: none;\n  }\n\n  #Close {\n    display: none;\n  }\n}\n@media (max-width: 1100px) {\n  .close .menu-content {\n    display: none;\n  }\n  .close .closed-menu {\n    position: fixed;\n    border-radius: 0 0 30px 0;\n    background-color: #0C2646;\n    padding: 10px 12px 12px 10px;\n  }\n  .close .closed-menu button {\n    cursor: pointer;\n    border: none;\n    background-color: #004662;\n    border-radius: 30px;\n    font-size: 25px;\n    padding: 5px 15px;\n    color: #00FFFF;\n    font-family: \"Baloo Thambi 2\", monospace;\n    font-weight: 700;\n    transition: 400ms cubic-bezier(0.28, -0.46, 0.33, 1.5);\n  }\n  .close .closed-menu button:hover {\n    -webkit-transform: scale(1.2);\n  }\n\n  .open .closed-menu {\n    display: none;\n  }\n  .open .menu-content #Close {\n    z-index: 14;\n    position: fixed;\n    left: 160px;\n    top: 5px;\n  }\n  .open .menu-content #Close button {\n    cursor: pointer;\n    border: none;\n    background-color: #004662;\n    border-radius: 30px;\n    font-size: 25px;\n    padding: 5px 15px;\n    color: #00FFFF;\n    font-family: \"Baloo Thambi 2\", monospace;\n    font-weight: 700;\n    transition: 400ms cubic-bezier(0.28, -0.46, 0.33, 1.5);\n  }\n  .open .menu-content #Close button:hover {\n    -webkit-transform: scale(1.2);\n  }\n  .open .menu-content .Version {\n    display: none;\n  }\n  .open .menu-content .Menusepartor:last-child {\n    display: none;\n    visibility: hidden;\n  }\n}\n@media (min-width: 1100px) {\n  #content {\n    margin-left: 270px;\n  }\n}\n.switch-container {\n  display: flex;\n  margin: auto auto;\n  z-index: 1;\n}\n.switch-container .payed_switch {\n  height: 0;\n  width: 0;\n  visibility: hidden;\n}\n.switch-container .payed_switchLabel {\n  z-index: 1;\n  margin: auto auto;\n  cursor: pointer;\n  text-indent: -9999px;\n  width: 100px;\n  height: 30px;\n  background: #FF0000;\n  box-shadow: 0 0 20px 7px #FF0000;\n  display: block;\n  border-radius: 100px;\n  position: relative;\n  transition: 400ms cubic-bezier(0.28, -0.46, 0.33, 1.5);\n}\n.switch-container .payed_switchLabel::after {\n  z-index: 1;\n  content: \" \";\n  position: absolute;\n  top: -5px;\n  left: -5px;\n  width: 40px;\n  height: 40px;\n  background: #222;\n  border-radius: 90px;\n  transition: 400ms cubic-bezier(0.28, -0.46, 0.33, 1.5);\n}\n.switch-container .payed_switch:checked + .payed_switchLabel {\n  background: #00FF00;\n  box-shadow: 0 0 20px 7px #00FF00;\n  z-index: 1;\n}\n.switch-container .payed_switch:checked + .payed_switchLabel:after {\n  left: calc(100% + 5px);\n  transform: translateX(-100%);\n  z-index: 1;\n}\n.switch-container .payed_switchLabel:active:after {\n  width: 40px;\n  z-index: 1;\n}\n\n#Main-Page {\n  display: flex;\n  flex-direction: column;\n  padding: 30px;\n}\n#Main-Page .Personnel_service {\n  background-color: #0C2646;\n  width: 100%;\n  height: 250px;\n  border-radius: 30px;\n  padding: 10px;\n}\n#Main-Page .Personnel_service h1 {\n  padding-left: 20px;\n  font-size: 60px;\n  margin: 0 auto;\n}\n#Main-Page .Annonces {\n  margin-top: 35px;\n  background-color: #0C2646;\n  width: 100%;\n  min-height: 200px;\n  border-radius: 30px;\n  padding: 10px;\n  display: flex;\n  flex-direction: column;\n}\n#Main-Page .Annonces h1 {\n  padding-left: 20px;\n  font-size: 60px;\n  margin: 0 auto;\n  text-align: center;\n}\n#Main-Page .Annonces .Annonces-List {\n  margin: 0 auto;\n  width: 100%;\n  height: calc(100vh - 464px);\n  overflow-y: scroll;\n  display: flex;\n  flex-direction: row;\n  flex-wrap: wrap;\n  justify-content: center;\n}\n#Main-Page .Annonces .Annonces-List .Annonce-Card {\n  background-color: #004662;\n  margin: 10px;\n  padding: 10px;\n  display: flex;\n  flex-direction: column;\n  justify-content: space-between;\n  border-radius: 30px;\n  overflow-y: auto;\n  height: 350px;\n  width: 45%;\n}\n#Main-Page .Annonces .Annonces-List .Annonce-Card .Title {\n  font-size: 30px;\n  text-align: center;\n  margin: 0 auto;\n}\n#Main-Page .Annonces .Annonces-List .Annonce-Card .Separator {\n  margin: 5px auto;\n  content: \" \";\n  width: 100%;\n  text-align: center;\n  background-color: #00FFFF;\n  height: 2px;\n}\n#Main-Page .Annonces .Annonces-List .Annonce-Card .Text {\n  font-size: 25px;\n  text-indent: 20px;\n}\n#Main-Page .Annonces .Annonces-List .Annonce-Card .Date {\n  font-size: 27px;\n  text-align: center;\n}\n\n.Personnel-list {\n  display: flex;\n  flex-direction: row;\n  flex-wrap: wrap;\n  width: 100%;\n  height: 150px;\n  overflow-y: auto;\n}\n.Personnel-list .Personnel-card {\n  margin: 10px;\n  background-color: #004662;\n  border-radius: 30px;\n  height: -webkit-min-content;\n  height: -moz-min-content;\n  height: min-content;\n  padding: 6px 10px;\n}\n.Personnel-list .Personnel-card h5 {\n  margin: 0;\n  font-size: 25px;\n}\n\n#Rapport-Patient {\n  display: flex;\n  flex-direction: column;\n  width: 100%;\n  height: 100%;\n}\n#Rapport-Patient .Header {\n  padding-top: 10px;\n  display: flex;\n  flex-direction: row;\n  justify-content: space-evenly;\n  width: 100%;\n}\n#Rapport-Patient .Header .Title {\n  background-color: #0C2646;\n  border-radius: 30px;\n  padding: 20px;\n}\n#Rapport-Patient .Header .Title h1 {\n  font-size: 30px;\n  font-family: \"Baloo Thambi 2\", monospace;\n  font-weight: 700;\n  text-align: center;\n}\n#Rapport-Patient .Header .pdf {\n  margin-top: 15px;\n  background-color: #0C2646;\n  border-radius: 30px;\n  padding: 10px;\n  height: -webkit-min-content;\n  height: -moz-min-content;\n  height: min-content;\n}\n#Rapport-Patient .Header .pdf a {\n  text-decoration: none;\n  font-size: 20px;\n  font-family: \"Baloo Thambi 2\", monospace;\n  font-weight: 700;\n}\n#Rapport-Patient .Header .submit {\n  background-color: #0C2646;\n  border-radius: 30px;\n  padding: 10px 15px;\n  display: flex;\n}\n#Rapport-Patient .Header .submit button {\n  margin: auto auto;\n  cursor: pointer;\n  background-color: #004662;\n  color: #00FFFF;\n  font-size: 20px;\n  padding: 5px;\n  font-family: \"Baloo Thambi 2\", monospace;\n  font-weight: 700;\n  border: none;\n  border-radius: 30px;\n  box-shadow: none;\n  transition: all 400ms cubic-bezier(0.51, -1.15, 0.48, 2.27);\n}\n#Rapport-Patient .Header .submit button:hover {\n  -webkit-transform: scale(1.1);\n}\n#Rapport-Patient .Header .submit button:active {\n  -webkit-transform: rotate(-5deg);\n}\n#Rapport-Patient .content {\n  padding: 10px;\n  display: flex;\n  flex-direction: row;\n  flex-wrap: wrap;\n  justify-content: space-evenly;\n}\n#Rapport-Patient .content .Rapport-Card {\n  margin: 10px;\n  display: flex;\n  flex-direction: column;\n  padding: 15px;\n  background-color: #0C2646;\n  border-radius: 30px;\n  width: -webkit-fit-content;\n  width: -moz-fit-content;\n  width: fit-content;\n}\n#Rapport-Patient .content .Rapport-Card h1 {\n  font-size: 30px;\n  font-family: \"Baloo Thambi 2\", monospace;\n  font-weight: 600;\n  text-align: center;\n  margin-bottom: 10px;\n}\n#Rapport-Patient .content .Rapport-Card .Form-Group {\n  height: 100%;\n  max-height: 320px;\n  display: flex;\n  flex-direction: column;\n  flex-wrap: wrap;\n  justify-content: space-evenly;\n}\n#Rapport-Patient .content .Rapport-Card .Form-Group input, #Rapport-Patient .content .Rapport-Card .Form-Group select, #Rapport-Patient .content .Rapport-Card .Form-Group textarea {\n  padding: 10px;\n  margin: 10px 0;\n  font-size: 20px;\n  font-family: \"Baloo Thambi 2\", monospace;\n  font-weight: 500;\n  box-shadow: none;\n  border: none;\n  border-radius: 30px;\n  background-color: #004662;\n  color: #00FFFF;\n}\n#Rapport-Patient .content .Rapport-Card .Form-Group input::-moz-placeholder, #Rapport-Patient .content .Rapport-Card .Form-Group select::-moz-placeholder, #Rapport-Patient .content .Rapport-Card .Form-Group textarea::-moz-placeholder {\n  font-family: \"Baloo Thambi 2\", monospace;\n  font-weight: 500;\n  color: #00FFFF;\n}\n#Rapport-Patient .content .Rapport-Card .Form-Group input:-ms-input-placeholder, #Rapport-Patient .content .Rapport-Card .Form-Group select:-ms-input-placeholder, #Rapport-Patient .content .Rapport-Card .Form-Group textarea:-ms-input-placeholder {\n  font-family: \"Baloo Thambi 2\", monospace;\n  font-weight: 500;\n  color: #00FFFF;\n}\n#Rapport-Patient .content .Rapport-Card .Form-Group input::placeholder, #Rapport-Patient .content .Rapport-Card .Form-Group select::placeholder, #Rapport-Patient .content .Rapport-Card .Form-Group textarea::placeholder {\n  font-family: \"Baloo Thambi 2\", monospace;\n  font-weight: 500;\n  color: #00FFFF;\n}\n#Rapport-Patient .content .Rapport-Card .description {\n  display: flex;\n  flex-direction: column;\n}\n#Rapport-Patient .content .Rapport-Card .description textarea {\n  min-width: 600px;\n  min-height: 80px;\n  border-radius: 30px;\n  border: none;\n}\n#Rapport-Patient .content .Rapport-Card .ATA {\n  display: flex;\n  flex-direction: row;\n}\n#Rapport-Patient .content .Rapport-Card .ATA label {\n  line-height: 30px;\n  margin: auto 5px;\n}\n#Rapport-Patient .content .Rapport-Card .facture input[type=checkbox] {\n  height: 0;\n  width: 0;\n  visibility: hidden;\n}\n#Rapport-Patient .content .Rapport-Card .facture #switch {\n  margin: auto auto;\n  cursor: pointer;\n  text-indent: -9999px;\n  width: 100px;\n  height: 30px;\n  background: #FF0000;\n  box-shadow: 0 0 20px 7px #FF0000;\n  display: block;\n  border-radius: 100px;\n  position: relative;\n  transition: 400ms cubic-bezier(0.28, -0.46, 0.33, 1.5);\n}\n#Rapport-Patient .content .Rapport-Card .facture #switch::after {\n  content: \"\";\n  position: absolute;\n  top: -5px;\n  left: -5px;\n  width: 40px;\n  height: 40px;\n  background: #222;\n  border-radius: 90px;\n  transition: 400ms cubic-bezier(0.28, -0.46, 0.33, 1.5);\n}\n#Rapport-Patient .content .Rapport-Card .facture input:checked + #switch {\n  background: #00FF00;\n  box-shadow: 0 0 20px 7px #00FF00;\n}\n#Rapport-Patient .content .Rapport-Card .facture input:checked + #switch:after {\n  left: calc(100% + 5px);\n  transform: translateX(-100%);\n}\n#Rapport-Patient .content .Rapport-Card .facture #switch:active:after {\n  width: 40px;\n}\n\n.BC-Container {\n  width: 100%;\n  height: 100vh;\n  overflow-y: hidden;\n}\n.BC-Container .BC-base {\n  width: 100%;\n  display: flex;\n  flex-direction: column;\n}\n.BC-Container .BC-base .header {\n  display: flex;\n  flex-direction: row;\n  justify-content: space-evenly;\n}\n.BC-Container .BC-base .header button {\n  margin: auto 0;\n}\n.BC-Container .BC-base .contain {\n  padding-top: 20px;\n  width: 100%;\n  display: flex;\n  flex-direction: row;\n}\n.BC-Container .BC-base .contain .BC-List {\n  width: 100%;\n  max-height: calc(100vh - 150px);\n  overflow-y: scroll;\n  display: flex;\n  flex-direction: column;\n}\n.BC-Container .BC-base .contain .BC-List h1 {\n  text-align: center;\n  font-weight: 700;\n  font-size: 35px;\n}\n.BC-Container .BC-base .contain .BC-List .card {\n  cursor: pointer;\n  margin: 10px auto;\n  padding: 10px;\n  background-color: #0C2646;\n  border-radius: 30px;\n  min-width: 500px;\n  max-width: 600px;\n  height: 500px;\n  display: flex;\n  flex-direction: column;\n  z-index: 1;\n  border: #0C2646 1px solid;\n  transition: all 400ms;\n}\n.BC-Container .BC-base .contain .BC-List .card h3, .BC-Container .BC-base .contain .BC-List .card h4 {\n  text-align: center;\n}\n.BC-Container .BC-base .contain .BC-List .card h3 {\n  font-size: 25px;\n}\n.BC-Container .BC-base .contain .BC-List .card h4 {\n  font-size: 22px;\n}\n.BC-Container .BC-base .contain .BC-List .card .rowed {\n  padding: 0 60px;\n  display: flex;\n  flex-direction: row;\n  justify-content: space-between;\n}\n.BC-Container .BC-base .contain .BC-List .card .rowed h5 {\n  font-size: 20px;\n}\n.BC-Container .BC-base .contain .BC-List .card .separator {\n  margin: 10px auto;\n  width: 90%;\n  height: 3px;\n  background-color: #004662;\n  border-radius: 10px;\n}\n.BC-Container .BC-base .contain .BC-List .card:hover {\n  transform: scale(1.1) rotate(3deg);\n  z-index: 12;\n  border: #004662 1px solid;\n}\n.BC-Container .popup {\n  z-index: 25;\n  width: 100%;\n  height: 100vh;\n  position: fixed;\n  top: 0;\n  -webkit-backdrop-filter: blur(2px);\n          backdrop-filter: blur(2px);\n  display: flex;\n  justify-content: center;\n  padding: 10px;\n}\n.BC-Container .popup .popup-content {\n  margin: auto 0;\n  padding: 25px;\n  background-color: #0C2646;\n  border: 1px #004662 solid;\n  border-radius: 30px;\n}\n.BC-Container .popup .popup-content h1 {\n  font-weight: 700;\n  text-align: center;\n  font-size: 35px;\n}\n.BC-Container .popup .popup-content input, .BC-Container .popup .popup-content select {\n  min-width: 200px;\n  margin: 10px;\n}\n.BC-Container .popup .popup-content .row {\n  display: flex;\n  flex-direction: row;\n  justify-content: space-evenly;\n  flex-wrap: wrap;\n}\n.BC-Container .popup .popup-content form {\n  display: flex;\n  flex-direction: column;\n}\n.BC-Container .popup .popup-content .btn-contain {\n  display: flex;\n  flex-direction: row;\n  justify-content: space-evenly;\n}\n\n.RecherchePatient {\n  display: flex;\n  flex-direction: column;\n  padding: 10px;\n}\n.RecherchePatient .header {\n  max-width: -webkit-fit-content;\n  max-width: -moz-fit-content;\n  max-width: fit-content;\n  margin: auto;\n}\n.RecherchePatient .PatientRechercheContent {\n  display: flex;\n  flex-direction: row;\n  flex-wrap: nowrap;\n  justify-content: space-around;\n  margin-top: 20px;\n}\n@media (max-width: 1600px) {\n  .RecherchePatient .PatientRechercheContent {\n    flex-direction: column !important;\n  }\n}\n.RecherchePatient .PatientRechercheContent .PatientInfos {\n  width: 68%;\n  padding: 10px;\n  height: calc(100vh - 170px);\n  border-radius: 30px;\n  background-color: #0C2646;\n}\n@media (max-width: 1600px) {\n  .RecherchePatient .PatientRechercheContent .PatientInfos {\n    height: 100%;\n    width: 90%;\n    margin: 20px auto;\n  }\n}\n.RecherchePatient .PatientRechercheContent .PatientInfos .Infos-Header {\n  padding: 5px 20px;\n  display: flex;\n  flex-direction: row;\n  flex-wrap: nowrap;\n  justify-content: center;\n}\n.RecherchePatient .PatientRechercheContent .PatientInfos .Infos-Header .Title {\n  display: flex;\n  background-color: #004662;\n  border-radius: 30px;\n  padding: 5px;\n}\n.RecherchePatient .PatientRechercheContent .PatientInfos .Infos-Header .Title h1 {\n  margin: auto;\n}\n.RecherchePatient .PatientRechercheContent .PatientInfos .form form {\n  width: 100%;\n  display: grid;\n}\n@media (min-width: 900px) {\n  .RecherchePatient .PatientRechercheContent .PatientInfos .form form {\n    grid-template-columns: 2% repeat(8, 12%) 2%;\n    grid-template-rows: repeat(8, 23px 65px);\n  }\n  .RecherchePatient .PatientRechercheContent .PatientInfos .form form .DescLabel {\n    grid-row-start: 2;\n    grid-row-end: 2;\n    grid-column-start: 2;\n    grid-column-end: 2;\n  }\n  .RecherchePatient .PatientRechercheContent .PatientInfos .form form .InterTypeLabel {\n    display: flex;\n    grid-row-start: 8;\n    grid-row-end: 8;\n    grid-column-start: 2;\n    grid-column-end: 4;\n  }\n  .RecherchePatient .PatientRechercheContent .PatientInfos .form form .InterTypeLabel label {\n    margin: auto 0;\n  }\n  .RecherchePatient .PatientRechercheContent .PatientInfos .form form .BroumLabel {\n    display: flex;\n    grid-row-start: 10;\n    grid-row-end: 10;\n    grid-column-start: 2;\n    grid-column-end: 4;\n  }\n  .RecherchePatient .PatientRechercheContent .PatientInfos .form form .BroumLabel label {\n    margin: auto 0;\n  }\n  .RecherchePatient .PatientRechercheContent .PatientInfos .form form .TarifLabel {\n    display: flex;\n    grid-row-start: 12;\n    grid-row-end: 12;\n    grid-column-start: 2;\n    grid-column-end: 4;\n  }\n  .RecherchePatient .PatientRechercheContent .PatientInfos .form form .TarifLabel label {\n    margin: auto 0;\n  }\n  .RecherchePatient .PatientRechercheContent .PatientInfos .form form .DescInput {\n    grid-row-start: 3;\n    grid-row-end: 7;\n    grid-column-start: 2;\n    grid-column-end: 10;\n  }\n  .RecherchePatient .PatientRechercheContent .PatientInfos .form form .InterInput {\n    grid-row-start: 8;\n    grid-row-end: 8;\n    grid-column-start: 5;\n    grid-column-end: 8;\n  }\n  .RecherchePatient .PatientRechercheContent .PatientInfos .form form .InterInput select {\n    width: 100%;\n    height: 100%;\n  }\n  .RecherchePatient .PatientRechercheContent .PatientInfos .form form .BroumInput {\n    grid-row-start: 10;\n    grid-row-end: 10;\n    grid-column-start: 5;\n    grid-column-end: 8;\n  }\n  .RecherchePatient .PatientRechercheContent .PatientInfos .form form .BroumInput select {\n    width: 100%;\n    height: 100%;\n  }\n  .RecherchePatient .PatientRechercheContent .PatientInfos .form form .TarifInput {\n    grid-row-start: 12;\n    grid-row-end: 12;\n    grid-column-start: 5;\n    grid-column-end: 8;\n  }\n  .RecherchePatient .PatientRechercheContent .PatientInfos .form form .TarifInput input {\n    width: 100%;\n    height: 100%;\n  }\n  .RecherchePatient .PatientRechercheContent .PatientInfos .form form .ATA {\n    grid-row-start: 14;\n    grid-row-end: 14;\n    grid-column-start: 2;\n    grid-column-end: 10;\n    display: flex;\n    flex-direction: row;\n    flex-wrap: nowrap;\n    justify-content: space-between;\n  }\n  .RecherchePatient .PatientRechercheContent .PatientInfos .form form .ATA label {\n    margin: auto 0;\n    font-size: 25px;\n    font-weight: 550;\n  }\n  .RecherchePatient .PatientRechercheContent .PatientInfos .form form .submit {\n    grid-row-start: 16;\n    grid-row-end: 16;\n    grid-column-start: 3;\n    grid-column-end: 5;\n  }\n  .RecherchePatient .PatientRechercheContent .PatientInfos .form form .PDF {\n    grid-row-start: 16;\n    grid-row-end: 16;\n    grid-column-start: 8;\n    grid-column-end: 10;\n  }\n}\n@media (max-width: 900px) {\n  .RecherchePatient .PatientRechercheContent .PatientInfos .form form {\n    grid-template-columns: 2% repeat(8, 12%) 2%;\n    grid-template-rows: repeat(12, 23px 65px);\n  }\n  .RecherchePatient .PatientRechercheContent .PatientInfos .form form .DescLabel {\n    grid-row-start: 2;\n    grid-row-end: 2;\n    grid-column-start: 2;\n    grid-column-end: 4;\n  }\n  .RecherchePatient .PatientRechercheContent .PatientInfos .form form .DescInput {\n    grid-row-start: 3;\n    grid-row-end: 7;\n    grid-column-start: 2;\n    grid-column-end: 10;\n  }\n  .RecherchePatient .PatientRechercheContent .PatientInfos .form form .InterTypeLabel {\n    display: flex;\n    grid-row-start: 8;\n    grid-row-end: 8;\n    grid-column-start: 2;\n    grid-column-end: 5;\n  }\n  .RecherchePatient .PatientRechercheContent .PatientInfos .form form .InterTypeLabel label {\n    margin: auto 0;\n  }\n  .RecherchePatient .PatientRechercheContent .PatientInfos .form form .BroumLabel {\n    display: flex;\n    grid-row-start: 10;\n    grid-row-end: 10;\n    grid-column-start: 2;\n    grid-column-end: 5;\n  }\n  .RecherchePatient .PatientRechercheContent .PatientInfos .form form .BroumLabel label {\n    margin: auto 0;\n  }\n  .RecherchePatient .PatientRechercheContent .PatientInfos .form form .TarifLabel {\n    display: flex;\n    grid-row-start: 12;\n    grid-row-end: 12;\n    grid-column-start: 2;\n    grid-column-end: 5;\n  }\n  .RecherchePatient .PatientRechercheContent .PatientInfos .form form .TarifLabel label {\n    margin: auto 0;\n  }\n  .RecherchePatient .PatientRechercheContent .PatientInfos .form form .InterInput {\n    grid-row-start: 8;\n    grid-row-end: 8;\n    grid-column-start: 6;\n    grid-column-end: 8;\n  }\n  .RecherchePatient .PatientRechercheContent .PatientInfos .form form .InterInput select {\n    width: 100%;\n    height: 100%;\n  }\n  .RecherchePatient .PatientRechercheContent .PatientInfos .form form .BroumInput {\n    grid-row-start: 10;\n    grid-row-end: 10;\n    grid-column-start: 6;\n    grid-column-end: 8;\n  }\n  .RecherchePatient .PatientRechercheContent .PatientInfos .form form .BroumInput select {\n    width: 100%;\n    height: 100%;\n  }\n  .RecherchePatient .PatientRechercheContent .PatientInfos .form form .TarifInput {\n    grid-row-start: 12;\n    grid-row-end: 12;\n    grid-column-start: 6;\n    grid-column-end: 8;\n  }\n  .RecherchePatient .PatientRechercheContent .PatientInfos .form form .TarifInput input {\n    width: 100%;\n    height: 100%;\n  }\n  .RecherchePatient .PatientRechercheContent .PatientInfos .form form .ATA {\n    grid-row-start: 14;\n    grid-row-end: 17;\n    grid-column-start: 2;\n    grid-column-end: 10;\n    display: flex;\n    flex-direction: row;\n    flex-wrap: wrap;\n    justify-content: space-evenly;\n  }\n  .RecherchePatient .PatientRechercheContent .PatientInfos .form form .ATA label {\n    margin: auto 0;\n    font-size: 25px;\n    font-weight: 550;\n  }\n  .RecherchePatient .PatientRechercheContent .PatientInfos .form form .submit {\n    grid-row-start: 20;\n    grid-row-end: 20;\n    grid-column-start: 3;\n    grid-column-end: 5;\n  }\n  .RecherchePatient .PatientRechercheContent .PatientInfos .form form .PDF {\n    grid-row-start: 22;\n    grid-row-end: 22;\n    grid-column-start: 3;\n    grid-column-end: 5;\n  }\n}\n.RecherchePatient .PatientRechercheContent .PatientInfos .form form input:disabled, .RecherchePatient .PatientRechercheContent .PatientInfos .form form select:disabled, .RecherchePatient .PatientRechercheContent .PatientInfos .form form textarea:disabled, .RecherchePatient .PatientRechercheContent .PatientInfos .form form button:disabled {\n  opacity: 0.7;\n  transition: none;\n}\n.RecherchePatient .PatientRechercheContent .PatientInfos .form form input:disabled:hover, .RecherchePatient .PatientRechercheContent .PatientInfos .form form select:disabled:hover, .RecherchePatient .PatientRechercheContent .PatientInfos .form form textarea:disabled:hover, .RecherchePatient .PatientRechercheContent .PatientInfos .form form button:disabled:hover {\n  -webkit-transform: scale(1);\n}\n.RecherchePatient .PatientRechercheContent .Recherche {\n  width: 28%;\n  height: calc(100vh - 170px);\n  overflow-y: auto;\n  border-radius: 30px;\n  background-color: #0C2646;\n  overflow-x: hidden;\n  display: flex;\n  flex-direction: column;\n}\n@media (max-width: 1600px) {\n  .RecherchePatient .PatientRechercheContent .Recherche {\n    height: 100%;\n    width: 90%;\n    margin: 20px auto;\n  }\n}\n.RecherchePatient .PatientRechercheContent .Recherche .FormRecherche {\n  display: flex;\n  width: 100%;\n  padding: 10px;\n  border-bottom: black 1px solid;\n}\n.RecherchePatient .PatientRechercheContent .Recherche .FormRecherche form {\n  display: flex;\n  flex-direction: row;\n  margin: 0 auto;\n}\n@media (max-width: 1600px) {\n  .RecherchePatient .PatientRechercheContent .Recherche .FormRecherche form input {\n    width: calc(100% - 90px);\n  }\n}\n.RecherchePatient .PatientRechercheContent .Recherche .FormRecherche form button {\n  margin: auto 5px;\n  display: flex;\n  height: 60px;\n  left: 50%;\n}\n.RecherchePatient .PatientRechercheContent .Recherche .FormRecherche form button img {\n  margin: auto;\n  height: 25px;\n}\n.RecherchePatient .PatientRechercheContent .Recherche .Interventions {\n  display: flex;\n  flex-direction: column;\n  margin: 15px auto;\n  width: 80%;\n  background-color: #004662;\n  border-radius: 30px;\n}\n.RecherchePatient .PatientRechercheContent .Recherche .Interventions h3 {\n  margin: 10px auto;\n  background-color: #0C2646;\n  font-size: 25px;\n  font-weight: 700;\n  padding: 5px 10px;\n  border-radius: 30px;\n}\n.RecherchePatient .PatientRechercheContent .Recherche .Interventions .InterventionsList {\n  height: 400px;\n  overflow-y: auto;\n  display: flex;\n  flex-direction: column;\n  margin: 10px auto;\n}\n.RecherchePatient .PatientRechercheContent .Recherche .Interventions .InterventionsList .InterventionItem {\n  margin: 0 auto;\n  padding: 10px 5px;\n  border-bottom: black 1px solid;\n}\n.RecherchePatient .PatientRechercheContent .Recherche .Interventions .InterventionsList .InterventionItem button {\n  cursor: pointer;\n  background-color: transparent;\n  border: none;\n  font-size: 20px;\n  font-weight: 600;\n  font-family: \"Baloo Thambi 2\", monospace;\n  color: #00FFFF;\n}\n.RecherchePatient .PatientRechercheContent .Recherche .infos {\n  padding: 15px;\n}\n@media (max-width: 1600px) {\n  .RecherchePatient .PatientRechercheContent .Recherche .infos {\n    margin: 0 auto;\n    width: 80%;\n  }\n}\n.RecherchePatient .PatientRechercheContent .Recherche .infos .inline {\n  padding: 15px;\n  display: flex;\n  flex-direction: row;\n  justify-content: space-between;\n}\n@media (max-width: 1600px) {\n  .RecherchePatient .PatientRechercheContent .Recherche .infos .inline {\n    flex-direction: column !important;\n    justify-content: normal !important;\n  }\n}\n.RecherchePatient .PatientRechercheContent .Recherche .infos .inline input {\n  width: 60%;\n}\n.RecherchePatient .PatientRechercheContent .Recherche .infos .inline label {\n  margin: auto 0;\n}\n\n.Services {\n  padding: 15px;\n  display: flex;\n  height: 95vh;\n  flex-direction: column;\n  justify-content: space-between;\n}\n@media (min-width: 1100px) and (max-width: 1200px) {\n  .Services {\n    overflow-x: scroll;\n  }\n}\n.Services section {\n  height: -webkit-min-content;\n  height: -moz-min-content;\n  height: min-content;\n}\n.Services .title-contain {\n  max-width: -webkit-fit-content;\n  max-width: -moz-fit-content;\n  max-width: fit-content;\n  margin: 0 auto;\n}\n.Services .week {\n  margin: 0 auto;\n}\n.Services .week table {\n  width: 800px;\n  border-collapse: collapse;\n  border-radius: 30px;\n  background-color: #0C2646;\n  display: block;\n  height: 300px;\n  overflow-y: scroll;\n}\n.Services .week table tr {\n  border: black 1px solid;\n  border-left: none;\n  border-right: none;\n}\n.Services .week table tr:first-child {\n  border-top: none;\n}\n.Services .week table tr:last-child {\n  border-bottom: none;\n}\n.Services .week table .head {\n  position: -webkit-sticky;\n  position: sticky;\n  top: 0;\n  border-bottom: black 1px solid;\n  background-color: #004662;\n  z-index: 10;\n  border-left: 1px black solid;\n  border-right: 1px black solid;\n}\n.Services .week table .head:first-child {\n  border-left: none;\n}\n.Services .week table .head:last-child {\n  border-right: none;\n}\n.Services .week table td {\n  width: 200px;\n  padding: 5px;\n  text-align: center;\n  font-family: \"Baloo Thambi 2\", monospace;\n  font-size: 25px;\n  color: #00FFFF;\n  border: black 1px solid;\n  border-top: none;\n  border-bottom: none;\n}\n.Services .week table td:first-child {\n  border-left: none;\n}\n.Services .week table td:last-child {\n  border-right: none;\n}\n.Services .week table .body {\n  width: 800px;\n  padding-top: 40px;\n}\n.Services .week table .header {\n  width: 800px;\n  background-color: #004662;\n  height: 40px;\n}\n.Services .week-list {\n  margin: 0 auto;\n}\n.Services .week-list table {\n  width: 900px;\n  height: 300px;\n  border-collapse: collapse;\n  border-radius: 30px;\n  background-color: #0C2646;\n}\n.Services .week-list table tr {\n  border: black 1px solid;\n  border-left: none;\n  border-right: none;\n}\n.Services .week-list table tr:last-child {\n  border-bottom: none;\n}\n.Services .week-list table td {\n  width: 200px;\n  padding: 5px;\n  text-align: center;\n  font-family: \"Baloo Thambi 2\", monospace;\n  font-size: 25px;\n  color: #00FFFF;\n  border: black 1px solid;\n  border-top: none;\n  border-bottom: none;\n}\n.Services .week-list table td:first-child {\n  border-left: none;\n}\n.Services .week-list table td:last-child {\n  border-right: none;\n}\n.Services .week-list table .body {\n  width: 800px;\n}\n.Services .week-list table .header {\n  width: 800px;\n  background-color: #004662;\n}\n.Services .week-list table .header tr:first-child {\n  border-top: none;\n}\n\n.impayes {\n  height: 100vh;\n  display: flex;\n  flex-direction: column;\n  justify-content: space-evenly;\n}\n.impayes .header {\n  display: flex;\n  flex-direction: row;\n  flex-wrap: nowrap;\n  justify-content: space-evenly;\n}\n.impayes .header .pdf_Generator {\n  margin: auto 0;\n  padding: 15px;\n  background-color: #0C2646;\n  border-radius: 30px;\n}\n.impayes .header .pdf_Generator form {\n  display: flex;\n  flex-direction: row;\n  justify-content: space-evenly;\n  margin: auto 0;\n}\n.impayes .header .pdf_Generator form label {\n  margin: auto 10px;\n}\n.impayes .header .pdf_Generator form .btn {\n  margin: auto 10px;\n}\n.impayes .header .Add-facture {\n  margin: auto 0;\n}\n.impayes .impayelist {\n  margin: 0 auto;\n  display: flex;\n  height: 80vh;\n  width: 80%;\n  background-color: #0C2646;\n  overflow-y: auto;\n  border-radius: 30px;\n  padding-bottom: 10px;\n}\n.impayes .impayelist .ImpayeTableContainer {\n  width: 100%;\n}\n.impayes .impayelist .ImpayeTableContainer table {\n  top: 0;\n  width: 100%;\n  border-collapse: collapse;\n}\n.impayes .impayelist .ImpayeTableContainer table tr {\n  width: 100%;\n  border: black 1px solid;\n  border-left: none;\n  border-right: none;\n}\n.impayes .impayelist .ImpayeTableContainer table tr:first-child {\n  border-top: none;\n}\n.impayes .impayelist .ImpayeTableContainer table tr:last-child {\n  border-bottom: none;\n}\n.impayes .impayelist .ImpayeTableContainer table .head {\n  position: -webkit-sticky;\n  position: sticky;\n  top: 0;\n  border-bottom: black 1px solid;\n  background-color: #004662;\n  z-index: 10;\n  border-left: 1px black solid;\n  border-right: 1px black solid;\n}\n.impayes .impayelist .ImpayeTableContainer table .head:first-child {\n  border-left: none;\n}\n.impayes .impayelist .ImpayeTableContainer table .head:last-child {\n  border-right: none;\n}\n.impayes .impayelist .ImpayeTableContainer table td {\n  width: 20%;\n  padding: 5px;\n  text-align: center;\n  font-family: \"Baloo Thambi 2\", monospace;\n  font-size: 25px;\n  color: #00FFFF;\n  height: 70px;\n  border: black 1px solid;\n  border-top: none;\n  border-bottom: none;\n}\n.impayes .impayelist .ImpayeTableContainer table td:first-child {\n  border-left: none;\n}\n.impayes .impayelist .ImpayeTableContainer table td:last-child {\n  border-right: none;\n}\n.impayes .impayelist .ImpayeTableContainer table thead tr {\n  border-bottom: 1px black solid !important;\n}\n.impayes .add-facture-form {\n  height: 100vh;\n  width: calc(100vw - 270px);\n  position: fixed;\n  z-index: 21;\n  display: flex;\n  justify-content: center;\n}\n.impayes .add-facture-form .card-facture {\n  margin: auto;\n  width: 700px;\n  height: 300px;\n  background-color: #0C2646;\n  border: 1px solid #00FFFF;\n  box-shadow: 0 0 15px 0px #00FFFF;\n  border-radius: 30px;\n  padding: 15px;\n}\n.impayes .add-facture-form .card-facture h1 {\n  text-align: center;\n  font-size: 35px;\n}\n.impayes .add-facture-form .card-facture form {\n  width: 100%;\n  display: flex;\n  flex-direction: column;\n}\n.impayes .add-facture-form .card-facture form .content {\n  margin-top: 15px;\n  display: flex;\n  flex-direction: row;\n  flex-wrap: wrap;\n  justify-content: space-evenly;\n}\n.impayes .add-facture-form .card-facture form .content .switch-container {\n  margin-top: 15px;\n}\n.impayes .add-facture-form .card-facture form .footer {\n  margin-top: 20px;\n  display: flex;\n  flex-direction: row;\n  justify-content: space-evenly;\n}\n\n.RapportHorraire {\n  width: 100%;\n  height: 100%;\n  display: flex;\n  flex-direction: column;\n  justify-content: space-around;\n}\n.RapportHorraire .header {\n  display: flex;\n  flex-direction: row;\n  justify-content: space-around;\n  padding-top: 10px;\n}\n.RapportHorraire .header .semaine-select {\n  margin: auto 0;\n}\n.RapportHorraire .header .semaine-select form {\n  background-color: #0C2646;\n  border-radius: 30px;\n  padding: 10px;\n  display: flex;\n  flex-direction: row;\n}\n.RapportHorraire .header .semaine-select form input {\n  margin: 0 10px;\n}\n.RapportHorraire .header .semaine-select form label, .RapportHorraire .header .semaine-select form button {\n  margin: auto 0;\n}\n.RapportHorraire .header .add-perso {\n  margin: auto 0;\n}\n.RapportHorraire .rapport-table-container {\n  margin: 25px auto;\n  height: 80vh;\n  width: 90%;\n  background-color: #0C2646;\n  border-radius: 30px;\n  overflow-y: scroll;\n  overflow-x: hidden;\n}\n.RapportHorraire .rapport-table-container .rapport-table {\n  width: 100%;\n  height: 100%;\n  border-collapse: collapse;\n  display: table;\n}\n.RapportHorraire .rapport-table-container .rapport-table .row {\n  display: table-row;\n  height: 40px;\n  border-top: 1px black solid;\n  border-bottom: 1px black solid;\n}\n.RapportHorraire .rapport-table-container .rapport-table .row:first-child {\n  border-top: none !important;\n}\n.RapportHorraire .rapport-table-container .rapport-table .row:last-child {\n  border-bottom: none !important;\n}\n.RapportHorraire .rapport-table-container .rapport-table .cell {\n  border-left: 1px black solid;\n  border-right: 1px black solid;\n  width: 10%;\n  display: table-cell;\n  vertical-align: middle;\n}\n.RapportHorraire .rapport-table-container .rapport-table .cell p {\n  text-align: center;\n}\n.RapportHorraire .rapport-table-container .rapport-table .head {\n  position: -webkit-sticky;\n  position: sticky;\n  top: 0;\n  border-bottom: black 1px solid;\n  background-color: #004662;\n  z-index: 10;\n  height: 10px;\n  border-left: 1px black solid;\n  border-right: 1px black solid;\n}\n.RapportHorraire .rapport-table-container .rapport-table .head:first-child {\n  border-left: none;\n}\n.RapportHorraire .rapport-table-container .rapport-table .head:last-child {\n  border-right: none;\n}\n.RapportHorraire .rapport-table-container .rapport-table .column-1 {\n  text-wrap: normal;\n  border-left: none !important;\n}\n.RapportHorraire .rapport-table-container .rapport-table .column-10 {\n  border-right: none !important;\n}\n.RapportHorraire .rapport-table-container .rapport-table .table-header {\n  background-color: #004662;\n  border-top: none !important;\n  position: -webkit-sticky;\n  position: sticky;\n  height: 70px;\n  top: 0;\n}\n\n.ContentManagement {\n  width: 100%;\n  height: 100%;\n  display: flex;\n  flex-direction: column;\n  justify-content: center;\n}\n.ContentManagement .header {\n  display: flex;\n  flex-direction: row;\n  flex-wrap: nowrap;\n  justify-content: center;\n  margin-bottom: 10px;\n  height: 151px;\n}\n.ContentManagement .content-mgt {\n  width: 97%;\n  margin: 0 auto;\n  height: calc(100vh - 200px);\n  overflow-y: scroll;\n  display: flex;\n  flex-direction: row;\n  justify-content: space-evenly;\n  flex-wrap: wrap;\n  padding-top: 10px;\n}\n.ContentManagement .content-mgt .ContentCard {\n  width: 400px;\n  margin: 20px;\n  height: 500px;\n  background-color: #0C2646;\n  border-radius: 30px;\n  padding: 10px;\n  display: flex;\n  flex-direction: column;\n  justify-content: space-around;\n}\n.ContentManagement .content-mgt .ContentCard h1 {\n  text-align: center;\n  font-weight: 700;\n  font-size: 35px;\n}\n.ContentManagement .content-mgt .ContentCard:last-child {\n  margin-bottom: 100px;\n}\n.ContentManagement .content-mgt .ContentCard .item-list, .ContentManagement .content-mgt .ContentCard textarea {\n  margin: 0 auto;\n  background-color: #004662;\n  border-radius: 30px 0 0 30px;\n  padding: 10px;\n  height: 300px;\n  overflow-y: auto;\n  width: 90%;\n}\n.ContentManagement .content-mgt .ContentCard .item-list .item, .ContentManagement .content-mgt .ContentCard textarea .item {\n  display: flex;\n  flex-direction: row;\n  justify-content: space-between;\n  flex-wrap: nowrap;\n  width: 100%;\n  border-bottom: 1px black solid;\n  height: 50px;\n  padding: 5px 0;\n}\n.ContentManagement .content-mgt .ContentCard .item-list .item button, .ContentManagement .content-mgt .ContentCard textarea .item button {\n  cursor: pointer;\n  background-color: transparent;\n  border: none;\n  transition: 500ms ease-in-out;\n}\n.ContentManagement .content-mgt .ContentCard .item-list .item button img, .ContentManagement .content-mgt .ContentCard textarea .item button img {\n  height: 40px;\n}\n.ContentManagement .content-mgt .ContentCard .item-list .item button:hover, .ContentManagement .content-mgt .ContentCard textarea .item button:hover {\n  -webkit-transform: rotate(6deg);\n}\n.ContentManagement .content-mgt .ContentCard .item-list .item p, .ContentManagement .content-mgt .ContentCard textarea .item p {\n  margin: auto 0;\n  font-size: 25px;\n}\n.ContentManagement .content-mgt .ContentCard form {\n  margin: 10px auto;\n  display: flex;\n  flex-direction: column;\n  width: 90%;\n}\n.ContentManagement .content-mgt .ContentCard form button {\n  margin-top: 10px;\n  margin-right: 0;\n  margin-left: auto;\n}\n\n.PersonnelList {\n  width: 100%;\n  height: 100%;\n  display: flex;\n  flex-direction: column;\n  justify-content: center;\n  flex-wrap: wrap;\n}\n.PersonnelList .header {\n  display: flex;\n  flex-direction: row;\n  justify-content: center;\n}\n.PersonnelList .header button {\n  margin: auto 0;\n}\n.PersonnelList .list-personnel {\n  margin: 10px auto;\n  background-color: #0C2646;\n  border-radius: 30px;\n  width: 90%;\n  height: calc(100vh - 151px);\n  overflow-y: scroll;\n  flex-grow: 1;\n}\n.PersonnelList .list-personnel table {\n  border-collapse: collapse;\n  width: 100%;\n}\n.PersonnelList .list-personnel table th {\n  position: -webkit-sticky;\n  position: sticky;\n  top: 0;\n  border-bottom: black 1px solid;\n  background-color: #004662;\n  z-index: 10;\n  border-left: 1px black solid;\n  border-right: 1px black solid;\n}\n.PersonnelList .list-personnel table th:first-child {\n  border-left: none;\n}\n.PersonnelList .list-personnel table th:last-child {\n  border-right: none;\n}\n.PersonnelList .list-personnel table .id {\n  width: 5%;\n  text-align: center;\n}\n.PersonnelList .list-personnel table .name {\n  width: 20%;\n  text-align: center;\n}\n.PersonnelList .list-personnel table .tel {\n  width: 15%;\n  text-align: center;\n}\n.PersonnelList .list-personnel table .compte {\n  width: 15%;\n  text-align: center;\n}\n.PersonnelList .list-personnel table .pilote {\n  width: 15%;\n}\n.PersonnelList .list-personnel table .pilote .pilote-btn {\n  /*Button is :CHECKED*/\n  /*shared*/\n  /*'un':checked state*/\n  /* pesduo class on toggle */\n}\n.PersonnelList .list-personnel table .pilote .pilote-btn *::before, .PersonnelList .list-personnel table .pilote .pilote-btn *::after {\n  transition: 400ms all ease-in-out 50ms;\n  box-sizing: border-box;\n  -webkit-backface-visibility: hidden;\n          backface-visibility: hidden;\n}\n.PersonnelList .list-personnel table .pilote .pilote-btn input[type=checkbox]:checked ~ div {\n  background: #49a844;\n  box-shadow: 0 0 2px #49a844;\n}\n.PersonnelList .list-personnel table .pilote .pilote-btn input[type=checkbox]:checked ~ div label {\n  transform: translate(60px);\n}\n.PersonnelList .list-personnel table .pilote .pilote-btn input[type=checkbox] ~ div label {\n  transition: 300ms all ease-in-out 50ms;\n}\n.PersonnelList .list-personnel table .pilote .pilote-btn div,\n.PersonnelList .list-personnel table .pilote .pilote-btn label {\n  border-radius: 50px;\n}\n.PersonnelList .list-personnel table .pilote .pilote-btn input[type=checkbox] {\n  display: none;\n}\n.PersonnelList .list-personnel table .pilote .pilote-btn div {\n  height: 40px;\n  width: 80px;\n  background: #2b2b2b;\n  position: relative;\n  top: 0;\n  left: calc(50% - 35px);\n  box-shadow: 0 0 2px #2b2b2b;\n}\n.PersonnelList .list-personnel table .pilote .pilote-btn label {\n  height: 40px;\n  width: 40px;\n  background: white;\n  position: absolute;\n  top: 0;\n  left: -15px;\n  cursor: pointer;\n}\n.PersonnelList .list-personnel table .pilote .pilote-btn label::before {\n  content: \"\";\n  height: 60px;\n  width: 5px;\n  position: absolute;\n  top: calc(50% - 30px);\n  left: calc(50% - 2.5px);\n  transform: rotate(45deg);\n}\n.PersonnelList .list-personnel table .pilote .pilote-btn label::after {\n  content: \"\";\n  height: 5px;\n  width: 60px;\n  position: absolute;\n  top: calc(50% - 2.5px);\n  left: calc(50% - 30px);\n  transform: rotate(45deg);\n}\n.PersonnelList .list-personnel table .pilote .pilote-btn label::before,\n.PersonnelList .list-personnel table .pilote .pilote-btn label::after {\n  background: #2b2b2b;\n  border-radius: 5px;\n}\n.PersonnelList .list-personnel table .pilote .pilote-btn input[type=checkbox]:checked ~ div label::before {\n  height: 32px;\n  top: calc(55% - 19px);\n  left: calc(60% + 2px);\n  background: #49a844;\n}\n.PersonnelList .list-personnel table .pilote .pilote-btn input[type=checkbox]:checked ~ div label::after {\n  width: 21px;\n  top: calc(95% - 17px);\n  left: calc(22.5% - 7px);\n  background: #49a844;\n}\n.PersonnelList .list-personnel table .grade {\n  width: 30%;\n}\n.PersonnelList .list-personnel table th, .PersonnelList .list-personnel table td {\n  font-family: \"Baloo Thambi 2\", monospace;\n  font-weight: 500;\n  font-size: 25px;\n  color: #00FFFF;\n  border-left: black 1px solid;\n  border-right: 1px black solid;\n}\n.PersonnelList .list-personnel table th:first-child, .PersonnelList .list-personnel table td:first-child {\n  border-left: none;\n}\n.PersonnelList .list-personnel table th:last-child, .PersonnelList .list-personnel table td:last-child {\n  border-right: none;\n}\n.PersonnelList .list-personnel table td:last-child form {\n  display: flex;\n  flex-direction: row;\n  justify-content: center;\n}\n.PersonnelList .list-personnel table td:last-child form select {\n  width: 300px;\n  margin-right: 20px;\n}\n.PersonnelList .list-personnel table td:last-child form button {\n  margin: auto 0;\n}\n.PersonnelList .list-personnel table tr {\n  border-top: 1px black solid;\n  border-bottom: 1px black solid;\n}\n.PersonnelList .list-personnel table tr:first-child {\n  border-top: none;\n}\n.PersonnelList .list-personnel table tr:last-child {\n  border-bottom: none;\n}\n\n.Login, .Register {\n  width: 100%;\n  height: 100%;\n  display: flex;\n  justify-content: center;\n}\n.Login .Form, .Register .Form {\n  margin: auto auto;\n  background-color: #0C2646;\n  border-radius: 30px;\n  padding: 10px;\n}\n.Login .Form form, .Register .Form form {\n  display: flex;\n  flex-direction: column;\n}\n.Login .Form form h1, .Register .Form form h1 {\n  text-align: center;\n  font-size: 40px;\n  font-weight: 900;\n  color: #00FFFF;\n}\n.Login .Form form label, .Register .Form form label {\n  margin-top: 10px;\n  font-size: 30px;\n  font-weight: 600;\n}\n.Login .Form form .btn-contain, .Register .Form form .btn-contain {\n  display: flex;\n  flex-direction: row;\n  justify-content: space-evenly;\n  margin-top: 10px;\n}\n\n.remboursement {\n  display: flex;\n  width: 100%;\n  height: 95vh;\n  padding: 10px;\n  flex-direction: column;\n  justify-content: space-between;\n}\n.remboursement .title-contain {\n  width: -webkit-min-content;\n  width: -moz-min-content;\n  width: min-content;\n  margin: 0 40px 0 auto;\n}\n.remboursement .MainContainer {\n  height: -webkit-max-content;\n  height: -moz-max-content;\n  height: max-content;\n  width: 80vw;\n  margin: 0 auto;\n  overflow: hidden;\n}\n.remboursement .MainContainer .selector {\n  margin-left: 25px;\n}\n.remboursement .MainContainer .selector button {\n  border: none;\n  background-color: #0C2646;\n  font-size: 28px;\n  font-family: \"Baloo Thambi 2\", monospace;\n  color: #00FFFF;\n  font-weight: 600;\n  margin-left: 10px;\n  padding: 10px;\n  border-radius: 25px 25px 0 0;\n  border-top: 1px black solid;\n  border-left: 1px black solid;\n  border-right: 1px black solid;\n}\n.remboursement .MainContainer .selector .unselected {\n  background-color: #004662;\n  cursor: pointer;\n}\n.remboursement .MainContainer .myview {\n  display: flex;\n  flex-direction: row;\n  flex-wrap: wrap;\n  background-color: #0C2646;\n  border-radius: 30px;\n}\n.remboursement .MainContainer .myview .add {\n  width: 49%;\n  min-width: 300px;\n  display: flex;\n}\n.remboursement .MainContainer .myview .add form {\n  margin: 0 auto;\n  width: 60%;\n  display: flex;\n  flex-direction: column;\n  justify-content: space-around;\n  max-height: 300px;\n}\n.remboursement .MainContainer .myview .add form h2 {\n  text-align: center;\n}\n.remboursement .MainContainer .myview .add form button {\n  margin: 0 0 0 auto;\n}\n.remboursement .MainContainer .myview .list-content {\n  display: flex;\n  width: 42%;\n  padding: 30px;\n}\n.remboursement .MainContainer .myview .list-content .list {\n  display: flex;\n  flex-direction: column;\n  height: 700px;\n  overflow-y: auto;\n  margin: 0 auto;\n  background-color: #004662;\n  border-radius: 30px;\n  width: 70%;\n  min-width: 300px;\n  padding: 5px;\n}\n.remboursement .MainContainer .myview .list-content .list .row {\n  display: flex;\n  flex-direction: row;\n  justify-content: space-between;\n  margin-bottom: 10px;\n  cursor: default;\n}\n.remboursement .MainContainer .myview .list-content .list .row h5 {\n  font-size: 22px;\n  line-height: 30px;\n}\n.remboursement .MainContainer .myview .list-content .list .row button {\n  background: transparent;\n  border: none;\n  cursor: pointer !important;\n}\n.remboursement .MainContainer .myview .list-content .list .row button img {\n  width: 30px;\n  transition: all 200ms;\n}\n.remboursement .MainContainer .myview .list-content .list .row button img:hover {\n  -webkit-transform: scale(1.2);\n}\n.remboursement .MainContainer .adminview {\n  display: flex;\n  flex-direction: column;\n  background-color: #0C2646;\n  border-radius: 30px;\n  width: 100%;\n  height: calc(100vh - 250px);\n  overflow-y: hidden;\n}\n.remboursement .MainContainer .adminview .table-head {\n  display: flex;\n  width: 100%;\n  height: 100px;\n}\n.remboursement .MainContainer .adminview .table-head form {\n  display: flex;\n  flex-direction: row;\n  padding: 10px;\n}\n.remboursement .MainContainer .adminview .table-head form label {\n  font-size: 28px;\n  margin: auto 10px auto 10px;\n  font-weight: 500;\n}\n.remboursement .MainContainer .adminview .table-head form button {\n  margin: auto 0 auto 30px;\n}\n.remboursement .MainContainer .adminview .table-head form input {\n  width: 70px;\n}\n.remboursement .MainContainer .adminview .table-container {\n  height: calc(100vh - 107px);\n  overflow-y: scroll;\n}\n.remboursement .MainContainer .adminview .table-container table {\n  border-collapse: collapse;\n  height: 500px;\n  width: 100%;\n  overflow-y: scroll;\n  border-radius: 30px;\n}\n.remboursement .MainContainer .adminview .table-container table .head {\n  position: -webkit-sticky;\n  position: sticky;\n  color: #00FFFF;\n  text-align: center;\n  padding: 10px;\n  height: 40px;\n  font-family: \"Baloo Thambi 2\", monospace;\n  font-weight: 600;\n  font-size: 25px;\n  top: 0;\n  background-color: #004662;\n}\n.remboursement .MainContainer .adminview .table-container table tbody tr {\n  height: 30px;\n  border-top: black 1px solid;\n  border-bottom: black 1px solid;\n}\n.remboursement .MainContainer .adminview .table-container table tbody tr td {\n  text-align: center;\n  padding: 10px;\n  font-family: \"Baloo Thambi 2\", monospace;\n  font-weight: 500;\n  font-size: 20px;\n  color: #00FFFF;\n  border-left: 1px black solid;\n  border-right: 1px black solid;\n}\n.remboursement .MainContainer .adminview .table-container table tbody tr td:last-child {\n  border-right: none !important;\n}\n.remboursement .MainContainer .adminview .table-container table tbody tr td:first-child {\n  border-left: none !important;\n}\n.remboursement .MainContainer .adminview .table-container table .id {\n  width: 70px;\n}\n\n.Logs {\n  width: 100%;\n  height: 100vh;\n  display: flex;\n  flex-direction: column;\n}\n.Logs .header {\n  display: flex;\n  flex-direction: row;\n  justify-content: space-around;\n  margin-bottom: 30px;\n  height: 130px;\n}\n.Logs .header .logs-select {\n  display: flex;\n  padding: 7px 20px;\n  background-color: #0C2646;\n  border-radius: 30px;\n}\n.Logs .header .logs-select select {\n  margin: auto;\n}\n.Logs .log-list {\n  margin: 0 auto;\n  height: calc(100vh - 250px);\n  background-color: #0C2646;\n  border-radius: 30px;\n  width: 90%;\n  padding: 10px;\n}\n.Logs .log-list .logs-header {\n  padding: 10px;\n  width: calc(100% - 20px);\n  height: 80px;\n  display: flex;\n  flex-direction: row;\n  justify-content: space-between;\n  border-bottom: 1px #00FFFF solid;\n}\n.Logs .log-list .logs-header p {\n  font-weight: 600;\n  font-size: 30px;\n  margin: auto 0;\n}\n.Logs .log-list .logs-header .pages {\n  display: flex;\n  flex-direction: row;\n  justify-content: space-evenly;\n  width: 550px;\n}\n.Logs .log-list .logs-header .pages label {\n  margin: auto 0;\n}\n.Logs .log-list .logs-header .pages button {\n  cursor: pointer;\n  background-color: transparent;\n  border: none;\n  font-size: 30px;\n  font-weight: 600;\n  color: #00FFFF;\n}\n.Logs .log-list .logs-header .pages p {\n  font-size: 30px;\n}\n.Logs .log-list .logs-header .pages button, .Logs .log-list .logs-header .pages p {\n  margin: auto 0;\n  height: 45px;\n}\n.Logs .log-list .logs-header .pages select {\n  width: 150px;\n}\n.Logs .log-list .table {\n  overflow-y: scroll;\n  max-height: calc(100% - 110px);\n  margin-top: 15px;\n}\n.Logs .log-list .table table {\n  top: 0;\n  width: 100%;\n  border-collapse: collapse;\n}\n.Logs .log-list .table table tr {\n  width: 100%;\n  border: black 1px solid;\n  border-left: none;\n  border-right: none;\n}\n.Logs .log-list .table table thead {\n  position: -webkit-sticky;\n  position: sticky;\n  top: 0;\n  border-bottom: black 1px solid;\n  background-color: #004662;\n  z-index: 10;\n  border-left: 1px black solid;\n  border-right: 1px black solid;\n}\n.Logs .log-list .table table td, .Logs .log-list .table table th {\n  padding: 5px;\n  text-align: center;\n  font-family: \"Baloo Thambi 2\", monospace;\n  font-size: 25px;\n  color: #00FFFF;\n  height: 70px;\n  border: black 1px solid;\n  border-top: none;\n  border-bottom: none;\n}\n.Logs .log-list .table table thead tr {\n  border-bottom: 1px black solid !important;\n}\n\n.BugRepport {\n  width: 100%;\n  height: 100vh;\n  display: flex;\n}\n.BugRepport .Repport-Card {\n  margin: auto;\n  width: 40%;\n  background-color: #0C2646;\n  border-radius: 30px;\n  padding: 20px;\n}\n.BugRepport .Repport-Card h1 {\n  font-weight: 700;\n  font-size: 35px;\n  text-align: center;\n}\n.BugRepport .Repport-Card form {\n  display: flex;\n  flex-direction: column;\n}\n.BugRepport .Repport-Card button {\n  margin: 0 0 0 auto;\n}\n\n.load {\n  display: flex;\n  width: 100%;\n  height: 100%;\n}\n.load img {\n  margin: auto auto;\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -78443,42 +78696,6 @@ exports.useState = useState;
 exports.version = ReactVersion;
   })();
 }
-
-
-/***/ }),
-
-/***/ "./node_modules/react/cjs/react.production.min.js":
-/*!********************************************************!*\
-  !*** ./node_modules/react/cjs/react.production.min.js ***!
-  \********************************************************/
-/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
-
-"use strict";
-/** @license React v16.14.0
- * react.production.min.js
- *
- * Copyright (c) Facebook, Inc. and its affiliates.
- *
- * This source code is licensed under the MIT license found in the
- * LICENSE file in the root directory of this source tree.
- */
-
-var l=__webpack_require__(/*! object-assign */ "./node_modules/object-assign/index.js"),n="function"===typeof Symbol&&Symbol.for,p=n?Symbol.for("react.element"):60103,q=n?Symbol.for("react.portal"):60106,r=n?Symbol.for("react.fragment"):60107,t=n?Symbol.for("react.strict_mode"):60108,u=n?Symbol.for("react.profiler"):60114,v=n?Symbol.for("react.provider"):60109,w=n?Symbol.for("react.context"):60110,x=n?Symbol.for("react.forward_ref"):60112,y=n?Symbol.for("react.suspense"):60113,z=n?Symbol.for("react.memo"):60115,A=n?Symbol.for("react.lazy"):
-60116,B="function"===typeof Symbol&&Symbol.iterator;function C(a){for(var b="https://reactjs.org/docs/error-decoder.html?invariant="+a,c=1;c<arguments.length;c++)b+="&args[]="+encodeURIComponent(arguments[c]);return"Minified React error #"+a+"; visit "+b+" for the full message or use the non-minified dev environment for full errors and additional helpful warnings."}
-var D={isMounted:function(){return!1},enqueueForceUpdate:function(){},enqueueReplaceState:function(){},enqueueSetState:function(){}},E={};function F(a,b,c){this.props=a;this.context=b;this.refs=E;this.updater=c||D}F.prototype.isReactComponent={};F.prototype.setState=function(a,b){if("object"!==typeof a&&"function"!==typeof a&&null!=a)throw Error(C(85));this.updater.enqueueSetState(this,a,b,"setState")};F.prototype.forceUpdate=function(a){this.updater.enqueueForceUpdate(this,a,"forceUpdate")};
-function G(){}G.prototype=F.prototype;function H(a,b,c){this.props=a;this.context=b;this.refs=E;this.updater=c||D}var I=H.prototype=new G;I.constructor=H;l(I,F.prototype);I.isPureReactComponent=!0;var J={current:null},K=Object.prototype.hasOwnProperty,L={key:!0,ref:!0,__self:!0,__source:!0};
-function M(a,b,c){var e,d={},g=null,k=null;if(null!=b)for(e in void 0!==b.ref&&(k=b.ref),void 0!==b.key&&(g=""+b.key),b)K.call(b,e)&&!L.hasOwnProperty(e)&&(d[e]=b[e]);var f=arguments.length-2;if(1===f)d.children=c;else if(1<f){for(var h=Array(f),m=0;m<f;m++)h[m]=arguments[m+2];d.children=h}if(a&&a.defaultProps)for(e in f=a.defaultProps,f)void 0===d[e]&&(d[e]=f[e]);return{$$typeof:p,type:a,key:g,ref:k,props:d,_owner:J.current}}
-function N(a,b){return{$$typeof:p,type:a.type,key:b,ref:a.ref,props:a.props,_owner:a._owner}}function O(a){return"object"===typeof a&&null!==a&&a.$$typeof===p}function escape(a){var b={"=":"=0",":":"=2"};return"$"+(""+a).replace(/[=:]/g,function(a){return b[a]})}var P=/\/+/g,Q=[];function R(a,b,c,e){if(Q.length){var d=Q.pop();d.result=a;d.keyPrefix=b;d.func=c;d.context=e;d.count=0;return d}return{result:a,keyPrefix:b,func:c,context:e,count:0}}
-function S(a){a.result=null;a.keyPrefix=null;a.func=null;a.context=null;a.count=0;10>Q.length&&Q.push(a)}
-function T(a,b,c,e){var d=typeof a;if("undefined"===d||"boolean"===d)a=null;var g=!1;if(null===a)g=!0;else switch(d){case "string":case "number":g=!0;break;case "object":switch(a.$$typeof){case p:case q:g=!0}}if(g)return c(e,a,""===b?"."+U(a,0):b),1;g=0;b=""===b?".":b+":";if(Array.isArray(a))for(var k=0;k<a.length;k++){d=a[k];var f=b+U(d,k);g+=T(d,f,c,e)}else if(null===a||"object"!==typeof a?f=null:(f=B&&a[B]||a["@@iterator"],f="function"===typeof f?f:null),"function"===typeof f)for(a=f.call(a),k=
-0;!(d=a.next()).done;)d=d.value,f=b+U(d,k++),g+=T(d,f,c,e);else if("object"===d)throw c=""+a,Error(C(31,"[object Object]"===c?"object with keys {"+Object.keys(a).join(", ")+"}":c,""));return g}function V(a,b,c){return null==a?0:T(a,"",b,c)}function U(a,b){return"object"===typeof a&&null!==a&&null!=a.key?escape(a.key):b.toString(36)}function W(a,b){a.func.call(a.context,b,a.count++)}
-function aa(a,b,c){var e=a.result,d=a.keyPrefix;a=a.func.call(a.context,b,a.count++);Array.isArray(a)?X(a,e,c,function(a){return a}):null!=a&&(O(a)&&(a=N(a,d+(!a.key||b&&b.key===a.key?"":(""+a.key).replace(P,"$&/")+"/")+c)),e.push(a))}function X(a,b,c,e,d){var g="";null!=c&&(g=(""+c).replace(P,"$&/")+"/");b=R(b,g,e,d);V(a,aa,b);S(b)}var Y={current:null};function Z(){var a=Y.current;if(null===a)throw Error(C(321));return a}
-var ba={ReactCurrentDispatcher:Y,ReactCurrentBatchConfig:{suspense:null},ReactCurrentOwner:J,IsSomeRendererActing:{current:!1},assign:l};exports.Children={map:function(a,b,c){if(null==a)return a;var e=[];X(a,e,null,b,c);return e},forEach:function(a,b,c){if(null==a)return a;b=R(null,null,b,c);V(a,W,b);S(b)},count:function(a){return V(a,function(){return null},null)},toArray:function(a){var b=[];X(a,b,null,function(a){return a});return b},only:function(a){if(!O(a))throw Error(C(143));return a}};
-exports.Component=F;exports.Fragment=r;exports.Profiler=u;exports.PureComponent=H;exports.StrictMode=t;exports.Suspense=y;exports.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED=ba;
-exports.cloneElement=function(a,b,c){if(null===a||void 0===a)throw Error(C(267,a));var e=l({},a.props),d=a.key,g=a.ref,k=a._owner;if(null!=b){void 0!==b.ref&&(g=b.ref,k=J.current);void 0!==b.key&&(d=""+b.key);if(a.type&&a.type.defaultProps)var f=a.type.defaultProps;for(h in b)K.call(b,h)&&!L.hasOwnProperty(h)&&(e[h]=void 0===b[h]&&void 0!==f?f[h]:b[h])}var h=arguments.length-2;if(1===h)e.children=c;else if(1<h){f=Array(h);for(var m=0;m<h;m++)f[m]=arguments[m+2];e.children=f}return{$$typeof:p,type:a.type,
-key:d,ref:g,props:e,_owner:k}};exports.createContext=function(a,b){void 0===b&&(b=null);a={$$typeof:w,_calculateChangedBits:b,_currentValue:a,_currentValue2:a,_threadCount:0,Provider:null,Consumer:null};a.Provider={$$typeof:v,_context:a};return a.Consumer=a};exports.createElement=M;exports.createFactory=function(a){var b=M.bind(null,a);b.type=a;return b};exports.createRef=function(){return{current:null}};exports.forwardRef=function(a){return{$$typeof:x,render:a}};exports.isValidElement=O;
-exports.lazy=function(a){return{$$typeof:A,_ctor:a,_status:-1,_result:null}};exports.memo=function(a,b){return{$$typeof:z,type:a,compare:void 0===b?null:b}};exports.useCallback=function(a,b){return Z().useCallback(a,b)};exports.useContext=function(a,b){return Z().useContext(a,b)};exports.useDebugValue=function(){};exports.useEffect=function(a,b){return Z().useEffect(a,b)};exports.useImperativeHandle=function(a,b,c){return Z().useImperativeHandle(a,b,c)};
-exports.useLayoutEffect=function(a,b){return Z().useLayoutEffect(a,b)};exports.useMemo=function(a,b){return Z().useMemo(a,b)};exports.useReducer=function(a,b,c){return Z().useReducer(a,b,c)};exports.useRef=function(a){return Z().useRef(a)};exports.useState=function(a){return Z().useState(a)};exports.version="16.14.0";
 
 
 /***/ }),

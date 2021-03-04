@@ -34,6 +34,6 @@ class Facturation extends React.Component{
                 </div>
             </div>
         )
-    };
+    }
 }
 export default Facturation

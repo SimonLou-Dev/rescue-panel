@@ -16,7 +16,7 @@ class InterventionItem extends React.Component {
                 <button onClick={this.OnClicked}>{this.props.inter}</button>
             </div>
         )
-    };
+    }
 }
 
 export default InterventionItem;

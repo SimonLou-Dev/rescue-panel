@@ -1,6 +1,4 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
-import { Route, Switch } from 'react-router-dom'
 import AnnonceCard from "./props/Main/AnnonceCard";
 import PersonnelList from "./props/Main/PersonnelList";
 import axios from "axios";

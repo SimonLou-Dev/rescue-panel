@@ -29,7 +29,7 @@ class RecherchePatient extends React.Component {
 
     async updatetel(e) {
         e.preventDefault();
-        var req = await axios({
+        await axios({
             url: '/data/rapport/changetel/' + this.state.patientid,
             method: 'post',
             data: {
@@ -162,7 +162,7 @@ class RecherchePatient extends React.Component {
 
             </div>
         )
-    };
+    }
 }
 
 export default RecherchePatient;

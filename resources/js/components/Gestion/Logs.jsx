@@ -214,7 +214,7 @@ class Logs extends React.Component {
                 </section>
             </div>
         )
-    };
+    }
 }
 
 export default Logs;

@@ -4,7 +4,7 @@ import Service from "./props/Menu/Service";
 import Personnel from "./props/Menu/Personnel";
 import Patient from "./props/Menu/Patient";
 import Gestion from "./props/Menu/Gestion";
-import {NavLink, Route, Switch} from "react-router-dom";
+import {NavLink, Route} from "react-router-dom";
 import Main from "./Main";
 import Rapport from "./Patient/rapport";
 import RecherchePatient from "./Patient/RecherchePatient";
@@ -15,7 +15,6 @@ import ContentManagement from "./Gestion/ContentManagement";
 import PersonnelList from './Gestion/PersonnelList';
 import Logs from "./Gestion/Logs";
 import Permissions from "./Gestion/Permissions";
-import {useLayoutEffect, useState} from "react/cjs/react.production.min";
 import BCController from "./Patient/BCController";
 import AFormaController from "./Gestion/AFormaController";
 import InfoGestion from "./Gestion/InfoGestion";
@@ -28,9 +27,6 @@ import BugRepport from "./BugRepport";
 
 const service_state = false;
 export const rootUrl = document.querySelector('body').getAttribute('data-root-url');
-var admin;
-
-
 
 class Layout extends React.Component{
     constructor(props) {
@@ -58,7 +54,7 @@ class Layout extends React.Component{
     }
 
     async tick() {
-        var req = await axios({
+        const req = await axios({
             url: '/data/checkco',
             method: 'GET'
         })
@@ -89,7 +85,7 @@ class Layout extends React.Component{
                     </div>
                     <div className={'menu-content'}>
                         <div id={'logout'}>
-                            <a href={'/logout'}><img src={'/assets/images/logout.svg'}/></a>
+                            <a href={'/logout'}><img src={'/assets/images/logout.svg'} alt={''}/></a>
                         </div>
                         <div id={'Close'}>
                             <button onClick={()=>{
@@ -97,7 +93,7 @@ class Layout extends React.Component{
                             }}>fermer</button>
                         </div>
                         <div id="Logo">
-                            <NavLink to={'/'}><img src={'/assets/images/BCFD.svg'}/></NavLink>
+                            <NavLink to={'/'}><img src={'/assets/images/BCFD.svg'} alt={''}/></NavLink>
                         </div>
                         <div className="Menusepartor"/>
                         <Service status={service_state}/>

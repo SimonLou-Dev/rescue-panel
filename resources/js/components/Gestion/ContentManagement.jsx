@@ -1,5 +1,4 @@
 import React from 'react';
-import ContentCard, {rootUrl} from "../props/Gestion/Content/ContentCard";
 import axios from "axios";
 import PagesTitle from "../props/utils/PagesTitle";
 
@@ -13,7 +12,7 @@ class ContentManagement extends React.Component {
     async submit(e) {
         e.preventDefault();
         if (this.state.content !== "" && this.state.title !== "") {
-            var req = await axios({
+            await axios({
                 method: 'post',
                 url: '/data/gestion/content/add/5',
                 data: {
@@ -53,7 +52,7 @@ class ContentManagement extends React.Component {
                 </section>
             </div>
         )
-    };
+    }
 }
 
 export default ContentManagement;

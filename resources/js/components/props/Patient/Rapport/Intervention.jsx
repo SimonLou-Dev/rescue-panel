@@ -45,6 +45,6 @@ class Intervention extends React.Component{
                 </div>
             </div>
         )
-    };
+    }
 }
 export default Intervention

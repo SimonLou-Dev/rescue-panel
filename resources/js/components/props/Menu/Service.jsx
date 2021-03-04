@@ -27,7 +27,7 @@ class Service extends React.Component{
 
     async OffServiceClicked() {
         this.setState(state => ({status: true,disabled: true}));
-        var req = await axios({
+        await axios({
             method: "GET",
             url: '/data/setstatus/',
         });
@@ -42,7 +42,7 @@ class Service extends React.Component{
 
     async OnServiceCliked() {
         this.setState(state => ({status: false,disabled: true}));
-        var req = await axios({
+        await axios({
             method: "GET",
             url: '/data/setstatus/',
         });

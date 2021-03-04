@@ -33,6 +33,6 @@ class Informations extends React.Component{
                 </div>
             </div>
         )
-    };
+    }
 }
 export default Informations

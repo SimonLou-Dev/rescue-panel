@@ -23,6 +23,6 @@ class ATA extends React.Component{
                 </div>
             </div>
         )
-    };
+    }
 }
 export default ATA

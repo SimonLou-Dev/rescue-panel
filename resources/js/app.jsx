@@ -26,31 +26,17 @@ import Mdpreset from './components/Mdpreset';
 import Error from './components/Error';
 import Emailsender from './components/Emailsender';
 import NotifSucces from './components/props/notifs/Notifs';
+import Notifications from "./components/props/utils/Notifications";
 var notifs = true;
 
 class App extends React.Component{
     constructor(props) {
         super(props);
-        this.state = {
-            notif: false,
-            notifs: []
 
-        }
-        this.removenotif = this.removenotif.bind(this)
     }
 
 
-    async removenotif(id){
-            notifs = this.state.notifs;
-            notifs.splice(id, 1);
-            var a = 0;
-            notifs.forEach(notif => {
-                    notif.id = a
-                    a++
-                }
-            )
-            this.setState({notifs: notifs});
-    }
+
 
     render() {
         return (
@@ -63,13 +49,7 @@ class App extends React.Component{
                     <Route path='/ANA' component={Error}/>
                     <Layout />
                 </Switch>
-                {this.state.notif &&
-                <div className={'notifs'}>
-                    {this.state.notifs.map((notif) =>
-                        <NotifSucces remove={this.removenotif} key={notif.id} id={notif.id} type={notif.type} raison={notif.raison}/>
-                    )}
-                </div>
-                }
+                <Notifications/>
             </BrowserRouter>
         );
     }

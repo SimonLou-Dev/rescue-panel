@@ -17,7 +17,7 @@ class Row extends React.Component {
         }else{
             this.setState({inService: true})
         }
-        var req = await axios({
+        await axios({
             url: '/data/gestion/service/setbyadmin/' + this.props.userid,
             method: 'GET',
         })
@@ -70,7 +70,7 @@ class Row extends React.Component {
                 </div>
             </div>
         )
-    };
+    }
 }
 
 export default Row;

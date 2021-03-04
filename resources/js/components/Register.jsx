@@ -1,6 +1,6 @@
 import React from 'react';
 import axios from 'axios';
-import {Link, NavLink} from "react-router-dom";
+import {Link} from "react-router-dom";
 import { Redirect } from "react-router-dom";
 export const rootUrl = document.querySelector('body').getAttribute('data-root-url');
 
@@ -190,7 +190,7 @@ class Register extends React.Component {
                </div>
             </div>
         )
-    };
+    }
 }
 
 export default Register;

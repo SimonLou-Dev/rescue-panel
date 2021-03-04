@@ -32,7 +32,7 @@ class Factures extends React.Component {
     }
 
     async paye(id) {
-        var req = await axios({
+        await axios({
             url: '/data/impaye/paye/' + id,
             method: 'GET',
         })
@@ -180,7 +180,7 @@ class Factures extends React.Component {
             </div>
 
         )
-    };
+    }
 }
 
 export default Factures;

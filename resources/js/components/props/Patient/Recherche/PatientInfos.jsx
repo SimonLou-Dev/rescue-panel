@@ -152,7 +152,7 @@ class PatientInfos extends React.Component {
                 }
             </div>
         )
-    };
+    }
 }
 
 export default PatientInfos;

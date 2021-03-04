@@ -116,7 +116,7 @@ class ContentCard extends React.Component {
                 </form>}
             </div>
         )
-    };
+    }
 }
 
 export default ContentCard;

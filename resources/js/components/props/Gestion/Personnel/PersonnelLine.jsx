@@ -10,7 +10,7 @@ class PersonnelLine extends React.Component {
 
     async isupdate(e) {
         e.preventDefault();
-        var req = await axios({
+        await axios({
             url: '/data/users/setgrade/' + this.state.grade + '/' + this.state.id,
             method: 'POST',
         })
@@ -64,7 +64,7 @@ class PersonnelLine extends React.Component {
                 </td>
             </tr>
         )
-    };
+    }
 }
 
 export default PersonnelLine;

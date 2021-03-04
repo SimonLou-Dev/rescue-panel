@@ -24,7 +24,7 @@ class notifs extends React.Component {
     }
     tick() {
         this.color();
-        this.setState({time: this.state.time-0.2})
+        //this.setState({time: this.state.time-0.2})
         if(this.state.time < 1){
             this.props.remove(this.props.id)
             clearInterval(this.timerID);
