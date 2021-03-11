@@ -2568,3 +2568,120 @@ body{
         margin: auto auto;
     }
 }
+//Livret de formation
+.livret-page{
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    .title-contain{
+        margin: 10px auto;
+    }
+    .livret{
+        margin: auto auto;
+        background-color: $dark_blue;
+        border-radius: $border-radius;
+        height: calc(100vh - 200px);
+        width: 90%;
+        display: flex;
+        flex-direction: column;
+        flex-wrap: nowrap;
+        overflow: hidden;
+        .livret-content{
+            display: flex;
+            flex-direction: row;
+            flex-wrap: nowrap;
+            width: 100%;
+            padding: 20px;
+            height: 75%;
+            .left, .right{
+                height: 100%;
+                display: flex;
+                flex-direction: column;
+                justify-content: space-between;
+                width: 45%;
+                padding: 0 10px;
+                border-collapse: collapse;
+            }
+            .left{
+                padding: 10px;
+                border-right: 1px $light_blue solid;
+                .forma:hover{
+                        transform: rotate(-2deg);
+                }
+            }
+            .right{
+                padding: 10px;
+                border-left: 1px $light_blue solid;
+                .forma:hover{
+                    transform: rotate(2deg);
+                }
+            }
+
+            .forma{
+                display: flex;
+                flex-direction: column;
+                cursor: pointer;
+                transition: all 400ms ease-in-out;
+                .infos{
+                    display: flex;
+                    flex-direction: row;
+                    flex-wrap: nowrap;
+                    img{
+                        width: 275px;
+                        height: 154px;
+                        border-radius: $border-radius;
+                    }
+                    .text{
+                        margin-left: 10px;
+                        h5{
+                            font-size: 25px;
+                            font-weight: 700;
+                        }
+                        p{
+                            text-indent: 30px;
+                            text-align: justify;
+                            height: 100px;
+                            overflow: hidden;
+                        }
+                    }
+
+                }
+                .validation{
+                    border-radius: $border-radius;
+                    display: grid;
+                    grid-template-columns: 5% 20% 45% 30%;
+                    grid-template-rows: 70px;
+                    height: 80px;
+                    background-color: $medium_blue;
+                    h3{
+                        grid-column-start: 2;
+                        grid-column-end: 2;
+                        line-height: 70px;
+                        font-size: 25px;
+                        font-weight: 800;
+                    }
+                    img{
+                        grid-column-start: 4;
+                        grid-column-end: 4;
+                        width: 120px;
+                        transform: rotate(12deg) translateY(12px);
+                    }
+
+                }
+            }
+        }
+        .livret-footer{
+            padding: 20px 40px;
+            height: 15%;
+            width: calc(100% - 80px);
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            button{
+                margin: auto 0;
+            }
+        }
+    }
+
+}

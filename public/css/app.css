@@ -2732,3 +2732,116 @@ body {
 .load img {
   margin: auto auto;
 }
+
+.livret-page {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+}
+.livret-page .title-contain {
+  margin: 10px auto;
+}
+.livret-page .livret {
+  margin: auto auto;
+  background-color: #0C2646;
+  border-radius: 30px;
+  height: calc(100vh - 200px);
+  width: 90%;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  overflow: hidden;
+}
+.livret-page .livret .livret-content {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  width: 100%;
+  padding: 20px;
+  height: 75%;
+}
+.livret-page .livret .livret-content .left, .livret-page .livret .livret-content .right {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 45%;
+  padding: 0 10px;
+  border-collapse: collapse;
+}
+.livret-page .livret .livret-content .left {
+  padding: 10px;
+  border-right: 1px #00FFFF solid;
+}
+.livret-page .livret .livret-content .left .forma:hover {
+  transform: rotate(-2deg);
+}
+.livret-page .livret .livret-content .right {
+  padding: 10px;
+  border-left: 1px #00FFFF solid;
+}
+.livret-page .livret .livret-content .right .forma:hover {
+  transform: rotate(2deg);
+}
+.livret-page .livret .livret-content .forma {
+  display: flex;
+  flex-direction: column;
+  cursor: pointer;
+  transition: all 400ms ease-in-out;
+}
+.livret-page .livret .livret-content .forma .infos {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+}
+.livret-page .livret .livret-content .forma .infos img {
+  width: 275px;
+  height: 154px;
+  border-radius: 30px;
+}
+.livret-page .livret .livret-content .forma .infos .text {
+  margin-left: 10px;
+}
+.livret-page .livret .livret-content .forma .infos .text h5 {
+  font-size: 25px;
+  font-weight: 700;
+}
+.livret-page .livret .livret-content .forma .infos .text p {
+  text-indent: 30px;
+  text-align: justify;
+  height: 100px;
+  overflow: hidden;
+}
+.livret-page .livret .livret-content .forma .validation {
+  border-radius: 30px;
+  display: grid;
+  grid-template-columns: 5% 20% 45% 30%;
+  grid-template-rows: 70px;
+  height: 80px;
+  background-color: #004662;
+}
+.livret-page .livret .livret-content .forma .validation h3 {
+  grid-column-start: 2;
+  grid-column-end: 2;
+  line-height: 70px;
+  font-size: 25px;
+  font-weight: 800;
+}
+.livret-page .livret .livret-content .forma .validation img {
+  grid-column-start: 4;
+  grid-column-end: 4;
+  width: 120px;
+  transform: rotate(12deg) translateY(12px);
+}
+.livret-page .livret .livret-footer {
+  padding: 20px 40px;
+  height: 15%;
+  width: calc(100% - 80px);
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+.livret-page .livret .livret-footer button {
+  margin: auto 0;
+}
