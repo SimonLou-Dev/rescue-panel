@@ -18,25 +18,24 @@ class PatientListPU extends React.Component {
         }else {
             return (
                 <div className={'Patient-list-card'}>
-                    <div className={'text'}>
-                        {this.props.idcard &&
-                        <h5 className={'id'}>[ID]</h5>
-                        }
-                        <h5 className={'name'}>{this.props.name}</h5>
-                        <h5 className={'date'}>[{this.props.date}]</h5>
-                    </div>
-                    <div className="btn-container">
-                        <button onClick={(e)=> {
-                            this.setState({redirect: '/patient/dossiers?id='+this.props.urlid})
-                        }}><img src={ '/assets/images/editer.png'} alt={''}/></button>
-                        <button onClick={async (e) => {
-                            var req = await axios({
-                                method: 'DELETE',
-                                url: '/data/pu/removepatient/'+this.props.urlid
-                            })
-                            this.props.update();
-                        }}><img src={'/assets/images/cancel.png'} alt={''}/></button>
-                    </div>
+                    {this.props.idcard &&
+                    <h5 className={'id'}>[ID]</h5>
+                    }
+                    <h5 className={'name'}>{this.props.name}</h5>
+                    <h5 className={'date'}>[{this.props.date}]</h5>
+                    <h5 className={'color'}>Pas de couleur dominante</h5>
+
+                    <button onClick={(e)=> {
+                        this.setState({redirect: '/patient/dossiers?id='+this.props.urlid})
+                    }} className={'edit'}><img src={ '/assets/images/editer.png'} alt={''}/></button>
+
+                    <button onClick={async (e) => {
+                        var req = await axios({
+                            method: 'DELETE',
+                            url: '/data/pu/removepatient/'+this.props.urlid
+                        })
+                        this.props.update();
+                    }} className={'delete'}><img src={'/assets/images/cancel.png'} alt={''}/></button>
                 </div>
             )
         }

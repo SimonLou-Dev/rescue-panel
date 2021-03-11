@@ -4,6 +4,42 @@ import PagesTitle from "../props/utils/PagesTitle";
 
 import PatientListPU from "../props/Patient/Urgence/PatientListPU";
 
+class ListPatient extends React.Component {
+    render() {
+        return (
+            <section className="list-container">
+                <div className={'list-content'}>
+                    <h1>Liste des patients</h1>
+                    <div className={'list'}>
+                        <PatientListPU name={'Simon Lou'} date={'16h00'} urlid={1} color={'Pas de couleur dominate'} idcard={true}/>
+                        <PatientListPU name={'Simon Lou Lou'} date={'16h00'} urlid={1} color={'Pas de couleur dominate'}/>
+                        <PatientListPU name={'Kendrick Anderson'} date={'16h00'} urlid={1} color={'Pas de couleur dominate'}/>
+                        <PatientListPU name={'Galaverraga Arturo'} date={'16h00'} urlid={1} color={'Pas de couleur dominate'}/>
+                        <PatientListPU name={'Pavoh Sam'} date={'16h00'} urlid={1} color={'Pas de couleur dominate'}/>
+                        <PatientListPU name={'test'} date={'16h00'} urlid={1} color={'Pas de couleur dominate'}/>
+                        <PatientListPU name={'test'} date={'16h00'} urlid={1} color={'Pas de couleur dominate'}/>
+                        <PatientListPU name={'test'} date={'16h00'} urlid={1} color={'Pas de couleur dominate'}/>
+                        <PatientListPU name={'test'} date={'16h00'} urlid={1} color={'Pas de couleur dominate'}/>
+                        <PatientListPU name={'test'} date={'16h00'} urlid={1} color={'Pas de couleur dominate'}/>
+                        <PatientListPU name={'test'} date={'16h00'} urlid={1} color={'Pas de couleur dominate'}/>
+                        <PatientListPU name={'test'} date={'16h00'} urlid={1} color={'Pas de couleur dominate'}/>
+                        <PatientListPU name={'test'} date={'16h00'} urlid={1} color={'Pas de couleur dominate'}/>
+                        <PatientListPU name={'test'} date={'16h00'} urlid={1} color={'Pas de couleur dominate'}/>
+                        <PatientListPU name={'test'} date={'16h00'} urlid={1} color={'Pas de couleur dominate'}/>
+                        <PatientListPU name={'test'} date={'16h00'} urlid={1} color={'Pas de couleur dominate'}/>
+                        <PatientListPU name={'test'} date={'16h00'} urlid={1} color={'Pas de couleur dominate'}/><PatientListPU name={'test'} date={'16h00'} urlid={1} color={'Pas de couleur dominate'}/>
+                        <PatientListPU name={'test'} date={'16h00'} urlid={1} color={'Pas de couleur dominate'}/>
+                        <PatientListPU name={'test'} date={'16h00'} urlid={1} color={'Pas de couleur dominate'}/>
+                        <PatientListPU name={'test'} date={'16h00'} urlid={1} color={'Pas de couleur dominate'}/>
+                        <PatientListPU name={'test'} date={'16h00'} urlid={1} color={'Pas de couleur dominate'}/>
+
+                    </div>
+                </div>
+            </section>
+        )
+    }
+}
+
 class BCBase extends React.Component {
     constructor(props) {
         super(props);
@@ -319,39 +355,12 @@ class BCLast extends React.Component {
                         <div className="tag">Lorem Ispum Dolor</div>
                     </div>
                 </section>
-                <section className="list-container">
-                    <div className={'list-content'}>
-                        <h1>Liste des patients</h1>
-                        <div className={'list'}>
-                            <PatientListPU name={'Simon Lou'} date={'16h00'} urlid={1} color={'Pas de couleur dominate'}/>
-                            <PatientListPU name={'Simon Lou Lou'} date={'16h00'} urlid={1} color={'Pas de couleur dominate'}/>
-                            <PatientListPU name={'Kendrick Anderson'} date={'16h00'} urlid={1} color={'Pas de couleur dominate'}/>
-                            <PatientListPU name={'Galaverraga Arturo'} date={'16h00'} urlid={1} color={'Pas de couleur dominate'}/>
-                            <PatientListPU name={'Pavoh Sam'} date={'16h00'} urlid={1} color={'Pas de couleur dominate'}/>
-                            <PatientListPU name={'test'} date={'16h00'} urlid={1} color={'Pas de couleur dominate'}/>
-                            <PatientListPU name={'test'} date={'16h00'} urlid={1} color={'Pas de couleur dominate'}/>
-                            <PatientListPU name={'test'} date={'16h00'} urlid={1} color={'Pas de couleur dominate'}/>
-                            <PatientListPU name={'test'} date={'16h00'} urlid={1} color={'Pas de couleur dominate'}/>
-                            <PatientListPU name={'test'} date={'16h00'} urlid={1} color={'Pas de couleur dominate'}/>
-                            <PatientListPU name={'test'} date={'16h00'} urlid={1} color={'Pas de couleur dominate'}/>
-                            <PatientListPU name={'test'} date={'16h00'} urlid={1} color={'Pas de couleur dominate'}/>
-                            <PatientListPU name={'test'} date={'16h00'} urlid={1} color={'Pas de couleur dominate'}/>
-                            <PatientListPU name={'test'} date={'16h00'} urlid={1} color={'Pas de couleur dominate'}/>
-                            <PatientListPU name={'test'} date={'16h00'} urlid={1} color={'Pas de couleur dominate'}/>
-                            <PatientListPU name={'test'} date={'16h00'} urlid={1} color={'Pas de couleur dominate'}/>
-                            <PatientListPU name={'test'} date={'16h00'} urlid={1} color={'Pas de couleur dominate'}/><PatientListPU name={'test'} date={'16h00'} urlid={1} color={'Pas de couleur dominate'}/>
-                            <PatientListPU name={'test'} date={'16h00'} urlid={1} color={'Pas de couleur dominate'}/>
-                            <PatientListPU name={'test'} date={'16h00'} urlid={1} color={'Pas de couleur dominate'}/>
-                            <PatientListPU name={'test'} date={'16h00'} urlid={1} color={'Pas de couleur dominate'}/>
-                            <PatientListPU name={'test'} date={'16h00'} urlid={1} color={'Pas de couleur dominate'}/>
-
-                        </div>
-                    </div>
-                </section>
+                <ListPatient/>
             </div>
         );
     }
 }
+
 
 class BCView extends React.Component {
     constructor(props) {
@@ -455,35 +464,8 @@ class BCView extends React.Component {
                         <div className="tag">Lorem Ispum Dolor</div>
                     </div>
                 </section>
-                <section className="list-container">
-                    <div className={'list-content'}>
-                        <h1>Liste des patients</h1>
-                        <div className={'list'}>
-                            <PatientListPU name={'Simon Lou'} date={'16h00'} urlid={1} color={'Pas de couleur dominate'} idcard={true}/>
-                            <PatientListPU name={'Simon Lou Lou'} date={'16h00'} urlid={1} color={'Pas de couleur dominate'}/>
-                            <PatientListPU name={'Kendrick Anderson'} date={'16h00'} urlid={1} color={'Pas de couleur dominate'}/>
-                            <PatientListPU name={'Galaverraga Arturo'} date={'16h00'} urlid={1} color={'Pas de couleur dominate'}/>
-                            <PatientListPU name={'Pavoh Sam'} date={'16h00'} urlid={1} color={'Pas de couleur dominate'}/>
-                            <PatientListPU name={'test'} date={'16h00'} urlid={1} color={'Pas de couleur dominate'}/>
-                            <PatientListPU name={'test'} date={'16h00'} urlid={1} color={'Pas de couleur dominate'}/>
-                            <PatientListPU name={'test'} date={'16h00'} urlid={1} color={'Pas de couleur dominate'}/>
-                            <PatientListPU name={'test'} date={'16h00'} urlid={1} color={'Pas de couleur dominate'}/>
-                            <PatientListPU name={'test'} date={'16h00'} urlid={1} color={'Pas de couleur dominate'}/>
-                            <PatientListPU name={'test'} date={'16h00'} urlid={1} color={'Pas de couleur dominate'}/>
-                            <PatientListPU name={'test'} date={'16h00'} urlid={1} color={'Pas de couleur dominate'}/>
-                            <PatientListPU name={'test'} date={'16h00'} urlid={1} color={'Pas de couleur dominate'}/>
-                            <PatientListPU name={'test'} date={'16h00'} urlid={1} color={'Pas de couleur dominate'}/>
-                            <PatientListPU name={'test'} date={'16h00'} urlid={1} color={'Pas de couleur dominate'}/>
-                            <PatientListPU name={'test'} date={'16h00'} urlid={1} color={'Pas de couleur dominate'}/>
-                            <PatientListPU name={'test'} date={'16h00'} urlid={1} color={'Pas de couleur dominate'}/><PatientListPU name={'test'} date={'16h00'} urlid={1} color={'Pas de couleur dominate'}/>
-                            <PatientListPU name={'test'} date={'16h00'} urlid={1} color={'Pas de couleur dominate'}/>
-                            <PatientListPU name={'test'} date={'16h00'} urlid={1} color={'Pas de couleur dominate'}/>
-                            <PatientListPU name={'test'} date={'16h00'} urlid={1} color={'Pas de couleur dominate'}/>
-                            <PatientListPU name={'test'} date={'16h00'} urlid={1} color={'Pas de couleur dominate'}/>
+                <ListPatient/>
 
-                        </div>
-                    </div>
-                </section>
                 {this.state.CloseMenuOpen &&
                 <section className={'popup'}>
                     <div className={'popup-content'}>

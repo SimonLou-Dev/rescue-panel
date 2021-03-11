@@ -1047,6 +1047,7 @@ body {
   justify-content: space-evenly;
 }
 .BC-Container .BC-View .left .header, .BC-Container .BC-Last .left .header {
+  margin: 0 auto;
   width: 90%;
 }
 .BC-Container .BC-View .left .header .title-contain, .BC-Container .BC-Last .left .header .title-contain {
@@ -1255,33 +1256,73 @@ body {
   padding: 10px;
 }
 .BC-Container .BC-View .list-container .list-content .list .Patient-list-card, .BC-Container .BC-Last .list-container .list-content .list .Patient-list-card {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  width: 100%;
-  margin: 5px 0;
+  margin: 10px 0;
+  display: grid;
+  grid-template-columns: 5% 30% 10% 35% 10% 10%;
+  grid-template-rows: 30px;
 }
-.BC-Container .BC-View .list-container .list-content .list .Patient-list-card .text, .BC-Container .BC-Last .list-container .list-content .list .Patient-list-card .text {
-  margin: auto 0;
-  display: flex;
-  flex-direction: row;
-  height: 40px;
+.BC-Container .BC-View .list-container .list-content .list .Patient-list-card h5, .BC-Container .BC-Last .list-container .list-content .list .Patient-list-card h5 {
+  font-size: 20px;
+  text-wrap: none;
+}
+.BC-Container .BC-View .list-container .list-content .list .Patient-list-card .id, .BC-Container .BC-Last .list-container .list-content .list .Patient-list-card .id {
+  grid-column-start: 1;
+  grid-column-end: 1;
+  grid-row-start: 1;
+  grid-row-end: 1;
   overflow: hidden;
 }
-.BC-Container .BC-View .list-container .list-content .list .Patient-list-card .text h5, .BC-Container .BC-Last .list-container .list-content .list .Patient-list-card .text h5 {
-  font-size: 25px;
+.BC-Container .BC-View .list-container .list-content .list .Patient-list-card .name, .BC-Container .BC-Last .list-container .list-content .list .Patient-list-card .name {
+  grid-column-start: 2;
+  grid-column-end: 2;
+  grid-row-start: 1;
+  grid-row-end: 1;
+  overflow: hidden;
+  padding-right: 5px;
+  margin: 0 2px;
 }
-.BC-Container .BC-View .list-container .list-content .list .Patient-list-card .text .name, .BC-Container .BC-Last .list-container .list-content .list .Patient-list-card .text .name {
-  margin-right: 20px;
+.BC-Container .BC-View .list-container .list-content .list .Patient-list-card .date, .BC-Container .BC-Last .list-container .list-content .list .Patient-list-card .date {
+  grid-column-start: 3;
+  grid-column-end: 3;
+  grid-row-start: 1;
+  grid-row-end: 1;
+  overflow: hidden;
 }
-.BC-Container .BC-View .list-container .list-content .list .Patient-list-card .btn-container button, .BC-Container .BC-Last .list-container .list-content .list .Patient-list-card .btn-container button {
+.BC-Container .BC-View .list-container .list-content .list .Patient-list-card .color, .BC-Container .BC-Last .list-container .list-content .list .Patient-list-card .color {
+  grid-column-start: 4;
+  grid-column-end: 4;
+  grid-row-start: 1;
+  grid-row-end: 1;
+  overflow: hidden;
+  padding-right: 2px;
+  margin-left: 1px;
+}
+.BC-Container .BC-View .list-container .list-content .list .Patient-list-card .edit, .BC-Container .BC-Last .list-container .list-content .list .Patient-list-card .edit {
+  grid-column-start: 5;
+  grid-column-end: 5;
+  grid-row-start: 1;
+  grid-row-end: 1;
+  overflow: hidden;
+}
+.BC-Container .BC-View .list-container .list-content .list .Patient-list-card .delete, .BC-Container .BC-Last .list-container .list-content .list .Patient-list-card .delete {
+  grid-column-start: 6;
+  grid-column-end: 6;
+  grid-row-start: 1;
+  grid-row-end: 1;
+  overflow: hidden;
+}
+.BC-Container .BC-View .list-container .list-content .list .Patient-list-card button, .BC-Container .BC-Last .list-container .list-content .list .Patient-list-card button {
+  width: 100%;
   background-color: transparent;
   border: none;
   cursor: pointer;
-  transition: 400ms cubic-bezier(0.28, -0.46, 0.33, 1.5);
+  transition: all 300ms cubic-bezier(0.28, -0.46, 0.33, 1.5);
 }
-.BC-Container .BC-View .list-container .list-content .list .Patient-list-card .btn-container button:hover, .BC-Container .BC-Last .list-container .list-content .list .Patient-list-card .btn-container button:hover {
-  transform: scale(1.2) rotate(5deg);
+.BC-Container .BC-View .list-container .list-content .list .Patient-list-card button img, .BC-Container .BC-Last .list-container .list-content .list .Patient-list-card button img {
+  width: 30px;
+}
+.BC-Container .BC-View .list-container .list-content .list .Patient-list-card button:hover, .BC-Container .BC-Last .list-container .list-content .list .Patient-list-card button:hover {
+  transform: rotate(20deg) scale(1.3);
 }
 
 .RecherchePatient {
