@@ -32,6 +32,7 @@ class Notifications extends React.Component {
         this.setState({notifs: notifs, notif: bool});
     }
 
+
     addnotifs(type, raison){
         const notifs = this.state.notifs;
         const len = notifs.length;

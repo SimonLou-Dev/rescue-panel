@@ -16,7 +16,7 @@ class CreateFacturesTable extends Migration
         Schema::create('factures', function (Blueprint $table) {
             $table->id();
             $table->integer('patient_id');
-            $table->integer('rapport_id');
+            $table->integer('rapport_id')->nullable();
             $table->boolean('payed');
             $table->integer('price');
             $table->timestamps();
