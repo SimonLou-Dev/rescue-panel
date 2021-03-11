@@ -161,10 +161,6 @@ return [
         Illuminate\Translation\TranslationServiceProvider::class,
         Illuminate\Validation\ValidationServiceProvider::class,
         Illuminate\View\ViewServiceProvider::class,
-<<<<<<< HEAD
-=======
-        Barryvdh\DomPDF\ServiceProvider::class,
->>>>>>> 693e2cf78a9dce641af90522837979996565054c
 
         /*
          * Package Service Providers...
@@ -230,10 +226,6 @@ return [
         'URL' => Illuminate\Support\Facades\URL::class,
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
-<<<<<<< HEAD
-=======
-        "PDF" => Barryvdh\DomPDF\Facade::class,
->>>>>>> 693e2cf78a9dce641af90522837979996565054c
 
     ],
 
