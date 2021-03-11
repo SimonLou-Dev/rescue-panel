@@ -844,7 +844,14 @@ body{
             }
         }
     }
-
+    .BC-Last{
+        h2{
+            text-align: center;
+            margin-top: 5px;
+            font-size: 35px;
+            margin-bottom: 20px;
+        }
+    }
     .BC-View, .BC-Last{
         display: flex;
         flex-direction: row;
@@ -904,12 +911,17 @@ body{
                     width: 100%;
                     padding: 5px;
                     height: 100%;
-                    h2{
+                    .top{
+                        display: flex;
+                        flex-direction: row-reverse;
+                        justify-content: space-evenly;
                         margin-top: 5px;
-                        text-align: center;
-                        font-size: 35px;
                         margin-bottom: 20px;
+                        h2{
+                            font-size: 35px;
+                        }
                     }
+
 
                     .bottom{
                         margin-top: 20px;
@@ -920,6 +932,64 @@ body{
                         justify-content: space-evenly;
                         label, button{
                             margin: auto 0;
+                            font-size: 20px;
+                        }
+                        .idcard, .paye{
+                            width: 50%;
+                            display: flex;
+                            flex-direction: row;
+                            justify-content: space-evenly;
+                        }
+                        .idcard{
+                            .onoffswitch {
+                                position: relative; width: 120px;
+                                -webkit-user-select:none; -moz-user-select:none; -ms-user-select: none;
+                            }
+                            .onoffswitch-checkbox {
+                                position: absolute;
+                                opacity: 0;
+                                pointer-events: none;
+                            }
+                            .onoffswitch-label {
+                                display: block; overflow: hidden; cursor: pointer;
+                                border-radius: $border-radius;
+                            }
+                            .onoffswitch-inner {
+                                display: block; width: 200%; margin-left: -100%;
+                                transition: 400ms cubic-bezier(0.28,-0.46, 0.33, 1.5);
+                            }
+                            .onoffswitch-inner:before, .onoffswitch-inner:after {
+
+                                display: block; float: left; width: 50%; height: 40px; padding: 0; line-height: 35px;
+                                font-size: 20px; color: $medium_blue; font-family: 'Baloo Thambi 2', monospace; font-weight: bold;
+                                box-sizing: border-box;
+                                border: 2px solid transparent;
+                            }
+                            .onoffswitch-inner:before {
+                                content: "OUI";
+                                padding-left: 20px;
+                                background-color: #2DF037; color: $dark_blue;
+                            }
+                            .onoffswitch-inner:after {
+                                content: "NON";
+                                padding-right: 20px;
+                                background-color: #DB1B1B; color: $dark_blue;
+                                text-align: right;
+                            }
+                            .onoffswitch-switch {
+                                display: block; width: 50px; margin: 0px; height: 50px;
+                                background: $medium_blue;
+                                border-radius: 30px;
+                                position: absolute; top: -5px; bottom: 0;
+                                right: 80px;
+                                transition: 300ms cubic-bezier(0.28,-0.46, 0.33, 1.5);
+                            }
+                            .onoffswitch-checkbox:checked + .onoffswitch-label .onoffswitch-inner {
+                                margin-left: 0;
+                            }
+                            .onoffswitch-checkbox:checked + .onoffswitch-label .onoffswitch-switch {
+                                right: -5px;
+                            }
                         }
                     }
                 }

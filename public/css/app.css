@@ -1014,6 +1014,12 @@ body {
   flex-direction: row;
   justify-content: space-evenly;
 }
+.BC-Container .BC-Last h2 {
+  text-align: center;
+  margin-top: 5px;
+  font-size: 35px;
+  margin-bottom: 20px;
+}
 .BC-Container .BC-View, .BC-Container .BC-Last {
   display: flex;
   flex-direction: row;
@@ -1081,11 +1087,15 @@ body {
   padding: 5px;
   height: 100%;
 }
-.BC-Container .BC-View .left .addpatient form h2, .BC-Container .BC-Last .left .addpatient form h2 {
+.BC-Container .BC-View .left .addpatient form .top, .BC-Container .BC-Last .left .addpatient form .top {
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: space-evenly;
   margin-top: 5px;
-  text-align: center;
-  font-size: 35px;
   margin-bottom: 20px;
+}
+.BC-Container .BC-View .left .addpatient form .top h2, .BC-Container .BC-Last .left .addpatient form .top h2 {
+  font-size: 35px;
 }
 .BC-Container .BC-View .left .addpatient form .bottom, .BC-Container .BC-Last .left .addpatient form .bottom {
   margin-top: 20px;
@@ -1097,6 +1107,83 @@ body {
 }
 .BC-Container .BC-View .left .addpatient form .bottom label, .BC-Container .BC-View .left .addpatient form .bottom button, .BC-Container .BC-Last .left .addpatient form .bottom label, .BC-Container .BC-Last .left .addpatient form .bottom button {
   margin: auto 0;
+  font-size: 20px;
+}
+.BC-Container .BC-View .left .addpatient form .bottom .idcard, .BC-Container .BC-View .left .addpatient form .bottom .paye, .BC-Container .BC-Last .left .addpatient form .bottom .idcard, .BC-Container .BC-Last .left .addpatient form .bottom .paye {
+  width: 50%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+}
+.BC-Container .BC-View .left .addpatient form .bottom .idcard .onoffswitch, .BC-Container .BC-Last .left .addpatient form .bottom .idcard .onoffswitch {
+  position: relative;
+  width: 120px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+}
+.BC-Container .BC-View .left .addpatient form .bottom .idcard .onoffswitch-checkbox, .BC-Container .BC-Last .left .addpatient form .bottom .idcard .onoffswitch-checkbox {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+.BC-Container .BC-View .left .addpatient form .bottom .idcard .onoffswitch-label, .BC-Container .BC-Last .left .addpatient form .bottom .idcard .onoffswitch-label {
+  display: block;
+  overflow: hidden;
+  cursor: pointer;
+  border-radius: 30px;
+}
+.BC-Container .BC-View .left .addpatient form .bottom .idcard .onoffswitch-inner, .BC-Container .BC-Last .left .addpatient form .bottom .idcard .onoffswitch-inner {
+  display: block;
+  width: 200%;
+  margin-left: -100%;
+  transition: 400ms cubic-bezier(0.28, -0.46, 0.33, 1.5);
+}
+.BC-Container .BC-View .left .addpatient form .bottom .idcard .onoffswitch-inner:before, .BC-Container .BC-View .left .addpatient form .bottom .idcard .onoffswitch-inner:after, .BC-Container .BC-Last .left .addpatient form .bottom .idcard .onoffswitch-inner:before, .BC-Container .BC-Last .left .addpatient form .bottom .idcard .onoffswitch-inner:after {
+  display: block;
+  float: left;
+  width: 50%;
+  height: 40px;
+  padding: 0;
+  line-height: 35px;
+  font-size: 20px;
+  color: #004662;
+  font-family: "Baloo Thambi 2", monospace;
+  font-weight: bold;
+  box-sizing: border-box;
+  border: 2px solid transparent;
+}
+.BC-Container .BC-View .left .addpatient form .bottom .idcard .onoffswitch-inner:before, .BC-Container .BC-Last .left .addpatient form .bottom .idcard .onoffswitch-inner:before {
+  content: "OUI";
+  padding-left: 20px;
+  background-color: #2DF037;
+  color: #0C2646;
+}
+.BC-Container .BC-View .left .addpatient form .bottom .idcard .onoffswitch-inner:after, .BC-Container .BC-Last .left .addpatient form .bottom .idcard .onoffswitch-inner:after {
+  content: "NON";
+  padding-right: 20px;
+  background-color: #DB1B1B;
+  color: #0C2646;
+  text-align: right;
+}
+.BC-Container .BC-View .left .addpatient form .bottom .idcard .onoffswitch-switch, .BC-Container .BC-Last .left .addpatient form .bottom .idcard .onoffswitch-switch {
+  display: block;
+  width: 50px;
+  margin: 0px;
+  height: 50px;
+  background: #004662;
+  border-radius: 30px;
+  position: absolute;
+  top: -5px;
+  bottom: 0;
+  right: 80px;
+  transition: 300ms cubic-bezier(0.28, -0.46, 0.33, 1.5);
+}
+.BC-Container .BC-View .left .addpatient form .bottom .idcard .onoffswitch-checkbox:checked + .onoffswitch-label .onoffswitch-inner, .BC-Container .BC-Last .left .addpatient form .bottom .idcard .onoffswitch-checkbox:checked + .onoffswitch-label .onoffswitch-inner {
+  margin-left: 0;
+}
+.BC-Container .BC-View .left .addpatient form .bottom .idcard .onoffswitch-checkbox:checked + .onoffswitch-label .onoffswitch-switch, .BC-Container .BC-Last .left .addpatient form .bottom .idcard .onoffswitch-checkbox:checked + .onoffswitch-label .onoffswitch-switch {
+  right: -5px;
 }
 .BC-Container .BC-View .left .infos, .BC-Container .BC-Last .left .infos {
   width: 90%;

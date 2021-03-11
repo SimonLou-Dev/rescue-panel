@@ -19,6 +19,9 @@ class PatientListPU extends React.Component {
             return (
                 <div className={'Patient-list-card'}>
                     <div className={'text'}>
+                        {this.props.idcard &&
+                        <h5 className={'id'}>[ID]</h5>
+                        }
                         <h5 className={'name'}>{this.props.name}</h5>
                         <h5 className={'date'}>[{this.props.date}]</h5>
                     </div>

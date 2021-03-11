@@ -373,7 +373,11 @@ class BCView extends React.Component {
                     </div>
                     <div className="addpatient">
                         <form>
-                            <h2>Ajouter un patient</h2>
+                            <div className="top">
+                                <button type={"submit"} className={'btn'}>ajouter</button>
+                                <h2>Ajouter un patient</h2>
+                            </div>
+
                             <div className={'row-spaced'}>
                                 <label>nom :</label>
                                 <input className={'input'} type={'text'}/>
@@ -394,16 +398,27 @@ class BCView extends React.Component {
                                 <select className={'input'} defaultValue={1}>
                                     <option value={1} disabled>choisir</option>
                                     <option value={2}>test</option>
-
                                 </select>
                             </div>
                             <div className={'bottom'}>
-                                <label>Payé : </label>
-                                <div className={'switch-container'}>
-                                    <input id={"switch"+1} className="payed_switch" type="checkbox"/>
-                                    <label htmlFor={"switch"+1} className={"payed_switchLabel"}/>
+                                <div className="paye">
+                                    <label>Payé : </label>
+                                    <div className={'switch-container'}>
+                                        <input id={"switch"+1} className="payed_switch" type="checkbox"/>
+                                        <label htmlFor={"switch"+1} className={"payed_switchLabel"}/>
+                                    </div>
                                 </div>
-                                <button type={"submit"} className={'btn'}>ajouter</button>
+                                <div className="idcard">
+                                    <label>carte d'identité :</label>
+                                    <div className="onoffswitch">
+                                        <input type="checkbox" name="onoffswitch" className="onoffswitch-checkbox"
+                                               id="myonoffswitch" tabIndex="0"/>
+                                            <label className="onoffswitch-label" htmlFor="myonoffswitch">
+                                                <span className="onoffswitch-inner"/>
+                                                <span className="onoffswitch-switch"/>
+                                            </label>
+                                    </div>
+                                </div>
                             </div>
                         </form>
                     </div>
@@ -444,7 +459,7 @@ class BCView extends React.Component {
                     <div className={'list-content'}>
                         <h1>Liste des patients</h1>
                         <div className={'list'}>
-                            <PatientListPU name={'Simon Lou'} date={'16h00'} urlid={1} color={'Pas de couleur dominate'}/>
+                            <PatientListPU name={'Simon Lou'} date={'16h00'} urlid={1} color={'Pas de couleur dominate'} idcard={true}/>
                             <PatientListPU name={'Simon Lou Lou'} date={'16h00'} urlid={1} color={'Pas de couleur dominate'}/>
                             <PatientListPU name={'Kendrick Anderson'} date={'16h00'} urlid={1} color={'Pas de couleur dominate'}/>
                             <PatientListPU name={'Galaverraga Arturo'} date={'16h00'} urlid={1} color={'Pas de couleur dominate'}/>
@@ -489,7 +504,7 @@ class BCController extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            status: 2,
+            status: 1,
         }
     }
 
