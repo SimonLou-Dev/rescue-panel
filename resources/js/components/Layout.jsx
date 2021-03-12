@@ -93,7 +93,7 @@ class Layout extends React.Component{
                             }}>fermer</button>
                         </div>
                         <div id="Logo">
-                            <NavLink to={'/'}><img src={'/assets/images/BCFD.svg'} alt={''}/></NavLink>
+                            <NavLink to={'/'}><img src={'/assets/images/BCFD.svg'} alt={'BCFD'}/></NavLink>
                         </div>
                         <div className="Menusepartor"/>
                         <Service status={service_state}/>

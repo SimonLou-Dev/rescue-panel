@@ -77,7 +77,65 @@ class LivretFormation extends React.Component {
 
 class ResponsePage extends React.Component {
     render() {
-        return null;
+        return (
+            <div className="responsepage">
+                <PagesTitle title={"formation | BC - Air medical support"}/>
+                <div className="responsecontent">
+                    <form>
+                        <section className="question">
+                            <div className={'left'}>
+                                <h2><span>Question n°1 :</span> Comment faire exploser un hélicoptère</h2>
+                                <div className={"response"}>
+                                    <div className={'rowed'}>
+                                        <div className={'checkbox'}>
+                                            <label className="container">Lui faire des bisous
+                                                <input type="checkbox" className={'user'}/>
+                                                <span className="checkmark" />
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div className={'rowed'}>
+                                        <div className={'checkbox'}>
+                                            <label className="container">Lui faire des câlins
+                                                <input checked type="checkbox" className={'user'}/>
+                                                <span className="checkmark" />
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div className={'rowed'}>
+                                        <div className={'checkbox'}>
+                                            <label className="container disabled">Lui tirer dessus avec un lance pierre
+                                                <input disabled checked type="checkbox" className={'false'}/>
+                                                <span className="checkmark" />
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div className={'rowed'}>
+                                        <div className={'checkbox'}>
+                                            <label className="container disabled">Lui lancer des peluches
+                                                <input disabled checked type="checkbox" className={'right'}/>
+                                                <span className="checkmark" />
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div className="infos">
+                                <img alt={""} src={"https://cdnfr1.img.sputniknews.com/img/103504/72/1035047222_0:87:2600:1493_1000x541_80_0_0_6d9fc2f49efd07d2affa215b788e494b.jpg"}/>
+                                <p>Castus gabaliums ducunt ad nixus. Raptus racana satis pugnas fermium est. Cedriums cadunt in raptus vierium! Tatas tolerare in culina! Verpas credere! Cum fraticinida ridetis, omnes animalises tractare festus, brevis eposes.</p>
+                            </div>
+                        </section>
+                        <section className="bottom">
+                            <button className={'btn'}>précédent</button>
+                            <h3>1 mins 27</h3>
+                            <h3>choix multiple</h3>
+                            <button className={'btn'} type={'submit'}>valider</button>
+                        </section>
+                    </form>
+                </div>
+            </div>
+
+        );
     }
 }
 
@@ -85,7 +143,7 @@ class FormationsController extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            status: null,
+            status: 1,
         }
     }
 

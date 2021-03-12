@@ -2683,5 +2683,154 @@ body{
             }
         }
     }
+}
 
+//Page de réponse
+.responsepage{
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    .title-contain{
+        margin: 0 auto;
+    }
+    .responsecontent{
+        overflow-y: hidden;
+        height: calc(100vh - 200px);
+        width: 90%;
+        margin: 0 auto;
+        background-color: $dark_blue;
+        border-radius: $border-radius;
+        form{
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            flex-wrap: nowrap;
+            .question{
+                height: 90%;
+                margin-bottom: 10px;
+                border-bottom: 1px $light_blue solid;
+                display: flex;
+                flex-direction: row;
+                flex-wrap: nowrap;
+                .left{
+                    width: 80%;
+                    padding: 10px;
+                    h2{
+                        margin-top: 30px;
+                        font-size: 35px;
+                        text-wrap: avoid;
+                        max-height: 100px;
+                        overflow-y: hidden;
+                        margin-bottom: 15px;
+                        margin-left: 20px;
+                        span{
+                            text-decoration: $light_blue underline 3px;
+                        }
+                    }
+                    .response{
+                        padding-left: 60px;
+                        height: calc(100% - 210px);
+                        padding-top: 20px;
+                        overflow-y: auto;
+                        .rowed{
+                            margin: 30px 0;
+                            .checkbox{
+                                .container {
+                                    display: block;
+                                    position: relative;
+                                    padding-left: 35px;
+                                    margin-bottom: 12px;
+                                    font-size: 25px;
+                                    cursor: pointer;
+                                    -webkit-user-select: none;
+                                    -moz-user-select: none;
+                                    -ms-user-select: none;
+                                    user-select: none;
+                                    input {
+                                        position: absolute;
+                                        opacity: 0;
+                                        cursor: pointer;
+                                        top: 10px;
+                                        height: 0;
+                                        margin-right: 20px;
+                                        width: 0;
+                                        &:disabled{
+                                            cursor: default !important;
+                                        }
+                                    }
+                                    .checkmark {
+                                        position: absolute;
+                                        top: 7px;
+                                        left: -10px;
+                                        height: 25px;
+                                        width: 25px;
+                                        background-color: $medium_blue;
+                                        border-radius: 50%;
+
+                                        &:after {
+                                            content: "";
+                                            position: absolute;
+                                            display: none;
+                                        }
+                                    }
+                                }
+                                .user:checked ~ .checkmark {
+                                    background-color: $light_blue;
+                                }
+                                .false:checked ~ .checkmark{
+                                    background-color: $red;
+                                    box-shadow: box_glow($red_light);
+                                }
+                                .right:checked ~ .checkmark{
+                                    background-color: $green;
+                                    box-shadow: box_glow($green_light);
+                                }
+                                .container input:checked ~ .checkmark:after {
+                                    display: block;
+                                }
+                                .disabled{
+                                    cursor: default !important;
+                                }
+                            }
+
+                            label{
+                                font-size: 25px;
+                            }
+                        }
+                    }
+                }
+                .infos{
+                    width: 20%;
+                    padding: 10px;
+                    min-width: 290px;
+                    display: flex;
+                    flex-direction: column;
+                    img{
+                        width: 275px;
+                        height: 154px;
+                        border-radius: $border-radius;
+                        margin-top: 20px;
+                    }
+                    p{
+                        text-indent: 20px;
+                        text-align: justify-all;
+                        word-break: break-word;
+                    }
+                }
+            }
+            .bottom{
+                display: flex;
+                flex-direction: row;
+                justify-content: space-evenly;
+                h3, button,{
+                    margin: auto 0;
+                }
+                h3{
+                    font-size: 30px;
+                }
+            }
+        }
+    }
 }
