@@ -1,3 +1,4 @@
+@charset "UTF-8";
 h1 {
   font-family: "Baloo Thambi 2", serif;
   font-weight: 800;
@@ -180,6 +181,23 @@ a {
 .title-contain h1 {
   font-size: 58px;
   padding: 5px;
+}
+
+.beta {
+  width: 70px;
+  height: 45px;
+  border: 1px #FFa500 solid;
+  background-color: rgba(255, 140, 0, 0.1);
+  display: flex;
+  border-radius: 40px;
+}
+.beta:after {
+  padding: 7px;
+  margin: auto;
+  font-size: 20px;
+  font-family: "Baloo Thambi 2", monospace;
+  content: "bêta";
+  color: #FFa500;
 }
 
 html {
@@ -1170,7 +1188,7 @@ body {
 .BC-Container .BC-View .left .addpatient form .bottom .idcard .onoffswitch-switch, .BC-Container .BC-Last .left .addpatient form .bottom .idcard .onoffswitch-switch {
   display: block;
   width: 50px;
-  margin: 0px;
+  margin: 0;
   height: 50px;
   background: #004662;
   border-radius: 30px;
@@ -2990,4 +3008,129 @@ body {
 }
 .responsepage .responsecontent form .bottom h3 {
   font-size: 30px;
+}
+
+.moncompte {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  height: 100vh;
+}
+.moncompte .title-contain {
+  margin: 15px auto 15px auto;
+  text-align: center;
+}
+.moncompte .title-contain span {
+  font-weight: 500;
+  font-size: 30px;
+}
+.moncompte .account-container {
+  margin: auto auto;
+  width: 90%;
+}
+.moncompte .account-container .header {
+  height: 60px;
+  margin-left: 40px;
+  display: flex;
+  flex-direction: row;
+}
+.moncompte .account-container .header button {
+  border: none;
+  background-color: #0C2646;
+  font-size: 28px;
+  font-family: "Baloo Thambi 2", monospace;
+  color: #00FFFF;
+  font-weight: 600;
+  margin-left: 10px;
+  padding: 10px;
+  border-radius: 25px 25px 0 0;
+  border-top: 1px black solid;
+  border-left: 1px black solid;
+  border-right: 1px black solid;
+  display: flex;
+  flex-direction: row;
+}
+.moncompte .account-container .header button img {
+  width: 28px;
+  margin: auto 10px auto 0;
+}
+.moncompte .account-container .header .unselected {
+  background-color: #004662;
+  cursor: pointer;
+}
+.moncompte .account-container .acc-content {
+  height: calc(100vh - 340px);
+  border-radius: 30px;
+  background-color: #0C2646;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+}
+.moncompte .account-container .acc-content .rowed {
+  display: flex;
+  flex-direction: row;
+}
+.moncompte .account-container .acc-content .conlumn {
+  display: flex;
+  flex-direction: column;
+}
+.moncompte .account-container .acc-content .changedata {
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  padding: 30px;
+}
+.moncompte .account-container .acc-content .changedata .rowed {
+  justify-content: space-between;
+}
+.moncompte .account-container .acc-content .changedata .rowed input, .moncompte .account-container .acc-content .changedata .rowed select {
+  width: 350px;
+}
+.moncompte .account-container .acc-content .changedata .rowed label {
+  font-size: 30px;
+  margin: auto 0;
+}
+.moncompte .account-container .acc-content .info {
+  color: #004662;
+  margin: 0 auto;
+  font-weight: 700;
+  font-size: 25px;
+  text-align: right;
+}
+.moncompte .account-container .acc-content .bigchange {
+  width: 50%;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+}
+.moncompte .account-container .acc-content .bigchange .btn {
+  margin: 0 auto;
+}
+.moncompte .account-container .acc-content .bigchange .img {
+  width: 100%;
+  height: 60%;
+}
+.moncompte .account-container .acc-content .bigchange .img .rowed h2 {
+  margin: auto 50px auto 0;
+}
+.moncompte .account-container .acc-content .bigchange .img form {
+  margin-top: 35px;
+  height: 60%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+}
+.moncompte .account-container .acc-content .bigchange .img form .right {
+  margin: 0 0 0 auto;
+}
+.moncompte .account-container .acc-content .bigchange .img form .rowed {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+.moncompte .account-container .acc-content .bigchange .img form .rowed label, .moncompte .account-container .acc-content .bigchange .img form .rowed h4 {
+  margin: auto 0;
+  font-size: 25px;
 }

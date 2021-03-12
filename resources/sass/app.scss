@@ -352,14 +352,12 @@ body{
         }
     }
 }
-
 //Page margin
 @media (min-width: 1100px){
     #content{
         margin-left: 270px;
     }
 }
-
 //Switch
 .switch-container{
     display: flex;
@@ -415,7 +413,6 @@ body{
         z-index: 1;
     }
 }
-
 //Main - Page
 #Main-Page{
     display: flex;
@@ -978,7 +975,7 @@ body{
                                 text-align: right;
                             }
                             .onoffswitch-switch {
-                                display: block; width: 50px; margin: 0px; height: 50px;
+                                display: block; width: 50px; margin: 0; height: 50px;
                                 background: $medium_blue;
                                 border-radius: 30px;
                                 position: absolute; top: -5px; bottom: 0;
@@ -2684,7 +2681,6 @@ body{
         }
     }
 }
-
 //Page de réponse
 .responsepage{
     height: 100vh;
@@ -2829,6 +2825,135 @@ body{
                 }
                 h3{
                     font-size: 30px;
+                }
+            }
+        }
+    }
+}
+//Account
+.moncompte{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    height: 100vh;
+    .title-contain{
+        margin: 15px auto 15px auto;
+        text-align: center;
+        span{
+            font-weight: 500;
+            font-size: 30px;
+        }
+    }
+    .account-container{
+        margin: auto auto;
+        width: 90%;
+        .header{
+            height: 60px;
+            margin-left: 40px;
+            display: flex;
+            flex-direction: row;
+            button{
+                border: none;
+                background-color: $dark_blue;
+                font-size: 28px;
+                font-family: 'Baloo Thambi 2', monospace;
+                color: $light_blue;
+                font-weight: 600;
+                margin-left: 10px;
+                padding: 10px;
+                border-radius: 25px 25px 0 0;
+                border-top: 1px black solid;
+                border-left: 1px black solid;
+                border-right: 1px black solid;
+                display: flex;
+                flex-direction: row;
+                img{
+                    width: 28px;
+                    margin: auto 10px auto 0;
+                }
+            }
+            .unselected{
+                background-color: $medium_blue;
+                cursor: pointer;
+            }
+        }
+        .acc-content{
+            height: calc(100vh - 340px);
+            border-radius: $border-radius;
+            background-color: $dark_blue;
+            display: flex;
+            flex-direction: row;
+            flex-wrap: nowrap;
+            .rowed{
+                display: flex;
+                flex-direction: row;
+            }
+            .conlumn{
+                display: flex;
+                flex-direction: column;
+            }
+            .changedata{
+                width: 50%;
+                display: flex;
+                flex-direction: column;
+                justify-content: space-around;
+                padding: 30px;
+                .rowed{
+                    justify-content: space-between;
+                    input, select{
+                        width: 350px;
+                    }
+                    label{
+                        font-size: 30px;
+                        margin: auto 0;
+                    }
+                }
+            }
+            .info{
+                color: $medium_blue;
+                margin: 0 auto;
+                font-weight: 700;
+                font-size: 25px;
+                text-align: right;
+            }
+            .bigchange{
+                width: 50%;
+                padding: 20px;
+                display: flex;
+                flex-direction: column;
+                justify-content: space-evenly;
+                .btn{
+                    margin: 0 auto;
+                }
+                .img{
+                    width: 100%;
+                    height: 60%;
+
+                    .rowed{
+                        h2{
+                            margin: auto 50px auto 0;
+                        }
+                    }
+                    form{
+                        margin-top: 35px;
+                        height: 60%;
+                        display: flex;
+                        flex-direction: column;
+                        justify-content: space-evenly;
+                        .right{
+                            margin: 0 0 0 auto;
+                        }
+                        .rowed{
+                            display: flex;
+                            flex-direction: row;
+                            justify-content: space-between;
+                            label, h4{
+                                margin: auto 0;
+                                font-size: 25px;
+                            }
+                        }
+
+                    }
                 }
             }
         }

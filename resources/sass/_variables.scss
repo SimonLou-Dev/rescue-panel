@@ -208,3 +208,20 @@ a{
         padding: 5px;
     }
 }
+
+.beta{
+    width: 70px;
+    height: 45px;
+    border: 1px #FFa500 solid;
+    background-color: rgba(255,140,0,0.1);
+    display: flex;
+    border-radius: 40px;
+    &:after{
+        padding: 7px;
+        margin: auto;
+        font-size: 20px;
+        font-family: "Baloo Thambi 2", monospace;
+        content: 'bêta';
+        color: #FFa500;
+    }
+}

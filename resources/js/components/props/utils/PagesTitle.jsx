@@ -11,7 +11,7 @@ class PagesTitle extends React.Component {
     render() {
         return (
             <div className={'title-contain'}>
-                <h1>{this.props.title}</h1>
+                <h1 dangerouslySetInnerHTML={{__html: this.props.title}}/>
             </div>
         )
     }
