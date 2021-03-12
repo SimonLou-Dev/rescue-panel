@@ -3,6 +3,7 @@ import React from 'react';
 import PersonnelLine from "../props/Gestion/Personnel/PersonnelLine";
 import PagesTitle from "../props/utils/PagesTitle";
 import TableBottom from "../props/utils/TableBottom";
+import {Link} from "react-router-dom";
 
 class PersonnelList extends React.Component {
     constructor(props){
@@ -31,6 +32,7 @@ class PersonnelList extends React.Component {
                     <div className={"PersonnelList"}>
                         <section className={'header'}>
                             <PagesTitle title={'Liste du personnel'}/>
+                            <Link to={'/gestion/perm'} className={'btn'}>gérer les permissions</Link>
                         </section>
                         <section className={'list-personnel'}>
                             <table>

@@ -200,6 +200,77 @@ a {
   color: #FFa500;
 }
 
+.onoffswitch {
+  position: relative;
+  width: 120px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+}
+.onoffswitch .onoffswitch-checkbox {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+.onoffswitch .onoffswitch-label {
+  display: block;
+  overflow: hidden;
+  cursor: pointer;
+  border-radius: 30px;
+}
+.onoffswitch .onoffswitch-inner {
+  display: block;
+  width: 200%;
+  margin-left: -100%;
+  transition: 400ms cubic-bezier(0.28, -0.46, 0.33, 1.5);
+}
+.onoffswitch .onoffswitch-inner:before, .onoffswitch .onoffswitch-inner:after {
+  display: block;
+  float: left;
+  width: 50%;
+  height: 40px;
+  padding: 0;
+  line-height: 35px;
+  font-size: 20px;
+  color: #004662;
+  font-family: "Baloo Thambi 2", monospace;
+  font-weight: bold;
+  box-sizing: border-box;
+  border: 2px solid transparent;
+}
+.onoffswitch .onoffswitch-inner:before {
+  content: "OUI";
+  padding-left: 20px;
+  background-color: #2DF037;
+  color: #0C2646;
+}
+.onoffswitch .onoffswitch-inner:after {
+  content: "NON";
+  padding-right: 20px;
+  background-color: #DB1B1B;
+  color: #0C2646;
+  text-align: right;
+}
+.onoffswitch .onoffswitch-switch {
+  display: block;
+  width: 50px;
+  margin: 0;
+  height: 50px;
+  background: #004662;
+  border-radius: 30px;
+  position: absolute;
+  top: -5px;
+  bottom: 0;
+  right: 80px;
+  transition: 300ms cubic-bezier(0.28, -0.46, 0.33, 1.5);
+}
+.onoffswitch .onoffswitch-checkbox:checked + .onoffswitch-label .onoffswitch-inner {
+  margin-left: 0;
+}
+.onoffswitch .onoffswitch-checkbox:checked + .onoffswitch-label .onoffswitch-switch {
+  right: -5px;
+}
+
 html {
   position: fixed;
   padding: 0;
@@ -1133,76 +1204,6 @@ body {
   display: flex;
   flex-direction: row;
   justify-content: space-evenly;
-}
-.BC-Container .BC-View .left .addpatient form .bottom .idcard .onoffswitch, .BC-Container .BC-Last .left .addpatient form .bottom .idcard .onoffswitch {
-  position: relative;
-  width: 120px;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-}
-.BC-Container .BC-View .left .addpatient form .bottom .idcard .onoffswitch-checkbox, .BC-Container .BC-Last .left .addpatient form .bottom .idcard .onoffswitch-checkbox {
-  position: absolute;
-  opacity: 0;
-  pointer-events: none;
-}
-.BC-Container .BC-View .left .addpatient form .bottom .idcard .onoffswitch-label, .BC-Container .BC-Last .left .addpatient form .bottom .idcard .onoffswitch-label {
-  display: block;
-  overflow: hidden;
-  cursor: pointer;
-  border-radius: 30px;
-}
-.BC-Container .BC-View .left .addpatient form .bottom .idcard .onoffswitch-inner, .BC-Container .BC-Last .left .addpatient form .bottom .idcard .onoffswitch-inner {
-  display: block;
-  width: 200%;
-  margin-left: -100%;
-  transition: 400ms cubic-bezier(0.28, -0.46, 0.33, 1.5);
-}
-.BC-Container .BC-View .left .addpatient form .bottom .idcard .onoffswitch-inner:before, .BC-Container .BC-View .left .addpatient form .bottom .idcard .onoffswitch-inner:after, .BC-Container .BC-Last .left .addpatient form .bottom .idcard .onoffswitch-inner:before, .BC-Container .BC-Last .left .addpatient form .bottom .idcard .onoffswitch-inner:after {
-  display: block;
-  float: left;
-  width: 50%;
-  height: 40px;
-  padding: 0;
-  line-height: 35px;
-  font-size: 20px;
-  color: #004662;
-  font-family: "Baloo Thambi 2", monospace;
-  font-weight: bold;
-  box-sizing: border-box;
-  border: 2px solid transparent;
-}
-.BC-Container .BC-View .left .addpatient form .bottom .idcard .onoffswitch-inner:before, .BC-Container .BC-Last .left .addpatient form .bottom .idcard .onoffswitch-inner:before {
-  content: "OUI";
-  padding-left: 20px;
-  background-color: #2DF037;
-  color: #0C2646;
-}
-.BC-Container .BC-View .left .addpatient form .bottom .idcard .onoffswitch-inner:after, .BC-Container .BC-Last .left .addpatient form .bottom .idcard .onoffswitch-inner:after {
-  content: "NON";
-  padding-right: 20px;
-  background-color: #DB1B1B;
-  color: #0C2646;
-  text-align: right;
-}
-.BC-Container .BC-View .left .addpatient form .bottom .idcard .onoffswitch-switch, .BC-Container .BC-Last .left .addpatient form .bottom .idcard .onoffswitch-switch {
-  display: block;
-  width: 50px;
-  margin: 0;
-  height: 50px;
-  background: #004662;
-  border-radius: 30px;
-  position: absolute;
-  top: -5px;
-  bottom: 0;
-  right: 80px;
-  transition: 300ms cubic-bezier(0.28, -0.46, 0.33, 1.5);
-}
-.BC-Container .BC-View .left .addpatient form .bottom .idcard .onoffswitch-checkbox:checked + .onoffswitch-label .onoffswitch-inner, .BC-Container .BC-Last .left .addpatient form .bottom .idcard .onoffswitch-checkbox:checked + .onoffswitch-label .onoffswitch-inner {
-  margin-left: 0;
-}
-.BC-Container .BC-View .left .addpatient form .bottom .idcard .onoffswitch-checkbox:checked + .onoffswitch-label .onoffswitch-switch, .BC-Container .BC-Last .left .addpatient form .bottom .idcard .onoffswitch-checkbox:checked + .onoffswitch-label .onoffswitch-switch {
-  right: -5px;
 }
 .BC-Container .BC-View .left .infos, .BC-Container .BC-Last .left .infos {
   width: 90%;
@@ -2208,9 +2209,9 @@ body {
 .PersonnelList .header {
   display: flex;
   flex-direction: row;
-  justify-content: center;
+  justify-content: space-evenly;
 }
-.PersonnelList .header button {
+.PersonnelList .header a {
   margin: auto 0;
 }
 .PersonnelList .list-personnel {
@@ -3133,4 +3134,93 @@ body {
 .moncompte .account-container .acc-content .bigchange .img form .rowed label, .moncompte .account-container .acc-content .bigchange .img form .rowed h4 {
   margin: auto 0;
   font-size: 25px;
+}
+
+.perm {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  overflow-y: hidden;
+  justify-content: space-around;
+}
+.perm .header {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  justify-content: space-evenly;
+}
+.perm .header .title-contain {
+  margin: auto 0;
+}
+.perm .header a {
+  margin: auto 0;
+}
+.perm .content {
+  margin: 0 auto;
+  height: calc(100vh - 300px);
+  width: 90%;
+  border-radius: 30px;
+  background-color: #0C2646;
+  overflow-y: scroll;
+}
+.perm .content .tablecontainer table {
+  width: 100%;
+  border-collapse: collapse;
+  display: grid;
+  grid-template-columns: repeat(27, 160px);
+}
+.perm .content .tablecontainer table thead, .perm .content .tablecontainer table tbody, .perm .content .tablecontainer table tr {
+  display: contents;
+}
+.perm .content .tablecontainer table td {
+  padding: 15px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.perm .content .tablecontainer table .grade {
+  font-size: 22px;
+  padding: 5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: "Baloo Thambi 2", monospace;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+.perm .content .tablecontainer table th {
+  border-collapse: collapse;
+  color: #00FFFF;
+  font-family: "Baloo Thambi 2", monospace;
+  height: 110px;
+  position: -webkit-sticky;
+  position: sticky;
+  top: 0;
+  background: #004662;
+  padding: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: normal;
+  font-size: 1.1rem;
+  border: 1px black solid;
+  border-top: none;
+}
+.perm .content .tablecontainer table th:first-child {
+  border-left: none;
+}
+.perm .content .tablecontainer table th:last-child {
+  border-right: none;
+}
+.perm .content .tablecontainer table td {
+  padding-top: 10px;
+  padding-bottom: 10px;
+  color: #00FFFF;
+}
+.perm .content .tablecontainer table tr:nth-child(even) td {
+  background: #0f2f57;
 }
