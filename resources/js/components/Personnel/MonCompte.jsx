@@ -30,8 +30,8 @@ class Account extends React.Component {
                         <div className="rowed">
                             <label>fuseau horaire</label>
                             <select>
-                                <option>Paris - GMT+1</option>
-                                <option>New York - UTC-5</option>
+                                <option>[FR] Paris - GMT+1</option>
+                                <option>[NY] New York - UTC-5</option>
                             </select>
                         </div>
                         <label className={'info'}>prend effet à la prochaine connexion</label>

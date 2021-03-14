@@ -28,6 +28,37 @@ import BugRepport from "./BugRepport";
 const service_state = false;
 export const rootUrl = document.querySelector('body').getAttribute('data-root-url');
 
+class Time extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            date: '',
+        }
+    }
+
+    componentDidMount() {
+        this.tick();
+        this.timerID = setInterval(
+            () => this.tick(),
+            1000
+        );
+    }
+
+    tick(){
+        var d = new Date();
+        this.setState({date: d.getHours() + ":" + d.getMinutes() + ":" + d.getSeconds()})
+    }
+    componentWillUnmount() {
+        clearInterval(this.timerID);
+    }
+
+    render() {
+        return (<div className="time">
+            <h3>{this.state.date}</h3>
+        </div>);
+    }
+}
+
 class Layout extends React.Component{
     constructor(props) {
         super(props);
@@ -87,13 +118,14 @@ class Layout extends React.Component{
                         <div id={'logout'}>
                             <a href={'/logout'}><img src={'/assets/images/logout.svg'} alt={''}/></a>
                         </div>
+                        <Time/>
                         <div id={'Close'}>
                             <button onClick={()=>{
                                 this.setState({openmenu : false});
                             }}>fermer</button>
                         </div>
                         <div id="Logo">
-                            <NavLink to={'/'}><img src={'/assets/images/BCFD.svg'} alt={'BCFD'}/></NavLink>
+                            <NavLink to={'/'}><img src={'/assets/images/BCFD.svg'} alt={''}/></NavLink>
                         </div>
                         <div className="Menusepartor"/>
                         <Service status={service_state}/>
