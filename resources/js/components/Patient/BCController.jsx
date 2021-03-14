@@ -361,7 +361,6 @@ class BCLast extends React.Component {
     }
 }
 
-
 class BCView extends React.Component {
     constructor(props) {
         super(props);

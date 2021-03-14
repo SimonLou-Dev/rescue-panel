@@ -178,17 +178,14 @@ body{
         margin: 10px 0;
     }
     #Logo{
-        margin-top: 20px;
         width: 100%;
-        height: 250px;
+        height: 200px;
         display: flex;
-        justify-content: center;
         a{
-            margin: 10px auto 0 auto;
+            margin: 0 auto;
             padding: 0;
-            width: fit-content;
             img{
-                width: 220px;
+                width: 200px;
             }
         }
     }
@@ -219,7 +216,7 @@ body{
 
 
     .navigation{
-        height: calc(100vh - 512px);
+        height: calc(100vh - 562px);
         overflow-y: auto;
         overflow-x: hidden;
 
@@ -284,6 +281,12 @@ body{
             font-family: 'Baloo Thambi 2', monospace;
             font-size: 20px;
             font-weight: 700;
+        }
+    }
+    .bugreportter{
+        display: flex;
+        button{
+            margin: 0 auto;
         }
     }
 }
@@ -532,6 +535,7 @@ body{
         padding-top: 10px;
         display: flex;
         flex-direction: row;
+        flex-wrap: wrap;
         justify-content: space-evenly;
         width: 100%;
         .Title{
@@ -1704,6 +1708,9 @@ body{
                     tr{
                         border-bottom: 1px black solid !important;
                     }
+                    tr:nth-child(even) td {
+                        background: #0f2f57;
+                    }
                 }
             }
         }
@@ -1810,6 +1817,9 @@ body{
                 &:last-child{
                     border-bottom: none !important;
                 }
+            }
+            .row:nth-child(even) .cell {
+                background: #0f2f57;
             }
             .cell{
                 border-left: 1px black solid;
@@ -1933,6 +1943,10 @@ body{
                     p{
                         margin: auto 0;
                         font-size: 25px;
+                        max-width: 80%;
+                        white-space: nowrap;
+                        overflow: hidden;
+                        text-overflow: ellipsis;
                     }
                 }
 
@@ -2150,6 +2164,9 @@ body{
 
 
             }
+            tr:nth-child(even) td {
+                background: #0f2f57;
+            }
         }
     }
 
@@ -2160,6 +2177,7 @@ body{
     height: 100%;
     display: flex;
     justify-content: center;
+    background-image: url("/assets/bg/BG_1.jpg");
     .Form{
         margin: auto auto;
         background-color: $dark_blue;
@@ -2188,6 +2206,47 @@ body{
         }
     }
 }
+//maintenance
+.maintenance{
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    background-image: url("/assets/bg/BG_2.jpg");
+    .card{
+        margin: auto auto;
+        background-color: $dark_blue;
+        border-radius: $border_radius;
+        padding: 10px;
+        display: flex;
+        flex-direction: column;
+        h1{
+            text-align: center;
+            font-size: 40px;
+            font-weight: 900;
+            color: $light_blue;
+        }
+        .infos{
+            margin: 20px 0 ;
+            display: flex;
+            flex-direction: column;
+            padding: 20px 0;
+            border-bottom: 1px $medium_blue solid;
+            border-top: 1px $medium_blue solid;
+            .rowed{
+                padding: 0 30px;
+                display: flex;
+                flex-direction: row;
+                justify-content: space-between;
+            }
+        }
+        .contact{
+            text-align: center;
+            margin-bottom: 10px;
+        }
+    }
+}
+//remoubrsements
 .remboursement{
     display: flex;
     width: 100%;
@@ -2373,6 +2432,7 @@ body{
         }
     }
 }
+//logs
 .Logs{
     width: 100%;
     height: 100vh;
@@ -2479,6 +2539,9 @@ body{
                     border-bottom: none;
 
                 }
+                tr:nth-child(even) td {
+                    background: #0f2f57;
+                }
                 thead{
                     tr{
                         border-bottom: 1px black solid !important;
@@ -2488,8 +2551,13 @@ body{
         }
     }
 }
+//report bug
 .BugRepport{
+    z-index: 25;
     width: 100%;
+    position: fixed;
+    top:0;
+    backdrop-filter: blur(5px);
     height: 100vh;
     display: flex;
     .Repport-Card{
@@ -2497,6 +2565,7 @@ body{
         width: 40%;
         background-color: $dark_blue;
         border-radius: $border-radius;
+        border: 1px solid $light_blue;
         padding: 20px;
         h1{
             font-weight: 700;
@@ -2507,9 +2576,14 @@ body{
             display: flex;
             flex-direction: column;
         }
-        button{
-            margin: 0 0 0 auto;
+        .rowed{
+            display: flex;
+            flex-direction: row;
+            justify-content: space-evenly;
+            button{
+                margin: auto 0;
 
+            }
         }
     }
 }
@@ -2663,7 +2737,7 @@ body{
             .question{
                 height: 90%;
                 margin-bottom: 10px;
-                border-bottom: 1px $light_blue solid;
+
                 display: flex;
                 flex-direction: row;
                 flex-wrap: nowrap;
@@ -2771,9 +2845,15 @@ body{
                         text-align: justify-all;
                         word-break: break-word;
                     }
+                    .correction{
+                        p{
+                            color: green;
+                        }
+                    }
                 }
             }
             .bottom{
+                border-top: 1px $light_blue solid;
                 display: flex;
                 flex-direction: row;
                 justify-content: space-evenly;
@@ -3008,7 +3088,7 @@ body{
         }
     }
 }
-
+//Carnet de vol
 .carnetvol{
     display: flex;
     flex-direction: column;
@@ -3061,55 +3141,56 @@ body{
             }
         }
     }
-    .popup{
-        position: fixed;
-        top: 0;
-        height: 100vh;
-        backdrop-filter: blur(2px);
-        @media (min-width: 1100px) {
-            width: calc(100vw - 270px);
+}
+//popup
+.popup{
+    position: fixed;
+    top: 0;
+    height: 100vh;
+    backdrop-filter: blur(2px);
+    @media (min-width: 1100px) {
+        width: calc(100vw - 270px);
+    }
+    @media (max-width: 1100px) {
+        width: calc(100vw);
+    }
+    z-index: 14;
+    display: flex;
+    .center{
+        margin: auto auto;
+        width: 90%;
+        max-width: 550px;
+        height: 350px;
+        background-color: $dark_blue;
+        border-radius: $border-radius;
+        border: 1px $light_blue solid;
+        form{
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-evenly;
         }
-        @media (max-width: 1100px) {
-            width: calc(100vw);
+        h2{
+            font-size: 30px;
+            font-weight: 700;
+            text-align: center;
         }
-        z-index: 14;
-        display: flex;
-        .center{
-            margin: auto auto;
-            width: 90%;
-            max-width: 550px;
-            height: 300px;
-            background-color: $dark_blue;
-            border-radius: $border-radius;
-            border: 1px $light_blue solid;
-            form{
-                height: 100%;
-                display: flex;
-                flex-direction: column;
-                justify-content: space-evenly;
+        .rowed{
+            label{
+                margin: auto 0;
             }
-            h2{
-                font-size: 30px;
-                font-weight: 700;
-                text-align: center;
-            }
-            .rowed{
-                label{
-                    margin: auto 0;
-                }
-                padding: 0 30px;
-                display: flex;
-                flex-direction: row;
-                justify-content: space-between;
-            }
-            select,input{
-                width: 260px;
-            }
-            .button{
-                display: flex;
-                flex-direction: row;
-                justify-content: space-evenly;
-            }
+            padding: 0 30px;
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+        }
+        select,input{
+            width: 260px;
+        }
+        .button{
+            display: flex;
+            flex-direction: row;
+            justify-content: space-evenly;
         }
     }
 }

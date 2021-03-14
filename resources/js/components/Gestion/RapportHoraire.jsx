@@ -9,6 +9,7 @@ class RapportHoraire extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
+            popup:false,
             service: null,
             maxwwek: 0,
             wek: 0,
@@ -68,15 +69,8 @@ class RapportHoraire extends React.Component {
                                 <button type={'submit'} className={'btn'}>Valider</button>
                             </form>
                         </div>
-                        <button className={'btn add-perso'} onClick={async (e)=>{
-                            var req = await axios({
-                                url: '/data/service/addwors',
-                                method: 'GET'
-                            })
-                            if(req.status === 201){
-                                this.update();
-                            }
-                        }}>Ajouter tout le personnel</button>
+                        <button className={'btn add-perso'}>Exporter en exel</button>
+                        <button className={'btn add-perso'} onClick={()=>this.setState({popup:true})}>Modifier le temps de service</button>
                     </section>
                     <section className={'rapport-table-container'}>
                         <div className={'rapport-table'}>
@@ -124,6 +118,35 @@ class RapportHoraire extends React.Component {
                         </div>
                         <TableBottom placeholder={'rechercher un nom'} page={1} pages={5}/>
                     </section>
+                    {this.state.popup &&
+                    <section className="popup">
+                        <div className={'center'}>
+                            <form>
+                                <h2>Ajouter/enelever du temps</h2>
+                                <div className="rowed">
+                                    <label>nom</label>
+                                    <input type={'text'} max={100}/>
+                                </div>
+                                <div className="rowed">
+                                    <label>action</label>
+                                    <select defaultValue={1}>
+                                        <option value={1} disabled>choisir</option>
+                                        <option value={2}>ajouter</option>
+                                        <option value={3}>enelever</option>
+                                    </select>
+                                </div>
+                                <div className="rowed">
+                                    <label>temps</label>
+                                    <input type={'text'} placeholder={'hh:mm'}/>
+                                </div>
+                                <div className={'button'}>
+                                    <button onClick={()=>this.setState({popup: false})} className={'btn'}>fermer</button>
+                                    <button type={'submit'} className={'btn'}>valider</button>
+                                </div>
+                            </form>
+                        </div>
+                    </section>
+                    }
 
                 </div>
             )
@@ -132,7 +155,7 @@ class RapportHoraire extends React.Component {
                 <div className={'load'}>
                     <img src={'/assets/images/loading.svg'} alt={''}/>
                 </div>
-                )
+            )
         }
 
 

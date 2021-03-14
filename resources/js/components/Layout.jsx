@@ -64,7 +64,8 @@ class Layout extends React.Component{
         super(props);
         this.state = {
             openmenu : false,
-            minview: false
+            minview: false,
+            bug:false,
         }
         this.updateWindowDimensions = this.updateWindowDimensions.bind(this)
 
@@ -136,9 +137,14 @@ class Layout extends React.Component{
                             <Gestion service={service_state}/>
                         </div>
                         <div className="Menusepartor"/>
+                        <div className="bugreportter">
+                            <button className={'btn'} onClick={()=>{this.setState({bug:true})}}>Signaler un bug</button>
+                        </div>
+                        <div className="Menusepartor"/>
                         <div className="Copyright">
                             <p>Design & développement Simon Lou - Copyright &copy;</p>
                         </div>
+
                     </div>
 
                 </div>
@@ -166,6 +172,9 @@ class Layout extends React.Component{
                         <Route path={'/gestion/informations'} component={InfoGestion}/>
                         <Route path={'/gestion/perm'} component={Permissions}/>
                 </div>
+                {this.state.bug &&
+                    <BugRepport close={()=>this.setState({bug:false})}/>
+                }
             </div>
         );
     }

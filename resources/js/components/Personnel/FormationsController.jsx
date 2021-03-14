@@ -123,8 +123,12 @@ class ResponsePage extends React.Component {
                             <div className="infos">
                                 <img alt={""} src={"https://cdnfr1.img.sputniknews.com/img/103504/72/1035047222_0:87:2600:1493_1000x541_80_0_0_6d9fc2f49efd07d2affa215b788e494b.jpg"}/>
                                 <p>Castus gabaliums ducunt ad nixus. Raptus racana satis pugnas fermium est. Cedriums cadunt in raptus vierium! Tatas tolerare in culina! Verpas credere! Cum fraticinida ridetis, omnes animalises tractare festus, brevis eposes.</p>
+                                <section className={'correction'}>
+                                    <p>Menss prarere in quadrata! Vortex messiss, tanquam teres ausus.</p>
+                                </section>
                             </div>
                         </section>
+
                         <section className="bottom">
                             <button className={'btn'}>précédent</button>
                             <h3>1 mins 27</h3>

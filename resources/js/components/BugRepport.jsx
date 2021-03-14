@@ -16,7 +16,10 @@ class BugRepport extends React.Component {
                     <form>
                         <label>Description : </label>
                         <textarea/>
-                        <button className={'btn'} type={'submit'}>Envoyer</button>
+                        <div className="rowed">
+                            <button className={'btn'} onClick={()=>this.props.close()}>Fermer</button>
+                            <button className={'btn'} type={'submit'}>Envoyer</button>
+                        </div>
                     </form>
                 </div>
             </div>

@@ -445,21 +445,16 @@ body {
   margin: 10px 0;
 }
 .menu-content #Logo {
-  margin-top: 20px;
   width: 100%;
-  height: 250px;
+  height: 200px;
   display: flex;
-  justify-content: center;
 }
 .menu-content #Logo a {
-  margin: 10px auto 0 auto;
+  margin: 0 auto;
   padding: 0;
-  width: -webkit-fit-content;
-  width: -moz-fit-content;
-  width: fit-content;
 }
 .menu-content #Logo a img {
-  width: 220px;
+  width: 200px;
 }
 .menu-content #logout {
   width: 30px;
@@ -486,7 +481,7 @@ body {
   font-size: 28px;
 }
 .menu-content .navigation {
-  height: calc(100vh - 512px);
+  height: calc(100vh - 562px);
   overflow-y: auto;
   overflow-x: hidden;
 }
@@ -550,6 +545,12 @@ body {
   font-family: "Baloo Thambi 2", monospace;
   font-size: 20px;
   font-weight: 700;
+}
+.menu-content .bugreportter {
+  display: flex;
+}
+.menu-content .bugreportter button {
+  margin: 0 auto;
 }
 
 @media (min-width: 1100px) {
@@ -784,6 +785,7 @@ body {
   padding-top: 10px;
   display: flex;
   flex-direction: row;
+  flex-wrap: wrap;
   justify-content: space-evenly;
   width: 100%;
 }
@@ -1967,6 +1969,9 @@ body {
 .impayes .impayelist .ImpayeTableContainer table thead tr {
   border-bottom: 1px black solid !important;
 }
+.impayes .impayelist .ImpayeTableContainer table thead tr:nth-child(even) td {
+  background: #0f2f57;
+}
 .impayes .add-facture-form {
   height: 100vh;
   width: calc(100vw - 270px);
@@ -2069,6 +2074,9 @@ body {
 }
 .RapportHorraire .rapport-table-container .rapport-table .row:last-child {
   border-bottom: none !important;
+}
+.RapportHorraire .rapport-table-container .rapport-table .row:nth-child(even) .cell {
+  background: #0f2f57;
 }
 .RapportHorraire .rapport-table-container .rapport-table .cell {
   border-left: 1px black solid;
@@ -2192,6 +2200,10 @@ body {
 .ContentManagement .content-mgt .ContentCard .item-list .item p, .ContentManagement .content-mgt .ContentCard textarea .item p {
   margin: auto 0;
   font-size: 25px;
+  max-width: 80%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 .ContentManagement .content-mgt .ContentCard form {
   margin: 10px auto;
@@ -2390,12 +2402,16 @@ body {
 .PersonnelList .list-personnel table tr:last-child {
   border-bottom: none;
 }
+.PersonnelList .list-personnel table tr:nth-child(even) td {
+  background: #0f2f57;
+}
 
 .Login, .Register {
   width: 100%;
   height: 100%;
   display: flex;
   justify-content: center;
+  background-image: url("/assets/bg/BG_1.jpg");
 }
 .Login .Form, .Register .Form {
   margin: auto auto;
@@ -2423,6 +2439,46 @@ body {
   flex-direction: row;
   justify-content: space-evenly;
   margin-top: 10px;
+}
+
+.maintenance {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  background-image: url("/assets/bg/BG_2.jpg");
+}
+.maintenance .card {
+  margin: auto auto;
+  background-color: #0C2646;
+  border-radius: 30px;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+}
+.maintenance .card h1 {
+  text-align: center;
+  font-size: 40px;
+  font-weight: 900;
+  color: #00FFFF;
+}
+.maintenance .card .infos {
+  margin: 20px 0;
+  display: flex;
+  flex-direction: column;
+  padding: 20px 0;
+  border-bottom: 1px #004662 solid;
+  border-top: 1px #004662 solid;
+}
+.maintenance .card .infos .rowed {
+  padding: 0 30px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+.maintenance .card .contact {
+  text-align: center;
+  margin-bottom: 10px;
 }
 
 .remboursement {
@@ -2721,12 +2777,20 @@ body {
   border-top: none;
   border-bottom: none;
 }
+.Logs .log-list .table table tr:nth-child(even) td {
+  background: #0f2f57;
+}
 .Logs .log-list .table table thead tr {
   border-bottom: 1px black solid !important;
 }
 
 .BugRepport {
+  z-index: 25;
   width: 100%;
+  position: fixed;
+  top: 0;
+  -webkit-backdrop-filter: blur(5px);
+          backdrop-filter: blur(5px);
   height: 100vh;
   display: flex;
 }
@@ -2735,6 +2799,7 @@ body {
   width: 40%;
   background-color: #0C2646;
   border-radius: 30px;
+  border: 1px solid #00FFFF;
   padding: 20px;
 }
 .BugRepport .Repport-Card h1 {
@@ -2746,8 +2811,13 @@ body {
   display: flex;
   flex-direction: column;
 }
-.BugRepport .Repport-Card button {
-  margin: 0 0 0 auto;
+.BugRepport .Repport-Card .rowed {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+}
+.BugRepport .Repport-Card .rowed button {
+  margin: auto 0;
 }
 
 .load {
@@ -2899,7 +2969,6 @@ body {
 .responsepage .responsecontent form .question {
   height: 90%;
   margin-bottom: 10px;
-  border-bottom: 1px #00FFFF solid;
   display: flex;
   flex-direction: row;
   flex-wrap: nowrap;
@@ -3006,7 +3075,11 @@ body {
   text-align: justify-all;
   word-break: break-word;
 }
+.responsepage .responsecontent form .question .infos .correction p {
+  color: green;
+}
 .responsepage .responsecontent form .bottom {
+  border-top: 1px #00FFFF solid;
   display: flex;
   flex-direction: row;
   justify-content: space-evenly;
@@ -3288,7 +3361,8 @@ body {
   position: sticky;
   top: 0;
 }
-.carnetvol .popup {
+
+.popup {
   position: fixed;
   top: 0;
   height: 100vh;
@@ -3298,48 +3372,48 @@ body {
   display: flex;
 }
 @media (min-width: 1100px) {
-  .carnetvol .popup {
+  .popup {
     width: calc(100vw - 270px);
   }
 }
 @media (max-width: 1100px) {
-  .carnetvol .popup {
+  .popup {
     width: calc(100vw);
   }
 }
-.carnetvol .popup .center {
+.popup .center {
   margin: auto auto;
   width: 90%;
   max-width: 550px;
-  height: 300px;
+  height: 350px;
   background-color: #0C2646;
   border-radius: 30px;
   border: 1px #00FFFF solid;
 }
-.carnetvol .popup .center form {
+.popup .center form {
   height: 100%;
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
 }
-.carnetvol .popup .center h2 {
+.popup .center h2 {
   font-size: 30px;
   font-weight: 700;
   text-align: center;
 }
-.carnetvol .popup .center .rowed {
+.popup .center .rowed {
   padding: 0 30px;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
 }
-.carnetvol .popup .center .rowed label {
+.popup .center .rowed label {
   margin: auto 0;
 }
-.carnetvol .popup .center select, .carnetvol .popup .center input {
+.popup .center select, .popup .center input {
   width: 260px;
 }
-.carnetvol .popup .center .button {
+.popup .center .button {
   display: flex;
   flex-direction: row;
   justify-content: space-evenly;

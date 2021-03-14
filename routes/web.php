@@ -62,6 +62,10 @@ Route::get('/ANA', function (){
     return view("app");
 })->name('ANA');
 
+Route::get('/maintenance', function (){
+    return view("app");
+})->name('mnt');
+
 Route::get('/reset/?', function (){
     return view("app");
 })->middleware('auth');
