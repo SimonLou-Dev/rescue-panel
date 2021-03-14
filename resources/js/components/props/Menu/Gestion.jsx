@@ -27,7 +27,7 @@ class Gestion extends React.Component{
                         <li><NavLink to={'/gestion/content'}>Gestion contenu</NavLink></li>
                         <li><NavLink to={'/gestion/personnel'}>Personnel</NavLink></li>
                         <li><NavLink to={'/gestion/log'}>Logs</NavLink></li>
-                        <li><NavLink to={'/gestion/fromation'}>Formations</NavLink></li>
+                        <li><NavLink to={'/gestion/formation'}>Formations</NavLink></li>
                     </ul>
                 </div>
             );

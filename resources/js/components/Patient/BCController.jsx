@@ -1,8 +1,8 @@
 import React from 'react';
 import axios from "axios";
 import PagesTitle from "../props/utils/PagesTitle";
-
 import PatientListPU from "../props/Patient/Urgence/PatientListPU";
+
 
 class ListPatient extends React.Component {
     render() {

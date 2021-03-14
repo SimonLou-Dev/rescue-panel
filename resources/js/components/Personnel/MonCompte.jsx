@@ -18,32 +18,42 @@ class Account extends React.Component {
         return (
             <div className="acc-content">
                 <section className="changedata">
-                    <div className="rowed">
-                        <label>pseudo</label>
-                        <input type={"text"}/>
-                    </div>
-                    <div className="rowed">
-                        <label>email</label>
-                        <input type={"text"}/>
-                    </div>
-                    <div className="column">
+                    <form>
                         <div className="rowed">
-                            <label>fuseau horaire</label>
+                            <label>pseudo</label>
+                            <input type={"text"}/>
+                        </div>
+                        <div className="rowed">
+                            <label>email</label>
+                            <input type={"text"}/>
+                        </div>
+                        <div className="column">
+                            <div className="rowed">
+                                <label>fuseau horaire</label>
+                                <select>
+                                    <option>[FR] Paris - GMT+1</option>
+                                    <option>[NY] New York - UTC-5</option>
+                                </select>
+                            </div>
+                            <label className={'info'}>prend effet à la prochaine connexion</label>
+                        </div>
+                        <div className="rowed">
+                            <label>numéro de tel</label>
+                            <input type={"number"} max={'99999999'}/>
+                        </div>
+                        <div className="rowed">
+                            <label>numéro de compte</label>
+                            <input type={"number"}/>
+                        </div>
+                        <div className="rowed">
+                            <label>Conté habité</label>
                             <select>
-                                <option>[FR] Paris - GMT+1</option>
-                                <option>[NY] New York - UTC-5</option>
+                                <option>BC</option>
+                                <option>LS</option>
                             </select>
                         </div>
-                        <label className={'info'}>prend effet à la prochaine connexion</label>
-                    </div>
-                    <div className="rowed">
-                        <label>numéro de tel</label>
-                        <input type={"number"} max={'99999999'}/>
-                    </div>
-                    <div className="rowed">
-                        <label>numéro de compte</label>
-                        <input type={"number"}/>
-                    </div>
+                        <button type={'submit'} className={'btn'}>valider</button>
+                    </form>
                 </section>
                 <section className={'bigchange'}>
                     <button className={'btn'}>changer de mot de passe</button>
@@ -78,7 +88,7 @@ class MonCompte extends React.Component {
             account: true
         }
     }
-
+    // Btn des stats <button onClick={()=> this.setState({stats: true, account: false})} className={this.state.stats ? '' : 'unselected'}><img src={'/assets/images/stats.svg'} alt={''}/>mes statistiques</button>
     render() {
         return (
             <div className={"moncompte"}>
@@ -86,7 +96,6 @@ class MonCompte extends React.Component {
                 <div className={'account-container'}>
                     <div className={'header'}>
                         <button onClick={()=> this.setState({stats: false, account: true})} className={this.state.account ? '' : 'unselected'}><img src={'/assets/images/settings.svg'} alt={''}/> mes informations</button>
-                        <button onClick={()=> this.setState({stats: true, account: false})} className={this.state.stats ? '' : 'unselected'}><img src={'/assets/images/stats.svg'} alt={''}/>mes statistiques</button>
                     </div>
                     {this.state.stats && <Stats/>}
                     {this.state.account && <Account/>}
