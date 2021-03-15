@@ -15,131 +15,125 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
-
+//Main view
 Route::get('/', function () {
     if(Auth::user()->grade == 0){
-        return redirect()->route('logout');
+        return redirect()->route('ANA');
     }
     return view("app");
 })->middleware('auth');
-
+//View in patient
 Route::get('/patient/{a}', function (){
     if(Auth::user()->grade == 0){
         return redirect()->route('ANA');
     }
    return view("app");
-})->middleware('guest');
-
-
-Route::get('/bugrepport', function (){
-    if(Auth::user()->grade == 0){
-        return redirect()->route('ANA');
-    }
-    return view("app");
 })->middleware('auth');
-
+//View of personnel
 Route::get('/personnel/{a}', function (){
     if(Auth::user()->grade == 0){
         return redirect()->route('ANA');
     }
     return view("app");
 })->middleware('auth');
-
+//View of gestion
 Route::get('/gestion/{a}', function (){
     if(Auth::user()->grade == 0){
         return redirect()->route('ANA');
     }
     return view("app");
 })->middleware('auth');
-
-
-
-Route::get('/sendmail', function (){
+// Report bug
+Route::get('/bugrepport', function (){
+    if(Auth::user()->grade == 0){
+        return redirect()->route('ANA');
+    }
     return view("app");
-})->middleware('guest');
-
+})->middleware('auth');
+//Cant access
 Route::get('/ANA', function (){
     return view("app");
 })->name('ANA');
-
+//Maintenance
 Route::get('/maintenance', function (){
     return view("app");
 })->name('mnt');
-
-Route::get('/reset/?', function (){
+//informations
+Route::get('/informations', function (){
     return view("app");
 })->middleware('auth');
-
+//register
 Route::get('/register',function (){
     return view("app");
 })->name('register')->middleware('guest');
-
+//login
 Route::get('/login',function (){
     return view("app");
 })->name('login')->middleware('guest');
-
+//log out
 Route::get('/logout', function (){
    \Illuminate\Support\Facades\Auth::logout();
    return redirect()->route('login');
 })->middleware('auth')->name('logout');
+//reset mdp view
+Route::get('/reset/?', function (){
+    return view("app");
+})->middleware('guest');
+//send mail for reseset
+Route::get('/sendmail', function (){
+    return view("app");
+})->middleware('guest');
 
-
+//Connexion management
 Route::post('/data/register', [\App\Http\Controllers\UserController::class, 'register']);
 Route::post('/data/login', [\App\Http\Controllers\UserController::class, 'login']);
-Route::get('/data/checkco', [\App\Http\Controllers\UserController::class, 'checkConnexion']);
+Route::get('/data/check/connexion', [\App\Http\Controllers\UserController::class, 'checkConnexion']);
 Route::get('/data/getstatus', [\App\Http\Controllers\LayoutController::class, 'getservice']);
-Route::get('/data/userisadmin', [\App\Http\Controllers\LayoutController::class, 'UserIsAdmin']);
-Route::get('/data/setstatus/{state?}', [\App\Http\Controllers\LayoutController::class, 'setservice']);
+Route::get('/data/getperm', [\App\Http\Controllers\LayoutController::class, 'UserIsAdmin']); //renommer la fonction
+Route::post('/data/setstatus', [\App\Http\Controllers\LayoutController::class, 'setservice']);
+Route::get('/data/annonces', [\App\Http\Controllers\MainController::class, 'getAnnonces']);
+//Route::post('/data/check/maintenance')
 
+//Rapport management
 Route::get('/data/rapport/getforinter', [\App\Http\Controllers\RapportController::class, 'getforinter']);
-Route::post('data/rapport/post', [\App\Http\Controllers\RapportController::class, 'addRapport']);
+Route::post('/data/rapport/post', [\App\Http\Controllers\RapportController::class, 'addRapport']);
 Route::get('/data/patient/search/{text}', [\App\Http\Controllers\RapportController::class, 'search']);
 Route::get('/data/patient/interlist/{text}', [\App\Http\Controllers\RapportController::class, 'getClient']);
-Route::get('/data/rapport/inter/{id}', [\App\Http\Controllers\RapportController::class, 'getInter']);
+// DELETED Route::get('/data/rapport/inter/{id}', [\App\Http\Controllers\RapportController::class, 'getInter']);
 Route::get('/data/rapport/get/{id}', [\App\Http\Controllers\RapportController::class, 'getRapportById']);
 Route::put('/data/rapport/update/{id}', [\App\Http\Controllers\RapportController::class, 'updateRapport']);
-Route::post('/data/rapport/changetel/{id}', [\App\Http\Controllers\RapportController::class, 'updatePatientTel']);
+Route::post('/data/patient/{id]/update', [\App\Http\Controllers\RapportController::class, 'updatePatientInfos']);
+Route::get('/PDF/rapport/{id}', [\App\Http\Controllers\RapportController::class, 'makeRapportPdf']);
 
-Route::get('/data/AllInService', [\App\Http\Controllers\MainController::class, 'getInServices']);
-Route::get('/data/annonces', [\App\Http\Controllers\MainController::class, 'getAnnonces']);
+//LES BC
 
-Route::get('/data/pu/getstate', [\App\Http\Controllers\PuController::class, 'getInitialstate']);
-Route::post('/data/pu/setstate/{activate}', [\App\Http\Controllers\PuController::class, 'setState']);
-Route::get('/data/pu/getinfos/{activate}', [\App\Http\Controllers\PuController::class, 'getInfos']);
+//Les factures
+Route::get('/data/facture/list', [\App\Http\Controllers\RapportController::class, 'getAllimpaye']);
+Route::put('/data/facture/{id}/paye', [\App\Http\Controllers\RapportController::class, 'paye']);
+Route::post('/data/facture/add', [\App\Http\Controllers\RapportController::class, 'addFacture']);
+Route::get('/PDF/facture/{from}/{to}', [\App\Http\Controllers\RapportController::class, 'makeImpayPdf']);
 
-Route::get('/data/impaye/list', [\App\Http\Controllers\RapportController::class, 'getAllimpaye']);
-Route::get('/data/impaye/paye/{id}', [\App\Http\Controllers\RapportController::class, 'paye']);
-
+//Service management
 Route::get('/data/service/user', [\App\Http\Controllers\ServiceController::class, 'getUserService']);
 Route::get('/data/service/alluser/{semaine?}', [\App\Http\Controllers\ServiceController::class, 'getAllservice']);
 Route::get('/data/service/addwors', [\App\Http\Controllers\ServiceController::class, 'addRows']);
+Route::get('/data/AllInService', [\App\Http\Controllers\MainController::class, 'getInServices']);
+Route::put('/data/service/setbyadmin/{userid}', [\App\Http\Controllers\ServiceController::class, 'setServiceByAdmin']);
 
+//User management
 Route::get('/data/users/getall', [\App\Http\Controllers\UserController::class, 'getUser']);
 Route::post('/data/users/setgrade/{id}/{userid}', [\App\Http\Controllers\UserController::class, 'setusergrade']);
 
-Route::get('/data/pu/isInPu', [\App\Http\Controllers\PuController::class, 'isParticiping']);
-Route::get('/data/pu/addtopu', [\App\Http\Controllers\PuController::class, 'addParticipant']);
-
-Route::post('/data/pu/addpatient/{id}', [\App\Http\Controllers\PuController::class, 'addPatient']);
-Route::delete('/data/pu/removepatient/{id}', [\App\Http\Controllers\PuController::class, 'deletePatient']);
-
+//Content management
 Route::post('/data/gestion/content/add/{type}', [\App\Http\Controllers\ContentManagement::class, 'addcontent']);
 Route::get('/data/gestion/content/get/{type}', [\App\Http\Controllers\ContentManagement::class, 'getcontent']);
 Route::delete('/data/gestion/content/delete/{type}/{id}', [\App\Http\Controllers\ContentManagement::class, 'deletecontent']);
 Route::get('/data/logs/{range}/{page}/{type}', [\App\Http\Controllers\ContentManagement::class, 'getLogs']);
 
-Route::get('/data/gestion/service/setbyadmin/{userid}', [\App\Http\Controllers\ServiceController::class, 'setServiceByAdmin']);
-Route::post('/data/impaye/addfacture', [\App\Http\Controllers\RapportController::class, 'addFacture']);
-
-Route::get('/pdf/rapport/{id}', [\App\Http\Controllers\RapportController::class, 'makeRapportPdf']);
-Route::get('/pdf/impaye/{from}/{to}', [\App\Http\Controllers\RapportController::class, 'makeImpayPdf']);
 
 
-Route::get('/test', function (){
 
-});
 
-Route::get('/teste', function (){
 
-    return view('pdf.rapport');
-});
+
+

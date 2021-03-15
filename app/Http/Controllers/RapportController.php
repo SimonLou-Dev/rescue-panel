@@ -299,7 +299,7 @@ class RapportController extends Controller
         return response()->json(['status'=>'OK'],201);
     }
 
-    public function updatePatientTel(Request $request, $id): \Illuminate\Http\JsonResponse
+    public function updatePatientInfos(Request $request, $id): \Illuminate\Http\JsonResponse
     {
         $patient = Patient::where('id', $id)->first();
         $patient->tel = $request->tel;

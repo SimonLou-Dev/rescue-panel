@@ -28,6 +28,7 @@ import Emailsender from './components/Emailsender';
 import NotifSucces from './components/props/notifs/Notifs';
 import Notifications from "./components/props/utils/Notifications";
 import Maintenance from "./components/Maintenance";
+import GetInfos from "./components/GetInfos";
 var notifs = true;
 
 class App extends React.Component{
@@ -49,6 +50,7 @@ class App extends React.Component{
                     <Route path='/sendmail' component={Emailsender}/>
                     <Route path='/ANA' component={Error}/>
                     <Route path='/maintenance' component={Maintenance}/>
+                    <Route path='/informations' component={GetInfos}/>
                     <Layout />
                 </Switch>
                 <Notifications/>
