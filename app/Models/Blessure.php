@@ -4,8 +4,12 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-
-class Grade extends Model
+/**
+ * @property int id
+ * @property string name
+ *
+ */
+class Blessure extends Model
 {
     use HasFactory;
 }

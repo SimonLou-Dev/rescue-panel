@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Annonce;
+use App\Models\Annonces;
 use App\Models\BlessuresTypes;
 use App\Models\Factures;
 use App\Models\HospitalList;
@@ -46,7 +47,7 @@ class ContentManagement extends Controller
                 return response()->json(['status'=>'OK', 'created'=>$content], 201);
                 break;
             case "5";
-                $content = new Annonce();
+                $content = new Annonces();
                 $content->title = $request->title;
                 $content->content = $request->formcontent;
                 $content->posted_at = date('Y-m-d H:i:s', time());
