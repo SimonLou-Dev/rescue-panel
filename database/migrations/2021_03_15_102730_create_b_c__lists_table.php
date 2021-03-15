@@ -13,8 +13,12 @@ class CreateBCListsTable extends Migration
      */
     public function up()
     {
-        Schema::create('b_c__lists', function (Blueprint $table) {
+        Schema::create('BCLists', function (Blueprint $table) {
             $table->id();
+            $table->integer('started_id');
+            $table->string('place');
+            $table->integer('type_id');
+            $table->dateTime('started_at');
             $table->timestamps();
         });
     }

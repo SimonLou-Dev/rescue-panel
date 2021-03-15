@@ -13,8 +13,20 @@ class CreateUsersTable extends Migration
      */
     public function up()
     {
-        Schema::create('users', function (Blueprint $table) {
+        Schema::create('Users', function (Blueprint $table) {
             $table->id();
+            $table->integer('grade_id')->default(1);
+            $table->string('name');
+            $table->string('email');
+            $table->string('password');
+            $table->string('token');
+            $table->boolean('service');
+            $table->string('liveplace');
+            $table->integer('tel');
+            $table->boolean('pilote')->default(false);
+            $table->integer('compte');
+            $table->string('timezone');
+            $table->string('bg_img')->nullable();
             $table->timestamps();
         });
     }

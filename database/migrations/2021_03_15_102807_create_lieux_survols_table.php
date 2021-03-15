@@ -13,8 +13,9 @@ class CreateLieuxSurvolsTable extends Migration
      */
     public function up()
     {
-        Schema::create('lieux_survols', function (Blueprint $table) {
+        Schema::create('LieuxSurvols', function (Blueprint $table) {
             $table->id();
+            $table->string('name');
             $table->timestamps();
         });
     }

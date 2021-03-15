@@ -13,8 +13,10 @@ class CreateObjRemboursementsTable extends Migration
      */
     public function up()
     {
-        Schema::create('obj_remboursements', function (Blueprint $table) {
+        Schema::create('ObjRemboursements', function (Blueprint $table) {
             $table->id();
+            $table->string('name');
+            $table->integer('price');
             $table->timestamps();
         });
     }

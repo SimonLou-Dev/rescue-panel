@@ -13,8 +13,9 @@ class CreateBlessuresTable extends Migration
      */
     public function up()
     {
-        Schema::create('blessures', function (Blueprint $table) {
+        Schema::create('Blessures', function (Blueprint $table) {
             $table->id();
+            $table->string('name');
             $table->timestamps();
         });
     }

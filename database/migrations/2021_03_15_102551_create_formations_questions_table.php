@@ -13,8 +13,17 @@ class CreateFormationsQuestionsTable extends Migration
      */
     public function up()
     {
-        Schema::create('formations_questions', function (Blueprint $table) {
+        Schema::create('FormationsQuestions', function (Blueprint $table) {
             $table->id();
+            $table->integer('formation_id');
+            $table->string('type');
+            $table->string('correction')->nullable();
+            $table->string('max_note');
+            $table->json('responses');
+            $table->json('right_response');
+            $table->string('name');
+            $table->string('img')->nullable();
+            $table->mediumText('desc');
             $table->timestamps();
         });
     }

@@ -13,8 +13,13 @@ class CreateFacturesTable extends Migration
      */
     public function up()
     {
-        Schema::create('factures', function (Blueprint $table) {
+        Schema::create('Factures', function (Blueprint $table) {
             $table->id();
+            $table->integer('patient_id');
+            $table->integer('rapport_id')->nullable();
+            $table->boolean('payed')->default(false);
+            $table->integer('price');
+            $table->integer('payement_confirm_id')->nullable();
             $table->timestamps();
         });
     }

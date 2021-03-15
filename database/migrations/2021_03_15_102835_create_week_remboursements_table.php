@@ -13,8 +13,11 @@ class CreateWeekRemboursementsTable extends Migration
      */
     public function up()
     {
-        Schema::create('week_remboursements', function (Blueprint $table) {
+        Schema::create('WeekRemboursements', function (Blueprint $table) {
             $table->id();
+            $table->string('user_id');
+            $table->string('week_number');
+            $table->integer('total')->default(0);
             $table->timestamps();
         });
     }

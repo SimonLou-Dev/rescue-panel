@@ -13,8 +13,13 @@ class CreateGradesTable extends Migration
      */
     public function up()
     {
-        Schema::create('grades', function (Blueprint $table) {
+        Schema::create('Grades', function (Blueprint $table) {
             $table->id();
+            $table->string('name');
+            $a = 0;
+            while ($a <= 26){
+                $table->boolean('perm_'.$a)->default(false);
+            }
             $table->timestamps();
         });
     }

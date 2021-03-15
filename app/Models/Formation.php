@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Carbon\Traits\Timestamp;
 use Faker\Provider\DateTime;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -20,7 +21,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property bool unic_try
  * @property bool correction
  * @property bool save_on_deco
- * @property DateTime timer
+ * @property Timestamp timer
  * @property string name
  * @property string image
  * @property string desc

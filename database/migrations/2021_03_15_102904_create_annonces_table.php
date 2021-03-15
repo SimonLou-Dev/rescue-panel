@@ -13,8 +13,11 @@ class CreateAnnoncesTable extends Migration
      */
     public function up()
     {
-        Schema::create('annonces', function (Blueprint $table) {
+        Schema::create('Annonces', function (Blueprint $table) {
             $table->id();
+            $table->integer('discord_msg_id');
+            $table->string('title');
+            $table->longText('content');
             $table->timestamps();
         });
     }

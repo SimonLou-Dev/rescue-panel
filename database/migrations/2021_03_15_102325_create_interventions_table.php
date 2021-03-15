@@ -13,8 +13,9 @@ class CreateInterventionsTable extends Migration
      */
     public function up()
     {
-        Schema::create('interventions', function (Blueprint $table) {
+        Schema::create('Interventions', function (Blueprint $table) {
             $table->id();
+            $table->string('name');
             $table->timestamps();
         });
     }

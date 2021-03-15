@@ -13,8 +13,16 @@ class CreateRapportsTable extends Migration
      */
     public function up()
     {
-        Schema::create('rapports', function (Blueprint $table) {
+        Schema::create('Rapports', function (Blueprint $table) {
             $table->id();
+            $table->integer('user_id');
+            $table->integer('interType');
+            $table->integer('transport');
+            $table->longText('description');
+            $table->integer('price');
+            $table->dateTime('ATA_start')->nullable();
+            $table->dateTime('ATA_end')->nullable();
+            $table->integer('patient_id');
             $table->timestamps();
         });
     }

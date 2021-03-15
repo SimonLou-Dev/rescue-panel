@@ -13,8 +13,12 @@ class CreateServicesTable extends Migration
      */
     public function up()
     {
-        Schema::create('services', function (Blueprint $table) {
+        Schema::create('Services', function (Blueprint $table) {
             $table->id();
+            $table->integer('user_id');
+            $table->dateTime('started_at');
+            $table->dateTime('ended_at')->nullable();
+            $table->string('total');
             $table->timestamps();
         });
     }

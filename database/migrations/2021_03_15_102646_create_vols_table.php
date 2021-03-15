@@ -13,8 +13,12 @@ class CreateVolsTable extends Migration
      */
     public function up()
     {
-        Schema::create('vols', function (Blueprint $table) {
+        Schema::create('Vols', function (Blueprint $table) {
             $table->id();
+            $table->dateTime('decollage');
+            $table->string('raison');
+            $table->integer('pilote_id');
+            $table->integer('lieux_id');
             $table->timestamps();
         });
     }

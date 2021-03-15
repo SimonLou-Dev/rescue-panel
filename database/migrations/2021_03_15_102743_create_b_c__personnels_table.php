@@ -13,8 +13,11 @@ class CreateBCPersonnelsTable extends Migration
      */
     public function up()
     {
-        Schema::create('b_c__personnels', function (Blueprint $table) {
+        Schema::create('BCPersonnels', function (Blueprint $table) {
             $table->id();
+            $table->integer('user_id');
+            $table->string('name');
+            $table->integer('BC_id');
             $table->timestamps();
         });
     }
