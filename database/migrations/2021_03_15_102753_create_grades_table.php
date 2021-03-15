@@ -19,6 +19,7 @@ class CreateGradesTable extends Migration
             $a = 0;
             while ($a <= 26){
                 $table->boolean('perm_'.$a)->default(false);
+                $a++;
             }
             $table->timestamps();
         });

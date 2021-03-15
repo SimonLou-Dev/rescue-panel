@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 
 /**
  * Class User
@@ -22,9 +23,10 @@ use Illuminate\Database\Eloquent\Model;
  * @property string timezone
  * @property string bg_img
  */
-class User extends Model
+class User extends Authenticatable
 {
     use HasFactory;
+    protected $table = "Users";
 
     public function GetRapports(): \Illuminate\Database\Eloquent\Relations\HasMany
     {

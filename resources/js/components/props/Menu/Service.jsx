@@ -28,7 +28,7 @@ class Service extends React.Component{
     async OffServiceClicked() {
         this.setState(state => ({status: true,disabled: true}));
         await axios({
-            method: "GET",
+            method: "POST",
             url: '/data/setstatus/',
         });
         this.timerID = setInterval(

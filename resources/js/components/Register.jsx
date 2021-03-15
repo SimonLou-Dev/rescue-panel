@@ -129,12 +129,13 @@ class Register extends React.Component {
                     'email': email
                 }
             });
-            if(res.data === "Email alrady taken"){
+            console.log(res)
+            if(res.data['raison'] === "Email taken"){
                 this.setState({email_exist: true, error: true});
             }
 
-            if(res.data.status === "User created"){
-                window.location.href = "/";
+            if(res.status === 201){
+                window.location.href = "/informations";
             }
         }
     }

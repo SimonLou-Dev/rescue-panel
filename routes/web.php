@@ -17,35 +17,35 @@ use Illuminate\Support\Facades\Route;
 */
 //Main view
 Route::get('/', function () {
-    if(Auth::user()->grade == 0){
+    if(Auth::user()->grade_id == 0){
         return redirect()->route('ANA');
     }
     return view("app");
 })->middleware('auth');
 //View in patient
 Route::get('/patient/{a}', function (){
-    if(Auth::user()->grade == 0){
+    if(Auth::user()->grade_id == 0){
         return redirect()->route('ANA');
     }
    return view("app");
 })->middleware('auth');
 //View of personnel
 Route::get('/personnel/{a}', function (){
-    if(Auth::user()->grade == 0){
+    if(Auth::user()->grade_id == 0){
         return redirect()->route('ANA');
     }
     return view("app");
 })->middleware('auth');
 //View of gestion
 Route::get('/gestion/{a}', function (){
-    if(Auth::user()->grade == 0){
+    if(Auth::user()->grade_id == 0){
         return redirect()->route('ANA');
     }
     return view("app");
 })->middleware('auth');
 // Report bug
 Route::get('/bugrepport', function (){
-    if(Auth::user()->grade == 0){
+    if(Auth::user()->grade_id == 0){
         return redirect()->route('ANA');
     }
     return view("app");
@@ -87,9 +87,10 @@ Route::get('/sendmail', function (){
 //Connexion management
 Route::post('/data/register', [\App\Http\Controllers\UserController::class, 'register']);
 Route::post('/data/login', [\App\Http\Controllers\UserController::class, 'login']);
+Route::post('/data/postuserinfos', [\App\Http\Controllers\UserController::class, 'postInfos']);
 Route::get('/data/check/connexion', [\App\Http\Controllers\UserController::class, 'checkConnexion']);
 Route::get('/data/getstatus', [\App\Http\Controllers\LayoutController::class, 'getservice']);
-Route::get('/data/getperm', [\App\Http\Controllers\LayoutController::class, 'UserIsAdmin']); //renommer la fonction
+Route::get('/data/getperm', [\App\Http\Controllers\UserController::class, 'GetUserPerm']); //renommer la fonction
 Route::post('/data/setstatus', [\App\Http\Controllers\LayoutController::class, 'setservice']);
 Route::get('/data/annonces', [\App\Http\Controllers\MainController::class, 'getAnnonces']);
 //Route::post('/data/check/maintenance')
@@ -131,9 +132,14 @@ Route::delete('/data/gestion/content/delete/{type}/{id}', [\App\Http\Controllers
 Route::get('/data/logs/{range}/{page}/{type}', [\App\Http\Controllers\ContentManagement::class, 'getLogs']);
 
 
+Route::get('/test', function (){
+    event(new \App\Events\Notify('test',1));
+    return 'a';
+});
 
-
-
+Route::get('/two', function (){
+    return view('login');
+});
 
 
 

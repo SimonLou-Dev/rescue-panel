@@ -18,6 +18,7 @@ use Illuminate\Database\Eloquent\Model;
 class Vol extends Model
 {
     use HasFactory;
+    protected $table = "Vols";
 
     public function GetLieux(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {

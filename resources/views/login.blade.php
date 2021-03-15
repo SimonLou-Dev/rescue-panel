@@ -1,20 +1,28 @@
 <!doctype html>
 <html lang=”fr”>
 <head>
-    <meta charset=”utf-8">
-    <meta http-equiv=”X-UA-Compatible” content=”IE=edge”>
-    <meta name=”viewport” content=”width=device-width, initial-scale=1">
+    <title>Pusher Test</title>
+    <script src="https://js.pusher.com/7.0/pusher.min.js"></script>
+    <script>
 
-    <!-- csrf token -->
-    <meta name=”csrf-token” content=”{{ csrf_token() }}”>
-    <title>BCFD - Intranet</title>
+        // Enable pusher logging - don't include this in production
+        Pusher.logToConsole = true;
 
-    <!-- styles -->
+        var pusher = new Pusher('fd78f74e8faecbd2405b', {
+            cluster: 'eu'
+        });
 
-    <link href="{{ asset('css/app.css') }}" rel=”stylesheet”>
+        var channel = pusher.subscribe('my-channel');
+        channel.bind('my-event', function(data) {
+            alert(JSON.stringify(data));
+        });
+    </script>
 </head>
 <body>
-<div id="app">a</div>
-
+<h1>Pusher Test</h1>
+<p>
+    Try publishing an event to channel <code>my-channel</code>
+    with event name <code>my-event</code>.
+</p>
 </body>
 </html>

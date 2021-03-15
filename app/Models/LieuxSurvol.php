@@ -14,4 +14,5 @@ use Illuminate\Database\Eloquent\Model;
 class LieuxSurvol extends Model
 {
     use HasFactory;
+    protected $table = "LieuxSurvols";
 }

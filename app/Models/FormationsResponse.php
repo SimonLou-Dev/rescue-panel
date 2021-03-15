@@ -18,6 +18,7 @@ use Illuminate\Database\Eloquent\Model;
 class FormationsResponse extends Model
 {
     use HasFactory;
+    protected $table = "FormationResponses";
 
     public function GetUser(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {

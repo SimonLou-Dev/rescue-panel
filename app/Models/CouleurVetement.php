@@ -14,4 +14,5 @@ use Illuminate\Database\Eloquent\Model;
 class CouleurVetement extends Model
 {
     use HasFactory;
+    protected $table = "CouleurVetements";
 }

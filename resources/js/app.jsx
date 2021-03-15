@@ -38,23 +38,20 @@ class App extends React.Component{
     }
 
 
-
-
     render() {
         return (
-            <BrowserRouter>
-                <Switch>
-                    <Route path='/login' component={Login}/>
-                    <Route path='/register' component={Register}/>
-                    <Route path='/reset/*' component={Mdpreset}/>
-                    <Route path='/sendmail' component={Emailsender}/>
-                    <Route path='/ANA' component={Error}/>
-                    <Route path='/maintenance' component={Maintenance}/>
-                    <Route path='/informations' component={GetInfos}/>
-                    <Layout />
-                </Switch>
-                <Notifications/>
-            </BrowserRouter>
+                <BrowserRouter>
+                    <Switch>
+                        <Route path='/login' component={Login}/>
+                        <Route path='/register' component={Register}/>
+                        <Route path='/reset/*' component={Mdpreset}/>
+                        <Route path='/sendmail' component={Emailsender}/>
+                        <Route path='/ANA' component={Error}/>
+                        <Route path='/maintenance' component={Maintenance}/>
+                        <Route path='/informations' component={GetInfos}/>
+                        <Layout />
+                    </Switch>
+                </BrowserRouter>
         );
     }
 }

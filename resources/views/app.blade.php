@@ -10,6 +10,8 @@
     <title>BCFD - Intranet</title>
     <!-- styles -->
     <link href=”{{ asset('css/app.css') }}” rel=”stylesheet”>
+    <!-- pusher -->
+    <script src="https://js.pusher.com/7.0/pusher.min.js"></script>
 </head>
 <body data-root-url={{ asset('') }}>
     <div id="app"></div>

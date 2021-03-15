@@ -15,4 +15,5 @@ use Illuminate\Database\Eloquent\Model;
 class BCType extends Model
 {
     use HasFactory;
+    protected $table = "BCTypes";
 }

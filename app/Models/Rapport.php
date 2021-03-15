@@ -22,6 +22,7 @@ use Illuminate\Database\Eloquent\Model;
 class Rapport extends Model
 {
     use HasFactory;
+    protected $table = "Rapports";
 
     public function GetPatient(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {

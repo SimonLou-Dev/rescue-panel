@@ -21,9 +21,10 @@ class Authed
 
         if(!is_null($uuid)){
             Cookie::queue(Cookie::make('uuid', $uuid, 10));
-            return $next($request);
+
         }else{
             return redirect()->route('login');
         }
+        return $next($request);
     }
 }

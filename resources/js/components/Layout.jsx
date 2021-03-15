@@ -24,6 +24,7 @@ import FormationsController from "./Personnel/FormationsController";
 import CarnetVol from "./Personnel/CarnetVol";
 import Remboursement from "./Personnel/Remboursement";
 import BugRepport from "./BugRepport";
+import Notifications from "./props/utils/Notifications";
 
 const service_state = false;
 export const rootUrl = document.querySelector('body').getAttribute('data-root-url');
@@ -36,12 +37,13 @@ class Time extends React.Component {
         }
     }
 
-    componentDidMount() {
+    async componentDidMount() {
         this.tick();
         this.timerID = setInterval(
             () => this.tick(),
             1000
         );
+
     }
 
     tick(){
@@ -66,12 +68,18 @@ class Layout extends React.Component{
             openmenu : false,
             minview: false,
             bug:false,
+            perms: [],
         }
         this.updateWindowDimensions = this.updateWindowDimensions.bind(this)
 
     }
 
-    componentDidMount() {
+    async componentDidMount() {
+        var req = await axios({
+            url: '/data/getperm',
+            method: 'get',
+        });
+        this.setState({admin: req.data.perm});
         this.updateWindowDimensions();
         window.addEventListener("resize", this.updateWindowDimensions);
         this.timerID = setInterval(
@@ -109,6 +117,7 @@ class Layout extends React.Component{
     render() {
         return(
             <div id="layout">
+
                 <div id="Menu" className={this.state.minview?(this.state.openmenu? 'open collapsed' : 'close collapsed') : null}>
                     <div className={'closed-menu'}>
                         <button onClick={()=>{
@@ -132,7 +141,7 @@ class Layout extends React.Component{
                         <Service status={service_state}/>
                         <div className="Menusepartor"/>
                         <div className="navigation">
-                            <Patient service={service_state}/>
+                            <Patient service={service_state} perm={this.state.perms}/>
                             <Personnel/>
                             <Gestion service={service_state}/>
                         </div>
@@ -171,10 +180,12 @@ class Layout extends React.Component{
                         <Route path={'/gestion/formation'} component={AFormaController}/>
                         <Route path={'/gestion/informations'} component={InfoGestion}/>
                         <Route path={'/gestion/perm'} component={Permissions}/>
+                    <Notifications/>
                 </div>
                 {this.state.bug &&
                     <BugRepport close={()=>this.setState({bug:false})}/>
                 }
+
             </div>
         );
     }

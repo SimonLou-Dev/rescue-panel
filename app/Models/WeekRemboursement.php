@@ -16,6 +16,7 @@ use Illuminate\Database\Eloquent\Model;
 class WeekRemboursement extends Model
 {
     use HasFactory;
+    protected $table = "WeekRemboursements";
     public function GetUser(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(User::class, 'user_id');

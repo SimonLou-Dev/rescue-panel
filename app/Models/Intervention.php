@@ -14,4 +14,5 @@ use Illuminate\Database\Eloquent\Model;
 class Intervention extends Model
 {
     use HasFactory;
+    protected $table = "Interventions";
 }

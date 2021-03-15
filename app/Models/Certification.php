@@ -15,6 +15,7 @@ use Illuminate\Database\Eloquent\Model;
 class Certification extends Model
 {
     use HasFactory;
+    protected $table = "Certifications";
 
     public function GetUser(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {

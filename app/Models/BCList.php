@@ -16,6 +16,7 @@ use Illuminate\Database\Eloquent\Model;
  */
 class BCList extends Model
 {
+    protected $table = "BCLists";
     use HasFactory;
     public function GetUser(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {

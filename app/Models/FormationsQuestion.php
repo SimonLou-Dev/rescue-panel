@@ -25,6 +25,8 @@ class FormationsQuestion extends Model
 {
     use HasFactory;
 
+    protected $table = "FormationsQuestions";
+
     public function GetFormation(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(Formation::class, 'formation_id');

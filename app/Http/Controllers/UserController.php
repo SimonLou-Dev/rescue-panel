@@ -18,33 +18,35 @@ class UserController extends Controller
         $mail = $request->email;
         $psw = $request->psw;
         if($user = \App\Models\User::where('email', $mail)->count() != 0){
-            return response()->json('Email alrady taken');
+            return response()->json([
+                'status' => 'ERROR',
+                'raison'=> 'Email taken',
+                'datas' => []
+            ], 200);
         }else{
-            $uuid = \Illuminate\Support\Str::uuid();
             $createuser = new \App\Models\User();
             $createuser->name = $pseudo;
             $createuser->email = $mail;
             $createuser->password = Hash::make($psw);
-            $createuser->uuid = $uuid;
             $createuser->save();
             $newuser = \App\Models\User::where('email', $mail)->first();
             Auth::login($newuser);
             if(Auth::check()){
                 return response()->json([
-                    'status' => 'User created',
-                    'user' => $newuser,
-                    'authed' => true,
+                    'status' => 'OK',
+                    'datas' => [
+                        'user' => $newuser,
+                        'authed' => true,
+                    ]
                 ], 201);
             }else{
                 return response()->json([
-                   'status' => 'auth error',
+                   'status' => 'error',
                    'user' => null,
                    'authed' => false,
                     'check' => Auth::check(),
                 ], 200);
             }
-
-
         }
     }
 
@@ -52,11 +54,7 @@ class UserController extends Controller
     {
         $email = $request->email;
         $psw = $request->psw;
-
-
-
-
-        if($user = \App\Models\User::where('email', $email)->count() == 0){
+        if(\App\Models\User::where('email', $email)->count() == 0){
             return response()->json([
                 'status'=> 'adresse mail non existante',
                 'user' => null,
@@ -104,6 +102,54 @@ class UserController extends Controller
             return response()->json(['session'=>true]);
         }
         return response()->json(['session'=>false]);
+    }
+
+    public function postInfos(Request $request): \Illuminate\Http\JsonResponse
+    {
+        $living = $request->living;
+        $timezone = $request->timezone;
+        $tel = $request->tel;
+        $compte= $request->compte;
+        $user = User::where('id', Auth::id())->first();
+        $user->liveplace= $living;
+        $user->timezone = $timezone;
+        $user->tel = $tel;
+        $user->compte = $compte;
+        $user->save();
+        return \response()->json(['status'=>'OK'],201);
+    }
+
+    public function GetUserPerm(Request $request): \Illuminate\Http\JsonResponse
+    {
+        $user = \App\Models\User::where('id', Auth::id())->first();
+        $grade = $user->GetGrade;
+        $perm = [
+            'acces'=>$grade->perm_0,
+            'HS_rapport'=>$grade->perm_1,
+            'HS_dossier'=>$grade->perm_2,
+            'HS_BC'=>$grade->perm_3,
+            'factures_PDF'=>$grade->perm_4,
+            'add_factures'=>$grade->perm_5,
+            'rapport_create'=>$grade->perm_6,
+            'add_BC'=>$grade->perm_7,
+            'remboursement'=>$grade->perm_8,
+            'infos_edit'=>$grade->perm_9,
+            'vol'=>$grade->perm_10,
+            'rapport_horaire'=>$grade->perm_11,
+            'service_modify'=>$grade->perm_12,
+            'time_modify'=>$grade->perm_13,
+            'perso_list'=>$grade->perm_14,
+            'set_pilot'=>$grade->perm_15,
+            'edit_perm'=>$grade->perm_16,
+            'post_annonces'=>$grade->perm_17,
+            'logs_acces'=>$grade->perm_18,
+            'validate_forma'=>$grade->perm_19,
+            'create_forma'=>$grade->perm_20,
+            'forma_publi'=>$grade->perm_21,
+            'forma_delete'=>$grade->perm_22,
+            'access_stats'=>$grade->perm_23,
+        ];
+        return \response()->json(['status'=>'ok', 'perm'=>$perm]);
     }
 
 }

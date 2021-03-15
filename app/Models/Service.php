@@ -18,6 +18,7 @@ use Illuminate\Database\Eloquent\Model;
 class Service extends Model
 {
     use HasFactory;
+    protected $table = "Services";
 
     public function GetUser(){
         return $this->belongsTo(User::class, 'user_id');

@@ -15,6 +15,7 @@ use Illuminate\Database\Eloquent\Model;
 class Patient extends Model
 {
     use HasFactory;
+    protected $table = "Patients";
 
     public function GetRapports(){
         return $this->hasMany(Rapport::class, 'patient_id');

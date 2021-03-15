@@ -23,6 +23,7 @@ use Illuminate\Database\Eloquent\Model;
 class BCPatient extends Model
 {
     use HasFactory;
+    protected $table = "BCPatients";
 
     public function GetBC(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {

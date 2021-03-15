@@ -34,6 +34,7 @@ use Illuminate\Database\Eloquent\Model;
 class Formation extends Model
 {
     use HasFactory;
+    protected $table = "Formations";
 
     public function GetCreator(): \Illuminate\Database\Eloquent\Relations\HasOne
     {

@@ -19,17 +19,11 @@ class LayoutController extends Controller
             'user'=>$user,
         ]);
     }
+
     public function getservice(Request $request){
-        return response()->json(['service'=>Auth::user()->OnService]);
+        return response()->json(['service'=>Auth::user()->service]);
     }
-    public function UserIsAdmin(Request $request){
-        $user = \App\Models\User::where('id', Auth::id())->first();
-        if(Auth::user()->grade >= 5){
-            return response()->json(['status'=>'OK', 'IsAdmin'=>true]);
-        }else{
-            return response()->json(['status'=>'OK', 'IsAdmin'=>false]);
-        }
-    }
+
 
 
     public static function getdaystring(): string

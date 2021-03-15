@@ -16,5 +16,7 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Annonces extends Model
 {
+
+    protected $table = 'Annonces';
     use HasFactory;
 }

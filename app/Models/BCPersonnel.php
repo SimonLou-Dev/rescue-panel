@@ -16,6 +16,7 @@ use Illuminate\Database\Eloquent\Model;
 class BCPersonnel extends Model
 {
     use HasFactory;
+    protected $table = "BCPersonnels";
     public function GetUser(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(User::class,'user_id');

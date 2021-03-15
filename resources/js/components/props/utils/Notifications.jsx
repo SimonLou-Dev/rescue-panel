@@ -15,12 +15,13 @@ class Notifications extends React.Component {
             notif: false,
             notifs: table,
             mounted: false,
+            style: 'hidden',
         }
-        this.removenotif = this.removenotif.bind(this)
-        this.addnotifs = this.addnotifs.bind(this)
+        //this.removenotif = this.removenotif.bind(this)
+        //this.addnotifs = this.addnotifs.bind(this)
 
         }
-    removenotif(id){
+    /*removenotif(id){
         const notifs = this.state.notifs;
         notifs.splice(id, 1);
         let a = 0;
@@ -30,10 +31,10 @@ class Notifications extends React.Component {
             })
         const bool = notifs.length > 0;
         this.setState({notifs: notifs, notif: bool});
-    }
+    }*/
 
 
-    addnotifs(type, raison){
+    /*addnotifs(type, raison){
         const notifs = this.state.notifs;
         const len = notifs.length;
         var id;
@@ -50,20 +51,30 @@ class Notifications extends React.Component {
         })
         this.setState({notif:true, notifs: notifs});
 
-    }
+    }*/
     componentDidMount() {
+        // Enable pusher logging - don't include this in production
+        Pusher.logToConsole = true;
+
+        var pusher = new Pusher('fd78f74e8faecbd2405b', {
+            cluster: 'eu'
+        });
+
+        var channel = pusher.subscribe('my-channel');
+        channel.bind('event-pusher', function(data) {
+            alert(JSON.stringify(data));
+        });
+
         const notifs = this.state.notifs;
         const len = notifs.length;
-        if(len > 0 ){
-            this.setState({notif: true})
-        }else{
-            this.setState({notif: false})
-        }
+        let style = this.state.notif? 'fixed':'hidden';
+
     }
 
     render() {
         return (
-            <div className={'notifs'} style={{position: this.state.notif? 'fixed':'hidden'}}>
+            this.state.notif &&
+            <div className={'notifs'}>
                 {this.state.notifs.map((notif) =>
                     <NotifSucces remove={this.removenotif} key={notif.id} id={notif.id} type={notif.type} raison={notif.raison}/>
                 )}

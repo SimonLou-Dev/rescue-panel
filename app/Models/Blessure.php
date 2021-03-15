@@ -12,4 +12,5 @@ use Illuminate\Database\Eloquent\Model;
 class Blessure extends Model
 {
     use HasFactory;
+    protected $table = "Blessures";
 }

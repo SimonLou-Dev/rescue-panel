@@ -15,4 +15,5 @@ use Illuminate\Database\Eloquent\Model;
 class ObjRemboursement extends Model
 {
     use HasFactory;
+    protected $table = "ObjRemboursements";
 }

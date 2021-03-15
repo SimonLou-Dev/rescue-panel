@@ -22,6 +22,7 @@ use Illuminate\Database\Eloquent\Model;
 class WeekService extends Model
 {
     use HasFactory;
+    protected $table = "WeekService";
     public function GetUser(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(User::class, 'user_id');
