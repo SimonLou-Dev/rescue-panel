@@ -53,9 +53,9 @@ class Services extends React.Component {
                             this.state.services.map((service) =>
                                 <tr key={service.id}>
                                     <td>{dateFormat(service.created_at, 'dd/mm/yyyy')}</td>
-                                    <td>{service.Started_at.substring(11,16)}</td>
-                                    {service.EndedAt ? <td>{service.EndedAt.substring(-1,5)}</td> : <td>En service</td>}
-                                    {service.Total ? <td>{service.Total.substring(-1,5)}</td>: <td>En service</td>}
+                                    <td>{service.started_at.substring(11,16)}</td>
+                                    {service.ended_at ? <td>{service.ended_at.substring(-1,5)}</td> : <td>En service</td>}
+                                    {service.total ? <td>{service.total.substring(-1,5)}</td>: <td>En service</td>}
                                 </tr>
                             )
                             }

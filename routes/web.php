@@ -91,7 +91,7 @@ Route::post('/data/postuserinfos', [\App\Http\Controllers\UserController::class,
 Route::get('/data/check/connexion', [\App\Http\Controllers\UserController::class, 'checkConnexion']);
 Route::get('/data/getstatus', [\App\Http\Controllers\LayoutController::class, 'getservice']);
 Route::get('/data/getperm', [\App\Http\Controllers\UserController::class, 'GetUserPerm']); //renommer la fonction
-Route::post('/data/setstatus', [\App\Http\Controllers\LayoutController::class, 'setservice']);
+Route::get('/data/setstatus', [\App\Http\Controllers\LayoutController::class, 'setservice']);
 Route::get('/data/annonces', [\App\Http\Controllers\MainController::class, 'getAnnonces']);
 //Route::post('/data/check/maintenance')
 
@@ -132,7 +132,7 @@ Route::delete('/data/gestion/content/delete/{type}/{id}', [\App\Http\Controllers
 Route::get('/data/logs/{range}/{page}/{type}', [\App\Http\Controllers\ContentManagement::class, 'getLogs']);
 
 
-Route::get('/test', function (){
+Route::get('/test/{  ', function (){
     event(new \App\Events\Notify('test',1));
     return 'a';
 });

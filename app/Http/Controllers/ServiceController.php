@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\DayService;
+use App\Models\Service;
 use App\Models\Services;
+use App\Models\WeekService;
 use DateInterval;
 use Illuminate\Foundation\Auth\User;
 use Illuminate\Http\Request;
@@ -16,16 +18,16 @@ class ServiceController extends Controller
     {
         $date = (int) date('W', time());
         if($date == 1 ){
-            $week = DayService::where('week', '=', 1)->orderBy('id','desc')->where('user_id', Auth::id())->get();
+            $week = WeekService::where('week_number', '=', 1)->orderBy('id','desc')->where('user_id', Auth::id())->get();
         }else if($date == 2){
-            $week = DayService::where('week', '<=', 2)->orderBy('id','desc')->where('user_id', Auth::id())->get();
+            $week = WeekService::where('week_number', '<=', 2)->orderBy('id','desc')->where('user_id', Auth::id())->get();
         }else if($date == 3){
-            $week = DayService::where('week', '<=', 3)->orderBy('id','desc')->where('user_id', Auth::id())->get();
+            $week = WeekService::where('week_number', '<=', 3)->orderBy('id','desc')->where('user_id', Auth::id())->get();
         }else{
             $date = $date -3;
-            $week = DayService::where('week', '>', $date)->orderBy('id','desc')->where('user_id', Auth::id())->get();
+            $week = WeekService::where('week_number', '>', $date)->orderBy('id','desc')->where('user_id', Auth::id())->get();
         }
-        $userserivce= Services::where('UserId', Auth::user()->id)->orderBy('id','desc')->take(20)->get();
+        $userserivce= Service::where('user_id', Auth::user()->id)->orderBy('id','desc')->take(20)->get();
         return response()->json([
             'status'=>'ok',
             'week'=>$week,
@@ -33,6 +35,7 @@ class ServiceController extends Controller
         ]);
 
     }
+
     public function getAllservice($semaine = NULL): \Illuminate\Http\JsonResponse
     {
         $max = (int) date('W', time());
@@ -52,13 +55,17 @@ class ServiceController extends Controller
             'maxweek'=>$max,
         ]);
     }
-    public function setServiceByAdmin(Request $request, $userid){
+
+    public function setServiceByAdmin(Request $request, $userid): \Illuminate\Http\JsonResponse
+    {
         $user = User::where('id', $userid)->first();
         $this->setService($user, true);
 
         return response()->json(['status'=>'OK']);
     }
-    public function addRows(){
+
+    public function addRows(): \Illuminate\Http\JsonResponse
+    {
         $week =  date('W', time());
         $users = \App\Models\User::where('grade', '>', 1)->get();
         $dayservice = DayService::where('week', $week)->get('user_id');
@@ -79,37 +86,39 @@ class ServiceController extends Controller
         DayService::insert($datas);
         return response()->json(['status'=>"OK"],201);
     }
-    public static function setService($user, bool $admin){
-        if($user->OnService){
-            $user->OnService = false;
+
+    public static function setService($user, bool $admin): bool
+    {
+        if($user->service){
+            $user->service = false;
             $user->save();
-            $service = Services::where('UserId', $user->id)->whereNull('Total')->first();
-            $start = date_create($service->Started_at);
+            $service = Service::where('user_id', $user->id)->whereNull('Total')->first();
+            $start = date_create($service->started_at);
             $interval = $start->diff(date_create(date('Y-m-d H:i:s', time())));
             $diff = $interval->d*24 + $interval->h;
             $formated = $diff . ':' . $interval->format('%I:%S');
             $week =  date('W', time());
-            $service->EndedAt = date('H:i:s', time());
-            $service->Total = $formated;
+            $service->ended_at = date('H:i:s', time());
+            $service->total = $formated;
             $service->save();
 
-            $dayservice = DayService::where('week', $week)->where('user_id', $user->id);
-            if($dayservice->count() == 1){
-                $dayservice = $dayservice->first();
-                $total = $dayservice->total;
-                $day = $dayservice[LayoutController::getdaystring()];
+            $WeekService = WeekService::where('week_number', $week)->where('user_id', $user->id);
+            if($WeekService->count() == 1){
+                $WeekService = $WeekService->first();
+                $total = $WeekService->total;
+                $day = $WeekService[LayoutController::getdaystring()];
                 $service = new ServiceController();
-                $dayservice->total = $service->addTime($total, $interval);
-                $dayservice[LayoutController::getdaystring()] = $service->addTime($day, $interval);
-                $dayservice->save();
+                $WeekService->total = $service->addTime($formated, $total);
+                $WeekService[LayoutController::getdaystring()] = $service->addTime($formated, $day);
+                $WeekService->save();
 
             }else{
-                $dayservice = new DayService();
-                $dayservice->user_id = $user->id;
-                $dayservice['week'] = $week;
-                $dayservice[LayoutController::getdaystring()] = $formated;
-                $dayservice->total = $formated;
-                $dayservice->save();
+                $WeekService = new WeekService();
+                $WeekService->user_id = $user->id;
+                $WeekService['week_number'] = $week;
+                $WeekService[LayoutController::getdaystring()] = $formated;
+                $WeekService->total = $formated;
+                $WeekService->save();
             }
             $user->save();
             if($admin){
@@ -136,15 +145,16 @@ class ServiceController extends Controller
                     ]
                 ]);
             }
+            return true;
 
         }else{
-            $user->OnService= true;
-            $service = new Services();
-            $service->UserId = $user->id;
-            $service->Started_at = date('Y-m-d H:i:s',time());
+            $user->service= true;
+            $service = new Service();
+            $service->user_id = $user->id;
+            $service->started_at = date('Y-m-d H:i:s',time());
             $service->save();
             $user->save();
-            Auth::user()->Onservice = true;
+            Auth::user()->service = true;
             if($admin){
                 Http::post(env('WEBHOOK_SERVICE'),[
                     'embeds'=>[
@@ -167,38 +177,45 @@ class ServiceController extends Controller
                     ]
                 ]);
             }
+            return true;
         }
     }
 
-    private function addTime(string $base, DateInterval  $toadd): string
+    public static function addTime(string $base, string $toadd): string
     {
         $base = explode(':', $base);
         $base['h'] = (int) $base[0];
         $base['m'] = (int) $base[1];
         $base['s'] = (int)$base[2];
-        $sec = $base["s"] + $toadd->s;
-        if($sec >= 60){
-            while ($sec >= 60){
+        $toadd = explode(':', $toadd);
+        $toadd['h'] = (int) $toadd[0];
+        $toadd['m'] = (int) $toadd[1];
+        $toadd['s'] = (int) $toadd[2];
+
+
+        $sec = $base["s"] + $toadd['s'];
+        if($sec > 59){
+            while ($sec > 59){
                 $base['m']++;
                 $sec = $sec - 60;
             }
-            $toadd->s = $sec;
+            $toadd["s"] = $sec;
         }else{
-            $toadd->s = $sec;
+            $toadd["s"] = $sec;
         }
-        $min = $base["m"] + $toadd->i;
-        if($min >= 60){
-            while ($min >= 60){
+        $min = $base["m"] + $toadd['m'];
+        if($min > 59){
+            while ($min > 59){
                 $base['h']++;
                 $min= $min - 60;
             }
-            $toadd->i = $min;
+            $toadd['m'] = $min;
         }else{
-            $toadd->i = $min;
+            $toadd['m'] = $min;
         }
-        $toadd->h = $base['h'] + $toadd->h;
+        $toadd['h'] = $base['h'] + $toadd['h'];
 
-        return $toadd->h . ':' . $toadd->i . ':'. $toadd->s;
+        return $toadd['h'] . ':' . $toadd['m'] . ':'. $toadd['s'];
     }
 
 }

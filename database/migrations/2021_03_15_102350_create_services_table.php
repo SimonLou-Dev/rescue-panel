@@ -16,9 +16,9 @@ class CreateServicesTable extends Migration
         Schema::create('Services', function (Blueprint $table) {
             $table->id();
             $table->integer('user_id');
-            $table->dateTime('started_at');
-            $table->dateTime('ended_at')->nullable();
-            $table->string('total');
+            $table->string('started_at');
+            $table->string('ended_at')->nullable();
+            $table->string('total')->nullable();
             $table->timestamps();
         });
     }
