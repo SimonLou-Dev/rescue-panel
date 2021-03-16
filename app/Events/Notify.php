@@ -18,8 +18,12 @@ class Notify implements ShouldBroadcast
      * Create a new event instance.
      *
      * @return void
+     * @var string $text
      */
     public $text;
+    /**
+     * @var int $type
+     */
     public $type;
 
     public function __construct(string $text, int $type)

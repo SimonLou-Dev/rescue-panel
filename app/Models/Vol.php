@@ -14,11 +14,15 @@ use Illuminate\Database\Eloquent\Model;
  * @property string raison
  * @property int pilote_id
  * @property int lieux_id
+ * @method static where(string $column, string $operator = null, mixed $value = null)
+ * @method static orderByDesc(string $string)
+ *
  */
 class Vol extends Model
 {
     use HasFactory;
     protected $table = "Vols";
+    protected $fillable = ['decollage', 'raison', 'pilote', 'lieux_id'];
 
     public function GetLieux(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {

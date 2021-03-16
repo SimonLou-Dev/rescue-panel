@@ -11,11 +11,16 @@ use Illuminate\Database\Eloquent\Model;
  * @property int id
  * @property int user_id
  * @property int formation_id
+ * @method static where(string $column, string $operator = null, mixed $value = null)
+ * @method static orderByDesc(string $string)
+ *
  */
 class Certification extends Model
 {
     use HasFactory;
     protected $table = "Certifications";
+
+    protected $fillable = ['user_id', 'formation_id'];
 
     public function GetUser(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {

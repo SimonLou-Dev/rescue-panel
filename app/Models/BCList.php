@@ -13,10 +13,15 @@ use Illuminate\Database\Eloquent\Model;
  * @property string place
  * @property int type_id
  * @property DateTime started_at
+ * @method static where(string $column, string $operator = null, mixed $value = null)
+ * @method static orderByDesc(string $string)
+ *
  */
 class BCList extends Model
 {
     protected $table = "BCLists";
+
+    protected $fillable = ['starter_id', 'place', 'type_id', 'started_at'];
     use HasFactory;
     public function GetUser(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {

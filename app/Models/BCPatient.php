@@ -19,11 +19,16 @@ use Illuminate\Database\Eloquent\Model;
  * @property int blessure_type
  * @property int couleur
  * @property string name
+ * @method static where(string $column, string $operator = null, mixed $value = null)
+ * @method static orderByDesc(string $string)
+ *
  * */
 class BCPatient extends Model
 {
     use HasFactory;
     protected $table = "BCPatients";
+
+    protected $fillable = ['BC_id', 'idcard', 'rapport_id', 'patient_id', 'added_at', 'blessure_type', 'couleur', 'name'];
 
     public function GetBC(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {

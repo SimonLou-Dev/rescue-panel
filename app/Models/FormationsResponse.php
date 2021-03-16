@@ -14,11 +14,16 @@ use Illuminate\Database\Eloquent\Model;
  * @property int user_id
  * @property int note
  * @property int formation_id
+ * @method static where(string $column, string $operator = null, mixed $value = null)
+ * @method static orderByDesc(string $string)
+ *
  */
 class FormationsResponse extends Model
 {
     use HasFactory;
     protected $table = "FormationResponses";
+
+    protected $fillable = ['finished', 'lastquestion_id', 'user_id', 'note'];
 
     public function GetUser(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {

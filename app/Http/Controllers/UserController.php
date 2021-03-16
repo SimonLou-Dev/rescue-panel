@@ -88,7 +88,7 @@ class UserController extends Controller
         ]);
     }
 
-    public function setusergrade(Request $request, $id, $userid): \Illuminate\Http\JsonResponse
+    public function setusergrade(Request $request, int $id, int $userid): \Illuminate\Http\JsonResponse
     {
         $user= User::where('id', $userid)->first();
         $user->grade = $id;

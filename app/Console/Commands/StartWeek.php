@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 
 use App\Models\DayService;
+use App\Models\WeekService;
 use http\Client\Curl\User;
 use Illuminate\Console\Command;
 
@@ -41,7 +42,7 @@ class StartWeek extends Command
     {
         $week =  date('W', time());
         $users = \App\Models\User::where('grade', '>', 1)->get();
-        $dayservice = DayService::where('week', $week)->get('user_id');
+        $dayservice = WeekService::where('week', $week)->get('user_id');
         $b = 0;
         $array = array();
         while($b < count($dayservice)){
@@ -56,7 +57,7 @@ class StartWeek extends Command
             }
             $a++;
         }
-        DayService::insert($datas);
+        WeekService::insert($datas);
         $this->info('Inserted');
         return 0;
     }

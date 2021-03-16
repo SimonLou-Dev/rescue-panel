@@ -20,12 +20,17 @@ use Psy\Util\Json;
  * @property string name
  * @property string desc
  * @property string img
+ * @method static where(string $column, string $operator = null, mixed $value = null)
+ * @method static orderByDesc(string $string)
+ *
  */
 class FormationsQuestion extends Model
 {
     use HasFactory;
 
     protected $table = "FormationsQuestions";
+
+    protected $fillable = ['formation_id', 'type', 'correction', 'max_note', 'responses', 'right_responses', 'name', 'desc', 'img'];
 
     public function GetFormation(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {

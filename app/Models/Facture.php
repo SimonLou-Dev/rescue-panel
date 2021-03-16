@@ -14,11 +14,16 @@ use Illuminate\Database\Eloquent\Model;
  * @property boolean payed
  * @property int price
  * @property int payement_confirm_id
+ * @method static where(string $column, string $operator = null, mixed $value = null)
+ * @method static orderByDesc(string $string)
+ *
  */
 class Facture extends Model
 {
     use HasFactory;
     protected $table = "Factures";
+
+    protected $fillable = ['patient_id', 'rapport_id', 'payed', 'price', 'payement_confirm_id'];
 
     public function GetCofirmUser(): \Illuminate\Database\Eloquent\Relations\HasOne
     {

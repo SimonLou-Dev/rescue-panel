@@ -11,7 +11,8 @@ use Illuminate\Support\Facades\Http;
 
 class LayoutController extends Controller
 {
-    public function setservice(Request $request){
+    public function setservice(Request $request): \Illuminate\Http\JsonResponse
+    {
         $user = \App\Models\User::where('id', Auth::id())->first();
         ServiceController::setService($user, false);
         return response()->json([
@@ -20,7 +21,8 @@ class LayoutController extends Controller
         ]);
     }
 
-    public function getservice(Request $request){
+    public function getservice(Request $request): \Illuminate\Http\JsonResponse
+    {
         return response()->json(['service'=>Auth::user()->service]);
     }
 
@@ -28,31 +30,33 @@ class LayoutController extends Controller
 
     public static function getdaystring(): string
     {
+        $string = null;
         switch (date('D', time())){
             case "Mon":
-                return 'lundi';
+                $string = 'lundi';
                 break;
             case 'Tue':
-                return 'mardi';
+                $string = 'mardi';
                 break;
             case 'Wed':
-                return 'mercredi';
+                $string = 'mercredi';
                 break;
             case 'Thu':
-                return 'jeudi';
+                $string = 'jeudi';
                 break;
             case 'Fri':
-                return 'vendredi';
+                $string = 'vendredi';
                 break;
             case 'Sat':
-                return 'samedi';
+                $string = 'samedi';
                 break;
             case 'Sun':
-                return 'dimanche';
+                $string = 'dimanche';
                 break;
             default:
-                return '';
+                $string = null;
                 break;
         }
+        return $string;
     }
 }

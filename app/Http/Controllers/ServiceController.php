@@ -36,7 +36,7 @@ class ServiceController extends Controller
 
     }
 
-    public function getAllservice($semaine = NULL): \Illuminate\Http\JsonResponse
+    public function getAllservice(int $semaine = NULL): \Illuminate\Http\JsonResponse
     {
         $max = (int) date('W', time());
         if($semaine){
@@ -44,7 +44,7 @@ class ServiceController extends Controller
         }else{
             $date = (int) date('W', time());
         }
-        $service = DayService::where('week', $date)->get();
+        $service = WeekService::where('week', $date)->get();
         $a= 0;
         while($a < count($service)){
             $service[$a]->user;
@@ -56,7 +56,7 @@ class ServiceController extends Controller
         ]);
     }
 
-    public function setServiceByAdmin(Request $request, $userid): \Illuminate\Http\JsonResponse
+    public function setServiceByAdmin(Request $request, int $userid): \Illuminate\Http\JsonResponse
     {
         $user = User::where('id', $userid)->first();
         $this->setService($user, true);
@@ -68,7 +68,7 @@ class ServiceController extends Controller
     {
         $week =  date('W', time());
         $users = \App\Models\User::where('grade', '>', 1)->get();
-        $dayservice = DayService::where('week', $week)->get('user_id');
+        $dayservice = WeekService::where('week', $week)->get('user_id');
         $b = 0;
         $array = array();
         while($b < count($dayservice)){
@@ -83,11 +83,11 @@ class ServiceController extends Controller
             }
             $a++;
         }
-        DayService::insert($datas);
+        WeekService::insert($datas);
         return response()->json(['status'=>"OK"],201);
     }
 
-    public static function setService($user, bool $admin): bool
+    public static function setService(User $user, bool $admin): bool
     {
         if($user->service){
             $user->service = false;
@@ -193,7 +193,7 @@ class ServiceController extends Controller
         $toadd['s'] = (int) $toadd[2];
 
 
-        $sec = $base["s"] + $toadd['s'];
+        $sec = (int) $base["s"] + $toadd['s'];
         if($sec > 59){
             while ($sec > 59){
                 $base['m']++;
@@ -203,7 +203,7 @@ class ServiceController extends Controller
         }else{
             $toadd["s"] = $sec;
         }
-        $min = $base["m"] + $toadd['m'];
+        $min = (int) $base["m"] + $toadd['m'];
         if($min > 59){
             while ($min > 59){
                 $base['h']++;
@@ -213,7 +213,7 @@ class ServiceController extends Controller
         }else{
             $toadd['m'] = $min;
         }
-        $toadd['h'] = $base['h'] + $toadd['h'];
+        $toadd['h'] = (int) $base['h'] + $toadd['h'];
 
         return $toadd['h'] . ':' . $toadd['m'] . ':'. $toadd['s'];
     }

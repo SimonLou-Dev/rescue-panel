@@ -2,9 +2,7 @@
 
 namespace App\Http;
 
-use App\Http\Middleware\ApiLogin;
 use App\Http\Middleware\Authed;
-use App\Http\Middleware\IsMember;
 use App\Http\Middleware\NotAuthed;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 
@@ -66,8 +64,6 @@ class Kernel extends HttpKernel
         'signed' => \Illuminate\Routing\Middleware\ValidateSignature::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
-        'api-login' => \App\Http\Middleware\ApiLogin::class,
         'not-authed'=>\App\Http\Middleware\NotAuthed::class,
-        'ismember'=>IsMember::class,
     ];
 }

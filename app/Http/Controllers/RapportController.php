@@ -2,15 +2,19 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Facture;
 use App\Models\Factures;
+use App\Models\Hospital;
 use App\Models\HospitalList;
 use App\Models\InterType;
+use App\Models\Intervention;
 use App\Models\Patient;
 use App\Models\Rapport;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
+use ParagonIE\Sodium\Core\Curve25519\H;
 use function PHPUnit\Framework\isEmpty;
 use function PHPUnit\Framework\isNull;
 
@@ -18,8 +22,8 @@ class RapportController extends Controller
 {
     public function getforinter(Request $request): \Illuminate\Http\JsonResponse
     {
-        $intertype = InterType::all();
-        $broum = HospitalList::all();
+        $intertype = Intervention::all();
+        $broum = Hospital::all();
         return response()->json(['status'=>'OK', 'intertype'=>$intertype, 'transport'=>$broum]);
     }
 
@@ -37,13 +41,11 @@ class RapportController extends Controller
         $patient_id = $Patient->id;
 
 
-        $facture = new Factures();
+        $facture = new Facture();
         $rapport = new Rapport();
         $facture->patient_id = $patient_id;
         $facture->payed = $request->payed;
         $facture->price = (integer) $request->montant;
-
-
         $rapport->patientID = $patient_id;
         $rapport->InterType= (integer) $request->type;
         $rapport->transport= (integer) $request->transport;
@@ -54,9 +56,8 @@ class RapportController extends Controller
         $rapport->save();
         $facture->rapport_id = $rapport->id;
         $facture->save();
-        $type = InterType::where('id', $rapport->InterType)->first();
-        $transport =  HospitalList::where('id', $rapport->transport)->first();
-        if($rapport->ATA_start == $rapport->ATA_end){
+        $transport =  Hospital::where('id', $rapport->transport)->first();
+        if($rapport->ATA_start === $rapport->ATA_end){
             $ata = 'non ';
         }else{
             $ata = 'Du ' . date('Y/m/d H:i', strtotime($rapport->ATA_start)) . ' au ' . date('Y/m/d H:i', strtotime($rapport->ATA_end));
@@ -162,15 +163,15 @@ class RapportController extends Controller
         return response()->json(['status'=>'erreur pas de patient']);
     }
 
-    public function getInter(Request $request, $id): \Illuminate\Http\JsonResponse
+    public function getInter(Request $request, int $id): \Illuminate\Http\JsonResponse
     {
         $inter  = Rapport::where('id', $id)->first();
-        $types = InterType::all();
-        $broum =HospitalList::all();
+        $types = Intervention::all();
+        $broum = Hospital::all();
         return response()->json(['status'=>'OK', 'rapport'=>$inter, 'types'=>$types,'broum'=>$broum]);
     }
 
-    public function updateRapport(Request $request, $id): \Illuminate\Http\JsonResponse
+    public function updateRapport(Request $request, int $id): \Illuminate\Http\JsonResponse
     {
         $rapport = Rapport::where('id', $id)->first();
         $facture = $rapport->facture;
@@ -188,7 +189,7 @@ class RapportController extends Controller
         return response()->json(['status'=>'OK'],201);
     }
 
-    public function getRapportById(Request $request, $id): \Illuminate\Http\JsonResponse
+    public function getRapportById(Request $request, int $id): \Illuminate\Http\JsonResponse
     {
         $rapport = Rapport::where('id', $id)->first();
         $patient = $rapport->Patient;
@@ -206,7 +207,7 @@ class RapportController extends Controller
 
     public function getAllimpaye(Request $request): \Illuminate\Http\JsonResponse
     {
-        $impaye = Factures::where('payed', false)->orderBy('id', 'desc')->get();
+        $impaye = Facture::where('payed', false)->orderBy('id', 'desc')->get();
         $size = count($impaye);
         $a = 0;
         while ($a < $size){
@@ -217,9 +218,9 @@ class RapportController extends Controller
         return response()->json(['status'=>'OK', 'impaye'=>$impaye]);
     }
 
-    public function paye(Request $request, $id): \Illuminate\Http\JsonResponse
+    public function paye(Request $request, int $id): \Illuminate\Http\JsonResponse
     {
-        $facture = Factures::where('id', $id)->first();
+        $facture = Facture::where('id', $id)->first();
         $facture->payed = true;
         $facture->save();
         Http::post(env('WEBHOOK_FACTURE'),[
@@ -264,7 +265,7 @@ class RapportController extends Controller
             $Patient->tel = $request->tel;
             $Patient->save();
         }
-        $facture = new Factures();
+        $facture = new Facture();
         $facture->patient_id = $Patient->id;
         $facture->payed = $request->payed;
         $facture->price = $request->montant;
@@ -299,7 +300,7 @@ class RapportController extends Controller
         return response()->json(['status'=>'OK'],201);
     }
 
-    public function updatePatientInfos(Request $request, $id): \Illuminate\Http\JsonResponse
+    public function updatePatientInfos(Request $request, int $id): \Illuminate\Http\JsonResponse
     {
         $patient = Patient::where('id', $id)->first();
         $patient->tel = $request->tel;
@@ -309,7 +310,7 @@ class RapportController extends Controller
         return response()->json(['status'=>'OK'],201);
     }
 
-    public function makeRapportPdf(Request $request, $id){
+    public function makeRapportPdf(Request $request, int $id){
         $data = array();
         $rapport = Rapport::where('id', $id)->first();
 
@@ -327,9 +328,9 @@ class RapportController extends Controller
         return $pdf->stream($name);
     }
 
-    public function makeImpayPdf(Request $request, $from , $to){
+    public function makeImpayPdf(Request $request, string $from , string $to){
         //2021-01-05
-        $impaye = Factures::where('payed', false)->where('created_at', '>', $from)->where('created_at', '<', $to)->orderBy('id', 'desc')->get();
+        $impaye = Facture::where('payed', false)->where('created_at', '>', $from)->where('created_at', '<', $to)->orderBy('id', 'desc')->get();
         $a = 0;
         while ($a < count($impaye)){
             $impaye[$a]->patient;
@@ -353,6 +354,5 @@ class RapportController extends Controller
         $name = 'impaye_'.time().'.pdf';
         return $pdf->stream($name);
     }
-
 
 }

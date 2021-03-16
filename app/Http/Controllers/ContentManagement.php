@@ -2,53 +2,58 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Annonce;
 use App\Models\Annonces;
-use App\Models\BlessuresTypes;
-use App\Models\Factures;
-use App\Models\HospitalList;
-use App\Models\InterType;
-use App\Models\PatientsVetement;
-use App\Models\PlanUrgence;
-use App\Models\PUTypes;
+use App\Models\BCList;
+use App\Models\BCType;
+use App\Models\Blessure;
+use App\Models\CouleurVetement;
+use App\Models\Facture;
+use App\Models\Hospital;
+use App\Models\Intervention;
 use App\Models\Rapport;
-use App\Models\Services;
-use http\Env\Response;
+use App\Models\Service;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
+
 
 class ContentManagement extends Controller
 {
     public function addcontent(Request $request, string $type): \Illuminate\Http\JsonResponse
     {
+        /** @var string $request->formcontent */
+        $formcontent = $request->formcontent;
+
         switch ($type) {
             case "1":
-                $content = new InterType();
+                $content = new Intervention();
+
                 $content->name = $request->formcontent;
                 $content->save();
                 return response()->json(['status'=>'OK', 'created'=>$content], 201);
             case "2":
-                $content = new HospitalList();
+                $content = new Hospital();
+                /** @var string $request->formcontent  */
                 $content->name = $request->formcontent;
                 $content->save();
                 return response()->json(['status'=>'OK', 'created'=>$content], 201);
-                break;
             case "3":
-                $content = new PUTypes();
+                $content = new BCType();
+                /** @var string $request->formcontent  */
                 $content->name = $request->formcontent;
                 $content->save();
                 return response()->json(['status'=>'OK', 'created'=>$content], 201);
-                break;
             case "4";
-                $content = new BlessuresTypes();
+                $content = new Blessure();
+                /** @var string $request->formcontent  */
                 $content->name = $request->formcontent;
                 $content->save();
                 return response()->json(['status'=>'OK', 'created'=>$content], 201);
-                break;
             case "5";
                 $content = new Annonces();
+                /** @var string $request->title  */
                 $content->title = $request->title;
+                /** @var string $request->formcontent  */
                 $content->content = $request->formcontent;
                 $content->posted_at = date('Y-m-d H:i:s', time());
                 $content->save();
@@ -62,16 +67,14 @@ class ContentManagement extends Controller
                     ]
                 ]);
                 return response()->json(['status'=>'OK', 'created'=>$content], 201);
-                break;
             case 6;
-                $content = new PatientsVetement();
+                $content = new CouleurVetement();
+                /** @var string $request->formcontent  */
                 $content->name = $request->formcontent;
                 $content->save();
                 return response()->json(['status'=>'OK', 'created'=>$content], 201);
-                break;
             default:
                 return response()->json('error', 404);
-                break;
         }
     }
     public function getcontent(Request $request, int $type): \Illuminate\Http\JsonResponse
@@ -79,22 +82,22 @@ class ContentManagement extends Controller
         $data= array();
         switch ($type){
             case "1":
-                $data = InterType::all();
+                $data = Intervention::all();
                 break;
             case "2":
-                $data = HospitalList::all();
+                $data = Hospital::all();
                 break;
             case "3":
-                $data = PUTypes::all();
+                $data = BCType::all();
                 break;
             case "4":
-                $data = BlessuresTypes::all();
+                $data = Blessure::all();
                 break;
             case "5":
-                $data = Annonce::all();
+                $data = Annonces::all();
                 break;
             case "6":
-                $data = PatientsVetement::all();
+                $data = CouleurVetement::all();
                 break;
             default: break;
         }
@@ -105,27 +108,27 @@ class ContentManagement extends Controller
         $data = null;
         switch ($type){
             case "1":
-                $data = InterType::where('id', $id)->first();
+                $data = Intervention::where('id', $id)->first();
                 $data->delete();
                 break;
             case "2":
-                $data = HospitalList::where('id', $id)->first();
+                $data = Hospital::where('id', $id)->first();
                 $data->delete();
                 break;
             case "3":
-                $data = PUTypes::where('id', $id)->first();
+                $data = BCType::where('id', $id)->first();
                 $data->delete();
                 break;
             case "4";
-                $data = BlessuresTypes::where('id', $id)->first();
+                $data = Blessure::where('id', $id)->first();
                 $data->delete();
                 break;
             case "5";
-                $data = Annonce::where('id', $id)->first();
+                $data = Annonces::where('id', $id)->first();
                 $data->delete();
                 break;
             case "6";
-                $data = PatientsVetement::where('id', $id)->first();
+                $data = CouleurVetement::where('id', $id)->first();
                 $data->delete();
                 break;
             default: break;
@@ -134,14 +137,17 @@ class ContentManagement extends Controller
 
     }
 
-    public function getLogs($range,$page,$type){
+    public function getLogs(string $range,string $page, string $type): \Illuminate\Http\JsonResponse
+    {
+        $datas = null; $pages = null; $row = null;
         $range = (int) $range;
         $page = (int) $page -1;
        switch ($type){
            case "1":
+               $counter = count(Rapport::all());
                $datas = Rapport::orderByDesc('id')->skip($range * $page)->take($range)->get();
-               $pages = intval(ceil((Rapport::all()->count()) / $range));
-               $row = Rapport::all()->count();
+               $pages = intval(ceil(($counter) / $range));
+               $row = $counter;
                $a = 0;
                while($a < count($datas)){
                    $datas[$a]->Inter;
@@ -151,9 +157,10 @@ class ContentManagement extends Controller
                }
                break;
            case "2":
-               $datas = Services::orderByDesc('id')->skip($range * $page)->take($range)->get();
-               $pages = intval(ceil((Services::all()->count()) / $range));
-               $row = Services::all()->count();
+               $counter = count(Service::all());
+               $datas = Service::orderByDesc('id')->skip($range * $page)->take($range)->get();
+               $pages = intval(ceil(($counter) / $range));
+               $row = $counter;
                $a = 0;
                while($a < count($datas)){
                    $datas[$a]->getUser;
@@ -161,9 +168,10 @@ class ContentManagement extends Controller
                }
                break;
            case "3":
-               $datas = Factures::orderByDesc('id')->skip($range * $page)->take($range)->get();
-               $pages = intval(ceil((Factures::all()->count()) / $range));
-               $row = Factures::all()->count();
+               $counter = count(Facture::all());
+               $datas = Facture::orderByDesc('id')->skip($range * $page)->take($range)->get();
+               $pages = intval(ceil(($counter) / $range));
+               $row = $counter;
                $a = 0;
                while($a < count($datas)){
                    $datas[$a]->patient;
@@ -172,9 +180,10 @@ class ContentManagement extends Controller
 
                break;
            case "4":
-               $datas = PlanUrgence::orderByDesc('id')->skip($range * $page)->take($range)->get();
-               $pages = intval(ceil((PlanUrgence::all()->count()) / $range));
-               $row = PlanUrgence::all()->count();
+               $counter = count(BCList::all());
+               $datas = BCList::orderByDesc('id')->skip($range * $page)->take($range)->get();
+               $pages = intval(ceil(($counter) / $range));
+               $row = $counter;
                $a = 0;
                while($a < count($datas)){
                    $datas[$a]->user;
