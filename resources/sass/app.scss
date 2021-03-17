@@ -47,14 +47,12 @@ body{
 }
 
 
-.notifs{
+.notifications-component{
     top: 0;
     right: 0;
     z-index: 154400;
-    width: 20%;
-    min-width: 290px;
-    height: 100vh;
-    padding-top: 60px;
+    width: 500px;
+    height: 100vw;
     .notifications{
         width: 95%;
         margin-right: 5%;

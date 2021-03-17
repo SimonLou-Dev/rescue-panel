@@ -2,14 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\BlessuresTypes;
-use App\Models\Factures;
+use App\Models\BCList;
+use App\Models\BCPatient;
+use App\Models\BCPersonnel;
+use App\Models\BCType;
+use App\Models\Blessure;
+use App\Models\CouleurVetement;
+use App\Models\Facture;
 use App\Models\Patient;
-use App\Models\PatientsVetement;
-use App\Models\PlanUrgence;
-use App\Models\PlanUrgencePatient;
-use App\Models\PlanUrgencePersonnel;
-use App\Models\PUTypes;
 use App\Models\Rapport;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -21,7 +21,7 @@ class PuController extends Controller
 {
     public function getInitialstate(): \Illuminate\Http\JsonResponse
     {
-        $pu = PlanUrgence::where('ended', false);
+        $pu = BCList::where('ended', false);
         if($pu->count() == 1){
             return response()->json([
                 'status'=>'OK',
@@ -92,24 +92,23 @@ class PuController extends Controller
         }
     }
 
+    //re faire la méthode
+    //event(new \App\Events\Notify('Information mises à jour ! ',1));
     public function setState(Request $request, $activate): \Illuminate\Http\JsonResponse
     {
         if($activate == "true"){
-            $counter = PlanUrgence::where('ended', false)->count();
-            if($counter != 0){
-                return response()->json(['status'=>'pas OK']);
-            }
-            $pu = new PlanUrgence();
-            $pupersonnel = new PlanUrgencePersonnel();
+            $pu = new BCList();
+            $pupersonnel = new BCPersonnel();
             $pu->starter_id = Auth::user()->id;
-            $pu->type = (integer) $request->type;
+            $pu->type_id = (integer) $request->type;
             $pu->place = $request->place;
-            $pu->Started_at = date('Y-m-d H:i:s', time());
+            $pu->started_at = date('Y-m-d H:i:s', time());
+            $pu->starter_id = User::where('id', Auth::user()->id)->first();
             $pu->save();
-            $pupersonnel->PU_ID = $pu->id;
+            $pupersonnel->BC_id = $pu->id;
             $pupersonnel->name = Auth::user()->name;
-            $pupersonnel->userID = Auth::user()->id;
-            $type = PUTypes::where('id', $request->type)->first();
+            $pupersonnel->user_id = Auth::user()->id;
+            $type = BCType::where('id', $request->type)->first();
             $pupersonnel->save();
             Http::post(env('WEBHOOK_PU'),[
                 'embeds'=>[
@@ -195,7 +194,7 @@ class PuController extends Controller
 
     public function addPatient(Request $request, $id): \Illuminate\Http\JsonResponse
     {
-        $pu = PlanUrgence::where('id', $id)->where('ended', true)->count();
+        $pu = BCList::where('id', $id)->where('ended', true)->count();
 
         $Patient = $this->PatientExist($request->nom, $request->prenom);
         if(is_null($Patient)) {
@@ -210,21 +209,21 @@ class PuController extends Controller
 
         $patient_id = $Patient->id;
         $rapport = new Rapport();
-        $rapport->patientID = $patient_id;
-        $rapport->InterType = 1;
+        $rapport->patient_id = $patient_id;
+        $rapport->interType = 1;
         $rapport->transport = 1;
-        $desc = BlessuresTypes::where('id', $request->blessure)->first();
+        $desc = Blessure::where('id', $request->blessure)->first();
         $rapport->description = $desc->name;
-        $rapport->prix = 700;
+        $rapport->price = 700;
         $rapport->save();
-        $puPatient = new PlanUrgencePatient();
-        $puPatient->patient_name = $Patient->vorname . ' ' . $Patient->name;
-        $puPatient->PU_ID = $id;
+        $puPatient = new BCPatient();
+        $puPatient->name = $Patient->vorname . ' ' . $Patient->name;
+        $puPatient->BC_id = $id;
         $puPatient->rapport_id = $rapport->id;
-        $wear = PatientsVetement::where('id', $request->vetement)->first();
-        $puPatient->vetements = $wear->name;
+        $wear = CouleurVetement::where('id', $request->vetement)->first();
+        $puPatient->couleur = $wear->name;
         $puPatient->save();
-        $facture = new Factures();
+        $facture = new Facture();
         $facture->patient_id = $patient_id;
         $facture->rapport_id = $rapport->id;
         $facture->payed = $request->payed;
@@ -236,19 +235,24 @@ class PuController extends Controller
         return response()->json(['status'=>"OK"],201);
     }
 
-    public function deletePatient(Request $request, $id): \Illuminate\Http\JsonResponse
+    public function deletePatient(Request $request,int $id): \Illuminate\Http\JsonResponse
     {
         if(Rapport::where('id', $id)->count() != 0){
             $rapport = Rapport::where('id', $id)->first();
-            $facture = Factures::where('rapport_id', $id)->first();
-            $pup = PlanUrgencePatient::where('rapport_id', $id)->first();
+            $facture = Facture::where('rapport_id', $id)->first();
+            $pup = BCPatient::where('rapport_id', $id)->first();
             $rapport->delete();
             $facture->delete();
             $pup->delete();
+            event(new \App\Events\Notify('Rapport supprimé',2));
+        }else{
+            event(new \App\Events\Notify('Impossiblie de trouver le rappot ',3));
         }
+
         return response()->json(['status'=>'OK']);
     }
 
+    // a refaire
     private function PatientExist(string $name, string $vorname): ?Patient{
         $patient = Patient::where('name', 'LIKE', $name)->where('vorname','LIKE', $vorname);
         if($patient->count() == 1){
@@ -257,6 +261,7 @@ class PuController extends Controller
         return null;
     }
 
+    // a refaire
     public function isParticiping(): \Illuminate\Http\JsonResponse
     {
         if(PlanUrgence::where('ended',false)->count() ==0){
@@ -268,6 +273,7 @@ class PuController extends Controller
         return response()->json(['status'=>'OK', 'p'=>$puperso]);
     }
 
+    //a refaire
     public function addParticipant(): \Illuminate\Http\JsonResponse
     {
         $pu = PlanUrgence::where('ended', false)->first();

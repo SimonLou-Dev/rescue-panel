@@ -91,8 +91,9 @@ class UserController extends Controller
     public function setusergrade(Request $request, int $id, int $userid): \Illuminate\Http\JsonResponse
     {
         $user= User::where('id', $userid)->first();
-        $user->grade = $id;
+        $user->grade_id = $id;
         $user->save();
+        event(new \App\Events\Notify('Le grade a été bien changé ! ',1));
         return \response()->json(['status'=>'OK']);
     }
 
@@ -149,7 +150,7 @@ class UserController extends Controller
             'forma_delete'=>$grade->perm_22,
             'access_stats'=>$grade->perm_23,
         ];
-        return \response()->json(['status'=>'ok', 'perm'=>$perm]);
+        return \response()->json(['status'=>'ok', 'perm'=>$perm, 'user'=>$user]);
     }
 
 }

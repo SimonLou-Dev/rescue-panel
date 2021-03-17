@@ -129,7 +129,7 @@ class RapportController extends Controller
                 ]
             ]
         ]);
-
+        event(new \App\Events\Notify('Rapport ajouté ! ',2));
         return response()->json(['facture'=>$facture, 'rapport'=>$rapport, 'patient'=>$Patient], 201);
     }
 
@@ -186,6 +186,7 @@ class RapportController extends Controller
         }
         $facture->save();
         $rapport->save();
+        event(new \App\Events\Notify('Rapport mis à jour',2));
         return response()->json(['status'=>'OK'],201);
     }
 
@@ -245,6 +246,7 @@ class RapportController extends Controller
                 ]
             ]
         ]);
+        event(new \App\Events\Notify('Facture payée ! ',2));
         return response()->json(['status'=>'OK']);
     }
 
@@ -297,6 +299,7 @@ class RapportController extends Controller
                 ]
             ]
         ]);
+        event(new \App\Events\Notify('Facture ajoutée ! ',2));
         return response()->json(['status'=>'OK'],201);
     }
 
@@ -307,6 +310,7 @@ class RapportController extends Controller
         $patient->name = $request->nom;
         $patient->vorname = $request->prenom;
         $patient->save();
+        event(new \App\Events\Notify('Information mises à jour ! ',2));
         return response()->json(['status'=>'OK'],201);
     }
 

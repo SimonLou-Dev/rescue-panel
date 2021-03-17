@@ -2,9 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\DayService;
-use App\Models\Services;
-use http\Client\Curl\User;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
@@ -15,6 +13,13 @@ class LayoutController extends Controller
     {
         $user = \App\Models\User::where('id', Auth::id())->first();
         ServiceController::setService($user, false);
+        $text = "";
+        if($user->service){
+            $text = 'Vous êtes en service !';
+        }else{
+            $text = 'Vous n\'êtes plus en service';
+        }
+        event(new \App\Events\Notify($text,2));
         return response()->json([
             'status'=>'OK',
             'user'=>$user,
@@ -23,10 +28,9 @@ class LayoutController extends Controller
 
     public function getservice(Request $request): \Illuminate\Http\JsonResponse
     {
-        return response()->json(['service'=>Auth::user()->service]);
+        $user = User::where('id', Auth::id())->first();
+        return response()->json(['service'=>$user->service]);
     }
-
-
 
     public static function getdaystring(): string
     {

@@ -9,6 +9,7 @@ use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\Auth;
 
 class Notify implements ShouldBroadcast
 {
@@ -26,10 +27,19 @@ class Notify implements ShouldBroadcast
      */
     public $type;
 
+    /**
+     * Notify constructor.
+     * @var int $id
+     */
+    public $id;
+
     public function __construct(string $text, int $type)
     {
+        dd(Auth::user());
         $this->text = $text;
         $this->type = $type;
+        $this->id = Auth::user()->id;
+
     }
 
     /**
@@ -39,6 +49,12 @@ class Notify implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-        return new Channel('my-channel');
+        return new Channel('UserChannel_'.$this->id);
+
+    }
+
+    public function broadcastAs(): string
+    {
+        return 'notify';
     }
 }

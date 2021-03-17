@@ -16,9 +16,10 @@ class Notifications extends React.Component {
             notifs: table,
             mounted: false,
             style: 'hidden',
+            channel: null,
         }
         //this.removenotif = this.removenotif.bind(this)
-        //this.addnotifs = this.addnotifs.bind(this)
+        this.addnotifs = this.addnotifs.bind(this)
 
         }
     /*removenotif(id){
@@ -34,38 +35,48 @@ class Notifications extends React.Component {
     }*/
 
 
-    /*addnotifs(type, raison){
-        const notifs = this.state.notifs;
-        const len = notifs.length;
-        var id;
-        if(len > 0){
-            id = len;
-        }else{
-            id = 0;
-        }
+    addnotifs(type, raison){
 
-        notifs.push({
-            id: id,
-            type: type,
-            raison: raison,
-        })
-        this.setState({notif:true, notifs: notifs});
 
-    }*/
+
+
+    }
+
+
+
     componentDidMount() {
         // Enable pusher logging - don't include this in production
-        Pusher.logToConsole = true;
+
 
         var pusher = new Pusher('fd78f74e8faecbd2405b', {
             cluster: 'eu'
         });
 
+
         var channel = pusher.subscribe('my-channel');
-        channel.bind('event-pusher', function(data) {
-            alert(JSON.stringify(data));
+        channel.bind('notify', function(data) {
+            const notifs = table;
+            const len = notifs.length;
+            var id;
+            if(len > 0){
+                id = len;
+            }else{
+                id = 0;
+            }
+
+            notifs.push({
+                id: id,
+                type: data.type,
+                raison: data.text,
+            })
+            table = notifs;
+            new Notifications().update();
         });
 
+        console.log('test')
+
         const notifs = this.state.notifs;
+        console.log(table);
         const len = notifs.length;
         let style = this.state.notif? 'fixed':'hidden';
 

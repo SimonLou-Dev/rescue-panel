@@ -24,7 +24,10 @@ import FormationsController from "./Personnel/FormationsController";
 import CarnetVol from "./Personnel/CarnetVol";
 import Remboursement from "./Personnel/Remboursement";
 import BugRepport from "./BugRepport";
-import Notifications from "./props/utils/Notifications";
+import ReactNotifications from 'react-notifications-component';
+import { store } from 'react-notifications-component';
+import 'react-notifications-component/dist/theme.css';
+import 'animate.css'
 
 const service_state = false;
 export const rootUrl = document.querySelector('body').getAttribute('data-root-url');
@@ -69,6 +72,8 @@ class Layout extends React.Component{
             minview: false,
             bug:false,
             perms: [],
+            serviceStatus: false,
+            user: [],
         }
         this.updateWindowDimensions = this.updateWindowDimensions.bind(this)
 
@@ -79,13 +84,50 @@ class Layout extends React.Component{
             url: '/data/getperm',
             method: 'get',
         });
-        this.setState({admin: req.data.perm});
+        this.setState({perms: req.data.perm, user: req.data.user});
         this.updateWindowDimensions();
         window.addEventListener("resize", this.updateWindowDimensions);
         this.timerID = setInterval(
             () => this.tick(),
             5*60*1000
         );
+
+        Pusher.logToConsole = true;
+
+        var pusher = new Pusher('fd78f74e8faecbd2405b', {
+            cluster: 'eu'
+        });
+
+        var channel = pusher.subscribe('UserChannel_3');
+        channel.bind('notify', function(data) {
+                let type;
+                switch (data.type){
+                    case 1:
+                        type = 'default';
+                        break
+                    case 2:
+                        type = 'success';
+                        break;
+                    case 3:
+                        type = 'infos';
+                        break;
+                    case 4:
+                        type = 'warning';
+                        break;
+                }
+                store.addNotification({
+                    title: 'error',
+                    message: data.text,
+                    type: type,                         // 'default', 'success', 'info', 'warning'
+                    container: 'top-right',                // where to position the notifications
+                    animationIn: ["animated", "fadeInRight"],     // animate.css classes that's applied
+                    animationOut: ["animated", "fadeOutDown"],   // animate.css classes that's applied
+                    dismiss: {
+                        duration: 3000
+                    }
+                })
+
+        });
     }
 
     componentWillUnmount() {
@@ -95,7 +137,7 @@ class Layout extends React.Component{
 
     async tick() {
         const req = await axios({
-            url: '/data/checkco',
+            url: '/data/check/connexion',
             method: 'GET'
         })
         if (!req.data.session) {
@@ -117,7 +159,6 @@ class Layout extends React.Component{
     render() {
         return(
             <div id="layout">
-
                 <div id="Menu" className={this.state.minview?(this.state.openmenu? 'open collapsed' : 'close collapsed') : null}>
                     <div className={'closed-menu'}>
                         <button onClick={()=>{
@@ -138,12 +179,14 @@ class Layout extends React.Component{
                             <NavLink to={'/'}><img src={'/assets/images/BCFD.svg'} alt={''}/></NavLink>
                         </div>
                         <div className="Menusepartor"/>
-                        <Service status={service_state}/>
+                        <Service serviceUpade={async (state) => {
+                            this.setState({serviceStatus: state})
+                        }}/>
                         <div className="Menusepartor"/>
                         <div className="navigation">
-                            <Patient service={service_state} perm={this.state.perms}/>
-                            <Personnel/>
-                            <Gestion service={service_state}/>
+                            <Patient service={this.state.serviceStatus} perm={this.state.perms}/>
+                            <Personnel perm={this.state.perms}/>
+                            <Gestion perm={this.state.perms}/>
                         </div>
                         <div className="Menusepartor"/>
                         <div className="bugreportter">
@@ -180,7 +223,7 @@ class Layout extends React.Component{
                         <Route path={'/gestion/formation'} component={AFormaController}/>
                         <Route path={'/gestion/informations'} component={InfoGestion}/>
                         <Route path={'/gestion/perm'} component={Permissions}/>
-                    <Notifications/>
+                    <ReactNotifications/>
                 </div>
                 {this.state.bug &&
                     <BugRepport close={()=>this.setState({bug:false})}/>

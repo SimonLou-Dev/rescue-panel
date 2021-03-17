@@ -314,16 +314,14 @@ body {
   }
 }
 
-.notifs {
+.notifications-component {
   top: 0;
   right: 0;
   z-index: 154400;
-  width: 20%;
-  min-width: 290px;
-  height: 100vh;
-  padding-top: 60px;
+  width: 500px;
+  height: 100vw;
 }
-.notifs .notifications {
+.notifications-component .notifications {
   width: 95%;
   margin-right: 5%;
   height: 150px;
@@ -334,46 +332,46 @@ body {
   flex-direction: column;
   justify-content: space-between;
 }
-.notifs .notifications .notif-header {
+.notifications-component .notifications .notif-header {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   padding: 0 15px 0 15px;
 }
-.notifs .notifications .notif-header button {
+.notifications-component .notifications .notif-header button {
   background-color: transparent;
   border: none;
 }
-.notifs .notifications .notif-separator {
+.notifications-component .notifications .notif-separator {
   height: 2px;
   width: 100%;
   background-color: #004662;
 }
-.notifs .notifications .notif-content {
+.notifications-component .notifications .notif-content {
   padding: 0 15px 0 15px;
 }
-.notifs .notifications .notif-content p {
+.notifications-component .notifications .notif-content p {
   margin: 0;
   text-indent: 20px;
   font-size: 18px;
 }
-.notifs .notifications .progress-bar {
+.notifications-component .notifications .progress-bar {
   width: 100%;
   height: 15px;
   background-color: #0C2646;
 }
-.notifs .notifications .progress-bar .progress {
+.notifications-component .notifications .progress-bar .progress {
   height: 15px;
   border-radius: 15px 0;
   background-color: #004662;
 }
-.notifs .success {
+.notifications-component .success {
   background-color: green;
 }
-.notifs .warning {
+.notifications-component .warning {
   background-color: orange;
 }
-.notifs .danger {
+.notifications-component .danger {
   background-color: red;
 }
 

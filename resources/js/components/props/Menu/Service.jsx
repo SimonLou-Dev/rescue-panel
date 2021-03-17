@@ -25,12 +25,9 @@ class Service extends React.Component{
         clearInterval(this.timerID);
     }
 
-    async OffServiceClicked() {
+    OffServiceClicked() {
         this.setState(state => ({status: true,disabled: true}));
-        await axios({
-            method: "POST",
-            url: '/data/setstatus/',
-        });
+
         this.timerID = setInterval(
             () => this.cooldown(),
             1000
@@ -38,14 +35,20 @@ class Service extends React.Component{
         setTimeout(()=>{
             this.setState({disabled:false});
         },2*60*1000)
+        this.requestDB().then(r => this.props.serviceUpade(true));
     }
 
-    async OnServiceCliked() {
-        this.setState(state => ({status: false,disabled: true}));
+    async requestDB() {
         await axios({
-            method: "GET",
-            url: '/data/setstatus/',
+            method: "PUT",
+            url: '/data/setstatus',
         });
+
+    }
+
+    OnServiceCliked() {
+        this.setState(state => ({status: false,disabled: true}));
+
         this.timerID = setInterval(
             () => this.cooldown(),
             1000
@@ -53,19 +56,22 @@ class Service extends React.Component{
         setTimeout(()=>{
             this.setState({disabled:false});
         },2*60*1000);
+        this.requestDB().then(r => this.props.serviceUpade(false));
     }
 
     async componentDidMount() {
-
         var req = await axios({
             method: "GET",
             url: '/data/getstatus',
         });
-        if(req.data.service){
+        if(req.data.service === 1){
             this.setState({status: true})
+            this.props.serviceUpade(true)
         }else{
             this.setState({status: false})
+            this.props.serviceUpade(false)
         }
+
     }
 
     render() {
