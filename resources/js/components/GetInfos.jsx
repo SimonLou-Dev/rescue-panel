@@ -46,6 +46,7 @@ class GetInfos extends React.Component {
                     'timezone': this.state.timezone,
                     'tel': this.state.tel,
                     'compte': this.state.compte,
+                    'X-CSRF-TOKEN': csrf,
                 }
             })
             if (req.status === 201) {

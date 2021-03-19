@@ -126,7 +126,8 @@ class Register extends React.Component {
                 data: {
                     'pseudo': pseudo,
                     'psw': psw,
-                    'email': email
+                    'email': email,
+                    'X-CSRF-TOKEN': csrf,
                 }
             });
             console.log(res)

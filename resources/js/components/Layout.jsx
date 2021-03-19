@@ -185,7 +185,7 @@ class Layout extends React.Component{
                         <div className="Menusepartor"/>
                         <div className="navigation">
                             <Patient service={this.state.serviceStatus} perm={this.state.perms}/>
-                            <Personnel perm={this.state.perms}/>
+                            <Personnel service={this.state.serviceStatus} perm={this.state.perms} user={this.state.user}/>
                             <Gestion perm={this.state.perms}/>
                         </div>
                         <div className="Menusepartor"/>

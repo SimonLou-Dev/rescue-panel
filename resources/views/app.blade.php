@@ -6,7 +6,9 @@
     <meta name=”viewport” content=”width=device-width, initial-scale=1">
     <meta name="viewport" content="maximum-scale=1">
         <!-- csrf token -->
-    <meta name=”csrf-token” content=”{{ csrf_token() }}”>
+    <script>
+        const csrf = '{{csrf_token()}}'
+    </script>
     <title>BCFD - Intranet</title>
     <!-- styles -->
     <link href=”{{ asset('css/app.css') }}” rel=”stylesheet”>

@@ -8,6 +8,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Session;
+use function PHPUnit\Framework\isNull;
 
 
 class UserController extends Controller
@@ -31,6 +33,7 @@ class UserController extends Controller
             $createuser->save();
             $newuser = \App\Models\User::where('email', $mail)->first();
             Auth::login($newuser);
+            Session::push('user_grade', $newuser->GetGrade);
             if(Auth::check()){
                 return response()->json([
                     'status' => 'OK',
@@ -55,7 +58,7 @@ class UserController extends Controller
         $email = $request->email;
         $psw = $request->psw;
         if(\App\Models\User::where('email', $email)->count() == 0){
-            return response()->json([
+            $returned = response()->json([
                 'status'=> 'adresse mail non existante',
                 'user' => null,
                 'authed' => false,
@@ -64,19 +67,29 @@ class UserController extends Controller
             $user= User::where('email', $email)->first();
              if(Hash::check($psw, $user->password)){
                 Auth::login($user);
-                return response()->json([
-                    'status'=>'OK',
-                    'user'=>$user,
-                    'authed'=>Auth::check(),
-                ]);
+                 Session::push('user_grade', $user->GetGrade);
+                    if($user->liveplace != null){
+                        $returned = response()->json([
+                            'status'=>'OK',
+                            'user'=>$user,
+                            'authed'=>Auth::check(),
+                        ]);
+                    }else{
+                        $returned = response()->json([
+                            'status'=>'INFOS',
+                            'user'=>$user,
+                            'authed'=>Auth::check(),
+                        ]);
+                    }
             }else{
-                return response()->json([
+                $returned = response()->json([
                     'status'=>'Mot de passe invalide',
                     'user' => null,
                     'authed'=>false
                 ], 202);
             }
         }
+        return $returned;
     }
 
     public function getUser(Request $request): \Illuminate\Http\JsonResponse
@@ -149,6 +162,8 @@ class UserController extends Controller
             'forma_publi'=>$grade->perm_21,
             'forma_delete'=>$grade->perm_22,
             'access_stats'=>$grade->perm_23,
+            'HS_facture'=>$grade->perm_24,
+            'content_mgt'=>$grade->perm_25
         ];
         return \response()->json(['status'=>'ok', 'perm'=>$perm, 'user'=>$user]);
     }

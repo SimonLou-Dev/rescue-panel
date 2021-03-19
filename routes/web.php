@@ -16,73 +16,35 @@ use Illuminate\Support\Facades\Route;
 |
 */
 //Main view
-Route::get('/', function () {
-    if(Auth::user()->grade_id == 0){
-        return redirect()->route('ANA');
-    }
-    return view("app");
-})->middleware('auth');
+Route::get('/', function () {return view("app");})->middleware(['auth','access']);
 //View in patient
-Route::get('/patient/{a}', function (){
-    if(Auth::user()->grade_id == 0){
-        return redirect()->route('ANA');
-    }
-   return view("app");
-})->middleware('auth');
+Route::get('/patient/{a}', function (){return view("app");})->middleware(['auth','access']);
 //View of personnel
-Route::get('/personnel/{a}', function (){
-    if(Auth::user()->grade_id == 0){
-        return redirect()->route('ANA');
-    }
-    return view("app");
-})->middleware('auth');
+Route::get('/personnel/{a}', function (){return view("app");})->middleware(['auth','access']);
 //View of gestion
-Route::get('/gestion/{a}', function (){
-    if(Auth::user()->grade_id == 0){
-        return redirect()->route('ANA');
-    }
-    return view("app");
-})->middleware('auth');
+Route::get('/gestion/{a}', function (){return view("app");})->middleware('auth');
 // Report bug
-Route::get('/bugrepport', function (){
-    if(Auth::user()->grade_id == 0){
-        return redirect()->route('ANA');
-    }
-    return view("app");
-})->middleware('auth');
+Route::get('/bugrepport', function (){return view("app");})->middleware('auth');
 //Cant access
-Route::get('/ANA', function (){
-    return view("app");
-})->name('ANA');
+Route::get('/ANA', function (){return view("app");})->name('ANA');
 //Maintenance
-Route::get('/maintenance', function (){
-    return view("app");
-})->name('mnt');
+Route::get('/maintenance', function (){return view("app");})->name('mnt');
 //informations
-Route::get('/informations', function (){
-    return view("app");
-})->middleware('auth');
+Route::get('/informations', function (){return view("app");})->middleware(['auth']);
 //register
-Route::get('/register',function (){
-    return view("app");
-})->name('register')->middleware('guest');
+Route::get('/register',function (){return view("app");})->name('register')->middleware('guest');
 //login
-Route::get('/login',function (){
-    return view("app");
-})->name('login')->middleware('guest');
+Route::get('/login',function (){return view("app");})->name('login')->middleware('guest');
 //log out
 Route::get('/logout', function (){
    \Illuminate\Support\Facades\Auth::logout();
+   \Illuminate\Support\Facades\Session::flush();
    return redirect()->route('login');
 })->middleware('auth')->name('logout');
 //reset mdp view
-Route::get('/reset/?', function (){
-    return view("app");
-})->middleware('guest');
+Route::get('/reset/*', function (){return view("app");})->middleware('guest');
 //send mail for reseset
-Route::get('/sendmail', function (){
-    return view("app");
-})->middleware('guest');
+Route::get('/sendmail', function (){return view("app");})->middleware('guest');
 
 //Connexion management
 Route::post('/data/register', [\App\Http\Controllers\UserController::class, 'register']);
@@ -137,7 +99,8 @@ Route::get('/test', function (){
 });
 
 Route::get('/two', function (){
-    return view('login');
+    $user = \App\Models\User::where('id', Auth::user()->id)->first();
+    dd($user->liveplace);
 });
 
 

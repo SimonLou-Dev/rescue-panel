@@ -1,7 +1,6 @@
 import React from 'react';
 import {NavLink, Redirect} from "react-router-dom";
 import axios from "axios";
-export const rootUrl = document.querySelector('body').getAttribute('data-root-url');
 
 class Login extends React.Component {
 
@@ -84,6 +83,7 @@ class Login extends React.Component {
                 data: {
                   'email': email,
                   'psw': psw,
+                  'X-CSRF-TOKEN': csrf,
                 },
             });
             if(req.data.status === 'Mot de passe invalide'){
@@ -91,6 +91,12 @@ class Login extends React.Component {
             }
             if(req.data.status === 'adresse mail non existante'){
                 this.setState({email_error: true, error: true})
+            }
+            if(req.data.status === 'ANA'){
+               // window.location.href = "/ANA";
+            }
+            if(req.data.status === 'INFOS'){
+                window.location.href = "/informations";
             }
             if(req.data.status === 'OK'){
                 window.location.href = "/";
@@ -106,7 +112,7 @@ class Login extends React.Component {
             <div className={'Login'}>
                 <div className={'Form'}>
                     <form method={"POST"} onSubmit={this.Submited}>
-                        <img alt={""} src={rootUrl + 'assets/images/LONG_EMS_BC_2.png'}/>
+                        <img alt={""} src={'/assets/images/LONG_EMS_BC_2.png'}/>
                         <h1>Connexion</h1>
                         <label>adresse mail : </label>
                         <input value={this.state.email} type={'email'} name={'email'} onChange={this.EmailChange}/>

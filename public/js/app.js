@@ -4922,7 +4922,8 @@ var GetInfos = /*#__PURE__*/function (_React$Component) {
                     'living': this.state.live,
                     'timezone': this.state.timezone,
                     'tel': this.state.tel,
-                    'compte': this.state.compte
+                    'compte': this.state.compte,
+                    'X-CSRF-TOKEN': csrf
                   }
                 });
 
@@ -5529,7 +5530,9 @@ var Layout = /*#__PURE__*/function (_React$Component2) {
                 service: this.state.serviceStatus,
                 perm: this.state.perms
               }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_props_Menu_Personnel__WEBPACK_IMPORTED_MODULE_5__.default, {
-                perm: this.state.perms
+                service: this.state.serviceStatus,
+                perm: this.state.perms,
+                user: this.state.user
               }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_props_Menu_Gestion__WEBPACK_IMPORTED_MODULE_7__.default, {
                 perm: this.state.perms
               })]
@@ -5643,7 +5646,6 @@ var Layout = /*#__PURE__*/function (_React$Component2) {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "rootUrl": () => /* binding */ rootUrl,
 /* harmony export */   "default": () => __WEBPACK_DEFAULT_EXPORT__
 /* harmony export */ });
 /* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
@@ -5687,7 +5689,6 @@ function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.g
 
 
 
-var rootUrl = document.querySelector('body').getAttribute('data-root-url');
 
 var Login = /*#__PURE__*/function (_React$Component) {
   _inherits(Login, _React$Component);
@@ -5825,7 +5826,7 @@ var Login = /*#__PURE__*/function (_React$Component) {
                 e.preventDefault();
 
                 if (this.state.error) {
-                  _context.next = 10;
+                  _context.next = 12;
                   break;
                 }
 
@@ -5837,7 +5838,8 @@ var Login = /*#__PURE__*/function (_React$Component) {
                   url: 'data/login',
                   data: {
                     'email': email,
-                    'psw': psw
+                    'psw': psw,
+                    'X-CSRF-TOKEN': csrf
                   }
                 });
 
@@ -5858,11 +5860,18 @@ var Login = /*#__PURE__*/function (_React$Component) {
                   });
                 }
 
+                if (req.data.status === 'ANA') {// window.location.href = "/ANA";
+                }
+
+                if (req.data.status === 'INFOS') {
+                  window.location.href = "/informations";
+                }
+
                 if (req.data.status === 'OK') {
                   window.location.href = "/";
                 }
 
-              case 10:
+              case 12:
               case "end":
                 return _context.stop();
             }
@@ -5894,7 +5903,7 @@ var Login = /*#__PURE__*/function (_React$Component) {
             onSubmit: this.Submited,
             children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("img", {
               alt: "",
-              src: rootUrl + 'assets/images/LONG_EMS_BC_2.png'
+              src: '/assets/images/LONG_EMS_BC_2.png'
             }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h1", {
               children: "Connexion"
             }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("label", {
@@ -11591,7 +11600,8 @@ var Register = /*#__PURE__*/function (_React$Component) {
                   data: {
                     'pseudo': pseudo,
                     'psw': psw,
-                    'email': email
+                    'email': email,
+                    'X-CSRF-TOKEN': csrf
                   }
                 });
 
@@ -12852,16 +12862,72 @@ var Gestion = /*#__PURE__*/function (_React$Component) {
 
   var _super = _createSuper(Gestion);
 
-  function Gestion() {
+  function Gestion(props) {
+    var _this;
+
     _classCallCheck(this, Gestion);
 
-    return _super.apply(this, arguments);
+    _this = _super.call(this, props);
+    _this.state = {
+      total: false,
+      forma: false,
+      logs: false,
+      content: false,
+      personnel: false,
+      time: false
+    };
+    return _this;
   }
 
   _createClass(Gestion, [{
+    key: "componentDidMount",
+    value: function componentDidMount() {
+      if (this.props.perm['rapport_horaire']) {
+        this.setState({
+          time: true,
+          total: true
+        });
+      }
+
+      if (this.props.perm['perso_list']) {
+        this.setState({
+          personnel: true,
+          total: true
+        });
+      }
+
+      if (this.props.perm['post_annonces']) {
+        this.setState({
+          content: true,
+          total: true
+        });
+      }
+
+      if (this.props.perm['log_acces']) {
+        this.setState({
+          logs: true,
+          total: true
+        });
+      }
+
+      if (this.props.perm['validate_forma']) {
+        this.setState({
+          forma: true,
+          total: true
+        });
+      }
+
+      if (this.props.perm['content_mgt']) {
+        this.setState({
+          content: true,
+          total: true
+        });
+      }
+    }
+  }, {
     key: "render",
     value: function render() {
-      return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
+      return this.state.total && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
         className: "Menu-Item",
         id: "Administration",
         children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h2", {
@@ -12871,28 +12937,28 @@ var Gestion = /*#__PURE__*/function (_React$Component) {
           })
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("ul", {
           className: "Menu-list",
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("li", {
+          children: [this.state.time && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("li", {
             className: 'mobildisabled',
             children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_2__.NavLink, {
               to: '/gestion/rapport',
               children: "Rapport horaire"
             })
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("li", {
+          }), this.state.content && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("li", {
             children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_2__.NavLink, {
               to: '/gestion/content',
               children: "Gestion contenu"
             })
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("li", {
+          }), this.state.personnel && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("li", {
             children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_2__.NavLink, {
               to: '/gestion/personnel',
               children: "Personnel"
             })
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("li", {
+          }), this.state.logs && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("li", {
             children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_2__.NavLink, {
               to: '/gestion/log',
               children: "Logs"
             })
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("li", {
+          }), this.state.forma && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("li", {
             children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_2__.NavLink, {
               to: '/gestion/formation',
               children: "Formations"
@@ -13145,13 +13211,71 @@ var Personnel = /*#__PURE__*/function (_React$Component) {
 
   var _super = _createSuper(Personnel);
 
-  function Personnel() {
+  function Personnel(props) {
+    var _this;
+
     _classCallCheck(this, Personnel);
 
-    return _super.apply(this, arguments);
+    _this = _super.call(this, props);
+    _this.state = {
+      facture: false,
+      vols: false
+    };
+    return _this;
   }
 
   _createClass(Personnel, [{
+    key: "componentDidMount",
+    value: function componentDidMount() {
+      if (this.props.service && this.props.user.pilote) {
+        this.setState({
+          vol: true
+        });
+      }
+
+      if (this.props.perm['vol']) {
+        this.setState({
+          vol: true
+        });
+      }
+
+      if (this.props.service) {
+        this.setState({
+          facture: true
+        });
+      }
+
+      if (this.props.perm['HS_factures']) {
+        this.setState({
+          BC: true
+        });
+      }
+    }
+  }, {
+    key: "componentDidUpdate",
+    value: function componentDidUpdate(prevProps, prevState, snapshot) {
+      if (this.props.service !== prevProps.service) {
+        if (this.props.service === true) {
+          if (this.props.user.pilote) {
+            this.setState({
+              vol: true
+            });
+          }
+
+          this.setState({
+            facture: true
+          });
+        } else {
+          this.setState({
+            facture: false
+          });
+          this.setState({
+            vol: false
+          });
+        }
+      }
+    }
+  }, {
     key: "render",
     value: function render() {
       return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
@@ -13170,7 +13294,7 @@ var Personnel = /*#__PURE__*/function (_React$Component) {
               to: '/personnel/service',
               children: "Service"
             })
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("li", {
+          }), this.state.facture && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("li", {
             children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_2__.NavLink, {
               to: '/personnel/factures',
               children: "Factures"
@@ -13190,7 +13314,7 @@ var Personnel = /*#__PURE__*/function (_React$Component) {
               to: '/personnel/livret',
               children: "Mes formations"
             })
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("li", {
+          }), this.state.vol && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("li", {
             children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_2__.NavLink, {
               to: '/personnel/vols',
               children: "Carnet de vol"
