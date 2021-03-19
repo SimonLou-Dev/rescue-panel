@@ -193,7 +193,7 @@ class ServiceController extends Controller
         $toadd['s'] = (int) $toadd[2];
 
 
-        $sec = (int) $base["s"] + $toadd['s'];
+        $sec = (int) $base["s"] + (int) $toadd['s'];
         if($sec > 59){
             while ($sec > 59){
                 $base['m']++;
@@ -203,7 +203,7 @@ class ServiceController extends Controller
         }else{
             $toadd["s"] = $sec;
         }
-        $min = (int) $base["m"] + $toadd['m'];
+        $min = (int) $base["m"] + (int) $toadd['m'];
         if($min > 59){
             while ($min > 59){
                 $base['h']++;
@@ -213,7 +213,7 @@ class ServiceController extends Controller
         }else{
             $toadd['m'] = $min;
         }
-        $toadd['h'] = (int) $base['h'] + $toadd['h'];
+        $toadd['h'] = (int) $base['h'] + (int) $toadd['h'];
 
         return $toadd['h'] . ':' . $toadd['m'] . ':'. $toadd['s'];
     }
