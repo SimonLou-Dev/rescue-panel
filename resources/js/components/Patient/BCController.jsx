@@ -50,11 +50,11 @@ class BCBase extends React.Component {
     render() {
         return (
          <div className="BC-base">
-             <section className="header">
+             <section className="header" style={{filter: this.state.add ? 'blur(5px)' : 'none'}}>
                  <PagesTitle title={'Black Codes'}/>
                  <button className={'btn'} onClick={()=>this.setState({add: true})}>Ajouter un BC</button>
              </section>
-             <section className="contain">
+             <section className="contain" style={{filter: this.state.add ? 'blur(5px)' : 'none'}} >
                  <div className="BC-List">
                      <h1>En cours</h1>
                      <div  className="card">
@@ -372,7 +372,7 @@ class BCView extends React.Component {
     render() {
         return (
             <div className={"BC-View"}>
-                <section className="left">
+                <section style={{filter: this.state.CloseMenuOpen ? 'blur(5px)' : 'none'}} className="left">
                     <div className={'header'}>
                         <PagesTitle title={'Fusillade LS Longs beach'}/>
                         <div className={'bgforbtn'}>
@@ -463,8 +463,7 @@ class BCView extends React.Component {
                         <div className="tag">Lorem Ispum Dolor</div>
                     </div>
                 </section>
-                <ListPatient/>
-
+                <ListPatient style={{filter: this.state.CloseMenuOpen ? 'blur(5px)' : 'none'}} />
                 {this.state.CloseMenuOpen &&
                 <section className={'popup'}>
                     <div className={'popup-content'}>

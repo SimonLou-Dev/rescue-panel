@@ -61,7 +61,7 @@ class Rapport extends React.Component{
                 type: 0,
                 transport: 1,
                 desc: '',
-                montant: null,
+                montant: 0,
                 payed: true,
                 startdate: '',
                 starttime: '',
@@ -74,28 +74,9 @@ class Rapport extends React.Component{
 
     }
 
-    //
-    //
-
     render() {
         return(
             <div id={'Rapport-Patient'}>
-                {this.state.succsess &&
-                    <div className={'card-ok'}>
-                        <h1>Le rapport n°{this.state.req.data.rapport.id} a  été ajoué et assiginé au patient {this.state.req.data.patient.name} {this.state.req.data.patient.vorname}</h1>
-                        <button className={'btn'} onClick={()=>this.setState({succsess:false})}>OK</button>
-                    </div>
-                }
-                {this.state.error &&
-                    <div className={'card-error'}>
-                        <h1>Erreur lors de la création du rapport</h1>
-                        <button className={'btn'} onClick={()=>this.setState({error:false})}>OK</button>
-                    </div>
-                }
-
-
-
-
                 <form method={'POST'} onSubmit={this.handleSubmit}>
                 <div className={'Header'}>
                     <div className={"submit"}>

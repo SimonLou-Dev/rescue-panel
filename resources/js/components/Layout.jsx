@@ -200,7 +200,7 @@ class Layout extends React.Component{
                     </div>
 
                 </div>
-                <div id="content">
+                <div id="content" style={{filter: this.state.bug ? 'blur(5px)' : 'none'}} >
                         <Route exact path='/' component={Main}/>
                         <Route path={'/bugrepport'} component={BugRepport}/>
 

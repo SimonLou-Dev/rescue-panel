@@ -17,7 +17,7 @@ class CreatePatientsTable extends Migration
             $table->id();
             $table->string('name');
             $table->string('vorname');
-            $table->string('tel');
+            $table->string('tel')->nullable();
             $table->timestamps();
         });
     }

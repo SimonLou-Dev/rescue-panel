@@ -24,7 +24,7 @@ class Factures extends React.Component {
     async componentDidMount() {
         this.setdata(false);
         var req = await axios({
-            url: '/data/impaye/list',
+            url: '/data/facture/list',
             method: 'GET'
         })
         this.setState({list: req.data.impaye});
@@ -33,8 +33,8 @@ class Factures extends React.Component {
 
     async paye(id) {
         await axios({
-            url: '/data/impaye/paye/' + id,
-            method: 'GET',
+            url: '/data/facture/{id}/paye' + id,
+            method: 'PUT',
         })
         this.componentDidMount();
     }
@@ -61,7 +61,7 @@ class Factures extends React.Component {
     async OnPost(e) {
         e.preventDefault();
         var req = await axios({
-            url: '/data/impaye/addfacture',
+            url: '/data/facture/add',
             method: 'POST',
             data: {
                 payed: this.state.payed,
@@ -71,7 +71,7 @@ class Factures extends React.Component {
         })
         console.log(req);
         if(req.status === 201){
-            this.setState({addfacture:false});
+            this.setState({addfacture:false, name: "", payed:false, prix:null,});
             this.componentDidMount();
         }
     }
@@ -94,7 +94,7 @@ class Factures extends React.Component {
                         <div className={'pdf_Generator mobildisabled'} >
                             <form onSubmit={(e)=>{
                                 e.preventDefault();
-                                window.open('/pdf/impaye/'+this.state.pdfstart+'/'+this.state.pdfend)
+                                window.open('/PDF/facture/'+this.state.pdfstart+'/'+this.state.pdfend)
                             }
                             }>
                                 <label>Liste des impayés du</label>

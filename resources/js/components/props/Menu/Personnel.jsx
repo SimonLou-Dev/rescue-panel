@@ -12,11 +12,11 @@ class Personnel extends React.Component{
     }
 
     componentDidMount() {
-        if(this.props.service && this.props.user.pilote){
-            this.setState({vol:true})
+        if(this.props.user.pilote === "1" && this.props.service){
+            this.setState({vols:true})
         }
         if(this.props.perm['vol']) {
-            this.setState({vol: true})
+            this.setState({vols: true})
         }
         if(this.props.service){
             this.setState({facture:true})
@@ -30,13 +30,20 @@ class Personnel extends React.Component{
         if(this.props.service !== prevProps.service){
             if(this.props.service === true){
                 if(this.props.user.pilote){
-                    this.setState({vol:true})
+                    this.setState({vols:true})
                 }
                 this.setState({facture:true})
 
             }else{
                 this.setState({facture:false})
-                this.setState({vol:false})
+                this.setState({vols:false})
+            }
+        }
+        if(this.props.user !== prevProps.user){
+            if(this.props.user.pilote){
+                this.setState({vols:true})
+            } else {
+            this.setState({facture: false})
             }
         }
     }
@@ -53,7 +60,7 @@ class Personnel extends React.Component{
                     <li><NavLink to={'/personnel/remboursement'}>Remboursement</NavLink></li>
                     <li><NavLink to={'/personnel/moncompte'}>Mon Compte</NavLink></li>
                     <li><NavLink to={'/personnel/livret'}>Mes formations</NavLink></li>
-                    {this.state.vol &&
+                    {this.state.vols &&
                         <li><NavLink to={'/personnel/vols'}>Carnet de vol</NavLink></li>
                     }
                 </ul>

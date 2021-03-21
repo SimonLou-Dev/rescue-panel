@@ -12,10 +12,14 @@ class TableBottom extends React.Component {
         return (
             <div className={"TableBottom"}>
                 <div className={'searsh'}>
-                    <input list={'autocomplete'} type={'text'} placeholder={this.props.placeholder}/>
-                    <datalist id={'autocomplete'}>
-                        <option>test</option>
-                    </datalist>
+                    <input list={'autocomplete'} type={'text'} placeholder={this.props.placeholder} onChange={(e)=>this.props.typing(e)}/>
+                    {this.props.list &&
+                        <datalist id={'autocomplete'}>
+                            {this.props.list.map((obj) =>
+                                <option>{obj.name}</option>
+                            )}
+                        </datalist>
+                    }
                 </div>
                 <div className={'pages'}>
                     <button onClick={()=> this.props.prev()}>&lsaquo;</button>

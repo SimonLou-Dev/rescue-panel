@@ -93,6 +93,12 @@ Route::get('/data/gestion/content/get/{type}', [\App\Http\Controllers\ContentMan
 Route::delete('/data/gestion/content/delete/{type}/{id}', [\App\Http\Controllers\ContentManagement::class, 'deletecontent']);
 Route::get('/data/logs/{range}/{page}/{type}', [\App\Http\Controllers\ContentManagement::class, 'getLogs']);
 
+//Carnet de vol
+Route::get('/data/vol/get/{page}/{name?}', [\App\Http\Controllers\VolController::class, 'getVolsList']);
+Route::post('/data/vol/add', [\App\Http\Controllers\VolController::class, 'addVol']);
+Route::get('/data/vol/searsh/{pilote}', [\App\Http\Controllers\VolController::class, 'seatchPilote']);
+
+
 
 Route::get('/test', function (){
     return event(new \App\Events\Notify('test',1));
