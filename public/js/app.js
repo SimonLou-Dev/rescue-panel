@@ -5117,8 +5117,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _props_Menu_Personnel__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./props/Menu/Personnel */ "./resources/js/components/props/Menu/Personnel.jsx");
 /* harmony import */ var _props_Menu_Patient__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./props/Menu/Patient */ "./resources/js/components/props/Menu/Patient.jsx");
 /* harmony import */ var _props_Menu_Gestion__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./props/Menu/Gestion */ "./resources/js/components/props/Menu/Gestion.jsx");
-/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_30__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
-/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_31__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router/esm/react-router.js");
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_31__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_32__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router/esm/react-router.js");
 /* harmony import */ var _Main__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./Main */ "./resources/js/components/Main.jsx");
 /* harmony import */ var _Patient_rapport__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./Patient/rapport */ "./resources/js/components/Patient/rapport.jsx");
 /* harmony import */ var _Patient_RecherchePatient__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./Patient/RecherchePatient */ "./resources/js/components/Patient/RecherchePatient.jsx");
@@ -5142,6 +5142,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_notifications_component__WEBPACK_IMPORTED_MODULE_27___default = /*#__PURE__*/__webpack_require__.n(react_notifications_component__WEBPACK_IMPORTED_MODULE_27__);
 /* harmony import */ var react_notifications_component_dist_theme_css__WEBPACK_IMPORTED_MODULE_28__ = __webpack_require__(/*! react-notifications-component/dist/theme.css */ "./node_modules/react-notifications-component/dist/theme.css");
 /* harmony import */ var animate_css__WEBPACK_IMPORTED_MODULE_29__ = __webpack_require__(/*! animate.css */ "./node_modules/animate.css/animate.css");
+/* harmony import */ var dateformat__WEBPACK_IMPORTED_MODULE_30__ = __webpack_require__(/*! dateformat */ "./node_modules/dateformat/lib/dateformat.js");
+/* harmony import */ var dateformat__WEBPACK_IMPORTED_MODULE_30___default = /*#__PURE__*/__webpack_require__.n(dateformat__WEBPACK_IMPORTED_MODULE_30__);
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 
@@ -5171,6 +5173,7 @@ function _assertThisInitialized(self) { if (self === void 0) { throw new Referen
 function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
 
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
 
 
 
@@ -5254,9 +5257,9 @@ var Time = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "tick",
     value: function tick() {
-      var d = new Date();
+      var d = dateformat__WEBPACK_IMPORTED_MODULE_30___default()(new Date(), 'hh:mm:ss');
       this.setState({
-        date: d.getHours() + ":" + d.getMinutes() + ":" + d.getSeconds()
+        date: d
       });
     }
   }, {
@@ -5490,7 +5493,7 @@ var Layout = /*#__PURE__*/function (_React$Component2) {
               })
             }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", {
               id: "Logo",
-              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_30__.NavLink, {
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_31__.NavLink, {
                 to: '/',
                 children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("img", {
                   src: '/assets/images/BCFD.svg',
@@ -5563,62 +5566,62 @@ var Layout = /*#__PURE__*/function (_React$Component2) {
           style: {
             filter: this.state.bug ? 'blur(5px)' : 'none'
           },
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_31__.Route, {
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_32__.Route, {
             exact: true,
             path: "/",
             component: _Main__WEBPACK_IMPORTED_MODULE_8__.default
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_31__.Route, {
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_32__.Route, {
             path: '/bugrepport',
             component: _BugRepport__WEBPACK_IMPORTED_MODULE_26__.default
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_31__.Route, {
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_32__.Route, {
             path: "/patient/rapport",
             component: _Patient_rapport__WEBPACK_IMPORTED_MODULE_9__.default
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_31__.Route, {
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_32__.Route, {
             path: '/patient/blackcode',
             component: _Patient_BCController__WEBPACK_IMPORTED_MODULE_18__.default
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_31__.Route, {
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_32__.Route, {
             path: '/patient/dossiers',
             component: _Patient_RecherchePatient__WEBPACK_IMPORTED_MODULE_10__.default
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_31__.Route, {
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_32__.Route, {
             path: '/personnel/service',
             component: _Personnel_Services__WEBPACK_IMPORTED_MODULE_11__.default
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_31__.Route, {
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_32__.Route, {
             path: '/personnel/factures',
             component: _Personnel_Factures__WEBPACK_IMPORTED_MODULE_12__.default
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_31__.Route, {
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_32__.Route, {
             path: '/personnel/informations',
             component: _Personnel_Informations__WEBPACK_IMPORTED_MODULE_21__.default
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_31__.Route, {
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_32__.Route, {
             path: '/personnel/moncompte',
             component: _Personnel_MonCompte__WEBPACK_IMPORTED_MODULE_22__.default
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_31__.Route, {
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_32__.Route, {
             path: '/personnel/livret',
             component: _Personnel_FormationsController__WEBPACK_IMPORTED_MODULE_23__.default
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_31__.Route, {
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_32__.Route, {
             path: '/personnel/vols',
             component: _Personnel_CarnetVol__WEBPACK_IMPORTED_MODULE_24__.default
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_31__.Route, {
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_32__.Route, {
             path: '/personnel/remboursement',
             component: _Personnel_Remboursement__WEBPACK_IMPORTED_MODULE_25__.default
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_31__.Route, {
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_32__.Route, {
             path: '/gestion/rapport',
             component: _Gestion_RapportHoraire__WEBPACK_IMPORTED_MODULE_13__.default
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_31__.Route, {
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_32__.Route, {
             path: '/gestion/content',
             component: _Gestion_ContentManagement__WEBPACK_IMPORTED_MODULE_14__.default
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_31__.Route, {
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_32__.Route, {
             path: '/gestion/personnel',
             component: _Gestion_PersonnelList__WEBPACK_IMPORTED_MODULE_15__.default
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_31__.Route, {
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_32__.Route, {
             path: '/gestion/log',
             component: _Gestion_Logs__WEBPACK_IMPORTED_MODULE_16__.default
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_31__.Route, {
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_32__.Route, {
             path: '/gestion/formation',
             component: _Gestion_AFormaController__WEBPACK_IMPORTED_MODULE_19__.default
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_31__.Route, {
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_32__.Route, {
             path: '/gestion/informations',
             component: _Gestion_InfoGestion__WEBPACK_IMPORTED_MODULE_20__.default
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_31__.Route, {
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_32__.Route, {
             path: '/gestion/perm',
             component: _Gestion_Permissions__WEBPACK_IMPORTED_MODULE_17__.default
           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)((react_notifications_component__WEBPACK_IMPORTED_MODULE_27___default()), {})]
@@ -8074,7 +8077,7 @@ var Rapport = /*#__PURE__*/function (_React$Component) {
                     type: 0,
                     transport: 1,
                     desc: '',
-                    montant: null,
+                    montant: 0,
                     payed: true,
                     startdate: '',
                     starttime: '',
@@ -8100,43 +8103,15 @@ var Rapport = /*#__PURE__*/function (_React$Component) {
       }
 
       return handleSubmit;
-    }() //
-    //
-
+    }()
   }, {
     key: "render",
     value: function render() {
       var _this2 = this;
 
-      return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
+      return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", {
         id: 'Rapport-Patient',
-        children: [this.state.succsess && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
-          className: 'card-ok',
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("h1", {
-            children: ["Le rapport n\xB0", this.state.req.data.rapport.id, " a  \xE9t\xE9 ajou\xE9 et assigin\xE9 au patient ", this.state.req.data.patient.name, " ", this.state.req.data.patient.vorname]
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("button", {
-            className: 'btn',
-            onClick: function onClick() {
-              return _this2.setState({
-                succsess: false
-              });
-            },
-            children: "OK"
-          })]
-        }), this.state.error && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
-          className: 'card-error',
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h1", {
-            children: "Erreur lors de la cr\xE9ation du rapport"
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("button", {
-            className: 'btn',
-            onClick: function onClick() {
-              return _this2.setState({
-                error: false
-              });
-            },
-            children: "OK"
-          })]
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("form", {
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("form", {
           method: 'POST',
           onSubmit: this.handleSubmit,
           children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
@@ -8230,7 +8205,7 @@ var Rapport = /*#__PURE__*/function (_React$Component) {
               }
             })]
           })]
-        })]
+        })
       });
     }
   }]);
@@ -8451,7 +8426,6 @@ var CarnetVol = /*#__PURE__*/function (_React$Component) {
                     name: req.data.datas.users[0].name
                   });
                   this.update();
-                  e.target.value = req.data.datas.users[0].name;
                 }
 
               case 6:
@@ -8857,7 +8831,10 @@ var Factures = /*#__PURE__*/function (_React$Component) {
 
                 if (req.status === 201) {
                   this.setState({
-                    addfacture: false
+                    addfacture: false,
+                    name: "",
+                    payed: false,
+                    prix: null
                   });
                   this.componentDidMount();
                 }
@@ -12919,6 +12896,53 @@ var Gestion = /*#__PURE__*/function (_React$Component) {
           content: true,
           total: true
         });
+      }
+    }
+  }, {
+    key: "componentDidUpdate",
+    value: function componentDidUpdate(prevProps, prevState, snapshot) {
+      if (this.props != prevProps) {
+        if (this.props.perm['rapport_horaire']) {
+          this.setState({
+            time: true,
+            total: true
+          });
+        }
+
+        if (this.props.perm['perso_list']) {
+          this.setState({
+            personnel: true,
+            total: true
+          });
+        }
+
+        if (this.props.perm['post_annonces']) {
+          this.setState({
+            content: true,
+            total: true
+          });
+        }
+
+        if (this.props.perm['log_acces']) {
+          this.setState({
+            logs: true,
+            total: true
+          });
+        }
+
+        if (this.props.perm['validate_forma']) {
+          this.setState({
+            forma: true,
+            total: true
+          });
+        }
+
+        if (this.props.perm['content_mgt']) {
+          this.setState({
+            content: true,
+            total: true
+          });
+        }
       }
     }
   }, {

@@ -36,6 +36,29 @@ class Gestion extends React.Component{
         }
     }
 
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        if(this.props != prevProps){
+            if(this.props.perm['rapport_horaire']){
+                this.setState({time:true, total:true});
+            }
+            if(this.props.perm['perso_list']){
+                this.setState({personnel:true, total:true});
+            }
+            if(this.props.perm['post_annonces']){
+                this.setState({content:true, total:true});
+            }
+            if(this.props.perm['log_acces']){
+                this.setState({logs:true, total:true});
+            }
+            if(this.props.perm['validate_forma']){
+                this.setState({forma:true, total:true});
+            }
+            if(this.props.perm['content_mgt']){
+                this.setState({content:true, total:true});
+            }
+        }
+    }
+
     render() {
             return(
                 this.state.total &&

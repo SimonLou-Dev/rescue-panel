@@ -28,6 +28,7 @@ import ReactNotifications from 'react-notifications-component';
 import { store } from 'react-notifications-component';
 import 'react-notifications-component/dist/theme.css';
 import 'animate.css'
+import dateFormat from "dateformat";
 
 const service_state = false;
 export const rootUrl = document.querySelector('body').getAttribute('data-root-url');
@@ -50,8 +51,8 @@ class Time extends React.Component {
     }
 
     tick(){
-        var d = new Date();
-        this.setState({date: d.getHours() + ":" + d.getMinutes() + ":" + d.getSeconds()})
+        var d = dateFormat(new Date(), 'hh:mm:ss');
+        this.setState({date: d})
     }
     componentWillUnmount() {
         clearInterval(this.timerID);
