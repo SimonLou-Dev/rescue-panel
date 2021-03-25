@@ -4,6 +4,7 @@ import PagesTitle from "../props/utils/PagesTitle";
 import PatientListPU from "../props/Patient/Urgence/PatientListPU";
 
 
+
 class ListPatient extends React.Component {
     render() {
         return (
@@ -45,8 +46,32 @@ class BCBase extends React.Component {
         super(props);
         this.state = {
             add: false,
+            active : undefined,
+            types: undefined,
+            ended: undefined,
+            data: false,
+            place: "",
+            type: 0,
+        }
+        this.addbc = this.addbc.bind(this);
+    }
+
+    async componentDidMount() {
+        var req = await axios({
+            method: 'GET',
+            url: '/data/blackcode/load',
+        })
+        if (req.status === 200){
+            this.setState({active: req.data.active, ended: req.data.ended, types: req.data.types, data: true})
         }
     }
+
+    addbc(e){
+        e.preventDefault();
+        //TODO
+    }
+
+
     render() {
         return (
          <div className="BC-base">
@@ -57,22 +82,32 @@ class BCBase extends React.Component {
              <section className="contain" style={{filter: this.state.add ? 'blur(5px)' : 'none'}} >
                  <div className="BC-List">
                      <h1>En cours</h1>
-                     <div  className="card">
-                         <h3>Fusiallade</h3>
-                         <h4>Los santos long beach</h4>
-                         <div className="separator"/>
-                         <div className={'rowed'}>
-                             <h5>Secouristes : </h5>
-                             <h5>7</h5>
-                         </div>
-                         <div className={'rowed'}>
-                             <h5>Victimes : </h5>
-                             <h5>12</h5>
-                         </div>
-                         <div className="separator"/>
-                         <h4>00/00/0000 à 00h00</h4>
-                         <h4>alerte de Jean Claude Bernard</h4>
+                     {!this.state.data &&
+                     <div className={'load'}>
+                         <img src={'/assets/images/loading.svg'} alt={''}/>
                      </div>
+                     }
+                     {this.state.active &&
+                        this.state.active.map((bc) =>
+                            <div  className="card">
+                                <h3>Fusiallade</h3>
+                                <h4>Los santos long beach</h4>
+                                <div className="separator"/>
+                                <div className={'rowed'}>
+                                    <h5>Secouristes : </h5>
+                                    <h5>7</h5>
+                                </div>
+                                <div className={'rowed'}>
+                                    <h5>Victimes : </h5>
+                                    <h5>12</h5>
+                                </div>
+                                <div className="separator"/>
+                                <h4>00/00/0000 à 00h00</h4>
+                                <h4>alerte de Jean Claude Bernard</h4>
+                            </div>
+                        )
+                     }
+
                      <div className="card">
                          <h3>Fusiallade</h3>
                          <h4>Los santos long beach</h4>
@@ -140,6 +175,11 @@ class BCBase extends React.Component {
                  </div>
                  <div className="BC-List">
                      <h1>Anciens</h1>
+                     {!this.state.data &&
+                     <div className={'load'}>
+                         <img src={'/assets/images/loading.svg'} alt={''}/>
+                     </div>
+                     }
                      <div className="card">
                          <h3>Fusiallade</h3>
                          <h4>Los santos long beach</h4>
@@ -266,11 +306,14 @@ class BCBase extends React.Component {
                  <section className={'popup'}>
                      <div className={'popup-content'}>
                         <h1>Ajouter un BC</h1>
-                        <form>
+                        <form onSubmit={this.addbc}>
                             <div className={'row'}>
-                                <input type={'text'} placeholder={'lieux'}/>
-                                <select defaultValue={1}>
-                                    <option value={1} disabled>add</option>
+                                <input type={'text'} placeholder={'lieux'} value={this.state.place} onChange={(e)=>{this.setState({place:e.target.value})}}/>
+                                <select defaultValue={this.state.type} onChange={(e)=>{this.setState({type:e.target.value})}}>
+                                    <option value={0} disabled>add</option>
+                                    {this.state.types && this.state.types.map((type)=>
+                                        <option key={type.id} value={type.id}>{type.name}</option>
+                                    )}
                                 </select>
                             </div>
                             <div className={'btn-contain'}>
@@ -484,10 +527,35 @@ class BCController extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            status: 1,
+            status: 0,
+            pu_id: undefined,
+        }
+        this.updatestatus = this.updatestatus.bind(this)
+    }
+
+    async componentDidMount() {
+        var req = await axios({
+            method: 'GET',
+            url: '/data/blackcode/mystatus',
+        });
+        if(req.status === 200){
+            if(req.data.bc !== null){
+                this.updatestatus(1, req.data.bc)
+            }
+            else{
+                this.updatestatus(0);
+            }
+        }else{
+            this.updatestatus(0);
         }
     }
 
+    updatestatus(status, id = undefined){
+        this.setState({status: status});
+        if(id !== undefined){
+            this.setState({pu_id: id});
+        }
+    }
     render() {
         return (
             <div className={"BC-Container"}>
@@ -495,7 +563,7 @@ class BCController extends React.Component {
                     <BCBase/>
                 }
                 {this.state.status === 1 &&
-                    <BCView/>
+                    <BCView id={this.state.pu_id}/>
                 }
                 {this.state.status === 2 &&
                     <BCLast/>

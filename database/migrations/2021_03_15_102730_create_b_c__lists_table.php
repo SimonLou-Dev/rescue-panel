@@ -19,6 +19,7 @@ class CreateBCListsTable extends Migration
             $table->string('place');
             $table->integer('type_id');
             $table->dateTime('started_at');
+            $table->boolean('ended')->default(false);
             $table->timestamps();
         });
     }

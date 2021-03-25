@@ -37,7 +37,7 @@ class Gestion extends React.Component{
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
-        if(this.props != prevProps){
+        if(this.props !== prevProps){
             if(this.props.perm['rapport_horaire']){
                 this.setState({time:true, total:true});
             }
@@ -47,7 +47,7 @@ class Gestion extends React.Component{
             if(this.props.perm['post_annonces']){
                 this.setState({content:true, total:true});
             }
-            if(this.props.perm['log_acces']){
+            if(this.props.perm['logs_acces']){
                 this.setState({logs:true, total:true});
             }
             if(this.props.perm['validate_forma']){

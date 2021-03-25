@@ -21,6 +21,7 @@ class CreateUsersTable extends Migration
             $table->string('password');
             $table->string('token')->nullable();
             $table->boolean('service')->default(false);
+            $table->integer('bc_id')->nullable()->default(null);
             $table->string('liveplace')->nullable();
             $table->integer('tel')->nullable();
             $table->boolean('pilote')->default(false);

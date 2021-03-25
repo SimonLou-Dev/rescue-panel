@@ -7,43 +7,39 @@ class Personnel extends React.Component{
         super(props);
         this.state = {
             facture:false,
-            vols:false,
+            vols:true,
         }
     }
 
-    componentDidMount() {
-        if(this.props.user.pilote === "1" && this.props.service){
-            this.setState({vols:true})
-        }
-        if(this.props.perm['vol']) {
-            this.setState({vols: true})
-        }
-        if(this.props.service){
-            this.setState({facture:true})
-        }
-        if(this.props.perm['HS_factures']){
-            this.setState({BC:true})
-        }
-    }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
+
         if(this.props.service !== prevProps.service){
             if(this.props.service === true){
                 if(this.props.user.pilote){
                     this.setState({vols:true})
+                }else{
+                    this.setState({vols:false})
                 }
                 this.setState({facture:true})
-
-            }else{
-                this.setState({facture:false})
-                this.setState({vols:false})
             }
         }
+
+        if(this.props.perm !== prevProps.perm){
+            if(!this.props.service){
+                if(this.props.perm['HS_facture']){
+                    this.setState({facture:true})
+                }else{
+                    this.setState({facture:false})
+                }
+            }
+        }
+
         if(this.props.user !== prevProps.user){
             if(this.props.user.pilote){
                 this.setState({vols:true})
-            } else {
-            this.setState({facture: false})
+            }else{
+                this.setState({vols:false})
             }
         }
     }

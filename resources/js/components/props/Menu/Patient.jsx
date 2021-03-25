@@ -52,9 +52,16 @@ class Patient extends React.Component{
                this.setState({BC:true})
                this.setState({rapport:true})
            }else{
-               this.setState({dossier:false})
-               this.setState({BC:false})
-               this.setState({rapport:false})
+               if(!this.props.perm['HS_rapport']) {
+                   this.setState({rapport:false})
+               }
+               if(!this.props.perm['HS_BC']){
+                   this.setState({BC:false})
+               }
+
+               if(!this.props.perm['HS_dossier']){
+                   this.setState({dossier:false})
+               }
            }
        }
     }

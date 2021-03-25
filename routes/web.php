@@ -69,6 +69,16 @@ Route::post('/data/patient/{id]/update', [\App\Http\Controllers\RapportControlle
 Route::get('/PDF/rapport/{id}', [\App\Http\Controllers\RapportController::class, 'makeRapportPdf']);
 
 //LES BC
+Route::get('/data/blackcode/load', [\App\Http\Controllers\BCController::class, 'getMainPage']);
+Route::get('/data/blackcode/mystatus', [\App\Http\Controllers\BCController::class, 'getUserInfos']);
+Route::get('/data/blackcode/{id}/infos', [\App\Http\Controllers\BCController::class, 'getBCByid']);
+Route::get('/data/blackcode/{id}/status', [\App\Http\Controllers\BCController::class, 'getBCState']);
+Route::post('/data/blackcode/{id}/add/patient', [\App\Http\Controllers\BCController::class, 'addPatient']);
+Route::post('/data/blackcode/{id}/add/personnel', [\App\Http\Controllers\BCController::class, 'addPersonel']);
+Route::post('/data/blackcode/create', [\App\Http\Controllers\BCController::class, 'addBc']);
+Route::put('/data/blackcode/{id}/close', [\App\Http\Controllers\BCController::class, 'endBc']);
+Route::delete('/data/blackcode/{id}/delete/patient/{patient_id}', [\App\Http\Controllers\BCController::class, 'removePatient']);
+Route::delete('/data/blackcode/{id}/delete/personnel', [\App\Http\Controllers\BCController::class, 'removePersonnel']);
 
 //Les factures
 Route::get('/data/facture/list', [\App\Http\Controllers\RapportController::class, 'getAllimpaye']);
@@ -97,6 +107,8 @@ Route::get('/data/logs/{range}/{page}/{type}', [\App\Http\Controllers\ContentMan
 Route::get('/data/vol/get/{page}/{name?}', [\App\Http\Controllers\VolController::class, 'getVolsList']);
 Route::post('/data/vol/add', [\App\Http\Controllers\VolController::class, 'addVol']);
 Route::get('/data/vol/searsh/{pilote}', [\App\Http\Controllers\VolController::class, 'seatchPilote']);
+
+
 
 
 
