@@ -164,29 +164,7 @@ class PuController extends Controller
             $interval = $start->diff($end);
             $formated = $interval->format('%H h %I min(s)');
 
-            Http::post(env('WEBHOOK_PU'),[
-                'embeds'=>[
-                    [
-                        'title'=>'Fin de Black Code :',
-                        'color'=>'10368531',
-                        'fields'=>[
-                            [
-                                'name'=>$patientcounter .' personne(s) secourue(s) : ',
-                                'value'=>$names,
-                                'inline'=>false
-                            ],[
-                                'name'=>'Personnel engagé : ',
-                                'value'=>$str,
-                                'inline'=>false
-                            ],[
-                                'name'=>'durée : ',
-                                'value'=>$formated,
-                                'inline'=>true
-                            ]
-                        ]
-                    ]
-                ]
-            ]);
+
 
             return response()->json(['status'=>'OK'],201);
         }

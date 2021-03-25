@@ -66,9 +66,20 @@ class BCBase extends React.Component {
         }
     }
 
-    addbc(e){
+    async addbc(e) {
         e.preventDefault();
-        //TODO
+        var req = await axios({
+            method: 'POST',
+            url: '/data/blackcode/create',
+            data: {
+                type: this.state.type,
+                place: this.state.place,
+            }
+        })
+        if(req.status === 201){
+            this.setState({place: "", type:0})
+            this.props.update(1,req.data.bc_id);
+        }
     }
 
 
@@ -306,11 +317,11 @@ class BCBase extends React.Component {
                  <section className={'popup'}>
                      <div className={'popup-content'}>
                         <h1>Ajouter un BC</h1>
-                        <form onSubmit={this.addbc}>
+                        <form onSubmit={(e)=>{this.addbc(e)}}>
                             <div className={'row'}>
                                 <input type={'text'} placeholder={'lieux'} value={this.state.place} onChange={(e)=>{this.setState({place:e.target.value})}}/>
                                 <select defaultValue={this.state.type} onChange={(e)=>{this.setState({type:e.target.value})}}>
-                                    <option value={0} disabled>add</option>
+                                    <option value={0} disabled>choisir</option>
                                     {this.state.types && this.state.types.map((type)=>
                                         <option key={type.id} value={type.id}>{type.name}</option>
                                     )}
@@ -513,7 +524,12 @@ class BCView extends React.Component {
                         <h1>Fermer le BC</h1>
                         <div className="close">
                             <button onClick={()=> this.setState({CloseMenuOpen: false})} className={'btn'}>annuler</button>
-                            <button className={'btn'}>Oui</button>
+                            <button className={'btn'} onClick={async () => {
+                                var req = await axios({
+                                    method: 'PUT',
+                                    url: '/data/blackcode/' + this.props.id + '/close',
+                                })
+                            }}>Oui</button>
                         </div>
                     </div>
                 </section>
@@ -528,7 +544,7 @@ class BCController extends React.Component {
         super(props);
         this.state = {
             status: 0,
-            pu_id: undefined,
+            bc_id: undefined,
         }
         this.updatestatus = this.updatestatus.bind(this)
     }
@@ -551,22 +567,23 @@ class BCController extends React.Component {
     }
 
     updatestatus(status, id = undefined){
+        console.log('update');
         this.setState({status: status});
         if(id !== undefined){
-            this.setState({pu_id: id});
+            this.setState({bc_id: id});
         }
     }
     render() {
         return (
             <div className={"BC-Container"}>
                 {this.state.status === 0 &&
-                    <BCBase/>
+                    <BCBase update={(status, id)=> {this.updatestatus(status, id)}}/>
                 }
                 {this.state.status === 1 &&
-                    <BCView id={this.state.pu_id}/>
+                    <BCView id={this.state.bc_id} update={(status, id)=> {this.updatestatus(status, id)}}/>
                 }
                 {this.state.status === 2 &&
-                    <BCLast/>
+                    <BCLast update={this.updatestatus}/>
                 }
                 {this.state.status === null &&
                     <div className={'load'}>

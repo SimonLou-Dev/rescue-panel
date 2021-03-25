@@ -12,7 +12,6 @@ use Illuminate\Database\Eloquent\Model;
  * @property int starter_id
  * @property string place
  * @property int type_id
- * @property DateTime started_at
  * @method static where(string $column, string $operator = null, mixed $value = null)
  * @method static orderByDesc(string $string)
  *

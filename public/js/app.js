@@ -5065,8 +5065,10 @@ var GetInfos = /*#__PURE__*/function (_React$Component) {
                 disabled: true,
                 children: "choisir"
               }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", {
-                children: "[FR] Paris - GMT+1"
+                children: "[FR] Paris - UTC+1"
               }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", {
+                children: "[EU] Europte de l'est - UTC+2"
+              }), "steq", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", {
                 children: "[NY] New York - UTC-5"
               })]
             }), this.state.timezoneempty && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", {
@@ -6622,9 +6624,49 @@ var BCBase = /*#__PURE__*/function (_React$Component2) {
     }()
   }, {
     key: "addbc",
-    value: function addbc(e) {
-      e.preventDefault(); //TODO
-    }
+    value: function () {
+      var _addbc = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee2(e) {
+        var req;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee2$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                e.preventDefault();
+                _context2.next = 3;
+                return axios__WEBPACK_IMPORTED_MODULE_3___default()({
+                  method: 'POST',
+                  url: '/data/blackcode/create',
+                  data: {
+                    type: this.state.type,
+                    place: this.state.place
+                  }
+                });
+
+              case 3:
+                req = _context2.sent;
+
+                if (req.status === 201) {
+                  this.setState({
+                    place: "",
+                    type: 0
+                  });
+                  this.props.update(1, req.data.bc_id);
+                }
+
+              case 5:
+              case "end":
+                return _context2.stop();
+            }
+          }
+        }, _callee2, this);
+      }));
+
+      function addbc(_x) {
+        return _addbc.apply(this, arguments);
+      }
+
+      return addbc;
+    }()
   }, {
     key: "render",
     value: function render() {
@@ -7047,7 +7089,9 @@ var BCBase = /*#__PURE__*/function (_React$Component2) {
             children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("h1", {
               children: "Ajouter un BC"
             }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("form", {
-              onSubmit: this.addbc,
+              onSubmit: function onSubmit(e) {
+                _this2.addbc(e);
+              },
               children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
                 className: 'row',
                 children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("input", {
@@ -7069,7 +7113,7 @@ var BCBase = /*#__PURE__*/function (_React$Component2) {
                   children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("option", {
                     value: 0,
                     disabled: true,
-                    children: "add"
+                    children: "choisir"
                   }), this.state.types && this.state.types.map(function (type) {
                     return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("option", {
                       value: type.id,
@@ -7538,6 +7582,28 @@ var BCView = /*#__PURE__*/function (_React$Component4) {
                 children: "annuler"
               }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("button", {
                 className: 'btn',
+                onClick: /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee3() {
+                  var req;
+                  return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee3$(_context3) {
+                    while (1) {
+                      switch (_context3.prev = _context3.next) {
+                        case 0:
+                          _context3.next = 2;
+                          return axios__WEBPACK_IMPORTED_MODULE_3___default()({
+                            method: 'PUT',
+                            url: '/data/blackcode/' + _this4.props.id + '/close'
+                          });
+
+                        case 2:
+                          req = _context3.sent;
+
+                        case 3:
+                        case "end":
+                          return _context3.stop();
+                      }
+                    }
+                  }, _callee3);
+                })),
                 children: "Oui"
               })]
             })]
@@ -7563,7 +7629,7 @@ var BCController = /*#__PURE__*/function (_React$Component5) {
     _this5 = _super5.call(this, props);
     _this5.state = {
       status: 0,
-      pu_id: undefined
+      bc_id: undefined
     };
     _this5.updatestatus = _this5.updatestatus.bind(_assertThisInitialized(_this5));
     return _this5;
@@ -7572,20 +7638,20 @@ var BCController = /*#__PURE__*/function (_React$Component5) {
   _createClass(BCController, [{
     key: "componentDidMount",
     value: function () {
-      var _componentDidMount2 = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee2() {
+      var _componentDidMount2 = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee4() {
         var req;
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee2$(_context2) {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee4$(_context4) {
           while (1) {
-            switch (_context2.prev = _context2.next) {
+            switch (_context4.prev = _context4.next) {
               case 0:
-                _context2.next = 2;
+                _context4.next = 2;
                 return axios__WEBPACK_IMPORTED_MODULE_3___default()({
                   method: 'GET',
                   url: '/data/blackcode/mystatus'
                 });
 
               case 2:
-                req = _context2.sent;
+                req = _context4.sent;
 
                 if (req.status === 200) {
                   if (req.data.bc !== null) {
@@ -7599,10 +7665,10 @@ var BCController = /*#__PURE__*/function (_React$Component5) {
 
               case 4:
               case "end":
-                return _context2.stop();
+                return _context4.stop();
             }
           }
-        }, _callee2, this);
+        }, _callee4, this);
       }));
 
       function componentDidMount() {
@@ -7615,24 +7681,36 @@ var BCController = /*#__PURE__*/function (_React$Component5) {
     key: "updatestatus",
     value: function updatestatus(status) {
       var id = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : undefined;
+      console.log('update');
       this.setState({
         status: status
       });
 
       if (id !== undefined) {
         this.setState({
-          pu_id: id
+          bc_id: id
         });
       }
     }
   }, {
     key: "render",
     value: function render() {
+      var _this6 = this;
+
       return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
         className: "BC-Container",
-        children: [this.state.status === 0 && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)(BCBase, {}), this.state.status === 1 && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)(BCView, {
-          id: this.state.pu_id
-        }), this.state.status === 2 && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)(BCLast, {}), this.state.status === null && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
+        children: [this.state.status === 0 && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)(BCBase, {
+          update: function update(status, id) {
+            _this6.updatestatus(status, id);
+          }
+        }), this.state.status === 1 && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)(BCView, {
+          id: this.state.bc_id,
+          update: function update(status, id) {
+            _this6.updatestatus(status, id);
+          }
+        }), this.state.status === 2 && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)(BCLast, {
+          update: this.updatestatus
+        }), this.state.status === null && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
           className: 'load',
           children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("img", {
             src: '/assets/images/loading.svg',

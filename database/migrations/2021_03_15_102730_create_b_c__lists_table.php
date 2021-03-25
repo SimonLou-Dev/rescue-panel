@@ -15,10 +15,9 @@ class CreateBCListsTable extends Migration
     {
         Schema::create('BCLists', function (Blueprint $table) {
             $table->id();
-            $table->integer('started_id');
+            $table->integer('starter_id');
             $table->string('place');
             $table->integer('type_id');
-            $table->dateTime('started_at');
             $table->boolean('ended')->default(false);
             $table->timestamps();
         });

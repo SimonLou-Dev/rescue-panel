@@ -106,7 +106,8 @@ class GetInfos extends React.Component {
                         <label>Fuseau horaire : </label>
                         <select  defaultValue={this.state.timezone} name={'psw_repeat'} onChange={(e)=>this.setState({timezone:e.target.value})}>
                             <option value={1} disabled>choisir</option>
-                            <option>[FR] Paris - GMT+1</option>
+                            <option>[FR] Paris - UTC+1</option>
+                            <option>[EU] Europte de l'est - UTC+2</option>steq
                             <option>[NY] New York - UTC-5</option>
                         </select>
                         {this.state.timezoneempty &&
