@@ -18,7 +18,6 @@ class CreateBCPatientsTable extends Migration
             $table->boolean('idcard')->default(false);
             $table->integer('patient_id');
             $table->integer('rapport_id');
-            $table->dateTime('added_at');
             $table->integer('blessure_type');
             $table->integer('couleur');
             $table->integer('BC_id');

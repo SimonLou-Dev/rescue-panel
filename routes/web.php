@@ -77,7 +77,7 @@ Route::post('/data/blackcode/{id}/add/patient', [\App\Http\Controllers\BCControl
 Route::post('/data/blackcode/{id}/add/personnel', [\App\Http\Controllers\BCController::class, 'addPersonel']);
 Route::post('/data/blackcode/create', [\App\Http\Controllers\BCController::class, 'addBc']);
 Route::get('/data/blackcode/{id}/close', [\App\Http\Controllers\BCController::class, 'endBc']);
-Route::delete('/data/blackcode/{id}/delete/patient/{patient_id}', [\App\Http\Controllers\BCController::class, 'removePatient']);
+Route::delete('/data/blackcode/delete/patient/{patient_id}', [\App\Http\Controllers\BCController::class, 'removePatient']);
 Route::delete('/data/blackcode/{id}/delete/personnel', [\App\Http\Controllers\BCController::class, 'removePersonnel']);
 
 //Les factures

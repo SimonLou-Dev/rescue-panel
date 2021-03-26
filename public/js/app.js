@@ -6379,6 +6379,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_3__);
 /* harmony import */ var _props_utils_PagesTitle__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../props/utils/PagesTitle */ "./resources/js/components/props/utils/PagesTitle.jsx");
 /* harmony import */ var _props_Patient_Urgence_PatientListPU__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../props/Patient/Urgence/PatientListPU */ "./resources/js/components/props/Patient/Urgence/PatientListPU.jsx");
+/* harmony import */ var dateformat__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! dateformat */ "./node_modules/dateformat/lib/dateformat.js");
+/* harmony import */ var dateformat__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(dateformat__WEBPACK_IMPORTED_MODULE_6__);
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 
@@ -6414,6 +6416,7 @@ function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.g
 
 
 
+
 var ListPatient = /*#__PURE__*/function (_React$Component) {
   _inherits(ListPatient, _React$Component);
 
@@ -6430,6 +6433,9 @@ var ListPatient = /*#__PURE__*/function (_React$Component) {
     value: function render() {
       return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("section", {
         className: "list-container",
+        style: {
+          filter: this.props.blur ? 'blur(5px)' : 'none'
+        },
         children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
           className: 'list-content',
           children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("h1", {
@@ -6574,6 +6580,7 @@ var BCBase = /*#__PURE__*/function (_React$Component2) {
       types: undefined,
       ended: undefined,
       data: false,
+      clicked: false,
       place: "",
       type: 0
     };
@@ -6632,7 +6639,13 @@ var BCBase = /*#__PURE__*/function (_React$Component2) {
             switch (_context2.prev = _context2.next) {
               case 0:
                 e.preventDefault();
-                _context2.next = 3;
+
+                if (!(this.state.type !== 0)) {
+                  _context2.next = 6;
+                  break;
+                }
+
+                _context2.next = 4;
                 return axios__WEBPACK_IMPORTED_MODULE_3___default()({
                   method: 'POST',
                   url: '/data/blackcode/create',
@@ -6642,7 +6655,7 @@ var BCBase = /*#__PURE__*/function (_React$Component2) {
                   }
                 });
 
-              case 3:
+              case 4:
                 req = _context2.sent;
 
                 if (req.status === 201) {
@@ -6653,7 +6666,12 @@ var BCBase = /*#__PURE__*/function (_React$Component2) {
                   this.props.update(1, req.data.bc_id);
                 }
 
-              case 5:
+              case 6:
+                this.setState({
+                  cliked: false
+                });
+
+              case 7:
               case "end":
                 return _context2.stop();
             }
@@ -6708,10 +6726,36 @@ var BCBase = /*#__PURE__*/function (_React$Component2) {
             }), this.state.active && this.state.active.map(function (bc) {
               return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
                 className: "card",
-                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("h3", {
-                  children: "Fusiallade"
+                onClick: /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee3() {
+                  var req;
+                  return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee3$(_context3) {
+                    while (1) {
+                      switch (_context3.prev = _context3.next) {
+                        case 0:
+                          _context3.next = 2;
+                          return axios__WEBPACK_IMPORTED_MODULE_3___default()({
+                            method: 'post',
+                            url: '/data/blackcode/' + bc.id + '/add/personnel'
+                          });
+
+                        case 2:
+                          req = _context3.sent;
+
+                          if (req.status === 201) {
+                            _this2.props.update(1, bc.id);
+                          }
+
+                        case 4:
+                        case "end":
+                          return _context3.stop();
+                      }
+                    }
+                  }, _callee3);
+                })),
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("h3", {
+                  children: [bc.get_type.name, " #", bc.id]
                 }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("h4", {
-                  children: "Los santos long beach"
+                  children: bc.place
                 }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
                   className: "separator"
                 }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
@@ -6719,139 +6763,23 @@ var BCBase = /*#__PURE__*/function (_React$Component2) {
                   children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("h5", {
                     children: "Secouristes : "
                   }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("h5", {
-                    children: "7"
+                    children: bc.secouristes
                   })]
                 }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
                   className: 'rowed',
                   children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("h5", {
                     children: "Victimes : "
                   }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("h5", {
-                    children: "12"
+                    children: bc.patients
                   })]
                 }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
                   className: "separator"
-                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("h4", {
-                  children: "00/00/0000 \xE0 00h00"
-                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("h4", {
-                  children: "alerte de Jean Claude Bernard"
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("h4", {
+                  children: [dateformat__WEBPACK_IMPORTED_MODULE_6___default()(bc.created_at, 'yyyy/mm/dd H:M'), " [FR]"]
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("h4", {
+                  children: ["alerte de ", bc.get_user.name]
                 })]
               });
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
-              className: "card",
-              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("h3", {
-                children: "Fusiallade"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("h4", {
-                children: "Los santos long beach"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
-                className: "separator"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
-                className: 'rowed',
-                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("h5", {
-                  children: "Secouristes : "
-                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("h5", {
-                  children: "7"
-                })]
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
-                className: 'rowed',
-                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("h5", {
-                  children: "Victimes : "
-                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("h5", {
-                  children: "12"
-                })]
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
-                className: "separator"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("h4", {
-                children: "00/00/0000 \xE0 00h00"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("h4", {
-                children: "alerte de Jean Claude Bernard"
-              })]
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
-              className: "card",
-              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("h3", {
-                children: "Fusiallade"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("h4", {
-                children: "Los santos long beach"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
-                className: "separator"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
-                className: 'rowed',
-                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("h5", {
-                  children: "Secouristes : "
-                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("h5", {
-                  children: "7"
-                })]
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
-                className: 'rowed',
-                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("h5", {
-                  children: "Victimes : "
-                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("h5", {
-                  children: "12"
-                })]
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
-                className: "separator"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("h4", {
-                children: "00/00/0000 \xE0 00h00"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("h4", {
-                children: "alerte de Jean Claude Bernard"
-              })]
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
-              className: "card",
-              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("h3", {
-                children: "Fusiallade"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("h4", {
-                children: "Los santos long beach"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
-                className: "separator"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
-                className: 'rowed',
-                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("h5", {
-                  children: "Secouristes : "
-                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("h5", {
-                  children: "7"
-                })]
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
-                className: 'rowed',
-                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("h5", {
-                  children: "Victimes : "
-                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("h5", {
-                  children: "12"
-                })]
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
-                className: "separator"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("h4", {
-                children: "00/00/0000 \xE0 00h00"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("h4", {
-                children: "alerte de Jean Claude Bernard"
-              })]
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
-              className: "card",
-              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("h3", {
-                children: "Fusiallade"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("h4", {
-                children: "Los santos long beach"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
-                className: "separator"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
-                className: 'rowed',
-                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("h5", {
-                  children: "Secouristes : "
-                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("h5", {
-                  children: "7"
-                })]
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
-                className: 'rowed',
-                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("h5", {
-                  children: "Victimes : "
-                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("h5", {
-                  children: "12"
-                })]
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
-                className: "separator"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("h4", {
-                children: "00/00/0000 \xE0 00h00"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("h4", {
-                children: "alerte de Jean Claude Bernard"
-              })]
             })]
           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
             className: "BC-List",
@@ -6863,223 +6791,42 @@ var BCBase = /*#__PURE__*/function (_React$Component2) {
                 src: '/assets/images/loading.svg',
                 alt: ''
               })
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
-              className: "card",
-              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("h3", {
-                children: "Fusiallade"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("h4", {
-                children: "Los santos long beach"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
-                className: "separator"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
-                className: 'rowed',
-                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("h5", {
-                  children: "Secouristes : "
-                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("h5", {
-                  children: "7"
+            }), this.state.ended && this.state.ended.map(function (bc) {
+              return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
+                className: "card",
+                onClick: function onClick() {
+                  _this2.props.update(2, bc.id);
+                },
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("h3", {
+                  children: [bc.get_type.name, " #", bc.id]
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("h4", {
+                  children: bc.place
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
+                  className: "separator"
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
+                  className: 'rowed',
+                  children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("h5", {
+                    children: "Secouristes : "
+                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("h5", {
+                    children: bc.secouristes
+                  })]
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
+                  className: 'rowed',
+                  children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("h5", {
+                    children: "Victimes : "
+                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("h5", {
+                    children: bc.patients
+                  })]
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
+                  className: "separator"
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("h4", {
+                  children: [dateformat__WEBPACK_IMPORTED_MODULE_6___default()(bc.created_at, 'yyyy/mm/dd H:M'), " [FR]"]
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("h4", {
+                  children: [dateformat__WEBPACK_IMPORTED_MODULE_6___default()(bc.updated_at, 'yyyy/mm/dd H:M'), " [FR]"]
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("h4", {
+                  children: ["alerte de ", bc.get_user.name]
                 })]
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
-                className: 'rowed',
-                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("h5", {
-                  children: "Victimes : "
-                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("h5", {
-                  children: "12"
-                })]
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
-                className: "separator"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("h4", {
-                children: "du 00/00/0000 \xE0 00h00"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("h4", {
-                children: "au 00/00/0000 \xE0 00h00"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("h4", {
-                children: "alerte de Jean Claude Bernard"
-              })]
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
-              className: "card",
-              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("h3", {
-                children: "Fusiallade"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("h4", {
-                children: "Los santos long beach"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
-                className: "separator"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
-                className: 'rowed',
-                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("h5", {
-                  children: "Secouristes : "
-                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("h5", {
-                  children: "7"
-                })]
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
-                className: 'rowed',
-                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("h5", {
-                  children: "Victimes : "
-                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("h5", {
-                  children: "12"
-                })]
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
-                className: "separator"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("h4", {
-                children: "du 00/00/0000 \xE0 00h00"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("h4", {
-                children: "au 00/00/0000 \xE0 00h00"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("h4", {
-                children: "alerte de Jean Claude Bernard"
-              })]
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
-              className: "card",
-              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("h3", {
-                children: "Fusiallade"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("h4", {
-                children: "Los santos long beach"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
-                className: "separator"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
-                className: 'rowed',
-                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("h5", {
-                  children: "Secouristes : "
-                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("h5", {
-                  children: "7"
-                })]
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
-                className: 'rowed',
-                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("h5", {
-                  children: "Victimes : "
-                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("h5", {
-                  children: "12"
-                })]
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
-                className: "separator"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("h4", {
-                children: "du 00/00/0000 \xE0 00h00"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("h4", {
-                children: "au 00/00/0000 \xE0 00h00"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("h4", {
-                children: "alerte de Jean Claude Bernard"
-              })]
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
-              className: "card",
-              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("h3", {
-                children: "Fusiallade"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("h4", {
-                children: "Los santos long beach"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
-                className: "separator"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
-                className: 'rowed',
-                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("h5", {
-                  children: "Secouristes : "
-                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("h5", {
-                  children: "7"
-                })]
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
-                className: 'rowed',
-                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("h5", {
-                  children: "Victimes : "
-                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("h5", {
-                  children: "12"
-                })]
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
-                className: "separator"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("h4", {
-                children: "du 00/00/0000 \xE0 00h00"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("h4", {
-                children: "au 00/00/0000 \xE0 00h00"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("h4", {
-                children: "alerte de Jean Claude Bernard"
-              })]
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
-              className: "card",
-              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("h3", {
-                children: "Fusiallade"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("h4", {
-                children: "Los santos long beach"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
-                className: "separator"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
-                className: 'rowed',
-                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("h5", {
-                  children: "Secouristes : "
-                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("h5", {
-                  children: "7"
-                })]
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
-                className: 'rowed',
-                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("h5", {
-                  children: "Victimes : "
-                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("h5", {
-                  children: "12"
-                })]
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
-                className: "separator"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("h4", {
-                children: "du 00/00/0000 \xE0 00h00"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("h4", {
-                children: "au 00/00/0000 \xE0 00h00"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("h4", {
-                children: "alerte de Jean Claude Bernard"
-              })]
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
-              className: "card",
-              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("h3", {
-                children: "Fusiallade"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("h4", {
-                children: "Los santos long beach"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
-                className: "separator"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
-                className: 'rowed',
-                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("h5", {
-                  children: "Secouristes : "
-                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("h5", {
-                  children: "7"
-                })]
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
-                className: 'rowed',
-                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("h5", {
-                  children: "Victimes : "
-                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("h5", {
-                  children: "12"
-                })]
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
-                className: "separator"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("h4", {
-                children: "du 00/00/0000 \xE0 00h00"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("h4", {
-                children: "au 00/00/0000 \xE0 00h00"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("h4", {
-                children: "alerte de Jean Claude Bernard"
-              })]
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
-              className: "card",
-              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("h3", {
-                children: "Fusiallade"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("h4", {
-                children: "Los santos long beach"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
-                className: "separator"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
-                className: 'rowed',
-                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("h5", {
-                  children: "Secouristes : "
-                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("h5", {
-                  children: "7"
-                })]
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
-                className: 'rowed',
-                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("h5", {
-                  children: "Victimes : "
-                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("h5", {
-                  children: "12"
-                })]
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
-                className: "separator"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("h4", {
-                children: "du 00/00/0000 \xE0 00h00"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("h4", {
-                children: "au 00/00/0000 \xE0 00h00"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("h4", {
-                children: "alerte de Jean Claude Bernard"
-              })]
+              });
             })]
           })]
         }), this.state.add && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("section", {
@@ -7133,8 +6880,14 @@ var BCBase = /*#__PURE__*/function (_React$Component2) {
                   children: "fermer"
                 }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("button", {
                   type: 'submit',
+                  disabled: this.state.clicked,
                   className: 'btn',
-                  children: "Ajouter"
+                  onClick: function onClick() {
+                    _this2.setState({
+                      clicked: true
+                    });
+                  },
+                  children: " Ajouter"
                 })]
               })]
             })]
@@ -7331,15 +7084,259 @@ var BCView = /*#__PURE__*/function (_React$Component4) {
 
     _this3 = _super4.call(this, props);
     _this3.state = {
-      CloseMenuOpen: false
+      CloseMenuOpen: false,
+      id: '',
+      data: null,
+      patients: null,
+      bc: null,
+      personnels: null,
+      blessures: null,
+      couleurs: null,
+      nom: "",
+      color: 0,
+      blessure: 0,
+      payed: false,
+      carteid: false,
+      searsh: null
     };
+    _this3.quitbc = _this3.quitbc.bind(_assertThisInitialized(_this3));
+    _this3.check = _this3.check.bind(_assertThisInitialized(_this3));
+    _this3.update = _this3.update.bind(_assertThisInitialized(_this3));
+    _this3.searsh = _this3.searsh.bind(_assertThisInitialized(_this3));
+    _this3.post = _this3.post.bind(_assertThisInitialized(_this3));
     return _this3;
   }
 
   _createClass(BCView, [{
+    key: "quitbc",
+    value: function () {
+      var _quitbc = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee4() {
+        var req;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee4$(_context4) {
+          while (1) {
+            switch (_context4.prev = _context4.next) {
+              case 0:
+                _context4.next = 2;
+                return axios__WEBPACK_IMPORTED_MODULE_3___default()({
+                  method: 'delete',
+                  url: '/data/blackcode/' + this.props.id + '/delete/personnel'
+                });
+
+              case 2:
+                req = _context4.sent;
+
+                if (req.status === 202) {
+                  this.props.update(0);
+                }
+
+              case 4:
+              case "end":
+                return _context4.stop();
+            }
+          }
+        }, _callee4, this);
+      }));
+
+      function quitbc() {
+        return _quitbc.apply(this, arguments);
+      }
+
+      return quitbc;
+    }()
+  }, {
+    key: "update",
+    value: function () {
+      var _update = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee5() {
+        var req;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee5$(_context5) {
+          while (1) {
+            switch (_context5.prev = _context5.next) {
+              case 0:
+                _context5.next = 2;
+                return axios__WEBPACK_IMPORTED_MODULE_3___default()({
+                  method: 'GET',
+                  url: '/data/blackcode/' + this.props.id + '/infos'
+                });
+
+              case 2:
+                req = _context5.sent;
+
+                if (req.status === 200) {
+                  this.setState({
+                    data: true,
+                    patients: req.data.bc.get_patients,
+                    personnels: req.data.bc.get_personnel,
+                    blessures: req.data.blessures,
+                    couleurs: req.data.colors
+                  });
+                }
+
+              case 4:
+              case "end":
+                return _context5.stop();
+            }
+          }
+        }, _callee5, this);
+      }));
+
+      function update() {
+        return _update.apply(this, arguments);
+      }
+
+      return update;
+    }()
+  }, {
+    key: "check",
+    value: function () {
+      var _check = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee6() {
+        var req;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee6$(_context6) {
+          while (1) {
+            switch (_context6.prev = _context6.next) {
+              case 0:
+                _context6.next = 2;
+                return axios__WEBPACK_IMPORTED_MODULE_3___default()({
+                  method: 'GET',
+                  url: '/data/blackcode/' + this.props.id + '/status'
+                });
+
+              case 2:
+                req = _context6.sent;
+
+                if (req.status === 200 && req.data.ended) {
+                  this.props.update(0);
+                }
+
+              case 4:
+              case "end":
+                return _context6.stop();
+            }
+          }
+        }, _callee6, this);
+      }));
+
+      function check() {
+        return _check.apply(this, arguments);
+      }
+
+      return check;
+    }()
+  }, {
+    key: "searsh",
+    value: function () {
+      var _searsh = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee7(nom) {
+        var len, req;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee7$(_context7) {
+          while (1) {
+            switch (_context7.prev = _context7.next) {
+              case 0:
+                this.setState({
+                  nom: nom
+                });
+                len = nom.length;
+
+                if (!(len > 3)) {
+                  _context7.next = 7;
+                  break;
+                }
+
+                _context7.next = 5;
+                return axios__WEBPACK_IMPORTED_MODULE_3___default()({
+                  method: 'GET',
+                  url: '/data/patient/search/' + nom
+                });
+
+              case 5:
+                req = _context7.sent;
+
+                if (req.status === 200) {
+                  this.setState({
+                    searsh: req.data.list
+                  });
+                }
+
+              case 7:
+              case "end":
+                return _context7.stop();
+            }
+          }
+        }, _callee7, this);
+      }));
+
+      function searsh(_x2) {
+        return _searsh.apply(this, arguments);
+      }
+
+      return searsh;
+    }()
+  }, {
+    key: "post",
+    value: function () {
+      var _post = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee8(e) {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee8$(_context8) {
+          while (1) {
+            switch (_context8.prev = _context8.next) {
+              case 0:
+                e.preventDefault();
+
+                if (!(this.state.blessure !== 0 && this.state.color !== 0)) {
+                  _context8.next = 4;
+                  break;
+                }
+
+                _context8.next = 4;
+                return axios__WEBPACK_IMPORTED_MODULE_3___default()({
+                  url: '/data/blackcode/' + this.props.id + '/add/patient',
+                  method: 'post',
+                  data: {
+                    name: this.state.nom,
+                    color: this.state.color,
+                    blessure: this.state.blessure,
+                    payed: this.state.payed,
+                    carteid: this.state.carteid
+                  }
+                });
+
+              case 4:
+              case "end":
+                return _context8.stop();
+            }
+          }
+        }, _callee8, this);
+      }));
+
+      function post(_x3) {
+        return _post.apply(this, arguments);
+      }
+
+      return post;
+    }()
+  }, {
+    key: "componentDidMount",
+    value: function componentDidMount() {
+      var _this4 = this;
+
+      this.setState({
+        id: this.props.id
+      });
+      this.update();
+      this.updator = setInterval(function () {
+        return _this4.update();
+      }, 20000);
+      this.checker = setInterval(function () {
+        return _this4.check();
+      }, 10000);
+    }
+  }, {
+    key: "componentWillUnmount",
+    value: function componentWillUnmount() {
+      clearInterval(this.updator);
+      clearInterval(this.checker);
+    }
+  }, {
     key: "render",
     value: function render() {
-      var _this4 = this;
+      var _this5 = this;
 
       return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
         className: "BC-View",
@@ -7352,21 +7349,32 @@ var BCView = /*#__PURE__*/function (_React$Component4) {
             className: 'header',
             children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)(_props_utils_PagesTitle__WEBPACK_IMPORTED_MODULE_4__.default, {
               title: 'Fusillade LS Longs beach'
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
-              className: 'bgforbtn',
-              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("button", {
-                className: 'btn',
-                onClick: function onClick() {
-                  return _this4.setState({
-                    CloseMenuOpen: true
-                  });
-                },
-                children: "Fermer le BC"
-              })
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
+              className: 'btn-contain',
+              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
+                className: 'bgforquibtn',
+                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("button", {
+                  className: 'btn',
+                  onClick: this.quitbc,
+                  children: "Quitter le BC"
+                })
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
+                className: 'bgforbtn',
+                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("button", {
+                  className: 'btn',
+                  onClick: function onClick() {
+                    return _this5.setState({
+                      CloseMenuOpen: true
+                    });
+                  },
+                  children: "Fermer le BC"
+                })
+              })]
             })]
           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
             className: "addpatient",
             children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("form", {
+              onSubmit: this.post,
               children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
                 className: "top",
                 children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("button", {
@@ -7379,18 +7387,22 @@ var BCView = /*#__PURE__*/function (_React$Component4) {
               }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
                 className: 'row-spaced',
                 children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("label", {
-                  children: "nom :"
+                  children: "nom pr\xE9nom :"
                 }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("input", {
+                  list: 'autocomplete',
                   className: 'input',
-                  type: 'text'
-                })]
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
-                className: 'row-spaced',
-                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("label", {
-                  children: "pr\xE9nom :"
-                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("input", {
-                  className: 'input',
-                  type: 'text'
+                  type: 'text',
+                  value: this.state.nom,
+                  onChange: function onChange(e) {
+                    _this5.searsh(e.target.value);
+                  }
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("datalist", {
+                  id: 'autocomplete',
+                  children: this.state.searsh && this.state.searsh.map(function (patient) {
+                    return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("option", {
+                      children: [patient.vorname, " ", patient.name]
+                    }, patient.id);
+                  })
                 })]
               }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
                 className: 'row-spaced',
@@ -7398,13 +7410,18 @@ var BCView = /*#__PURE__*/function (_React$Component4) {
                   children: "Couleur dominante :"
                 }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("select", {
                   className: 'input',
-                  defaultValue: 1,
+                  defaultValue: this.state.color,
+                  onChange: function onChange(e) {
+                    _this5.setState({
+                      color: e.target.value
+                    });
+                  },
                   children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("option", {
-                    value: 1,
+                    value: 0,
                     disabled: true,
                     children: "choisir"
                   }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("option", {
-                    value: 2,
+                    value: 1,
                     children: "test"
                   })]
                 })]
@@ -7414,13 +7431,18 @@ var BCView = /*#__PURE__*/function (_React$Component4) {
                   children: "Type de blessure :"
                 }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("select", {
                   className: 'input',
-                  defaultValue: 1,
+                  defaultValue: this.state.blessure,
+                  onChange: function onChange(e) {
+                    _this5.setState({
+                      blessure: e.target.value
+                    });
+                  },
                   children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("option", {
-                    value: 1,
+                    value: 0,
                     disabled: true,
                     children: "choisir"
                   }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("option", {
-                    value: 2,
+                    value: 1,
                     children: "test"
                   })]
                 })]
@@ -7435,7 +7457,19 @@ var BCView = /*#__PURE__*/function (_React$Component4) {
                     children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("input", {
                       id: "switch" + 1,
                       className: "payed_switch",
-                      type: "checkbox"
+                      type: "checkbox",
+                      checked: this.state.payed,
+                      onChange: function onChange(e) {
+                        if (_this5.state.payed) {
+                          _this5.setState({
+                            payed: false
+                          });
+                        } else {
+                          _this5.setState({
+                            payed: true
+                          });
+                        }
+                      }
                     }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("label", {
                       htmlFor: "switch" + 1,
                       className: "payed_switchLabel"
@@ -7452,7 +7486,19 @@ var BCView = /*#__PURE__*/function (_React$Component4) {
                       name: "onoffswitch",
                       className: "onoffswitch-checkbox",
                       id: "myonoffswitch",
-                      tabIndex: "0"
+                      tabIndex: "0",
+                      checked: this.state.carteid,
+                      onChange: function onChange(e) {
+                        if (_this5.state.carteid) {
+                          _this5.setState({
+                            carteid: false
+                          });
+                        } else {
+                          _this5.setState({
+                            carteid: true
+                          });
+                        }
+                      }
                     }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("label", {
                       className: "onoffswitch-label",
                       htmlFor: "myonoffswitch",
@@ -7468,102 +7514,21 @@ var BCView = /*#__PURE__*/function (_React$Component4) {
             })
           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
             className: "personnel-list",
-            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
-              className: "tag",
-              children: "Lorem Ispum"
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
-              className: "tag",
-              children: "Lorem Ispum Dolor"
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
-              className: "tag",
-              children: "Lorem Ispum"
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
-              className: "tag",
-              children: "Lorem Ispum Dolor"
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
-              className: "tag",
-              children: "Lorem Ispum"
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
-              className: "tag",
-              children: "Lorem Ispum Dolor"
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
-              className: "tag",
-              children: "Lorem Ispum "
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
-              className: "tag",
-              children: "Lorem Ispum Dolor"
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
-              className: "tag",
-              children: "Lorem Ispum Dolor"
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
-              className: "tag",
-              children: "Lorem Ispum Dolor"
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
-              className: "tag",
-              children: "Lorem Ispum Dolor"
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
-              className: "tag",
-              children: "Lorem Ispum Dolor"
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
-              className: "tag",
-              children: "Lorem Ispum Dolor"
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
-              className: "tag",
-              children: "Lorem Ispum Dolor"
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
-              className: "tag",
-              children: "Lorem Ispum Dolor"
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
-              className: "tag",
-              children: "Lorem Ispum Dolor"
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
-              className: "tag",
-              children: "Lorem Ispum Dolor"
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
-              className: "tag",
-              children: "Lorem Ispum Dolor"
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
-              className: "tag",
-              children: "Lorem Ispum Dolor"
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
-              className: "tag",
-              children: "Lorem Ispum Dolor"
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
-              className: "tag",
-              children: "Lorem Ispum Dolor"
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
-              className: "tag",
-              children: "Lorem Ispum Dolor"
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
-              className: "tag",
-              children: "Lorem Ispum Dolor"
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
-              className: "tag",
-              children: "Lorem Ispum Dolor"
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
-              className: "tag",
-              children: "Lorem Ispum Dolor"
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
-              className: "tag",
-              children: "Lorem Ispum Dolor"
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
-              className: "tag",
-              children: "Lorem Ispum Dolor"
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
-              className: "tag",
-              children: "Lorem Ispum Dolor"
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
-              className: "tag",
-              children: "Lorem Ispum Dolor"
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
-              className: "tag",
-              children: "Lorem Ispum Dolor"
+            children: [!this.state.data && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
+              className: 'load',
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("img", {
+                src: '/assets/images/loading.svg',
+                alt: ''
+              })
+            }), this.state.data && this.state.personnels.map(function (user) {
+              return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
+                className: "tag",
+                children: user.name
+              });
             })]
           })]
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)(ListPatient, {
-          style: {
-            filter: this.state.CloseMenuOpen ? 'blur(5px)' : 'none'
-          }
+          blur: this.state.CloseMenuOpen
         }), this.state.CloseMenuOpen && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("section", {
           className: 'popup',
           children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
@@ -7574,7 +7539,7 @@ var BCView = /*#__PURE__*/function (_React$Component4) {
               className: "close",
               children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("button", {
                 onClick: function onClick() {
-                  return _this4.setState({
+                  return _this5.setState({
                     CloseMenuOpen: false
                   });
                 },
@@ -7582,27 +7547,31 @@ var BCView = /*#__PURE__*/function (_React$Component4) {
                 children: "annuler"
               }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("button", {
                 className: 'btn',
-                onClick: /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee3() {
+                onClick: /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee9() {
                   var req;
-                  return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee3$(_context3) {
+                  return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee9$(_context9) {
                     while (1) {
-                      switch (_context3.prev = _context3.next) {
+                      switch (_context9.prev = _context9.next) {
                         case 0:
-                          _context3.next = 2;
+                          _context9.next = 2;
                           return axios__WEBPACK_IMPORTED_MODULE_3___default()({
                             method: 'PUT',
-                            url: '/data/blackcode/' + _this4.props.id + '/close'
+                            url: '/data/blackcode/' + _this5.props.id + '/close'
                           });
 
                         case 2:
-                          req = _context3.sent;
+                          req = _context9.sent;
 
-                        case 3:
+                          if (req.status === 201) {
+                            _this5.props.update(0);
+                          }
+
+                        case 4:
                         case "end":
-                          return _context3.stop();
+                          return _context9.stop();
                       }
                     }
-                  }, _callee3);
+                  }, _callee9);
                 })),
                 children: "Oui"
               })]
@@ -7622,36 +7591,36 @@ var BCController = /*#__PURE__*/function (_React$Component5) {
   var _super5 = _createSuper(BCController);
 
   function BCController(props) {
-    var _this5;
+    var _this6;
 
     _classCallCheck(this, BCController);
 
-    _this5 = _super5.call(this, props);
-    _this5.state = {
-      status: 0,
+    _this6 = _super5.call(this, props);
+    _this6.state = {
+      status: null,
       bc_id: undefined
     };
-    _this5.updatestatus = _this5.updatestatus.bind(_assertThisInitialized(_this5));
-    return _this5;
+    _this6.updatestatus = _this6.updatestatus.bind(_assertThisInitialized(_this6));
+    return _this6;
   }
 
   _createClass(BCController, [{
     key: "componentDidMount",
     value: function () {
-      var _componentDidMount2 = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee4() {
+      var _componentDidMount2 = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee10() {
         var req;
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee4$(_context4) {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee10$(_context10) {
           while (1) {
-            switch (_context4.prev = _context4.next) {
+            switch (_context10.prev = _context10.next) {
               case 0:
-                _context4.next = 2;
+                _context10.next = 2;
                 return axios__WEBPACK_IMPORTED_MODULE_3___default()({
                   method: 'GET',
                   url: '/data/blackcode/mystatus'
                 });
 
               case 2:
-                req = _context4.sent;
+                req = _context10.sent;
 
                 if (req.status === 200) {
                   if (req.data.bc !== null) {
@@ -7665,10 +7634,10 @@ var BCController = /*#__PURE__*/function (_React$Component5) {
 
               case 4:
               case "end":
-                return _context4.stop();
+                return _context10.stop();
             }
           }
-        }, _callee4, this);
+        }, _callee10, this);
       }));
 
       function componentDidMount() {
@@ -7695,21 +7664,23 @@ var BCController = /*#__PURE__*/function (_React$Component5) {
   }, {
     key: "render",
     value: function render() {
-      var _this6 = this;
+      var _this7 = this;
 
       return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
         className: "BC-Container",
         children: [this.state.status === 0 && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)(BCBase, {
           update: function update(status, id) {
-            _this6.updatestatus(status, id);
+            _this7.updatestatus(status, id);
           }
         }), this.state.status === 1 && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)(BCView, {
           id: this.state.bc_id,
           update: function update(status, id) {
-            _this6.updatestatus(status, id);
+            _this7.updatestatus(status, id);
           }
         }), this.state.status === 2 && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)(BCLast, {
-          update: this.updatestatus
+          update: function update(status, id) {
+            _this7.updatestatus(status, id);
+          }
         }), this.state.status === null && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
           className: 'load',
           children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("img", {
@@ -24876,7 +24847,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "@charset \"UTF-8\";\nh1 {\n  font-family: \"Baloo Thambi 2\", serif;\n  font-weight: 800;\n  font-size: 30px;\n  color: #00FFFF;\n}\n\nh2 {\n  font-family: \"Baloo Thambi 2\", serif;\n  font-weight: 700;\n  font-size: 25px;\n  color: #00FFFF;\n}\n\nh3 {\n  font-family: \"Baloo Thambi 2\", serif;\n  font-weight: 600;\n  font-size: 20px;\n  color: #00FFFF;\n}\n\nh4 {\n  font-family: \"Baloo Thambi 2\", serif;\n  font-weight: 500;\n  font-size: 20px;\n  color: #00FFFF;\n}\n\nh5 {\n  font-family: \"Baloo Thambi 2\", serif;\n  font-weight: 400;\n  font-size: 18px;\n  color: #00FFFF;\n}\n\nh6 {\n  font-family: \"Baloo Thambi 2\", serif;\n  font-weight: 300;\n  font-size: 15px;\n  color: #00FFFF;\n}\n\nh1, h2, h3, h4, h5, h6 {\n  margin: 0 0;\n}\n\ninput, select, textarea {\n  color: #00FFFF;\n  background-color: #004662;\n  margin: 10px 0;\n  font-size: 20px;\n  font-family: \"Baloo Thambi 2\", monospace;\n  font-weight: 500;\n  box-shadow: none;\n  border: none;\n  border-radius: 30px;\n  padding: 10px;\n}\ninput::-moz-placeholder, select::-moz-placeholder, textarea::-moz-placeholder {\n  color: #00FFFF;\n}\ninput:-ms-input-placeholder, select:-ms-input-placeholder, textarea:-ms-input-placeholder {\n  color: #00FFFF;\n}\ninput::placeholder, select::placeholder, textarea::placeholder {\n  color: #00FFFF;\n}\ninput:-webkit-autofill, select:-webkit-autofill, textarea:-webkit-autofill {\n  background-color: #004662 !important;\n  color: #00FFFF !important;\n}\n\na, p, label {\n  color: #00FFFF;\n  font-family: \"Baloo Thambi 2\", monospace;\n  font-weight: normal;\n  font-size: 20px;\n}\n\n.Title {\n  font-size: 35px;\n  font-family: \"Baloo Thambi 2\", monospace;\n  font-weight: 900;\n  text-align: center;\n  margin-bottom: 10px;\n}\n\na {\n  text-decoration: none;\n}\n\n.Form-Line {\n  display: flex;\n  flex-direction: row;\n  flex-wrap: nowrap;\n  justify-content: center;\n}\n\n.btn {\n  height: -webkit-fit-content;\n  height: -moz-fit-content;\n  height: fit-content;\n  width: -webkit-fit-content;\n  width: -moz-fit-content;\n  width: fit-content;\n  padding: 10px 20px;\n  background-color: #004662;\n  color: #00FFFF;\n  border-radius: 30px;\n  font-family: \"Baloo Thambi 2\", monospace;\n  font-weight: 600;\n  font-size: 25px;\n  border: none;\n  cursor: pointer;\n  transition: 400ms cubic-bezier(0.28, -0.46, 0.33, 1.5);\n}\n.btn:hover {\n  -webkit-transform: scale(1.2);\n}\n\n.form-error p {\n  color: #FF0000;\n  margin: 0;\n}\n\n.TableBottom {\n  background-color: #004662;\n  width: 100%;\n  height: 100px;\n  position: -webkit-sticky;\n  position: sticky;\n  bottom: 0;\n  border-top: 1px #0C2646 solid;\n  display: flex;\n  flex-direction: row;\n  flex-wrap: nowrap;\n  justify-content: space-between;\n  z-index: 10;\n}\n.TableBottom .searsh {\n  display: flex;\n}\n.TableBottom .searsh input {\n  margin: auto 20px;\n  background-color: #0C2646;\n}\n.TableBottom .pages {\n  display: flex;\n  flex-direction: row;\n  justify-content: space-evenly;\n  padding-right: 30px;\n}\n.TableBottom .pages button {\n  background-color: #0C2646;\n  border-radius: 20px;\n  font-size: 30px;\n  font-weight: 700;\n  border: none;\n  color: #00FFFF;\n  margin: auto 0;\n  font-family: \"Baloo Thambi 2\", monospace;\n  padding: 5px 20px;\n  cursor: pointer;\n  transition: all 500ms;\n}\n.TableBottom .pages button:hover {\n  transform: scale(1.2) rotate(5deg);\n}\n.TableBottom .pages h5 {\n  font-size: 30px;\n  font-weight: 700;\n  margin: auto 10px;\n}\n\n.title-contain {\n  background-color: #0C2646;\n  border-radius: 30px;\n  padding: 5px;\n}\n.title-contain h1 {\n  font-size: 58px;\n  padding: 5px;\n}\n\n.beta {\n  width: 70px;\n  height: 45px;\n  border: 1px #FFa500 solid;\n  background-color: rgba(255, 140, 0, 0.1);\n  display: flex;\n  border-radius: 40px;\n}\n.beta:after {\n  padding: 7px;\n  margin: auto;\n  font-size: 20px;\n  font-family: \"Baloo Thambi 2\", monospace;\n  content: \"bêta\";\n  color: #FFa500;\n}\n\n.onoffswitch {\n  position: relative;\n  width: 120px;\n  -webkit-user-select: none;\n  -moz-user-select: none;\n  -ms-user-select: none;\n}\n.onoffswitch .onoffswitch-checkbox {\n  position: absolute;\n  opacity: 0;\n  pointer-events: none;\n}\n.onoffswitch .onoffswitch-label {\n  display: block;\n  overflow: hidden;\n  cursor: pointer;\n  border-radius: 30px;\n}\n.onoffswitch .onoffswitch-inner {\n  display: block;\n  width: 200%;\n  margin-left: -100%;\n  transition: 400ms cubic-bezier(0.28, -0.46, 0.33, 1.5);\n}\n.onoffswitch .onoffswitch-inner:before, .onoffswitch .onoffswitch-inner:after {\n  display: block;\n  float: left;\n  width: 50%;\n  height: 40px;\n  padding: 0;\n  line-height: 35px;\n  font-size: 20px;\n  color: #004662;\n  font-family: \"Baloo Thambi 2\", monospace;\n  font-weight: bold;\n  box-sizing: border-box;\n  border: 2px solid transparent;\n}\n.onoffswitch .onoffswitch-inner:before {\n  content: \"OUI\";\n  padding-left: 20px;\n  background-color: #2DF037;\n  color: #0C2646;\n}\n.onoffswitch .onoffswitch-inner:after {\n  content: \"NON\";\n  padding-right: 20px;\n  background-color: #DB1B1B;\n  color: #0C2646;\n  text-align: right;\n}\n.onoffswitch .onoffswitch-switch {\n  display: block;\n  width: 50px;\n  margin: 0;\n  height: 50px;\n  background: #004662;\n  border-radius: 30px;\n  position: absolute;\n  top: -5px;\n  bottom: 0;\n  right: 80px;\n  transition: 300ms cubic-bezier(0.28, -0.46, 0.33, 1.5);\n}\n.onoffswitch .onoffswitch-checkbox:checked + .onoffswitch-label .onoffswitch-inner {\n  margin-left: 0;\n}\n.onoffswitch .onoffswitch-checkbox:checked + .onoffswitch-label .onoffswitch-switch {\n  right: -5px;\n}\n\nhtml {\n  position: fixed;\n  padding: 0;\n  margin: 0;\n  height: 100vh;\n  width: 100vw;\n  top: 0;\n  left: 0;\n}\n\nbody {\n  padding: 0;\n  margin: 0;\n  height: 100vh;\n  width: 100vw;\n}\n\n.AppContainer {\n  padding: 0;\n  margin: 0;\n  height: 100vh;\n  width: 100vw;\n}\n\n#app {\n  height: 100vh;\n  width: 100vw;\n  background-color: #313124;\n}\n\n#layout {\n  height: 100vh;\n  overflow-x: hidden !important;\n}\n@media (max-width: 1600px) {\n  #layout {\n    overflow-y: auto;\n  }\n  #layout .mobildisabled {\n    display: none;\n  }\n}\n\n.notifications-component {\n  top: 0;\n  right: 0;\n  z-index: 154400;\n  width: 500px;\n  height: 100vw;\n}\n.notifications-component .notifications {\n  width: 95%;\n  margin-right: 5%;\n  height: 150px;\n  margin-bottom: 5px;\n  border-radius: 30px;\n  display: flex;\n  overflow: hidden;\n  flex-direction: column;\n  justify-content: space-between;\n}\n.notifications-component .notifications .notif-header {\n  display: flex;\n  flex-direction: row;\n  justify-content: space-between;\n  padding: 0 15px 0 15px;\n}\n.notifications-component .notifications .notif-header button {\n  background-color: transparent;\n  border: none;\n}\n.notifications-component .notifications .notif-separator {\n  height: 2px;\n  width: 100%;\n  background-color: #004662;\n}\n.notifications-component .notifications .notif-content {\n  padding: 0 15px 0 15px;\n}\n.notifications-component .notifications .notif-content p {\n  margin: 0;\n  text-indent: 20px;\n  font-size: 18px;\n}\n.notifications-component .notifications .progress-bar {\n  width: 100%;\n  height: 15px;\n  background-color: #0C2646;\n}\n.notifications-component .notifications .progress-bar .progress {\n  height: 15px;\n  border-radius: 15px 0;\n  background-color: #004662;\n}\n.notifications-component .success {\n  background-color: green;\n}\n.notifications-component .warning {\n  background-color: orange;\n}\n.notifications-component .danger {\n  background-color: red;\n}\n\n::-webkit-scrollbar {\n  width: 10px;\n}\n\n::-webkit-scrollbar-track {\n  background-color: rgba(143, 143, 143, 0.1);\n  border-radius: 30px;\n}\n\n::-webkit-scrollbar-thumb {\n  background: #000;\n  border-radius: 30px;\n}\n\n.OnService {\n  color: #00FF00;\n  font-family: \"Baloo Thambi 2\", monospace;\n  font-weight: 600;\n  font-size: 25px;\n  text-shadow: 0 0 30px #00FF00;\n}\n\n.OffService {\n  color: #FF0000;\n  font-family: \"Baloo Thambi 2\", monospace;\n  font-weight: 600;\n  font-size: 25px;\n  text-shadow: 0 0 30px #FF0000;\n}\n\n#service {\n  height: 66px;\n  width: 240px;\n  z-index: 4;\n  border-radius: 90px;\n  background-color: #004662;\n  margin: 10px;\n  padding: 5px;\n  border: none;\n  box-shadow: none;\n  transition: all 400ms cubic-bezier(0.51, -1.15, 0.48, 2.27);\n  cursor: pointer;\n}\n#service:hover {\n  transform: scale(1.1);\n  -webkit-transform: scale(1.1);\n}\n#service:active {\n  -webkit-box-shadow: none;\n  border: none;\n}\n#service:disabled {\n  cursor: default;\n  color: #1a202c;\n  text-shadow: none;\n  transition: none;\n  transform: none;\n}\n\n.menu-content {\n  background-color: #0C2646;\n  width: 270px;\n  position: fixed;\n  margin-left: 0;\n  margin-top: 0;\n  height: 100vh;\n}\n.menu-content .Menusepartor {\n  height: 2px;\n  width: 100%;\n  background-color: #00FFFF;\n  margin: 10px 0;\n}\n.menu-content #Logo {\n  width: 100%;\n  height: 200px;\n  display: flex;\n}\n.menu-content #Logo a {\n  margin: 0 auto;\n  padding: 0;\n}\n.menu-content #Logo a img {\n  width: 200px;\n}\n.menu-content #logout {\n  width: 30px;\n  margin: 5px;\n  border-radius: 30px;\n  height: 30px;\n  padding: 5px;\n  z-index: 14;\n  position: fixed;\n  background-color: #00FFFF;\n  box-shadow: 0 0 20px 1px #00FFFF;\n  transition: all 400ms cubic-bezier(0.51, -1.15, 0.48, 2.27);\n  cursor: pointer;\n}\n.menu-content #logout:hover {\n  -webkit-transform: scale(1.1);\n  box-shadow: 0 0 30px 2px #00FFFF;\n}\n.menu-content .time {\n  text-align: right;\n  padding: 5px 15px 0 0;\n}\n.menu-content .time h3 {\n  font-size: 28px;\n}\n.menu-content .navigation {\n  height: calc(100vh - 562px);\n  overflow-y: auto;\n  overflow-x: hidden;\n}\n.menu-content .Menu-Item {\n  padding: 0 10px 0 10px;\n}\n.menu-content .Menu-Item .Menu_title {\n  position: relative;\n  overflow: hidden;\n  padding-right: 10px;\n}\n.menu-content .Menu-Item .Menu_title span {\n  font-size: 27px;\n  margin-left: 5px;\n  padding: 0 5px 0 12px;\n  z-index: 12;\n  border-left: 7px #004662 solid;\n  width: -webkit-fit-content;\n  width: -moz-fit-content;\n  width: fit-content;\n  position: relative;\n}\n.menu-content .Menu-Item .Menu_title span::after {\n  position: absolute;\n  width: 300px;\n  height: 2px;\n  top: 50%;\n  left: calc(100% + 5px);\n  content: \" \";\n  background-color: #004662;\n  z-index: 0;\n}\n.menu-content .Menu-Item .Menu_title::before {\n  position: absolute;\n  width: 10px;\n  height: 2px;\n  top: 51%;\n  left: 11px;\n  background-color: #004662;\n  content: \" \";\n  z-index: 0;\n}\n.menu-content .Menu-Item .Menu-list {\n  margin-left: 5px;\n}\n.menu-content .Menu-Item .Menu-list li::marker {\n  color: #004662;\n}\n.menu-content .Menu-Item .Menu-list li a {\n  font-family: \"Baloo Thambi 2\", monospace;\n  text-decoration: none;\n  font-size: 20px;\n  font-weight: 600;\n}\n.menu-content .Copyright {\n  width: 100%;\n}\n.menu-content .Copyright p {\n  text-align: center !important;\n  color: #004662 !important;\n  font-family: \"Baloo Thambi 2\", monospace;\n  font-size: 20px;\n  font-weight: 700;\n}\n.menu-content .bugreportter {\n  display: flex;\n}\n.menu-content .bugreportter button {\n  margin: 0 auto;\n}\n\n@media (min-width: 1100px) {\n  .closed-menu {\n    display: none;\n  }\n\n  #Close {\n    display: none;\n  }\n}\n@media (max-width: 1100px) {\n  .close .menu-content {\n    display: none;\n  }\n  .close .closed-menu {\n    position: fixed;\n    border-radius: 0 0 30px 0;\n    background-color: #0C2646;\n    padding: 10px 12px 12px 10px;\n  }\n  .close .closed-menu button {\n    cursor: pointer;\n    border: none;\n    background-color: #004662;\n    border-radius: 30px;\n    font-size: 25px;\n    padding: 5px 15px;\n    color: #00FFFF;\n    font-family: \"Baloo Thambi 2\", monospace;\n    font-weight: 700;\n    transition: 400ms cubic-bezier(0.28, -0.46, 0.33, 1.5);\n  }\n  .close .closed-menu button:hover {\n    -webkit-transform: scale(1.2);\n  }\n\n  .open .closed-menu {\n    display: none;\n  }\n  .open .menu-content #Close {\n    z-index: 14;\n    position: fixed;\n    left: 160px;\n    top: 5px;\n  }\n  .open .menu-content #Close button {\n    cursor: pointer;\n    border: none;\n    background-color: #004662;\n    border-radius: 30px;\n    font-size: 25px;\n    padding: 5px 15px;\n    color: #00FFFF;\n    font-family: \"Baloo Thambi 2\", monospace;\n    font-weight: 700;\n    transition: 400ms cubic-bezier(0.28, -0.46, 0.33, 1.5);\n  }\n  .open .menu-content #Close button:hover {\n    -webkit-transform: scale(1.2);\n  }\n  .open .menu-content .Version {\n    display: none;\n  }\n  .open .menu-content .Menusepartor:last-child {\n    display: none;\n    visibility: hidden;\n  }\n}\n@media (min-width: 1100px) {\n  #content {\n    margin-left: 270px;\n  }\n}\n.switch-container {\n  display: flex;\n  margin: auto auto;\n  z-index: 1;\n}\n.switch-container .payed_switch {\n  height: 0;\n  width: 0;\n  visibility: hidden;\n}\n.switch-container .payed_switchLabel {\n  z-index: 1;\n  margin: auto auto;\n  cursor: pointer;\n  text-indent: -9999px;\n  width: 100px;\n  height: 30px;\n  background: #FF0000;\n  box-shadow: 0 0 20px 7px #FF0000;\n  display: block;\n  border-radius: 100px;\n  position: relative;\n  transition: 400ms cubic-bezier(0.28, -0.46, 0.33, 1.5);\n}\n.switch-container .payed_switchLabel::after {\n  z-index: 1;\n  content: \" \";\n  position: absolute;\n  top: -5px;\n  left: -5px;\n  width: 40px;\n  height: 40px;\n  background: #222;\n  border-radius: 90px;\n  transition: 400ms cubic-bezier(0.28, -0.46, 0.33, 1.5);\n}\n.switch-container .payed_switch:checked + .payed_switchLabel {\n  background: #00FF00;\n  box-shadow: 0 0 20px 7px #00FF00;\n  z-index: 1;\n}\n.switch-container .payed_switch:checked + .payed_switchLabel:after {\n  left: calc(100% + 5px);\n  transform: translateX(-100%);\n  z-index: 1;\n}\n.switch-container .payed_switchLabel:active:after {\n  width: 40px;\n  z-index: 1;\n}\n\n#Main-Page {\n  display: flex;\n  flex-direction: column;\n  padding: 30px;\n}\n#Main-Page .Personnel_service {\n  background-color: #0C2646;\n  width: 100%;\n  height: 250px;\n  border-radius: 30px;\n  padding: 10px;\n}\n#Main-Page .Personnel_service h1 {\n  padding-left: 20px;\n  font-size: 60px;\n  margin: 0 auto;\n}\n#Main-Page .Annonces {\n  margin-top: 35px;\n  background-color: #0C2646;\n  width: 100%;\n  min-height: 200px;\n  border-radius: 30px;\n  padding: 10px;\n  display: flex;\n  flex-direction: column;\n}\n#Main-Page .Annonces h1 {\n  padding-left: 20px;\n  font-size: 60px;\n  margin: 0 auto;\n  text-align: center;\n}\n#Main-Page .Annonces .Annonces-List {\n  margin: 0 auto;\n  width: 100%;\n  height: calc(100vh - 464px);\n  overflow-y: scroll;\n  display: flex;\n  flex-direction: row;\n  flex-wrap: wrap;\n  justify-content: center;\n}\n#Main-Page .Annonces .Annonces-List .Annonce-Card {\n  background-color: #004662;\n  margin: 10px;\n  padding: 10px;\n  display: flex;\n  flex-direction: column;\n  justify-content: space-between;\n  border-radius: 30px;\n  overflow-y: auto;\n  height: 350px;\n  width: 45%;\n}\n#Main-Page .Annonces .Annonces-List .Annonce-Card .Title {\n  font-size: 30px;\n  text-align: center;\n  margin: 0 auto;\n}\n#Main-Page .Annonces .Annonces-List .Annonce-Card .Separator {\n  margin: 5px auto;\n  content: \" \";\n  width: 100%;\n  text-align: center;\n  background-color: #00FFFF;\n  height: 2px;\n}\n#Main-Page .Annonces .Annonces-List .Annonce-Card .Text {\n  font-size: 25px;\n  text-indent: 20px;\n}\n#Main-Page .Annonces .Annonces-List .Annonce-Card .Date {\n  font-size: 27px;\n  text-align: center;\n}\n\n.Personnel-list {\n  display: flex;\n  flex-direction: row;\n  flex-wrap: wrap;\n  width: 100%;\n  height: 150px;\n  overflow-y: auto;\n}\n.Personnel-list .Personnel-card {\n  margin: 10px;\n  background-color: #004662;\n  border-radius: 30px;\n  height: -webkit-min-content;\n  height: -moz-min-content;\n  height: min-content;\n  padding: 6px 10px;\n}\n.Personnel-list .Personnel-card h5 {\n  margin: 0;\n  font-size: 25px;\n}\n\n#Rapport-Patient {\n  display: flex;\n  flex-direction: column;\n  width: 100%;\n  height: 100%;\n}\n#Rapport-Patient .Header {\n  padding-top: 10px;\n  display: flex;\n  flex-direction: row;\n  flex-wrap: wrap;\n  justify-content: space-evenly;\n  width: 100%;\n}\n#Rapport-Patient .Header .Title {\n  background-color: #0C2646;\n  border-radius: 30px;\n  padding: 20px;\n}\n#Rapport-Patient .Header .Title h1 {\n  font-size: 30px;\n  font-family: \"Baloo Thambi 2\", monospace;\n  font-weight: 700;\n  text-align: center;\n}\n#Rapport-Patient .Header .pdf {\n  margin-top: 15px;\n  background-color: #0C2646;\n  border-radius: 30px;\n  padding: 10px;\n  height: -webkit-min-content;\n  height: -moz-min-content;\n  height: min-content;\n}\n#Rapport-Patient .Header .pdf a {\n  text-decoration: none;\n  font-size: 20px;\n  font-family: \"Baloo Thambi 2\", monospace;\n  font-weight: 700;\n}\n#Rapport-Patient .Header .submit {\n  background-color: #0C2646;\n  border-radius: 30px;\n  padding: 10px 15px;\n  display: flex;\n}\n#Rapport-Patient .Header .submit button {\n  margin: auto auto;\n  cursor: pointer;\n  background-color: #004662;\n  color: #00FFFF;\n  font-size: 20px;\n  padding: 5px;\n  font-family: \"Baloo Thambi 2\", monospace;\n  font-weight: 700;\n  border: none;\n  border-radius: 30px;\n  box-shadow: none;\n  transition: all 400ms cubic-bezier(0.51, -1.15, 0.48, 2.27);\n}\n#Rapport-Patient .Header .submit button:hover {\n  -webkit-transform: scale(1.1);\n}\n#Rapport-Patient .Header .submit button:active {\n  -webkit-transform: rotate(-5deg);\n}\n#Rapport-Patient .content {\n  padding: 10px;\n  display: flex;\n  flex-direction: row;\n  flex-wrap: wrap;\n  justify-content: space-evenly;\n}\n#Rapport-Patient .content .Rapport-Card {\n  margin: 10px;\n  display: flex;\n  flex-direction: column;\n  padding: 15px;\n  background-color: #0C2646;\n  border-radius: 30px;\n  width: -webkit-fit-content;\n  width: -moz-fit-content;\n  width: fit-content;\n}\n#Rapport-Patient .content .Rapport-Card h1 {\n  font-size: 30px;\n  font-family: \"Baloo Thambi 2\", monospace;\n  font-weight: 600;\n  text-align: center;\n  margin-bottom: 10px;\n}\n#Rapport-Patient .content .Rapport-Card .Form-Group {\n  height: 100%;\n  max-height: 320px;\n  display: flex;\n  flex-direction: column;\n  flex-wrap: wrap;\n  justify-content: space-evenly;\n}\n#Rapport-Patient .content .Rapport-Card .Form-Group input, #Rapport-Patient .content .Rapport-Card .Form-Group select, #Rapport-Patient .content .Rapport-Card .Form-Group textarea {\n  padding: 10px;\n  margin: 10px 0;\n  font-size: 20px;\n  font-family: \"Baloo Thambi 2\", monospace;\n  font-weight: 500;\n  box-shadow: none;\n  border: none;\n  border-radius: 30px;\n  background-color: #004662;\n  color: #00FFFF;\n}\n#Rapport-Patient .content .Rapport-Card .Form-Group input::-moz-placeholder, #Rapport-Patient .content .Rapport-Card .Form-Group select::-moz-placeholder, #Rapport-Patient .content .Rapport-Card .Form-Group textarea::-moz-placeholder {\n  font-family: \"Baloo Thambi 2\", monospace;\n  font-weight: 500;\n  color: #00FFFF;\n}\n#Rapport-Patient .content .Rapport-Card .Form-Group input:-ms-input-placeholder, #Rapport-Patient .content .Rapport-Card .Form-Group select:-ms-input-placeholder, #Rapport-Patient .content .Rapport-Card .Form-Group textarea:-ms-input-placeholder {\n  font-family: \"Baloo Thambi 2\", monospace;\n  font-weight: 500;\n  color: #00FFFF;\n}\n#Rapport-Patient .content .Rapport-Card .Form-Group input::placeholder, #Rapport-Patient .content .Rapport-Card .Form-Group select::placeholder, #Rapport-Patient .content .Rapport-Card .Form-Group textarea::placeholder {\n  font-family: \"Baloo Thambi 2\", monospace;\n  font-weight: 500;\n  color: #00FFFF;\n}\n#Rapport-Patient .content .Rapport-Card .description {\n  display: flex;\n  flex-direction: column;\n}\n#Rapport-Patient .content .Rapport-Card .description textarea {\n  min-width: 600px;\n  min-height: 80px;\n  border-radius: 30px;\n  border: none;\n}\n#Rapport-Patient .content .Rapport-Card .ATA {\n  display: flex;\n  flex-direction: row;\n}\n#Rapport-Patient .content .Rapport-Card .ATA label {\n  line-height: 30px;\n  margin: auto 5px;\n}\n#Rapport-Patient .content .Rapport-Card .facture input[type=checkbox] {\n  height: 0;\n  width: 0;\n  visibility: hidden;\n}\n#Rapport-Patient .content .Rapport-Card .facture #switch {\n  margin: auto auto;\n  cursor: pointer;\n  text-indent: -9999px;\n  width: 100px;\n  height: 30px;\n  background: #FF0000;\n  box-shadow: 0 0 20px 7px #FF0000;\n  display: block;\n  border-radius: 100px;\n  position: relative;\n  transition: 400ms cubic-bezier(0.28, -0.46, 0.33, 1.5);\n}\n#Rapport-Patient .content .Rapport-Card .facture #switch::after {\n  content: \"\";\n  position: absolute;\n  top: -5px;\n  left: -5px;\n  width: 40px;\n  height: 40px;\n  background: #222;\n  border-radius: 90px;\n  transition: 400ms cubic-bezier(0.28, -0.46, 0.33, 1.5);\n}\n#Rapport-Patient .content .Rapport-Card .facture input:checked + #switch {\n  background: #00FF00;\n  box-shadow: 0 0 20px 7px #00FF00;\n}\n#Rapport-Patient .content .Rapport-Card .facture input:checked + #switch:after {\n  left: calc(100% + 5px);\n  transform: translateX(-100%);\n}\n#Rapport-Patient .content .Rapport-Card .facture #switch:active:after {\n  width: 40px;\n}\n\n.BC-Container {\n  width: 100%;\n  height: 100vh;\n  overflow-y: hidden;\n}\n.BC-Container .BC-base {\n  height: 100vh;\n  width: 100%;\n  display: flex;\n  flex-direction: column;\n}\n@media (min-width: 1100px) {\n  .BC-Container .BC-base {\n    width: calc(100vw - 270px);\n  }\n}\n@media (max-width: 1100px) {\n  .BC-Container .BC-base {\n    width: calc(100vw);\n  }\n}\n.BC-Container .BC-base .header {\n  display: flex;\n  flex-direction: row;\n  justify-content: space-evenly;\n}\n.BC-Container .BC-base .header button {\n  margin: auto 0;\n}\n.BC-Container .BC-base .contain {\n  padding-top: 20px;\n  width: 100%;\n  display: flex;\n  flex-direction: row;\n}\n.BC-Container .BC-base .contain .BC-List {\n  width: 100%;\n  max-height: calc(100vh - 150px);\n  overflow-y: scroll;\n  display: flex;\n  flex-direction: column;\n}\n.BC-Container .BC-base .contain .BC-List h1 {\n  text-align: center;\n  font-weight: 700;\n  font-size: 35px;\n}\n.BC-Container .BC-base .contain .BC-List .card {\n  cursor: pointer;\n  margin: 10px auto;\n  padding: 10px;\n  background-color: #0C2646;\n  border-radius: 30px;\n  min-width: 500px;\n  max-width: 600px;\n  height: 500px;\n  display: flex;\n  flex-direction: column;\n  z-index: 1;\n  border: #0C2646 1px solid;\n  transition: all 400ms;\n}\n.BC-Container .BC-base .contain .BC-List .card h3, .BC-Container .BC-base .contain .BC-List .card h4 {\n  text-align: center;\n}\n.BC-Container .BC-base .contain .BC-List .card h3 {\n  font-size: 25px;\n}\n.BC-Container .BC-base .contain .BC-List .card h4 {\n  font-size: 22px;\n}\n.BC-Container .BC-base .contain .BC-List .card .rowed {\n  padding: 0 60px;\n  display: flex;\n  flex-direction: row;\n  justify-content: space-between;\n}\n.BC-Container .BC-base .contain .BC-List .card .rowed h5 {\n  font-size: 20px;\n}\n.BC-Container .BC-base .contain .BC-List .card .separator {\n  margin: 10px auto;\n  width: 90%;\n  height: 3px;\n  background-color: #004662;\n  border-radius: 10px;\n}\n.BC-Container .BC-base .contain .BC-List .card:hover {\n  transform: scale(1.1) rotate(3deg);\n  z-index: 12;\n  border: #004662 1px solid;\n}\n.BC-Container .popup {\n  z-index: 25;\n  width: 100%;\n  height: 100vh;\n  position: fixed;\n  top: 0;\n  -webkit-backdrop-filter: blur(2px);\n          backdrop-filter: blur(2px);\n  display: flex;\n  justify-content: center;\n  padding: 10px;\n}\n@media (min-width: 1100px) {\n  .BC-Container .popup {\n    width: calc(100vw - 270px);\n  }\n}\n@media (max-width: 1100px) {\n  .BC-Container .popup {\n    width: calc(100vw);\n  }\n}\n.BC-Container .popup .popup-content {\n  margin: auto 0;\n  padding: 25px;\n  background-color: #0C2646;\n  border: 1px #004662 solid;\n  border-radius: 30px;\n}\n.BC-Container .popup .popup-content h1 {\n  font-weight: 700;\n  text-align: center;\n  font-size: 35px;\n}\n.BC-Container .popup .popup-content input, .BC-Container .popup .popup-content select {\n  min-width: 200px;\n  margin: 10px;\n}\n.BC-Container .popup .popup-content .row {\n  display: flex;\n  flex-direction: row;\n  justify-content: space-evenly;\n  flex-wrap: wrap;\n}\n.BC-Container .popup .popup-content form {\n  display: flex;\n  flex-direction: column;\n}\n.BC-Container .popup .popup-content .btn-contain {\n  display: flex;\n  flex-direction: row;\n  justify-content: space-evenly;\n}\n.BC-Container .popup .popup-content .close {\n  width: 300px;\n  margin: 10px 20px;\n  display: flex;\n  flex-direction: row;\n  justify-content: space-evenly;\n}\n.BC-Container .BC-Last h2 {\n  text-align: center;\n  margin-top: 5px;\n  font-size: 35px;\n  margin-bottom: 20px;\n}\n.BC-Container .BC-View, .BC-Container .BC-Last {\n  display: flex;\n  flex-direction: row;\n  justify-content: flex-start;\n  flex-wrap: nowrap;\n  height: 100vh;\n  overflow: hidden;\n}\n@media (min-width: 1100px) {\n  .BC-Container .BC-View, .BC-Container .BC-Last {\n    width: calc(100vw - 270px);\n  }\n}\n@media (max-width: 1100px) {\n  .BC-Container .BC-View, .BC-Container .BC-Last {\n    width: calc(100vw);\n  }\n}\n.BC-Container .BC-View .left, .BC-Container .BC-Last .left {\n  width: 49%;\n  min-width: 300px;\n  padding: 10px;\n  display: flex;\n  flex-direction: column;\n  justify-content: space-evenly;\n}\n.BC-Container .BC-View .left .header, .BC-Container .BC-Last .left .header {\n  margin: 0 auto;\n  width: 90%;\n}\n.BC-Container .BC-View .left .header .title-contain, .BC-Container .BC-Last .left .header .title-contain {\n  border-radius: 30px 30px 0 30px;\n}\n.BC-Container .BC-View .left .header .bgforbtn, .BC-Container .BC-Last .left .header .bgforbtn {\n  margin: 0 0 0 auto;\n  width: 250px;\n  background-color: #0C2646;\n  padding-bottom: 17px;\n  display: flex;\n  border-radius: 0 0 30px 30px;\n}\n.BC-Container .BC-View .left .header .bgforbtn button, .BC-Container .BC-Last .left .header .bgforbtn button {\n  margin: auto;\n}\n.BC-Container .BC-View .left .row-spaced, .BC-Container .BC-Last .left .row-spaced {\n  display: flex;\n  flex-direction: row;\n  justify-content: space-between;\n  padding: 0 30px;\n}\n.BC-Container .BC-View .left .row-spaced .input, .BC-Container .BC-Last .left .row-spaced .input {\n  width: 45%;\n}\n.BC-Container .BC-View .left .row-spaced label, .BC-Container .BC-Last .left .row-spaced label {\n  margin: auto 0;\n}\n.BC-Container .BC-View .left .addpatient, .BC-Container .BC-Last .left .addpatient {\n  width: 90%;\n  margin: 15px auto;\n  height: 475px;\n  border-radius: 30px;\n  background-color: #0C2646;\n}\n.BC-Container .BC-View .left .addpatient form, .BC-Container .BC-Last .left .addpatient form {\n  width: 100%;\n  padding: 5px;\n  height: 100%;\n}\n.BC-Container .BC-View .left .addpatient form .top, .BC-Container .BC-Last .left .addpatient form .top {\n  display: flex;\n  flex-direction: row-reverse;\n  justify-content: space-evenly;\n  margin-top: 5px;\n  margin-bottom: 20px;\n}\n.BC-Container .BC-View .left .addpatient form .top h2, .BC-Container .BC-Last .left .addpatient form .top h2 {\n  font-size: 35px;\n}\n.BC-Container .BC-View .left .addpatient form .bottom, .BC-Container .BC-Last .left .addpatient form .bottom {\n  margin-top: 20px;\n  padding: 0 30px;\n  display: flex;\n  flex-direction: row;\n  flex-wrap: wrap;\n  justify-content: space-evenly;\n}\n.BC-Container .BC-View .left .addpatient form .bottom label, .BC-Container .BC-View .left .addpatient form .bottom button, .BC-Container .BC-Last .left .addpatient form .bottom label, .BC-Container .BC-Last .left .addpatient form .bottom button {\n  margin: auto 0;\n  font-size: 20px;\n}\n.BC-Container .BC-View .left .addpatient form .bottom .idcard, .BC-Container .BC-View .left .addpatient form .bottom .paye, .BC-Container .BC-Last .left .addpatient form .bottom .idcard, .BC-Container .BC-Last .left .addpatient form .bottom .paye {\n  width: 50%;\n  display: flex;\n  flex-direction: row;\n  justify-content: space-evenly;\n}\n.BC-Container .BC-View .left .infos, .BC-Container .BC-Last .left .infos {\n  width: 90%;\n  margin: 15px auto;\n  height: 475px;\n  border-radius: 30px;\n  background-color: #0C2646;\n}\n.BC-Container .BC-View .left .infos h2, .BC-Container .BC-Last .left .infos h2 {\n  margin-top: 5px;\n  text-align: center;\n  font-size: 35px;\n  margin-bottom: 20px;\n}\n.BC-Container .BC-View .left .infos div, .BC-Container .BC-Last .left .infos div {\n  margin: 10px 10px;\n}\n.BC-Container .BC-View .left .personnel-list, .BC-Container .BC-Last .left .personnel-list {\n  width: 90%;\n  margin: 15px auto;\n  height: 200px;\n  border-radius: 30px;\n  background-color: #0C2646;\n  overflow-y: scroll;\n  display: flex;\n  flex-direction: row;\n  flex-wrap: wrap;\n  justify-content: space-evenly;\n}\n.BC-Container .BC-View .left .personnel-list .tag, .BC-Container .BC-Last .left .personnel-list .tag {\n  background-color: #004662;\n  font-family: \"Baloo Thambi 2\", monospace;\n  font-size: 25px;\n  color: #00FFFF;\n  border-radius: 30px;\n  padding: 5px 12px;\n  margin: 10px 0;\n}\n.BC-Container .BC-View .list-container, .BC-Container .BC-Last .list-container {\n  width: 49%;\n  padding: 10px;\n  display: flex;\n  flex-direction: column;\n  min-width: 300px;\n}\n.BC-Container .BC-View .list-container .list-content, .BC-Container .BC-Last .list-container .list-content {\n  display: flex;\n  width: 90%;\n  height: 90%;\n  margin: auto;\n  flex-direction: column;\n  background-color: #0C2646;\n  border-radius: 30px;\n}\n.BC-Container .BC-View .list-container .list-content h1, .BC-Container .BC-Last .list-container .list-content h1 {\n  text-align: center;\n  margin: 20px 0;\n  font-size: 40px;\n}\n.BC-Container .BC-View .list-container .list-content .list, .BC-Container .BC-Last .list-container .list-content .list {\n  width: 90%;\n  margin: 0 auto;\n  height: 80%;\n  background-color: #004662;\n  display: flex;\n  flex-direction: column;\n  overflow-y: scroll;\n  border-radius: 30px;\n  padding: 10px;\n}\n.BC-Container .BC-View .list-container .list-content .list .Patient-list-card, .BC-Container .BC-Last .list-container .list-content .list .Patient-list-card {\n  margin: 10px 0;\n  display: grid;\n  grid-template-columns: 5% 30% 10% 35% 10% 10%;\n  grid-template-rows: 30px;\n}\n.BC-Container .BC-View .list-container .list-content .list .Patient-list-card h5, .BC-Container .BC-Last .list-container .list-content .list .Patient-list-card h5 {\n  font-size: 20px;\n  text-wrap: none;\n}\n.BC-Container .BC-View .list-container .list-content .list .Patient-list-card .id, .BC-Container .BC-Last .list-container .list-content .list .Patient-list-card .id {\n  grid-column-start: 1;\n  grid-column-end: 1;\n  grid-row-start: 1;\n  grid-row-end: 1;\n  overflow: hidden;\n}\n.BC-Container .BC-View .list-container .list-content .list .Patient-list-card .name, .BC-Container .BC-Last .list-container .list-content .list .Patient-list-card .name {\n  grid-column-start: 2;\n  grid-column-end: 2;\n  grid-row-start: 1;\n  grid-row-end: 1;\n  overflow: hidden;\n  padding-right: 5px;\n  margin: 0 2px;\n}\n.BC-Container .BC-View .list-container .list-content .list .Patient-list-card .date, .BC-Container .BC-Last .list-container .list-content .list .Patient-list-card .date {\n  grid-column-start: 3;\n  grid-column-end: 3;\n  grid-row-start: 1;\n  grid-row-end: 1;\n  overflow: hidden;\n}\n.BC-Container .BC-View .list-container .list-content .list .Patient-list-card .color, .BC-Container .BC-Last .list-container .list-content .list .Patient-list-card .color {\n  grid-column-start: 4;\n  grid-column-end: 4;\n  grid-row-start: 1;\n  grid-row-end: 1;\n  overflow: hidden;\n  padding-right: 2px;\n  margin-left: 1px;\n}\n.BC-Container .BC-View .list-container .list-content .list .Patient-list-card .edit, .BC-Container .BC-Last .list-container .list-content .list .Patient-list-card .edit {\n  grid-column-start: 5;\n  grid-column-end: 5;\n  grid-row-start: 1;\n  grid-row-end: 1;\n  overflow: hidden;\n}\n.BC-Container .BC-View .list-container .list-content .list .Patient-list-card .delete, .BC-Container .BC-Last .list-container .list-content .list .Patient-list-card .delete {\n  grid-column-start: 6;\n  grid-column-end: 6;\n  grid-row-start: 1;\n  grid-row-end: 1;\n  overflow: hidden;\n}\n.BC-Container .BC-View .list-container .list-content .list .Patient-list-card button, .BC-Container .BC-Last .list-container .list-content .list .Patient-list-card button {\n  width: 100%;\n  background-color: transparent;\n  border: none;\n  cursor: pointer;\n  transition: all 300ms cubic-bezier(0.28, -0.46, 0.33, 1.5);\n}\n.BC-Container .BC-View .list-container .list-content .list .Patient-list-card button img, .BC-Container .BC-Last .list-container .list-content .list .Patient-list-card button img {\n  width: 30px;\n}\n.BC-Container .BC-View .list-container .list-content .list .Patient-list-card button:hover, .BC-Container .BC-Last .list-container .list-content .list .Patient-list-card button:hover {\n  transform: rotate(20deg) scale(1.3);\n}\n\n.RecherchePatient {\n  display: flex;\n  flex-direction: column;\n  padding: 10px;\n}\n.RecherchePatient .header {\n  max-width: -webkit-fit-content;\n  max-width: -moz-fit-content;\n  max-width: fit-content;\n  margin: auto;\n}\n.RecherchePatient .PatientRechercheContent {\n  display: flex;\n  flex-direction: row;\n  flex-wrap: nowrap;\n  justify-content: space-around;\n  margin-top: 20px;\n}\n@media (max-width: 1600px) {\n  .RecherchePatient .PatientRechercheContent {\n    flex-direction: column !important;\n  }\n}\n.RecherchePatient .PatientRechercheContent .PatientInfos {\n  width: 68%;\n  padding: 10px;\n  height: calc(100vh - 170px);\n  border-radius: 30px;\n  background-color: #0C2646;\n}\n@media (max-width: 1600px) {\n  .RecherchePatient .PatientRechercheContent .PatientInfos {\n    height: 100%;\n    width: 90%;\n    margin: 20px auto;\n  }\n}\n.RecherchePatient .PatientRechercheContent .PatientInfos .Infos-Header {\n  padding: 5px 20px;\n  display: flex;\n  flex-direction: row;\n  flex-wrap: nowrap;\n  justify-content: center;\n}\n.RecherchePatient .PatientRechercheContent .PatientInfos .Infos-Header .Title {\n  display: flex;\n  background-color: #004662;\n  border-radius: 30px;\n  padding: 5px;\n}\n.RecherchePatient .PatientRechercheContent .PatientInfos .Infos-Header .Title h1 {\n  margin: auto;\n}\n.RecherchePatient .PatientRechercheContent .PatientInfos .form form {\n  width: 100%;\n  display: grid;\n}\n@media (min-width: 900px) {\n  .RecherchePatient .PatientRechercheContent .PatientInfos .form form {\n    grid-template-columns: 2% repeat(8, 12%) 2%;\n    grid-template-rows: repeat(8, 23px 65px);\n  }\n  .RecherchePatient .PatientRechercheContent .PatientInfos .form form .DescLabel {\n    grid-row-start: 2;\n    grid-row-end: 2;\n    grid-column-start: 2;\n    grid-column-end: 2;\n  }\n  .RecherchePatient .PatientRechercheContent .PatientInfos .form form .InterTypeLabel {\n    display: flex;\n    grid-row-start: 8;\n    grid-row-end: 8;\n    grid-column-start: 2;\n    grid-column-end: 4;\n  }\n  .RecherchePatient .PatientRechercheContent .PatientInfos .form form .InterTypeLabel label {\n    margin: auto 0;\n  }\n  .RecherchePatient .PatientRechercheContent .PatientInfos .form form .BroumLabel {\n    display: flex;\n    grid-row-start: 10;\n    grid-row-end: 10;\n    grid-column-start: 2;\n    grid-column-end: 4;\n  }\n  .RecherchePatient .PatientRechercheContent .PatientInfos .form form .BroumLabel label {\n    margin: auto 0;\n  }\n  .RecherchePatient .PatientRechercheContent .PatientInfos .form form .TarifLabel {\n    display: flex;\n    grid-row-start: 12;\n    grid-row-end: 12;\n    grid-column-start: 2;\n    grid-column-end: 4;\n  }\n  .RecherchePatient .PatientRechercheContent .PatientInfos .form form .TarifLabel label {\n    margin: auto 0;\n  }\n  .RecherchePatient .PatientRechercheContent .PatientInfos .form form .DescInput {\n    grid-row-start: 3;\n    grid-row-end: 7;\n    grid-column-start: 2;\n    grid-column-end: 10;\n  }\n  .RecherchePatient .PatientRechercheContent .PatientInfos .form form .InterInput {\n    grid-row-start: 8;\n    grid-row-end: 8;\n    grid-column-start: 5;\n    grid-column-end: 8;\n  }\n  .RecherchePatient .PatientRechercheContent .PatientInfos .form form .InterInput select {\n    width: 100%;\n    height: 100%;\n  }\n  .RecherchePatient .PatientRechercheContent .PatientInfos .form form .BroumInput {\n    grid-row-start: 10;\n    grid-row-end: 10;\n    grid-column-start: 5;\n    grid-column-end: 8;\n  }\n  .RecherchePatient .PatientRechercheContent .PatientInfos .form form .BroumInput select {\n    width: 100%;\n    height: 100%;\n  }\n  .RecherchePatient .PatientRechercheContent .PatientInfos .form form .TarifInput {\n    grid-row-start: 12;\n    grid-row-end: 12;\n    grid-column-start: 5;\n    grid-column-end: 8;\n  }\n  .RecherchePatient .PatientRechercheContent .PatientInfos .form form .TarifInput input {\n    width: 100%;\n    height: 100%;\n  }\n  .RecherchePatient .PatientRechercheContent .PatientInfos .form form .ATA {\n    grid-row-start: 14;\n    grid-row-end: 14;\n    grid-column-start: 2;\n    grid-column-end: 10;\n    display: flex;\n    flex-direction: row;\n    flex-wrap: nowrap;\n    justify-content: space-between;\n  }\n  .RecherchePatient .PatientRechercheContent .PatientInfos .form form .ATA label {\n    margin: auto 0;\n    font-size: 25px;\n    font-weight: 550;\n  }\n  .RecherchePatient .PatientRechercheContent .PatientInfos .form form .submit {\n    grid-row-start: 16;\n    grid-row-end: 16;\n    grid-column-start: 3;\n    grid-column-end: 5;\n  }\n  .RecherchePatient .PatientRechercheContent .PatientInfos .form form .PDF {\n    grid-row-start: 16;\n    grid-row-end: 16;\n    grid-column-start: 8;\n    grid-column-end: 10;\n  }\n}\n@media (max-width: 900px) {\n  .RecherchePatient .PatientRechercheContent .PatientInfos .form form {\n    grid-template-columns: 2% repeat(8, 12%) 2%;\n    grid-template-rows: repeat(12, 23px 65px);\n  }\n  .RecherchePatient .PatientRechercheContent .PatientInfos .form form .DescLabel {\n    grid-row-start: 2;\n    grid-row-end: 2;\n    grid-column-start: 2;\n    grid-column-end: 4;\n  }\n  .RecherchePatient .PatientRechercheContent .PatientInfos .form form .DescInput {\n    grid-row-start: 3;\n    grid-row-end: 7;\n    grid-column-start: 2;\n    grid-column-end: 10;\n  }\n  .RecherchePatient .PatientRechercheContent .PatientInfos .form form .InterTypeLabel {\n    display: flex;\n    grid-row-start: 8;\n    grid-row-end: 8;\n    grid-column-start: 2;\n    grid-column-end: 5;\n  }\n  .RecherchePatient .PatientRechercheContent .PatientInfos .form form .InterTypeLabel label {\n    margin: auto 0;\n  }\n  .RecherchePatient .PatientRechercheContent .PatientInfos .form form .BroumLabel {\n    display: flex;\n    grid-row-start: 10;\n    grid-row-end: 10;\n    grid-column-start: 2;\n    grid-column-end: 5;\n  }\n  .RecherchePatient .PatientRechercheContent .PatientInfos .form form .BroumLabel label {\n    margin: auto 0;\n  }\n  .RecherchePatient .PatientRechercheContent .PatientInfos .form form .TarifLabel {\n    display: flex;\n    grid-row-start: 12;\n    grid-row-end: 12;\n    grid-column-start: 2;\n    grid-column-end: 5;\n  }\n  .RecherchePatient .PatientRechercheContent .PatientInfos .form form .TarifLabel label {\n    margin: auto 0;\n  }\n  .RecherchePatient .PatientRechercheContent .PatientInfos .form form .InterInput {\n    grid-row-start: 8;\n    grid-row-end: 8;\n    grid-column-start: 6;\n    grid-column-end: 8;\n  }\n  .RecherchePatient .PatientRechercheContent .PatientInfos .form form .InterInput select {\n    width: 100%;\n    height: 100%;\n  }\n  .RecherchePatient .PatientRechercheContent .PatientInfos .form form .BroumInput {\n    grid-row-start: 10;\n    grid-row-end: 10;\n    grid-column-start: 6;\n    grid-column-end: 8;\n  }\n  .RecherchePatient .PatientRechercheContent .PatientInfos .form form .BroumInput select {\n    width: 100%;\n    height: 100%;\n  }\n  .RecherchePatient .PatientRechercheContent .PatientInfos .form form .TarifInput {\n    grid-row-start: 12;\n    grid-row-end: 12;\n    grid-column-start: 6;\n    grid-column-end: 8;\n  }\n  .RecherchePatient .PatientRechercheContent .PatientInfos .form form .TarifInput input {\n    width: 100%;\n    height: 100%;\n  }\n  .RecherchePatient .PatientRechercheContent .PatientInfos .form form .ATA {\n    grid-row-start: 14;\n    grid-row-end: 17;\n    grid-column-start: 2;\n    grid-column-end: 10;\n    display: flex;\n    flex-direction: row;\n    flex-wrap: wrap;\n    justify-content: space-evenly;\n  }\n  .RecherchePatient .PatientRechercheContent .PatientInfos .form form .ATA label {\n    margin: auto 0;\n    font-size: 25px;\n    font-weight: 550;\n  }\n  .RecherchePatient .PatientRechercheContent .PatientInfos .form form .submit {\n    grid-row-start: 20;\n    grid-row-end: 20;\n    grid-column-start: 3;\n    grid-column-end: 5;\n  }\n  .RecherchePatient .PatientRechercheContent .PatientInfos .form form .PDF {\n    grid-row-start: 22;\n    grid-row-end: 22;\n    grid-column-start: 3;\n    grid-column-end: 5;\n  }\n}\n.RecherchePatient .PatientRechercheContent .PatientInfos .form form input:disabled, .RecherchePatient .PatientRechercheContent .PatientInfos .form form select:disabled, .RecherchePatient .PatientRechercheContent .PatientInfos .form form textarea:disabled, .RecherchePatient .PatientRechercheContent .PatientInfos .form form button:disabled {\n  opacity: 0.7;\n  transition: none;\n}\n.RecherchePatient .PatientRechercheContent .PatientInfos .form form input:disabled:hover, .RecherchePatient .PatientRechercheContent .PatientInfos .form form select:disabled:hover, .RecherchePatient .PatientRechercheContent .PatientInfos .form form textarea:disabled:hover, .RecherchePatient .PatientRechercheContent .PatientInfos .form form button:disabled:hover {\n  -webkit-transform: scale(1);\n}\n.RecherchePatient .PatientRechercheContent .Recherche {\n  width: 28%;\n  height: calc(100vh - 170px);\n  overflow-y: auto;\n  border-radius: 30px;\n  background-color: #0C2646;\n  overflow-x: hidden;\n  display: flex;\n  flex-direction: column;\n}\n@media (max-width: 1600px) {\n  .RecherchePatient .PatientRechercheContent .Recherche {\n    height: 100%;\n    width: 90%;\n    margin: 20px auto;\n  }\n}\n.RecherchePatient .PatientRechercheContent .Recherche .FormRecherche {\n  display: flex;\n  width: 100%;\n  padding: 10px;\n  border-bottom: black 1px solid;\n}\n.RecherchePatient .PatientRechercheContent .Recherche .FormRecherche form {\n  display: flex;\n  flex-direction: row;\n  margin: 0 auto;\n}\n@media (max-width: 1600px) {\n  .RecherchePatient .PatientRechercheContent .Recherche .FormRecherche form input {\n    width: calc(100% - 90px);\n  }\n}\n.RecherchePatient .PatientRechercheContent .Recherche .FormRecherche form button {\n  margin: auto 5px;\n  display: flex;\n  height: 60px;\n  left: 50%;\n}\n.RecherchePatient .PatientRechercheContent .Recherche .FormRecherche form button img {\n  margin: auto;\n  height: 25px;\n}\n.RecherchePatient .PatientRechercheContent .Recherche .Interventions {\n  display: flex;\n  flex-direction: column;\n  margin: 15px auto;\n  width: 80%;\n  background-color: #004662;\n  border-radius: 30px;\n}\n.RecherchePatient .PatientRechercheContent .Recherche .Interventions h3 {\n  margin: 10px auto;\n  background-color: #0C2646;\n  font-size: 25px;\n  font-weight: 700;\n  padding: 5px 10px;\n  border-radius: 30px;\n}\n.RecherchePatient .PatientRechercheContent .Recherche .Interventions .InterventionsList {\n  height: 400px;\n  overflow-y: auto;\n  display: flex;\n  flex-direction: column;\n  margin: 10px auto;\n}\n.RecherchePatient .PatientRechercheContent .Recherche .Interventions .InterventionsList .InterventionItem {\n  margin: 0 auto;\n  padding: 10px 5px;\n  border-bottom: black 1px solid;\n}\n.RecherchePatient .PatientRechercheContent .Recherche .Interventions .InterventionsList .InterventionItem button {\n  cursor: pointer;\n  background-color: transparent;\n  border: none;\n  font-size: 20px;\n  font-weight: 600;\n  font-family: \"Baloo Thambi 2\", monospace;\n  color: #00FFFF;\n}\n.RecherchePatient .PatientRechercheContent .Recherche .infos {\n  padding: 15px;\n}\n@media (max-width: 1600px) {\n  .RecherchePatient .PatientRechercheContent .Recherche .infos {\n    margin: 0 auto;\n    width: 80%;\n  }\n}\n.RecherchePatient .PatientRechercheContent .Recherche .infos .inline {\n  padding: 15px;\n  display: flex;\n  flex-direction: row;\n  justify-content: space-between;\n}\n@media (max-width: 1600px) {\n  .RecherchePatient .PatientRechercheContent .Recherche .infos .inline {\n    flex-direction: column !important;\n    justify-content: normal !important;\n  }\n}\n.RecherchePatient .PatientRechercheContent .Recherche .infos .inline input {\n  width: 60%;\n}\n.RecherchePatient .PatientRechercheContent .Recherche .infos .inline label {\n  margin: auto 0;\n}\n\n.Services {\n  padding: 15px;\n  display: flex;\n  height: 95vh;\n  flex-direction: column;\n  justify-content: space-between;\n}\n@media (min-width: 1100px) and (max-width: 1200px) {\n  .Services {\n    overflow-x: scroll;\n  }\n}\n.Services section {\n  height: -webkit-min-content;\n  height: -moz-min-content;\n  height: min-content;\n}\n.Services .title-contain {\n  max-width: -webkit-fit-content;\n  max-width: -moz-fit-content;\n  max-width: fit-content;\n  margin: 0 auto;\n}\n.Services .week {\n  margin: 0 auto;\n}\n.Services .week table {\n  width: 800px;\n  border-collapse: collapse;\n  border-radius: 30px;\n  background-color: #0C2646;\n  display: block;\n  height: 300px;\n  overflow-y: scroll;\n}\n.Services .week table tr {\n  border: black 1px solid;\n  border-left: none;\n  border-right: none;\n}\n.Services .week table tr:first-child {\n  border-top: none;\n}\n.Services .week table tr:last-child {\n  border-bottom: none;\n}\n.Services .week table .head {\n  position: -webkit-sticky;\n  position: sticky;\n  top: 0;\n  border-bottom: black 1px solid;\n  background-color: #004662;\n  z-index: 10;\n  border-left: 1px black solid;\n  border-right: 1px black solid;\n}\n.Services .week table .head:first-child {\n  border-left: none;\n}\n.Services .week table .head:last-child {\n  border-right: none;\n}\n.Services .week table td {\n  width: 200px;\n  padding: 5px;\n  text-align: center;\n  font-family: \"Baloo Thambi 2\", monospace;\n  font-size: 25px;\n  color: #00FFFF;\n  border: black 1px solid;\n  border-top: none;\n  border-bottom: none;\n}\n.Services .week table td:first-child {\n  border-left: none;\n}\n.Services .week table td:last-child {\n  border-right: none;\n}\n.Services .week table .body {\n  width: 800px;\n  padding-top: 40px;\n}\n.Services .week table .header {\n  width: 800px;\n  background-color: #004662;\n  height: 40px;\n}\n.Services .week-list {\n  margin: 0 auto;\n}\n.Services .week-list table {\n  width: 900px;\n  height: 300px;\n  border-collapse: collapse;\n  border-radius: 30px;\n  background-color: #0C2646;\n}\n.Services .week-list table tr {\n  border: black 1px solid;\n  border-left: none;\n  border-right: none;\n}\n.Services .week-list table tr:last-child {\n  border-bottom: none;\n}\n.Services .week-list table td {\n  width: 200px;\n  padding: 5px;\n  text-align: center;\n  font-family: \"Baloo Thambi 2\", monospace;\n  font-size: 25px;\n  color: #00FFFF;\n  border: black 1px solid;\n  border-top: none;\n  border-bottom: none;\n}\n.Services .week-list table td:first-child {\n  border-left: none;\n}\n.Services .week-list table td:last-child {\n  border-right: none;\n}\n.Services .week-list table .body {\n  width: 800px;\n}\n.Services .week-list table .header {\n  width: 800px;\n  background-color: #004662;\n}\n.Services .week-list table .header tr:first-child {\n  border-top: none;\n}\n\n.impayes {\n  height: 100vh;\n  display: flex;\n  flex-direction: column;\n  justify-content: space-evenly;\n}\n.impayes .header {\n  display: flex;\n  flex-direction: row;\n  flex-wrap: nowrap;\n  justify-content: space-evenly;\n}\n.impayes .header .pdf_Generator {\n  margin: auto 0;\n  padding: 15px;\n  background-color: #0C2646;\n  border-radius: 30px;\n}\n.impayes .header .pdf_Generator form {\n  display: flex;\n  flex-direction: row;\n  justify-content: space-evenly;\n  margin: auto 0;\n}\n.impayes .header .pdf_Generator form label {\n  margin: auto 10px;\n}\n.impayes .header .pdf_Generator form .btn {\n  margin: auto 10px;\n}\n.impayes .header .Add-facture {\n  margin: auto 0;\n}\n.impayes .impayelist {\n  margin: 0 auto;\n  display: flex;\n  height: 80vh;\n  width: 80%;\n  background-color: #0C2646;\n  overflow-y: auto;\n  border-radius: 30px;\n  padding-bottom: 10px;\n}\n.impayes .impayelist .ImpayeTableContainer {\n  width: 100%;\n}\n.impayes .impayelist .ImpayeTableContainer table {\n  top: 0;\n  width: 100%;\n  border-collapse: collapse;\n}\n.impayes .impayelist .ImpayeTableContainer table tr {\n  width: 100%;\n  border: black 1px solid;\n  border-left: none;\n  border-right: none;\n}\n.impayes .impayelist .ImpayeTableContainer table tr:first-child {\n  border-top: none;\n}\n.impayes .impayelist .ImpayeTableContainer table tr:last-child {\n  border-bottom: none;\n}\n.impayes .impayelist .ImpayeTableContainer table .head {\n  position: -webkit-sticky;\n  position: sticky;\n  top: 0;\n  border-bottom: black 1px solid;\n  background-color: #004662;\n  z-index: 10;\n  border-left: 1px black solid;\n  border-right: 1px black solid;\n}\n.impayes .impayelist .ImpayeTableContainer table .head:first-child {\n  border-left: none;\n}\n.impayes .impayelist .ImpayeTableContainer table .head:last-child {\n  border-right: none;\n}\n.impayes .impayelist .ImpayeTableContainer table td {\n  width: 20%;\n  padding: 5px;\n  text-align: center;\n  font-family: \"Baloo Thambi 2\", monospace;\n  font-size: 25px;\n  color: #00FFFF;\n  height: 70px;\n  border: black 1px solid;\n  border-top: none;\n  border-bottom: none;\n}\n.impayes .impayelist .ImpayeTableContainer table td:first-child {\n  border-left: none;\n}\n.impayes .impayelist .ImpayeTableContainer table td:last-child {\n  border-right: none;\n}\n.impayes .impayelist .ImpayeTableContainer table thead tr {\n  border-bottom: 1px black solid !important;\n}\n.impayes .impayelist .ImpayeTableContainer table thead tr:nth-child(even) td {\n  background: #0f2f57;\n}\n.impayes .add-facture-form {\n  height: 100vh;\n  width: calc(100vw - 270px);\n  position: fixed;\n  z-index: 21;\n  display: flex;\n  justify-content: center;\n}\n.impayes .add-facture-form .card-facture {\n  margin: auto;\n  width: 700px;\n  height: 300px;\n  background-color: #0C2646;\n  border: 1px solid #00FFFF;\n  box-shadow: 0 0 15px 0px #00FFFF;\n  border-radius: 30px;\n  padding: 15px;\n}\n.impayes .add-facture-form .card-facture h1 {\n  text-align: center;\n  font-size: 35px;\n}\n.impayes .add-facture-form .card-facture form {\n  width: 100%;\n  display: flex;\n  flex-direction: column;\n}\n.impayes .add-facture-form .card-facture form .content {\n  margin-top: 15px;\n  display: flex;\n  flex-direction: row;\n  flex-wrap: wrap;\n  justify-content: space-evenly;\n}\n.impayes .add-facture-form .card-facture form .content .switch-container {\n  margin-top: 15px;\n}\n.impayes .add-facture-form .card-facture form .footer {\n  margin-top: 20px;\n  display: flex;\n  flex-direction: row;\n  justify-content: space-evenly;\n}\n\n.RapportHorraire {\n  width: 100%;\n  height: 100%;\n  display: flex;\n  flex-direction: column;\n  justify-content: space-around;\n}\n.RapportHorraire .header {\n  display: flex;\n  flex-direction: row;\n  justify-content: space-around;\n  padding-top: 10px;\n}\n.RapportHorraire .header .semaine-select {\n  margin: auto 0;\n}\n.RapportHorraire .header .semaine-select form {\n  background-color: #0C2646;\n  border-radius: 30px;\n  padding: 10px;\n  display: flex;\n  flex-direction: row;\n}\n.RapportHorraire .header .semaine-select form input {\n  margin: 0 10px;\n}\n.RapportHorraire .header .semaine-select form label, .RapportHorraire .header .semaine-select form button {\n  margin: auto 0;\n}\n.RapportHorraire .header .add-perso {\n  margin: auto 0;\n}\n.RapportHorraire .rapport-table-container {\n  margin: 25px auto;\n  height: 80vh;\n  width: 90%;\n  background-color: #0C2646;\n  border-radius: 30px;\n  overflow-y: scroll;\n  overflow-x: hidden;\n}\n.RapportHorraire .rapport-table-container .rapport-table {\n  width: 100%;\n  height: 100%;\n  border-collapse: collapse;\n  display: table;\n}\n.RapportHorraire .rapport-table-container .rapport-table .row {\n  display: table-row;\n  height: 40px;\n  border-top: 1px black solid;\n  border-bottom: 1px black solid;\n}\n.RapportHorraire .rapport-table-container .rapport-table .row:first-child {\n  border-top: none !important;\n}\n.RapportHorraire .rapport-table-container .rapport-table .row:last-child {\n  border-bottom: none !important;\n}\n.RapportHorraire .rapport-table-container .rapport-table .row:nth-child(even) .cell {\n  background: #0f2f57;\n}\n.RapportHorraire .rapport-table-container .rapport-table .cell {\n  border-left: 1px black solid;\n  border-right: 1px black solid;\n  width: 10%;\n  display: table-cell;\n  vertical-align: middle;\n}\n.RapportHorraire .rapport-table-container .rapport-table .cell p {\n  text-align: center;\n}\n.RapportHorraire .rapport-table-container .rapport-table .head {\n  position: -webkit-sticky;\n  position: sticky;\n  top: 0;\n  border-bottom: black 1px solid;\n  background-color: #004662;\n  z-index: 10;\n  height: 10px;\n  border-left: 1px black solid;\n  border-right: 1px black solid;\n}\n.RapportHorraire .rapport-table-container .rapport-table .head:first-child {\n  border-left: none;\n}\n.RapportHorraire .rapport-table-container .rapport-table .head:last-child {\n  border-right: none;\n}\n.RapportHorraire .rapport-table-container .rapport-table .column-1 {\n  text-wrap: normal;\n  border-left: none !important;\n}\n.RapportHorraire .rapport-table-container .rapport-table .column-10 {\n  border-right: none !important;\n}\n.RapportHorraire .rapport-table-container .rapport-table .table-header {\n  background-color: #004662;\n  border-top: none !important;\n  position: -webkit-sticky;\n  position: sticky;\n  height: 70px;\n  top: 0;\n}\n\n.ContentManagement {\n  width: 100%;\n  height: 100%;\n  display: flex;\n  flex-direction: column;\n  justify-content: center;\n}\n.ContentManagement .header {\n  display: flex;\n  flex-direction: row;\n  flex-wrap: nowrap;\n  justify-content: center;\n  margin-bottom: 10px;\n  height: 151px;\n}\n.ContentManagement .content-mgt {\n  width: 97%;\n  margin: 0 auto;\n  height: calc(100vh - 200px);\n  overflow-y: scroll;\n  display: flex;\n  flex-direction: row;\n  justify-content: space-evenly;\n  flex-wrap: wrap;\n  padding-top: 10px;\n}\n.ContentManagement .content-mgt .ContentCard {\n  width: 400px;\n  margin: 20px;\n  height: 500px;\n  background-color: #0C2646;\n  border-radius: 30px;\n  padding: 10px;\n  display: flex;\n  flex-direction: column;\n  justify-content: space-around;\n}\n.ContentManagement .content-mgt .ContentCard h1 {\n  text-align: center;\n  font-weight: 700;\n  font-size: 35px;\n}\n.ContentManagement .content-mgt .ContentCard:last-child {\n  margin-bottom: 100px;\n}\n.ContentManagement .content-mgt .ContentCard .item-list, .ContentManagement .content-mgt .ContentCard textarea {\n  margin: 0 auto;\n  background-color: #004662;\n  border-radius: 30px 0 0 30px;\n  padding: 10px;\n  height: 300px;\n  overflow-y: auto;\n  width: 90%;\n}\n.ContentManagement .content-mgt .ContentCard .item-list .item, .ContentManagement .content-mgt .ContentCard textarea .item {\n  display: flex;\n  flex-direction: row;\n  justify-content: space-between;\n  flex-wrap: nowrap;\n  width: 100%;\n  border-bottom: 1px black solid;\n  height: 50px;\n  padding: 5px 0;\n}\n.ContentManagement .content-mgt .ContentCard .item-list .item button, .ContentManagement .content-mgt .ContentCard textarea .item button {\n  cursor: pointer;\n  background-color: transparent;\n  border: none;\n  transition: 500ms ease-in-out;\n}\n.ContentManagement .content-mgt .ContentCard .item-list .item button img, .ContentManagement .content-mgt .ContentCard textarea .item button img {\n  height: 40px;\n}\n.ContentManagement .content-mgt .ContentCard .item-list .item button:hover, .ContentManagement .content-mgt .ContentCard textarea .item button:hover {\n  -webkit-transform: rotate(6deg);\n}\n.ContentManagement .content-mgt .ContentCard .item-list .item p, .ContentManagement .content-mgt .ContentCard textarea .item p {\n  margin: auto 0;\n  font-size: 25px;\n  max-width: 80%;\n  white-space: nowrap;\n  overflow: hidden;\n  text-overflow: ellipsis;\n}\n.ContentManagement .content-mgt .ContentCard form {\n  margin: 10px auto;\n  display: flex;\n  flex-direction: column;\n  width: 90%;\n}\n.ContentManagement .content-mgt .ContentCard form button {\n  margin-top: 10px;\n  margin-right: 0;\n  margin-left: auto;\n}\n\n.pilote-btn {\n  /*Button is :CHECKED*/\n  /*shared*/\n  /*'un':checked state*/\n  /* pesduo class on toggle */\n}\n.pilote-btn *::before, .pilote-btn *::after {\n  transition: 400ms all ease-in-out 50ms;\n  box-sizing: border-box;\n  -webkit-backface-visibility: hidden;\n          backface-visibility: hidden;\n}\n.pilote-btn input[type=checkbox]:checked ~ div {\n  background: #49a844;\n  box-shadow: 0 0 2px #49a844;\n}\n.pilote-btn input[type=checkbox]:checked ~ div label {\n  transform: translate(60px);\n}\n.pilote-btn input[type=checkbox] ~ div label {\n  transition: 300ms all ease-in-out 50ms;\n}\n.pilote-btn div,\n.pilote-btn label {\n  border-radius: 50px;\n}\n.pilote-btn input[type=checkbox] {\n  display: none;\n}\n.pilote-btn div {\n  height: 40px;\n  width: 80px;\n  background: #2b2b2b;\n  position: relative;\n  top: 0;\n  left: calc(50% - 35px);\n  box-shadow: 0 0 2px #2b2b2b;\n}\n.pilote-btn label {\n  height: 40px;\n  width: 40px;\n  background: white;\n  position: absolute;\n  top: 0;\n  left: -15px;\n  cursor: pointer;\n}\n.pilote-btn label::before {\n  content: \"\";\n  height: 60px;\n  width: 5px;\n  position: absolute;\n  top: calc(50% - 30px);\n  left: calc(50% - 2.5px);\n  transform: rotate(45deg);\n}\n.pilote-btn label::after {\n  content: \"\";\n  height: 5px;\n  width: 60px;\n  position: absolute;\n  top: calc(50% - 2.5px);\n  left: calc(50% - 30px);\n  transform: rotate(45deg);\n}\n.pilote-btn label::before,\n.pilote-btn label::after {\n  background: #2b2b2b;\n  border-radius: 5px;\n}\n.pilote-btn input[type=checkbox]:checked ~ div label::before {\n  height: 32px;\n  top: calc(55% - 19px);\n  left: calc(60% + 2px);\n  background: #49a844;\n}\n.pilote-btn input[type=checkbox]:checked ~ div label::after {\n  width: 21px;\n  top: calc(95% - 17px);\n  left: calc(22.5% - 7px);\n  background: #49a844;\n}\n\n.PersonnelList {\n  width: 100%;\n  height: 100%;\n  display: flex;\n  flex-direction: column;\n  justify-content: center;\n  flex-wrap: wrap;\n}\n.PersonnelList .header {\n  display: flex;\n  flex-direction: row;\n  justify-content: space-evenly;\n}\n.PersonnelList .header a {\n  margin: auto 0;\n}\n.PersonnelList .list-personnel {\n  margin: 10px auto;\n  background-color: #0C2646;\n  border-radius: 30px;\n  width: 90%;\n  height: calc(100vh - 151px);\n  overflow-y: scroll;\n  flex-grow: 1;\n}\n.PersonnelList .list-personnel table {\n  border-collapse: collapse;\n  width: 100%;\n}\n.PersonnelList .list-personnel table th {\n  position: -webkit-sticky;\n  position: sticky;\n  top: 0;\n  border-bottom: black 1px solid;\n  background-color: #004662;\n  z-index: 10;\n  border-left: 1px black solid;\n  border-right: 1px black solid;\n}\n.PersonnelList .list-personnel table th:first-child {\n  border-left: none;\n}\n.PersonnelList .list-personnel table th:last-child {\n  border-right: none;\n}\n.PersonnelList .list-personnel table .id {\n  width: 5%;\n  text-align: center;\n}\n.PersonnelList .list-personnel table .name {\n  width: 20%;\n  text-align: center;\n}\n.PersonnelList .list-personnel table .tel {\n  width: 15%;\n  text-align: center;\n}\n.PersonnelList .list-personnel table .compte {\n  width: 15%;\n  text-align: center;\n}\n.PersonnelList .list-personnel table .pilote {\n  width: 15%;\n}\n.PersonnelList .list-personnel table .grade {\n  width: 30%;\n}\n.PersonnelList .list-personnel table th, .PersonnelList .list-personnel table td {\n  font-family: \"Baloo Thambi 2\", monospace;\n  font-weight: 500;\n  font-size: 25px;\n  color: #00FFFF;\n  border-left: black 1px solid;\n  border-right: 1px black solid;\n}\n.PersonnelList .list-personnel table th:first-child, .PersonnelList .list-personnel table td:first-child {\n  border-left: none;\n}\n.PersonnelList .list-personnel table th:last-child, .PersonnelList .list-personnel table td:last-child {\n  border-right: none;\n}\n.PersonnelList .list-personnel table td:last-child form {\n  display: flex;\n  flex-direction: row;\n  justify-content: center;\n}\n.PersonnelList .list-personnel table td:last-child form select {\n  width: 300px;\n  margin-right: 20px;\n}\n.PersonnelList .list-personnel table td:last-child form button {\n  margin: auto 0;\n}\n.PersonnelList .list-personnel table tr {\n  border-top: 1px black solid;\n  border-bottom: 1px black solid;\n}\n.PersonnelList .list-personnel table tr:first-child {\n  border-top: none;\n}\n.PersonnelList .list-personnel table tr:last-child {\n  border-bottom: none;\n}\n.PersonnelList .list-personnel table tr:nth-child(even) td {\n  background: #0f2f57;\n}\n\n.Login, .Register {\n  width: 100%;\n  height: 100%;\n  display: flex;\n  justify-content: center;\n  background-image: url(\"/assets/bg/BG_1.jpg\");\n}\n.Login .Form, .Register .Form {\n  margin: auto auto;\n  background-color: #0C2646;\n  border-radius: 30px;\n  padding: 10px;\n}\n.Login .Form form, .Register .Form form {\n  display: flex;\n  flex-direction: column;\n}\n.Login .Form form h1, .Register .Form form h1 {\n  text-align: center;\n  font-size: 40px;\n  font-weight: 900;\n  color: #00FFFF;\n}\n.Login .Form form label, .Register .Form form label {\n  margin-top: 10px;\n  font-size: 30px;\n  font-weight: 600;\n}\n.Login .Form form .btn-contain, .Register .Form form .btn-contain {\n  display: flex;\n  flex-direction: row;\n  justify-content: space-evenly;\n  margin-top: 10px;\n}\n\n.maintenance {\n  width: 100vw;\n  height: 100vh;\n  display: flex;\n  justify-content: center;\n  background-image: url(\"/assets/bg/BG_2.jpg\");\n}\n.maintenance .card {\n  margin: auto auto;\n  background-color: #0C2646;\n  border-radius: 30px;\n  padding: 10px;\n  display: flex;\n  flex-direction: column;\n}\n.maintenance .card h1 {\n  text-align: center;\n  font-size: 40px;\n  font-weight: 900;\n  color: #00FFFF;\n}\n.maintenance .card .infos {\n  margin: 20px 0;\n  display: flex;\n  flex-direction: column;\n  padding: 20px 0;\n  border-bottom: 1px #004662 solid;\n  border-top: 1px #004662 solid;\n}\n.maintenance .card .infos .rowed {\n  padding: 0 30px;\n  display: flex;\n  flex-direction: row;\n  justify-content: space-between;\n}\n.maintenance .card .contact {\n  text-align: center;\n  margin-bottom: 10px;\n}\n\n.remboursement {\n  display: flex;\n  width: 100%;\n  height: 95vh;\n  padding: 10px;\n  flex-direction: column;\n  justify-content: space-between;\n}\n.remboursement .title-contain {\n  width: -webkit-min-content;\n  width: -moz-min-content;\n  width: min-content;\n  margin: 0 40px 0 auto;\n}\n.remboursement .MainContainer {\n  height: -webkit-max-content;\n  height: -moz-max-content;\n  height: max-content;\n  width: 80vw;\n  margin: 0 auto;\n  overflow: hidden;\n}\n.remboursement .MainContainer .selector {\n  margin-left: 25px;\n}\n.remboursement .MainContainer .selector button {\n  border: none;\n  background-color: #0C2646;\n  font-size: 28px;\n  font-family: \"Baloo Thambi 2\", monospace;\n  color: #00FFFF;\n  font-weight: 600;\n  margin-left: 10px;\n  padding: 10px;\n  border-radius: 25px 25px 0 0;\n  border-top: 1px black solid;\n  border-left: 1px black solid;\n  border-right: 1px black solid;\n}\n.remboursement .MainContainer .selector .unselected {\n  background-color: #004662;\n  cursor: pointer;\n}\n.remboursement .MainContainer .myview {\n  display: flex;\n  flex-direction: row;\n  flex-wrap: wrap;\n  background-color: #0C2646;\n  border-radius: 30px;\n}\n.remboursement .MainContainer .myview .add {\n  width: 49%;\n  min-width: 300px;\n  display: flex;\n}\n.remboursement .MainContainer .myview .add form {\n  margin: 0 auto;\n  width: 60%;\n  display: flex;\n  flex-direction: column;\n  justify-content: space-around;\n  max-height: 300px;\n}\n.remboursement .MainContainer .myview .add form h2 {\n  text-align: center;\n}\n.remboursement .MainContainer .myview .add form button {\n  margin: 0 0 0 auto;\n}\n.remboursement .MainContainer .myview .list-content {\n  display: flex;\n  width: 42%;\n  padding: 30px;\n}\n.remboursement .MainContainer .myview .list-content .list {\n  display: flex;\n  flex-direction: column;\n  height: 700px;\n  overflow-y: auto;\n  margin: 0 auto;\n  background-color: #004662;\n  border-radius: 30px;\n  width: 70%;\n  min-width: 300px;\n  padding: 5px;\n}\n.remboursement .MainContainer .myview .list-content .list .row {\n  display: flex;\n  flex-direction: row;\n  justify-content: space-between;\n  margin-bottom: 10px;\n  cursor: default;\n}\n.remboursement .MainContainer .myview .list-content .list .row h5 {\n  font-size: 22px;\n  line-height: 30px;\n}\n.remboursement .MainContainer .myview .list-content .list .row button {\n  background: transparent;\n  border: none;\n  cursor: pointer !important;\n}\n.remboursement .MainContainer .myview .list-content .list .row button img {\n  width: 30px;\n  transition: all 200ms;\n}\n.remboursement .MainContainer .myview .list-content .list .row button img:hover {\n  -webkit-transform: scale(1.2);\n}\n.remboursement .MainContainer .adminview {\n  display: flex;\n  flex-direction: column;\n  background-color: #0C2646;\n  border-radius: 30px;\n  width: 100%;\n  height: calc(100vh - 250px);\n  overflow-y: hidden;\n}\n.remboursement .MainContainer .adminview .table-head {\n  display: flex;\n  width: 100%;\n  height: 100px;\n}\n.remboursement .MainContainer .adminview .table-head form {\n  display: flex;\n  flex-direction: row;\n  padding: 10px;\n}\n.remboursement .MainContainer .adminview .table-head form label {\n  font-size: 28px;\n  margin: auto 10px auto 10px;\n  font-weight: 500;\n}\n.remboursement .MainContainer .adminview .table-head form button {\n  margin: auto 0 auto 30px;\n}\n.remboursement .MainContainer .adminview .table-head form input {\n  width: 70px;\n}\n.remboursement .MainContainer .adminview .table-container {\n  height: calc(100vh - 107px);\n  overflow-y: scroll;\n}\n.remboursement .MainContainer .adminview .table-container table {\n  border-collapse: collapse;\n  height: 500px;\n  width: 100%;\n  overflow-y: scroll;\n  border-radius: 30px;\n}\n.remboursement .MainContainer .adminview .table-container table .head {\n  position: -webkit-sticky;\n  position: sticky;\n  color: #00FFFF;\n  text-align: center;\n  padding: 10px;\n  height: 40px;\n  font-family: \"Baloo Thambi 2\", monospace;\n  font-weight: 600;\n  font-size: 25px;\n  top: 0;\n  background-color: #004662;\n}\n.remboursement .MainContainer .adminview .table-container table tbody tr {\n  height: 30px;\n  border-top: black 1px solid;\n  border-bottom: black 1px solid;\n}\n.remboursement .MainContainer .adminview .table-container table tbody tr td {\n  text-align: center;\n  padding: 10px;\n  font-family: \"Baloo Thambi 2\", monospace;\n  font-weight: 500;\n  font-size: 20px;\n  color: #00FFFF;\n  border-left: 1px black solid;\n  border-right: 1px black solid;\n}\n.remboursement .MainContainer .adminview .table-container table tbody tr td:last-child {\n  border-right: none !important;\n}\n.remboursement .MainContainer .adminview .table-container table tbody tr td:first-child {\n  border-left: none !important;\n}\n.remboursement .MainContainer .adminview .table-container table .id {\n  width: 70px;\n}\n\n.Logs {\n  width: 100%;\n  height: 100vh;\n  display: flex;\n  flex-direction: column;\n}\n.Logs .header {\n  display: flex;\n  flex-direction: row;\n  justify-content: space-around;\n  margin-bottom: 30px;\n  height: 130px;\n}\n.Logs .header .logs-select {\n  display: flex;\n  padding: 7px 20px;\n  background-color: #0C2646;\n  border-radius: 30px;\n}\n.Logs .header .logs-select select {\n  margin: auto;\n}\n.Logs .log-list {\n  margin: 0 auto;\n  height: calc(100vh - 250px);\n  background-color: #0C2646;\n  border-radius: 30px;\n  width: 90%;\n  padding: 10px;\n}\n.Logs .log-list .logs-header {\n  padding: 10px;\n  width: calc(100% - 20px);\n  height: 80px;\n  display: flex;\n  flex-direction: row;\n  justify-content: space-between;\n  border-bottom: 1px #00FFFF solid;\n}\n.Logs .log-list .logs-header p {\n  font-weight: 600;\n  font-size: 30px;\n  margin: auto 0;\n}\n.Logs .log-list .logs-header .pages {\n  display: flex;\n  flex-direction: row;\n  justify-content: space-evenly;\n  width: 550px;\n}\n.Logs .log-list .logs-header .pages label {\n  margin: auto 0;\n}\n.Logs .log-list .logs-header .pages button {\n  cursor: pointer;\n  background-color: transparent;\n  border: none;\n  font-size: 30px;\n  font-weight: 600;\n  color: #00FFFF;\n}\n.Logs .log-list .logs-header .pages p {\n  font-size: 30px;\n}\n.Logs .log-list .logs-header .pages button, .Logs .log-list .logs-header .pages p {\n  margin: auto 0;\n  height: 45px;\n}\n.Logs .log-list .logs-header .pages select {\n  width: 150px;\n}\n.Logs .log-list .table {\n  overflow-y: scroll;\n  max-height: calc(100% - 110px);\n  margin-top: 15px;\n}\n.Logs .log-list .table table {\n  top: 0;\n  width: 100%;\n  border-collapse: collapse;\n}\n.Logs .log-list .table table tr {\n  width: 100%;\n  border: black 1px solid;\n  border-left: none;\n  border-right: none;\n}\n.Logs .log-list .table table thead {\n  position: -webkit-sticky;\n  position: sticky;\n  top: 0;\n  border-bottom: black 1px solid;\n  background-color: #004662;\n  z-index: 10;\n  border-left: 1px black solid;\n  border-right: 1px black solid;\n}\n.Logs .log-list .table table td, .Logs .log-list .table table th {\n  padding: 5px;\n  text-align: center;\n  font-family: \"Baloo Thambi 2\", monospace;\n  font-size: 25px;\n  color: #00FFFF;\n  height: 70px;\n  border: black 1px solid;\n  border-top: none;\n  border-bottom: none;\n}\n.Logs .log-list .table table tr:nth-child(even) td {\n  background: #0f2f57;\n}\n.Logs .log-list .table table thead tr {\n  border-bottom: 1px black solid !important;\n}\n\n.BugRepport {\n  z-index: 25;\n  width: 100%;\n  position: fixed;\n  top: 0;\n  -webkit-backdrop-filter: blur(5px);\n          backdrop-filter: blur(5px);\n  height: 100vh;\n  display: flex;\n}\n.BugRepport .Repport-Card {\n  margin: auto;\n  width: 40%;\n  background-color: #0C2646;\n  border-radius: 30px;\n  border: 1px solid #00FFFF;\n  padding: 20px;\n}\n.BugRepport .Repport-Card h1 {\n  font-weight: 700;\n  font-size: 35px;\n  text-align: center;\n}\n.BugRepport .Repport-Card form {\n  display: flex;\n  flex-direction: column;\n}\n.BugRepport .Repport-Card .rowed {\n  display: flex;\n  flex-direction: row;\n  justify-content: space-evenly;\n}\n.BugRepport .Repport-Card .rowed button {\n  margin: auto 0;\n}\n\n.load {\n  display: flex;\n  width: 100%;\n  height: 100%;\n}\n.load img {\n  margin: auto auto;\n}\n\n.livret-page {\n  height: 100vh;\n  display: flex;\n  flex-direction: column;\n  justify-content: space-evenly;\n}\n.livret-page .title-contain {\n  margin: 10px auto;\n}\n.livret-page .livret {\n  margin: auto auto;\n  background-color: #0C2646;\n  border-radius: 30px;\n  height: calc(100vh - 200px);\n  width: 90%;\n  display: flex;\n  flex-direction: column;\n  flex-wrap: nowrap;\n  overflow: hidden;\n}\n.livret-page .livret .livret-content {\n  display: flex;\n  flex-direction: row;\n  flex-wrap: nowrap;\n  width: 100%;\n  padding: 20px;\n  height: 75%;\n}\n.livret-page .livret .livret-content .left, .livret-page .livret .livret-content .right {\n  height: 100%;\n  display: flex;\n  flex-direction: column;\n  justify-content: space-between;\n  width: 45%;\n  padding: 0 10px;\n  border-collapse: collapse;\n}\n.livret-page .livret .livret-content .left {\n  padding: 10px;\n  border-right: 1px #00FFFF solid;\n}\n.livret-page .livret .livret-content .left .forma:hover {\n  transform: rotate(-2deg);\n}\n.livret-page .livret .livret-content .right {\n  padding: 10px;\n  border-left: 1px #00FFFF solid;\n}\n.livret-page .livret .livret-content .right .forma:hover {\n  transform: rotate(2deg);\n}\n.livret-page .livret .livret-content .forma {\n  display: flex;\n  flex-direction: column;\n  cursor: pointer;\n  transition: all 400ms ease-in-out;\n}\n.livret-page .livret .livret-content .forma .infos {\n  display: flex;\n  flex-direction: row;\n  flex-wrap: nowrap;\n}\n.livret-page .livret .livret-content .forma .infos img {\n  width: 275px;\n  height: 154px;\n  border-radius: 30px;\n}\n.livret-page .livret .livret-content .forma .infos .text {\n  margin-left: 10px;\n}\n.livret-page .livret .livret-content .forma .infos .text h5 {\n  font-size: 25px;\n  font-weight: 700;\n}\n.livret-page .livret .livret-content .forma .infos .text p {\n  text-indent: 30px;\n  text-align: justify;\n  height: 100px;\n  overflow: hidden;\n}\n.livret-page .livret .livret-content .forma .validation {\n  border-radius: 30px;\n  display: grid;\n  grid-template-columns: 5% 20% 45% 30%;\n  grid-template-rows: 70px;\n  height: 80px;\n  background-color: #004662;\n}\n.livret-page .livret .livret-content .forma .validation h3 {\n  grid-column-start: 2;\n  grid-column-end: 2;\n  line-height: 70px;\n  font-size: 25px;\n  font-weight: 800;\n}\n.livret-page .livret .livret-content .forma .validation img {\n  grid-column-start: 4;\n  grid-column-end: 4;\n  width: 120px;\n  transform: rotate(12deg) translateY(12px);\n}\n.livret-page .livret .livret-footer {\n  padding: 20px 40px;\n  height: 15%;\n  width: calc(100% - 80px);\n  display: flex;\n  flex-direction: row;\n  justify-content: space-between;\n}\n.livret-page .livret .livret-footer button {\n  margin: auto 0;\n}\n\n.responsepage {\n  height: 100vh;\n  display: flex;\n  flex-direction: column;\n  justify-content: space-evenly;\n}\n.responsepage .title-contain {\n  margin: 0 auto;\n}\n.responsepage .responsecontent {\n  overflow-y: hidden;\n  height: calc(100vh - 200px);\n  width: 90%;\n  margin: 0 auto;\n  background-color: #0C2646;\n  border-radius: 30px;\n}\n.responsepage .responsecontent form {\n  width: 100%;\n  height: 100%;\n  display: flex;\n  flex-direction: column;\n  flex-wrap: nowrap;\n}\n.responsepage .responsecontent form .question {\n  height: 90%;\n  margin-bottom: 10px;\n  display: flex;\n  flex-direction: row;\n  flex-wrap: nowrap;\n}\n.responsepage .responsecontent form .question .left {\n  width: 80%;\n  padding: 10px;\n}\n.responsepage .responsecontent form .question .left h2 {\n  margin-top: 30px;\n  font-size: 35px;\n  text-wrap: avoid;\n  max-height: 100px;\n  overflow-y: hidden;\n  margin-bottom: 15px;\n  margin-left: 20px;\n}\n.responsepage .responsecontent form .question .left h2 span {\n  -webkit-text-decoration: #00FFFF underline 3px;\n          text-decoration: #00FFFF underline 3px;\n}\n.responsepage .responsecontent form .question .left .response {\n  padding-left: 60px;\n  height: calc(100% - 210px);\n  padding-top: 20px;\n  overflow-y: auto;\n}\n.responsepage .responsecontent form .question .left .response .rowed {\n  margin: 30px 0;\n}\n.responsepage .responsecontent form .question .left .response .rowed .checkbox .container {\n  display: block;\n  position: relative;\n  padding-left: 35px;\n  margin-bottom: 12px;\n  font-size: 25px;\n  cursor: pointer;\n  -webkit-user-select: none;\n  -moz-user-select: none;\n  -ms-user-select: none;\n  user-select: none;\n}\n.responsepage .responsecontent form .question .left .response .rowed .checkbox .container input {\n  position: absolute;\n  opacity: 0;\n  cursor: pointer;\n  top: 10px;\n  height: 0;\n  margin-right: 20px;\n  width: 0;\n}\n.responsepage .responsecontent form .question .left .response .rowed .checkbox .container input:disabled {\n  cursor: default !important;\n}\n.responsepage .responsecontent form .question .left .response .rowed .checkbox .container .checkmark {\n  position: absolute;\n  top: 7px;\n  left: -10px;\n  height: 25px;\n  width: 25px;\n  background-color: #004662;\n  border-radius: 50%;\n}\n.responsepage .responsecontent form .question .left .response .rowed .checkbox .container .checkmark:after {\n  content: \"\";\n  position: absolute;\n  display: none;\n}\n.responsepage .responsecontent form .question .left .response .rowed .checkbox .user:checked ~ .checkmark {\n  background-color: #00FFFF;\n}\n.responsepage .responsecontent form .question .left .response .rowed .checkbox .false:checked ~ .checkmark {\n  background-color: #e3342f;\n  box-shadow: 0 0 20px 7px #FF0000;\n}\n.responsepage .responsecontent form .question .left .response .rowed .checkbox .right:checked ~ .checkmark {\n  background-color: #38c172;\n  box-shadow: 0 0 20px 7px #00FF00;\n}\n.responsepage .responsecontent form .question .left .response .rowed .checkbox .container input:checked ~ .checkmark:after {\n  display: block;\n}\n.responsepage .responsecontent form .question .left .response .rowed .checkbox .disabled {\n  cursor: default !important;\n}\n.responsepage .responsecontent form .question .left .response .rowed label {\n  font-size: 25px;\n}\n.responsepage .responsecontent form .question .infos {\n  width: 20%;\n  padding: 10px;\n  min-width: 290px;\n  display: flex;\n  flex-direction: column;\n}\n.responsepage .responsecontent form .question .infos img {\n  width: 275px;\n  height: 154px;\n  border-radius: 30px;\n  margin-top: 20px;\n}\n.responsepage .responsecontent form .question .infos p {\n  text-indent: 20px;\n  text-align: justify-all;\n  word-break: break-word;\n}\n.responsepage .responsecontent form .question .infos .correction p {\n  color: green;\n}\n.responsepage .responsecontent form .bottom {\n  border-top: 1px #00FFFF solid;\n  display: flex;\n  flex-direction: row;\n  justify-content: space-evenly;\n}\n.responsepage .responsecontent form .bottom h3, .responsepage .responsecontent form .bottom button {\n  margin: auto 0;\n}\n.responsepage .responsecontent form .bottom h3 {\n  font-size: 30px;\n}\n\n.moncompte {\n  display: flex;\n  flex-direction: column;\n  justify-content: space-around;\n  height: 100vh;\n}\n.moncompte .title-contain {\n  margin: 15px auto 15px auto;\n  text-align: center;\n}\n.moncompte .title-contain span {\n  font-weight: 500;\n  font-size: 30px;\n}\n.moncompte .account-container {\n  margin: auto auto;\n  width: 90%;\n}\n.moncompte .account-container .header {\n  height: 60px;\n  margin-left: 40px;\n  display: flex;\n  flex-direction: row;\n}\n.moncompte .account-container .header button {\n  border: none;\n  background-color: #0C2646;\n  font-size: 28px;\n  font-family: \"Baloo Thambi 2\", monospace;\n  color: #00FFFF;\n  font-weight: 600;\n  margin-left: 10px;\n  padding: 10px;\n  border-radius: 25px 25px 0 0;\n  border-top: 1px black solid;\n  border-left: 1px black solid;\n  border-right: 1px black solid;\n  display: flex;\n  flex-direction: row;\n}\n.moncompte .account-container .header button img {\n  width: 28px;\n  margin: auto 10px auto 0;\n}\n.moncompte .account-container .header .unselected {\n  background-color: #004662;\n  cursor: pointer;\n}\n.moncompte .account-container .acc-content {\n  height: calc(100vh - 340px);\n  border-radius: 30px;\n  background-color: #0C2646;\n  display: flex;\n  flex-direction: row;\n  flex-wrap: nowrap;\n}\n.moncompte .account-container .acc-content .rowed {\n  display: flex;\n  flex-direction: row;\n}\n.moncompte .account-container .acc-content .conlumn {\n  display: flex;\n  flex-direction: column;\n}\n.moncompte .account-container .acc-content .changedata {\n  width: 50%;\n}\n.moncompte .account-container .acc-content .changedata form {\n  height: 95%;\n  width: 90%;\n  display: flex;\n  flex-direction: column;\n  justify-content: space-around;\n  padding: 30px;\n}\n.moncompte .account-container .acc-content .changedata form .rowed {\n  justify-content: space-between;\n}\n.moncompte .account-container .acc-content .changedata form .rowed input, .moncompte .account-container .acc-content .changedata form .rowed select {\n  width: 350px;\n}\n.moncompte .account-container .acc-content .changedata form .rowed label {\n  font-size: 30px;\n  margin: auto 0;\n}\n.moncompte .account-container .acc-content .changedata form button {\n  margin: 0 0 0 auto;\n}\n.moncompte .account-container .acc-content .info {\n  color: #004662;\n  margin: 0 auto;\n  font-weight: 700;\n  font-size: 25px;\n  text-align: right;\n}\n.moncompte .account-container .acc-content .bigchange {\n  width: 50%;\n  padding: 20px;\n  display: flex;\n  flex-direction: column;\n  justify-content: space-evenly;\n}\n.moncompte .account-container .acc-content .bigchange .btn {\n  margin: 0 auto;\n}\n.moncompte .account-container .acc-content .bigchange .img {\n  width: 100%;\n  height: 60%;\n}\n.moncompte .account-container .acc-content .bigchange .img .rowed h2 {\n  margin: auto 50px auto 0;\n}\n.moncompte .account-container .acc-content .bigchange .img form {\n  margin-top: 35px;\n  height: 60%;\n  display: flex;\n  flex-direction: column;\n  justify-content: space-evenly;\n}\n.moncompte .account-container .acc-content .bigchange .img form .right {\n  margin: 0 0 0 auto;\n}\n.moncompte .account-container .acc-content .bigchange .img form .rowed {\n  display: flex;\n  flex-direction: row;\n  justify-content: space-between;\n}\n.moncompte .account-container .acc-content .bigchange .img form .rowed label, .moncompte .account-container .acc-content .bigchange .img form .rowed h4 {\n  margin: auto 0;\n  font-size: 25px;\n}\n\n.perm {\n  display: flex;\n  flex-direction: column;\n  height: 100vh;\n  overflow-y: hidden;\n  justify-content: space-around;\n}\n.perm .header {\n  display: flex;\n  flex-direction: row;\n  width: 100%;\n  justify-content: space-evenly;\n}\n.perm .header .title-contain {\n  margin: auto 0;\n}\n.perm .header a {\n  margin: auto 0;\n}\n.perm .content {\n  margin: 0 auto;\n  height: calc(100vh - 300px);\n  width: 90%;\n  border-radius: 30px;\n  background-color: #0C2646;\n  overflow-y: scroll;\n}\n.perm .content .tablecontainer table {\n  width: 100%;\n  border-collapse: collapse;\n  display: grid;\n  grid-template-columns: repeat(27, 160px);\n}\n.perm .content .tablecontainer table thead, .perm .content .tablecontainer table tbody, .perm .content .tablecontainer table tr {\n  display: contents;\n}\n.perm .content .tablecontainer table td {\n  z-index: 1;\n  padding: 15px;\n  overflow: hidden;\n  text-overflow: ellipsis;\n  white-space: nowrap;\n  display: flex;\n  justify-content: center;\n  align-items: center;\n}\n.perm .content .tablecontainer table .grade {\n  font-size: 22px;\n  padding: 5px;\n  display: flex;\n  justify-content: center;\n  align-items: center;\n  font-family: \"Baloo Thambi 2\", monospace;\n  text-overflow: ellipsis;\n  overflow: hidden;\n  white-space: nowrap;\n}\n.perm .content .tablecontainer table th {\n  z-index: 12;\n  border-collapse: collapse;\n  color: #00FFFF;\n  font-family: \"Baloo Thambi 2\", monospace;\n  height: 110px;\n  position: -webkit-sticky;\n  position: sticky;\n  top: 0;\n  background: #004662;\n  padding: 5px;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  font-weight: normal;\n  font-size: 1.1rem;\n  border: 1px black solid;\n  border-top: none;\n}\n.perm .content .tablecontainer table th:first-child {\n  border-left: none;\n}\n.perm .content .tablecontainer table th:last-child {\n  border-right: none;\n}\n.perm .content .tablecontainer table td {\n  padding-top: 10px;\n  padding-bottom: 10px;\n  color: #00FFFF;\n}\n.perm .content .tablecontainer table tr:nth-child(even) td {\n  background: #0f2f57;\n}\n\n.carnetvol {\n  display: flex;\n  flex-direction: column;\n  justify-content: space-around;\n  height: 100vh;\n  overflow-y: hidden;\n}\n.carnetvol .head {\n  display: flex;\n  flex-direction: row;\n  justify-content: space-evenly;\n  width: 100%;\n}\n.carnetvol .head button {\n  margin: auto 0;\n}\n.carnetvol .head .title-contain {\n  margin: auto 0;\n}\n.carnetvol .table-container {\n  height: calc(100vh - 200px);\n  overflow-y: scroll;\n  background-color: #0C2646;\n  border-radius: 30px;\n  margin: 0 auto;\n  width: 90%;\n}\n.carnetvol .table-container table {\n  width: 100%;\n  border-collapse: collapse;\n}\n.carnetvol .table-container table tr {\n  height: 60px;\n  border-top: 1px black solid;\n  border-bottom: 1px black solid;\n}\n.carnetvol .table-container table tr:first-child {\n  border-top: none !important;\n}\n.carnetvol .table-container table tr:nth-child(even) td {\n  background: #0f2f57;\n}\n.carnetvol .table-container table th, .carnetvol .table-container table td {\n  color: #00FFFF;\n  font-size: 20px;\n  font-family: \"Baloo Thambi 2\", monospace;\n  text-align: center;\n}\n.carnetvol .table-container table th {\n  background-color: #004662;\n  position: -webkit-sticky;\n  position: sticky;\n  top: 0;\n}\n\n.popup {\n  position: fixed;\n  top: 0;\n  height: 100vh;\n  -webkit-backdrop-filter: blur(2px);\n          backdrop-filter: blur(2px);\n  z-index: 14;\n  display: flex;\n}\n@media (min-width: 1100px) {\n  .popup {\n    width: calc(100vw - 270px);\n  }\n}\n@media (max-width: 1100px) {\n  .popup {\n    width: calc(100vw);\n  }\n}\n.popup .center {\n  margin: auto auto;\n  width: 90%;\n  max-width: 550px;\n  height: 350px;\n  background-color: #0C2646;\n  border-radius: 30px;\n  border: 1px #00FFFF solid;\n}\n.popup .center form {\n  height: 100%;\n  display: flex;\n  flex-direction: column;\n  justify-content: space-evenly;\n}\n.popup .center h2 {\n  font-size: 30px;\n  font-weight: 700;\n  text-align: center;\n}\n.popup .center .rowed {\n  padding: 0 30px;\n  display: flex;\n  flex-direction: row;\n  justify-content: space-between;\n}\n.popup .center .rowed label {\n  margin: auto 0;\n}\n.popup .center select, .popup .center input {\n  width: 260px;\n}\n.popup .center .button {\n  display: flex;\n  flex-direction: row;\n  justify-content: space-evenly;\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "@charset \"UTF-8\";\nh1 {\n  font-family: \"Baloo Thambi 2\", serif;\n  font-weight: 800;\n  font-size: 30px;\n  color: #00FFFF;\n}\n\nh2 {\n  font-family: \"Baloo Thambi 2\", serif;\n  font-weight: 700;\n  font-size: 25px;\n  color: #00FFFF;\n}\n\nh3 {\n  font-family: \"Baloo Thambi 2\", serif;\n  font-weight: 600;\n  font-size: 20px;\n  color: #00FFFF;\n}\n\nh4 {\n  font-family: \"Baloo Thambi 2\", serif;\n  font-weight: 500;\n  font-size: 20px;\n  color: #00FFFF;\n}\n\nh5 {\n  font-family: \"Baloo Thambi 2\", serif;\n  font-weight: 400;\n  font-size: 18px;\n  color: #00FFFF;\n}\n\nh6 {\n  font-family: \"Baloo Thambi 2\", serif;\n  font-weight: 300;\n  font-size: 15px;\n  color: #00FFFF;\n}\n\nh1, h2, h3, h4, h5, h6 {\n  margin: 0 0;\n}\n\ninput, select, textarea {\n  color: #00FFFF;\n  background-color: #004662;\n  margin: 10px 0;\n  font-size: 20px;\n  font-family: \"Baloo Thambi 2\", monospace;\n  font-weight: 500;\n  box-shadow: none;\n  border: none;\n  border-radius: 30px;\n  padding: 10px;\n}\ninput::-moz-placeholder, select::-moz-placeholder, textarea::-moz-placeholder {\n  color: #00FFFF;\n}\ninput:-ms-input-placeholder, select:-ms-input-placeholder, textarea:-ms-input-placeholder {\n  color: #00FFFF;\n}\ninput::placeholder, select::placeholder, textarea::placeholder {\n  color: #00FFFF;\n}\ninput:-webkit-autofill, select:-webkit-autofill, textarea:-webkit-autofill {\n  background-color: #004662 !important;\n  color: #00FFFF !important;\n}\n\na, p, label {\n  color: #00FFFF;\n  font-family: \"Baloo Thambi 2\", monospace;\n  font-weight: normal;\n  font-size: 20px;\n}\n\n.Title {\n  font-size: 35px;\n  font-family: \"Baloo Thambi 2\", monospace;\n  font-weight: 900;\n  text-align: center;\n  margin-bottom: 10px;\n}\n\na {\n  text-decoration: none;\n}\n\n.Form-Line {\n  display: flex;\n  flex-direction: row;\n  flex-wrap: nowrap;\n  justify-content: center;\n}\n\n.btn {\n  height: -webkit-fit-content;\n  height: -moz-fit-content;\n  height: fit-content;\n  width: -webkit-fit-content;\n  width: -moz-fit-content;\n  width: fit-content;\n  padding: 10px 20px;\n  background-color: #004662;\n  color: #00FFFF;\n  border-radius: 30px;\n  font-family: \"Baloo Thambi 2\", monospace;\n  font-weight: 600;\n  font-size: 25px;\n  border: none;\n  cursor: pointer;\n  transition: 400ms cubic-bezier(0.28, -0.46, 0.33, 1.5);\n}\n.btn:hover {\n  -webkit-transform: scale(1.2);\n}\n\n.form-error p {\n  color: #FF0000;\n  margin: 0;\n}\n\n.TableBottom {\n  background-color: #004662;\n  width: 100%;\n  height: 100px;\n  position: -webkit-sticky;\n  position: sticky;\n  bottom: 0;\n  border-top: 1px #0C2646 solid;\n  display: flex;\n  flex-direction: row;\n  flex-wrap: nowrap;\n  justify-content: space-between;\n  z-index: 10;\n}\n.TableBottom .searsh {\n  display: flex;\n}\n.TableBottom .searsh input {\n  margin: auto 20px;\n  background-color: #0C2646;\n}\n.TableBottom .pages {\n  display: flex;\n  flex-direction: row;\n  justify-content: space-evenly;\n  padding-right: 30px;\n}\n.TableBottom .pages button {\n  background-color: #0C2646;\n  border-radius: 20px;\n  font-size: 30px;\n  font-weight: 700;\n  border: none;\n  color: #00FFFF;\n  margin: auto 0;\n  font-family: \"Baloo Thambi 2\", monospace;\n  padding: 5px 20px;\n  cursor: pointer;\n  transition: all 500ms;\n}\n.TableBottom .pages button:hover {\n  transform: scale(1.2) rotate(5deg);\n}\n.TableBottom .pages h5 {\n  font-size: 30px;\n  font-weight: 700;\n  margin: auto 10px;\n}\n\n.title-contain {\n  background-color: #0C2646;\n  border-radius: 30px;\n  padding: 5px;\n}\n.title-contain h1 {\n  font-size: 58px;\n  padding: 5px;\n}\n\n.beta {\n  width: 70px;\n  height: 45px;\n  border: 1px #FFa500 solid;\n  background-color: rgba(255, 140, 0, 0.1);\n  display: flex;\n  border-radius: 40px;\n}\n.beta:after {\n  padding: 7px;\n  margin: auto;\n  font-size: 20px;\n  font-family: \"Baloo Thambi 2\", monospace;\n  content: \"bêta\";\n  color: #FFa500;\n}\n\n.onoffswitch {\n  position: relative;\n  width: 120px;\n  -webkit-user-select: none;\n  -moz-user-select: none;\n  -ms-user-select: none;\n}\n.onoffswitch .onoffswitch-checkbox {\n  position: absolute;\n  opacity: 0;\n  pointer-events: none;\n}\n.onoffswitch .onoffswitch-label {\n  display: block;\n  overflow: hidden;\n  cursor: pointer;\n  border-radius: 30px;\n}\n.onoffswitch .onoffswitch-inner {\n  display: block;\n  width: 200%;\n  margin-left: -100%;\n  transition: 400ms cubic-bezier(0.28, -0.46, 0.33, 1.5);\n}\n.onoffswitch .onoffswitch-inner:before, .onoffswitch .onoffswitch-inner:after {\n  display: block;\n  float: left;\n  width: 50%;\n  height: 40px;\n  padding: 0;\n  line-height: 35px;\n  font-size: 20px;\n  color: #004662;\n  font-family: \"Baloo Thambi 2\", monospace;\n  font-weight: bold;\n  box-sizing: border-box;\n  border: 2px solid transparent;\n}\n.onoffswitch .onoffswitch-inner:before {\n  content: \"OUI\";\n  padding-left: 20px;\n  background-color: #2DF037;\n  color: #0C2646;\n}\n.onoffswitch .onoffswitch-inner:after {\n  content: \"NON\";\n  padding-right: 20px;\n  background-color: #DB1B1B;\n  color: #0C2646;\n  text-align: right;\n}\n.onoffswitch .onoffswitch-switch {\n  display: block;\n  width: 50px;\n  margin: 0;\n  height: 50px;\n  background: #004662;\n  border-radius: 30px;\n  position: absolute;\n  top: -5px;\n  bottom: 0;\n  right: 80px;\n  transition: 300ms cubic-bezier(0.28, -0.46, 0.33, 1.5);\n}\n.onoffswitch .onoffswitch-checkbox:checked + .onoffswitch-label .onoffswitch-inner {\n  margin-left: 0;\n}\n.onoffswitch .onoffswitch-checkbox:checked + .onoffswitch-label .onoffswitch-switch {\n  right: -5px;\n}\n\nhtml {\n  position: fixed;\n  padding: 0;\n  margin: 0;\n  height: 100vh;\n  width: 100vw;\n  top: 0;\n  left: 0;\n}\n\nbody {\n  padding: 0;\n  margin: 0;\n  height: 100vh;\n  width: 100vw;\n}\n\n.AppContainer {\n  padding: 0;\n  margin: 0;\n  height: 100vh;\n  width: 100vw;\n}\n\n#app {\n  height: 100vh;\n  width: 100vw;\n  background-color: #313124;\n}\n\n#layout {\n  height: 100vh;\n  overflow-x: hidden !important;\n}\n@media (max-width: 1600px) {\n  #layout {\n    overflow-y: auto;\n  }\n  #layout .mobildisabled {\n    display: none;\n  }\n}\n\n.notifications-component {\n  top: 0;\n  right: 0;\n  z-index: 154400;\n  width: 500px;\n  height: 100vw;\n}\n.notifications-component .notifications {\n  width: 95%;\n  margin-right: 5%;\n  height: 150px;\n  margin-bottom: 5px;\n  border-radius: 30px;\n  display: flex;\n  overflow: hidden;\n  flex-direction: column;\n  justify-content: space-between;\n}\n.notifications-component .notifications .notif-header {\n  display: flex;\n  flex-direction: row;\n  justify-content: space-between;\n  padding: 0 15px 0 15px;\n}\n.notifications-component .notifications .notif-header button {\n  background-color: transparent;\n  border: none;\n}\n.notifications-component .notifications .notif-separator {\n  height: 2px;\n  width: 100%;\n  background-color: #004662;\n}\n.notifications-component .notifications .notif-content {\n  padding: 0 15px 0 15px;\n}\n.notifications-component .notifications .notif-content p {\n  margin: 0;\n  text-indent: 20px;\n  font-size: 18px;\n}\n.notifications-component .notifications .progress-bar {\n  width: 100%;\n  height: 15px;\n  background-color: #0C2646;\n}\n.notifications-component .notifications .progress-bar .progress {\n  height: 15px;\n  border-radius: 15px 0;\n  background-color: #004662;\n}\n.notifications-component .success {\n  background-color: green;\n}\n.notifications-component .warning {\n  background-color: orange;\n}\n.notifications-component .danger {\n  background-color: red;\n}\n\n::-webkit-scrollbar {\n  width: 10px;\n}\n\n::-webkit-scrollbar-track {\n  background-color: rgba(143, 143, 143, 0.1);\n  border-radius: 30px;\n}\n\n::-webkit-scrollbar-thumb {\n  background: #000;\n  border-radius: 30px;\n}\n\n.OnService {\n  color: #00FF00;\n  font-family: \"Baloo Thambi 2\", monospace;\n  font-weight: 600;\n  font-size: 25px;\n  text-shadow: 0 0 30px #00FF00;\n}\n\n.OffService {\n  color: #FF0000;\n  font-family: \"Baloo Thambi 2\", monospace;\n  font-weight: 600;\n  font-size: 25px;\n  text-shadow: 0 0 30px #FF0000;\n}\n\n#service {\n  height: 66px;\n  width: 240px;\n  z-index: 4;\n  border-radius: 90px;\n  background-color: #004662;\n  margin: 10px;\n  padding: 5px;\n  border: none;\n  box-shadow: none;\n  transition: all 400ms cubic-bezier(0.51, -1.15, 0.48, 2.27);\n  cursor: pointer;\n}\n#service:hover {\n  transform: scale(1.1);\n  -webkit-transform: scale(1.1);\n}\n#service:active {\n  -webkit-box-shadow: none;\n  border: none;\n}\n#service:disabled {\n  cursor: default;\n  color: #1a202c;\n  text-shadow: none;\n  transition: none;\n  transform: none;\n}\n\n.menu-content {\n  background-color: #0C2646;\n  width: 270px;\n  position: fixed;\n  margin-left: 0;\n  margin-top: 0;\n  height: 100vh;\n}\n.menu-content .Menusepartor {\n  height: 2px;\n  width: 100%;\n  background-color: #00FFFF;\n  margin: 10px 0;\n}\n.menu-content #Logo {\n  width: 100%;\n  height: 200px;\n  display: flex;\n}\n.menu-content #Logo a {\n  margin: 0 auto;\n  padding: 0;\n}\n.menu-content #Logo a img {\n  width: 200px;\n}\n.menu-content #logout {\n  width: 30px;\n  margin: 5px;\n  border-radius: 30px;\n  height: 30px;\n  padding: 5px;\n  z-index: 14;\n  position: fixed;\n  background-color: #00FFFF;\n  box-shadow: 0 0 20px 1px #00FFFF;\n  transition: all 400ms cubic-bezier(0.51, -1.15, 0.48, 2.27);\n  cursor: pointer;\n}\n.menu-content #logout:hover {\n  -webkit-transform: scale(1.1);\n  box-shadow: 0 0 30px 2px #00FFFF;\n}\n.menu-content .time {\n  text-align: right;\n  padding: 5px 15px 0 0;\n}\n.menu-content .time h3 {\n  font-size: 28px;\n}\n.menu-content .navigation {\n  height: calc(100vh - 562px);\n  overflow-y: auto;\n  overflow-x: hidden;\n}\n.menu-content .Menu-Item {\n  padding: 0 10px 0 10px;\n}\n.menu-content .Menu-Item .Menu_title {\n  position: relative;\n  overflow: hidden;\n  padding-right: 10px;\n}\n.menu-content .Menu-Item .Menu_title span {\n  font-size: 27px;\n  margin-left: 5px;\n  padding: 0 5px 0 12px;\n  z-index: 12;\n  border-left: 7px #004662 solid;\n  width: -webkit-fit-content;\n  width: -moz-fit-content;\n  width: fit-content;\n  position: relative;\n}\n.menu-content .Menu-Item .Menu_title span::after {\n  position: absolute;\n  width: 300px;\n  height: 2px;\n  top: 50%;\n  left: calc(100% + 5px);\n  content: \" \";\n  background-color: #004662;\n  z-index: 0;\n}\n.menu-content .Menu-Item .Menu_title::before {\n  position: absolute;\n  width: 10px;\n  height: 2px;\n  top: 51%;\n  left: 11px;\n  background-color: #004662;\n  content: \" \";\n  z-index: 0;\n}\n.menu-content .Menu-Item .Menu-list {\n  margin-left: 5px;\n}\n.menu-content .Menu-Item .Menu-list li::marker {\n  color: #004662;\n}\n.menu-content .Menu-Item .Menu-list li a {\n  font-family: \"Baloo Thambi 2\", monospace;\n  text-decoration: none;\n  font-size: 20px;\n  font-weight: 600;\n}\n.menu-content .Copyright {\n  width: 100%;\n}\n.menu-content .Copyright p {\n  text-align: center !important;\n  color: #004662 !important;\n  font-family: \"Baloo Thambi 2\", monospace;\n  font-size: 20px;\n  font-weight: 700;\n}\n.menu-content .bugreportter {\n  display: flex;\n}\n.menu-content .bugreportter button {\n  margin: 0 auto;\n}\n\n@media (min-width: 1100px) {\n  .closed-menu {\n    display: none;\n  }\n\n  #Close {\n    display: none;\n  }\n}\n@media (max-width: 1100px) {\n  .close .menu-content {\n    display: none;\n  }\n  .close .closed-menu {\n    position: fixed;\n    border-radius: 0 0 30px 0;\n    background-color: #0C2646;\n    padding: 10px 12px 12px 10px;\n  }\n  .close .closed-menu button {\n    cursor: pointer;\n    border: none;\n    background-color: #004662;\n    border-radius: 30px;\n    font-size: 25px;\n    padding: 5px 15px;\n    color: #00FFFF;\n    font-family: \"Baloo Thambi 2\", monospace;\n    font-weight: 700;\n    transition: 400ms cubic-bezier(0.28, -0.46, 0.33, 1.5);\n  }\n  .close .closed-menu button:hover {\n    -webkit-transform: scale(1.2);\n  }\n\n  .open .closed-menu {\n    display: none;\n  }\n  .open .menu-content #Close {\n    z-index: 14;\n    position: fixed;\n    left: 160px;\n    top: 5px;\n  }\n  .open .menu-content #Close button {\n    cursor: pointer;\n    border: none;\n    background-color: #004662;\n    border-radius: 30px;\n    font-size: 25px;\n    padding: 5px 15px;\n    color: #00FFFF;\n    font-family: \"Baloo Thambi 2\", monospace;\n    font-weight: 700;\n    transition: 400ms cubic-bezier(0.28, -0.46, 0.33, 1.5);\n  }\n  .open .menu-content #Close button:hover {\n    -webkit-transform: scale(1.2);\n  }\n  .open .menu-content .Version {\n    display: none;\n  }\n  .open .menu-content .Menusepartor:last-child {\n    display: none;\n    visibility: hidden;\n  }\n}\n@media (min-width: 1100px) {\n  #content {\n    margin-left: 270px;\n  }\n}\n.switch-container {\n  display: flex;\n  margin: auto auto;\n  z-index: 1;\n}\n.switch-container .payed_switch {\n  height: 0;\n  width: 0;\n  visibility: hidden;\n}\n.switch-container .payed_switchLabel {\n  z-index: 1;\n  margin: auto auto;\n  cursor: pointer;\n  text-indent: -9999px;\n  width: 100px;\n  height: 30px;\n  background: #FF0000;\n  box-shadow: 0 0 20px 7px #FF0000;\n  display: block;\n  border-radius: 100px;\n  position: relative;\n  transition: 400ms cubic-bezier(0.28, -0.46, 0.33, 1.5);\n}\n.switch-container .payed_switchLabel::after {\n  z-index: 1;\n  content: \" \";\n  position: absolute;\n  top: -5px;\n  left: -5px;\n  width: 40px;\n  height: 40px;\n  background: #222;\n  border-radius: 90px;\n  transition: 400ms cubic-bezier(0.28, -0.46, 0.33, 1.5);\n}\n.switch-container .payed_switch:checked + .payed_switchLabel {\n  background: #00FF00;\n  box-shadow: 0 0 20px 7px #00FF00;\n  z-index: 1;\n}\n.switch-container .payed_switch:checked + .payed_switchLabel:after {\n  left: calc(100% + 5px);\n  transform: translateX(-100%);\n  z-index: 1;\n}\n.switch-container .payed_switchLabel:active:after {\n  width: 40px;\n  z-index: 1;\n}\n\n#Main-Page {\n  display: flex;\n  flex-direction: column;\n  padding: 30px;\n}\n#Main-Page .Personnel_service {\n  background-color: #0C2646;\n  width: 100%;\n  height: 250px;\n  border-radius: 30px;\n  padding: 10px;\n}\n#Main-Page .Personnel_service h1 {\n  padding-left: 20px;\n  font-size: 60px;\n  margin: 0 auto;\n}\n#Main-Page .Annonces {\n  margin-top: 35px;\n  background-color: #0C2646;\n  width: 100%;\n  min-height: 200px;\n  border-radius: 30px;\n  padding: 10px;\n  display: flex;\n  flex-direction: column;\n}\n#Main-Page .Annonces h1 {\n  padding-left: 20px;\n  font-size: 60px;\n  margin: 0 auto;\n  text-align: center;\n}\n#Main-Page .Annonces .Annonces-List {\n  margin: 0 auto;\n  width: 100%;\n  height: calc(100vh - 464px);\n  overflow-y: scroll;\n  display: flex;\n  flex-direction: row;\n  flex-wrap: wrap;\n  justify-content: center;\n}\n#Main-Page .Annonces .Annonces-List .Annonce-Card {\n  background-color: #004662;\n  margin: 10px;\n  padding: 10px;\n  display: flex;\n  flex-direction: column;\n  justify-content: space-between;\n  border-radius: 30px;\n  overflow-y: auto;\n  height: 350px;\n  width: 45%;\n}\n#Main-Page .Annonces .Annonces-List .Annonce-Card .Title {\n  font-size: 30px;\n  text-align: center;\n  margin: 0 auto;\n}\n#Main-Page .Annonces .Annonces-List .Annonce-Card .Separator {\n  margin: 5px auto;\n  content: \" \";\n  width: 100%;\n  text-align: center;\n  background-color: #00FFFF;\n  height: 2px;\n}\n#Main-Page .Annonces .Annonces-List .Annonce-Card .Text {\n  font-size: 25px;\n  text-indent: 20px;\n}\n#Main-Page .Annonces .Annonces-List .Annonce-Card .Date {\n  font-size: 27px;\n  text-align: center;\n}\n\n.Personnel-list {\n  display: flex;\n  flex-direction: row;\n  flex-wrap: wrap;\n  width: 100%;\n  height: 150px;\n  overflow-y: auto;\n}\n.Personnel-list .Personnel-card {\n  margin: 10px;\n  background-color: #004662;\n  border-radius: 30px;\n  height: -webkit-min-content;\n  height: -moz-min-content;\n  height: min-content;\n  padding: 6px 10px;\n}\n.Personnel-list .Personnel-card h5 {\n  margin: 0;\n  font-size: 25px;\n}\n\n#Rapport-Patient {\n  display: flex;\n  flex-direction: column;\n  width: 100%;\n  height: 100%;\n}\n#Rapport-Patient .Header {\n  padding-top: 10px;\n  display: flex;\n  flex-direction: row;\n  flex-wrap: wrap;\n  justify-content: space-evenly;\n  width: 100%;\n}\n#Rapport-Patient .Header .Title {\n  background-color: #0C2646;\n  border-radius: 30px;\n  padding: 20px;\n}\n#Rapport-Patient .Header .Title h1 {\n  font-size: 30px;\n  font-family: \"Baloo Thambi 2\", monospace;\n  font-weight: 700;\n  text-align: center;\n}\n#Rapport-Patient .Header .pdf {\n  margin-top: 15px;\n  background-color: #0C2646;\n  border-radius: 30px;\n  padding: 10px;\n  height: -webkit-min-content;\n  height: -moz-min-content;\n  height: min-content;\n}\n#Rapport-Patient .Header .pdf a {\n  text-decoration: none;\n  font-size: 20px;\n  font-family: \"Baloo Thambi 2\", monospace;\n  font-weight: 700;\n}\n#Rapport-Patient .Header .submit {\n  background-color: #0C2646;\n  border-radius: 30px;\n  padding: 10px 15px;\n  display: flex;\n}\n#Rapport-Patient .Header .submit button {\n  margin: auto auto;\n  cursor: pointer;\n  background-color: #004662;\n  color: #00FFFF;\n  font-size: 20px;\n  padding: 5px;\n  font-family: \"Baloo Thambi 2\", monospace;\n  font-weight: 700;\n  border: none;\n  border-radius: 30px;\n  box-shadow: none;\n  transition: all 400ms cubic-bezier(0.51, -1.15, 0.48, 2.27);\n}\n#Rapport-Patient .Header .submit button:hover {\n  -webkit-transform: scale(1.1);\n}\n#Rapport-Patient .Header .submit button:active {\n  -webkit-transform: rotate(-5deg);\n}\n#Rapport-Patient .content {\n  padding: 10px;\n  display: flex;\n  flex-direction: row;\n  flex-wrap: wrap;\n  justify-content: space-evenly;\n}\n#Rapport-Patient .content .Rapport-Card {\n  margin: 10px;\n  display: flex;\n  flex-direction: column;\n  padding: 15px;\n  background-color: #0C2646;\n  border-radius: 30px;\n  width: -webkit-fit-content;\n  width: -moz-fit-content;\n  width: fit-content;\n}\n#Rapport-Patient .content .Rapport-Card h1 {\n  font-size: 30px;\n  font-family: \"Baloo Thambi 2\", monospace;\n  font-weight: 600;\n  text-align: center;\n  margin-bottom: 10px;\n}\n#Rapport-Patient .content .Rapport-Card .Form-Group {\n  height: 100%;\n  max-height: 320px;\n  display: flex;\n  flex-direction: column;\n  flex-wrap: wrap;\n  justify-content: space-evenly;\n}\n#Rapport-Patient .content .Rapport-Card .Form-Group input, #Rapport-Patient .content .Rapport-Card .Form-Group select, #Rapport-Patient .content .Rapport-Card .Form-Group textarea {\n  padding: 10px;\n  margin: 10px 0;\n  font-size: 20px;\n  font-family: \"Baloo Thambi 2\", monospace;\n  font-weight: 500;\n  box-shadow: none;\n  border: none;\n  border-radius: 30px;\n  background-color: #004662;\n  color: #00FFFF;\n}\n#Rapport-Patient .content .Rapport-Card .Form-Group input::-moz-placeholder, #Rapport-Patient .content .Rapport-Card .Form-Group select::-moz-placeholder, #Rapport-Patient .content .Rapport-Card .Form-Group textarea::-moz-placeholder {\n  font-family: \"Baloo Thambi 2\", monospace;\n  font-weight: 500;\n  color: #00FFFF;\n}\n#Rapport-Patient .content .Rapport-Card .Form-Group input:-ms-input-placeholder, #Rapport-Patient .content .Rapport-Card .Form-Group select:-ms-input-placeholder, #Rapport-Patient .content .Rapport-Card .Form-Group textarea:-ms-input-placeholder {\n  font-family: \"Baloo Thambi 2\", monospace;\n  font-weight: 500;\n  color: #00FFFF;\n}\n#Rapport-Patient .content .Rapport-Card .Form-Group input::placeholder, #Rapport-Patient .content .Rapport-Card .Form-Group select::placeholder, #Rapport-Patient .content .Rapport-Card .Form-Group textarea::placeholder {\n  font-family: \"Baloo Thambi 2\", monospace;\n  font-weight: 500;\n  color: #00FFFF;\n}\n#Rapport-Patient .content .Rapport-Card .description {\n  display: flex;\n  flex-direction: column;\n}\n#Rapport-Patient .content .Rapport-Card .description textarea {\n  min-width: 600px;\n  min-height: 80px;\n  border-radius: 30px;\n  border: none;\n}\n#Rapport-Patient .content .Rapport-Card .ATA {\n  display: flex;\n  flex-direction: row;\n}\n#Rapport-Patient .content .Rapport-Card .ATA label {\n  line-height: 30px;\n  margin: auto 5px;\n}\n#Rapport-Patient .content .Rapport-Card .facture input[type=checkbox] {\n  height: 0;\n  width: 0;\n  visibility: hidden;\n}\n#Rapport-Patient .content .Rapport-Card .facture #switch {\n  margin: auto auto;\n  cursor: pointer;\n  text-indent: -9999px;\n  width: 100px;\n  height: 30px;\n  background: #FF0000;\n  box-shadow: 0 0 20px 7px #FF0000;\n  display: block;\n  border-radius: 100px;\n  position: relative;\n  transition: 400ms cubic-bezier(0.28, -0.46, 0.33, 1.5);\n}\n#Rapport-Patient .content .Rapport-Card .facture #switch::after {\n  content: \"\";\n  position: absolute;\n  top: -5px;\n  left: -5px;\n  width: 40px;\n  height: 40px;\n  background: #222;\n  border-radius: 90px;\n  transition: 400ms cubic-bezier(0.28, -0.46, 0.33, 1.5);\n}\n#Rapport-Patient .content .Rapport-Card .facture input:checked + #switch {\n  background: #00FF00;\n  box-shadow: 0 0 20px 7px #00FF00;\n}\n#Rapport-Patient .content .Rapport-Card .facture input:checked + #switch:after {\n  left: calc(100% + 5px);\n  transform: translateX(-100%);\n}\n#Rapport-Patient .content .Rapport-Card .facture #switch:active:after {\n  width: 40px;\n}\n\n.BC-Container {\n  width: 100%;\n  height: 100vh;\n  overflow-y: hidden;\n}\n.BC-Container .BC-base {\n  height: 100vh;\n  width: 100%;\n  display: flex;\n  flex-direction: column;\n}\n@media (min-width: 1100px) {\n  .BC-Container .BC-base {\n    width: calc(100vw - 270px);\n  }\n}\n@media (max-width: 1100px) {\n  .BC-Container .BC-base {\n    width: calc(100vw);\n  }\n}\n.BC-Container .BC-base .header {\n  display: flex;\n  flex-direction: row;\n  justify-content: space-evenly;\n}\n.BC-Container .BC-base .header button {\n  margin: auto 0;\n}\n.BC-Container .BC-base .contain {\n  padding-top: 20px;\n  width: 100%;\n  display: flex;\n  flex-direction: row;\n}\n.BC-Container .BC-base .contain .BC-List {\n  width: 100%;\n  max-height: calc(100vh - 150px);\n  overflow-y: scroll;\n  display: flex;\n  flex-direction: column;\n}\n.BC-Container .BC-base .contain .BC-List h1 {\n  text-align: center;\n  font-weight: 700;\n  font-size: 35px;\n}\n.BC-Container .BC-base .contain .BC-List .card {\n  cursor: pointer;\n  margin: 10px auto;\n  padding: 10px;\n  background-color: #0C2646;\n  border-radius: 30px;\n  min-width: 500px;\n  max-width: 600px;\n  height: 500px;\n  display: flex;\n  flex-direction: column;\n  z-index: 1;\n  border: #0C2646 1px solid;\n  transition: all 400ms;\n}\n.BC-Container .BC-base .contain .BC-List .card h3, .BC-Container .BC-base .contain .BC-List .card h4 {\n  text-align: center;\n}\n.BC-Container .BC-base .contain .BC-List .card h3 {\n  font-size: 25px;\n}\n.BC-Container .BC-base .contain .BC-List .card h4 {\n  font-size: 22px;\n}\n.BC-Container .BC-base .contain .BC-List .card .rowed {\n  padding: 0 60px;\n  display: flex;\n  flex-direction: row;\n  justify-content: space-between;\n}\n.BC-Container .BC-base .contain .BC-List .card .rowed h5 {\n  font-size: 20px;\n}\n.BC-Container .BC-base .contain .BC-List .card .separator {\n  margin: 10px auto;\n  width: 90%;\n  height: 3px;\n  background-color: #004662;\n  border-radius: 10px;\n}\n.BC-Container .BC-base .contain .BC-List .card:hover {\n  transform: scale(1.1) rotate(3deg);\n  z-index: 12;\n  border: #004662 1px solid;\n}\n.BC-Container .popup {\n  z-index: 25;\n  width: 100%;\n  height: 100vh;\n  position: fixed;\n  top: 0;\n  -webkit-backdrop-filter: blur(2px);\n          backdrop-filter: blur(2px);\n  display: flex;\n  justify-content: center;\n  padding: 10px;\n}\n@media (min-width: 1100px) {\n  .BC-Container .popup {\n    width: calc(100vw - 270px);\n  }\n}\n@media (max-width: 1100px) {\n  .BC-Container .popup {\n    width: calc(100vw);\n  }\n}\n.BC-Container .popup .popup-content {\n  margin: auto 0;\n  padding: 25px;\n  background-color: #0C2646;\n  border: 1px #004662 solid;\n  border-radius: 30px;\n}\n.BC-Container .popup .popup-content h1 {\n  font-weight: 700;\n  text-align: center;\n  font-size: 35px;\n}\n.BC-Container .popup .popup-content input, .BC-Container .popup .popup-content select {\n  min-width: 200px;\n  margin: 10px;\n}\n.BC-Container .popup .popup-content .row {\n  display: flex;\n  flex-direction: row;\n  justify-content: space-evenly;\n  flex-wrap: wrap;\n}\n.BC-Container .popup .popup-content form {\n  display: flex;\n  flex-direction: column;\n}\n.BC-Container .popup .popup-content .btn-contain {\n  display: flex;\n  flex-direction: row;\n  justify-content: space-evenly;\n}\n.BC-Container .popup .popup-content .close {\n  width: 300px;\n  margin: 10px 20px;\n  display: flex;\n  flex-direction: row;\n  justify-content: space-evenly;\n}\n.BC-Container .BC-Last h2 {\n  text-align: center;\n  margin-top: 5px;\n  font-size: 35px;\n  margin-bottom: 20px;\n}\n.BC-Container .BC-View, .BC-Container .BC-Last {\n  display: flex;\n  flex-direction: row;\n  justify-content: flex-start;\n  flex-wrap: nowrap;\n  height: 100vh;\n  overflow: hidden;\n}\n@media (min-width: 1100px) {\n  .BC-Container .BC-View, .BC-Container .BC-Last {\n    width: calc(100vw - 270px);\n  }\n}\n@media (max-width: 1100px) {\n  .BC-Container .BC-View, .BC-Container .BC-Last {\n    width: calc(100vw);\n  }\n}\n.BC-Container .BC-View .left, .BC-Container .BC-Last .left {\n  width: 49%;\n  min-width: 300px;\n  padding: 10px;\n  display: flex;\n  flex-direction: column;\n  justify-content: space-evenly;\n}\n.BC-Container .BC-View .left .header, .BC-Container .BC-Last .left .header {\n  margin: 0 auto;\n  width: 90%;\n}\n.BC-Container .BC-View .left .header .title-contain, .BC-Container .BC-Last .left .header .title-contain {\n  border-radius: 30px 30px 0 30px;\n}\n.BC-Container .BC-View .left .header .btn-contain, .BC-Container .BC-Last .left .header .btn-contain {\n  display: flex;\n  flex-direction: row;\n  justify-content: flex-end;\n}\n.BC-Container .BC-View .left .header .btn-contain .bgforbtn, .BC-Container .BC-Last .left .header .btn-contain .bgforbtn {\n  width: 250px;\n  background-color: #0C2646;\n  padding-bottom: 17px;\n  display: flex;\n  border-radius: 0 0 30px 30px;\n}\n.BC-Container .BC-View .left .header .btn-contain .bgforbtn button, .BC-Container .BC-Last .left .header .btn-contain .bgforbtn button {\n  margin: auto;\n}\n.BC-Container .BC-View .left .header .btn-contain .bgforquibtn, .BC-Container .BC-Last .left .header .btn-contain .bgforquibtn {\n  margin-right: 5px;\n  width: 250px;\n  background-color: #0C2646;\n  padding-bottom: 17px;\n  display: flex;\n  border-radius: 0 0 30px 30px;\n}\n.BC-Container .BC-View .left .header .btn-contain .bgforquibtn button, .BC-Container .BC-Last .left .header .btn-contain .bgforquibtn button {\n  margin: auto;\n}\n.BC-Container .BC-View .left .row-spaced, .BC-Container .BC-Last .left .row-spaced {\n  display: flex;\n  flex-direction: row;\n  justify-content: space-between;\n  padding: 0 30px;\n}\n.BC-Container .BC-View .left .row-spaced .input, .BC-Container .BC-Last .left .row-spaced .input {\n  width: 45%;\n}\n.BC-Container .BC-View .left .row-spaced label, .BC-Container .BC-Last .left .row-spaced label {\n  margin: auto 0;\n}\n.BC-Container .BC-View .left .addpatient, .BC-Container .BC-Last .left .addpatient {\n  width: 90%;\n  margin: 15px auto;\n  height: 475px;\n  border-radius: 30px;\n  background-color: #0C2646;\n}\n.BC-Container .BC-View .left .addpatient form, .BC-Container .BC-Last .left .addpatient form {\n  width: 100%;\n  padding: 5px;\n  height: 100%;\n}\n.BC-Container .BC-View .left .addpatient form .top, .BC-Container .BC-Last .left .addpatient form .top {\n  display: flex;\n  flex-direction: row-reverse;\n  justify-content: space-evenly;\n  margin-top: 5px;\n  margin-bottom: 20px;\n}\n.BC-Container .BC-View .left .addpatient form .top h2, .BC-Container .BC-Last .left .addpatient form .top h2 {\n  font-size: 35px;\n}\n.BC-Container .BC-View .left .addpatient form .bottom, .BC-Container .BC-Last .left .addpatient form .bottom {\n  margin-top: 20px;\n  padding: 0 30px;\n  display: flex;\n  flex-direction: row;\n  flex-wrap: wrap;\n  justify-content: space-evenly;\n}\n.BC-Container .BC-View .left .addpatient form .bottom label, .BC-Container .BC-View .left .addpatient form .bottom button, .BC-Container .BC-Last .left .addpatient form .bottom label, .BC-Container .BC-Last .left .addpatient form .bottom button {\n  margin: auto 0;\n  font-size: 20px;\n}\n.BC-Container .BC-View .left .addpatient form .bottom .idcard, .BC-Container .BC-View .left .addpatient form .bottom .paye, .BC-Container .BC-Last .left .addpatient form .bottom .idcard, .BC-Container .BC-Last .left .addpatient form .bottom .paye {\n  width: 50%;\n  display: flex;\n  flex-direction: row;\n  justify-content: space-evenly;\n}\n.BC-Container .BC-View .left .infos, .BC-Container .BC-Last .left .infos {\n  width: 90%;\n  margin: 15px auto;\n  height: 475px;\n  border-radius: 30px;\n  background-color: #0C2646;\n}\n.BC-Container .BC-View .left .infos h2, .BC-Container .BC-Last .left .infos h2 {\n  margin-top: 5px;\n  text-align: center;\n  font-size: 35px;\n  margin-bottom: 20px;\n}\n.BC-Container .BC-View .left .infos div, .BC-Container .BC-Last .left .infos div {\n  margin: 10px 10px;\n}\n.BC-Container .BC-View .left .personnel-list, .BC-Container .BC-Last .left .personnel-list {\n  width: 90%;\n  margin: 15px auto;\n  height: 200px;\n  border-radius: 30px;\n  background-color: #0C2646;\n  overflow-y: scroll;\n  display: flex;\n  flex-direction: row;\n  flex-wrap: wrap;\n}\n.BC-Container .BC-View .left .personnel-list .tag, .BC-Container .BC-Last .left .personnel-list .tag {\n  background-color: #004662;\n  font-family: \"Baloo Thambi 2\", monospace;\n  font-size: 25px;\n  color: #00FFFF;\n  border-radius: 30px;\n  padding: 5px 12px;\n  margin: 10px 10px;\n  height: -webkit-min-content;\n  height: -moz-min-content;\n  height: min-content;\n}\n.BC-Container .BC-View .list-container, .BC-Container .BC-Last .list-container {\n  width: 49%;\n  padding: 10px;\n  display: flex;\n  flex-direction: column;\n  min-width: 300px;\n}\n.BC-Container .BC-View .list-container .list-content, .BC-Container .BC-Last .list-container .list-content {\n  display: flex;\n  width: 90%;\n  height: 90%;\n  margin: auto;\n  flex-direction: column;\n  background-color: #0C2646;\n  border-radius: 30px;\n}\n.BC-Container .BC-View .list-container .list-content h1, .BC-Container .BC-Last .list-container .list-content h1 {\n  text-align: center;\n  margin: 20px 0;\n  font-size: 40px;\n}\n.BC-Container .BC-View .list-container .list-content .list, .BC-Container .BC-Last .list-container .list-content .list {\n  width: 90%;\n  margin: 0 auto;\n  height: 80%;\n  background-color: #004662;\n  display: flex;\n  flex-direction: column;\n  overflow-y: scroll;\n  border-radius: 30px;\n  padding: 10px;\n}\n.BC-Container .BC-View .list-container .list-content .list .Patient-list-card, .BC-Container .BC-Last .list-container .list-content .list .Patient-list-card {\n  margin: 10px 0;\n  display: grid;\n  grid-template-columns: 5% 30% 10% 35% 10% 10%;\n  grid-template-rows: 30px;\n}\n.BC-Container .BC-View .list-container .list-content .list .Patient-list-card h5, .BC-Container .BC-Last .list-container .list-content .list .Patient-list-card h5 {\n  font-size: 20px;\n  text-wrap: none;\n}\n.BC-Container .BC-View .list-container .list-content .list .Patient-list-card .id, .BC-Container .BC-Last .list-container .list-content .list .Patient-list-card .id {\n  grid-column-start: 1;\n  grid-column-end: 1;\n  grid-row-start: 1;\n  grid-row-end: 1;\n  overflow: hidden;\n}\n.BC-Container .BC-View .list-container .list-content .list .Patient-list-card .name, .BC-Container .BC-Last .list-container .list-content .list .Patient-list-card .name {\n  grid-column-start: 2;\n  grid-column-end: 2;\n  grid-row-start: 1;\n  grid-row-end: 1;\n  overflow: hidden;\n  padding-right: 5px;\n  margin: 0 2px;\n}\n.BC-Container .BC-View .list-container .list-content .list .Patient-list-card .date, .BC-Container .BC-Last .list-container .list-content .list .Patient-list-card .date {\n  grid-column-start: 3;\n  grid-column-end: 3;\n  grid-row-start: 1;\n  grid-row-end: 1;\n  overflow: hidden;\n}\n.BC-Container .BC-View .list-container .list-content .list .Patient-list-card .color, .BC-Container .BC-Last .list-container .list-content .list .Patient-list-card .color {\n  grid-column-start: 4;\n  grid-column-end: 4;\n  grid-row-start: 1;\n  grid-row-end: 1;\n  overflow: hidden;\n  padding-right: 2px;\n  margin-left: 1px;\n}\n.BC-Container .BC-View .list-container .list-content .list .Patient-list-card .edit, .BC-Container .BC-Last .list-container .list-content .list .Patient-list-card .edit {\n  grid-column-start: 5;\n  grid-column-end: 5;\n  grid-row-start: 1;\n  grid-row-end: 1;\n  overflow: hidden;\n}\n.BC-Container .BC-View .list-container .list-content .list .Patient-list-card .delete, .BC-Container .BC-Last .list-container .list-content .list .Patient-list-card .delete {\n  grid-column-start: 6;\n  grid-column-end: 6;\n  grid-row-start: 1;\n  grid-row-end: 1;\n  overflow: hidden;\n}\n.BC-Container .BC-View .list-container .list-content .list .Patient-list-card button, .BC-Container .BC-Last .list-container .list-content .list .Patient-list-card button {\n  width: 100%;\n  background-color: transparent;\n  border: none;\n  cursor: pointer;\n  transition: all 300ms cubic-bezier(0.28, -0.46, 0.33, 1.5);\n}\n.BC-Container .BC-View .list-container .list-content .list .Patient-list-card button img, .BC-Container .BC-Last .list-container .list-content .list .Patient-list-card button img {\n  width: 30px;\n}\n.BC-Container .BC-View .list-container .list-content .list .Patient-list-card button:hover, .BC-Container .BC-Last .list-container .list-content .list .Patient-list-card button:hover {\n  transform: rotate(20deg) scale(1.3);\n}\n\n.RecherchePatient {\n  display: flex;\n  flex-direction: column;\n  padding: 10px;\n}\n.RecherchePatient .header {\n  max-width: -webkit-fit-content;\n  max-width: -moz-fit-content;\n  max-width: fit-content;\n  margin: auto;\n}\n.RecherchePatient .PatientRechercheContent {\n  display: flex;\n  flex-direction: row;\n  flex-wrap: nowrap;\n  justify-content: space-around;\n  margin-top: 20px;\n}\n@media (max-width: 1600px) {\n  .RecherchePatient .PatientRechercheContent {\n    flex-direction: column !important;\n  }\n}\n.RecherchePatient .PatientRechercheContent .PatientInfos {\n  width: 68%;\n  padding: 10px;\n  height: calc(100vh - 170px);\n  border-radius: 30px;\n  background-color: #0C2646;\n}\n@media (max-width: 1600px) {\n  .RecherchePatient .PatientRechercheContent .PatientInfos {\n    height: 100%;\n    width: 90%;\n    margin: 20px auto;\n  }\n}\n.RecherchePatient .PatientRechercheContent .PatientInfos .Infos-Header {\n  padding: 5px 20px;\n  display: flex;\n  flex-direction: row;\n  flex-wrap: nowrap;\n  justify-content: center;\n}\n.RecherchePatient .PatientRechercheContent .PatientInfos .Infos-Header .Title {\n  display: flex;\n  background-color: #004662;\n  border-radius: 30px;\n  padding: 5px;\n}\n.RecherchePatient .PatientRechercheContent .PatientInfos .Infos-Header .Title h1 {\n  margin: auto;\n}\n.RecherchePatient .PatientRechercheContent .PatientInfos .form form {\n  width: 100%;\n  display: grid;\n}\n@media (min-width: 900px) {\n  .RecherchePatient .PatientRechercheContent .PatientInfos .form form {\n    grid-template-columns: 2% repeat(8, 12%) 2%;\n    grid-template-rows: repeat(8, 23px 65px);\n  }\n  .RecherchePatient .PatientRechercheContent .PatientInfos .form form .DescLabel {\n    grid-row-start: 2;\n    grid-row-end: 2;\n    grid-column-start: 2;\n    grid-column-end: 2;\n  }\n  .RecherchePatient .PatientRechercheContent .PatientInfos .form form .InterTypeLabel {\n    display: flex;\n    grid-row-start: 8;\n    grid-row-end: 8;\n    grid-column-start: 2;\n    grid-column-end: 4;\n  }\n  .RecherchePatient .PatientRechercheContent .PatientInfos .form form .InterTypeLabel label {\n    margin: auto 0;\n  }\n  .RecherchePatient .PatientRechercheContent .PatientInfos .form form .BroumLabel {\n    display: flex;\n    grid-row-start: 10;\n    grid-row-end: 10;\n    grid-column-start: 2;\n    grid-column-end: 4;\n  }\n  .RecherchePatient .PatientRechercheContent .PatientInfos .form form .BroumLabel label {\n    margin: auto 0;\n  }\n  .RecherchePatient .PatientRechercheContent .PatientInfos .form form .TarifLabel {\n    display: flex;\n    grid-row-start: 12;\n    grid-row-end: 12;\n    grid-column-start: 2;\n    grid-column-end: 4;\n  }\n  .RecherchePatient .PatientRechercheContent .PatientInfos .form form .TarifLabel label {\n    margin: auto 0;\n  }\n  .RecherchePatient .PatientRechercheContent .PatientInfos .form form .DescInput {\n    grid-row-start: 3;\n    grid-row-end: 7;\n    grid-column-start: 2;\n    grid-column-end: 10;\n  }\n  .RecherchePatient .PatientRechercheContent .PatientInfos .form form .InterInput {\n    grid-row-start: 8;\n    grid-row-end: 8;\n    grid-column-start: 5;\n    grid-column-end: 8;\n  }\n  .RecherchePatient .PatientRechercheContent .PatientInfos .form form .InterInput select {\n    width: 100%;\n    height: 100%;\n  }\n  .RecherchePatient .PatientRechercheContent .PatientInfos .form form .BroumInput {\n    grid-row-start: 10;\n    grid-row-end: 10;\n    grid-column-start: 5;\n    grid-column-end: 8;\n  }\n  .RecherchePatient .PatientRechercheContent .PatientInfos .form form .BroumInput select {\n    width: 100%;\n    height: 100%;\n  }\n  .RecherchePatient .PatientRechercheContent .PatientInfos .form form .TarifInput {\n    grid-row-start: 12;\n    grid-row-end: 12;\n    grid-column-start: 5;\n    grid-column-end: 8;\n  }\n  .RecherchePatient .PatientRechercheContent .PatientInfos .form form .TarifInput input {\n    width: 100%;\n    height: 100%;\n  }\n  .RecherchePatient .PatientRechercheContent .PatientInfos .form form .ATA {\n    grid-row-start: 14;\n    grid-row-end: 14;\n    grid-column-start: 2;\n    grid-column-end: 10;\n    display: flex;\n    flex-direction: row;\n    flex-wrap: nowrap;\n    justify-content: space-between;\n  }\n  .RecherchePatient .PatientRechercheContent .PatientInfos .form form .ATA label {\n    margin: auto 0;\n    font-size: 25px;\n    font-weight: 550;\n  }\n  .RecherchePatient .PatientRechercheContent .PatientInfos .form form .submit {\n    grid-row-start: 16;\n    grid-row-end: 16;\n    grid-column-start: 3;\n    grid-column-end: 5;\n  }\n  .RecherchePatient .PatientRechercheContent .PatientInfos .form form .PDF {\n    grid-row-start: 16;\n    grid-row-end: 16;\n    grid-column-start: 8;\n    grid-column-end: 10;\n  }\n}\n@media (max-width: 900px) {\n  .RecherchePatient .PatientRechercheContent .PatientInfos .form form {\n    grid-template-columns: 2% repeat(8, 12%) 2%;\n    grid-template-rows: repeat(12, 23px 65px);\n  }\n  .RecherchePatient .PatientRechercheContent .PatientInfos .form form .DescLabel {\n    grid-row-start: 2;\n    grid-row-end: 2;\n    grid-column-start: 2;\n    grid-column-end: 4;\n  }\n  .RecherchePatient .PatientRechercheContent .PatientInfos .form form .DescInput {\n    grid-row-start: 3;\n    grid-row-end: 7;\n    grid-column-start: 2;\n    grid-column-end: 10;\n  }\n  .RecherchePatient .PatientRechercheContent .PatientInfos .form form .InterTypeLabel {\n    display: flex;\n    grid-row-start: 8;\n    grid-row-end: 8;\n    grid-column-start: 2;\n    grid-column-end: 5;\n  }\n  .RecherchePatient .PatientRechercheContent .PatientInfos .form form .InterTypeLabel label {\n    margin: auto 0;\n  }\n  .RecherchePatient .PatientRechercheContent .PatientInfos .form form .BroumLabel {\n    display: flex;\n    grid-row-start: 10;\n    grid-row-end: 10;\n    grid-column-start: 2;\n    grid-column-end: 5;\n  }\n  .RecherchePatient .PatientRechercheContent .PatientInfos .form form .BroumLabel label {\n    margin: auto 0;\n  }\n  .RecherchePatient .PatientRechercheContent .PatientInfos .form form .TarifLabel {\n    display: flex;\n    grid-row-start: 12;\n    grid-row-end: 12;\n    grid-column-start: 2;\n    grid-column-end: 5;\n  }\n  .RecherchePatient .PatientRechercheContent .PatientInfos .form form .TarifLabel label {\n    margin: auto 0;\n  }\n  .RecherchePatient .PatientRechercheContent .PatientInfos .form form .InterInput {\n    grid-row-start: 8;\n    grid-row-end: 8;\n    grid-column-start: 6;\n    grid-column-end: 8;\n  }\n  .RecherchePatient .PatientRechercheContent .PatientInfos .form form .InterInput select {\n    width: 100%;\n    height: 100%;\n  }\n  .RecherchePatient .PatientRechercheContent .PatientInfos .form form .BroumInput {\n    grid-row-start: 10;\n    grid-row-end: 10;\n    grid-column-start: 6;\n    grid-column-end: 8;\n  }\n  .RecherchePatient .PatientRechercheContent .PatientInfos .form form .BroumInput select {\n    width: 100%;\n    height: 100%;\n  }\n  .RecherchePatient .PatientRechercheContent .PatientInfos .form form .TarifInput {\n    grid-row-start: 12;\n    grid-row-end: 12;\n    grid-column-start: 6;\n    grid-column-end: 8;\n  }\n  .RecherchePatient .PatientRechercheContent .PatientInfos .form form .TarifInput input {\n    width: 100%;\n    height: 100%;\n  }\n  .RecherchePatient .PatientRechercheContent .PatientInfos .form form .ATA {\n    grid-row-start: 14;\n    grid-row-end: 17;\n    grid-column-start: 2;\n    grid-column-end: 10;\n    display: flex;\n    flex-direction: row;\n    flex-wrap: wrap;\n    justify-content: space-evenly;\n  }\n  .RecherchePatient .PatientRechercheContent .PatientInfos .form form .ATA label {\n    margin: auto 0;\n    font-size: 25px;\n    font-weight: 550;\n  }\n  .RecherchePatient .PatientRechercheContent .PatientInfos .form form .submit {\n    grid-row-start: 20;\n    grid-row-end: 20;\n    grid-column-start: 3;\n    grid-column-end: 5;\n  }\n  .RecherchePatient .PatientRechercheContent .PatientInfos .form form .PDF {\n    grid-row-start: 22;\n    grid-row-end: 22;\n    grid-column-start: 3;\n    grid-column-end: 5;\n  }\n}\n.RecherchePatient .PatientRechercheContent .PatientInfos .form form input:disabled, .RecherchePatient .PatientRechercheContent .PatientInfos .form form select:disabled, .RecherchePatient .PatientRechercheContent .PatientInfos .form form textarea:disabled, .RecherchePatient .PatientRechercheContent .PatientInfos .form form button:disabled {\n  opacity: 0.7;\n  transition: none;\n}\n.RecherchePatient .PatientRechercheContent .PatientInfos .form form input:disabled:hover, .RecherchePatient .PatientRechercheContent .PatientInfos .form form select:disabled:hover, .RecherchePatient .PatientRechercheContent .PatientInfos .form form textarea:disabled:hover, .RecherchePatient .PatientRechercheContent .PatientInfos .form form button:disabled:hover {\n  -webkit-transform: scale(1);\n}\n.RecherchePatient .PatientRechercheContent .Recherche {\n  width: 28%;\n  height: calc(100vh - 170px);\n  overflow-y: auto;\n  border-radius: 30px;\n  background-color: #0C2646;\n  overflow-x: hidden;\n  display: flex;\n  flex-direction: column;\n}\n@media (max-width: 1600px) {\n  .RecherchePatient .PatientRechercheContent .Recherche {\n    height: 100%;\n    width: 90%;\n    margin: 20px auto;\n  }\n}\n.RecherchePatient .PatientRechercheContent .Recherche .FormRecherche {\n  display: flex;\n  width: 100%;\n  padding: 10px;\n  border-bottom: black 1px solid;\n}\n.RecherchePatient .PatientRechercheContent .Recherche .FormRecherche form {\n  display: flex;\n  flex-direction: row;\n  margin: 0 auto;\n}\n@media (max-width: 1600px) {\n  .RecherchePatient .PatientRechercheContent .Recherche .FormRecherche form input {\n    width: calc(100% - 90px);\n  }\n}\n.RecherchePatient .PatientRechercheContent .Recherche .FormRecherche form button {\n  margin: auto 5px;\n  display: flex;\n  height: 60px;\n  left: 50%;\n}\n.RecherchePatient .PatientRechercheContent .Recherche .FormRecherche form button img {\n  margin: auto;\n  height: 25px;\n}\n.RecherchePatient .PatientRechercheContent .Recherche .Interventions {\n  display: flex;\n  flex-direction: column;\n  margin: 15px auto;\n  width: 80%;\n  background-color: #004662;\n  border-radius: 30px;\n}\n.RecherchePatient .PatientRechercheContent .Recherche .Interventions h3 {\n  margin: 10px auto;\n  background-color: #0C2646;\n  font-size: 25px;\n  font-weight: 700;\n  padding: 5px 10px;\n  border-radius: 30px;\n}\n.RecherchePatient .PatientRechercheContent .Recherche .Interventions .InterventionsList {\n  height: 400px;\n  overflow-y: auto;\n  display: flex;\n  flex-direction: column;\n  margin: 10px auto;\n}\n.RecherchePatient .PatientRechercheContent .Recherche .Interventions .InterventionsList .InterventionItem {\n  margin: 0 auto;\n  padding: 10px 5px;\n  border-bottom: black 1px solid;\n}\n.RecherchePatient .PatientRechercheContent .Recherche .Interventions .InterventionsList .InterventionItem button {\n  cursor: pointer;\n  background-color: transparent;\n  border: none;\n  font-size: 20px;\n  font-weight: 600;\n  font-family: \"Baloo Thambi 2\", monospace;\n  color: #00FFFF;\n}\n.RecherchePatient .PatientRechercheContent .Recherche .infos {\n  padding: 15px;\n}\n@media (max-width: 1600px) {\n  .RecherchePatient .PatientRechercheContent .Recherche .infos {\n    margin: 0 auto;\n    width: 80%;\n  }\n}\n.RecherchePatient .PatientRechercheContent .Recherche .infos .inline {\n  padding: 15px;\n  display: flex;\n  flex-direction: row;\n  justify-content: space-between;\n}\n@media (max-width: 1600px) {\n  .RecherchePatient .PatientRechercheContent .Recherche .infos .inline {\n    flex-direction: column !important;\n    justify-content: normal !important;\n  }\n}\n.RecherchePatient .PatientRechercheContent .Recherche .infos .inline input {\n  width: 60%;\n}\n.RecherchePatient .PatientRechercheContent .Recherche .infos .inline label {\n  margin: auto 0;\n}\n\n.Services {\n  padding: 15px;\n  display: flex;\n  height: 95vh;\n  flex-direction: column;\n  justify-content: space-between;\n}\n@media (min-width: 1100px) and (max-width: 1200px) {\n  .Services {\n    overflow-x: scroll;\n  }\n}\n.Services section {\n  height: -webkit-min-content;\n  height: -moz-min-content;\n  height: min-content;\n}\n.Services .title-contain {\n  max-width: -webkit-fit-content;\n  max-width: -moz-fit-content;\n  max-width: fit-content;\n  margin: 0 auto;\n}\n.Services .week {\n  margin: 0 auto;\n}\n.Services .week table {\n  width: 800px;\n  border-collapse: collapse;\n  border-radius: 30px;\n  background-color: #0C2646;\n  display: block;\n  height: 300px;\n  overflow-y: scroll;\n}\n.Services .week table tr {\n  border: black 1px solid;\n  border-left: none;\n  border-right: none;\n}\n.Services .week table tr:first-child {\n  border-top: none;\n}\n.Services .week table tr:last-child {\n  border-bottom: none;\n}\n.Services .week table .head {\n  position: -webkit-sticky;\n  position: sticky;\n  top: 0;\n  border-bottom: black 1px solid;\n  background-color: #004662;\n  z-index: 10;\n  border-left: 1px black solid;\n  border-right: 1px black solid;\n}\n.Services .week table .head:first-child {\n  border-left: none;\n}\n.Services .week table .head:last-child {\n  border-right: none;\n}\n.Services .week table td {\n  width: 200px;\n  padding: 5px;\n  text-align: center;\n  font-family: \"Baloo Thambi 2\", monospace;\n  font-size: 25px;\n  color: #00FFFF;\n  border: black 1px solid;\n  border-top: none;\n  border-bottom: none;\n}\n.Services .week table td:first-child {\n  border-left: none;\n}\n.Services .week table td:last-child {\n  border-right: none;\n}\n.Services .week table .body {\n  width: 800px;\n  padding-top: 40px;\n}\n.Services .week table .header {\n  width: 800px;\n  background-color: #004662;\n  height: 40px;\n}\n.Services .week-list {\n  margin: 0 auto;\n}\n.Services .week-list table {\n  width: 900px;\n  height: 300px;\n  border-collapse: collapse;\n  border-radius: 30px;\n  background-color: #0C2646;\n}\n.Services .week-list table tr {\n  border: black 1px solid;\n  border-left: none;\n  border-right: none;\n}\n.Services .week-list table tr:last-child {\n  border-bottom: none;\n}\n.Services .week-list table td {\n  width: 200px;\n  padding: 5px;\n  text-align: center;\n  font-family: \"Baloo Thambi 2\", monospace;\n  font-size: 25px;\n  color: #00FFFF;\n  border: black 1px solid;\n  border-top: none;\n  border-bottom: none;\n}\n.Services .week-list table td:first-child {\n  border-left: none;\n}\n.Services .week-list table td:last-child {\n  border-right: none;\n}\n.Services .week-list table .body {\n  width: 800px;\n}\n.Services .week-list table .header {\n  width: 800px;\n  background-color: #004662;\n}\n.Services .week-list table .header tr:first-child {\n  border-top: none;\n}\n\n.impayes {\n  height: 100vh;\n  display: flex;\n  flex-direction: column;\n  justify-content: space-evenly;\n}\n.impayes .header {\n  display: flex;\n  flex-direction: row;\n  flex-wrap: nowrap;\n  justify-content: space-evenly;\n}\n.impayes .header .pdf_Generator {\n  margin: auto 0;\n  padding: 15px;\n  background-color: #0C2646;\n  border-radius: 30px;\n}\n.impayes .header .pdf_Generator form {\n  display: flex;\n  flex-direction: row;\n  justify-content: space-evenly;\n  margin: auto 0;\n}\n.impayes .header .pdf_Generator form label {\n  margin: auto 10px;\n}\n.impayes .header .pdf_Generator form .btn {\n  margin: auto 10px;\n}\n.impayes .header .Add-facture {\n  margin: auto 0;\n}\n.impayes .impayelist {\n  margin: 0 auto;\n  display: flex;\n  height: 80vh;\n  width: 80%;\n  background-color: #0C2646;\n  overflow-y: auto;\n  border-radius: 30px;\n  padding-bottom: 10px;\n}\n.impayes .impayelist .ImpayeTableContainer {\n  width: 100%;\n}\n.impayes .impayelist .ImpayeTableContainer table {\n  top: 0;\n  width: 100%;\n  border-collapse: collapse;\n}\n.impayes .impayelist .ImpayeTableContainer table tr {\n  width: 100%;\n  border: black 1px solid;\n  border-left: none;\n  border-right: none;\n}\n.impayes .impayelist .ImpayeTableContainer table tr:first-child {\n  border-top: none;\n}\n.impayes .impayelist .ImpayeTableContainer table tr:last-child {\n  border-bottom: none;\n}\n.impayes .impayelist .ImpayeTableContainer table .head {\n  position: -webkit-sticky;\n  position: sticky;\n  top: 0;\n  border-bottom: black 1px solid;\n  background-color: #004662;\n  z-index: 10;\n  border-left: 1px black solid;\n  border-right: 1px black solid;\n}\n.impayes .impayelist .ImpayeTableContainer table .head:first-child {\n  border-left: none;\n}\n.impayes .impayelist .ImpayeTableContainer table .head:last-child {\n  border-right: none;\n}\n.impayes .impayelist .ImpayeTableContainer table td {\n  width: 20%;\n  padding: 5px;\n  text-align: center;\n  font-family: \"Baloo Thambi 2\", monospace;\n  font-size: 25px;\n  color: #00FFFF;\n  height: 70px;\n  border: black 1px solid;\n  border-top: none;\n  border-bottom: none;\n}\n.impayes .impayelist .ImpayeTableContainer table td:first-child {\n  border-left: none;\n}\n.impayes .impayelist .ImpayeTableContainer table td:last-child {\n  border-right: none;\n}\n.impayes .impayelist .ImpayeTableContainer table thead tr {\n  border-bottom: 1px black solid !important;\n}\n.impayes .impayelist .ImpayeTableContainer table thead tr:nth-child(even) td {\n  background: #0f2f57;\n}\n.impayes .add-facture-form {\n  height: 100vh;\n  width: calc(100vw - 270px);\n  position: fixed;\n  z-index: 21;\n  display: flex;\n  justify-content: center;\n}\n.impayes .add-facture-form .card-facture {\n  margin: auto;\n  width: 700px;\n  height: 300px;\n  background-color: #0C2646;\n  border: 1px solid #00FFFF;\n  box-shadow: 0 0 15px 0px #00FFFF;\n  border-radius: 30px;\n  padding: 15px;\n}\n.impayes .add-facture-form .card-facture h1 {\n  text-align: center;\n  font-size: 35px;\n}\n.impayes .add-facture-form .card-facture form {\n  width: 100%;\n  display: flex;\n  flex-direction: column;\n}\n.impayes .add-facture-form .card-facture form .content {\n  margin-top: 15px;\n  display: flex;\n  flex-direction: row;\n  flex-wrap: wrap;\n  justify-content: space-evenly;\n}\n.impayes .add-facture-form .card-facture form .content .switch-container {\n  margin-top: 15px;\n}\n.impayes .add-facture-form .card-facture form .footer {\n  margin-top: 20px;\n  display: flex;\n  flex-direction: row;\n  justify-content: space-evenly;\n}\n\n.RapportHorraire {\n  width: 100%;\n  height: 100%;\n  display: flex;\n  flex-direction: column;\n  justify-content: space-around;\n}\n.RapportHorraire .header {\n  display: flex;\n  flex-direction: row;\n  justify-content: space-around;\n  padding-top: 10px;\n}\n.RapportHorraire .header .semaine-select {\n  margin: auto 0;\n}\n.RapportHorraire .header .semaine-select form {\n  background-color: #0C2646;\n  border-radius: 30px;\n  padding: 10px;\n  display: flex;\n  flex-direction: row;\n}\n.RapportHorraire .header .semaine-select form input {\n  margin: 0 10px;\n}\n.RapportHorraire .header .semaine-select form label, .RapportHorraire .header .semaine-select form button {\n  margin: auto 0;\n}\n.RapportHorraire .header .add-perso {\n  margin: auto 0;\n}\n.RapportHorraire .rapport-table-container {\n  margin: 25px auto;\n  height: 80vh;\n  width: 90%;\n  background-color: #0C2646;\n  border-radius: 30px;\n  overflow-y: scroll;\n  overflow-x: hidden;\n}\n.RapportHorraire .rapport-table-container .rapport-table {\n  width: 100%;\n  height: 100%;\n  border-collapse: collapse;\n  display: table;\n}\n.RapportHorraire .rapport-table-container .rapport-table .row {\n  display: table-row;\n  height: 40px;\n  border-top: 1px black solid;\n  border-bottom: 1px black solid;\n}\n.RapportHorraire .rapport-table-container .rapport-table .row:first-child {\n  border-top: none !important;\n}\n.RapportHorraire .rapport-table-container .rapport-table .row:last-child {\n  border-bottom: none !important;\n}\n.RapportHorraire .rapport-table-container .rapport-table .row:nth-child(even) .cell {\n  background: #0f2f57;\n}\n.RapportHorraire .rapport-table-container .rapport-table .cell {\n  border-left: 1px black solid;\n  border-right: 1px black solid;\n  width: 10%;\n  display: table-cell;\n  vertical-align: middle;\n}\n.RapportHorraire .rapport-table-container .rapport-table .cell p {\n  text-align: center;\n}\n.RapportHorraire .rapport-table-container .rapport-table .head {\n  position: -webkit-sticky;\n  position: sticky;\n  top: 0;\n  border-bottom: black 1px solid;\n  background-color: #004662;\n  z-index: 10;\n  height: 10px;\n  border-left: 1px black solid;\n  border-right: 1px black solid;\n}\n.RapportHorraire .rapport-table-container .rapport-table .head:first-child {\n  border-left: none;\n}\n.RapportHorraire .rapport-table-container .rapport-table .head:last-child {\n  border-right: none;\n}\n.RapportHorraire .rapport-table-container .rapport-table .column-1 {\n  text-wrap: normal;\n  border-left: none !important;\n}\n.RapportHorraire .rapport-table-container .rapport-table .column-10 {\n  border-right: none !important;\n}\n.RapportHorraire .rapport-table-container .rapport-table .table-header {\n  background-color: #004662;\n  border-top: none !important;\n  position: -webkit-sticky;\n  position: sticky;\n  height: 70px;\n  top: 0;\n}\n\n.ContentManagement {\n  width: 100%;\n  height: 100%;\n  display: flex;\n  flex-direction: column;\n  justify-content: center;\n}\n.ContentManagement .header {\n  display: flex;\n  flex-direction: row;\n  flex-wrap: nowrap;\n  justify-content: center;\n  margin-bottom: 10px;\n  height: 151px;\n}\n.ContentManagement .content-mgt {\n  width: 97%;\n  margin: 0 auto;\n  height: calc(100vh - 200px);\n  overflow-y: scroll;\n  display: flex;\n  flex-direction: row;\n  justify-content: space-evenly;\n  flex-wrap: wrap;\n  padding-top: 10px;\n}\n.ContentManagement .content-mgt .ContentCard {\n  width: 400px;\n  margin: 20px;\n  height: 500px;\n  background-color: #0C2646;\n  border-radius: 30px;\n  padding: 10px;\n  display: flex;\n  flex-direction: column;\n  justify-content: space-around;\n}\n.ContentManagement .content-mgt .ContentCard h1 {\n  text-align: center;\n  font-weight: 700;\n  font-size: 35px;\n}\n.ContentManagement .content-mgt .ContentCard:last-child {\n  margin-bottom: 100px;\n}\n.ContentManagement .content-mgt .ContentCard .item-list, .ContentManagement .content-mgt .ContentCard textarea {\n  margin: 0 auto;\n  background-color: #004662;\n  border-radius: 30px 0 0 30px;\n  padding: 10px;\n  height: 300px;\n  overflow-y: auto;\n  width: 90%;\n}\n.ContentManagement .content-mgt .ContentCard .item-list .item, .ContentManagement .content-mgt .ContentCard textarea .item {\n  display: flex;\n  flex-direction: row;\n  justify-content: space-between;\n  flex-wrap: nowrap;\n  width: 100%;\n  border-bottom: 1px black solid;\n  height: 50px;\n  padding: 5px 0;\n}\n.ContentManagement .content-mgt .ContentCard .item-list .item button, .ContentManagement .content-mgt .ContentCard textarea .item button {\n  cursor: pointer;\n  background-color: transparent;\n  border: none;\n  transition: 500ms ease-in-out;\n}\n.ContentManagement .content-mgt .ContentCard .item-list .item button img, .ContentManagement .content-mgt .ContentCard textarea .item button img {\n  height: 40px;\n}\n.ContentManagement .content-mgt .ContentCard .item-list .item button:hover, .ContentManagement .content-mgt .ContentCard textarea .item button:hover {\n  -webkit-transform: rotate(6deg);\n}\n.ContentManagement .content-mgt .ContentCard .item-list .item p, .ContentManagement .content-mgt .ContentCard textarea .item p {\n  margin: auto 0;\n  font-size: 25px;\n  max-width: 80%;\n  white-space: nowrap;\n  overflow: hidden;\n  text-overflow: ellipsis;\n}\n.ContentManagement .content-mgt .ContentCard form {\n  margin: 10px auto;\n  display: flex;\n  flex-direction: column;\n  width: 90%;\n}\n.ContentManagement .content-mgt .ContentCard form button {\n  margin-top: 10px;\n  margin-right: 0;\n  margin-left: auto;\n}\n\n.pilote-btn {\n  /*Button is :CHECKED*/\n  /*shared*/\n  /*'un':checked state*/\n  /* pesduo class on toggle */\n}\n.pilote-btn *::before, .pilote-btn *::after {\n  transition: 400ms all ease-in-out 50ms;\n  box-sizing: border-box;\n  -webkit-backface-visibility: hidden;\n          backface-visibility: hidden;\n}\n.pilote-btn input[type=checkbox]:checked ~ div {\n  background: #49a844;\n  box-shadow: 0 0 2px #49a844;\n}\n.pilote-btn input[type=checkbox]:checked ~ div label {\n  transform: translate(60px);\n}\n.pilote-btn input[type=checkbox] ~ div label {\n  transition: 300ms all ease-in-out 50ms;\n}\n.pilote-btn div,\n.pilote-btn label {\n  border-radius: 50px;\n}\n.pilote-btn input[type=checkbox] {\n  display: none;\n}\n.pilote-btn div {\n  height: 40px;\n  width: 80px;\n  background: #2b2b2b;\n  position: relative;\n  top: 0;\n  left: calc(50% - 35px);\n  box-shadow: 0 0 2px #2b2b2b;\n}\n.pilote-btn label {\n  height: 40px;\n  width: 40px;\n  background: white;\n  position: absolute;\n  top: 0;\n  left: -15px;\n  cursor: pointer;\n}\n.pilote-btn label::before {\n  content: \"\";\n  height: 60px;\n  width: 5px;\n  position: absolute;\n  top: calc(50% - 30px);\n  left: calc(50% - 2.5px);\n  transform: rotate(45deg);\n}\n.pilote-btn label::after {\n  content: \"\";\n  height: 5px;\n  width: 60px;\n  position: absolute;\n  top: calc(50% - 2.5px);\n  left: calc(50% - 30px);\n  transform: rotate(45deg);\n}\n.pilote-btn label::before,\n.pilote-btn label::after {\n  background: #2b2b2b;\n  border-radius: 5px;\n}\n.pilote-btn input[type=checkbox]:checked ~ div label::before {\n  height: 32px;\n  top: calc(55% - 19px);\n  left: calc(60% + 2px);\n  background: #49a844;\n}\n.pilote-btn input[type=checkbox]:checked ~ div label::after {\n  width: 21px;\n  top: calc(95% - 17px);\n  left: calc(22.5% - 7px);\n  background: #49a844;\n}\n\n.PersonnelList {\n  width: 100%;\n  height: 100%;\n  display: flex;\n  flex-direction: column;\n  justify-content: center;\n  flex-wrap: wrap;\n}\n.PersonnelList .header {\n  display: flex;\n  flex-direction: row;\n  justify-content: space-evenly;\n}\n.PersonnelList .header a {\n  margin: auto 0;\n}\n.PersonnelList .list-personnel {\n  margin: 10px auto;\n  background-color: #0C2646;\n  border-radius: 30px;\n  width: 90%;\n  height: calc(100vh - 151px);\n  overflow-y: scroll;\n  flex-grow: 1;\n}\n.PersonnelList .list-personnel table {\n  border-collapse: collapse;\n  width: 100%;\n}\n.PersonnelList .list-personnel table th {\n  position: -webkit-sticky;\n  position: sticky;\n  top: 0;\n  border-bottom: black 1px solid;\n  background-color: #004662;\n  z-index: 10;\n  border-left: 1px black solid;\n  border-right: 1px black solid;\n}\n.PersonnelList .list-personnel table th:first-child {\n  border-left: none;\n}\n.PersonnelList .list-personnel table th:last-child {\n  border-right: none;\n}\n.PersonnelList .list-personnel table .id {\n  width: 5%;\n  text-align: center;\n}\n.PersonnelList .list-personnel table .name {\n  width: 20%;\n  text-align: center;\n}\n.PersonnelList .list-personnel table .tel {\n  width: 15%;\n  text-align: center;\n}\n.PersonnelList .list-personnel table .compte {\n  width: 15%;\n  text-align: center;\n}\n.PersonnelList .list-personnel table .pilote {\n  width: 15%;\n}\n.PersonnelList .list-personnel table .grade {\n  width: 30%;\n}\n.PersonnelList .list-personnel table th, .PersonnelList .list-personnel table td {\n  font-family: \"Baloo Thambi 2\", monospace;\n  font-weight: 500;\n  font-size: 25px;\n  color: #00FFFF;\n  border-left: black 1px solid;\n  border-right: 1px black solid;\n}\n.PersonnelList .list-personnel table th:first-child, .PersonnelList .list-personnel table td:first-child {\n  border-left: none;\n}\n.PersonnelList .list-personnel table th:last-child, .PersonnelList .list-personnel table td:last-child {\n  border-right: none;\n}\n.PersonnelList .list-personnel table td:last-child form {\n  display: flex;\n  flex-direction: row;\n  justify-content: center;\n}\n.PersonnelList .list-personnel table td:last-child form select {\n  width: 300px;\n  margin-right: 20px;\n}\n.PersonnelList .list-personnel table td:last-child form button {\n  margin: auto 0;\n}\n.PersonnelList .list-personnel table tr {\n  border-top: 1px black solid;\n  border-bottom: 1px black solid;\n}\n.PersonnelList .list-personnel table tr:first-child {\n  border-top: none;\n}\n.PersonnelList .list-personnel table tr:last-child {\n  border-bottom: none;\n}\n.PersonnelList .list-personnel table tr:nth-child(even) td {\n  background: #0f2f57;\n}\n\n.Login, .Register {\n  width: 100%;\n  height: 100%;\n  display: flex;\n  justify-content: center;\n  background-image: url(\"/assets/bg/BG_1.jpg\");\n}\n.Login .Form, .Register .Form {\n  margin: auto auto;\n  background-color: #0C2646;\n  border-radius: 30px;\n  padding: 10px;\n}\n.Login .Form form, .Register .Form form {\n  display: flex;\n  flex-direction: column;\n}\n.Login .Form form h1, .Register .Form form h1 {\n  text-align: center;\n  font-size: 40px;\n  font-weight: 900;\n  color: #00FFFF;\n}\n.Login .Form form label, .Register .Form form label {\n  margin-top: 10px;\n  font-size: 30px;\n  font-weight: 600;\n}\n.Login .Form form .btn-contain, .Register .Form form .btn-contain {\n  display: flex;\n  flex-direction: row;\n  justify-content: space-evenly;\n  margin-top: 10px;\n}\n\n.maintenance {\n  width: 100vw;\n  height: 100vh;\n  display: flex;\n  justify-content: center;\n  background-image: url(\"/assets/bg/BG_2.jpg\");\n}\n.maintenance .card {\n  margin: auto auto;\n  background-color: #0C2646;\n  border-radius: 30px;\n  padding: 10px;\n  display: flex;\n  flex-direction: column;\n}\n.maintenance .card h1 {\n  text-align: center;\n  font-size: 40px;\n  font-weight: 900;\n  color: #00FFFF;\n}\n.maintenance .card .infos {\n  margin: 20px 0;\n  display: flex;\n  flex-direction: column;\n  padding: 20px 0;\n  border-bottom: 1px #004662 solid;\n  border-top: 1px #004662 solid;\n}\n.maintenance .card .infos .rowed {\n  padding: 0 30px;\n  display: flex;\n  flex-direction: row;\n  justify-content: space-between;\n}\n.maintenance .card .contact {\n  text-align: center;\n  margin-bottom: 10px;\n}\n\n.remboursement {\n  display: flex;\n  width: 100%;\n  height: 95vh;\n  padding: 10px;\n  flex-direction: column;\n  justify-content: space-between;\n}\n.remboursement .title-contain {\n  width: -webkit-min-content;\n  width: -moz-min-content;\n  width: min-content;\n  margin: 0 40px 0 auto;\n}\n.remboursement .MainContainer {\n  height: -webkit-max-content;\n  height: -moz-max-content;\n  height: max-content;\n  width: 80vw;\n  margin: 0 auto;\n  overflow: hidden;\n}\n.remboursement .MainContainer .selector {\n  margin-left: 25px;\n}\n.remboursement .MainContainer .selector button {\n  border: none;\n  background-color: #0C2646;\n  font-size: 28px;\n  font-family: \"Baloo Thambi 2\", monospace;\n  color: #00FFFF;\n  font-weight: 600;\n  margin-left: 10px;\n  padding: 10px;\n  border-radius: 25px 25px 0 0;\n  border-top: 1px black solid;\n  border-left: 1px black solid;\n  border-right: 1px black solid;\n}\n.remboursement .MainContainer .selector .unselected {\n  background-color: #004662;\n  cursor: pointer;\n}\n.remboursement .MainContainer .myview {\n  display: flex;\n  flex-direction: row;\n  flex-wrap: wrap;\n  background-color: #0C2646;\n  border-radius: 30px;\n}\n.remboursement .MainContainer .myview .add {\n  width: 49%;\n  min-width: 300px;\n  display: flex;\n}\n.remboursement .MainContainer .myview .add form {\n  margin: 0 auto;\n  width: 60%;\n  display: flex;\n  flex-direction: column;\n  justify-content: space-around;\n  max-height: 300px;\n}\n.remboursement .MainContainer .myview .add form h2 {\n  text-align: center;\n}\n.remboursement .MainContainer .myview .add form button {\n  margin: 0 0 0 auto;\n}\n.remboursement .MainContainer .myview .list-content {\n  display: flex;\n  width: 42%;\n  padding: 30px;\n}\n.remboursement .MainContainer .myview .list-content .list {\n  display: flex;\n  flex-direction: column;\n  height: 700px;\n  overflow-y: auto;\n  margin: 0 auto;\n  background-color: #004662;\n  border-radius: 30px;\n  width: 70%;\n  min-width: 300px;\n  padding: 5px;\n}\n.remboursement .MainContainer .myview .list-content .list .row {\n  display: flex;\n  flex-direction: row;\n  justify-content: space-between;\n  margin-bottom: 10px;\n  cursor: default;\n}\n.remboursement .MainContainer .myview .list-content .list .row h5 {\n  font-size: 22px;\n  line-height: 30px;\n}\n.remboursement .MainContainer .myview .list-content .list .row button {\n  background: transparent;\n  border: none;\n  cursor: pointer !important;\n}\n.remboursement .MainContainer .myview .list-content .list .row button img {\n  width: 30px;\n  transition: all 200ms;\n}\n.remboursement .MainContainer .myview .list-content .list .row button img:hover {\n  -webkit-transform: scale(1.2);\n}\n.remboursement .MainContainer .adminview {\n  display: flex;\n  flex-direction: column;\n  background-color: #0C2646;\n  border-radius: 30px;\n  width: 100%;\n  height: calc(100vh - 250px);\n  overflow-y: hidden;\n}\n.remboursement .MainContainer .adminview .table-head {\n  display: flex;\n  width: 100%;\n  height: 100px;\n}\n.remboursement .MainContainer .adminview .table-head form {\n  display: flex;\n  flex-direction: row;\n  padding: 10px;\n}\n.remboursement .MainContainer .adminview .table-head form label {\n  font-size: 28px;\n  margin: auto 10px auto 10px;\n  font-weight: 500;\n}\n.remboursement .MainContainer .adminview .table-head form button {\n  margin: auto 0 auto 30px;\n}\n.remboursement .MainContainer .adminview .table-head form input {\n  width: 70px;\n}\n.remboursement .MainContainer .adminview .table-container {\n  height: calc(100vh - 107px);\n  overflow-y: scroll;\n}\n.remboursement .MainContainer .adminview .table-container table {\n  border-collapse: collapse;\n  height: 500px;\n  width: 100%;\n  overflow-y: scroll;\n  border-radius: 30px;\n}\n.remboursement .MainContainer .adminview .table-container table .head {\n  position: -webkit-sticky;\n  position: sticky;\n  color: #00FFFF;\n  text-align: center;\n  padding: 10px;\n  height: 40px;\n  font-family: \"Baloo Thambi 2\", monospace;\n  font-weight: 600;\n  font-size: 25px;\n  top: 0;\n  background-color: #004662;\n}\n.remboursement .MainContainer .adminview .table-container table tbody tr {\n  height: 30px;\n  border-top: black 1px solid;\n  border-bottom: black 1px solid;\n}\n.remboursement .MainContainer .adminview .table-container table tbody tr td {\n  text-align: center;\n  padding: 10px;\n  font-family: \"Baloo Thambi 2\", monospace;\n  font-weight: 500;\n  font-size: 20px;\n  color: #00FFFF;\n  border-left: 1px black solid;\n  border-right: 1px black solid;\n}\n.remboursement .MainContainer .adminview .table-container table tbody tr td:last-child {\n  border-right: none !important;\n}\n.remboursement .MainContainer .adminview .table-container table tbody tr td:first-child {\n  border-left: none !important;\n}\n.remboursement .MainContainer .adminview .table-container table .id {\n  width: 70px;\n}\n\n.Logs {\n  width: 100%;\n  height: 100vh;\n  display: flex;\n  flex-direction: column;\n}\n.Logs .header {\n  display: flex;\n  flex-direction: row;\n  justify-content: space-around;\n  margin-bottom: 30px;\n  height: 130px;\n}\n.Logs .header .logs-select {\n  display: flex;\n  padding: 7px 20px;\n  background-color: #0C2646;\n  border-radius: 30px;\n}\n.Logs .header .logs-select select {\n  margin: auto;\n}\n.Logs .log-list {\n  margin: 0 auto;\n  height: calc(100vh - 250px);\n  background-color: #0C2646;\n  border-radius: 30px;\n  width: 90%;\n  padding: 10px;\n}\n.Logs .log-list .logs-header {\n  padding: 10px;\n  width: calc(100% - 20px);\n  height: 80px;\n  display: flex;\n  flex-direction: row;\n  justify-content: space-between;\n  border-bottom: 1px #00FFFF solid;\n}\n.Logs .log-list .logs-header p {\n  font-weight: 600;\n  font-size: 30px;\n  margin: auto 0;\n}\n.Logs .log-list .logs-header .pages {\n  display: flex;\n  flex-direction: row;\n  justify-content: space-evenly;\n  width: 550px;\n}\n.Logs .log-list .logs-header .pages label {\n  margin: auto 0;\n}\n.Logs .log-list .logs-header .pages button {\n  cursor: pointer;\n  background-color: transparent;\n  border: none;\n  font-size: 30px;\n  font-weight: 600;\n  color: #00FFFF;\n}\n.Logs .log-list .logs-header .pages p {\n  font-size: 30px;\n}\n.Logs .log-list .logs-header .pages button, .Logs .log-list .logs-header .pages p {\n  margin: auto 0;\n  height: 45px;\n}\n.Logs .log-list .logs-header .pages select {\n  width: 150px;\n}\n.Logs .log-list .table {\n  overflow-y: scroll;\n  max-height: calc(100% - 110px);\n  margin-top: 15px;\n}\n.Logs .log-list .table table {\n  top: 0;\n  width: 100%;\n  border-collapse: collapse;\n}\n.Logs .log-list .table table tr {\n  width: 100%;\n  border: black 1px solid;\n  border-left: none;\n  border-right: none;\n}\n.Logs .log-list .table table thead {\n  position: -webkit-sticky;\n  position: sticky;\n  top: 0;\n  border-bottom: black 1px solid;\n  background-color: #004662;\n  z-index: 10;\n  border-left: 1px black solid;\n  border-right: 1px black solid;\n}\n.Logs .log-list .table table td, .Logs .log-list .table table th {\n  padding: 5px;\n  text-align: center;\n  font-family: \"Baloo Thambi 2\", monospace;\n  font-size: 25px;\n  color: #00FFFF;\n  height: 70px;\n  border: black 1px solid;\n  border-top: none;\n  border-bottom: none;\n}\n.Logs .log-list .table table tr:nth-child(even) td {\n  background: #0f2f57;\n}\n.Logs .log-list .table table thead tr {\n  border-bottom: 1px black solid !important;\n}\n\n.BugRepport {\n  z-index: 25;\n  width: 100%;\n  position: fixed;\n  top: 0;\n  -webkit-backdrop-filter: blur(5px);\n          backdrop-filter: blur(5px);\n  height: 100vh;\n  display: flex;\n}\n.BugRepport .Repport-Card {\n  margin: auto;\n  width: 40%;\n  background-color: #0C2646;\n  border-radius: 30px;\n  border: 1px solid #00FFFF;\n  padding: 20px;\n}\n.BugRepport .Repport-Card h1 {\n  font-weight: 700;\n  font-size: 35px;\n  text-align: center;\n}\n.BugRepport .Repport-Card form {\n  display: flex;\n  flex-direction: column;\n}\n.BugRepport .Repport-Card .rowed {\n  display: flex;\n  flex-direction: row;\n  justify-content: space-evenly;\n}\n.BugRepport .Repport-Card .rowed button {\n  margin: auto 0;\n}\n\n.load {\n  display: flex;\n  width: 100%;\n  height: 100%;\n}\n.load img {\n  margin: auto auto;\n}\n\n.livret-page {\n  height: 100vh;\n  display: flex;\n  flex-direction: column;\n  justify-content: space-evenly;\n}\n.livret-page .title-contain {\n  margin: 10px auto;\n}\n.livret-page .livret {\n  margin: auto auto;\n  background-color: #0C2646;\n  border-radius: 30px;\n  height: calc(100vh - 200px);\n  width: 90%;\n  display: flex;\n  flex-direction: column;\n  flex-wrap: nowrap;\n  overflow: hidden;\n}\n.livret-page .livret .livret-content {\n  display: flex;\n  flex-direction: row;\n  flex-wrap: nowrap;\n  width: 100%;\n  padding: 20px;\n  height: 75%;\n}\n.livret-page .livret .livret-content .left, .livret-page .livret .livret-content .right {\n  height: 100%;\n  display: flex;\n  flex-direction: column;\n  justify-content: space-between;\n  width: 45%;\n  padding: 0 10px;\n  border-collapse: collapse;\n}\n.livret-page .livret .livret-content .left {\n  padding: 10px;\n  border-right: 1px #00FFFF solid;\n}\n.livret-page .livret .livret-content .left .forma:hover {\n  transform: rotate(-2deg);\n}\n.livret-page .livret .livret-content .right {\n  padding: 10px;\n  border-left: 1px #00FFFF solid;\n}\n.livret-page .livret .livret-content .right .forma:hover {\n  transform: rotate(2deg);\n}\n.livret-page .livret .livret-content .forma {\n  display: flex;\n  flex-direction: column;\n  cursor: pointer;\n  transition: all 400ms ease-in-out;\n}\n.livret-page .livret .livret-content .forma .infos {\n  display: flex;\n  flex-direction: row;\n  flex-wrap: nowrap;\n}\n.livret-page .livret .livret-content .forma .infos img {\n  width: 275px;\n  height: 154px;\n  border-radius: 30px;\n}\n.livret-page .livret .livret-content .forma .infos .text {\n  margin-left: 10px;\n}\n.livret-page .livret .livret-content .forma .infos .text h5 {\n  font-size: 25px;\n  font-weight: 700;\n}\n.livret-page .livret .livret-content .forma .infos .text p {\n  text-indent: 30px;\n  text-align: justify;\n  height: 100px;\n  overflow: hidden;\n}\n.livret-page .livret .livret-content .forma .validation {\n  border-radius: 30px;\n  display: grid;\n  grid-template-columns: 5% 20% 45% 30%;\n  grid-template-rows: 70px;\n  height: 80px;\n  background-color: #004662;\n}\n.livret-page .livret .livret-content .forma .validation h3 {\n  grid-column-start: 2;\n  grid-column-end: 2;\n  line-height: 70px;\n  font-size: 25px;\n  font-weight: 800;\n}\n.livret-page .livret .livret-content .forma .validation img {\n  grid-column-start: 4;\n  grid-column-end: 4;\n  width: 120px;\n  transform: rotate(12deg) translateY(12px);\n}\n.livret-page .livret .livret-footer {\n  padding: 20px 40px;\n  height: 15%;\n  width: calc(100% - 80px);\n  display: flex;\n  flex-direction: row;\n  justify-content: space-between;\n}\n.livret-page .livret .livret-footer button {\n  margin: auto 0;\n}\n\n.responsepage {\n  height: 100vh;\n  display: flex;\n  flex-direction: column;\n  justify-content: space-evenly;\n}\n.responsepage .title-contain {\n  margin: 0 auto;\n}\n.responsepage .responsecontent {\n  overflow-y: hidden;\n  height: calc(100vh - 200px);\n  width: 90%;\n  margin: 0 auto;\n  background-color: #0C2646;\n  border-radius: 30px;\n}\n.responsepage .responsecontent form {\n  width: 100%;\n  height: 100%;\n  display: flex;\n  flex-direction: column;\n  flex-wrap: nowrap;\n}\n.responsepage .responsecontent form .question {\n  height: 90%;\n  margin-bottom: 10px;\n  display: flex;\n  flex-direction: row;\n  flex-wrap: nowrap;\n}\n.responsepage .responsecontent form .question .left {\n  width: 80%;\n  padding: 10px;\n}\n.responsepage .responsecontent form .question .left h2 {\n  margin-top: 30px;\n  font-size: 35px;\n  text-wrap: avoid;\n  max-height: 100px;\n  overflow-y: hidden;\n  margin-bottom: 15px;\n  margin-left: 20px;\n}\n.responsepage .responsecontent form .question .left h2 span {\n  -webkit-text-decoration: #00FFFF underline 3px;\n          text-decoration: #00FFFF underline 3px;\n}\n.responsepage .responsecontent form .question .left .response {\n  padding-left: 60px;\n  height: calc(100% - 210px);\n  padding-top: 20px;\n  overflow-y: auto;\n}\n.responsepage .responsecontent form .question .left .response .rowed {\n  margin: 30px 0;\n}\n.responsepage .responsecontent form .question .left .response .rowed .checkbox .container {\n  display: block;\n  position: relative;\n  padding-left: 35px;\n  margin-bottom: 12px;\n  font-size: 25px;\n  cursor: pointer;\n  -webkit-user-select: none;\n  -moz-user-select: none;\n  -ms-user-select: none;\n  user-select: none;\n}\n.responsepage .responsecontent form .question .left .response .rowed .checkbox .container input {\n  position: absolute;\n  opacity: 0;\n  cursor: pointer;\n  top: 10px;\n  height: 0;\n  margin-right: 20px;\n  width: 0;\n}\n.responsepage .responsecontent form .question .left .response .rowed .checkbox .container input:disabled {\n  cursor: default !important;\n}\n.responsepage .responsecontent form .question .left .response .rowed .checkbox .container .checkmark {\n  position: absolute;\n  top: 7px;\n  left: -10px;\n  height: 25px;\n  width: 25px;\n  background-color: #004662;\n  border-radius: 50%;\n}\n.responsepage .responsecontent form .question .left .response .rowed .checkbox .container .checkmark:after {\n  content: \"\";\n  position: absolute;\n  display: none;\n}\n.responsepage .responsecontent form .question .left .response .rowed .checkbox .user:checked ~ .checkmark {\n  background-color: #00FFFF;\n}\n.responsepage .responsecontent form .question .left .response .rowed .checkbox .false:checked ~ .checkmark {\n  background-color: #e3342f;\n  box-shadow: 0 0 20px 7px #FF0000;\n}\n.responsepage .responsecontent form .question .left .response .rowed .checkbox .right:checked ~ .checkmark {\n  background-color: #38c172;\n  box-shadow: 0 0 20px 7px #00FF00;\n}\n.responsepage .responsecontent form .question .left .response .rowed .checkbox .container input:checked ~ .checkmark:after {\n  display: block;\n}\n.responsepage .responsecontent form .question .left .response .rowed .checkbox .disabled {\n  cursor: default !important;\n}\n.responsepage .responsecontent form .question .left .response .rowed label {\n  font-size: 25px;\n}\n.responsepage .responsecontent form .question .infos {\n  width: 20%;\n  padding: 10px;\n  min-width: 290px;\n  display: flex;\n  flex-direction: column;\n}\n.responsepage .responsecontent form .question .infos img {\n  width: 275px;\n  height: 154px;\n  border-radius: 30px;\n  margin-top: 20px;\n}\n.responsepage .responsecontent form .question .infos p {\n  text-indent: 20px;\n  text-align: justify-all;\n  word-break: break-word;\n}\n.responsepage .responsecontent form .question .infos .correction p {\n  color: green;\n}\n.responsepage .responsecontent form .bottom {\n  border-top: 1px #00FFFF solid;\n  display: flex;\n  flex-direction: row;\n  justify-content: space-evenly;\n}\n.responsepage .responsecontent form .bottom h3, .responsepage .responsecontent form .bottom button {\n  margin: auto 0;\n}\n.responsepage .responsecontent form .bottom h3 {\n  font-size: 30px;\n}\n\n.moncompte {\n  display: flex;\n  flex-direction: column;\n  justify-content: space-around;\n  height: 100vh;\n}\n.moncompte .title-contain {\n  margin: 15px auto 15px auto;\n  text-align: center;\n}\n.moncompte .title-contain span {\n  font-weight: 500;\n  font-size: 30px;\n}\n.moncompte .account-container {\n  margin: auto auto;\n  width: 90%;\n}\n.moncompte .account-container .header {\n  height: 60px;\n  margin-left: 40px;\n  display: flex;\n  flex-direction: row;\n}\n.moncompte .account-container .header button {\n  border: none;\n  background-color: #0C2646;\n  font-size: 28px;\n  font-family: \"Baloo Thambi 2\", monospace;\n  color: #00FFFF;\n  font-weight: 600;\n  margin-left: 10px;\n  padding: 10px;\n  border-radius: 25px 25px 0 0;\n  border-top: 1px black solid;\n  border-left: 1px black solid;\n  border-right: 1px black solid;\n  display: flex;\n  flex-direction: row;\n}\n.moncompte .account-container .header button img {\n  width: 28px;\n  margin: auto 10px auto 0;\n}\n.moncompte .account-container .header .unselected {\n  background-color: #004662;\n  cursor: pointer;\n}\n.moncompte .account-container .acc-content {\n  height: calc(100vh - 340px);\n  border-radius: 30px;\n  background-color: #0C2646;\n  display: flex;\n  flex-direction: row;\n  flex-wrap: nowrap;\n}\n.moncompte .account-container .acc-content .rowed {\n  display: flex;\n  flex-direction: row;\n}\n.moncompte .account-container .acc-content .conlumn {\n  display: flex;\n  flex-direction: column;\n}\n.moncompte .account-container .acc-content .changedata {\n  width: 50%;\n}\n.moncompte .account-container .acc-content .changedata form {\n  height: 95%;\n  width: 90%;\n  display: flex;\n  flex-direction: column;\n  justify-content: space-around;\n  padding: 30px;\n}\n.moncompte .account-container .acc-content .changedata form .rowed {\n  justify-content: space-between;\n}\n.moncompte .account-container .acc-content .changedata form .rowed input, .moncompte .account-container .acc-content .changedata form .rowed select {\n  width: 350px;\n}\n.moncompte .account-container .acc-content .changedata form .rowed label {\n  font-size: 30px;\n  margin: auto 0;\n}\n.moncompte .account-container .acc-content .changedata form button {\n  margin: 0 0 0 auto;\n}\n.moncompte .account-container .acc-content .info {\n  color: #004662;\n  margin: 0 auto;\n  font-weight: 700;\n  font-size: 25px;\n  text-align: right;\n}\n.moncompte .account-container .acc-content .bigchange {\n  width: 50%;\n  padding: 20px;\n  display: flex;\n  flex-direction: column;\n  justify-content: space-evenly;\n}\n.moncompte .account-container .acc-content .bigchange .btn {\n  margin: 0 auto;\n}\n.moncompte .account-container .acc-content .bigchange .img {\n  width: 100%;\n  height: 60%;\n}\n.moncompte .account-container .acc-content .bigchange .img .rowed h2 {\n  margin: auto 50px auto 0;\n}\n.moncompte .account-container .acc-content .bigchange .img form {\n  margin-top: 35px;\n  height: 60%;\n  display: flex;\n  flex-direction: column;\n  justify-content: space-evenly;\n}\n.moncompte .account-container .acc-content .bigchange .img form .right {\n  margin: 0 0 0 auto;\n}\n.moncompte .account-container .acc-content .bigchange .img form .rowed {\n  display: flex;\n  flex-direction: row;\n  justify-content: space-between;\n}\n.moncompte .account-container .acc-content .bigchange .img form .rowed label, .moncompte .account-container .acc-content .bigchange .img form .rowed h4 {\n  margin: auto 0;\n  font-size: 25px;\n}\n\n.perm {\n  display: flex;\n  flex-direction: column;\n  height: 100vh;\n  overflow-y: hidden;\n  justify-content: space-around;\n}\n.perm .header {\n  display: flex;\n  flex-direction: row;\n  width: 100%;\n  justify-content: space-evenly;\n}\n.perm .header .title-contain {\n  margin: auto 0;\n}\n.perm .header a {\n  margin: auto 0;\n}\n.perm .content {\n  margin: 0 auto;\n  height: calc(100vh - 300px);\n  width: 90%;\n  border-radius: 30px;\n  background-color: #0C2646;\n  overflow-y: scroll;\n}\n.perm .content .tablecontainer table {\n  width: 100%;\n  border-collapse: collapse;\n  display: grid;\n  grid-template-columns: repeat(27, 160px);\n}\n.perm .content .tablecontainer table thead, .perm .content .tablecontainer table tbody, .perm .content .tablecontainer table tr {\n  display: contents;\n}\n.perm .content .tablecontainer table td {\n  z-index: 1;\n  padding: 15px;\n  overflow: hidden;\n  text-overflow: ellipsis;\n  white-space: nowrap;\n  display: flex;\n  justify-content: center;\n  align-items: center;\n}\n.perm .content .tablecontainer table .grade {\n  font-size: 22px;\n  padding: 5px;\n  display: flex;\n  justify-content: center;\n  align-items: center;\n  font-family: \"Baloo Thambi 2\", monospace;\n  text-overflow: ellipsis;\n  overflow: hidden;\n  white-space: nowrap;\n}\n.perm .content .tablecontainer table th {\n  z-index: 12;\n  border-collapse: collapse;\n  color: #00FFFF;\n  font-family: \"Baloo Thambi 2\", monospace;\n  height: 110px;\n  position: -webkit-sticky;\n  position: sticky;\n  top: 0;\n  background: #004662;\n  padding: 5px;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  font-weight: normal;\n  font-size: 1.1rem;\n  border: 1px black solid;\n  border-top: none;\n}\n.perm .content .tablecontainer table th:first-child {\n  border-left: none;\n}\n.perm .content .tablecontainer table th:last-child {\n  border-right: none;\n}\n.perm .content .tablecontainer table td {\n  padding-top: 10px;\n  padding-bottom: 10px;\n  color: #00FFFF;\n}\n.perm .content .tablecontainer table tr:nth-child(even) td {\n  background: #0f2f57;\n}\n\n.carnetvol {\n  display: flex;\n  flex-direction: column;\n  justify-content: space-around;\n  height: 100vh;\n  overflow-y: hidden;\n}\n.carnetvol .head {\n  display: flex;\n  flex-direction: row;\n  justify-content: space-evenly;\n  width: 100%;\n}\n.carnetvol .head button {\n  margin: auto 0;\n}\n.carnetvol .head .title-contain {\n  margin: auto 0;\n}\n.carnetvol .table-container {\n  height: calc(100vh - 200px);\n  overflow-y: scroll;\n  background-color: #0C2646;\n  border-radius: 30px;\n  margin: 0 auto;\n  width: 90%;\n}\n.carnetvol .table-container table {\n  width: 100%;\n  border-collapse: collapse;\n}\n.carnetvol .table-container table tr {\n  height: 60px;\n  border-top: 1px black solid;\n  border-bottom: 1px black solid;\n}\n.carnetvol .table-container table tr:first-child {\n  border-top: none !important;\n}\n.carnetvol .table-container table tr:nth-child(even) td {\n  background: #0f2f57;\n}\n.carnetvol .table-container table th, .carnetvol .table-container table td {\n  color: #00FFFF;\n  font-size: 20px;\n  font-family: \"Baloo Thambi 2\", monospace;\n  text-align: center;\n}\n.carnetvol .table-container table th {\n  background-color: #004662;\n  position: -webkit-sticky;\n  position: sticky;\n  top: 0;\n}\n\n.popup {\n  position: fixed;\n  top: 0;\n  height: 100vh;\n  -webkit-backdrop-filter: blur(2px);\n          backdrop-filter: blur(2px);\n  z-index: 14;\n  display: flex;\n}\n@media (min-width: 1100px) {\n  .popup {\n    width: calc(100vw - 270px);\n  }\n}\n@media (max-width: 1100px) {\n  .popup {\n    width: calc(100vw);\n  }\n}\n.popup .center {\n  margin: auto auto;\n  width: 90%;\n  max-width: 550px;\n  height: 350px;\n  background-color: #0C2646;\n  border-radius: 30px;\n  border: 1px #00FFFF solid;\n}\n.popup .center form {\n  height: 100%;\n  display: flex;\n  flex-direction: column;\n  justify-content: space-evenly;\n}\n.popup .center h2 {\n  font-size: 30px;\n  font-weight: 700;\n  text-align: center;\n}\n.popup .center .rowed {\n  padding: 0 30px;\n  display: flex;\n  flex-direction: row;\n  justify-content: space-between;\n}\n.popup .center .rowed label {\n  margin: auto 0;\n}\n.popup .center select, .popup .center input {\n  width: 260px;\n}\n.popup .center .button {\n  display: flex;\n  flex-direction: row;\n  justify-content: space-evenly;\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 

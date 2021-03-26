@@ -2,13 +2,14 @@ import React from 'react';
 import axios from "axios";
 import PagesTitle from "../props/utils/PagesTitle";
 import PatientListPU from "../props/Patient/Urgence/PatientListPU";
+import dateFormat from "dateformat";
 
 
 
 class ListPatient extends React.Component {
     render() {
         return (
-            <section className="list-container">
+            <section className="list-container" style={{filter: this.props.blur? 'blur(5px)' : 'none'}}>
                 <div className={'list-content'}>
                     <h1>Liste des patients</h1>
                     <div className={'list'}>
@@ -50,6 +51,7 @@ class BCBase extends React.Component {
             types: undefined,
             ended: undefined,
             data: false,
+            clicked:false,
             place: "",
             type: 0,
         }
@@ -68,18 +70,21 @@ class BCBase extends React.Component {
 
     async addbc(e) {
         e.preventDefault();
-        var req = await axios({
-            method: 'POST',
-            url: '/data/blackcode/create',
-            data: {
-                type: this.state.type,
-                place: this.state.place,
+        if(this.state.type !== 0){
+            var req = await axios({
+                method: 'POST',
+                url: '/data/blackcode/create',
+                data: {
+                    type: this.state.type,
+                    place: this.state.place,
+                }
+            })
+            if(req.status === 201){
+                this.setState({place: "", type:0})
+                this.props.update(1,req.data.bc_id);
             }
-        })
-        if(req.status === 201){
-            this.setState({place: "", type:0})
-            this.props.update(1,req.data.bc_id);
         }
+        this.setState({cliked:false});
     }
 
 
@@ -100,89 +105,32 @@ class BCBase extends React.Component {
                      }
                      {this.state.active &&
                         this.state.active.map((bc) =>
-                            <div  className="card">
-                                <h3>Fusiallade</h3>
-                                <h4>Los santos long beach</h4>
+                            <div className="card" onClick={async () => {
+                                var req = await axios({
+                                    method: 'post',
+                                    url: '/data/blackcode/' + bc.id + '/add/personnel',
+                                })
+                                if (req.status === 201) {
+                                    this.props.update(1, bc.id)
+                                }
+                            }}>
+                                <h3>{bc.get_type.name} #{bc.id}</h3>
+                                <h4>{bc.place}</h4>
                                 <div className="separator"/>
                                 <div className={'rowed'}>
                                     <h5>Secouristes : </h5>
-                                    <h5>7</h5>
+                                    <h5>{bc.secouristes}</h5>
                                 </div>
                                 <div className={'rowed'}>
                                     <h5>Victimes : </h5>
-                                    <h5>12</h5>
+                                    <h5>{bc.patients}</h5>
                                 </div>
                                 <div className="separator"/>
-                                <h4>00/00/0000 à 00h00</h4>
-                                <h4>alerte de Jean Claude Bernard</h4>
+                                <h4>{dateFormat(bc.created_at, 'yyyy/mm/dd H:M')} [FR]</h4>
+                                <h4>alerte de {bc.get_user.name}</h4>
                             </div>
                         )
                      }
-
-                     <div className="card">
-                         <h3>Fusiallade</h3>
-                         <h4>Los santos long beach</h4>
-                         <div className="separator"/>
-                         <div className={'rowed'}>
-                             <h5>Secouristes : </h5>
-                             <h5>7</h5>
-                         </div>
-                         <div className={'rowed'}>
-                             <h5>Victimes : </h5>
-                             <h5>12</h5>
-                         </div>
-                         <div className="separator"/>
-                         <h4>00/00/0000 à 00h00</h4>
-                         <h4>alerte de Jean Claude Bernard</h4>
-                     </div>
-                     <div className="card">
-                         <h3>Fusiallade</h3>
-                         <h4>Los santos long beach</h4>
-                         <div className="separator"/>
-                         <div className={'rowed'}>
-                             <h5>Secouristes : </h5>
-                             <h5>7</h5>
-                         </div>
-                         <div className={'rowed'}>
-                             <h5>Victimes : </h5>
-                             <h5>12</h5>
-                         </div>
-                         <div className="separator"/>
-                         <h4>00/00/0000 à 00h00</h4>
-                         <h4>alerte de Jean Claude Bernard</h4>
-                     </div>
-                     <div className="card">
-                         <h3>Fusiallade</h3>
-                         <h4>Los santos long beach</h4>
-                         <div className="separator"/>
-                         <div className={'rowed'}>
-                             <h5>Secouristes : </h5>
-                             <h5>7</h5>
-                         </div>
-                         <div className={'rowed'}>
-                             <h5>Victimes : </h5>
-                             <h5>12</h5>
-                         </div>
-                         <div className="separator"/>
-                         <h4>00/00/0000 à 00h00</h4>
-                         <h4>alerte de Jean Claude Bernard</h4>
-                     </div>
-                     <div className="card">
-                         <h3>Fusiallade</h3>
-                         <h4>Los santos long beach</h4>
-                         <div className="separator"/>
-                         <div className={'rowed'}>
-                             <h5>Secouristes : </h5>
-                             <h5>7</h5>
-                         </div>
-                         <div className={'rowed'}>
-                             <h5>Victimes : </h5>
-                             <h5>12</h5>
-                         </div>
-                         <div className="separator"/>
-                         <h4>00/00/0000 à 00h00</h4>
-                         <h4>alerte de Jean Claude Bernard</h4>
-                     </div>
                  </div>
                  <div className="BC-List">
                      <h1>Anciens</h1>
@@ -191,126 +139,28 @@ class BCBase extends React.Component {
                          <img src={'/assets/images/loading.svg'} alt={''}/>
                      </div>
                      }
-                     <div className="card">
-                         <h3>Fusiallade</h3>
-                         <h4>Los santos long beach</h4>
-                         <div className="separator"/>
-                         <div className={'rowed'}>
-                             <h5>Secouristes : </h5>
-                             <h5>7</h5>
+                     {this.state.ended &&
+                     this.state.ended.map((bc) =>
+                         <div className="card" onClick={()=>{
+                             this.props.update(2,bc.id)
+                         }}>
+                             <h3>{bc.get_type.name} #{bc.id}</h3>
+                             <h4>{bc.place}</h4>
+                             <div className="separator"/>
+                             <div className={'rowed'}>
+                                 <h5>Secouristes : </h5>
+                                 <h5>{bc.secouristes}</h5>
+                             </div>
+                             <div className={'rowed'}>
+                                 <h5>Victimes : </h5>
+                                 <h5>{bc.patients}</h5>
+                             </div>
+                             <div className="separator"/>
+                             <h4>{dateFormat(bc.created_at, 'yyyy/mm/dd H:M')} [FR]</h4>
+                             <h4>{dateFormat(bc.updated_at, 'yyyy/mm/dd H:M')} [FR]</h4>
+                             <h4>alerte de {bc.get_user.name}</h4>
                          </div>
-                         <div className={'rowed'}>
-                             <h5>Victimes : </h5>
-                             <h5>12</h5>
-                         </div>
-                         <div className="separator"/>
-                         <h4>du 00/00/0000 à 00h00</h4>
-                         <h4>au 00/00/0000 à 00h00</h4>
-                         <h4>alerte de Jean Claude Bernard</h4>
-                     </div>
-                     <div className="card">
-                         <h3>Fusiallade</h3>
-                         <h4>Los santos long beach</h4>
-                         <div className="separator"/>
-                         <div className={'rowed'}>
-                             <h5>Secouristes : </h5>
-                             <h5>7</h5>
-                         </div>
-                         <div className={'rowed'}>
-                             <h5>Victimes : </h5>
-                             <h5>12</h5>
-                         </div>
-                         <div className="separator"/>
-                         <h4>du 00/00/0000 à 00h00</h4>
-                         <h4>au 00/00/0000 à 00h00</h4>
-                         <h4>alerte de Jean Claude Bernard</h4>
-                     </div>
-                     <div className="card">
-                         <h3>Fusiallade</h3>
-                         <h4>Los santos long beach</h4>
-                         <div className="separator"/>
-                         <div className={'rowed'}>
-                             <h5>Secouristes : </h5>
-                             <h5>7</h5>
-                         </div>
-                         <div className={'rowed'}>
-                             <h5>Victimes : </h5>
-                             <h5>12</h5>
-                         </div>
-                         <div className="separator"/>
-                         <h4>du 00/00/0000 à 00h00</h4>
-                         <h4>au 00/00/0000 à 00h00</h4>
-                         <h4>alerte de Jean Claude Bernard</h4>
-                     </div>
-                     <div className="card">
-                         <h3>Fusiallade</h3>
-                         <h4>Los santos long beach</h4>
-                         <div className="separator"/>
-                         <div className={'rowed'}>
-                             <h5>Secouristes : </h5>
-                             <h5>7</h5>
-                         </div>
-                         <div className={'rowed'}>
-                             <h5>Victimes : </h5>
-                             <h5>12</h5>
-                         </div>
-                         <div className="separator"/>
-                         <h4>du 00/00/0000 à 00h00</h4>
-                         <h4>au 00/00/0000 à 00h00</h4>
-                         <h4>alerte de Jean Claude Bernard</h4>
-                     </div>
-                     <div className="card">
-                         <h3>Fusiallade</h3>
-                         <h4>Los santos long beach</h4>
-                         <div className="separator"/>
-                         <div className={'rowed'}>
-                             <h5>Secouristes : </h5>
-                             <h5>7</h5>
-                         </div>
-                         <div className={'rowed'}>
-                             <h5>Victimes : </h5>
-                             <h5>12</h5>
-                         </div>
-                         <div className="separator"/>
-                         <h4>du 00/00/0000 à 00h00</h4>
-                         <h4>au 00/00/0000 à 00h00</h4>
-                         <h4>alerte de Jean Claude Bernard</h4>
-                     </div>
-                     <div className="card">
-                         <h3>Fusiallade</h3>
-                         <h4>Los santos long beach</h4>
-                         <div className="separator"/>
-                         <div className={'rowed'}>
-                             <h5>Secouristes : </h5>
-                             <h5>7</h5>
-                         </div>
-                         <div className={'rowed'}>
-                             <h5>Victimes : </h5>
-                             <h5>12</h5>
-                         </div>
-                         <div className="separator"/>
-                         <h4>du 00/00/0000 à 00h00</h4>
-                         <h4>au 00/00/0000 à 00h00</h4>
-                         <h4>alerte de Jean Claude Bernard</h4>
-                     </div>
-                     <div className="card">
-                         <h3>Fusiallade</h3>
-                         <h4>Los santos long beach</h4>
-                         <div className="separator"/>
-                         <div className={'rowed'}>
-                             <h5>Secouristes : </h5>
-                             <h5>7</h5>
-                         </div>
-                         <div className={'rowed'}>
-                             <h5>Victimes : </h5>
-                             <h5>12</h5>
-                         </div>
-                         <div className="separator"/>
-                         <h4>du 00/00/0000 à 00h00</h4>
-                         <h4>au 00/00/0000 à 00h00</h4>
-                         <h4>alerte de Jean Claude Bernard</h4>
-                     </div>
-
+                     )}
                  </div>
              </section>
              {this.state.add &&
@@ -329,7 +179,7 @@ class BCBase extends React.Component {
                             </div>
                             <div className={'btn-contain'}>
                                 <button onClick={()=> this.setState({add: false})} className={'btn'}>fermer</button>
-                                <button type={'submit'} className={'btn'}>Ajouter</button>
+                                <button type={'submit'} disabled={this.state.clicked} className={'btn'} onClick={()=>{this.setState({clicked:true})}}> Ajouter</button>
                             </div>
 
                         </form>
@@ -420,7 +270,112 @@ class BCView extends React.Component {
         super(props);
         this.state = {
             CloseMenuOpen: false,
+            id:'',
+            data: null,
+            patients: null,
+            bc: null,
+            personnels: null,
+            blessures: null,
+            couleurs: null,
+            nom:"",
+            color:0,
+            blessure:0,
+            payed: false,
+            carteid:false,
+            searsh:null,
         }
+        this.quitbc = this.quitbc.bind(this);
+        this.check = this.check.bind(this);
+        this.update = this.update.bind(this);
+        this.searsh = this.searsh.bind(this);
+        this.post = this.post.bind(this);
+    }
+
+    async quitbc() {
+        var req = await axios({
+            method: 'delete',
+            url: '/data/blackcode/' + this.props.id + '/delete/personnel',
+        })
+        if (req.status === 202) {
+            this.props.update(0);
+        }
+    }
+
+    async update(){
+        let req = await axios({
+            method: 'GET',
+            url: '/data/blackcode/' + this.props.id + '/infos',
+        });
+        if(req.status === 200){
+            this.setState({
+                data: true,
+                patients: req.data.bc.get_patients,
+                personnels: req.data.bc.get_personnel,
+                blessures: req.data.blessures,
+                couleurs: req.data.colors,
+            })
+        }
+    }
+
+    async check(){
+        let req = await axios({
+            method: 'GET',
+            url: '/data/blackcode/' + this.props.id + '/status',
+        });
+        if(req.status === 200 && req.data.ended){
+            this.props.update(0)
+        }
+    }
+
+    async searsh(nom){
+        this.setState({ nom:nom});
+        var len =  nom.length;
+        if(len > 3){
+            let req = await axios({
+                method: 'GET',
+                url: '/data/patient/search/' + nom,
+            });
+            if(req.status === 200){
+                this.setState({searsh: req.data.list})
+            }
+        }
+
+
+    }
+
+    async post(e){
+        e.preventDefault()
+        if(this.state.blessure !== 0 && this.state.color !== 0){
+            await axios({
+                url: '/data/blackcode/'+ this.props.id +'/add/patient',
+                method: 'post',
+                data: {
+                    name: this.state.nom,
+                    color: this.state.color,
+                    blessure: this.state.blessure,
+                    payed: this.state.payed,
+                    carteid: this.state.carteid,
+                }
+            })
+        }
+    }
+
+    componentDidMount() {
+        this.setState({id:this.props.id})
+        this.update();
+        this.updator = setInterval(
+            () => this.update(),
+            20000
+        );
+        this.checker = setInterval(
+            () => this.check(),
+            10000
+        );
+    }
+
+    componentWillUnmount() {
+        clearInterval(this.updator);
+        clearInterval(this.checker);
     }
 
     render() {
@@ -429,44 +384,58 @@ class BCView extends React.Component {
                 <section style={{filter: this.state.CloseMenuOpen ? 'blur(5px)' : 'none'}} className="left">
                     <div className={'header'}>
                         <PagesTitle title={'Fusillade LS Longs beach'}/>
-                        <div className={'bgforbtn'}>
-                            <button className={'btn'} onClick={()=>this.setState({CloseMenuOpen: true})}>Fermer le BC</button>
+                        <div className={'btn-contain'}>
+                            <div className={'bgforquibtn'}>
+                                <button className={'btn'} onClick={this.quitbc}>Quitter le BC</button>
+                            </div>
+                            <div className={'bgforbtn'}>
+                                <button className={'btn'} onClick={()=>this.setState({CloseMenuOpen: true})}>Fermer le BC</button>
+                            </div>
                         </div>
                     </div>
                     <div className="addpatient">
-                        <form>
+
+                        <form onSubmit={this.post}>
                             <div className="top">
                                 <button type={"submit"} className={'btn'}>ajouter</button>
                                 <h2>Ajouter un patient</h2>
                             </div>
 
                             <div className={'row-spaced'}>
-                                <label>nom :</label>
-                                <input className={'input'} type={'text'}/>
+                                <label>nom prénom :</label>
+                                <input list={'autocomplete'} className={'input'} type={'text'} value={this.state.nom} onChange={(e)=>{this.searsh(e.target.value)}}/>
+                                <datalist id={'autocomplete'}>
+                                    {this.state.searsh && this.state.searsh.map((patient)=>
+                                        <option key={patient.id}>{patient.vorname} {patient.name}</option>
+                                    )}
+                                </datalist>
                             </div>
-                            <div className={'row-spaced'}>
-                                <label>prénom :</label>
-                                <input className={'input'} type={'text'}/>
-                            </div>
+
                             <div className={'row-spaced'}>
                                 <label>Couleur dominante :</label>
-                                <select className={'input'} defaultValue={1}>
-                                    <option value={1} disabled>choisir</option>
-                                    <option value={2}>test</option>
+                                <select className={'input'} defaultValue={this.state.color} onChange={(e)=>{this.setState({color:e.target.value})}} >
+                                    <option value={0} disabled>choisir</option>
+                                    <option value={1}>test</option>
                                 </select>
                             </div>
                             <div className={'row-spaced'}>
                                 <label>Type de blessure :</label>
-                                <select className={'input'} defaultValue={1}>
-                                    <option value={1} disabled>choisir</option>
-                                    <option value={2}>test</option>
+                                <select className={'input'} defaultValue={this.state.blessure} onChange={(e)=>{this.setState({blessure:e.target.value})}}>
+                                    <option value={0} disabled>choisir</option>
+                                    <option value={1}>test</option>
                                 </select>
                             </div>
                             <div className={'bottom'}>
                                 <div className="paye">
                                     <label>Payé : </label>
                                     <div className={'switch-container'}>
-                                        <input id={"switch"+1} className="payed_switch" type="checkbox"/>
+                                        <input id={"switch"+1} className="payed_switch" type="checkbox" checked={this.state.payed} onChange={(e)=>{
+                                            if(this.state.payed){
+                                                this.setState({payed:false})
+                                            }else{
+                                                this.setState({payed:true})
+                                            }
+                                        }}/>
                                         <label htmlFor={"switch"+1} className={"payed_switchLabel"}/>
                                     </div>
                                 </div>
@@ -474,7 +443,13 @@ class BCView extends React.Component {
                                     <label>carte d'identité :</label>
                                     <div className="onoffswitch">
                                         <input type="checkbox" name="onoffswitch" className="onoffswitch-checkbox"
-                                               id="myonoffswitch" tabIndex="0"/>
+                                               id="myonoffswitch" tabIndex="0" checked={this.state.carteid} onChange={(e)=>{
+                                                if(this.state.carteid){
+                                                    this.setState({carteid:false})
+                                                }else{
+                                                    this.setState({carteid:true})
+                                                }
+                                               }}/>
                                             <label className="onoffswitch-label" htmlFor="myonoffswitch">
                                                 <span className="onoffswitch-inner"/>
                                                 <span className="onoffswitch-switch"/>
@@ -485,39 +460,19 @@ class BCView extends React.Component {
                         </form>
                     </div>
                     <div className="personnel-list">
-                        <div className="tag">Lorem Ispum</div>
-                        <div className="tag">Lorem Ispum Dolor</div>
-                        <div className="tag">Lorem Ispum</div>
-                        <div className="tag">Lorem Ispum Dolor</div>
-                        <div className="tag">Lorem Ispum</div>
-                        <div className="tag">Lorem Ispum Dolor</div>
-                        <div className="tag">Lorem Ispum </div>
-                        <div className="tag">Lorem Ispum Dolor</div>
-                        <div className="tag">Lorem Ispum Dolor</div>
-                        <div className="tag">Lorem Ispum Dolor</div>
-                        <div className="tag">Lorem Ispum Dolor</div>
-                        <div className="tag">Lorem Ispum Dolor</div>
-                        <div className="tag">Lorem Ispum Dolor</div>
-                        <div className="tag">Lorem Ispum Dolor</div>
-                        <div className="tag">Lorem Ispum Dolor</div>
-                        <div className="tag">Lorem Ispum Dolor</div>
-                        <div className="tag">Lorem Ispum Dolor</div>
-                        <div className="tag">Lorem Ispum Dolor</div>
-                        <div className="tag">Lorem Ispum Dolor</div>
-                        <div className="tag">Lorem Ispum Dolor</div>
-                        <div className="tag">Lorem Ispum Dolor</div>
-                        <div className="tag">Lorem Ispum Dolor</div>
-                        <div className="tag">Lorem Ispum Dolor</div>
-                        <div className="tag">Lorem Ispum Dolor</div>
-                        <div className="tag">Lorem Ispum Dolor</div>
-                        <div className="tag">Lorem Ispum Dolor</div>
-                        <div className="tag">Lorem Ispum Dolor</div>
-                        <div className="tag">Lorem Ispum Dolor</div>
-                        <div className="tag">Lorem Ispum Dolor</div>
-                        <div className="tag">Lorem Ispum Dolor</div>
+                        {!this.state.data &&
+                        <div className={'load'}>
+                            <img src={'/assets/images/loading.svg'} alt={''}/>
+                        </div>
+                        }
+                        {this.state.data &&
+                            this.state.personnels.map((user)=>
+                                <div className="tag">{user.name}</div>
+                            )
+                        }
                     </div>
                 </section>
-                <ListPatient style={{filter: this.state.CloseMenuOpen ? 'blur(5px)' : 'none'}} />
+                <ListPatient blur={this.state.CloseMenuOpen} />
                 {this.state.CloseMenuOpen &&
                 <section className={'popup'}>
                     <div className={'popup-content'}>
@@ -529,6 +484,9 @@ class BCView extends React.Component {
                                     method: 'PUT',
                                     url: '/data/blackcode/' + this.props.id + '/close',
                                 })
+                                if(req.status === 201){
+                                    this.props.update(0);
+                                }
                             }}>Oui</button>
                         </div>
                     </div>
@@ -543,7 +501,7 @@ class BCController extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            status: 0,
+            status: null,
             bc_id: undefined,
         }
         this.updatestatus = this.updatestatus.bind(this)
@@ -583,7 +541,7 @@ class BCController extends React.Component {
                     <BCView id={this.state.bc_id} update={(status, id)=> {this.updatestatus(status, id)}}/>
                 }
                 {this.state.status === 2 &&
-                    <BCLast update={this.updatestatus}/>
+                    <BCLast update={(status, id)=> {this.updatestatus(status, id)}}/>
                 }
                 {this.state.status === null &&
                     <div className={'load'}>

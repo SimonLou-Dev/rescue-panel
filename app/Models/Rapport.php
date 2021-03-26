@@ -41,4 +41,9 @@ class Rapport extends Model
     {
         return $this->belongsTo(Hospital::class, 'transport');
     }
+
+    public function GetFacture(): \Illuminate\Database\Eloquent\Relations\HasOne
+    {
+        return $this->hasOne(Facture::class, 'rapport_id');
+    }
 }

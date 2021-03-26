@@ -1155,15 +1155,30 @@ body {
 .BC-Container .BC-View .left .header .title-contain, .BC-Container .BC-Last .left .header .title-contain {
   border-radius: 30px 30px 0 30px;
 }
-.BC-Container .BC-View .left .header .bgforbtn, .BC-Container .BC-Last .left .header .bgforbtn {
-  margin: 0 0 0 auto;
+.BC-Container .BC-View .left .header .btn-contain, .BC-Container .BC-Last .left .header .btn-contain {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+}
+.BC-Container .BC-View .left .header .btn-contain .bgforbtn, .BC-Container .BC-Last .left .header .btn-contain .bgforbtn {
   width: 250px;
   background-color: #0C2646;
   padding-bottom: 17px;
   display: flex;
   border-radius: 0 0 30px 30px;
 }
-.BC-Container .BC-View .left .header .bgforbtn button, .BC-Container .BC-Last .left .header .bgforbtn button {
+.BC-Container .BC-View .left .header .btn-contain .bgforbtn button, .BC-Container .BC-Last .left .header .btn-contain .bgforbtn button {
+  margin: auto;
+}
+.BC-Container .BC-View .left .header .btn-contain .bgforquibtn, .BC-Container .BC-Last .left .header .btn-contain .bgforquibtn {
+  margin-right: 5px;
+  width: 250px;
+  background-color: #0C2646;
+  padding-bottom: 17px;
+  display: flex;
+  border-radius: 0 0 30px 30px;
+}
+.BC-Container .BC-View .left .header .btn-contain .bgforquibtn button, .BC-Container .BC-Last .left .header .btn-contain .bgforquibtn button {
   margin: auto;
 }
 .BC-Container .BC-View .left .row-spaced, .BC-Container .BC-Last .left .row-spaced {
@@ -1244,7 +1259,6 @@ body {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  justify-content: space-evenly;
 }
 .BC-Container .BC-View .left .personnel-list .tag, .BC-Container .BC-Last .left .personnel-list .tag {
   background-color: #004662;
@@ -1253,7 +1267,10 @@ body {
   color: #00FFFF;
   border-radius: 30px;
   padding: 5px 12px;
-  margin: 10px 0;
+  margin: 10px 10px;
+  height: -webkit-min-content;
+  height: -moz-min-content;
+  height: min-content;
 }
 .BC-Container .BC-View .list-container, .BC-Container .BC-Last .list-container {
   width: 49%;

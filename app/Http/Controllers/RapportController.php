@@ -198,7 +198,7 @@ class RapportController extends Controller
         return response()->json(['status'=>'ok', 'rapport'=>$rapport, 'patient'=>$patient, 'rapportlist'=>$raportlist]);
     }
 
-    private function PatientExist(string $name, string $vorname): ?Patient{
+    public static function PatientExist(string $name, string $vorname): ?Patient{
         $patient = Patient::where('name', 'LIKE', $name)->where('vorname','LIKE', $vorname);
         if($patient->count() == 1){
             return $patient->first();
@@ -267,38 +267,8 @@ class RapportController extends Controller
             $Patient->tel = $request->tel;
             $Patient->save();
         }
-        $facture = new Facture();
-        $facture->patient_id = $Patient->id;
-        $facture->payed = $request->payed;
-        $facture->price = $request->montant;
-        $facture->save();
-        if($facture->payed){
-            $fact= 'Payée : ' . $facture->price .'$';
-        }else{
-            $fact= 'Impayée : ' . $facture->price .'$';
-        }
-        Http::post(env('WEBHOOK_FACTURE'),[
-            'embeds'=>[
-                [
-                    'title'=>'Nouvelle facture :',
-                    'color'=>'13436400 ',
-                    'fields'=>[
-                        [
-                            'name'=>'Patient : ',
-                            'value'=>$request->name,
-                            'inline'=>true
-                        ],[
-                            'name'=>'Facture : ',
-                            'value'=>$fact,
-                            'inline'=>true
-                        ]
-                    ],
-                    'footer'=>[
-                        'text' => 'Ajoutée de : ' . Auth::user()->name
-                    ]
-                ]
-            ]
-        ]);
+        $this->addFactureMethod((object) $Patient,(bool) $request->payed, (int) $request->montant, (int) Auth::user()->id, null);
+
         event(new \App\Events\Notify('Facture ajoutée ! ',2));
         return response()->json(['status'=>'OK'],201);
     }
@@ -357,6 +327,45 @@ class RapportController extends Controller
         );
         $name = 'impaye_'.time().'.pdf';
         return $pdf->stream($name);
+    }
+
+    public static function addFactureMethod(object $patient, bool $payed, int $price, int $cofirm_id=null, int $rapport_id=null){
+        $facture = new Facture();
+        $facture->patient_id = $patient->id;
+        $facture->payed = $payed;
+        $facture->price = $price;
+        if($payed){
+            $facture->payement_confirm_id = $cofirm_id;
+        }
+        $facture->rapport_id = $rapport_id;
+        $facture->save();
+        if($facture->payed){
+            $fact= 'Payée : ' . $facture->price .'$';
+        }else{
+            $fact= 'Impayée : ' . $facture->price .'$';
+        }
+        Http::post(env('WEBHOOK_FACTURE'),[
+            'embeds'=>[
+                [
+                    'title'=>'Nouvelle facture :',
+                    'color'=>'13436400 ',
+                    'fields'=>[
+                        [
+                            'name'=>'Patient : ',
+                            'value'=>$patient->vorname. ' ' . $patient->name,
+                            'inline'=>true
+                        ],[
+                            'name'=>'Facture : ',
+                            'value'=>$fact,
+                            'inline'=>true
+                        ]
+                    ],
+                    'footer'=>[
+                        'text' => 'Ajoutée par : ' . Auth::user()->name
+                    ]
+                ]
+            ]
+        ]);
     }
 
 }
