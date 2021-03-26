@@ -15,8 +15,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
 use ParagonIE\Sodium\Core\Curve25519\H;
-use function PHPUnit\Framework\isEmpty;
-use function PHPUnit\Framework\isNull;
+
+
 
 class RapportController extends Controller
 {

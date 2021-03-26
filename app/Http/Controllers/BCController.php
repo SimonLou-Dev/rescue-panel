@@ -16,7 +16,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
-use function PHPUnit\Framework\isNull;
+
 
 class BCController extends Controller
 {
@@ -104,7 +104,7 @@ class BCController extends Controller
         $bc->place = $place;
         $bc->type_id = $type;
         $bc->save();
-        $this->addPersonel($bc->id);
+        $this->addPersonel((string)$bc->id);
 
         Http::post(env('WEBHOOK_PU'),[
             'embeds'=>[
@@ -227,9 +227,10 @@ class BCController extends Controller
             'embeds'=>$finalembedslist,
         ]);
     }
-    private function manyPatientEmbed(int $number, object $patients){
+    private function manyPatientEmbed(int $number, object $patients): bool
+    {
         $nbr = $number-1;
-        $pages = ceil($number/30);
+        $pages = (int) ceil($number/30);
         $page = 1;
         $a = 0;
         while($a < $nbr){
@@ -238,6 +239,7 @@ class BCController extends Controller
             $page++;
             $a = $a+ $embed[0];
         }
+        return true;
     }
     private function onePatientEmbed(object $patients,int $page,int $pages, $a): array
     {
@@ -337,7 +339,7 @@ class BCController extends Controller
     public function removePatient(int $patient_id): \Illuminate\Http\JsonResponse
     {
         $bcp = BCPatient::where('id', $$patient_id)->first;
-        if (!isNull($bcp->rapport_id)){
+        if (!is_null($bcp->rapport_id)){
             $rapport = Rapport::where('id', $bcp->rapport_id)->first();
             $facture = Facture::where('id', $rapport->GetFacture->id)->first();
             $facture->delete();
