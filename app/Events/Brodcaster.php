@@ -9,41 +9,26 @@ use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
-use Illuminate\Support\Facades\Auth;
 
-class Notify implements ShouldBroadcast
+class Brodcaster implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
+
+    /**
+     * @var string $message
+     */
+    public $message;
     /**
      * Create a new event instance.
      *
-     * @return void
-     * @var string $text
+     * @param string $message
      */
-    public $text;
-    /**
-     * @var int $type
-     */
-    public $type;
-
-    /**
-     * @var string $title
-     */
-    public $title;
-
-    /**
-     * Notify constructor.
-     * @var int $id
-     */
-    public $id;
-
-    public function __construct(string $text, int $type, string $title = null)
+    public function __construct(string $message)
     {
-        $this->text = $text;
-        $this->type = $type;
-        $this->id = Auth::user()->id;
-        $this->title = $title;
+        $this->message= $message;
+
+
     }
 
     /**
@@ -53,8 +38,13 @@ class Notify implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-        return new Channel('UserChannel_'.$this->id);
+        return new Channel('Broadcater');
 
+    }
+
+    public function broadcastQueue (): string
+    {
+        return 'broadcastable';
     }
 
     public function broadcastAs(): string
@@ -65,9 +55,10 @@ class Notify implements ShouldBroadcast
     public function broadcastWith(): array
     {
         return [
-            'type' => $this->type,
-            'text' => $this->text,
-            'title'=> $this->title
+            'type' => 3,
+            'text' => $this->message,
         ];
     }
+
+
 }

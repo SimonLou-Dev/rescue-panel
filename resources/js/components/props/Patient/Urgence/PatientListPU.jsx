@@ -23,7 +23,7 @@ class PatientListPU extends React.Component {
                     }
                     <h5 className={'name'}>{this.props.name}</h5>
                     <h5 className={'date'}>[{this.props.date}]</h5>
-                    <h5 className={'color'}>Pas de couleur dominante</h5>
+                    <h5 className={'color'}>{this.props.color}</h5>
 
                     <button onClick={(e)=> {
                         this.setState({redirect: '/patient/dossiers?id='+this.props.urlid})

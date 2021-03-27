@@ -1,5 +1,6 @@
 <?php
 
+use App\Events\Notify;
 use App\Models\Rapport;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
@@ -61,7 +62,7 @@ Route::get('/data/annonces', [\App\Http\Controllers\MainController::class, 'getA
 Route::get('/data/rapport/getforinter', [\App\Http\Controllers\RapportController::class, 'getforinter']);
 Route::post('/data/rapport/post', [\App\Http\Controllers\RapportController::class, 'addRapport']);
 Route::get('/data/patient/search/{text}', [\App\Http\Controllers\RapportController::class, 'search']);
-Route::get('/data/patient/interlist/{text}', [\App\Http\Controllers\RapportController::class, 'getClient']);
+Route::get('/data/patient/interlist/{text}', [\App\Http\Controllers\RapportController::class, 'getPatient']);
 // DELETED Route::get('/data/rapport/inter/{id}', [\App\Http\Controllers\RapportController::class, 'getInter']);
 Route::get('/data/rapport/get/{id}', [\App\Http\Controllers\RapportController::class, 'getRapportById']);
 Route::put('/data/rapport/update/{id}', [\App\Http\Controllers\RapportController::class, 'updateRapport']);
@@ -76,7 +77,7 @@ Route::get('/data/blackcode/{id}/status', [\App\Http\Controllers\BCController::c
 Route::post('/data/blackcode/{id}/add/patient', [\App\Http\Controllers\BCController::class, 'addPatient']);
 Route::post('/data/blackcode/{id}/add/personnel', [\App\Http\Controllers\BCController::class, 'addPersonel']);
 Route::post('/data/blackcode/create', [\App\Http\Controllers\BCController::class, 'addBc']);
-Route::get('/data/blackcode/{id}/close', [\App\Http\Controllers\BCController::class, 'endBc']);
+Route::put('/data/blackcode/{id}/close', [\App\Http\Controllers\BCController::class, 'endBc']);
 Route::delete('/data/blackcode/delete/patient/{patient_id}', [\App\Http\Controllers\BCController::class, 'removePatient']);
 Route::delete('/data/blackcode/{id}/delete/personnel', [\App\Http\Controllers\BCController::class, 'removePersonnel']);
 
@@ -112,14 +113,26 @@ Route::get('/data/vol/searsh/{pilote}', [\App\Http\Controllers\VolController::cl
 
 
 
-Route::get('/test', function (){
-    return event(new \App\Events\Notify('test',1));
+Route::get('/post', function (){
+    $req = Http::post(env('WEBHOOK_RI'),[
+        'embeds'=>[
+            [
+                'title'=>'Ajout d\'un rapport :',
+                'color'=>'1285790',
+                'footer'=>[
+                    'text' => 'Rapport de : ' . Auth::user()->name,
+                ],
+            ],
+        ]
+    ]);
+    dd($req);
 });
 
-Route::get('/two', function (){
-    $user = \App\Models\User::where('id', Auth::user()->id)->first();
-    dd($user->liveplace);
+Route::get('/poste', function (){
+
+    return 'ok';
 });
+
 
 
 

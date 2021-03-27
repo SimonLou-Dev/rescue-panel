@@ -29,16 +29,16 @@ class PatientInfos extends React.Component {
     async componentDidMount() {
         this.setState({id:this.props.id})
         var req = await axios({
-            url: '/data/rapport/inter/'+this.props.id,
+            url: '/data/rapport/get/'+this.props.id,
         })
         this.setState({
             types: req.data.types,
             broum: req.data.broum,
             rapport: req.data.rapport,
-            type: req.data.rapport.InterType,
-            transport: req.data.rapport.transport,
+            type: req.data.rapport.get_type,
+            transport: req.data.rapport.get_transport,
             desc: req.data.rapport.description,
-            montant: req.data.rapport.prix
+            montant: req.data.rapport.price
         });
 
 

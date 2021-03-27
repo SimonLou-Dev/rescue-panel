@@ -39,23 +39,16 @@ class RapportController extends Controller
             $Patient = Patient::where('name', $request->name)->where('vorname', $request->prenom)->first();
         }
         $patient_id = $Patient->id;
-
-
-        $facture = new Facture();
         $rapport = new Rapport();
-        $facture->patient_id = $patient_id;
-        $facture->payed = $request->payed;
-        $facture->price = (integer) $request->montant;
-        $rapport->patientID = $patient_id;
-        $rapport->InterType= (integer) $request->type;
+        $rapport->patient_id = $patient_id;
+        $rapport->interType= (integer) $request->type;
         $rapport->transport= (integer) $request->transport;
         $rapport->description = $request->desc;
-        $rapport->prix = (integer) $request->montant;
+        $rapport->price = (integer) $request->montant;
         $rapport->ATA_start = date('Y/m/d H:i:s', strtotime($request->startdate . ' ' . $request->starttime));
         $rapport->ATA_end = date('Y/m/d H:i:s', strtotime($request->enddate . ' ' . $request->endtime));
         $rapport->save();
-        $facture->rapport_id = $rapport->id;
-        $facture->save();
+        $this::addFactureMethod($Patient, $request->payed, $request->montant, Auth::user()->id, $rapport->id);
         $transport =  Hospital::where('id', $rapport->transport)->first();
         if($rapport->ATA_start === $rapport->ATA_end){
             $ata = 'non ';
@@ -107,29 +100,7 @@ class RapportController extends Controller
                 ]
             ]
         ]);
-        Http::post(env('WEBHOOK_FACTURE'),[
-            'embeds'=>[
-                [
-                    'title'=>'Nouvelle facture :',
-                    'color'=>'13436400',
-                    'fields'=>[
-                        [
-                            'name'=>'Patient : ',
-                            'value'=>$request->prenom . ' ' . $request->name,
-                            'inline'=>true
-                        ],[
-                            'name'=>'Facture : ',
-                            'value'=>$fact.'$',
-                            'inline'=>true
-                        ]
-                    ],
-                    'footer'=>[
-                        'text' => 'Ajoutée par : ' . Auth::user()->name
-                    ]
-                ]
-            ]
-        ]);
-        event(new \App\Events\Notify('Rapport ajouté ! ',2));
+        event(new \App\Events\Notify('Rapport ajouté ! ',1));
         return response()->json(['facture'=>$facture, 'rapport'=>$rapport, 'patient'=>$Patient], 201);
     }
 
@@ -146,7 +117,7 @@ class RapportController extends Controller
         return response()->json(['status'=>'OK', 'list'=>$patient]);
     }
 
-    public function getClient(Request $request, string $text): \Illuminate\Http\JsonResponse
+    public function getPatient(Request $request, string $text): \Illuminate\Http\JsonResponse
     {
 
         $text = explode(" ", $text);
@@ -155,7 +126,7 @@ class RapportController extends Controller
             $nom = $text[1];
             $patient = $this->PatientExist($nom, $prenom);
             if(!is_null($patient)){
-                $inter = Rapport::where('patientID', $patient->id)->orderBy('id', 'desc')->get();
+                $inter = Rapport::where('patient_id', $patient->id)->orderBy('id', 'desc')->get();
 
                 return response()->json(['status'=>'OK', 'patient'=>$patient, 'inter'=>$inter]);
             }
@@ -174,7 +145,7 @@ class RapportController extends Controller
     public function updateRapport(Request $request, int $id): \Illuminate\Http\JsonResponse
     {
         $rapport = Rapport::where('id', $id)->first();
-        $facture = $rapport->facture;
+        $facture = $rapport->GetFacture;
         $facture->price = (integer) $request->montant;
         $rapport->InterType= (integer) $request->type;
         $rapport->transport= (integer) $request->transport;
@@ -186,16 +157,21 @@ class RapportController extends Controller
         }
         $facture->save();
         $rapport->save();
-        event(new \App\Events\Notify('Rapport mis à jour',2));
+        event(new \App\Events\Notify('Rapport mis à jour',1));
         return response()->json(['status'=>'OK'],201);
     }
 
-    public function getRapportById(Request $request, int $id): \Illuminate\Http\JsonResponse
+    public function getRapportById(string $id): \Illuminate\Http\JsonResponse
     {
+        $id = (int) $id;
         $rapport = Rapport::where('id', $id)->first();
-        $patient = $rapport->Patient;
-        $raportlist = Rapport::where('patientID', $patient->id)->get();
-        return response()->json(['status'=>'ok', 'rapport'=>$rapport, 'patient'=>$patient, 'rapportlist'=>$raportlist]);
+        $rapport->GetType;
+        $rapport->GetTransport;
+        $patient = $rapport->GetPatient;
+        $transport = Hospital::all();
+        $types = Intervention::all();
+        $raportlist = Rapport::where('patient_id', $patient->id)->get();
+        return response()->json(['status'=>'ok', 'rapport'=>$rapport, 'patient'=>$patient, 'rapportlist'=>$raportlist, 'broum'=>$transport, 'types'=>$types]);
     }
 
     public static function PatientExist(string $name, string $vorname): ?Patient{
@@ -269,7 +245,7 @@ class RapportController extends Controller
         }
         $this->addFactureMethod((object) $Patient,(bool) $request->payed, (int) $request->montant, (int) Auth::user()->id, null);
 
-        event(new \App\Events\Notify('Facture ajoutée ! ',2));
+        event(new \App\Events\Notify('Facture ajoutée ! ',1));
         return response()->json(['status'=>'OK'],201);
     }
 
@@ -280,7 +256,7 @@ class RapportController extends Controller
         $patient->name = $request->nom;
         $patient->vorname = $request->prenom;
         $patient->save();
-        event(new \App\Events\Notify('Information mises à jour ! ',2));
+        event(new \App\Events\Notify('Information mises à jour ! ',1));
         return response()->json(['status'=>'OK'],201);
     }
 
@@ -344,6 +320,7 @@ class RapportController extends Controller
         }else{
             $fact= 'Impayée : ' . $facture->price .'$';
         }
+
         Http::post(env('WEBHOOK_FACTURE'),[
             'embeds'=>[
                 [
@@ -366,6 +343,7 @@ class RapportController extends Controller
                 ]
             ]
         ]);
+        event(new \App\Events\Notify('Facture de $'. $price .' ajoutée ! ',1));
     }
 
 }

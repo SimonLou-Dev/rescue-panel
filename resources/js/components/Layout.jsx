@@ -26,7 +26,7 @@ import Remboursement from "./Personnel/Remboursement";
 import BugRepport from "./BugRepport";
 import ReactNotifications from 'react-notifications-component';
 import { store } from 'react-notifications-component';
-import 'react-notifications-component/dist/theme.css';
+//import 'react-notifications-component/dist/theme.css';
 import 'animate.css'
 import dateFormat from "dateformat";
 
@@ -99,36 +99,53 @@ class Layout extends React.Component{
             cluster: 'eu'
         });
 
-        var channel = pusher.subscribe('UserChannel_3');
-        channel.bind('notify', function(data) {
+        var userChan = pusher.subscribe('UserChannel_'+this.state.user.id);
+        userChan.bind('notify', function(data) {
                 let type;
                 switch (data.type){
                     case 1:
-                        type = 'default';
+                        type = 'success';
                         break
                     case 2:
-                        type = 'success';
+                        type = 'info';
                         break;
                     case 3:
-                        type = 'infos';
-                        break;
-                    case 4:
                         type = 'warning';
                         break;
+                    case 4:
+                        type = 'danger';
+                        break;
+
                 }
                 store.addNotification({
-                    title: 'error',
                     message: data.text,
-                    type: type,                         // 'default', 'success', 'info', 'warning'
+                    type: type, // 'default', 'success', 'info', 'warning'
+                    insert: "top",
                     container: 'top-right',                // where to position the notifications
-                    animationIn: ["animated", "fadeInRight"],     // animate.css classes that's applied
-                    animationOut: ["animated", "fadeOutDown"],   // animate.css classes that's applied
+                    animationIn: ["animate__animated", "animate__fadeInRight"],     // animate.css classes that's applied
+                    animationOut: ["animate__animated", "animate__fadeOutDown"],   // animate.css classes that's applied
                     dismiss: {
-                        duration: 3000
+                        duration: 3000,
+                        onScreen: true
                     }
                 })
 
         });
+
+        var BroadCastChan = pusher.subscribe('Broadcater');
+        BroadCastChan.bind('notify', function(data) {
+            store.addNotification({
+                message: data.text,
+                type: 'warning',                         // 'default', 'success', 'info', 'warning'
+                container: 'top-right',                // where to position the notifications
+                animationIn: ["animate__animated", "animate__fadeInRight"],     // animate.css classes that's applied
+                animationOut: ["animate__animated", "animate__fadeOutDown"],   // animate.css classes that's applied
+                dismiss: {
+                    duration: 3000,
+                    onScreen: true
+                }
+            })
+        })
     }
 
     componentWillUnmount() {

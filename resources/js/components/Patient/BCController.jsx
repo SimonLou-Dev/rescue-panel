@@ -7,34 +7,28 @@ import dateFormat from "dateformat";
 
 
 class ListPatient extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state= {
+            patients: null
+        }
+    }
+
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        if(this.props.patients !== prevState.patients){
+            this.setState({patients: this.props.patients})
+        }
+    }
+
     render() {
         return (
             <section className="list-container" style={{filter: this.props.blur? 'blur(5px)' : 'none'}}>
                 <div className={'list-content'}>
                     <h1>Liste des patients</h1>
                     <div className={'list'}>
-                        <PatientListPU name={'Simon Lou'} date={'16h00'} urlid={1} color={'Pas de couleur dominate'} idcard={true}/>
-                        <PatientListPU name={'Simon Lou Lou'} date={'16h00'} urlid={1} color={'Pas de couleur dominate'}/>
-                        <PatientListPU name={'Kendrick Anderson'} date={'16h00'} urlid={1} color={'Pas de couleur dominate'}/>
-                        <PatientListPU name={'Galaverraga Arturo'} date={'16h00'} urlid={1} color={'Pas de couleur dominate'}/>
-                        <PatientListPU name={'Pavoh Sam'} date={'16h00'} urlid={1} color={'Pas de couleur dominate'}/>
-                        <PatientListPU name={'test'} date={'16h00'} urlid={1} color={'Pas de couleur dominate'}/>
-                        <PatientListPU name={'test'} date={'16h00'} urlid={1} color={'Pas de couleur dominate'}/>
-                        <PatientListPU name={'test'} date={'16h00'} urlid={1} color={'Pas de couleur dominate'}/>
-                        <PatientListPU name={'test'} date={'16h00'} urlid={1} color={'Pas de couleur dominate'}/>
-                        <PatientListPU name={'test'} date={'16h00'} urlid={1} color={'Pas de couleur dominate'}/>
-                        <PatientListPU name={'test'} date={'16h00'} urlid={1} color={'Pas de couleur dominate'}/>
-                        <PatientListPU name={'test'} date={'16h00'} urlid={1} color={'Pas de couleur dominate'}/>
-                        <PatientListPU name={'test'} date={'16h00'} urlid={1} color={'Pas de couleur dominate'}/>
-                        <PatientListPU name={'test'} date={'16h00'} urlid={1} color={'Pas de couleur dominate'}/>
-                        <PatientListPU name={'test'} date={'16h00'} urlid={1} color={'Pas de couleur dominate'}/>
-                        <PatientListPU name={'test'} date={'16h00'} urlid={1} color={'Pas de couleur dominate'}/>
-                        <PatientListPU name={'test'} date={'16h00'} urlid={1} color={'Pas de couleur dominate'}/><PatientListPU name={'test'} date={'16h00'} urlid={1} color={'Pas de couleur dominate'}/>
-                        <PatientListPU name={'test'} date={'16h00'} urlid={1} color={'Pas de couleur dominate'}/>
-                        <PatientListPU name={'test'} date={'16h00'} urlid={1} color={'Pas de couleur dominate'}/>
-                        <PatientListPU name={'test'} date={'16h00'} urlid={1} color={'Pas de couleur dominate'}/>
-                        <PatientListPU name={'test'} date={'16h00'} urlid={1} color={'Pas de couleur dominate'}/>
-
+                        {this.state.patients && this.state.patients.map((patient)=>
+                            <PatientListPU name={patient.name} date={dateFormat(patient.created_at, 'hh:mm')} urlid={patient.id} color={patient.get_color.name} idcard={patient.idcard}/>
+                        )}
                     </div>
                 </div>
             </section>
@@ -346,7 +340,7 @@ class BCView extends React.Component {
     async post(e){
         e.preventDefault()
         if(this.state.blessure !== 0 && this.state.color !== 0){
-            await axios({
+            let req = await axios({
                 url: '/data/blackcode/'+ this.props.id +'/add/patient',
                 method: 'post',
                 data: {
@@ -357,6 +351,15 @@ class BCView extends React.Component {
                     carteid: this.state.carteid,
                 }
             })
+            if(req.status === 201){
+                this.setState({
+                    name: '',
+                    color: 0,
+                    blessure:0,
+                    payed: false,
+                    carteid: false
+                });
+            }
         }
     }
 
@@ -415,14 +418,18 @@ class BCView extends React.Component {
                                 <label>Couleur dominante :</label>
                                 <select className={'input'} defaultValue={this.state.color} onChange={(e)=>{this.setState({color:e.target.value})}} >
                                     <option value={0} disabled>choisir</option>
-                                    <option value={1}>test</option>
+                                    {this.state.data && this.state.couleurs.map((item)=>
+                                        <option key={item.id} value={item.id}>{item.name}</option>
+                                    )}
                                 </select>
                             </div>
                             <div className={'row-spaced'}>
                                 <label>Type de blessure :</label>
                                 <select className={'input'} defaultValue={this.state.blessure} onChange={(e)=>{this.setState({blessure:e.target.value})}}>
                                     <option value={0} disabled>choisir</option>
-                                    <option value={1}>test</option>
+                                    {this.state.data && this.state.blessures.map((item)=>
+                                        <option key={item.id} value={item.id}>{item.name}</option>
+                                    )}
                                 </select>
                             </div>
                             <div className={'bottom'}>
@@ -472,7 +479,7 @@ class BCView extends React.Component {
                         }
                     </div>
                 </section>
-                <ListPatient blur={this.state.CloseMenuOpen} />
+                <ListPatient blur={this.state.CloseMenuOpen} patients={this.state.patients}/>
                 {this.state.CloseMenuOpen &&
                 <section className={'popup'}>
                     <div className={'popup-content'}>

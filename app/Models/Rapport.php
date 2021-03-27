@@ -33,10 +33,12 @@ class Rapport extends Model
     {
         return $this->belongsTo(Patient::class, 'patient_id');
     }
+
     public function GetType(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(Intervention::class, 'interType');
     }
+
     public function GetTransport(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(Hospital::class, 'transport');
