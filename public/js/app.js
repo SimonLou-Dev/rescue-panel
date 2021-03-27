@@ -4695,12 +4695,12 @@ var RapportHoraire = /*#__PURE__*/function (_React$Component) {
                   })
                 })]
               }), this.state.service && this.state.service.map(function (item) {
-                return item.user.grade < 10 && item.user.grade > 0 && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_props_Gestion_horaire_Row__WEBPACK_IMPORTED_MODULE_3__.default, {
-                  inService: item.user.OnService,
+                return item.get_user.grade_id < 10 && item.get_user.grade_id > 0 && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_props_Gestion_horaire_Row__WEBPACK_IMPORTED_MODULE_3__.default, {
+                  inService: item.get_user.service,
                   itemid: item.id,
                   update: _this2.update,
-                  userid: item.user.id,
-                  name: item.user.name,
+                  userid: item.get_user.id,
+                  name: item.get_user.name,
                   dimanche: item.dimanche,
                   lundi: item.lundi,
                   mardi: item.mardi,
@@ -7333,7 +7333,7 @@ var BCView = /*#__PURE__*/function (_React$Component4) {
                 children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("label", {
                   children: "nom pr\xE9nom :"
                 }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("input", {
-                  list: 'autocomplete',
+                  list: "autocomplete",
                   className: 'input',
                   type: 'text',
                   value: this.state.nom,
@@ -7341,10 +7341,10 @@ var BCView = /*#__PURE__*/function (_React$Component4) {
                     _this6.searsh(e.target.value);
                   }
                 }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("datalist", {
-                  id: 'autocomplete',
+                  id: "autocomplete",
                   children: this.state.searsh && this.state.searsh.map(function (patient) {
-                    return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("option", {
-                      children: [patient.vorname, " ", patient.name]
+                    return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("option", {
+                      value: patient.vorname + ' ' + patient.name
                     }, patient.id);
                   })
                 })]
@@ -8875,7 +8875,7 @@ var Factures = /*#__PURE__*/function (_React$Component) {
               case 0:
                 _context2.next = 2;
                 return axios__WEBPACK_IMPORTED_MODULE_4___default()({
-                  url: '/data/facture/{id}/paye' + id,
+                  url: '/data/facture/' + id + '/paye',
                   method: 'PUT'
                 });
 
@@ -9178,7 +9178,7 @@ var Factures = /*#__PURE__*/function (_React$Component) {
                     children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
                       children: dateformat__WEBPACK_IMPORTED_MODULE_3___default()(item.created_at, 'dd/mm/yyyy')
                     }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                      children: item.patient.vorname + ' ' + item.patient.name
+                      children: item.get_patient.vorname + ' ' + item.get_patient.name
                     }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
                       children: dateformat__WEBPACK_IMPORTED_MODULE_3___default()(item.created_at, 'H:MM')
                     }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("td", {
@@ -14855,7 +14855,7 @@ var PatientListPU = /*#__PURE__*/function (_React$Component) {
                         _context.next = 2;
                         return axios__WEBPACK_IMPORTED_MODULE_3___default()({
                           method: 'DELETE',
-                          url: '/data/pu/removepatient/' + _this2.props.urlid
+                          url: '/data/blackcode/delete/patient/' + _this2.props.urlid
                         });
 
                       case 2:

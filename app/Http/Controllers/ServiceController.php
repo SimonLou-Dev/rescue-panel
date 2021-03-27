@@ -44,10 +44,10 @@ class ServiceController extends Controller
         }else{
             $date = (int) date('W', time());
         }
-        $service = WeekService::where('week', $date)->get();
+        $service = WeekService::where('week_number', $date)->get();
         $a= 0;
         while($a < count($service)){
-            $service[$a]->user;
+            $service[$a]->GetUser->GetGrade;
             $a++;
         }
         return response()->json([

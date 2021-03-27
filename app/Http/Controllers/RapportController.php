@@ -45,6 +45,7 @@ class RapportController extends Controller
         $rapport->transport= (integer) $request->transport;
         $rapport->description = $request->desc;
         $rapport->price = (integer) $request->montant;
+        $rapport->user_id = Auth::user()->id;
         $rapport->ATA_start = date('Y/m/d H:i:s', strtotime($request->startdate . ' ' . $request->starttime));
         $rapport->ATA_end = date('Y/m/d H:i:s', strtotime($request->enddate . ' ' . $request->endtime));
         $rapport->save();
@@ -56,10 +57,10 @@ class RapportController extends Controller
             $ata = 'Du ' . date('Y/m/d H:i', strtotime($rapport->ATA_start)) . ' au ' . date('Y/m/d H:i', strtotime($rapport->ATA_end));
         }
 
-        if($facture->payed){
-            $fact= 'Payée : ' . $facture->price;
+        if($request->payed){
+            $fact= 'Payée : ' . $request->montant;
         }else{
-            $fact= 'Impayée : ' . $facture->price;
+            $fact= 'Impayée : ' . $request->montant;
         }
         Http::post(env('WEBHOOK_RI'),[
             'embeds'=>[
@@ -73,11 +74,11 @@ class RapportController extends Controller
                             'inline'=>true
                         ],[
                             'name'=>'Type d\'intervention : ',
-                            'value'=>$rapport->Inter->name,
+                            'value'=>$rapport->GetType->name,
                             'inline'=>true
                         ],[
                             'name'=>'Transport : ',
-                            'value'=>$transport->name,
+                            'value'=>$rapport->GetTransport->name,
                             'inline'=>true
                         ],[
                             'name'=>'ATA : ',
@@ -101,7 +102,7 @@ class RapportController extends Controller
             ]
         ]);
         event(new \App\Events\Notify('Rapport ajouté ! ',1));
-        return response()->json(['facture'=>$facture, 'rapport'=>$rapport, 'patient'=>$Patient], 201);
+        return response()->json([],201);
     }
 
     public function search(Request $request, string $text): \Illuminate\Http\JsonResponse
@@ -188,7 +189,7 @@ class RapportController extends Controller
         $size = count($impaye);
         $a = 0;
         while ($a < $size){
-            $patient = $impaye[$a]->patient;
+            $impaye[$a]->GetPatient;
 
             $a++;
         }
@@ -208,7 +209,7 @@ class RapportController extends Controller
                     'fields'=>[
                         [
                             'name'=>'Patient : ',
-                            'value'=>$facture->patient->vorname . ' '.$facture->patient->name,
+                            'value'=>$facture->GetPatient->vorname . ' '.$facture->GetPatient->name,
                             'inline'=>true
                         ],[
                             'name'=>'Montant : ',

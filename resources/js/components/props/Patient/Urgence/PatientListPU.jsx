@@ -32,7 +32,7 @@ class PatientListPU extends React.Component {
                     <button onClick={async (e) => {
                         var req = await axios({
                             method: 'DELETE',
-                            url: '/data/pu/removepatient/'+this.props.urlid
+                            url: '/data/blackcode/delete/patient/'+this.props.urlid
                         })
                         this.props.update();
                     }} className={'delete'}><img src={'/assets/images/cancel.png'} alt={''}/></button>

@@ -200,7 +200,7 @@ class BCController extends Controller
         $msg = "";
         while ($a < count($personnels)){
             if($a == 0){
-                $msg = $personnels[$a]->name;
+                $msg = 'Secourites : ' . $personnels[$a]->name;
             }else{
                 $msg = $msg . ', ' . $personnels[$a]->name;
             }
@@ -343,7 +343,7 @@ class BCController extends Controller
 
     public function removePatient(int $patient_id): \Illuminate\Http\JsonResponse
     {
-        $bcp = BCPatient::where('id', $$patient_id)->first;
+        $bcp = BCPatient::where('id', $patient_id)->first();
         if (!is_null($bcp->rapport_id)){
             $rapport = Rapport::where('id', $bcp->rapport_id)->first();
             $facture = Facture::where('id', $rapport->GetFacture->id)->first();
@@ -351,7 +351,7 @@ class BCController extends Controller
             $rapport->delete();
         }
         $bcp->delete();
-        event(new \App\Events\Notify('Patient retiré ! ',1));
+        event(new \App\Events\Notify('Patient retiré (la page va se mettre à jour)! ',1));
         return response()->json(['status'=>'OK']);
     }
 

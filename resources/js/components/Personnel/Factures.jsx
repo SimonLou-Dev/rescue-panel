@@ -33,7 +33,7 @@ class Factures extends React.Component {
 
     async paye(id) {
         await axios({
-            url: '/data/facture/{id}/paye' + id,
+            url: '/data/facture/'+ id +'/paye',
             method: 'PUT',
         })
         this.componentDidMount();
@@ -160,7 +160,7 @@ class Factures extends React.Component {
                             this.state.list.map((item) =>
                                 <tr key={item.id}>
                                     <td>{dateFormat(item.created_at, 'dd/mm/yyyy')}</td>
-                                    <td>{item.patient.vorname + ' ' + item.patient.name}</td>
+                                    <td>{item.get_patient.vorname + ' ' + item.get_patient.name}</td>
                                     <td>{dateFormat(item.created_at, 'H:MM')}</td>
                                     <td>{item.price}$</td>
                                     <td>

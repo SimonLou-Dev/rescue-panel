@@ -109,9 +109,9 @@ class RapportHoraire extends React.Component {
 
                             {this.state.service &&
                             this.state.service.map((item)=>
-                                item.user.grade < 10 &&
-                                    item.user.grade > 0 &&
-                                        <Row key={item.id} inService={item.user.OnService} itemid={item.id} update={this.update} userid={item.user.id} name={item.user.name} dimanche={item.dimanche} lundi={item.lundi} mardi={item.mardi} mercredi={item.mercredi} jeudi={item.jeudi} vendredi={item.vendredi} samedi={item.samedi} total={item.total}/>
+                                item.get_user.grade_id < 10 &&
+                                    item.get_user.grade_id > 0 &&
+                                        <Row key={item.id} inService={item.get_user.service} itemid={item.id} update={this.update} userid={item.get_user.id} name={item.get_user.name} dimanche={item.dimanche} lundi={item.lundi} mardi={item.mardi} mercredi={item.mercredi} jeudi={item.jeudi} vendredi={item.vendredi} samedi={item.samedi} total={item.total}/>
                             )
                             }
 
