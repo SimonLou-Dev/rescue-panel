@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property int id
  * @property int user_id
  * @property int formation_id
+ * @property int certif_id
  * @method static where(string $column, string $operator = null, mixed $value = null)
  * @method static orderByDesc(string $string)
  *
@@ -26,8 +27,14 @@ class Certification extends Model
     {
         return $this->belongsTo(User::class, 'user_id');
     }
+
     public function GetFormation(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(Formation::class, 'formation_id');
+    }
+
+    public function GetCetif(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
+        return $this->belongsTo(ListCertification::class, 'certif_id');
     }
 }

@@ -50,7 +50,15 @@ class Personnel extends React.Component{
                 <h2 className="Menu_title"><span>Personnel</span></h2>
                 <ul className="Menu-list">
                     <li className={'mobildisabled'}><NavLink to={'/personnel/service'}>Service</NavLink></li>
-
+                    {this.state.facture &&
+                        <li><NavLink to={'/personnel/factures'}>Factures</NavLink></li>
+                    }
+                    <li><NavLink to={'/personnel/remboursement'}>Remboursement</NavLink></li>
+                    <li><NavLink to={'/personnel/moncompte'}>Mon Compte</NavLink></li>
+                    <li><NavLink to={'/personnel/livret'}>Mes formations</NavLink></li>
+                    {this.state.vols &&
+                        <li><NavLink to={'/personnel/vols'}>Carnet de vol</NavLink></li>
+                    }
                 </ul>
             </div>
         );

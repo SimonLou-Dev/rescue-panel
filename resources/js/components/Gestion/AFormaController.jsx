@@ -9,7 +9,7 @@ class FormaUserList extends React.Component {
         return (
             <div className="f-userlist">
                 <section className="header">
-                    <PagesTitle title={'Formation'}/>
+                    <PagesTitle title={'Certifications des utilisateurs'}/>
                     <button onClick={()=>this.props.change(1)} className={'btn'}>Liste des formations</button>
                 </section>
                 <section className="user-list">
@@ -34,13 +34,13 @@ class FormaUserList extends React.Component {
                             <tr>
                                 <td className={'name'}>Simon Lou</td>
                                 <td className={'forma'}><div className={'pilote-btn'}>
-                                    <input type="checkbox" id={"toggle"+id+ '_'+ forma_id}/>
+                                    <input type="checkbox" id={"toggle_"+this.props.id }/>
                                     <div>
                                         <label htmlFor={"toggle"+this.props.id}/>
                                     </div>
                                 </div></td>
                                 <td className={'forma'}><div className={'pilote-btn'}>
-                                    <input type="checkbox" id={"toggle"+this.props.id}/>
+                                    <input type="checkbox" id={"toggle"}/>
                                     <div>
                                         <label htmlFor={"toggle"+this.props.id}/>
                                     </div>
@@ -109,12 +109,16 @@ class FormaUserList extends React.Component {
 }
 
 class FormaList extends React.Component {
+    constructor(props) {
+        super(props);
+    }
+
     render() {
         return (
             <div className="f-formalist">
                 <section className="header">
                     <PagesTitle title={'Liste des formations'}/>
-                    <Button onClick={()=>this.props.change(0)} className={'btn'}>Liste des formations</Button>
+                    <button onClick={()=>this.props.change(0)} className={'btn'}>Certifications</button>
                 </section>
             </div>
         );
@@ -131,7 +135,7 @@ class AFormaController extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            status: 0,
+            status: 2,
         }
     }
 

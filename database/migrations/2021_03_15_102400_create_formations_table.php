@@ -34,6 +34,7 @@ class CreateFormationsTable extends Migration
             $table->boolean('can_retry_later')->default(false);
             $table->string('time_btw_try')->nullable();
             $table->string('max_try')->default(1);
+            $table->integer('certif_id')->nullable();
             $table->timestamps();
         });
     }

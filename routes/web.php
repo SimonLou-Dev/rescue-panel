@@ -109,9 +109,23 @@ Route::get('/data/vol/get/{page}/{name?}', [\App\Http\Controllers\VolController:
 Route::post('/data/vol/add', [\App\Http\Controllers\VolController::class, 'addVol']);
 Route::get('/data/vol/searsh/{pilote}', [\App\Http\Controllers\VolController::class, 'seatchPilote']);
 
-
-
-
+//Formation
+Route::get('/data/certifications/admin/get', [\App\Http\Controllers\FormationController::class, 'getUsersCertifications']);
+Route::put('/data/certifications/admin/{certif_id}/change', [\App\Http\Controllers\FormationController::class, 'changeUserCertification']);
+Route::get('/data/formations/admin/{formation_id}/get', [\App\Http\Controllers\FormationController::class, 'getFormationByIdAdmin']);
+Route::put('/data/formations/admin/{formation_id}/visibylity', [\App\Http\Controllers\FormationController::class, 'changeFormationVisibility']);
+Route::post('/data/formations/admin/post', [\App\Http\Controllers\FormationController::class, 'postFormation']);
+Route::put('/data/formations/admin/{formation_id}/update', [\App\Http\Controllers\FormationController::class, 'updateFormation']);
+Route::delete('/data/formations/admin/{formation_id}/delete', [\App\Http\Controllers\FormationController::class, 'deleteFormationById']);
+Route::post('/data/formations/admin/question/post', [\App\Http\Controllers\FormationController::class, 'addQuestion']);
+Route::put('/data/formations/admin/question/{question_id}/update', [\App\Http\Controllers\FormationController::class, 'updateQuestion']);
+Route::delete('/data/formations/admin/question/{question_id}/delete', [\App\Http\Controllers\FormationController::class, 'deleteQuestion']);
+Route::get('/data/formations/get', [\App\Http\Controllers\FormationController::class, 'getFormations']);
+Route::get('/data/formations/{formation_id}/get', [\App\Http\Controllers\FormationController::class, 'getFormationById']);
+Route::get('/data/formations/question/{question_id}', [\App\Http\Controllers\FormationController::class, 'getQuestioById']);
+Route::post('/data/formations/response/{question_id}/save', [\App\Http\Controllers\FormationController::class, 'saveResponseState']);
+Route::delete('/data/formation/response/{question_id}/delete', [\App\Http\Controllers\FormationController::class, 'deleteResponseStateById']);
+Route::get('/data/formation/{formation_id}/final', [\App\Http\Controllers\FormationController::class, 'getFinalDatas']);
 
 Route::get('/post', function (){
     $req = Http::post(env('WEBHOOK_RI'),[

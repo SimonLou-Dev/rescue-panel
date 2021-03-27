@@ -56,4 +56,8 @@ class User extends Authenticatable
     {
         return $this->hasMany(WeekRemboursement::class, 'user_id');
     }
+    public function GetCertifications(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(Certification::class, 'user_id')->orderBy('formation_id');
+    }
 }

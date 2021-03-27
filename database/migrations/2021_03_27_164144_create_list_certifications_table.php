@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateCertificationsTable extends Migration
+class CreateListCertificationsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,9 @@ class CreateCertificationsTable extends Migration
      */
     public function up()
     {
-        Schema::create('Certifications', function (Blueprint $table) {
+        Schema::create('list_certifications', function (Blueprint $table) {
             $table->id();
-            $table->integer('user_id');
-            $table->integer('formation_id');
-            $table->integer('certif_id')->nullable();
+            $table->string('name');
             $table->timestamps();
         });
     }
@@ -29,6 +27,6 @@ class CreateCertificationsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('certifications');
+        Schema::dropIfExists('list_certifications');
     }
 }

@@ -12,7 +12,7 @@ class TableBottom extends React.Component {
         return (
             <div className={"TableBottom"}>
                 <div className={'searsh'}>
-                    <input list={'autocomplete'} type={'text'} placeholder={this.props.placeholder} onChange={(e)=>this.props.typing(e)}/>
+                    <input autocomplete="off" list={'autocomplete'} type={'text'} placeholder={this.props.placeholder} onChange={(e)=>this.props.typing(e)}/>
                     {this.props.list &&
                         <datalist id={'autocomplete'}>
                             {this.props.list.map((obj) =>

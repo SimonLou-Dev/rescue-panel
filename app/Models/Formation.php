@@ -29,6 +29,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property bool can_retry_later
  * @property DateTime time_btw_try
  * @property bool max_try
+ * @property int certif_id
  * @method static where(string $column, string $operator = null, mixed $value = null)
  * @method static orderByDesc(string $string)
  *
@@ -75,5 +76,9 @@ class Formation extends Model
     public function GetQuestions(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
         return $this->hasMany(FormationsQuestion::class, 'formation_id');
+    }
+    public function GetCertif(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
+        return $this->belongsTo(ListCertification::class, 'certif_id');
     }
 }
