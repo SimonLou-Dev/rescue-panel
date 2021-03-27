@@ -202,9 +202,9 @@ class Layout extends React.Component{
                         }}/>
                         <div className="Menusepartor"/>
                         <div className="navigation">
-                            <Patient service={this.state.serviceStatus} perm={this.state.perms}/>
+
                             <Personnel service={this.state.serviceStatus} perm={this.state.perms} user={this.state.user}/>
-                            <Gestion perm={this.state.perms}/>
+
                         </div>
                         <div className="Menusepartor"/>
                         <div className="bugreportter">
@@ -220,27 +220,10 @@ class Layout extends React.Component{
                 </div>
                 <div id="content" style={{filter: this.state.bug ? 'blur(5px)' : 'none'}} >
                         <Route exact path='/' component={Main}/>
-                        <Route path={'/bugrepport'} component={BugRepport}/>
 
-                        <Route path='/patient/rapport' component={Rapport}/>
-                        <Route path={'/patient/blackcode'} component={BCController}/>
-                        <Route path={'/patient/dossiers'} component={RecherchePatient}/>
 
                         <Route path={'/personnel/service'} component={Services}/>
-                        <Route path={'/personnel/factures'} component={Factures}/>
-                        <Route path={'/personnel/informations'} component={Informations}/>
-                        <Route path={'/personnel/moncompte'} component={MonCompte}/>
-                        <Route path={'/personnel/livret'} component={FormationsController}/>
-                        <Route path={'/personnel/vols'} component={CarnetVol}/>
-                        <Route path={'/personnel/remboursement'} component={Remboursement}/>
 
-                        <Route path={'/gestion/rapport'} component={RapportHoraire}/>
-                        <Route path={'/gestion/content'} component={ContentManagement}/>
-                        <Route path={'/gestion/personnel'} component={PersonnelList}/>
-                        <Route path={'/gestion/log'} component={Logs}/>
-                        <Route path={'/gestion/formation'} component={AFormaController}/>
-                        <Route path={'/gestion/informations'} component={InfoGestion}/>
-                        <Route path={'/gestion/perm'} component={Permissions}/>
                     <ReactNotifications/>
                 </div>
                 {this.state.bug &&
