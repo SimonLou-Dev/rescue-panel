@@ -75,13 +75,13 @@ class Services extends React.Component {
                         <thead className={'header'}>
                         <tr>
                             <td>semaine</td>
+                            <td>dimanche</td>
                             <td>lundi</td>
                             <td>mardi</td>
                             <td>mercredi</td>
                             <td>jeudi</td>
                             <td>vendredi</td>
                             <td>samedi</td>
-                            <td>dimanche</td>
                             <td>Total</td>
                         </tr>
                         </thead>
@@ -90,13 +90,14 @@ class Services extends React.Component {
                         this.state.week.map((oneweek)=>
                             <tr key={oneweek.id}>
                                 <td>{oneweek.week} | {dateFormat(oneweek.created_at, 'yyyy')}</td>
+                                <td>{oneweek.dimanche.substring(-1,5)}</td>
                                 <td>{oneweek.lundi.substring(-1,5)}</td>
                                 <td>{oneweek.mardi.substring(-1,5)}</td>
                                 <td>{oneweek.mercredi.substring(-1,5)}</td>
                                 <td>{oneweek.jeudi.substring(-1,5)}</td>
                                 <td>{oneweek.vendredi.substring(-1,5)}</td>
                                 <td>{oneweek.samedi.substring(-1,5)}</td>
-                                <td>{oneweek.dimanche.substring(-1,5)}</td>
+
                                 <td>{oneweek.total.substring(-1,5)}</td>
                             </tr>
                         )

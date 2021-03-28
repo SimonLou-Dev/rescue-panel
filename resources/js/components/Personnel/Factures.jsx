@@ -112,7 +112,7 @@ class Factures extends React.Component {
                             <h1>Ajouter une facture :</h1>
                             <form onSubmit={this.OnPost}>
                                 <div className={'content'}>
-                                    <input list={'autocomplete'} value={this.state.name} type={'text'} placeholder={'Patient'} onChange={event => {this.ShearshChange(event)}}/>
+                                    <input list={'autocomplete'} autoComplete={'off'} value={this.state.name} type={'text'} placeholder={'Patient'} onChange={event => {this.ShearshChange(event)}}/>
                                     <datalist id="autocomplete">
                                         {this.state.names &&
                                             this.state.names.map((option) =>

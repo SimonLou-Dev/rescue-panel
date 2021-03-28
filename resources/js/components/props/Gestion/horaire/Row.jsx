@@ -35,8 +35,12 @@ class Row extends React.Component {
     render() {
         return (
             <div className={'row'}>
+
                 <div className={'cell column-1'}>
                     <p>{this.props.name}</p>
+                </div>
+                <div className={'cell column-8'}>
+                    <p>{this.props.dimanche}</p>
                 </div>
                 <div className={'cell column-2'}>
                     <p>{this.props.lundi}</p>
@@ -55,9 +59,6 @@ class Row extends React.Component {
                 </div>
                 <div className={'cell column-7'}>
                     <p>{this.props.samedi}</p>
-                </div>
-                <div className={'cell column-8'}>
-                    <p>{this.props.dimanche}</p>
                 </div>
                 <div className={'cell column-9'}>
                     <p>{this.props.total}</p>

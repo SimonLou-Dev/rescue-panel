@@ -105,7 +105,7 @@ class RecherchePatient extends React.Component {
                     <section className={'Recherche'}>
                         <div className={'FormRecherche'}>
                             <form method={"post"} onSubmit={this.ShearshSubmit}>
-                                <input autocomplete="off" list="autocomplete" type="text" value={this.state.recherche}   placeholder={"rechercher"} name={"recherhce"} onChange={this.ShearshChange}/>
+                                <input autoComplete="off" list="autocomplete" type="text" value={this.state.recherche}   placeholder={"rechercher"} name={"recherhce"} onChange={this.ShearshChange}/>
                                 <datalist id="autocomplete">
                                     {this.state.name &&
                                         this.state.name.map((option) =>

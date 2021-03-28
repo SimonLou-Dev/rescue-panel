@@ -16,7 +16,7 @@ class ServiceController extends Controller
 {
     public function getUserService(): \Illuminate\Http\JsonResponse
     {
-        $date = (int) date('W', time());
+        $date = $this::getWeekNumber();
         if($date == 1 ){
             $week = WeekService::where('week_number', '=', 1)->orderBy('id','desc')->where('user_id', Auth::id())->get();
         }else if($date == 2){
@@ -38,11 +38,11 @@ class ServiceController extends Controller
 
     public function getAllservice(int $semaine = NULL): \Illuminate\Http\JsonResponse
     {
-        $max = (int) date('W', time());
+        $max = $this::getWeekNumber();
         if($semaine){
             $date= (int) $semaine;
         }else{
-            $date = (int) date('W', time());
+            $date = $this::getWeekNumber();
         }
         $service = WeekService::where('week_number', $date)->get();
         $a= 0;
@@ -97,7 +97,7 @@ class ServiceController extends Controller
             $interval = $start->diff(date_create(date('Y-m-d H:i:s', time())));
             $diff = $interval->d*24 + $interval->h;
             $formated = $diff . ':' . $interval->format('%I:%S');
-            $week =  date('W', time());
+            $week =  ServiceController::getWeekNumber();
             $service->ended_at = date('H:i:s', time());
             $service->total = $formated;
             $service->save();
@@ -216,6 +216,17 @@ class ServiceController extends Controller
         $toadd['h'] = (int) $base['h'] + (int) $toadd['h'];
 
         return $toadd['h'] . ':' . $toadd['m'] . ':'. $toadd['s'];
+    }
+
+    public static function getWeekNumber(): int
+    {
+        $day = LayoutController::getdaystring();
+        $date = (int) date('W', time());
+        if($day == 'dimanche'){
+            return $date +1;
+        }else{
+            return $date;
+        }
     }
 
 }

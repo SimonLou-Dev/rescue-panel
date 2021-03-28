@@ -406,7 +406,7 @@ class BCView extends React.Component {
 
                             <div className={'row-spaced'}>
                                 <label>nom prénom :</label>
-                                <input list="autocomplete" autocomplete="off" className={'input'} type={'text'} value={this.state.nom} onChange={(e)=>{this.searsh(e.target.value)}}/>
+                                <input list="autocomplete" autoComplete="off" className={'input'} type={'text'} value={this.state.nom} onChange={(e)=>{this.searsh(e.target.value)}}/>
                                 <datalist id="autocomplete">
                                     {this.state.searsh && this.state.searsh.map((patient)=>
                                         <option key={patient.id} value={patient.vorname+ ' '+patient.name}/>

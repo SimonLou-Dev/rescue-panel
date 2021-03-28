@@ -118,6 +118,14 @@ a {
 .btn:hover {
   -webkit-transform: scale(1.2);
 }
+.btn:disabled {
+  opacity: 0.7;
+  transition: none;
+  cursor: default;
+}
+.btn:disabled:hover {
+  -webkit-transform: scale(1) !important;
+}
 
 .form-error p {
   color: #FF0000;
@@ -3485,4 +3493,382 @@ body {
   display: flex;
   flex-direction: row;
   justify-content: space-evenly;
+}
+
+.formationCretor {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  height: 100vh;
+  overflow-y: hidden;
+}
+.formationCretor .header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+}
+.formationCretor .header .btn {
+  margin: auto 0;
+}
+.formationCretor .creator {
+  height: calc(100vh - 170px);
+  width: 90%;
+  background-color: #0C2646;
+  border-radius: 30px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  padding-top: 15px;
+  overflow-y: hidden;
+}
+.formationCretor .creator .creator-items {
+  position: relative;
+  margin: 0 auto;
+  width: 95%;
+  height: 90%;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+.formationCretor .creator .creator-items .creator-item {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+.formationCretor .creator .creator-items .creator-item form {
+  width: 100%;
+  height: 100%;
+  display: grid;
+  grid-template-rows: repeat(12, 8.3%);
+  grid-template-columns: repeat(20, 5%);
+}
+.formationCretor .creator .creator-items .creator-item form label {
+  font-weight: 500;
+  font-size: 25px;
+  -webkit-text-decoration: underline #00FFFF;
+          text-decoration: underline #00FFFF;
+}
+.formationCretor .creator .creator-items .creator-item form .question-title {
+  grid-row: 1/1;
+  grid-column: 1/6;
+}
+.formationCretor .creator .creator-items .creator-item form .question-main {
+  grid-row: 3/5;
+  grid-column: 1/10;
+  display: flex;
+  flex-direction: column;
+}
+.formationCretor .creator .creator-items .creator-item form .question-main input {
+  width: 90%;
+}
+.formationCretor .creator .creator-items .creator-item form .add-image {
+  grid-row: 1/5;
+  grid-column: 13/21;
+  overflow: hidden;
+  display: flex;
+}
+.formationCretor .creator .creator-items .creator-item form .add-image .image {
+  margin: auto auto;
+  width: 350px;
+  height: 197.7px;
+  background-color: #004662;
+  border-radius: 30px;
+  position: relative;
+  z-index: 1;
+}
+.formationCretor .creator .creator-items .creator-item form .add-image .image img {
+  z-index: 3;
+}
+.formationCretor .creator .creator-items .creator-item form .add-image .image h3, .formationCretor .creator .creator-items .creator-item form .add-image .image input {
+  position: absolute;
+  z-index: 2;
+}
+.formationCretor .creator .creator-items .creator-item form .add-image .image input {
+  top: 25%;
+  left: 20%;
+  width: 200px;
+}
+.formationCretor .creator .creator-items .creator-item form .add-image .image h3 {
+  top: 5%;
+  left: 26%;
+  width: 160px;
+}
+.formationCretor .creator .creator-items .creator-item form .response-info {
+  grid-row: 6/7;
+  grid-column: 1/12;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+}
+.formationCretor .creator .creator-items .creator-item form .responses-list {
+  grid-row: 7/13;
+  grid-column: 1/12;
+  display: flex;
+  flex-direction: column;
+  padding: 5px;
+}
+.formationCretor .creator .creator-items .creator-item form .responses-list .response {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+}
+.formationCretor .creator .creator-items .creator-item form .responses-list .response button {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  transition: all 300ms cubic-bezier(0.28, -0.46, 0.33, 1.5);
+}
+.formationCretor .creator .creator-items .creator-item form .responses-list .response button img {
+  width: 40px;
+}
+.formationCretor .creator .creator-items .creator-item form .responses-list .response button:hover {
+  transform: rotate(20deg) scale(1.3);
+}
+.formationCretor .creator .creator-items .creator-item form .responses-list .response input[type=checkbox] {
+  margin: auto 0;
+  --duration: .5s;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  -webkit-tap-highlight-color: transparent;
+  outline: none;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  transform-style: preserve-3d;
+  perspective: 240px;
+  border-radius: 50%;
+  width: 36px;
+  height: 36px;
+  background-size: 300% 300%;
+  transition: transform 0.3s;
+  transform: scale(var(--scale, 1)) translateZ(0);
+  -webkit-animation: var(--name, unchecked) var(--duration) ease forwards;
+          animation: var(--name, unchecked) var(--duration) ease forwards;
+}
+.formationCretor .creator .creator-items .creator-item form .responses-list .response input[type=checkbox]:before, .formationCretor .creator .creator-items .creator-item form .responses-list .response input[type=checkbox]:after {
+  content: "";
+  position: absolute;
+  width: 16px;
+  height: var(--height, 16px);
+  left: 6px;
+  top: var(--top, 6px);
+  -webkit-animation: var(--name-icon-b, var(--name-icon, unchecked-icon)) var(--duration) ease forwards;
+          animation: var(--name-icon-b, var(--name-icon, unchecked-icon)) var(--duration) ease forwards;
+}
+.formationCretor .creator .creator-items .creator-item form .responses-list .response input[type=checkbox]:before {
+  -webkit-clip-path: polygon(0 6px, 6px 6px, 6px 0, 10px 0, 10px 6px, 16px 6px, 16px 10px, 10px 10px, 10px 16px, 6px 16px, 6px 10px, 0 10px);
+          clip-path: polygon(0 6px, 6px 6px, 6px 0, 10px 0, 10px 6px, 16px 6px, 16px 10px, 10px 10px, 10px 16px, 6px 16px, 6px 10px, 0 10px);
+}
+.formationCretor .creator .creator-items .creator-item form .responses-list .response input[type=checkbox]:after {
+  --height: 4px;
+  --top: 12px;
+  --background:$green;
+  --name-icon-b: var(--name-icon-a, checked-icon);
+}
+.formationCretor .creator .creator-items .creator-item form .responses-list .response input[type=checkbox]:active {
+  --scale: .95;
+}
+.formationCretor .creator .creator-items .creator-item form .responses-list .response input[type=checkbox]:checked {
+  --name: checked;
+  --name-icon-b: checked-icon;
+  --name-icon-a: unchecked-icon;
+}
+.formationCretor .creator .creator-items .creator-item form .description {
+  grid-row: 6/9;
+  grid-column: 13/21;
+  display: flex;
+  flex-direction: column;
+}
+.formationCretor .creator .creator-items .creator-item form .description textarea {
+  width: 90%;
+  margin: 0 auto;
+}
+.formationCretor .creator .creator-items .creator-item form .correction {
+  grid-row: 10/12;
+  grid-column: 13/21;
+  display: flex;
+  flex-direction: column;
+}
+.formationCretor .creator .creator-items .creator-item form .correction input {
+  width: 90%;
+  margin: 0 auto;
+}
+.formationCretor .creator .creator-items .hidden {
+  -webkit-animation: slideOut 500ms ease-in-out forwards;
+          animation: slideOut 500ms ease-in-out forwards;
+}
+.formationCretor .creator .creator-items .current {
+  -webkit-animation: slideIn 500ms ease-in-out forwards;
+          animation: slideIn 500ms ease-in-out forwards;
+}
+.formationCretor .creator .creator-bottom {
+  width: 100%;
+  margin-top: 15px;
+  display: flex;
+  flex-direction: row;
+  height: 9%;
+  justify-content: space-evenly;
+  padding-bottom: 10px;
+}
+.formationCretor .creator .creator-bottom .items-list {
+  width: 40%;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  max-height: 100%;
+  overflow-y: hidden;
+}
+.formationCretor .creator .creator-bottom .items-list .bottom-item {
+  height: 15px;
+  width: 15px;
+  border-radius: 10px;
+  background-color: #004662;
+  margin: 5px;
+}
+.formationCretor .creator .creator-bottom .items-list .active {
+  background-color: #00FFFF;
+}
+.formationCretor .creator .creator-bottom .btn-contain {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  width: 40%;
+}
+
+@-webkit-keyframes slideIn {
+  0% {
+    opacity: 0;
+    z-index: 0;
+    visibility: hidden;
+  }
+  1% {
+    visibility: visible;
+  }
+  100% {
+    opacity: 1;
+    z-index: 3;
+    visibility: visible;
+  }
+}
+
+@keyframes slideIn {
+  0% {
+    opacity: 0;
+    z-index: 0;
+    visibility: hidden;
+  }
+  1% {
+    visibility: visible;
+  }
+  100% {
+    opacity: 1;
+    z-index: 3;
+    visibility: visible;
+  }
+}
+@-webkit-keyframes slideOut {
+  0% {
+    opacity: 1;
+    z-index: 0;
+    visibility: visible;
+  }
+  99% {
+    opacity: 0;
+    z-index: 0;
+  }
+  100% {
+    visibility: hidden;
+  }
+}
+@keyframes slideOut {
+  0% {
+    opacity: 1;
+    z-index: 0;
+    visibility: visible;
+  }
+  99% {
+    opacity: 0;
+    z-index: 0;
+  }
+  100% {
+    visibility: hidden;
+  }
+}
+@-webkit-keyframes checked-icon {
+  from {
+    transform: translateZ(12px);
+  }
+  to {
+    transform: translateX(16px) rotateY(90deg) translateZ(12px);
+  }
+}
+@keyframes checked-icon {
+  from {
+    transform: translateZ(12px);
+  }
+  to {
+    transform: translateX(16px) rotateY(90deg) translateZ(12px);
+  }
+}
+@-webkit-keyframes unchecked-icon {
+  from {
+    transform: translateX(-16px) rotateY(-90deg) translateZ(12px);
+  }
+  to {
+    transform: translateZ(12px);
+  }
+}
+@keyframes unchecked-icon {
+  from {
+    transform: translateX(-16px) rotateY(-90deg) translateZ(12px);
+  }
+  to {
+    transform: translateZ(12px);
+  }
+}
+@-webkit-keyframes checked {
+  from {
+    background-image: radial-gradient(ellipse at center, #e3342f 0%, #e3342f 25%, #38c172 25.1%, #38c172 100%);
+    background-position: 100% 50%;
+  }
+  to {
+    background-image: radial-gradient(ellipse at center, #e3342f 0%, #e3342f 25%, #38c172 25.1%, #38c172 100%);
+    background-position: 50% 50%;
+    box-shadow: 0 0 20px 7px #FF0000;
+  }
+}
+@keyframes checked {
+  from {
+    background-image: radial-gradient(ellipse at center, #e3342f 0%, #e3342f 25%, #38c172 25.1%, #38c172 100%);
+    background-position: 100% 50%;
+  }
+  to {
+    background-image: radial-gradient(ellipse at center, #e3342f 0%, #e3342f 25%, #38c172 25.1%, #38c172 100%);
+    background-position: 50% 50%;
+    box-shadow: 0 0 20px 7px #FF0000;
+  }
+}
+@-webkit-keyframes unchecked {
+  from {
+    background-image: radial-gradient(ellipse at center, #38c172 0%, #38c172 25%, #e3342f 25.1%, #e3342f 100%);
+    background-position: 100% 50%;
+  }
+  to {
+    background-image: radial-gradient(ellipse at center, #38c172 0%, #38c172 25%, #e3342f 25.1%, #e3342f 100%);
+    background-position: 50% 50%;
+    box-shadow: 0 0 20px 7px #00FF00;
+  }
+}
+@keyframes unchecked {
+  from {
+    background-image: radial-gradient(ellipse at center, #38c172 0%, #38c172 25%, #e3342f 25.1%, #e3342f 100%);
+    background-position: 100% 50%;
+  }
+  to {
+    background-image: radial-gradient(ellipse at center, #38c172 0%, #38c172 25%, #e3342f 25.1%, #e3342f 100%);
+    background-position: 50% 50%;
+    box-shadow: 0 0 20px 7px #00FF00;
+  }
 }

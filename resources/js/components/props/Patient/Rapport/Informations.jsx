@@ -27,8 +27,8 @@ class Informations extends React.Component{
             <div className={'Rapport-Card'}>
                 <h1>Informations</h1>
                 <div className="Form-Group">
-                    <input autocomplete="off" required type="text" autoComplete={'off'} placeholder="nom" value={name} onChange={this.nomchange}/>
-                    <input autocomplete="off" required type="text" autoComplete={'off'} placeholder="prénom" value={prenom} onChange={this.prenomchange}/>
+                    <input required type="text" autoComplete={'off'} placeholder="nom" value={name} onChange={this.nomchange}/>
+                    <input required type="text" autoComplete={'off'} placeholder="prénom" value={prenom} onChange={this.prenomchange}/>
                     <input type="text" autoComplete={'off'} placeholder="n° de tel" value={tel} onChange={this.telchange}/>
                 </div>
             </div>

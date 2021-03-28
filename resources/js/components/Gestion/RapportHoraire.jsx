@@ -78,6 +78,9 @@ class RapportHoraire extends React.Component {
                                 <div className={'cell head column-1'}>
                                     <p>agent</p>
                                 </div>
+                                <div className={'cell head column-8'}>
+                                    <p>dimanche</p>
+                                </div>
                                 <div className={'cell head column-2'}>
                                     <p>lundi</p>
                                 </div>
@@ -95,9 +98,6 @@ class RapportHoraire extends React.Component {
                                 </div>
                                 <div className={'cell head column-7'}>
                                     <p>samedi</p>
-                                </div>
-                                <div className={'cell head column-8'}>
-                                    <p>dimanche</p>
                                 </div>
                                 <div className={'cell head column-9'}>
                                     <p>total</p>
