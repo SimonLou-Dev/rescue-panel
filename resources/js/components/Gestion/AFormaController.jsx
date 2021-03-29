@@ -1,5 +1,4 @@
 import React from 'react';
-import axios from "axios";
 import PagesTitle from "../props/utils/PagesTitle";
 
 class FormaUserList extends React.Component {
@@ -128,9 +127,66 @@ class CreatorItem extends React.Component {
         super(props);
         this.state= {
             img: '',
-
+            responses: [],
+            lasresponseid: 0,
         }
+        this.addResponse = this.addResponse.bind(this)
+        this.deleteResponse = this.deleteResponse.bind(this)
+        this.changeBtnResponseState = this.changeBtnResponseState.bind(this)
+        this.changeContentResponseState = this.changeContentResponseState.bind(this)
     }
+
+    addResponse(){
+        let resp = this.state.responses;
+        let id = this.state.lasresponseid +1;
+        var b = {
+            id:id,
+            content: '',
+            active:false
+        }
+        resp.push(b)
+        this.setState({responses: resp, lasresponseid: id})
+
+    }
+    deleteResponse(id){
+        let array = this.state.responses;
+        let lenght = array.length;
+        let a = 0;
+        let obj = 0;
+        while(a < lenght){
+            if(array[a].id === id){
+                obj = a;
+            }
+            a++;
+        }
+        array.splice(obj,1);
+        this.setState({responses:array})
+    }
+    changeBtnResponseState(id){
+        let array = this.state.responses;
+        let lenght = array.length;
+        let a = 0;
+        while(a < lenght){
+            if(array[a].id === id){
+                array[a].active = !array[a].active;
+            }
+            a++;
+        }
+        this.setState({responses:array})
+    }
+    changeContentResponseState(id, content){
+        let array = this.state.responses;
+        let lenght = array.length;
+        let a = 0;
+        while(a < lenght){
+            if(array[a].id === id){
+                array[a].content = content;
+            }
+            a++;
+        }
+        this.setState({responses:array})
+    }
+
 
     render() {
         return (
@@ -155,15 +211,16 @@ class CreatorItem extends React.Component {
                     </div>
                     <div className={'response-info'}>
                         <label className={'label-titel'}>Réponses</label>
-                        <button className={'btn'}>ajouter</button>
+                        <button className={'btn'} onClick={(e)=>{this.addResponse(); e.preventDefault()}}>ajouter</button>
                     </div>
                     <div className={'responses-list'}>
-                        <div className={'response'}>
-                            <button><img src={'/assets/images/cancel.png'} alt={''}/></button>
-                            <input type={'text'} maxLength={255}/>
-                            //elle est inversé
-                            <input type="checkbox" checked={true} className={'user'}/>
-                        </div>
+                        {this.state.responses && this.state.responses.map((resp)=>
+                            <div key={resp.ip} className={'response'}>
+                                <button id={'btn_'+resp.id} onClick={(e)=>{this.deleteResponse(resp.id); e.preventDefault()}}><img src={'/assets/images/cancel.png'} alt={''}/></button>
+                                <input type={'text'} value={resp.content} maxLength={255} onChange={(e)=>{this.changeContentResponseState(resp.id, e.target.value)}}/>
+                                <input type="checkbox" checked={resp.active} className={'user'} onClick={(e)=>{this.changeBtnResponseState(resp.id)}}/>
+                            </div>
+                        )}
                     </div>
                     <div className="description">
                         <label>Description</label>
@@ -173,7 +230,7 @@ class CreatorItem extends React.Component {
                         <label>Phrase de correction</label>
                         <input type={'text'} maxLength={255}/>
                     </div>
-
+                    <button type={"submit"} className={'btn saver'}>Enregistrer</button>
                 </form>
             </section>
         );
@@ -185,33 +242,40 @@ class FormaCreate extends React.Component {
         super(props);
         this.state = {
             item: [{id:0},{id:1},{id:2},{id:3},{id:4},{id:5},{id:6},{id:7},{id:8},{id:9}],
-            itemid: 1,
+            itemid: 0,
             data: true,
             cote: 0,
         }
         this.nextSlide = this.nextSlide.bind(this);
         this.prevSlide = this.prevSlide.bind(this);
+        this.addSlide = this.addSlide.bind(this);
     }
 
     nextSlide() {
-        const lastIndex = this.state.item.length;
+        const lastIndex = this.state.item.length - 1;
         const resetIndex = this.state.itemid === lastIndex;
-        const index = resetIndex ? 1 : this.state.itemid + 1;
+        const index = resetIndex ? 0 : this.state.itemid + 1;
         console.log(lastIndex, index, resetIndex)
         this.setState({
             itemid: index,
-            cote:0,
         });
     }
 
     prevSlide(){
-        const lastIndex = this.state.item.length;
+        const lastIndex = this.state.item.length -1;
         const resetIndex = this.state.itemid === 0;
         const index = resetIndex ? lastIndex : this.state.itemid - 1;
         this.setState({
             itemid: index,
-            cote:1,
         });
+    }
+
+    addSlide(){
+        var list = this.state.item;
+        list.push({
+            id:list.length
+        })
+        this.setState({item:list})
     }
 
     render() {
@@ -220,7 +284,6 @@ class FormaCreate extends React.Component {
                 <section className={'header'}>
                     <button className={'btn'}>Quitter</button>
                     <PagesTitle  title={'creer une formation'}/>
-                    <button className={'btn'}>Enregistrer</button>
                 </section>
                 <section className={'creator'}>
                     <section className={'creator-items'}>
@@ -247,7 +310,7 @@ class FormaCreate extends React.Component {
                         </div>
                         <div className={'btn-contain'}>
                             <button className={'btn'} onClick={this.prevSlide}>&lt;</button>
-                            <button className={'btn'}>Ajouter une question</button>
+                            <button className={'btn'} onClick={this.addSlide}>Ajouter une question</button>
                             <button className={'btn'} onClick={this.nextSlide}>&gt;</button>
                         </div>
                     </section>

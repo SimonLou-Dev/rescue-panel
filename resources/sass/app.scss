@@ -3227,6 +3227,10 @@ body{
                             width: 90%;
                         }
                     }
+                    .saver{
+                        grid-row: 1/2;
+                        grid-column: 7/10;
+                    }
                     .add-image{
                         grid-row: 1/5;
                         grid-column: 13/21;
@@ -3272,6 +3276,7 @@ body{
                         display: flex;
                         flex-direction: column;
                         padding: 5px;
+                        overflow-y: auto;
                         .response{
                             display: flex;
                             flex-direction: row;
@@ -3456,26 +3461,26 @@ body{
 
 @keyframes checked {
     from {
-        background-image: radial-gradient(ellipse at center, $red 0%, $red 25%, $green 25.1%, $green 100%);
+        background-image: radial-gradient(ellipse at center, $green 0%, $green 25%, $red 25.1%, $red 100%);
         background-position: 100% 50%;
     }
     to {
-        background-image: radial-gradient(ellipse at center, $red 0%, $red 25%, $green 25.1%, $green 100%);
+        background-image: radial-gradient(ellipse at center, $green 0%, $green 25%, $red 25.1%, $red 100%);
         background-position: 50% 50%;
-        box-shadow: box_glow($red_light);
+        box-shadow: box_glow($green_light);
     }
 }
 
 @keyframes unchecked {
     from {
-        background-image: radial-gradient(ellipse at center,$green 0%, $green 25%, $red 25.1%, $red 100%);
+        background-image: radial-gradient(ellipse at center,$red 0%, $red 25%, $green 25.1%, $green 100%);
         background-position: 100% 50%;
 
     }
     to {
-        background-image: radial-gradient(ellipse at center,$green 0%, $green 25%, $red 25.1%, $red 100%);
+        background-image: radial-gradient(ellipse at center,$red 0%, $red 25%, $green 25.1%, $green 100%);
         background-position: 50% 50%;
-        box-shadow: box_glow($green_light);
+        box-shadow: box_glow($red_light);
     }
 }
 
