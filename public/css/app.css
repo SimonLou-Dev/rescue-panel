@@ -3537,43 +3537,43 @@ body {
   width: 100%;
   height: 100%;
 }
-.formationCretor .creator .creator-items .creator-item form {
+.formationCretor .creator .creator-items .creator-item .questionadder {
   width: 100%;
   height: 100%;
   display: grid;
   grid-template-rows: repeat(12, 8.3%);
   grid-template-columns: repeat(20, 5%);
 }
-.formationCretor .creator .creator-items .creator-item form label {
+.formationCretor .creator .creator-items .creator-item .questionadder label {
   font-weight: 500;
   font-size: 25px;
   -webkit-text-decoration: underline #00FFFF;
           text-decoration: underline #00FFFF;
 }
-.formationCretor .creator .creator-items .creator-item form .question-title {
+.formationCretor .creator .creator-items .creator-item .questionadder .question-title {
   grid-row: 1/1;
   grid-column: 1/6;
 }
-.formationCretor .creator .creator-items .creator-item form .question-main {
+.formationCretor .creator .creator-items .creator-item .questionadder .question-main {
   grid-row: 3/5;
   grid-column: 1/10;
   display: flex;
   flex-direction: column;
 }
-.formationCretor .creator .creator-items .creator-item form .question-main input {
+.formationCretor .creator .creator-items .creator-item .questionadder .question-main input {
   width: 90%;
 }
-.formationCretor .creator .creator-items .creator-item form .saver {
+.formationCretor .creator .creator-items .creator-item .questionadder .saver {
   grid-row: 1/2;
   grid-column: 7/10;
 }
-.formationCretor .creator .creator-items .creator-item form .add-image {
+.formationCretor .creator .creator-items .creator-item .questionadder .add-image {
   grid-row: 1/5;
   grid-column: 13/21;
   overflow: hidden;
   display: flex;
 }
-.formationCretor .creator .creator-items .creator-item form .add-image .image {
+.formationCretor .creator .creator-items .creator-item .questionadder .add-image .image {
   margin: auto auto;
   width: 350px;
   height: 197.7px;
@@ -3581,32 +3581,36 @@ body {
   border-radius: 30px;
   position: relative;
   z-index: 1;
+  overflow: hidden;
 }
-.formationCretor .creator .creator-items .creator-item form .add-image .image img {
+.formationCretor .creator .creator-items .creator-item .questionadder .add-image .image img {
+  border-radius: 30px;
   z-index: 3;
+  width: 100%;
+  height: auto;
 }
-.formationCretor .creator .creator-items .creator-item form .add-image .image h3, .formationCretor .creator .creator-items .creator-item form .add-image .image input {
+.formationCretor .creator .creator-items .creator-item .questionadder .add-image .image h3, .formationCretor .creator .creator-items .creator-item .questionadder .add-image .image input {
   position: absolute;
   z-index: 2;
 }
-.formationCretor .creator .creator-items .creator-item form .add-image .image input {
-  top: 25%;
+.formationCretor .creator .creator-items .creator-item .questionadder .add-image .image input {
+  top: 50%;
   left: 20%;
   width: 200px;
 }
-.formationCretor .creator .creator-items .creator-item form .add-image .image h3 {
+.formationCretor .creator .creator-items .creator-item .questionadder .add-image .image h3 {
   top: 5%;
   left: 26%;
   width: 160px;
 }
-.formationCretor .creator .creator-items .creator-item form .response-info {
+.formationCretor .creator .creator-items .creator-item .questionadder .response-info {
   grid-row: 6/7;
   grid-column: 1/12;
   display: flex;
   flex-direction: row;
   justify-content: space-evenly;
 }
-.formationCretor .creator .creator-items .creator-item form .responses-list {
+.formationCretor .creator .creator-items .creator-item .questionadder .responses-list {
   grid-row: 7/13;
   grid-column: 1/12;
   display: flex;
@@ -3614,24 +3618,24 @@ body {
   padding: 5px;
   overflow-y: auto;
 }
-.formationCretor .creator .creator-items .creator-item form .responses-list .response {
+.formationCretor .creator .creator-items .creator-item .questionadder .responses-list .response {
   display: flex;
   flex-direction: row;
   justify-content: space-evenly;
 }
-.formationCretor .creator .creator-items .creator-item form .responses-list .response button {
+.formationCretor .creator .creator-items .creator-item .questionadder .responses-list .response button {
   background-color: transparent;
   border: none;
   cursor: pointer;
   transition: all 300ms cubic-bezier(0.28, -0.46, 0.33, 1.5);
 }
-.formationCretor .creator .creator-items .creator-item form .responses-list .response button img {
+.formationCretor .creator .creator-items .creator-item .questionadder .responses-list .response button img {
   width: 40px;
 }
-.formationCretor .creator .creator-items .creator-item form .responses-list .response button:hover {
+.formationCretor .creator .creator-items .creator-item .questionadder .responses-list .response button:hover {
   transform: rotate(20deg) scale(1.3);
 }
-.formationCretor .creator .creator-items .creator-item form .responses-list .response input[type=checkbox] {
+.formationCretor .creator .creator-items .creator-item .questionadder .responses-list .response input[type=checkbox] {
   margin: auto 0;
   --duration: .5s;
   -webkit-appearance: none;
@@ -3652,7 +3656,7 @@ body {
   -webkit-animation: var(--name, unchecked) var(--duration) ease forwards;
           animation: var(--name, unchecked) var(--duration) ease forwards;
 }
-.formationCretor .creator .creator-items .creator-item form .responses-list .response input[type=checkbox]:before, .formationCretor .creator .creator-items .creator-item form .responses-list .response input[type=checkbox]:after {
+.formationCretor .creator .creator-items .creator-item .questionadder .responses-list .response input[type=checkbox]:before, .formationCretor .creator .creator-items .creator-item .questionadder .responses-list .response input[type=checkbox]:after {
   content: "";
   position: absolute;
   width: 16px;
@@ -3662,43 +3666,46 @@ body {
   -webkit-animation: var(--name-icon-b, var(--name-icon, unchecked-icon)) var(--duration) ease forwards;
           animation: var(--name-icon-b, var(--name-icon, unchecked-icon)) var(--duration) ease forwards;
 }
-.formationCretor .creator .creator-items .creator-item form .responses-list .response input[type=checkbox]:before {
+.formationCretor .creator .creator-items .creator-item .questionadder .responses-list .response input[type=checkbox]:before {
   -webkit-clip-path: polygon(0 6px, 6px 6px, 6px 0, 10px 0, 10px 6px, 16px 6px, 16px 10px, 10px 10px, 10px 16px, 6px 16px, 6px 10px, 0 10px);
           clip-path: polygon(0 6px, 6px 6px, 6px 0, 10px 0, 10px 6px, 16px 6px, 16px 10px, 10px 10px, 10px 16px, 6px 16px, 6px 10px, 0 10px);
 }
-.formationCretor .creator .creator-items .creator-item form .responses-list .response input[type=checkbox]:after {
+.formationCretor .creator .creator-items .creator-item .questionadder .responses-list .response input[type=checkbox]:after {
   --height: 4px;
   --top: 12px;
   --background:$green;
   --name-icon-b: var(--name-icon-a, checked-icon);
 }
-.formationCretor .creator .creator-items .creator-item form .responses-list .response input[type=checkbox]:active {
+.formationCretor .creator .creator-items .creator-item .questionadder .responses-list .response input[type=checkbox]:active {
   --scale: .95;
 }
-.formationCretor .creator .creator-items .creator-item form .responses-list .response input[type=checkbox]:checked {
+.formationCretor .creator .creator-items .creator-item .questionadder .responses-list .response input[type=checkbox]:checked {
   --name: checked;
   --name-icon-b: checked-icon;
   --name-icon-a: unchecked-icon;
 }
-.formationCretor .creator .creator-items .creator-item form .description {
+.formationCretor .creator .creator-items .creator-item .questionadder .description {
   grid-row: 6/9;
   grid-column: 13/21;
   display: flex;
   flex-direction: column;
 }
-.formationCretor .creator .creator-items .creator-item form .description textarea {
+.formationCretor .creator .creator-items .creator-item .questionadder .description textarea {
   width: 90%;
   margin: 0 auto;
 }
-.formationCretor .creator .creator-items .creator-item form .correction {
+.formationCretor .creator .creator-items .creator-item .questionadder .correction {
   grid-row: 10/12;
   grid-column: 13/21;
   display: flex;
   flex-direction: column;
 }
-.formationCretor .creator .creator-items .creator-item form .correction input {
+.formationCretor .creator .creator-items .creator-item .questionadder .correction input {
   width: 90%;
   margin: 0 auto;
+}
+.formationCretor .creator .creator-items .creator-item .infos {
+  overflow-y: scroll;
 }
 .formationCretor .creator .creator-items .hidden {
   -webkit-animation: slideOut 500ms ease-in-out forwards;
@@ -3723,7 +3730,7 @@ body {
   flex-direction: row;
   flex-wrap: wrap;
   max-height: 100%;
-  overflow-y: hidden;
+  overflow-y: auto;
 }
 .formationCretor .creator .creator-bottom .items-list .bottom-item {
   height: 15px;
@@ -3739,7 +3746,7 @@ body {
   display: flex;
   flex-direction: row;
   justify-content: space-evenly;
-  width: 40%;
+  width: 50%;
 }
 
 @-webkit-keyframes slideIn {

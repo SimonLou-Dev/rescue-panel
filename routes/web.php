@@ -117,7 +117,7 @@ Route::put('/data/formations/admin/{formation_id}/visibylity', [\App\Http\Contro
 Route::post('/data/formations/admin/post', [\App\Http\Controllers\FormationController::class, 'postFormation']);
 Route::put('/data/formations/admin/{formation_id}/update', [\App\Http\Controllers\FormationController::class, 'updateFormation']);
 Route::delete('/data/formations/admin/{formation_id}/delete', [\App\Http\Controllers\FormationController::class, 'deleteFormationById']);
-Route::post('/data/formations/admin/question/post', [\App\Http\Controllers\FormationController::class, 'addQuestion']);
+Route::post('/data/formations/{formation_id}/admin/question/post', [\App\Http\Controllers\FormationController::class, 'addQuestion']);
 Route::put('/data/formations/admin/question/{question_id}/update', [\App\Http\Controllers\FormationController::class, 'updateQuestion']);
 Route::delete('/data/formations/admin/question/{question_id}/delete', [\App\Http\Controllers\FormationController::class, 'deleteQuestion']);
 Route::get('/data/formations/get', [\App\Http\Controllers\FormationController::class, 'getFormations']);

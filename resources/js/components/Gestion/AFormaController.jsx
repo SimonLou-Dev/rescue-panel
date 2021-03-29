@@ -126,9 +126,10 @@ class CreatorItem extends React.Component {
     constructor(props) {
         super(props);
         this.state= {
-            img: '',
+            img: null,
             responses: [],
             lasresponseid: 0,
+            image: '',
         }
         this.addResponse = this.addResponse.bind(this)
         this.deleteResponse = this.deleteResponse.bind(this)
@@ -187,11 +188,22 @@ class CreatorItem extends React.Component {
         this.setState({responses:array})
     }
 
+    componentDidMount() {
+        window.addEventListener("saveAll", this.save);
+    }
+
+    async save() {
+        var req = await axios({
+            method: 'post',
+
+        })
+    }
+
 
     render() {
         return (
             <section id={'page_'+this.props.id} className={'creator-item ' + (this.props.current ? 'current' : 'hidden')}>
-                <form>
+                <form className={'questionadder'}>
                     <div className="question-title">
                         <h1>Question n°{this.props.id}</h1>
                     </div>
@@ -201,12 +213,19 @@ class CreatorItem extends React.Component {
                     </div>
                     <div className={'add-image'}>
                         <div className={'image'}>
-                            {//this.state.img &&
+                            {this.state.img &&
+                                <img alt={""} src={this.state.image}/>
                             }
                             {!this.state.img &&
                                 <h3>ajouter une image</h3>
                             }
-                            <input type={'file'}/>
+                            <input accept={["image/jpeg", "image/png"]} type={"file"} onChange={(e)=>{
+                                const file = e.target.files[0]
+                                this.setState({img:file});
+                                console.log(file)
+                                let src = URL.createObjectURL(file)
+                                this.setState({image:src});
+                            }}/>
                         </div>
                     </div>
                     <div className={'response-info'}>
@@ -241,14 +260,18 @@ class FormaCreate extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            item: [{id:0},{id:1},{id:2},{id:3},{id:4},{id:5},{id:6},{id:7},{id:8},{id:9}],
+            item: [{id:0}],
+            formationid: null,
             itemid: 0,
             data: true,
-            cote: 0,
+            time: false,
+            unic_try: false,
+            retry_soon: true,
         }
         this.nextSlide = this.nextSlide.bind(this);
         this.prevSlide = this.prevSlide.bind(this);
         this.addSlide = this.addSlide.bind(this);
+        this.save = this.save.bind(this);
     }
 
     nextSlide() {
@@ -271,11 +294,23 @@ class FormaCreate extends React.Component {
     }
 
     addSlide(){
-        var list = this.state.item;
-        list.push({
-            id:list.length
-        })
-        this.setState({item:list})
+        if(this.state.formationid){
+            var list = this.state.item;
+            list.push({
+                id:list.length
+            })
+            this.setState({item:list})
+        }else{
+            //make
+        }
+    }
+
+    componentDidMount() {
+        window.addEventListener("saveAll", this.save);
+    }
+
+    save(){
+        //make
     }
 
     render() {
@@ -284,6 +319,7 @@ class FormaCreate extends React.Component {
                 <section className={'header'}>
                     <button className={'btn'}>Quitter</button>
                     <PagesTitle  title={'creer une formation'}/>
+                    <button className={'btn'} disabled={this.state.formationid ? false : true} onClick={()=>{window.dispatchEvent(new CustomEvent("saveAll", {}))}}>Enregistrer</button>
                 </section>
                 <section className={'creator'}>
                     <section className={'creator-items'}>
@@ -295,9 +331,91 @@ class FormaCreate extends React.Component {
                             </section>
                         }
                         {this.state.data&&
-                            <section id={'page_0'} className={'creator-item ' + (this.state.itemid ===0 ? 'current' : 'hidden')}> page_0</section>
+                            <section id={'page_0'} className={'creator-item ' + (this.state.itemid ===0 ? 'current' : 'hidden')}>
+                                <form className={'infos'}>
+                                    <div className={'name'}>
+                                        <label>nom de la formation</label>
+                                        <input type={'text'}/>
+                                    </div>
+                                    <div className="time">
+                                        <label>Temps </label>
+                                        <input type={'checkbox'}/>
+                                        {this.state.time&&
+                                            <div className={'time-data'}>
+                                                <div className={'t-q-t-switch'}>
+                                                    <label className={'item disabled'}>total</label>
+                                                    <label className={'item'}>question</label>
+                                                </div>
+                                                <input type={'time'}/>
+                                            </div>
+                                        }
+                                    </div>
+                                    <div className="image">
+                                        {this.state.img &&
+                                        <img alt={""} src={this.state.image}/>
+                                        }
+                                        {!this.state.img &&
+                                        <h3>ajouter une image</h3>
+                                        }
+                                        <input accept={["image/jpeg", "image/png"]} type={"file"} onChange={(e)=>{
+                                            const file = e.target.files[0]
+                                            this.setState({img:file});
+                                            console.log(file)
+                                            let src = URL.createObjectURL(file)
+                                            this.setState({image:src});
+                                        }}/>
+                                    </div>
+                                    <div className="desc">
+                                        <label>Description :</label>
+                                        <textarea/>
+                                    </div>
+                                    <div className="correction">
+                                        <label>correction</label>
+                                        <input type={'checkbox'}/>
+                                    </div>
+                                    <div className="try">
+                                        <label>Essai unique</label>
+                                        <input type={'checkbox'}/>
+                                        {!this.state.unic_try &&
+                                            <div className="try-data">
+                                                <div className="max-try">
+                                                    <label>Nombre d'essay max</label>
+                                                    <input type={'number'} placeholder={'0 pour infini'}/>
+                                                </div>
+                                                <div className="btwtry">
+                                                    <label>Temps entre chaque essai</label>
+                                                    <input type={'checkbox'}/>
+                                                    {this.state.retry_soon&&
+                                                        <div className={'time-btw-try'}>
+                                                            <input type={'text'} placeholder={'jj hh'}/>
+                                                        </div>
+                                                    }
+                                                </div>
+                                            </div>
+                                        }
+                                    </div>
+                                    <div className="infos">
+                                        <div className="item">
+                                            <label>Correction</label>
+                                            <input type={'checkbox'}/>
+                                        </div>
+                                        <div className="item">
+                                            <label>Donner la certification</label>
+                                            <input type={'checkbox'}/>
+                                        </div>
+                                        <div className="item">
+                                            <label>Enregistrer à la déconnexion</label>
+                                            <input type={'checkbox'}/>
+                                        </div>
+                                        <div className="item">
+                                            <label>Afficher le score à la fin</label>
+                                            <input type={'checkbox'}/>
+                                        </div>
+                                    </div>
+                                </form>
+                            </section>
                         }
-                        {this.state.data && this.state.item.map((it)=>
+                        {this.state.data && this.state.formationid && this.state.item.map((it)=>
                            it.id !== 0 &&
                               <CreatorItem key={it.id} id={it.id} current={it.id === this.state.itemid}/>
                         ) }
@@ -309,9 +427,9 @@ class FormaCreate extends React.Component {
                             )}
                         </div>
                         <div className={'btn-contain'}>
-                            <button className={'btn'} onClick={this.prevSlide}>&lt;</button>
+                            <button className={'btn'} disabled={this.state.formationid ? false : true} onClick={this.prevSlide}>&lt;</button>
                             <button className={'btn'} onClick={this.addSlide}>Ajouter une question</button>
-                            <button className={'btn'} onClick={this.nextSlide}>&gt;</button>
+                            <button className={'btn'} disabled={this.state.formationid ? false : true} onClick={this.nextSlide}>&gt;</button>
                         </div>
                     </section>
                 </section>
