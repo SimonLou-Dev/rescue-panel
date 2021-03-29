@@ -139,7 +139,7 @@ a {
   position: -webkit-sticky;
   position: sticky;
   bottom: 0;
-  border-top: 1px #0C2646 solid;
+  border-top: 1px #0c2646 solid;
   display: flex;
   flex-direction: row;
   flex-wrap: nowrap;
@@ -151,7 +151,7 @@ a {
 }
 .TableBottom .searsh input {
   margin: auto 20px;
-  background-color: #0C2646;
+  background-color: #0c2646;
 }
 .TableBottom .pages {
   display: flex;
@@ -160,7 +160,7 @@ a {
   padding-right: 30px;
 }
 .TableBottom .pages button {
-  background-color: #0C2646;
+  background-color: #0c2646;
   border-radius: 20px;
   font-size: 30px;
   font-weight: 700;
@@ -182,7 +182,7 @@ a {
 }
 
 .title-contain {
-  background-color: #0C2646;
+  background-color: #0c2646;
   border-radius: 30px;
   padding: 5px;
 }
@@ -250,13 +250,13 @@ a {
   content: "OUI";
   padding-left: 20px;
   background-color: #2DF037;
-  color: #0C2646;
+  color: #0c2646;
 }
 .onoffswitch .onoffswitch-inner:after {
   content: "NON";
   padding-right: 20px;
   background-color: #DB1B1B;
-  color: #0C2646;
+  color: #0c2646;
   text-align: right;
 }
 .onoffswitch .onoffswitch-switch {
@@ -325,7 +325,7 @@ a {
   margin-bottom: 0;
 }
 .notifications-component .notification-container--top-right .notification .notification__item .notification__content .notification__timer {
-  background-color: #0C2646;
+  background-color: #0c2646;
   width: 100%;
   margin-top: 10px;
   border-radius: 20px;
@@ -482,7 +482,7 @@ body {
 }
 
 .menu-content {
-  background-color: #0C2646;
+  background-color: #0c2646;
   width: 270px;
   position: fixed;
   margin-left: 0;
@@ -620,7 +620,7 @@ body {
   .close .closed-menu {
     position: fixed;
     border-radius: 0 0 30px 0;
-    background-color: #0C2646;
+    background-color: #0c2646;
     padding: 10px 12px 12px 10px;
   }
   .close .closed-menu button {
@@ -733,7 +733,7 @@ body {
   padding: 30px;
 }
 #Main-Page .Personnel_service {
-  background-color: #0C2646;
+  background-color: #0c2646;
   width: 100%;
   height: 250px;
   border-radius: 30px;
@@ -746,7 +746,7 @@ body {
 }
 #Main-Page .Annonces {
   margin-top: 35px;
-  background-color: #0C2646;
+  background-color: #0c2646;
   width: 100%;
   min-height: 200px;
   border-radius: 30px;
@@ -841,7 +841,7 @@ body {
   width: 100%;
 }
 #Rapport-Patient .Header .Title {
-  background-color: #0C2646;
+  background-color: #0c2646;
   border-radius: 30px;
   padding: 20px;
 }
@@ -853,7 +853,7 @@ body {
 }
 #Rapport-Patient .Header .pdf {
   margin-top: 15px;
-  background-color: #0C2646;
+  background-color: #0c2646;
   border-radius: 30px;
   padding: 10px;
   height: -webkit-min-content;
@@ -867,7 +867,7 @@ body {
   font-weight: 700;
 }
 #Rapport-Patient .Header .submit {
-  background-color: #0C2646;
+  background-color: #0c2646;
   border-radius: 30px;
   padding: 10px 15px;
   display: flex;
@@ -904,7 +904,7 @@ body {
   display: flex;
   flex-direction: column;
   padding: 15px;
-  background-color: #0C2646;
+  background-color: #0c2646;
   border-radius: 30px;
   width: -webkit-fit-content;
   width: -moz-fit-content;
@@ -1062,7 +1062,7 @@ body {
   cursor: pointer;
   margin: 10px auto;
   padding: 10px;
-  background-color: #0C2646;
+  background-color: #0c2646;
   border-radius: 30px;
   min-width: 500px;
   max-width: 600px;
@@ -1070,7 +1070,7 @@ body {
   display: flex;
   flex-direction: column;
   z-index: 1;
-  border: #0C2646 1px solid;
+  border: #0c2646 1px solid;
   transition: all 400ms;
 }
 .BC-Container .BC-base .contain .BC-List .card h3, .BC-Container .BC-base .contain .BC-List .card h4 {
@@ -1128,7 +1128,7 @@ body {
 .BC-Container .popup .popup-content {
   margin: auto 0;
   padding: 25px;
-  background-color: #0C2646;
+  background-color: #0c2646;
   border: 1px #004662 solid;
   border-radius: 30px;
 }
@@ -1209,7 +1209,7 @@ body {
 }
 .BC-Container .BC-View .left .header .btn-contain .bgforbtn, .BC-Container .BC-Last .left .header .btn-contain .bgforbtn {
   width: 250px;
-  background-color: #0C2646;
+  background-color: #0c2646;
   padding-bottom: 17px;
   display: flex;
   border-radius: 0 0 30px 30px;
@@ -1220,7 +1220,7 @@ body {
 .BC-Container .BC-View .left .header .btn-contain .bgforquibtn, .BC-Container .BC-Last .left .header .btn-contain .bgforquibtn {
   margin-right: 5px;
   width: 250px;
-  background-color: #0C2646;
+  background-color: #0c2646;
   padding-bottom: 17px;
   display: flex;
   border-radius: 0 0 30px 30px;
@@ -1245,7 +1245,7 @@ body {
   margin: 15px auto;
   height: 475px;
   border-radius: 30px;
-  background-color: #0C2646;
+  background-color: #0c2646;
 }
 .BC-Container .BC-View .left .addpatient form, .BC-Container .BC-Last .left .addpatient form {
   width: 100%;
@@ -1285,7 +1285,7 @@ body {
   margin: 15px auto;
   height: 475px;
   border-radius: 30px;
-  background-color: #0C2646;
+  background-color: #0c2646;
 }
 .BC-Container .BC-View .left .infos h2, .BC-Container .BC-Last .left .infos h2 {
   margin-top: 5px;
@@ -1301,7 +1301,7 @@ body {
   margin: 15px auto;
   height: 200px;
   border-radius: 30px;
-  background-color: #0C2646;
+  background-color: #0c2646;
   overflow-y: scroll;
   display: flex;
   flex-direction: row;
@@ -1332,7 +1332,7 @@ body {
   height: 90%;
   margin: auto;
   flex-direction: column;
-  background-color: #0C2646;
+  background-color: #0c2646;
   border-radius: 30px;
 }
 .BC-Container .BC-View .list-container .list-content h1, .BC-Container .BC-Last .list-container .list-content h1 {
@@ -1449,7 +1449,7 @@ body {
   padding: 10px;
   height: calc(100vh - 170px);
   border-radius: 30px;
-  background-color: #0C2646;
+  background-color: #0c2646;
 }
 @media (max-width: 1600px) {
   .RecherchePatient .PatientRechercheContent .PatientInfos {
@@ -1700,7 +1700,7 @@ body {
   height: calc(100vh - 170px);
   overflow-y: auto;
   border-radius: 30px;
-  background-color: #0C2646;
+  background-color: #0c2646;
   overflow-x: hidden;
   display: flex;
   flex-direction: column;
@@ -1748,7 +1748,7 @@ body {
 }
 .RecherchePatient .PatientRechercheContent .Recherche .Interventions h3 {
   margin: 10px auto;
-  background-color: #0C2646;
+  background-color: #0c2646;
   font-size: 25px;
   font-weight: 700;
   padding: 5px 10px;
@@ -1833,7 +1833,7 @@ body {
   width: 800px;
   border-collapse: collapse;
   border-radius: 30px;
-  background-color: #0C2646;
+  background-color: #0c2646;
   display: block;
   height: 300px;
   overflow-y: scroll;
@@ -1899,7 +1899,7 @@ body {
   height: 300px;
   border-collapse: collapse;
   border-radius: 30px;
-  background-color: #0C2646;
+  background-color: #0c2646;
 }
 .Services .week-list table tr {
   border: black 1px solid;
@@ -1952,7 +1952,7 @@ body {
 .impayes .header .pdf_Generator {
   margin: auto 0;
   padding: 15px;
-  background-color: #0C2646;
+  background-color: #0c2646;
   border-radius: 30px;
 }
 .impayes .header .pdf_Generator form {
@@ -1975,7 +1975,7 @@ body {
   display: flex;
   height: 80vh;
   width: 80%;
-  background-color: #0C2646;
+  background-color: #0c2646;
   overflow-y: auto;
   border-radius: 30px;
   padding-bottom: 10px;
@@ -2052,7 +2052,7 @@ body {
   margin: auto;
   width: 700px;
   height: 300px;
-  background-color: #0C2646;
+  background-color: #0c2646;
   border: 1px solid #00FFFF;
   box-shadow: 0 0 15px 0px #00FFFF;
   border-radius: 30px;
@@ -2101,7 +2101,7 @@ body {
   margin: auto 0;
 }
 .RapportHorraire .header .semaine-select form {
-  background-color: #0C2646;
+  background-color: #0c2646;
   border-radius: 30px;
   padding: 10px;
   display: flex;
@@ -2120,7 +2120,7 @@ body {
   margin: 25px auto;
   height: 80vh;
   width: 90%;
-  background-color: #0C2646;
+  background-color: #0c2646;
   border-radius: 30px;
   overflow-y: scroll;
   overflow-x: hidden;
@@ -2219,7 +2219,7 @@ body {
   width: 400px;
   margin: 20px;
   height: 500px;
-  background-color: #0C2646;
+  background-color: #0c2646;
   border-radius: 30px;
   padding: 10px;
   display: flex;
@@ -2386,7 +2386,7 @@ body {
 }
 .PersonnelList .list-personnel {
   margin: 10px auto;
-  background-color: #0C2646;
+  background-color: #0c2646;
   border-radius: 30px;
   width: 90%;
   height: calc(100vh - 151px);
@@ -2484,7 +2484,7 @@ body {
 }
 .Login .Form, .Register .Form {
   margin: auto auto;
-  background-color: #0C2646;
+  background-color: #0c2646;
   border-radius: 30px;
   padding: 10px;
 }
@@ -2519,7 +2519,7 @@ body {
 }
 .maintenance .card {
   margin: auto auto;
-  background-color: #0C2646;
+  background-color: #0c2646;
   border-radius: 30px;
   padding: 10px;
   display: flex;
@@ -2577,7 +2577,7 @@ body {
 }
 .remboursement .MainContainer .selector button {
   border: none;
-  background-color: #0C2646;
+  background-color: #0c2646;
   font-size: 28px;
   font-family: "Baloo Thambi 2", monospace;
   color: #00FFFF;
@@ -2597,7 +2597,7 @@ body {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  background-color: #0C2646;
+  background-color: #0c2646;
   border-radius: 30px;
 }
 .remboursement .MainContainer .myview .add {
@@ -2662,7 +2662,7 @@ body {
 .remboursement .MainContainer .adminview {
   display: flex;
   flex-direction: column;
-  background-color: #0C2646;
+  background-color: #0c2646;
   border-radius: 30px;
   width: 100%;
   height: calc(100vh - 250px);
@@ -2754,7 +2754,7 @@ body {
 .Logs .header .logs-select {
   display: flex;
   padding: 7px 20px;
-  background-color: #0C2646;
+  background-color: #0c2646;
   border-radius: 30px;
 }
 .Logs .header .logs-select select {
@@ -2763,7 +2763,7 @@ body {
 .Logs .log-list {
   margin: 0 auto;
   height: calc(100vh - 250px);
-  background-color: #0C2646;
+  background-color: #0c2646;
   border-radius: 30px;
   width: 90%;
   padding: 10px;
@@ -2866,7 +2866,7 @@ body {
 .BugRepport .Repport-Card {
   margin: auto;
   width: 40%;
-  background-color: #0C2646;
+  background-color: #0c2646;
   border-radius: 30px;
   border: 1px solid #00FFFF;
   padding: 20px;
@@ -2909,7 +2909,7 @@ body {
 }
 .livret-page .livret {
   margin: auto auto;
-  background-color: #0C2646;
+  background-color: #0c2646;
   border-radius: 30px;
   height: calc(100vh - 200px);
   width: 90%;
@@ -3025,7 +3025,7 @@ body {
   height: calc(100vh - 200px);
   width: 90%;
   margin: 0 auto;
-  background-color: #0C2646;
+  background-color: #0c2646;
   border-radius: 30px;
 }
 .responsepage .responsecontent form {
@@ -3186,7 +3186,7 @@ body {
 }
 .moncompte .account-container .header button {
   border: none;
-  background-color: #0C2646;
+  background-color: #0c2646;
   font-size: 28px;
   font-family: "Baloo Thambi 2", monospace;
   color: #00FFFF;
@@ -3211,7 +3211,7 @@ body {
 .moncompte .account-container .acc-content {
   height: calc(100vh - 340px);
   border-radius: 30px;
-  background-color: #0C2646;
+  background-color: #0c2646;
   display: flex;
   flex-direction: row;
   flex-wrap: nowrap;
@@ -3316,7 +3316,7 @@ body {
   height: calc(100vh - 300px);
   width: 90%;
   border-radius: 30px;
-  background-color: #0C2646;
+  background-color: #0c2646;
   overflow-y: scroll;
 }
 .perm .content .tablecontainer table {
@@ -3405,7 +3405,7 @@ body {
 .carnetvol .table-container {
   height: calc(100vh - 200px);
   overflow-y: scroll;
-  background-color: #0C2646;
+  background-color: #0c2646;
   border-radius: 30px;
   margin: 0 auto;
   width: 90%;
@@ -3462,7 +3462,7 @@ body {
   width: 90%;
   max-width: 550px;
   height: 350px;
-  background-color: #0C2646;
+  background-color: #0c2646;
   border-radius: 30px;
   border: 1px #00FFFF solid;
 }
@@ -3513,7 +3513,7 @@ body {
 .formationCretor .creator {
   height: calc(100vh - 170px);
   width: 90%;
-  background-color: #0C2646;
+  background-color: #0c2646;
   border-radius: 30px;
   margin: 0 auto;
   display: flex;
@@ -3705,7 +3705,188 @@ body {
   margin: 0 auto;
 }
 .formationCretor .creator .creator-items .creator-item .infos {
-  overflow-y: scroll;
+  width: 100%;
+  height: 100%;
+  display: grid;
+  grid-template-rows: repeat(20, 5%);
+  grid-template-columns: repeat(20, 5%);
+}
+.formationCretor .creator .creator-items .creator-item .infos label {
+  font-weight: 500;
+  font-size: 25px;
+  -webkit-text-decoration: underline #00FFFF;
+          text-decoration: underline #00FFFF;
+}
+.formationCretor .creator .creator-items .creator-item .infos .row {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+}
+.formationCretor .creator .creator-items .creator-item .infos .rowed {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+.formationCretor .creator .creator-items .creator-item .infos .item-hidden {
+  -webkit-animation: toTop 500ms ease-in-out forwards;
+          animation: toTop 500ms ease-in-out forwards;
+}
+.formationCretor .creator .creator-items .creator-item .infos .item-current {
+  -webkit-animation: fromTop 500ms ease-in-out forwards;
+          animation: fromTop 500ms ease-in-out forwards;
+}
+.formationCretor .creator .creator-items .creator-item .infos .name {
+  grid-row: 1/4;
+  grid-column: 1/10;
+  display: flex;
+  flex-direction: column;
+}
+.formationCretor .creator .creator-items .creator-item .infos .time {
+  grid-row: 5/10;
+  grid-column: 1/10;
+  -webkit-animation: slideIn 500ms ease-in-out forwards;
+          animation: slideIn 500ms ease-in-out forwards;
+}
+.formationCretor .creator .creator-items .creator-item .infos .time .rowed {
+  z-index: 2;
+  background-color: #0c2646;
+  position: relative;
+}
+.formationCretor .creator .creator-items .creator-item .infos .time .time-data-container {
+  margin-top: 20px;
+  height: -webkit-max-content;
+  height: -moz-max-content;
+  height: max-content;
+  overflow: hidden;
+}
+.formationCretor .creator .creator-items .creator-item .infos .time .time-data-container .time-data {
+  margin: auto 0;
+}
+.formationCretor .creator .creator-items .creator-item .infos .time .time-data-container .time-data .t-q-t-switch {
+  width: 250px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  background-color: #004662;
+  border-radius: 30px;
+  overflow: hidden;
+  height: 70px;
+}
+.formationCretor .creator .creator-items .creator-item .infos .time .time-data-container .time-data .t-q-t-switch .item {
+  margin: auto 0;
+  text-decoration: none;
+  color: #38c172;
+  text-shadow: 0 0 30px #00FF00;
+  line-height: 65px;
+  background-color: #0c2646;
+  padding: 0 15px;
+  border-radius: 30px;
+  transition: all 300ms ease-in-out;
+}
+.formationCretor .creator .creator-items .creator-item .infos .time .time-data-container .time-data .t-q-t-switch .disabled {
+  color: #303030;
+  text-shadow: none;
+  cursor: pointer;
+}
+.formationCretor .creator .creator-items .creator-item .infos .time .time-data-container input {
+  margin: auto 0;
+}
+.formationCretor .creator .creator-items .creator-item .infos .try {
+  grid-row: 10/18;
+  grid-column: 1/10;
+}
+.formationCretor .creator .creator-items .creator-item .infos .try .try-data-container {
+  padding-left: 30px;
+  margin-top: 20px;
+  height: -webkit-max-content;
+  height: -moz-max-content;
+  height: max-content;
+  overflow: hidden;
+}
+.formationCretor .creator .creator-items .creator-item .infos .try .try-data-container label {
+  text-decoration: none;
+}
+.formationCretor .creator .creator-items .creator-item .infos .try .try-data-container .btwtry {
+  display: flex;
+  flex-direction: column;
+}
+.formationCretor .creator .creator-items .creator-item .infos .try .try-data-container .btwtry .pilote-btn {
+  margin: auto 0;
+}
+.formationCretor .creator .creator-items .creator-item .infos .try .try-data-container .btwtry input[type=text] {
+  width: 150px;
+}
+.formationCretor .creator .creator-items .creator-item .infos .correction {
+  grid-row: 19/21;
+  grid-column: 1/10;
+}
+.formationCretor .creator .creator-items .creator-item .infos .correction .pilote-btn {
+  margin: auto 0;
+}
+.formationCretor .creator .creator-items .creator-item .infos .correction label {
+  margin: auto 0;
+}
+.formationCretor .creator .creator-items .creator-item .infos .image {
+  grid-row: 1/7;
+  grid-column: 11/20;
+  overflow: hidden;
+  display: flex;
+}
+.formationCretor .creator .creator-items .creator-item .infos .image .add-image {
+  margin: auto auto;
+  width: 350px;
+  height: 197.7px;
+  background-color: #004662;
+  border-radius: 30px;
+  position: relative;
+  z-index: 1;
+  overflow: hidden;
+}
+.formationCretor .creator .creator-items .creator-item .infos .image .add-image img {
+  border-radius: 30px;
+  z-index: 3;
+  width: 100%;
+  height: auto;
+}
+.formationCretor .creator .creator-items .creator-item .infos .image .add-image h3, .formationCretor .creator .creator-items .creator-item .infos .image .add-image input {
+  position: absolute;
+  z-index: 2;
+}
+.formationCretor .creator .creator-items .creator-item .infos .image .add-image input {
+  top: 50%;
+  left: 20%;
+  width: 200px;
+}
+.formationCretor .creator .creator-items .creator-item .infos .image .add-image h3 {
+  top: 5%;
+  left: 26%;
+  width: 160px;
+}
+.formationCretor .creator .creator-items .creator-item .infos .desc {
+  grid-row: 7/12;
+  grid-column: 11/20;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+.formationCretor .creator .creator-items .creator-item .infos .desc textarea {
+  width: 100%;
+}
+.formationCretor .creator .creator-items .creator-item .infos .infos {
+  grid-row: 13/20;
+  grid-column: 11/20;
+  display: flex;
+  height: 100%;
+  flex-direction: column;
+  justify-content: space-evenly;
+}
+.formationCretor .creator .creator-items .creator-item .infos .infos label {
+  text-decoration: none;
+}
+.formationCretor .creator .creator-items .creator-item .infos .infos .pilote-btn {
+  margin: auto 0;
 }
 .formationCretor .creator .creator-items .hidden {
   -webkit-animation: slideOut 500ms ease-in-out forwards;
@@ -3882,5 +4063,55 @@ body {
     background-image: radial-gradient(ellipse at center, #e3342f 0%, #e3342f 25%, #38c172 25.1%, #38c172 100%);
     background-position: 50% 50%;
     box-shadow: 0 0 20px 7px #FF0000;
+  }
+}
+@-webkit-keyframes fromTop {
+  0% {
+    visibility: hidden;
+    transform: translateY(-100%);
+  }
+  1% {
+    visibility: visible;
+  }
+  100% {
+    transform: translateY(0%);
+  }
+}
+@keyframes fromTop {
+  0% {
+    visibility: hidden;
+    transform: translateY(-100%);
+  }
+  1% {
+    visibility: visible;
+  }
+  100% {
+    transform: translateY(0%);
+  }
+}
+@-webkit-keyframes toTop {
+  0% {
+    visibility: visible;
+    transform: translateY(0%);
+  }
+  99% {
+    visibility: hidden;
+  }
+  100% {
+    visibility: hidden;
+    transform: translateY(-100%);
+  }
+}
+@keyframes toTop {
+  0% {
+    visibility: visible;
+    transform: translateY(0%);
+  }
+  99% {
+    visibility: hidden;
+  }
+  100% {
+    visibility: hidden;
+    transform: translateY(-100%);
   }
 }

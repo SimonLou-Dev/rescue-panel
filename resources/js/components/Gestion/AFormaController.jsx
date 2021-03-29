@@ -267,6 +267,13 @@ class FormaCreate extends React.Component {
             time: false,
             unic_try: false,
             retry_soon: true,
+            total: true,
+            question :false,
+            img:null,
+            correction:true,
+            getcertif: true,
+            saveondeco: true,
+            getfinalnote: false,
         }
         this.nextSlide = this.nextSlide.bind(this);
         this.prevSlide = this.prevSlide.bind(this);
@@ -338,78 +345,140 @@ class FormaCreate extends React.Component {
                                         <input type={'text'}/>
                                     </div>
                                     <div className="time">
-                                        <label>Temps </label>
-                                        <input type={'checkbox'}/>
-                                        {this.state.time&&
-                                            <div className={'time-data'}>
+                                        <div className={'rowed'}>
+                                            <label>Temps </label>
+                                            <div className={'pilote-btn'}>
+                                                <input type="checkbox" checked={this.state.time} id={"time_switch"} onChange={()=>{
+                                                    this.setState({time: !this.state.time});
+                                                }}/>
+                                                <div>
+                                                    <label htmlFor={"time_switch"}/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div className={'time-data-container'}>
+                                            <div className={'row time-data ' + (this.state.time ? 'item-current' : 'item-hidden')}>
                                                 <div className={'t-q-t-switch'}>
-                                                    <label className={'item disabled'}>total</label>
-                                                    <label className={'item'}>question</label>
+                                                    <label className={'item ' + (this.state.total ? '' :'disabled')} onClick={()=>{
+                                                        if(!this.state.total){
+                                                            this.setState({total:true, question:false})
+                                                        }
+                                                    }}>total</label>
+                                                    <label className={'item ' + (this.state.question ? '' :'disabled')} onClick={()=>{
+                                                        if(!this.state.question){
+                                                            this.setState({question:true, total:false})
+                                                        }
+                                                    }}>question</label>
                                                 </div>
                                                 <input type={'time'}/>
                                             </div>
-                                        }
+                                        </div>
+
                                     </div>
                                     <div className="image">
-                                        {this.state.img &&
-                                        <img alt={""} src={this.state.image}/>
-                                        }
-                                        {!this.state.img &&
-                                        <h3>ajouter une image</h3>
-                                        }
-                                        <input accept={["image/jpeg", "image/png"]} type={"file"} onChange={(e)=>{
-                                            const file = e.target.files[0]
-                                            this.setState({img:file});
-                                            console.log(file)
-                                            let src = URL.createObjectURL(file)
-                                            this.setState({image:src});
-                                        }}/>
+                                        <div className={'add-image'}>
+                                            {this.state.img &&
+                                            <img alt={""} src={this.state.image}/>
+                                            }
+                                            {!this.state.img &&
+                                            <h3>ajouter une image</h3>
+                                            }
+                                            <input accept={["image/jpeg", "image/png"]} type={"file"} onChange={(e)=>{
+                                                const file = e.target.files[0]
+                                                this.setState({img:file});
+                                                console.log(file)
+                                                let src = URL.createObjectURL(file)
+                                                this.setState({image:src});
+                                            }}/>
+                                        </div>
                                     </div>
                                     <div className="desc">
                                         <label>Description :</label>
                                         <textarea/>
                                     </div>
-                                    <div className="correction">
+                                    <div className="correction rowed">
                                         <label>correction</label>
-                                        <input type={'checkbox'}/>
+                                        <div className={'pilote-btn'}>
+                                            <input type="checkbox" checked={this.state.correction} id={"correct_switch"} onChange={()=>{
+                                                this.setState({correction: !this.state.correction});
+                                            }}/>
+                                            <div>
+                                                <label htmlFor={"correct_switch"}/>
+                                            </div>
+                                        </div>
                                     </div>
                                     <div className="try">
-                                        <label>Essai unique</label>
-                                        <input type={'checkbox'}/>
-                                        {!this.state.unic_try &&
-                                            <div className="try-data">
+                                        <div className={'rowed'}>
+                                            <label>Essai unique</label>
+                                            <div className={'pilote-btn'}>
+                                                <input type="checkbox" checked={this.state.unic_try} id={"unic_switch"} onChange={()=>{
+                                                    this.setState({unic_try: !this.state.unic_try});
+                                                }}/>
+                                                <div>
+                                                    <label htmlFor={"unic_switch"}/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div className={'try-data-container'}>
+                                            <div className={"try-data " + (!this.state.unic_try ? 'item-current' : 'item-hidden')}>
                                                 <div className="max-try">
-                                                    <label>Nombre d'essay max</label>
+                                                    <label>Nombre d'essai max</label>
                                                     <input type={'number'} placeholder={'0 pour infini'}/>
                                                 </div>
                                                 <div className="btwtry">
                                                     <label>Temps entre chaque essai</label>
-                                                    <input type={'checkbox'}/>
-                                                    {this.state.retry_soon&&
+                                                    <div className={'row'}>
+                                                        <div className={'pilote-btn'}>
+                                                            <input type="checkbox" checked={this.state.retry_soon} id={"time_btw_try_switch"} onChange={()=>{
+                                                                this.setState({retry_soon: !this.state.retry_soon});
+                                                            }}/>
+                                                            <div>
+                                                                <label htmlFor={"time_btw_try_switch"}/>
+                                                            </div>
+                                                        </div>
+                                                        {this.state.retry_soon&&
                                                         <div className={'time-btw-try'}>
                                                             <input type={'text'} placeholder={'jj hh'}/>
                                                         </div>
-                                                    }
+                                                        }
+                                                    </div>
                                                 </div>
                                             </div>
-                                        }
+                                        </div>
                                     </div>
                                     <div className="infos">
-                                        <div className="item">
-                                            <label>Correction</label>
-                                            <input type={'checkbox'}/>
-                                        </div>
-                                        <div className="item">
+                                        <div className="rowed">
                                             <label>Donner la certification</label>
-                                            <input type={'checkbox'}/>
+                                            <div className={'pilote-btn'}>
+                                                <input type="checkbox" checked={this.state.getcertif} id={"certif_switch"} onChange={()=>{
+                                                    this.setState({getcertif: !this.state.getcertif});
+                                                }}/>
+                                                <div>
+                                                    <label htmlFor={"certif_switch"}/>
+                                                </div>
+                                            </div>
                                         </div>
-                                        <div className="item">
+                                        <div className="rowed">
                                             <label>Enregistrer à la déconnexion</label>
-                                            <input type={'checkbox'}/>
+                                            <div className={'pilote-btn'}>
+                                                <input type="checkbox" checked={this.state.saveondeco} id={"deco_switch"} onChange={()=>{
+                                                    this.setState({saveondeco: !this.state.saveondeco});
+                                                }}/>
+                                                <div>
+                                                    <label htmlFor={"deco_switch"}/>
+                                                </div>
+                                            </div>
                                         </div>
-                                        <div className="item">
+                                        <div className="rowed">
                                             <label>Afficher le score à la fin</label>
-                                            <input type={'checkbox'}/>
+                                            <div className={'pilote-btn'}>
+                                                <input type="checkbox" checked={this.state.getfinalnote} id={"final_switch"} onChange={()=>{
+                                                    this.setState({getfinalnote: !this.state.getfinalnote});
+                                                }}/>
+                                                <div>
+                                                    <label htmlFor={"final_switch"}/>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </form>
