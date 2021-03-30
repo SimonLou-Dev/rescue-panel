@@ -77,7 +77,7 @@ class Login extends React.Component {
         if(!this.state.error){
             var email = this.state.email;
             var psw = this.state.psw;
-            const req = await axios({
+            var req = await axios({
                 method: 'post',
                 url: 'data/login',
                 data: {

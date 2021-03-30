@@ -3892,9 +3892,15 @@ body {
   -webkit-animation: slideOut 500ms ease-in-out forwards;
           animation: slideOut 500ms ease-in-out forwards;
 }
+.formationCretor .creator .creator-items .hidden .time, .formationCretor .creator .creator-items .hidden .try {
+  visibility: hidden !important;
+}
 .formationCretor .creator .creator-items .current {
   -webkit-animation: slideIn 500ms ease-in-out forwards;
           animation: slideIn 500ms ease-in-out forwards;
+}
+.formationCretor .creator .creator-items .current .time, .formationCretor .creator .creator-items .current .try {
+  visibility: visible;
 }
 .formationCretor .creator .creator-bottom {
   width: 100%;

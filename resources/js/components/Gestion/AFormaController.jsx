@@ -1,5 +1,6 @@
 import React from 'react';
 import PagesTitle from "../props/utils/PagesTitle";
+import axios from "axios";
 
 class FormaUserList extends React.Component {
     render() {
@@ -260,6 +261,7 @@ class FormaCreate extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
+            updated: true,
             item: [{id:0}],
             formationid: null,
             itemid: 0,
@@ -274,6 +276,11 @@ class FormaCreate extends React.Component {
             getcertif: true,
             saveondeco: true,
             getfinalnote: false,
+            name: '',
+            time_str: '',
+            desc:'',
+            max_try: '',
+            time_btw: '',
         }
         this.nextSlide = this.nextSlide.bind(this);
         this.prevSlide = this.prevSlide.bind(this);
@@ -301,14 +308,14 @@ class FormaCreate extends React.Component {
     }
 
     addSlide(){
+        var list = this.state.item;
         if(this.state.formationid){
-            var list = this.state.item;
             list.push({
                 id:list.length
             })
             this.setState({item:list})
         }else{
-            //make
+            this.save(true)
         }
     }
 
@@ -316,8 +323,70 @@ class FormaCreate extends React.Component {
         window.addEventListener("saveAll", this.save);
     }
 
-    save(){
-        //make
+    /*
+     * bool correction
+     * string desc
+     * bool certif
+     * bool finalnote
+     * file img
+     * int max_try
+     * string name
+     * bool time
+     * bool total (timed)
+     * bool question (timed)
+     * string time_str
+     * bool unic_try
+     * bool time_btw
+     * string time_btw_str
+     * bool unic_try
+     */
+
+    async save(add = null){
+
+        if(this.state.updated){
+           var req = await axios({
+                url: '/data/formations/admin/post',
+                method: 'post',
+                data: {
+                    correction: this.state.correction,
+                    desc: this.state.desc,
+                    name: this.state.name,
+                    certif: this.state.getcertif,
+                    finalnote: this.state.getfinalnote,
+                    img: this.state.img,
+                    max_try: this.state.max_try,
+                    time: this.state.time,
+                    total: this.state.total,
+                    question: this.state.question,
+                    time_str: this.state.time_str,
+                    time_btw: this.state.retry_soon,
+                    time_btw_str: this.state.time_btw,
+                    unic_try: this.state.unic_try,
+                    save: this.state.saveondeco,
+                }
+            })
+            console.log(req)
+            if(req.status === 201){
+                this.setState({updated:false, formationid: req.data.formation.id})
+                if(add){
+                    var list = this.state.item;
+                    list.push({
+                        id:list.length
+                    })
+                    this.setState({item:list})
+                }
+            }
+        }
+    }
+
+    createImage(file) {
+        let reader = new FileReader();
+        reader.onload = (e) => {
+            this.setState({
+                img: e.target.result
+            })
+        };
+        reader.readAsDataURL(file);
     }
 
     render() {
@@ -339,17 +408,21 @@ class FormaCreate extends React.Component {
                         }
                         {this.state.data&&
                             <section id={'page_0'} className={'creator-item ' + (this.state.itemid ===0 ? 'current' : 'hidden')}>
-                                <form className={'infos'}>
+                                <form className={'infos'} onSubmit={(e)=>{
+                                e.preventDefault()
+                                this.save();
+                                }
+                                }>
                                     <div className={'name'}>
                                         <label>nom de la formation</label>
-                                        <input type={'text'}/>
+                                        <input required type={'text'} value={this.state.name} onChange={(e)=>this.setState({name:e.target.value, updated:true})}/>
                                     </div>
                                     <div className="time">
                                         <div className={'rowed'}>
                                             <label>Temps </label>
                                             <div className={'pilote-btn'}>
                                                 <input type="checkbox" checked={this.state.time} id={"time_switch"} onChange={()=>{
-                                                    this.setState({time: !this.state.time});
+                                                    this.setState({time: !this.state.time, updated:true});
                                                 }}/>
                                                 <div>
                                                     <label htmlFor={"time_switch"}/>
@@ -361,16 +434,16 @@ class FormaCreate extends React.Component {
                                                 <div className={'t-q-t-switch'}>
                                                     <label className={'item ' + (this.state.total ? '' :'disabled')} onClick={()=>{
                                                         if(!this.state.total){
-                                                            this.setState({total:true, question:false})
+                                                            this.setState({total:true, question:false, updated:true})
                                                         }
                                                     }}>total</label>
                                                     <label className={'item ' + (this.state.question ? '' :'disabled')} onClick={()=>{
                                                         if(!this.state.question){
-                                                            this.setState({question:true, total:false})
+                                                            this.setState({question:true, total:false, updated:true})
                                                         }
                                                     }}>question</label>
                                                 </div>
-                                                <input type={'time'}/>
+                                                <input type={'time'} value={this.state.time_str} onChange={(e)=>this.setState({time_str:e.target.value, updated:true})}/>
                                             </div>
                                         </div>
 
@@ -381,26 +454,25 @@ class FormaCreate extends React.Component {
                                             <img alt={""} src={this.state.image}/>
                                             }
                                             {!this.state.img &&
-                                            <h3>ajouter une image</h3>
+                                            <h3>ajouter une image 960x540</h3>
                                             }
                                             <input accept={["image/jpeg", "image/png"]} type={"file"} onChange={(e)=>{
-                                                const file = e.target.files[0]
-                                                this.setState({img:file});
-                                                console.log(file)
+                                                let file = e.target.files[0];
+                                                this.createImage(file)
                                                 let src = URL.createObjectURL(file)
-                                                this.setState({image:src});
+                                                this.setState({image:src, updated:true});
                                             }}/>
                                         </div>
                                     </div>
                                     <div className="desc">
                                         <label>Description :</label>
-                                        <textarea/>
+                                        <textarea required value={this.state.desc} onChange={(e)=>this.setState({desc:e.target.value, updated:true})}/>
                                     </div>
                                     <div className="correction rowed">
                                         <label>correction</label>
                                         <div className={'pilote-btn'}>
                                             <input type="checkbox" checked={this.state.correction} id={"correct_switch"} onChange={()=>{
-                                                this.setState({correction: !this.state.correction});
+                                                this.setState({correction: !this.state.correction, updated:true});
                                             }}/>
                                             <div>
                                                 <label htmlFor={"correct_switch"}/>
@@ -412,7 +484,7 @@ class FormaCreate extends React.Component {
                                             <label>Essai unique</label>
                                             <div className={'pilote-btn'}>
                                                 <input type="checkbox" checked={this.state.unic_try} id={"unic_switch"} onChange={()=>{
-                                                    this.setState({unic_try: !this.state.unic_try});
+                                                    this.setState({unic_try: !this.state.unic_try, updated:true});
                                                 }}/>
                                                 <div>
                                                     <label htmlFor={"unic_switch"}/>
@@ -423,14 +495,14 @@ class FormaCreate extends React.Component {
                                             <div className={"try-data " + (!this.state.unic_try ? 'item-current' : 'item-hidden')}>
                                                 <div className="max-try">
                                                     <label>Nombre d'essai max</label>
-                                                    <input type={'number'} placeholder={'0 pour infini'}/>
+                                                    <input type={'number'} placeholder={'0 pour infini'} value={this.state.max_try} onChange={(e)=>this.setState({max_try:e.target.value, updated:true})}/>
                                                 </div>
                                                 <div className="btwtry">
                                                     <label>Temps entre chaque essai</label>
                                                     <div className={'row'}>
                                                         <div className={'pilote-btn'}>
                                                             <input type="checkbox" checked={this.state.retry_soon} id={"time_btw_try_switch"} onChange={()=>{
-                                                                this.setState({retry_soon: !this.state.retry_soon});
+                                                                this.setState({retry_soon: !this.state.retry_soon, updated:true});
                                                             }}/>
                                                             <div>
                                                                 <label htmlFor={"time_btw_try_switch"}/>
@@ -438,7 +510,7 @@ class FormaCreate extends React.Component {
                                                         </div>
                                                         {this.state.retry_soon&&
                                                         <div className={'time-btw-try'}>
-                                                            <input type={'text'} placeholder={'jj hh'}/>
+                                                            <input type={'text'} placeholder={'jj hh'} value={this.state.time_btw} onChange={(e)=>this.setState({time_btw:e.target.value, updated:true})}/>
                                                         </div>
                                                         }
                                                     </div>
@@ -451,7 +523,7 @@ class FormaCreate extends React.Component {
                                             <label>Donner la certification</label>
                                             <div className={'pilote-btn'}>
                                                 <input type="checkbox" checked={this.state.getcertif} id={"certif_switch"} onChange={()=>{
-                                                    this.setState({getcertif: !this.state.getcertif});
+                                                    this.setState({getcertif: !this.state.getcertif, updated:true});
                                                 }}/>
                                                 <div>
                                                     <label htmlFor={"certif_switch"}/>
@@ -462,7 +534,7 @@ class FormaCreate extends React.Component {
                                             <label>Enregistrer à la déconnexion</label>
                                             <div className={'pilote-btn'}>
                                                 <input type="checkbox" checked={this.state.saveondeco} id={"deco_switch"} onChange={()=>{
-                                                    this.setState({saveondeco: !this.state.saveondeco});
+                                                    this.setState({saveondeco: !this.state.saveondeco, updated:true});
                                                 }}/>
                                                 <div>
                                                     <label htmlFor={"deco_switch"}/>
@@ -473,7 +545,7 @@ class FormaCreate extends React.Component {
                                             <label>Afficher le score à la fin</label>
                                             <div className={'pilote-btn'}>
                                                 <input type="checkbox" checked={this.state.getfinalnote} id={"final_switch"} onChange={()=>{
-                                                    this.setState({getfinalnote: !this.state.getfinalnote});
+                                                    this.setState({getfinalnote: !this.state.getfinalnote, updated:true});
                                                 }}/>
                                                 <div>
                                                     <label htmlFor={"final_switch"}/>
@@ -497,7 +569,7 @@ class FormaCreate extends React.Component {
                         </div>
                         <div className={'btn-contain'}>
                             <button className={'btn'} disabled={this.state.formationid ? false : true} onClick={this.prevSlide}>&lt;</button>
-                            <button className={'btn'} onClick={this.addSlide}>Ajouter une question</button>
+                            <button className={'btn'}  onClick={this.addSlide}>Ajouter une question</button>
                             <button className={'btn'} disabled={this.state.formationid ? false : true} onClick={this.nextSlide}>&gt;</button>
                         </div>
                     </section>

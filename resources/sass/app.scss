@@ -3549,9 +3549,15 @@ body{
             }
             .hidden{
                 animation: slideOut 500ms ease-in-out forwards;
+                .time, .try{
+                    visibility: hidden !important;
+                }
             }
             .current{
                 animation: slideIn 500ms ease-in-out forwards;
+                .time, .try{
+                    visibility: visible;
+                }
             }
 
         }
