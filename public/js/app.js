@@ -2772,7 +2772,13 @@ var CreatorItem = /*#__PURE__*/function (_React$Component3) {
       img: null,
       responses: [],
       lasresponseid: 0,
-      image: ''
+      image: '',
+      formationid: null,
+      updated: false,
+      text: "",
+      desc: '',
+      correction: '',
+      needcorect: false
     };
     _this3.addResponse = _this3.addResponse.bind(_assertThisInitialized(_this3));
     _this3.deleteResponse = _this3.deleteResponse.bind(_assertThisInitialized(_this3));
@@ -2815,7 +2821,8 @@ var CreatorItem = /*#__PURE__*/function (_React$Component3) {
 
       array.splice(obj, 1);
       this.setState({
-        responses: array
+        responses: array,
+        updated: true
       });
     }
   }, {
@@ -2834,7 +2841,8 @@ var CreatorItem = /*#__PURE__*/function (_React$Component3) {
       }
 
       this.setState({
-        responses: array
+        responses: array,
+        updated: true
       });
     }
   }, {
@@ -2853,7 +2861,8 @@ var CreatorItem = /*#__PURE__*/function (_React$Component3) {
       }
 
       this.setState({
-        responses: array
+        responses: array,
+        updated: true
       });
     }
   }, {
@@ -2870,20 +2879,43 @@ var CreatorItem = /*#__PURE__*/function (_React$Component3) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                _context.next = 2;
+                if (!this.state.formationid) {
+                  _context.next = 7;
+                  break;
+                }
+
+                if (!this.state.updated) {
+                  _context.next = 5;
+                  break;
+                }
+
+                _context.next = 4;
                 return axios__WEBPACK_IMPORTED_MODULE_4___default()({
-                  method: 'post'
+                  method: 'POST'
                 });
 
-              case 2:
+              case 4:
                 req = _context.sent;
 
-              case 3:
+              case 5:
+                _context.next = 10;
+                break;
+
+              case 7:
+                _context.next = 9;
+                return axios__WEBPACK_IMPORTED_MODULE_4___default()({
+                  method: 'PUT'
+                });
+
+              case 9:
+                req = _context.sent;
+
+              case 10:
               case "end":
                 return _context.stop();
             }
           }
-        }, _callee);
+        }, _callee, this);
       }));
 
       function save() {
@@ -2893,9 +2925,24 @@ var CreatorItem = /*#__PURE__*/function (_React$Component3) {
       return save;
     }()
   }, {
+    key: "createImage",
+    value: function createImage(file) {
+      var _this4 = this;
+
+      var reader = new FileReader();
+
+      reader.onload = function (e) {
+        _this4.setState({
+          img: e.target.result
+        });
+      };
+
+      reader.readAsDataURL(file);
+    }
+  }, {
     key: "render",
     value: function render() {
-      var _this4 = this;
+      var _this5 = this;
 
       return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("section", {
         id: 'page_' + this.props.id,
@@ -2913,7 +2960,14 @@ var CreatorItem = /*#__PURE__*/function (_React$Component3) {
               children: "Question"
             }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("input", {
               type: 'text',
-              maxLength: 255
+              maxLength: 255,
+              value: this.state.text,
+              onChange: function onChange(e) {
+                _this5.setState({
+                  text: e.target.value,
+                  updated: true
+                });
+              }
             })]
           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
             className: 'add-image',
@@ -2923,22 +2977,20 @@ var CreatorItem = /*#__PURE__*/function (_React$Component3) {
                 alt: "",
                 src: this.state.image
               }), !this.state.img && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("h3", {
-                children: "ajouter une image"
+                children: "ajouter une image 960x540"
               }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("input", {
                 accept: ["image/jpeg", "image/png"],
                 type: "file",
                 onChange: function onChange(e) {
                   var file = e.target.files[0];
 
-                  _this4.setState({
-                    img: file
-                  });
+                  _this5.createImage(file);
 
-                  console.log(file);
                   var src = URL.createObjectURL(file);
 
-                  _this4.setState({
-                    image: src
+                  _this5.setState({
+                    image: src,
+                    updated: true
                   });
                 }
               })]
@@ -2951,7 +3003,7 @@ var CreatorItem = /*#__PURE__*/function (_React$Component3) {
             }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("button", {
               className: 'btn',
               onClick: function onClick(e) {
-                _this4.addResponse();
+                _this5.addResponse();
 
                 e.preventDefault();
               },
@@ -2965,7 +3017,7 @@ var CreatorItem = /*#__PURE__*/function (_React$Component3) {
                 children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("button", {
                   id: 'btn_' + resp.id,
                   onClick: function onClick(e) {
-                    _this4.deleteResponse(resp.id);
+                    _this5.deleteResponse(resp.id);
 
                     e.preventDefault();
                   },
@@ -2978,14 +3030,14 @@ var CreatorItem = /*#__PURE__*/function (_React$Component3) {
                   value: resp.content,
                   maxLength: 255,
                   onChange: function onChange(e) {
-                    _this4.changeContentResponseState(resp.id, e.target.value);
+                    _this5.changeContentResponseState(resp.id, e.target.value);
                   }
                 }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("input", {
                   type: "checkbox",
                   checked: resp.active,
                   className: 'user',
                   onClick: function onClick(e) {
-                    _this4.changeBtnResponseState(resp.id);
+                    _this5.changeBtnResponseState(resp.id);
                   }
                 })]
               }, resp.ip);
@@ -2994,19 +3046,30 @@ var CreatorItem = /*#__PURE__*/function (_React$Component3) {
             className: "description",
             children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("label", {
               children: "Description"
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("textarea", {})]
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("textarea", {
+              value: this.state.desc,
+              onChange: function onChange(e) {
+                _this5.setState({
+                  desc: e.target.value,
+                  updated: true
+                });
+              }
+            })]
           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
             className: "correction",
             children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("label", {
               children: "Phrase de correction"
             }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("input", {
               type: 'text',
-              maxLength: 255
+              maxLength: 255,
+              value: this.state.correction,
+              onChange: function onChange(e) {
+                _this5.setState({
+                  correction: e.target.value,
+                  updated: true
+                });
+              }
             })]
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("button", {
-            type: "submit",
-            className: 'btn saver',
-            children: "Enregistrer"
           })]
         })
       });
@@ -3022,12 +3085,12 @@ var FormaCreate = /*#__PURE__*/function (_React$Component4) {
   var _super4 = _createSuper(FormaCreate);
 
   function FormaCreate(props) {
-    var _this5;
+    var _this6;
 
     _classCallCheck(this, FormaCreate);
 
-    _this5 = _super4.call(this, props);
-    _this5.state = {
+    _this6 = _super4.call(this, props);
+    _this6.state = {
       updated: true,
       item: [{
         id: 0
@@ -3051,11 +3114,11 @@ var FormaCreate = /*#__PURE__*/function (_React$Component4) {
       max_try: '',
       time_btw: ''
     };
-    _this5.nextSlide = _this5.nextSlide.bind(_assertThisInitialized(_this5));
-    _this5.prevSlide = _this5.prevSlide.bind(_assertThisInitialized(_this5));
-    _this5.addSlide = _this5.addSlide.bind(_assertThisInitialized(_this5));
-    _this5.save = _this5.save.bind(_assertThisInitialized(_this5));
-    return _this5;
+    _this6.nextSlide = _this6.nextSlide.bind(_assertThisInitialized(_this6));
+    _this6.prevSlide = _this6.prevSlide.bind(_assertThisInitialized(_this6));
+    _this6.addSlide = _this6.addSlide.bind(_assertThisInitialized(_this6));
+    _this6.save = _this6.save.bind(_assertThisInitialized(_this6));
+    return _this6;
   }
 
   _createClass(FormaCreate, [{
@@ -3132,8 +3195,8 @@ var FormaCreate = /*#__PURE__*/function (_React$Component4) {
               case 0:
                 add = _args2.length > 0 && _args2[0] !== undefined ? _args2[0] : null;
 
-                if (!this.state.updated) {
-                  _context2.next = 7;
+                if (!(this.state.formationid === null)) {
+                  _context2.next = 8;
                   break;
                 }
 
@@ -3162,7 +3225,6 @@ var FormaCreate = /*#__PURE__*/function (_React$Component4) {
 
               case 4:
                 req = _context2.sent;
-                console.log(req);
 
                 if (req.status === 201) {
                   this.setState({
@@ -3176,12 +3238,32 @@ var FormaCreate = /*#__PURE__*/function (_React$Component4) {
                       id: list.length
                     });
                     this.setState({
-                      item: list
+                      item: list,
+                      updated: false
                     });
                   }
                 }
 
-              case 7:
+                _context2.next = 12;
+                break;
+
+              case 8:
+                if (!this.state.updated) {
+                  _context2.next = 12;
+                  break;
+                }
+
+                _context2.next = 11;
+                return axios__WEBPACK_IMPORTED_MODULE_4___default()({
+                  method: 'POST',
+                  url: '',
+                  data: {}
+                });
+
+              case 11:
+                req = _context2.sent;
+
+              case 12:
               case "end":
                 return _context2.stop();
             }
@@ -3198,12 +3280,12 @@ var FormaCreate = /*#__PURE__*/function (_React$Component4) {
   }, {
     key: "createImage",
     value: function createImage(file) {
-      var _this6 = this;
+      var _this7 = this;
 
       var reader = new FileReader();
 
       reader.onload = function (e) {
-        _this6.setState({
+        _this7.setState({
           img: e.target.result
         });
       };
@@ -3213,7 +3295,7 @@ var FormaCreate = /*#__PURE__*/function (_React$Component4) {
   }, {
     key: "render",
     value: function render() {
-      var _this7 = this;
+      var _this8 = this;
 
       return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
         className: "formationCretor",
@@ -3253,7 +3335,7 @@ var FormaCreate = /*#__PURE__*/function (_React$Component4) {
                 onSubmit: function onSubmit(e) {
                   e.preventDefault();
 
-                  _this7.save();
+                  _this8.save();
                 },
                 children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
                   className: 'name',
@@ -3264,7 +3346,7 @@ var FormaCreate = /*#__PURE__*/function (_React$Component4) {
                     type: 'text',
                     value: this.state.name,
                     onChange: function onChange(e) {
-                      return _this7.setState({
+                      return _this8.setState({
                         name: e.target.value,
                         updated: true
                       });
@@ -3283,8 +3365,8 @@ var FormaCreate = /*#__PURE__*/function (_React$Component4) {
                         checked: this.state.time,
                         id: "time_switch",
                         onChange: function onChange() {
-                          _this7.setState({
-                            time: !_this7.state.time,
+                          _this8.setState({
+                            time: !_this8.state.time,
                             updated: true
                           });
                         }
@@ -3303,8 +3385,8 @@ var FormaCreate = /*#__PURE__*/function (_React$Component4) {
                         children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("label", {
                           className: 'item ' + (this.state.total ? '' : 'disabled'),
                           onClick: function onClick() {
-                            if (!_this7.state.total) {
-                              _this7.setState({
+                            if (!_this8.state.total) {
+                              _this8.setState({
                                 total: true,
                                 question: false,
                                 updated: true
@@ -3315,8 +3397,8 @@ var FormaCreate = /*#__PURE__*/function (_React$Component4) {
                         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("label", {
                           className: 'item ' + (this.state.question ? '' : 'disabled'),
                           onClick: function onClick() {
-                            if (!_this7.state.question) {
-                              _this7.setState({
+                            if (!_this8.state.question) {
+                              _this8.setState({
                                 question: true,
                                 total: false,
                                 updated: true
@@ -3329,7 +3411,7 @@ var FormaCreate = /*#__PURE__*/function (_React$Component4) {
                         type: 'time',
                         value: this.state.time_str,
                         onChange: function onChange(e) {
-                          return _this7.setState({
+                          return _this8.setState({
                             time_str: e.target.value,
                             updated: true
                           });
@@ -3352,11 +3434,11 @@ var FormaCreate = /*#__PURE__*/function (_React$Component4) {
                       onChange: function onChange(e) {
                         var file = e.target.files[0];
 
-                        _this7.createImage(file);
+                        _this8.createImage(file);
 
                         var src = URL.createObjectURL(file);
 
-                        _this7.setState({
+                        _this8.setState({
                           image: src,
                           updated: true
                         });
@@ -3371,7 +3453,7 @@ var FormaCreate = /*#__PURE__*/function (_React$Component4) {
                     required: true,
                     value: this.state.desc,
                     onChange: function onChange(e) {
-                      return _this7.setState({
+                      return _this8.setState({
                         desc: e.target.value,
                         updated: true
                       });
@@ -3388,8 +3470,8 @@ var FormaCreate = /*#__PURE__*/function (_React$Component4) {
                       checked: this.state.correction,
                       id: "correct_switch",
                       onChange: function onChange() {
-                        _this7.setState({
-                          correction: !_this7.state.correction,
+                        _this8.setState({
+                          correction: !_this8.state.correction,
                           updated: true
                         });
                       }
@@ -3412,8 +3494,8 @@ var FormaCreate = /*#__PURE__*/function (_React$Component4) {
                         checked: this.state.unic_try,
                         id: "unic_switch",
                         onChange: function onChange() {
-                          _this7.setState({
-                            unic_try: !_this7.state.unic_try,
+                          _this8.setState({
+                            unic_try: !_this8.state.unic_try,
                             updated: true
                           });
                         }
@@ -3436,7 +3518,7 @@ var FormaCreate = /*#__PURE__*/function (_React$Component4) {
                           placeholder: '0 pour infini',
                           value: this.state.max_try,
                           onChange: function onChange(e) {
-                            return _this7.setState({
+                            return _this8.setState({
                               max_try: e.target.value,
                               updated: true
                             });
@@ -3455,8 +3537,8 @@ var FormaCreate = /*#__PURE__*/function (_React$Component4) {
                               checked: this.state.retry_soon,
                               id: "time_btw_try_switch",
                               onChange: function onChange() {
-                                _this7.setState({
-                                  retry_soon: !_this7.state.retry_soon,
+                                _this8.setState({
+                                  retry_soon: !_this8.state.retry_soon,
                                   updated: true
                                 });
                               }
@@ -3472,7 +3554,7 @@ var FormaCreate = /*#__PURE__*/function (_React$Component4) {
                               placeholder: 'jj hh',
                               value: this.state.time_btw,
                               onChange: function onChange(e) {
-                                return _this7.setState({
+                                return _this8.setState({
                                   time_btw: e.target.value,
                                   updated: true
                                 });
@@ -3496,8 +3578,8 @@ var FormaCreate = /*#__PURE__*/function (_React$Component4) {
                         checked: this.state.getcertif,
                         id: "certif_switch",
                         onChange: function onChange() {
-                          _this7.setState({
-                            getcertif: !_this7.state.getcertif,
+                          _this8.setState({
+                            getcertif: !_this8.state.getcertif,
                             updated: true
                           });
                         }
@@ -3518,8 +3600,8 @@ var FormaCreate = /*#__PURE__*/function (_React$Component4) {
                         checked: this.state.saveondeco,
                         id: "deco_switch",
                         onChange: function onChange() {
-                          _this7.setState({
-                            saveondeco: !_this7.state.saveondeco,
+                          _this8.setState({
+                            saveondeco: !_this8.state.saveondeco,
                             updated: true
                           });
                         }
@@ -3540,8 +3622,8 @@ var FormaCreate = /*#__PURE__*/function (_React$Component4) {
                         checked: this.state.getfinalnote,
                         id: "final_switch",
                         onChange: function onChange() {
-                          _this7.setState({
-                            getfinalnote: !_this7.state.getfinalnote,
+                          _this8.setState({
+                            getfinalnote: !_this8.state.getfinalnote,
                             updated: true
                           });
                         }
@@ -3557,7 +3639,7 @@ var FormaCreate = /*#__PURE__*/function (_React$Component4) {
             }), this.state.data && this.state.formationid && this.state.item.map(function (it) {
               return it.id !== 0 && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)(CreatorItem, {
                 id: it.id,
-                current: it.id === _this7.state.itemid
+                current: it.id === _this8.state.itemid
               }, it.id);
             })]
           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("section", {
@@ -3567,7 +3649,7 @@ var FormaCreate = /*#__PURE__*/function (_React$Component4) {
               children: this.state.item.map(function (it) {
                 return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
                   id: 'page_' + it.id,
-                  className: 'bottom-item' + (it.id === _this7.state.itemid ? ' active' : '')
+                  className: 'bottom-item' + (it.id === _this8.state.itemid ? ' active' : '')
                 }, it.id);
               })
             }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
@@ -3603,27 +3685,27 @@ var AFormaController = /*#__PURE__*/function (_React$Component5) {
   var _super5 = _createSuper(AFormaController);
 
   function AFormaController(props) {
-    var _this8;
+    var _this9;
 
     _classCallCheck(this, AFormaController);
 
-    _this8 = _super5.call(this, props);
-    _this8.state = {
+    _this9 = _super5.call(this, props);
+    _this9.state = {
       status: 2
     };
-    return _this8;
+    return _this9;
   }
 
   _createClass(AFormaController, [{
     key: "render",
     value: function render() {
-      var _this9 = this;
+      var _this10 = this;
 
       switch (this.state.status) {
         case 0:
           return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)(FormaUserList, {
             change: function change(page) {
-              return _this9.setState({
+              return _this10.setState({
                 status: page
               });
             }
@@ -3632,7 +3714,7 @@ var AFormaController = /*#__PURE__*/function (_React$Component5) {
         case 1:
           return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)(FormaList, {
             change: function change(page) {
-              return _this9.setState({
+              return _this10.setState({
                 status: page
               });
             }
@@ -3641,7 +3723,7 @@ var AFormaController = /*#__PURE__*/function (_React$Component5) {
         case 2:
           return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)(FormaCreate, {
             change: function change(page) {
-              return _this9.setState({
+              return _this10.setState({
                 status: page
               });
             }
@@ -5211,7 +5293,7 @@ var PersonnelList = /*#__PURE__*/function (_React$Component) {
                 })
               }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("tbody", {
                 children: this.state.userlist && this.state.userlist.map(function (user) {
-                  return user.grade < 10 && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_props_Gestion_Personnel_PersonnelLine__WEBPACK_IMPORTED_MODULE_4__.default, {
+                  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_props_Gestion_Personnel_PersonnelLine__WEBPACK_IMPORTED_MODULE_4__.default, {
                     id: user.id,
                     name: user.name,
                     grade: user.grade,

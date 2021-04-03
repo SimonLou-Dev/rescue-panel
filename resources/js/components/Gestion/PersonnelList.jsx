@@ -49,8 +49,7 @@ class PersonnelList extends React.Component {
                                 <tbody>
                                     {this.state.userlist &&
                                         this.state.userlist.map((user)=>
-                                            user.grade < 10 &&
-                                                <PersonnelLine id={user.id} key={user.id} name={user.name} grade={user.grade} update={this.componentDidMount}/>
+                                            <PersonnelLine id={user.id} key={user.id} name={user.name} grade={user.grade} update={this.componentDidMount}/>
                                         )
 
                                     }

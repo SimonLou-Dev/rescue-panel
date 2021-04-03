@@ -79,6 +79,7 @@ class FormationController extends Controller
         $save = (bool) $request->save;
         $time_btw = (bool) $request->time_btw;
         $time_btw_str = (string) $request->time_btw_str;
+
         if($unic_try){
             $time_btw = false;
             $time_btw_str= null;
@@ -103,7 +104,6 @@ class FormationController extends Controller
         $imgname = time() . '.' . explode('/', explode(':', substr($img, 0, strpos($img, ';')))[1])[1];
         $path = "/storage/formations/front_img/";
 
-
         $formation = new Formation();
         //infos bloballes
         $formation->name = $name;
@@ -112,7 +112,6 @@ class FormationController extends Controller
         $formation->desc = $desc;
         $formation->image = $imgname;
         //essai
-        $formation->max_try = $max_try;
         $formation->unic_try = $unic_try;
         $formation->can_retry_later = $time_btw;
         $formation->try = $max_try;

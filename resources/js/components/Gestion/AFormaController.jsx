@@ -131,6 +131,12 @@ class CreatorItem extends React.Component {
             responses: [],
             lasresponseid: 0,
             image: '',
+            formationid: null,
+            updated: false,
+            text: "",
+            desc: '',
+            correction: '',
+            needcorect: false,
         }
         this.addResponse = this.addResponse.bind(this)
         this.deleteResponse = this.deleteResponse.bind(this)
@@ -150,6 +156,7 @@ class CreatorItem extends React.Component {
         this.setState({responses: resp, lasresponseid: id})
 
     }
+
     deleteResponse(id){
         let array = this.state.responses;
         let lenght = array.length;
@@ -162,8 +169,9 @@ class CreatorItem extends React.Component {
             a++;
         }
         array.splice(obj,1);
-        this.setState({responses:array})
+        this.setState({responses:array, updated:true})
     }
+
     changeBtnResponseState(id){
         let array = this.state.responses;
         let lenght = array.length;
@@ -174,8 +182,9 @@ class CreatorItem extends React.Component {
             }
             a++;
         }
-        this.setState({responses:array})
+        this.setState({responses:array, updated:true})
     }
+
     changeContentResponseState(id, content){
         let array = this.state.responses;
         let lenght = array.length;
@@ -186,7 +195,7 @@ class CreatorItem extends React.Component {
             }
             a++;
         }
-        this.setState({responses:array})
+        this.setState({responses:array, updated:true})
     }
 
     componentDidMount() {
@@ -194,12 +203,30 @@ class CreatorItem extends React.Component {
     }
 
     async save() {
-        var req = await axios({
-            method: 'post',
+        if(this.state.formationid){
+            if(this.state.updated){
+                var req = await axios({
+                    method: 'POST',
 
-        })
+                })
+            }
+        }else{
+            var req = await axios({
+                method: 'PUT',
+
+            })
+        }
     }
 
+    createImage(file) {
+        let reader = new FileReader();
+        reader.onload = (e) => {
+            this.setState({
+                img: e.target.result
+            })
+        };
+        reader.readAsDataURL(file);
+    }
 
     render() {
         return (
@@ -210,22 +237,21 @@ class CreatorItem extends React.Component {
                     </div>
                     <div className={'question-main'}>
                         <label>Question</label>
-                        <input type={'text'} maxLength={255}/>
+                        <input type={'text'} maxLength={255} value={this.state.text} onChange={(e)=>{this.setState({text: e.target.value, updated:true})}}/>
                     </div>
                     <div className={'add-image'}>
                         <div className={'image'}>
                             {this.state.img &&
-                                <img alt={""} src={this.state.image}/>
+                            <img alt={""} src={this.state.image}/>
                             }
                             {!this.state.img &&
-                                <h3>ajouter une image</h3>
+                            <h3>ajouter une image 960x540</h3>
                             }
                             <input accept={["image/jpeg", "image/png"]} type={"file"} onChange={(e)=>{
-                                const file = e.target.files[0]
-                                this.setState({img:file});
-                                console.log(file)
+                                let file = e.target.files[0];
+                                this.createImage(file)
                                 let src = URL.createObjectURL(file)
-                                this.setState({image:src});
+                                this.setState({image:src, updated:true});
                             }}/>
                         </div>
                     </div>
@@ -244,13 +270,12 @@ class CreatorItem extends React.Component {
                     </div>
                     <div className="description">
                         <label>Description</label>
-                        <textarea />
+                        <textarea value={this.state.desc} onChange={(e)=> {this.setState({desc:e.target.value, updated:true})}}/>
                     </div>
                     <div className="correction">
                         <label>Phrase de correction</label>
-                        <input type={'text'} maxLength={255}/>
+                        <input type={'text'} maxLength={255} value={this.state.correction} onChange={(e)=> {this.setState({correction:e.target.value, updated:true})}}/>
                     </div>
-                    <button type={"submit"} className={'btn saver'}>Enregistrer</button>
                 </form>
             </section>
         );
@@ -342,9 +367,8 @@ class FormaCreate extends React.Component {
      */
 
     async save(add = null){
-
-        if(this.state.updated){
-           var req = await axios({
+        if(this.state.formationid === null ){
+            var req = await axios({
                 url: '/data/formations/admin/post',
                 method: 'post',
                 data: {
@@ -365,7 +389,6 @@ class FormaCreate extends React.Component {
                     save: this.state.saveondeco,
                 }
             })
-            console.log(req)
             if(req.status === 201){
                 this.setState({updated:false, formationid: req.data.formation.id})
                 if(add){
@@ -373,9 +396,18 @@ class FormaCreate extends React.Component {
                     list.push({
                         id:list.length
                     })
-                    this.setState({item:list})
+                    this.setState({item:list, updated:false})
                 }
             }
+
+        }else if(this.state.updated){
+            var req = await axios({
+                method: 'POST',
+                url: '',
+                data: {
+
+                }
+            })
         }
     }
 
