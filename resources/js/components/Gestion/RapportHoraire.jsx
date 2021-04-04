@@ -15,6 +15,10 @@ class RapportHoraire extends React.Component {
             maxwwek: 0,
             wek: 0,
             data:false,
+            name: '',
+            namelist:[],
+            action: 0,
+            time: '',
         }
         this.update = this.update.bind(this);
         this.submit = this.submit.bind(this);
@@ -54,13 +58,21 @@ class RapportHoraire extends React.Component {
         this.update()
     }
 
+    async modifyTime(e) {
+        e.preventDefault();
+        var req = await axios({
+            method: 'PUT',
+            url: '',
+        });
+    }
+
 
     render() {
         let perm = this.context;
         if(this.state.data){
             return (
                 <div className={'RapportHorraire'}>
-                    <section className={'header'}>
+                    <section className={'header'} style={{filter: this.state.popup ? 'blur(5px)' : 'none'}}>
                         <PagesTitle title={'Rapport horaire'}/>
                         <div className={'semaine-select'}>
                             <form onSubmit={this.submit}>
@@ -74,7 +86,7 @@ class RapportHoraire extends React.Component {
                             <button className={'btn add-perso'} onClick={()=>this.setState({popup:true})}>Modifier le temps de service</button>
                         }
                     </section>
-                    <section className={'rapport-table-container'}>
+                    <section className={'rapport-table-container'} style={{filter: this.state.popup ? 'blur(5px)' : 'none'}}>
                         <div className={'rapport-table'}>
                             <div className={'row table-header'}>
                                 <div className={'cell head column-1'}>
@@ -116,28 +128,27 @@ class RapportHoraire extends React.Component {
                             )}
 
                         </div>
-                        <TableBottom placeholder={'rechercher un nom'} page={1} pages={5}/>
                     </section>
                     {this.state.popup &&
                     <section className="popup">
                         <div className={'center'}>
-                            <form>
+                            <form onSubmit={this.modifyTime}>
                                 <h2>Ajouter/enelever du temps</h2>
                                 <div className="rowed">
                                     <label>nom</label>
-                                    <input type={'text'} max={100}/>
+                                    <input type={'text'}  value={this.state.name} max={100} onChange={(e)=>this.setState({name:e.target.value})}/>
                                 </div>
                                 <div className="rowed">
                                     <label>action</label>
-                                    <select defaultValue={1}>
-                                        <option value={1} disabled>choisir</option>
-                                        <option value={2}>ajouter</option>
-                                        <option value={3}>enelever</option>
+                                    <select defaultValue={this.state.action} onChange={(e)=>this.setState({action:e.target.value})}>
+                                        <option value={0} disabled>choisir</option>
+                                        <option value={1}>ajouter</option>
+                                        <option value={2}>enelever</option>
                                     </select>
                                 </div>
                                 <div className="rowed">
                                     <label>temps</label>
-                                    <input type={'text'} placeholder={'hh:mm'}/>
+                                    <input type={'time'} placeholder={'hh:mm'} value={this.state.time} onChange={(e)=>this.setState({time:e.target.value})}/>
                                 </div>
                                 <div className={'button'}>
                                     <button onClick={()=>this.setState({popup: false})} className={'btn'}>fermer</button>

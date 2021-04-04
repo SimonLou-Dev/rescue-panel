@@ -25,8 +25,8 @@ class PersonnelLine extends React.Component {
             <tr>
                 <td className={'id'}>{this.state.id}</td>
                 <td className={'name'}>{this.state.name}</td>
-                <td className={'tel'}>0000-0000-0000</td>
-                <td className={'compte'}>000000000</td>
+                <td className={'tel'}>{this.props.tel}</td>
+                <td className={'compte'}>{this.props.compte}</td>
                 <td className={'grade'}>
                     <form onSubmit={this.isupdate}>
                         <select value={this.state.grade} onChange={(e)=>{this.setState({grade: e.target.value})}}>

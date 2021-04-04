@@ -16,8 +16,6 @@ class FormaUserList extends React.Component {
         this.updateCertif = this.updateCertif.bind(this)
     }
 
-
-
     async componentDidMount() {
         let req = await axios({
             url: '/data/certifications/admin/get',
@@ -109,6 +107,7 @@ class FormaUserList extends React.Component {
                         <tbody>
                         {this.state.data && this.state.arraybis && this.state.arraybis.map((user)=>
                             <tr key={user.id}>
+                                <td className={'name'}>{user.name}</td>
                                 {user.formations.map((forma)=>
                                     <td className={'forma'}>
                                         <div className={'pilote-btn'}>

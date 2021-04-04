@@ -93,6 +93,7 @@ Route::get('/data/service/alluser/{semaine?}', [\App\Http\Controllers\ServiceCon
 Route::get('/data/service/addwors', [\App\Http\Controllers\ServiceController::class, 'addRows']);
 Route::get('/data/AllInService', [\App\Http\Controllers\MainController::class, 'getInServices']);
 Route::put('/data/service/setbyadmin/{userid}', [\App\Http\Controllers\ServiceController::class, 'setServiceByAdmin']);
+Route::put('/data/service/admin/modify', [\App\Http\Controllers\ServiceController::class, 'modifyTimeService']);
 
 //User management
 Route::get('/data/users/getall', [\App\Http\Controllers\UserController::class, 'getUser']);
@@ -133,6 +134,7 @@ Route::get('/data/remboursements/get/admin/{weeknumber?}', [\App\Http\Controller
 Route::post('/data/remboursements/post', [\App\Http\Controllers\RemboursementsController::class, 'addRemboursement']);
 Route::delete('/data/remboursements/delete/{itemid}', [\App\Http\Controllers\RemboursementsController::class, 'deleteRemboursement']);
 
-
-
+Route::get('/teste', function (){
+    return \App\Http\Controllers\ServiceController::removeTime('00:01:30', '00:00:59');
+});
 

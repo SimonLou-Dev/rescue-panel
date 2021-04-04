@@ -3936,6 +3936,88 @@ body {
   width: 50%;
 }
 
+.f-userlist {
+  display: flex;
+  width: 100%;
+  height: 100vh;
+  flex-direction: column;
+  justify-content: space-around;
+}
+.f-userlist .header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+}
+.f-userlist .header .btn {
+  margin: auto 0;
+}
+.f-userlist .user-list {
+  margin: 0 auto;
+  width: 90%;
+  overflow: auto;
+  height: calc(100vh - 200px);
+  background-color: #0c2646;
+  border-radius: 30px;
+}
+.f-userlist .user-list table {
+  border-collapse: collapse;
+}
+.f-userlist .user-list table tr {
+  height: 60px;
+  border: black 1px solid;
+  border-left: none;
+  border-right: none;
+}
+.f-userlist .user-list table tr:first-child {
+  border-top: none;
+}
+.f-userlist .user-list table tr:last-child {
+  border-bottom: none;
+}
+.f-userlist .user-list table td, .f-userlist .user-list table th {
+  width: 100px;
+  padding: 5px;
+  text-align: center;
+  font-family: "Baloo Thambi 2", monospace;
+  font-size: 25px;
+  color: #00FFFF;
+  height: 70px;
+  border: black 1px solid;
+  border-top: none;
+  border-bottom: none;
+}
+.f-userlist .user-list table td:first-child, .f-userlist .user-list table th:first-child {
+  border-left: none;
+}
+.f-userlist .user-list table td:last-child, .f-userlist .user-list table th:last-child {
+  border-right: none;
+}
+.f-userlist .user-list table td .pilote-btn, .f-userlist .user-list table th .pilote-btn {
+  padding: 0 20px;
+}
+.f-userlist .user-list table thead tr {
+  border-bottom: 1px black solid !important;
+}
+.f-userlist .user-list table thead th {
+  position: -webkit-sticky;
+  position: sticky;
+  top: 0;
+  border-bottom: black 1px solid;
+  background-color: #004662;
+  z-index: 10;
+  border-left: 1px black solid;
+  border-right: 1px black solid;
+}
+.f-userlist .user-list table thead th:first-child {
+  border-left: none;
+}
+.f-userlist .user-list table thead th:last-child {
+  border-right: none;
+}
+.f-userlist .user-list table tbody tr:nth-child(even) td {
+  background: #0f2f57;
+}
+
 @-webkit-keyframes slideIn {
   0% {
     opacity: 0;

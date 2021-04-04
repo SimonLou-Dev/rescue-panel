@@ -94,6 +94,23 @@ class ServiceController extends Controller
         return response()->json(['status'=>"OK"],201);
     }
 
+    public function modifyTimeService(Request $request): \Illuminate\Http\JsonResponse
+    {
+        $name = (string) $request->name;
+        $action = (int) $request->action;
+        $time = (string) $request->time;
+
+        $user = \App\Models\User::where('name', $name)->firstOrFail();
+        $WeekService= WeekService::where('user_id', $user->id)->where('week_number', $this::getWeekNumber())->first();
+        if($action === 1){
+            $WeekService->total = $this::addTime($WeekService->total, $time);
+        }else{
+            $WeekService->total = $this::removeTime($WeekService->total, $time);
+        }
+        $WeekService->save();
+        return response()->json(['status'=>'OK'],201);
+    }
+
     public static function setService(User $user, bool $admin): bool
     {
         if($user->service){
@@ -223,6 +240,31 @@ class ServiceController extends Controller
         $toadd['h'] = (int) $base['h'] + (int) $toadd['h'];
 
         return $toadd['h'] . ':' . $toadd['m'] . ':'. $toadd['s'];
+    }
+
+    public static function removeTime(string $base, string $toremove): string
+    {
+        $base = explode(':', $base);
+        $base['h'] = (int) $base[0];
+        $base['m'] = (int) $base[1];
+        $base['s'] = (int)$base[2];
+        $toremove = explode(':', $toremove);
+        $toremove['h'] = (int) $toremove[0];
+        $toremove['m'] = (int) $toremove[1];
+        $toremove['s'] = (int) $toremove[2];
+        $baseSec = $base['h']*3600 + $base['m']*60 + $base['s'];
+        $toremoveSec = $toremove['h']*3600 + $toremove['m'] *60 + $toremove['s'];
+        $final = $baseSec - $toremoveSec;
+        $first = $final / 3600;
+        $firstR = $final % 3600;
+        $seconde = $firstR / 60;
+        $secondeR = $firstR % 60;
+
+        $first = (string) ($first < 10 ? '0'. (int) $first :  (int)$first);
+        $seconde = (string) ($seconde < 10 ? '0'. (int) $seconde :  (int) $seconde);
+        $secondeR = (string) ($secondeR < 10 ? '0'. (int) $secondeR :  (int)$secondeR);
+
+        return $first . ':' .  $seconde . ':'. $secondeR;
     }
 
     public static function getWeekNumber(): int
