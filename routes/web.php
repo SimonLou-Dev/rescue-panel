@@ -111,7 +111,7 @@ Route::get('/data/vol/searsh/{pilote}', [\App\Http\Controllers\VolController::cl
 
 //Formation
 Route::get('/data/certifications/admin/get', [\App\Http\Controllers\FormationController::class, 'getUsersCertifications']);
-Route::put('/data/certifications/admin/{certif_id}/change', [\App\Http\Controllers\FormationController::class, 'changeUserCertification']);
+Route::put('/data/certifications/admin/{forma_id}/change/{user_id}', [\App\Http\Controllers\FormationController::class, 'changeUserCertification']);
 Route::get('/data/formations/admin/{formation_id}/get', [\App\Http\Controllers\FormationController::class, 'getFormationByIdAdmin']);
 Route::put('/data/formations/admin/{formation_id}/visibylity', [\App\Http\Controllers\FormationController::class, 'changeFormationVisibility']);
 Route::post('/data/formations/admin/post', [\App\Http\Controllers\FormationController::class, 'postFormation']);

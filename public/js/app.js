@@ -2506,6 +2506,7 @@ var FormaUserList = /*#__PURE__*/function (_React$Component) {
       nbrForma: 0,
       arraybis: []
     };
+    _this.updateCertif = _this.updateCertif.bind(_assertThisInitialized(_this));
     return _this;
   }
 
@@ -2530,7 +2531,8 @@ var FormaUserList = /*#__PURE__*/function (_React$Component) {
 
                 if (req.status === 200) {
                   this.setState({
-                    data: true
+                    data: true,
+                    formations: req.data.certifs
                   });
                 } //Création de l'array de chaque user
 
@@ -2589,6 +2591,53 @@ var FormaUserList = /*#__PURE__*/function (_React$Component) {
       return componentDidMount;
     }()
   }, {
+    key: "updateCertif",
+    value: function () {
+      var _updateCertif = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_1___default().mark(function _callee2(userid, formaid) {
+        var array, req;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_1___default().wrap(function _callee2$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                console.log('clicked');
+                array = this.state.arraybis;
+                array.map(function (user) {
+                  if (user.id === userid) {
+                    var formations = user.formations;
+                    formations.map(function (forma) {
+                      if (forma.id === formaid) {
+                        forma.validate = !forma.validate;
+                      }
+                    });
+                  }
+                });
+                this.setState({
+                  arraybis: array
+                });
+                _context2.next = 6;
+                return axios__WEBPACK_IMPORTED_MODULE_4___default()({
+                  url: '/data/certifications/admin/' + formaid + '/change/' + userid,
+                  method: 'PUT'
+                });
+
+              case 6:
+                req = _context2.sent;
+
+              case 7:
+              case "end":
+                return _context2.stop();
+            }
+          }
+        }, _callee2, this);
+      }));
+
+      function updateCertif(_x, _x2) {
+        return _updateCertif.apply(this, arguments);
+      }
+
+      return updateCertif;
+    }()
+  }, {
     key: "render",
     value: function render() {
       var _this2 = this;
@@ -2631,11 +2680,14 @@ var FormaUserList = /*#__PURE__*/function (_React$Component) {
                         className: 'pilote-btn',
                         children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("input", {
                           type: "checkbox",
-                          id: "toggle",
-                          checked: forma.validate === true
+                          id: "toggle_" + user.id + '_' + forma.id,
+                          checked: forma.validate === true,
+                          onClick: function onClick() {
+                            _this2.updateCertif(user.id, forma.id);
+                          }
                         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", {
                           children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("label", {
-                            htmlFor: "toggle" + _this2.props.id
+                            htmlFor: "toggle_" + user.id + '_' + forma.id
                           })
                         })]
                       })
@@ -2808,25 +2860,25 @@ var CreatorItem = /*#__PURE__*/function (_React$Component3) {
   }, {
     key: "componentDidMount",
     value: function () {
-      var _componentDidMount2 = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_1___default().mark(function _callee2() {
+      var _componentDidMount2 = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_1___default().mark(function _callee3() {
         var req;
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_1___default().wrap(function _callee2$(_context2) {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_1___default().wrap(function _callee3$(_context3) {
           while (1) {
-            switch (_context2.prev = _context2.next) {
+            switch (_context3.prev = _context3.next) {
               case 0:
                 if (!this.props.questionid) {
-                  _context2.next = 5;
+                  _context3.next = 5;
                   break;
                 }
 
-                _context2.next = 3;
+                _context3.next = 3;
                 return axios__WEBPACK_IMPORTED_MODULE_4___default()({
                   method: 'GET',
                   url: '/data/formations/question/' + this.props.questionid
                 });
 
               case 3:
-                req = _context2.sent;
+                req = _context3.sent;
 
                 if (req.status === 200) {
                   this.setState({
@@ -2844,10 +2896,10 @@ var CreatorItem = /*#__PURE__*/function (_React$Component3) {
 
               case 6:
               case "end":
-                return _context2.stop();
+                return _context3.stop();
             }
           }
-        }, _callee2, this);
+        }, _callee3, this);
       }));
 
       function componentDidMount() {
@@ -2859,23 +2911,23 @@ var CreatorItem = /*#__PURE__*/function (_React$Component3) {
   }, {
     key: "save",
     value: function () {
-      var _save = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_1___default().mark(function _callee3() {
+      var _save = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_1___default().mark(function _callee4() {
         var req;
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_1___default().wrap(function _callee3$(_context3) {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_1___default().wrap(function _callee4$(_context4) {
           while (1) {
-            switch (_context3.prev = _context3.next) {
+            switch (_context4.prev = _context4.next) {
               case 0:
                 if (!this.state.questionid) {
-                  _context3.next = 8;
+                  _context4.next = 8;
                   break;
                 }
 
                 if (!this.state.updated) {
-                  _context3.next = 6;
+                  _context4.next = 6;
                   break;
                 }
 
-                _context3.next = 4;
+                _context4.next = 4;
                 return axios__WEBPACK_IMPORTED_MODULE_4___default()({
                   method: 'PUT',
                   url: '/data/formations/admin/question/' + this.state.questionid + '/update',
@@ -2889,7 +2941,7 @@ var CreatorItem = /*#__PURE__*/function (_React$Component3) {
                 });
 
               case 4:
-                req = _context3.sent;
+                req = _context4.sent;
 
                 if (req.status === 201) {
                   this.setState({
@@ -2898,11 +2950,11 @@ var CreatorItem = /*#__PURE__*/function (_React$Component3) {
                 }
 
               case 6:
-                _context3.next = 12;
+                _context4.next = 12;
                 break;
 
               case 8:
-                _context3.next = 10;
+                _context4.next = 10;
                 return axios__WEBPACK_IMPORTED_MODULE_4___default()({
                   method: 'POST',
                   url: '/data/formations/' + this.props.formationid + '/admin/question/post',
@@ -2916,7 +2968,7 @@ var CreatorItem = /*#__PURE__*/function (_React$Component3) {
                 });
 
               case 10:
-                req = _context3.sent;
+                req = _context4.sent;
 
                 if (req.status === 201) {
                   this.setState({
@@ -2927,10 +2979,10 @@ var CreatorItem = /*#__PURE__*/function (_React$Component3) {
 
               case 12:
               case "end":
-                return _context3.stop();
+                return _context4.stop();
             }
           }
-        }, _callee3, this);
+        }, _callee4, this);
       }));
 
       function save() {
@@ -3176,32 +3228,32 @@ var FormaCreate = /*#__PURE__*/function (_React$Component4) {
   }, {
     key: "componentDidMount",
     value: function () {
-      var _componentDidMount3 = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_1___default().mark(function _callee4() {
+      var _componentDidMount3 = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_1___default().mark(function _callee5() {
         var req, a, item, timer, reste, final_timer, time, time_btw, rest;
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_1___default().wrap(function _callee4$(_context4) {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_1___default().wrap(function _callee5$(_context5) {
           while (1) {
-            switch (_context4.prev = _context4.next) {
+            switch (_context5.prev = _context5.next) {
               case 0:
                 if (!(this.props.id === null)) {
-                  _context4.next = 4;
+                  _context5.next = 4;
                   break;
                 }
 
                 this.setState({
                   formationid: null
                 });
-                _context4.next = 8;
+                _context5.next = 8;
                 break;
 
               case 4:
-                _context4.next = 6;
+                _context5.next = 6;
                 return axios__WEBPACK_IMPORTED_MODULE_4___default()({
                   method: 'GET',
                   url: '/data/formations/admin/' + this.props.id + '/get'
                 });
 
               case 6:
-                req = _context4.sent;
+                req = _context5.sent;
 
                 if (req.status === 200) {
                   a = 0;
@@ -3251,10 +3303,10 @@ var FormaCreate = /*#__PURE__*/function (_React$Component4) {
 
               case 9:
               case "end":
-                return _context4.stop();
+                return _context5.stop();
             }
           }
-        }, _callee4, this);
+        }, _callee5, this);
       }));
 
       function componentDidMount() {
@@ -3266,23 +3318,23 @@ var FormaCreate = /*#__PURE__*/function (_React$Component4) {
   }, {
     key: "save",
     value: function () {
-      var _save2 = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_1___default().mark(function _callee5() {
+      var _save2 = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_1___default().mark(function _callee6() {
         var add,
             req,
             list,
-            _args5 = arguments;
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_1___default().wrap(function _callee5$(_context5) {
+            _args6 = arguments;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_1___default().wrap(function _callee6$(_context6) {
           while (1) {
-            switch (_context5.prev = _context5.next) {
+            switch (_context6.prev = _context6.next) {
               case 0:
-                add = _args5.length > 0 && _args5[0] !== undefined ? _args5[0] : null;
+                add = _args6.length > 0 && _args6[0] !== undefined ? _args6[0] : null;
 
                 if (!(this.state.formationid === null)) {
-                  _context5.next = 8;
+                  _context6.next = 8;
                   break;
                 }
 
-                _context5.next = 4;
+                _context6.next = 4;
                 return axios__WEBPACK_IMPORTED_MODULE_4___default()({
                   url: '/data/formations/admin/post',
                   method: 'post',
@@ -3306,7 +3358,7 @@ var FormaCreate = /*#__PURE__*/function (_React$Component4) {
                 });
 
               case 4:
-                req = _context5.sent;
+                req = _context6.sent;
 
                 if (req.status === 201) {
                   this.setState({
@@ -3326,16 +3378,16 @@ var FormaCreate = /*#__PURE__*/function (_React$Component4) {
                   }
                 }
 
-                _context5.next = 13;
+                _context6.next = 13;
                 break;
 
               case 8:
                 if (!this.state.updated) {
-                  _context5.next = 13;
+                  _context6.next = 13;
                   break;
                 }
 
-                _context5.next = 11;
+                _context6.next = 11;
                 return axios__WEBPACK_IMPORTED_MODULE_4___default()({
                   method: 'PUT',
                   url: '/data/formations/admin/' + this.state.formationid + '/update',
@@ -3359,7 +3411,7 @@ var FormaCreate = /*#__PURE__*/function (_React$Component4) {
                 });
 
               case 11:
-                req = _context5.sent;
+                req = _context6.sent;
 
                 if (req.status === 201) {
                   this.setState({
@@ -3369,10 +3421,10 @@ var FormaCreate = /*#__PURE__*/function (_React$Component4) {
 
               case 13:
               case "end":
-                return _context5.stop();
+                return _context6.stop();
             }
           }
-        }, _callee5, this);
+        }, _callee6, this);
       }));
 
       function save() {

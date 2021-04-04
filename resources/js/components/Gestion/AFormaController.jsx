@@ -13,7 +13,10 @@ class FormaUserList extends React.Component {
             nbrForma: 0,
             arraybis: [],
         }
+        this.updateCertif = this.updateCertif.bind(this)
     }
+
+
 
     async componentDidMount() {
         let req = await axios({
@@ -24,6 +27,7 @@ class FormaUserList extends React.Component {
         if (req.status === 200) {
             this.setState({
                 data: true,
+                formations: req.data.certifs
             })
         }
 
@@ -64,6 +68,27 @@ class FormaUserList extends React.Component {
         this.setState({arraybis:array})
     }
 
+    async updateCertif(userid, formaid) {
+        console.log('clicked')
+
+        let array = this.state.arraybis;
+        array.map((user) => {
+            if (user.id === userid) {
+                let formations = user.formations;
+                formations.map((forma) => {
+                    if (forma.id === formaid) {
+                        forma.validate = !forma.validate
+                    }
+                })
+            }
+        })
+        this.setState({arraybis: array});
+        var req = await axios({
+            url: '/data/certifications/admin/' + formaid + '/change/' + userid,
+            method: 'PUT',
+        })
+    }
+
     render() {
         return (
             <div className="f-userlist">
@@ -87,9 +112,9 @@ class FormaUserList extends React.Component {
                                 {user.formations.map((forma)=>
                                     <td className={'forma'}>
                                         <div className={'pilote-btn'}>
-                                                <input type="checkbox" id={"toggle"} checked={forma.validate === true}/>
+                                                <input type="checkbox" id={"toggle_"+user.id+'_'+forma.id} checked={forma.validate === true} onClick={()=>{this.updateCertif(user.id, forma.id)}}/>
                                             <div>
-                                                <label htmlFor={"toggle"+this.props.id}/>
+                                                <label htmlFor={"toggle_"+user.id+'_'+forma.id} />
                                             </div>
                                         </div>
                                     </td>

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Events\Notify;
+use App\Models\Certification;
 use App\Models\Formation;
 use App\Models\FormationsQuestion;
 use App\Models\Grade;
@@ -43,11 +44,24 @@ class FormationController extends Controller
     }
 
     /**
-     * @param string $certif_id
+     * @param string $forma_id
+     * @param string $user_id
+     * @return JsonResponse
      */
-    public function changeUserCertification(string $certif_id){
-        $certif_id = (int) $certif_id;
-        // a faire
+    public function changeUserCertification(string $forma_id, string $user_id): JsonResponse
+    {
+        $forma_id = (int) $forma_id;
+        $user_id = (int) $user_id;
+        $certif = Certification::where('formation_id', $forma_id);
+        if($certif->count() == 0){
+            $certif = new Certification();
+            $certif->user_id = $user_id;
+            $certif->formation_id = $forma_id;
+            $certif->save();
+        }else{
+            $certif->first()->delete();
+        }
+        return \response()->json(['status'=>'OK'],200);
     }
 
     /**
