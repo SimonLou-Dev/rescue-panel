@@ -9,6 +9,12 @@ use Illuminate\Http\Request;
 
 class MainController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+        $this->middleware('access');
+    }
+
     public function getInServices(Request $request): \Illuminate\Http\JsonResponse
     {
         $userInServie = User::where('service', true)->get();

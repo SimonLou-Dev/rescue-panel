@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Session;
 
 
@@ -130,6 +131,33 @@ class UserController extends Controller
         $user->tel = $tel;
         $user->compte = $compte;
         $user->save();
+        Http::post(env('WEBHOOK_INFOS'),[
+            'embeds'=>[
+                [
+                    'title'=>'Numéro de compte',
+                    'color'=>'16776960',
+                    'fields'=>[
+                        [
+                            'name'=>'Prénom Nom : ',
+                            'value'=>Auth::user()->name,
+                            'inline'=>false
+                        ],[
+                            'name'=>'Numéro de téléphone : ',
+                            'value'=>$user->tel,
+                            'inline'=>false
+                        ],[
+                            'name'=>'Conté habité : ',
+                            'value'=>$user->liveplace,
+                            'inline'=>false
+                        ],[
+                            'name'=>'Numéro de compte : ',
+                            'value'=>$user->compte,
+                            'inline'=>false
+                        ]
+                    ],
+                ]
+            ]
+        ]);
         return \response()->json(['status'=>'OK'],201);
     }
 

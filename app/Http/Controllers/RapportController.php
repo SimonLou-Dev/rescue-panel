@@ -20,6 +20,13 @@ use ParagonIE\Sodium\Core\Curve25519\H;
 
 class RapportController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->middleware('auth');
+        $this->middleware('access');
+    }
+
     public function getforinter(Request $request): \Illuminate\Http\JsonResponse
     {
         $intertype = Intervention::all();
@@ -29,18 +36,19 @@ class RapportController extends Controller
 
     public function addRapport(Request $request): \Illuminate\Http\JsonResponse
     {
-        $Patient = $this->PatientExist($request->name, $request->prenom);
+        $patientname = explode(' ', $request->name);
+        $Patient = $this->PatientExist($patientname[1], $patientname[0]);
         if(is_null($Patient)) {
             $Patient = new Patient();
-            $Patient->name = $request->name;
-            $Patient->vorname = $request->prenom;
+            $Patient->name = $patientname[1];
+            $Patient->vorname = $patientname[0];
             $Patient->tel = $request->tel;
             $Patient->save();
-            $Patient = Patient::where('name', $request->name)->where('vorname', $request->prenom)->first();
         }
         $patient_id = $Patient->id;
         $rapport = new Rapport();
         $rapport->patient_id = $patient_id;
+        $rapport->started_at = $request->startinter;
         $rapport->interType= (integer) $request->type;
         $rapport->transport= (integer) $request->transport;
         $rapport->description = $request->desc;
@@ -70,7 +78,7 @@ class RapportController extends Controller
                     'fields'=>[
                         [
                             'name'=>'Patient : ',
-                            'value'=>$request->prenom . ' ' . $request->name,
+                            'value'=>$patientname[0] . ' ' .$patientname[1],
                             'inline'=>true
                         ],[
                             'name'=>'Type d\'intervention : ',

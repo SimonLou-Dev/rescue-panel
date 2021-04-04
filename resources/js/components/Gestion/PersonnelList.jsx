@@ -4,6 +4,7 @@ import PersonnelLine from "../props/Gestion/Personnel/PersonnelLine";
 import PagesTitle from "../props/utils/PagesTitle";
 import TableBottom from "../props/utils/TableBottom";
 import {Link} from "react-router-dom";
+import PermsContext from "../context/PermsContext";
 
 class PersonnelList extends React.Component {
     constructor(props){
@@ -27,49 +28,47 @@ class PersonnelList extends React.Component {
     }
 
     render() {
+        const perm = this.context;
         if(this.state.data){
-        return (
-                    <div className={"PersonnelList"}>
-                        <section className={'header'}>
-                            <PagesTitle title={'Liste du personnel'}/>
+            return (
+                <div className={"PersonnelList"}>
+                    <section className={'header'}>
+                        <PagesTitle title={'Liste du personnel'}/>
+                        {perm.edit_perm  === 1 &&
                             <Link to={'/gestion/perm'} className={'btn'}>gérer les permissions</Link>
-                        </section>
-                        <section className={'list-personnel'}>
-                            <table>
-                                <thead>
-                                    <tr>
-                                        <th className={'id'}>id</th>
-                                        <th className={'name'}>nom prénom</th>
-                                        <th className={'tel'}>n° de tel</th>
-                                        <th className={'compte'}>n° de compte</th>
-                                        <th className={'grade'}>grade</th>
-                                        <th className={'pilote'}>pilote</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {this.state.userlist &&
-                                        this.state.userlist.map((user)=>
-                                            <PersonnelLine id={user.id} key={user.id} name={user.name} grade={user.grade} update={this.componentDidMount}/>
-                                        )
-
-                                    }
-                                </tbody>
-                            </table>
-                            <TableBottom placeholder={'rechercher un nom'} page={1} pages={5}/>
-                        </section>
-                    </div>
-                )
+                        }
+                    </section>
+                    <section className={'list-personnel'}>
+                        <table>
+                            <thead>
+                            <tr>
+                                <th className={'id'}>id</th>
+                                <th className={'name'}>nom prénom</th>
+                                <th className={'tel'}>n° de tel</th>
+                                <th className={'compte'}>n° de compte</th>
+                                <th className={'grade'}>grade</th>
+                                <th className={'pilote'}>pilote</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                                {this.state.userlist && this.state.userlist.map((user)=>
+                                        <PersonnelLine id={user.id} key={user.id} name={user.name} grade={user.grade} update={this.componentDidMount}/>
+                                )}
+                            </tbody>
+                        </table>
+                        <TableBottom placeholder={'rechercher un nom'} page={1} pages={5}/>
+                    </section>
+                </div>
+            )
         }else{
             return(
-
-                                <div className={'load'}>
-                                    <img src={'/assets/images/loading.svg'} alt={''}/>
-                                </div>
-
+                <div className={'load'}>
+                    <img src={'/assets/images/loading.svg'} alt={''}/>
+                </div>
             )
         }
 
     }
 }
-
+PersonnelList.contextType = PermsContext;
 export default PersonnelList;

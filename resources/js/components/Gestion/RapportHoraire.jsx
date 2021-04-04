@@ -3,6 +3,7 @@ import Row from "../props/Gestion/horaire/Row";
 import axios from "axios";
 import PagesTitle from "../props/utils/PagesTitle";
 import TableBottom from "../props/utils/TableBottom";
+import PermsContext from "../context/PermsContext";
 
 
 class RapportHoraire extends React.Component {
@@ -55,10 +56,9 @@ class RapportHoraire extends React.Component {
 
 
     render() {
+        let perm = this.context;
         if(this.state.data){
             return (
-
-
                 <div className={'RapportHorraire'}>
                     <section className={'header'}>
                         <PagesTitle title={'Rapport horaire'}/>
@@ -70,7 +70,9 @@ class RapportHoraire extends React.Component {
                             </form>
                         </div>
                         <button className={'btn add-perso'}>Exporter en exel</button>
-                        <button className={'btn add-perso'} onClick={()=>this.setState({popup:true})}>Modifier le temps de service</button>
+                        {perm.time_modify ===1&&
+                            <button className={'btn add-perso'} onClick={()=>this.setState({popup:true})}>Modifier le temps de service</button>
+                        }
                     </section>
                     <section className={'rapport-table-container'}>
                         <div className={'rapport-table'}>
@@ -109,11 +111,9 @@ class RapportHoraire extends React.Component {
 
                             {this.state.service &&
                             this.state.service.map((item)=>
-                                item.get_user.grade_id < 10 &&
                                     item.get_user.grade_id > 0 &&
                                         <Row key={item.id} inService={item.get_user.service} itemid={item.id} update={this.update} userid={item.get_user.id} name={item.get_user.name} dimanche={item.dimanche} lundi={item.lundi} mardi={item.mardi} mercredi={item.mercredi} jeudi={item.jeudi} vendredi={item.vendredi} samedi={item.samedi} total={item.total}/>
-                            )
-                            }
+                            )}
 
                         </div>
                         <TableBottom placeholder={'rechercher un nom'} page={1} pages={5}/>
@@ -161,5 +161,5 @@ class RapportHoraire extends React.Component {
 
     }
 }
-
+RapportHoraire.contextType = PermsContext;
 export default RapportHoraire;

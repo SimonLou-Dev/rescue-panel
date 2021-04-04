@@ -2,6 +2,7 @@ import React from 'react';
 import dateFormat from "dateformat";
 import axios from "axios";
 import PagesTitle from "../props/utils/PagesTitle";
+import PermsContext from "../context/PermsContext";
 
 class Factures extends React.Component {
     constructor(props) {
@@ -80,7 +81,7 @@ class Factures extends React.Component {
     }
 
     render() {
-        const admin = true;
+        const perm = this.context;
         return (
             <div className={"impayes"}>
                 <section className={'header'} style={{filter: this.state.addfacture ? 'blur(5px)' : 'none'}}>
@@ -88,9 +89,9 @@ class Factures extends React.Component {
                         <PagesTitle title={'Factures'}/>
                     </div>
                     <div className={'Add-facture'}>
-                        <button className={'btn'} onClick={()=>{this.setState({addfacture:true})}}>Ajouter une facture</button>
+                        <button className={'btn'} disabled={(perm.add_factures !== 1)} onClick={()=>{this.setState({addfacture:true})}}>Ajouter une facture</button>
                     </div>
-                    {admin &&
+                    {perm.factures_PDF === 1 &&
                         <div className={'pdf_Generator mobildisabled'} >
                             <form onSubmit={(e)=>{
                                 e.preventDefault();
@@ -182,5 +183,6 @@ class Factures extends React.Component {
         )
     }
 }
+Factures.contextType=PermsContext;
 
 export default Factures;

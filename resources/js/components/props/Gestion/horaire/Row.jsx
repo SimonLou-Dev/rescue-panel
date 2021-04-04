@@ -1,5 +1,6 @@
 import React from 'react';
 import axios from "axios";
+import PermsContext from "../../../context/PermsContext";
 
 class Row extends React.Component {
     constructor(props) {
@@ -18,7 +19,7 @@ class Row extends React.Component {
             this.setState({inService: true})
         }
         await axios({
-            url: '/data/gestion/service/setbyadmin/' + this.props.userid,
+            url: '/data/service/setbyadmin/{userid}' + this.props.userid,
             method: 'GET',
         })
 
@@ -33,6 +34,7 @@ class Row extends React.Component {
     }
 
     render() {
+        var perm = this.context;
         return (
             <div className={'row'}>
 
@@ -64,14 +66,24 @@ class Row extends React.Component {
                     <p>{this.props.total}</p>
                 </div>
                 <div className={'cell en service'}>
-                    <div className={'switch-container'}>
-                        <input id={"switch"+this.props.itemid} checked={this.state.inService} className="payed_switch" type="checkbox" onChange={(e) => {this.update()}}/>
-                        <label htmlFor={"switch"+this.props.itemid} className={"payed_switchLabel"}/>
-                    </div>
+                    {perm.service_modify === 1 &&
+                        <div className={'switch-container'}>
+                            <input id={"switch"+this.props.itemid} checked={this.state.inService} className="payed_switch" type="checkbox" onChange={(e) => {this.update()}}/>
+                            <label htmlFor={"switch"+this.props.itemid} className={"payed_switchLabel"}/>
+                        </div>
+                    }
+                    {perm.service_modify === 0 &&
+                        <div className={'switch-container'}>
+                            <input id={"switch"+this.props.itemid} checked={this.state.inService} className="payed_switch" type="checkbox" disabled/>
+                            <label htmlFor={"switch"+this.props.itemid} className={"payed_switchLabel"}/>
+                        </div>
+                    }
+
                 </div>
             </div>
         )
     }
 }
+Row.contextType = PermsContext;
 
 export default Row;

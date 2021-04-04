@@ -9,6 +9,12 @@ use Illuminate\Support\Facades\Http;
 
 class LayoutController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+        $this->middleware('access');
+    }
+
     public function setservice(Request $request): \Illuminate\Http\JsonResponse
     {
         $user = \App\Models\User::where('id', Auth::id())->first();

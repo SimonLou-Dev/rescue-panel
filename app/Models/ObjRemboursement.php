@@ -19,5 +19,5 @@ class ObjRemboursement extends Model
 {
     use HasFactory;
     protected $table = "ObjRemboursements";
-    protected $fillable = ['name', 'price'];
+    protected $fillable = ['name', 'price', 'id'];
 }

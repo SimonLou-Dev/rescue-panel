@@ -53,9 +53,9 @@ class Services extends React.Component {
                             this.state.services.map((service) =>
                                 <tr key={service.id}>
                                     <td>{dateFormat(service.created_at, 'dd/mm/yyyy')}</td>
-                                    <td>{service.started_at.substring(11,16)}</td>
-                                    {service.ended_at ? <td>{service.ended_at.substring(-1,5)}</td> : <td>En service</td>}
-                                    {service.total ? <td>{service.total.substring(-1,5)}</td>: <td>En service</td>}
+                                    <td>{service.started_at.split(' ')[1].split(':')[0] + ':' + service.started_at.split(' ')[1].split(':')[1]}</td>
+                                    {service.ended_at ? <td>{service.ended_at.split(':')[0] + ':' + service.ended_at.split(':')[1]}</td> : <td>En service</td>}
+                                    {service.total ? <td>{service.total.split(':')[0] + ':' + service.total.split(':')[1]}</td>: <td>En service</td>}
                                 </tr>
                             )
                             }
@@ -90,15 +90,14 @@ class Services extends React.Component {
                         this.state.week.map((oneweek)=>
                             <tr key={oneweek.id}>
                                 <td>{oneweek.week} | {dateFormat(oneweek.created_at, 'yyyy')}</td>
-                                <td>{oneweek.dimanche.substring(-1,5)}</td>
-                                <td>{oneweek.lundi.substring(-1,5)}</td>
-                                <td>{oneweek.mardi.substring(-1,5)}</td>
-                                <td>{oneweek.mercredi.substring(-1,5)}</td>
-                                <td>{oneweek.jeudi.substring(-1,5)}</td>
-                                <td>{oneweek.vendredi.substring(-1,5)}</td>
-                                <td>{oneweek.samedi.substring(-1,5)}</td>
-
-                                <td>{oneweek.total.substring(-1,5)}</td>
+                                <td>{oneweek.dimanche.split(':')[0] + ':' + oneweek.dimanche.split(':')[1]}</td>
+                                <td>{oneweek.lundi.split(':')[0] + ':' + oneweek.lundi.split(':')[1]}</td>
+                                <td>{oneweek.mardi.split(':')[0] + ':' + oneweek.mardi.split(':')[1]}</td>
+                                <td>{oneweek.mercredi.split(':')[0] + ':' + oneweek.mercredi.split(':')[1]}</td>
+                                <td>{oneweek.jeudi.split(':')[0] + ':' + oneweek.jeudi.split(':')[1]}</td>
+                                <td>{oneweek.vendredi.split(':')[0] + ':' + oneweek.vendredi.split(':')[1]}</td>
+                                <td>{oneweek.samedi.split(':')[0] + ':' + oneweek.samedi.split(':')[1]}</td>
+                                <td>{oneweek.total.split(':')[0] + ':' + oneweek.total.split(':')[1]}</td>
                             </tr>
                         )
                         }

@@ -122,30 +122,16 @@ Route::put('/data/formations/admin/question/{question_id}/update', [\App\Http\Co
 Route::delete('/data/formations/admin/question/{question_id}/delete', [\App\Http\Controllers\FormationController::class, 'deleteQuestion']);
 Route::get('/data/formations/get', [\App\Http\Controllers\FormationController::class, 'getFormations']);
 Route::get('/data/formations/{formation_id}/get', [\App\Http\Controllers\FormationController::class, 'getFormationById']);
-Route::get('/data/formations/question/{question_id}', [\App\Http\Controllers\FormationController::class, 'getQuestioById']);
+Route::get('/data/formations/question/{question_id}', [\App\Http\Controllers\FormationController::class, 'getQuestionById']);
 Route::post('/data/formations/response/{question_id}/save', [\App\Http\Controllers\FormationController::class, 'saveResponseState']);
 Route::delete('/data/formation/response/{question_id}/delete', [\App\Http\Controllers\FormationController::class, 'deleteResponseStateById']);
 Route::get('/data/formation/{formation_id}/final', [\App\Http\Controllers\FormationController::class, 'getFinalDatas']);
 
-Route::get('/post', function (){
-    $req = Http::post(env('WEBHOOK_RI'),[
-        'embeds'=>[
-            [
-                'title'=>'Ajout d\'un rapport :',
-                'color'=>'1285790',
-                'footer'=>[
-                    'text' => 'Rapport de : ' . Auth::user()->name,
-                ],
-            ],
-        ]
-    ]);
-    dd($req);
-});
-
-Route::get('/poste', function (){
-
-    return 'ok';
-});
+//Recap
+Route::get('/data/remboursements/get', [\App\Http\Controllers\RemboursementsController::class, 'getRemboursementOfUser']);
+Route::get('/data/remboursements/get/admin/{weeknumber?}', [\App\Http\Controllers\RemboursementsController::class, 'getRemboursementByWeek']);
+Route::post('/data/remboursements/post', [\App\Http\Controllers\RemboursementsController::class, 'addRemboursement']);
+Route::delete('/data/remboursements/delete/{itemid}', [\App\Http\Controllers\RemboursementsController::class, 'deleteRemboursement']);
 
 
 

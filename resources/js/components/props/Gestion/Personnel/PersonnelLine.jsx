@@ -1,5 +1,6 @@
 import React from 'react';
 import axios from "axios";
+import PermsContext from "../../../context/PermsContext";
 
 class PersonnelLine extends React.Component {
     constructor(props) {
@@ -19,6 +20,7 @@ class PersonnelLine extends React.Component {
     }
 
     render() {
+        let perm = this.context;
         return (
             <tr>
                 <td className={'id'}>{this.state.id}</td>
@@ -49,22 +51,34 @@ class PersonnelLine extends React.Component {
                                 <option value={9}>Inspecteur</option>
                                 <option value={10}>Développeur</option>
                             </optgroup>
-
                         </select>
-                        <button type={'submit'} className={'btn'}>valider</button>
+                        {perm.edit_perm === 1 &&
+                            <button type={'submit'} className={'btn'}>valider</button>
+                        }
                     </form>
                 </td>
                 <td className={'pilote'}>
-                    <div className={'pilote-btn'}>
-                        <input type="checkbox" id={"toggle"+this.props.id}/>
-                        <div>
-                            <label htmlFor={"toggle"+this.props.id}/>
+                    {perm.set_pilot === 1 &&
+                        <div className={'pilote-btn'}>
+                            <input type="checkbox" id={"toggle"+this.props.id}/>
+                            <div>
+                                <label htmlFor={"toggle"+this.props.id}/>
+                            </div>
                         </div>
-                    </div>
+                    }
+                    {perm.set_pilot === 0 &&
+                        <div className={'pilote-btn'}>
+                            <input type="checkbox" disabled id={"toggle"+this.props.id}/>
+                            <div>
+                                <label htmlFor={"toggle"+this.props.id}/>
+                            </div>
+                        </div>
+                    }
                 </td>
             </tr>
         )
     }
 }
+PersonnelLine.contextType = PermsContext;
 
 export default PersonnelLine;

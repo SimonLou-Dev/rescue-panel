@@ -3,6 +3,7 @@ import axios from "axios";
 import PagesTitle from "../props/utils/PagesTitle";
 import PatientListPU from "../props/Patient/Urgence/PatientListPU";
 import dateFormat from "dateformat";
+import PermsContext from "../context/PermsContext";
 
 
 
@@ -83,11 +84,14 @@ class BCBase extends React.Component {
 
 
     render() {
+        var perm = this.context;
         return (
          <div className="BC-base">
              <section className="header" style={{filter: this.state.add ? 'blur(5px)' : 'none'}}>
                  <PagesTitle title={'Black Codes'}/>
-                 <button className={'btn'} onClick={()=>this.setState({add: true})}>Ajouter un BC</button>
+                 {perm.add_BC === 1 &&
+                    <button className={'btn'} onClick={()=>this.setState({add: true})}>Ajouter un BC</button>
+                 }
              </section>
              <section className="contain" style={{filter: this.state.add ? 'blur(5px)' : 'none'}} >
                  <div className="BC-List">
@@ -184,6 +188,7 @@ class BCBase extends React.Component {
         )
     }
 }
+BCBase.contextType = PermsContext;
 
 class BCLast extends React.Component {
     render() {

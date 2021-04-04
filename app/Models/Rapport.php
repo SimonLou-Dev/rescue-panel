@@ -19,6 +19,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property DateTime ATA_end
  * @property int patient_id
  * @property int discord_msg_id
+ * @property string started_at
  * @method static where(string $column, string $operator = null, mixed $value = null)
  * @method static orderByDesc(string $string)
  *

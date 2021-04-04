@@ -1,67 +1,101 @@
 import React from 'react';
 import axios from "axios";
 import TableBottom from "../props/utils/TableBottom";
+import dateFormat from "dateformat";
 
-var admin = false;
 
 class Myview extends React.Component {
+
+    constructor(props) {
+        super(props);
+        this.state = {
+            obj: [],
+            list: [],
+            itemid: 0,
+            data: false,
+        }
+        this.getdata = this.getdata.bind(this);
+        this.addItem = this.addItem.bind(this);
+        this.delete = this.delete.bind(this);
+    }
+
+    componentDidMount() {
+        this.getdata();
+    }
+
+    async getdata() {
+        var req = await axios({
+            url: '/data/remboursements/get',
+            method: 'GET'
+        })
+        if (req.status === 200) {
+            this.setState({
+                list: req.data.remboursements,
+                obj: req.data.obj,
+                data: true,
+            })
+        }
+    }
+
+    async addItem(e) {
+        e.preventDefault();
+        var req = await axios({
+            url: '/data/remboursements/post',
+            method: 'post',
+            data: {
+                item: this.state.itemid,
+            }
+        })
+        if (req.status === 201) {
+            this.setState({itemod: 0})
+            this.getdata();
+        }
+    }
+
+    async delete(id) {
+        var req = await axios({
+            url: '/data/remboursements/delete/' + id,
+            method: 'delete'
+        })
+        if (req.status === 200) {
+            this.getdata();
+        }
+    }
+
     render() {
         return (<div className={'myview'}>
             <section className={'add'}>
-                <form>
-                    <h2>Ajouter</h2>
-                    <select>
-                        <option>test</option>
-                    </select>
-                    <button className={'btn'} type={'submit'}>valider</button>
-                </form>
+                {!this.state.data &&
+                    <div className={'load'}>
+                        <img src={'/assets/images/loading.svg'} alt={''}/>
+                    </div>
+                }
+                {this.state.data &&
+                    <form onSubmit={this.addItem}>
+                        <h2>Ajouter</h2>
+                        <select value={this.state.itemid} onChange={(e)=>{this.setState({itemid: e.target.value})}}>
+                            <option value={0}>choisir</option>
+                            {this.state.obj && this.state.obj.map((ob)=>
+                                <option key={ob.id} value={ob.id}>{ob.name} (${ob.price})</option>
+                            )}
+                        </select>
+                        <button className={'btn'} type={'submit'}>valider</button>
+                    </form>
+                }
             </section>
             <section className={'list-content'}>
                 <div className={'list'}>
-                    <div className={'row'}>
-                        <h5>00/00/0000 | Chaise de bureau $500</h5>
-                        <button><img src={'/assets/images/cancel.png'} alt={''}/></button>
+                    {!this.state.data &&
+                    <div className={'load'}>
+                        <img src={'/assets/images/loading.svg'} alt={''}/>
                     </div>
-                    <div className={'row'}>
-                        <h5>00/00/0000 | Chaise de bureau $500</h5>
-                        <button><img src={'/assets/images/cancel.png'} alt={''}/></button>
-                    </div>
-                    <div className={'row'}>
-                        <h5>00/00/0000 | Chaise de bureau $500</h5>
-                        <button><img src={'/assets/images/cancel.png'} alt={''}/></button>
-                    </div>
-                    <div className={'row'}>
-                        <h5>00/00/0000 | Chaise de bureau $500</h5>
-                        <button><img src={'/assets/images/cancel.png'} alt={''}/></button>
-                    </div>
-                    <div className={'row'}>
-                        <h5>00/00/0000 | Chaise de bureau $500</h5>
-                        <button><img src={'/assets/images/cancel.png'} alt={''}/></button>
-                    </div>
-                    <div className={'row'}>
-                        <h5>00/00/0000 | Chaise de bureau $500</h5>
-                        <button><img src={'/assets/images/cancel.png'} alt={''}/></button>
-                    </div>
-                    <div className={'row'}>
-                        <h5>00/00/0000 | Chaise de bureau $500</h5>
-                        <button><img src={'/assets/images/cancel.png'} alt={''}/></button>
-                    </div>
-                    <div className={'row'}>
-                        <h5>00/00/0000 | Chaise de bureau $500</h5>
-                        <button><img src={'/assets/images/cancel.png'} alt={''}/></button>
-                    </div>
-                    <div className={'row'}>
-                        <h5>00/00/0000 | Chaise de bureau $500</h5>
-                        <button><img src={'/assets/images/cancel.png'} alt={''}/></button>
-                    </div>
-                    <div className={'row'}>
-                        <h5>00/00/0000 | Chaise de bureau $500</h5>
-                        <button><img src={'/assets/images/cancel.png'} alt={''}/></button>
-                    </div>
-                    <div className={'row'}>
-                        <h5>00/00/0000 | Chaise de bureau $500</h5>
-                        <button><img src={'/assets/images/cancel.png'} alt={''}/></button>
-                    </div>
+                    }
+                    {this.state.data && this.state.list && this.state.list.map((item)=>
+                        <div className={'row'}>
+                            <h5>{dateFormat(item.created_at, 'dd/mm/yyyy')} | {item.get_item.name} ${item.price}</h5>
+                            <button onClick={()=>{this.delete(item.id)}}><img src={'/assets/images/cancel.png'} alt={''}/></button>
+                        </div>
+                    )}
                 </div>
             </section>
         </div>);
@@ -69,16 +103,60 @@ class Myview extends React.Component {
 }
 
 class Adminview extends React.Component {
+
+    constructor(props) {
+        super(props);
+        this.state = {
+            list:[],
+            weeknumber: null,
+            maxweek: 1,
+            data: false,
+        }
+
+        this.getdata = this.getdata.bind(this);
+        this.changeweek = this.changeweek.bind(this);
+    }
+
+    async getdata(first=false) {
+        var req = await axios({
+            url: '/data/remboursements/get/admin/' + (this.state.weeknumber === null ? '': this.state.weeknumber),
+            method: 'get'
+        })
+        this.setState({
+            maxweek: req.data.maxweek,
+            list: req.data.list,
+            data: true,
+        })
+        if(first){
+            this.setState({weeknumber:req.data.maxweek})
+        }
+    }
+
+    changeweek(e){
+        e.preventDefault();
+        this.getdata()
+    }
+
+    componentDidMount() {
+        this.getdata(true)
+    }
+
     render() {
         return (
           <div className={'adminview'}>
               <div className={'table-head'}>
-                  <form>
+                  <form onSubmit={this.changeweek}>
                       <label>Semaine n°</label>
-                      <input type={'number'} value={8}/>
+                      <input type={'number'} value={this.state.weeknumber} max={this.state.maxweek} min={1} onChange={(e)=>{this.setState({weeknumber:e.target.value})}}/>
                       <button className={'btn'}>Valider</button>
                   </form>
               </div>
+              {!this.state.data &&
+              <div className={'load'}>
+                  <img src={'/assets/images/loading.svg'} alt={''}/>
+              </div>
+              }
+              {this.state.data &&
               <div className={'table-container'}>
                   <table>
                       <thead>
@@ -89,450 +167,17 @@ class Adminview extends React.Component {
                       </tr>
                       </thead>
                       <tbody>
-                      <tr>
-                          <td className={'id'}>1</td>
-                          <td className={'pseudo'}>Simon Lou</td>
-                          <td className={'total'}>140$</td>
-                      </tr>
-                      <tr>
-                          <td className={'id'}>1</td>
-                          <td className={'pseudo'}>Simon Lou</td>
-                          <td className={'total'}>140$</td>
-                      </tr>
-                      <tr>
-                          <td className={'id'}>1</td>
-                          <td className={'pseudo'}>Simon Lou</td>
-                          <td className={'total'}>140$</td>
-                      </tr>
-                      <tr>
-                          <td className={'id'}>1</td>
-                          <td className={'pseudo'}>Simon Lou</td>
-                          <td className={'total'}>140$</td>
-                      </tr>
-                      <tr>
-                          <td className={'id'}>1</td>
-                          <td className={'pseudo'}>Simon Lou</td>
-                          <td className={'total'}>140$</td>
-                      </tr>
-                      <tr>
-                          <td className={'id'}>1</td>
-                          <td className={'pseudo'}>Simon Lou</td>
-                          <td className={'total'}>140$</td>
-                      </tr>
-                      <tr>
-                          <td className={'id'}>1</td>
-                          <td className={'pseudo'}>Simon Lou</td>
-                          <td className={'total'}>140$</td>
-                      </tr>
-                      <tr>
-                          <td className={'id'}>1</td>
-                          <td className={'pseudo'}>Simon Lou</td>
-                          <td className={'total'}>140$</td>
-                      </tr>
-                      <tr>
-                          <td className={'id'}>1</td>
-                          <td className={'pseudo'}>Simon Lou</td>
-                          <td className={'total'}>140$</td>
-                      </tr>
-                      <tr>
-                          <td className={'id'}>1</td>
-                          <td className={'pseudo'}>Simon Lou</td>
-                          <td className={'total'}>140$</td>
-                      </tr>
-                      <tr>
-                          <td className={'id'}>1</td>
-                          <td className={'pseudo'}>Simon Lou</td>
-                          <td className={'total'}>140$</td>
-                      </tr>
-                      <tr>
-                          <td className={'id'}>1</td>
-                          <td className={'pseudo'}>Simon Lou</td>
-                          <td className={'total'}>140$</td>
-                      </tr>
-                      <tr>
-                          <td className={'id'}>1</td>
-                          <td className={'pseudo'}>Simon Lou</td>
-                          <td className={'total'}>140$</td>
-                      </tr>
-                      <tr>
-                          <td className={'id'}>1</td>
-                          <td className={'pseudo'}>Simon Lou</td>
-                          <td className={'total'}>140$</td>
-                      </tr>
-                      <tr>
-                          <td className={'id'}>1</td>
-                          <td className={'pseudo'}>Simon Lou</td>
-                          <td className={'total'}>140$</td>
-                      </tr>
-                      <tr>
-                          <td className={'id'}>1</td>
-                          <td className={'pseudo'}>Simon Lou</td>
-                          <td className={'total'}>140$</td>
-                      </tr>
-                      <tr>
-                          <td className={'id'}>1</td>
-                          <td className={'pseudo'}>Simon Lou</td>
-                          <td className={'total'}>140$</td>
-                      </tr>
-                      <tr>
-                          <td className={'id'}>1</td>
-                          <td className={'pseudo'}>Simon Lou</td>
-                          <td className={'total'}>140$</td>
-                      </tr>
-                      <tr>
-                          <td className={'id'}>1</td>
-                          <td className={'pseudo'}>Simon Lou</td>
-                          <td className={'total'}>140$</td>
-                      </tr>
-                      <tr>
-                          <td className={'id'}>1</td>
-                          <td className={'pseudo'}>Simon Lou</td>
-                          <td className={'total'}>140$</td>
-                      </tr>
-                      <tr>
-                          <td className={'id'}>1</td>
-                          <td className={'pseudo'}>Simon Lou</td>
-                          <td className={'total'}>140$</td>
-                      </tr>
-                      <tr>
-                          <td className={'id'}>1</td>
-                          <td className={'pseudo'}>Simon Lou</td>
-                          <td className={'total'}>140$</td>
-                      </tr>
-                      <tr>
-                          <td className={'id'}>1</td>
-                          <td className={'pseudo'}>Simon Lou</td>
-                          <td className={'total'}>140$</td>
-                      </tr>
-                      <tr>
-                          <td className={'id'}>1</td>
-                          <td className={'pseudo'}>Simon Lou</td>
-                          <td className={'total'}>140$</td>
-                      </tr>
-                      <tr>
-                          <td className={'id'}>1</td>
-                          <td className={'pseudo'}>Simon Lou</td>
-                          <td className={'total'}>140$</td>
-                      </tr>
-                      <tr>
-                          <td className={'id'}>1</td>
-                          <td className={'pseudo'}>Simon Lou</td>
-                          <td className={'total'}>140$</td>
-                      </tr>
-                      <tr>
-                          <td className={'id'}>1</td>
-                          <td className={'pseudo'}>Simon Lou</td>
-                          <td className={'total'}>140$</td>
-                      </tr>
-                      <tr>
-                          <td className={'id'}>1</td>
-                          <td className={'pseudo'}>Simon Lou</td>
-                          <td className={'total'}>140$</td>
-                      </tr>
-                      <tr>
-                          <td className={'id'}>1</td>
-                          <td className={'pseudo'}>Simon Lou</td>
-                          <td className={'total'}>140$</td>
-                      </tr>
-                      <tr>
-                          <td className={'id'}>1</td>
-                          <td className={'pseudo'}>Simon Lou</td>
-                          <td className={'total'}>140$</td>
-                      </tr>
-                      <tr>
-                          <td className={'id'}>1</td>
-                          <td className={'pseudo'}>Simon Lou</td>
-                          <td className={'total'}>140$</td>
-                      </tr>
-                      <tr>
-                          <td className={'id'}>1</td>
-                          <td className={'pseudo'}>Simon Lou</td>
-                          <td className={'total'}>140$</td>
-                      </tr>
-                      <tr>
-                          <td className={'id'}>1</td>
-                          <td className={'pseudo'}>Simon Lou</td>
-                          <td className={'total'}>140$</td>
-                      </tr>
-                      <tr>
-                          <td className={'id'}>1</td>
-                          <td className={'pseudo'}>Simon Lou</td>
-                          <td className={'total'}>140$</td>
-                      </tr>
-                      <tr>
-                          <td className={'id'}>1</td>
-                          <td className={'pseudo'}>Simon Lou</td>
-                          <td className={'total'}>140$</td>
-                      </tr>
-                      <tr>
-                          <td className={'id'}>1</td>
-                          <td className={'pseudo'}>Simon Lou</td>
-                          <td className={'total'}>140$</td>
-                      </tr>
-                      <tr>
-                          <td className={'id'}>1</td>
-                          <td className={'pseudo'}>Simon Lou</td>
-                          <td className={'total'}>140$</td>
-                      </tr>
-                      <tr>
-                          <td className={'id'}>1</td>
-                          <td className={'pseudo'}>Simon Lou</td>
-                          <td className={'total'}>140$</td>
-                      </tr>
-                      <tr>
-                          <td className={'id'}>1</td>
-                          <td className={'pseudo'}>Simon Lou</td>
-                          <td className={'total'}>140$</td>
-                      </tr>
-                      <tr>
-                          <td className={'id'}>1</td>
-                          <td className={'pseudo'}>Simon Lou</td>
-                          <td className={'total'}>140$</td>
-                      </tr>
-                      <tr>
-                          <td className={'id'}>1</td>
-                          <td className={'pseudo'}>Simon Lou</td>
-                          <td className={'total'}>140$</td>
-                      </tr>
-                      <tr>
-                          <td className={'id'}>1</td>
-                          <td className={'pseudo'}>Simon Lou</td>
-                          <td className={'total'}>140$</td>
-                      </tr>
-                      <tr>
-                          <td className={'id'}>1</td>
-                          <td className={'pseudo'}>Simon Lou</td>
-                          <td className={'total'}>140$</td>
-                      </tr>
-                      <tr>
-                          <td className={'id'}>1</td>
-                          <td className={'pseudo'}>Simon Lou</td>
-                          <td className={'total'}>140$</td>
-                      </tr>
-                      <tr>
-                          <td className={'id'}>1</td>
-                          <td className={'pseudo'}>Simon Lou</td>
-                          <td className={'total'}>140$</td>
-                      </tr>
-                      <tr>
-                          <td className={'id'}>1</td>
-                          <td className={'pseudo'}>Simon Lou</td>
-                          <td className={'total'}>140$</td>
-                      </tr>
-                      <tr>
-                          <td className={'id'}>1</td>
-                          <td className={'pseudo'}>Simon Lou</td>
-                          <td className={'total'}>140$</td>
-                      </tr>
-                      <tr>
-                          <td className={'id'}>1</td>
-                          <td className={'pseudo'}>Simon Lou</td>
-                          <td className={'total'}>140$</td>
-                      </tr>
-                      <tr>
-                          <td className={'id'}>1</td>
-                          <td className={'pseudo'}>Simon Lou</td>
-                          <td className={'total'}>140$</td>
-                      </tr>
-                      <tr>
-                          <td className={'id'}>1</td>
-                          <td className={'pseudo'}>Simon Lou</td>
-                          <td className={'total'}>140$</td>
-                      </tr>
-                      <tr>
-                          <td className={'id'}>1</td>
-                          <td className={'pseudo'}>Simon Lou</td>
-                          <td className={'total'}>140$</td>
-                      </tr>
-                      <tr>
-                          <td className={'id'}>1</td>
-                          <td className={'pseudo'}>Simon Lou</td>
-                          <td className={'total'}>140$</td>
-                      </tr>
-                      <tr>
-                          <td className={'id'}>1</td>
-                          <td className={'pseudo'}>Simon Lou</td>
-                          <td className={'total'}>140$</td>
-                      </tr>
-                      <tr>
-                          <td className={'id'}>1</td>
-                          <td className={'pseudo'}>Simon Lou</td>
-                          <td className={'total'}>140$</td>
-                      </tr>
-                      <tr>
-                          <td className={'id'}>1</td>
-                          <td className={'pseudo'}>Simon Lou</td>
-                          <td className={'total'}>140$</td>
-                      </tr>
-                      <tr>
-                          <td className={'id'}>1</td>
-                          <td className={'pseudo'}>Simon Lou</td>
-                          <td className={'total'}>140$</td>
-                      </tr>
-                      <tr>
-                          <td className={'id'}>1</td>
-                          <td className={'pseudo'}>Simon Lou</td>
-                          <td className={'total'}>140$</td>
-                      </tr>
-                      <tr>
-                          <td className={'id'}>1</td>
-                          <td className={'pseudo'}>Simon Lou</td>
-                          <td className={'total'}>140$</td>
-                      </tr>
-                      <tr>
-                          <td className={'id'}>1</td>
-                          <td className={'pseudo'}>Simon Lou</td>
-                          <td className={'total'}>140$</td>
-                      </tr>
-                      <tr>
-                          <td className={'id'}>1</td>
-                          <td className={'pseudo'}>Simon Lou</td>
-                          <td className={'total'}>140$</td>
-                      </tr>
-                      <tr>
-                          <td className={'id'}>1</td>
-                          <td className={'pseudo'}>Simon Lou</td>
-                          <td className={'total'}>140$</td>
-                      </tr>
-                      <tr>
-                          <td className={'id'}>1</td>
-                          <td className={'pseudo'}>Simon Lou</td>
-                          <td className={'total'}>140$</td>
-                      </tr>
-                      <tr>
-                          <td className={'id'}>1</td>
-                          <td className={'pseudo'}>Simon Lou</td>
-                          <td className={'total'}>140$</td>
-                      </tr>
-                      <tr>
-                          <td className={'id'}>1</td>
-                          <td className={'pseudo'}>Simon Lou</td>
-                          <td className={'total'}>140$</td>
-                      </tr>
-                      <tr>
-                          <td className={'id'}>1</td>
-                          <td className={'pseudo'}>Simon Lou</td>
-                          <td className={'total'}>140$</td>
-                      </tr>
-                      <tr>
-                          <td className={'id'}>1</td>
-                          <td className={'pseudo'}>Simon Lou</td>
-                          <td className={'total'}>140$</td>
-                      </tr>
-                      <tr>
-                          <td className={'id'}>1</td>
-                          <td className={'pseudo'}>Simon Lou</td>
-                          <td className={'total'}>140$</td>
-                      </tr>
-                      <tr>
-                          <td className={'id'}>1</td>
-                          <td className={'pseudo'}>Simon Lou</td>
-                          <td className={'total'}>140$</td>
-                      </tr>
-                      <tr>
-                          <td className={'id'}>1</td>
-                          <td className={'pseudo'}>Simon Lou</td>
-                          <td className={'total'}>140$</td>
-                      </tr>
-                      <tr>
-                          <td className={'id'}>1</td>
-                          <td className={'pseudo'}>Simon Lou</td>
-                          <td className={'total'}>140$</td>
-                      </tr>
-                      <tr>
-                          <td className={'id'}>1</td>
-                          <td className={'pseudo'}>Simon Lou</td>
-                          <td className={'total'}>140$</td>
-                      </tr>
-                      <tr>
-                          <td className={'id'}>1</td>
-                          <td className={'pseudo'}>Simon Lou</td>
-                          <td className={'total'}>140$</td>
-                      </tr>
-                      <tr>
-                          <td className={'id'}>1</td>
-                          <td className={'pseudo'}>Simon Lou</td>
-                          <td className={'total'}>140$</td>
-                      </tr>
-                      <tr>
-                          <td className={'id'}>1</td>
-                          <td className={'pseudo'}>Simon Lou</td>
-                          <td className={'total'}>140$</td>
-                      </tr>
-                      <tr>
-                          <td className={'id'}>1</td>
-                          <td className={'pseudo'}>Simon Lou</td>
-                          <td className={'total'}>140$</td>
-                      </tr>
-                      <tr>
-                          <td className={'id'}>1</td>
-                          <td className={'pseudo'}>Simon Lou</td>
-                          <td className={'total'}>140$</td>
-                      </tr>
-                      <tr>
-                          <td className={'id'}>1</td>
-                          <td className={'pseudo'}>Simon Lou</td>
-                          <td className={'total'}>140$</td>
-                      </tr>
-                      <tr>
-                          <td className={'id'}>1</td>
-                          <td className={'pseudo'}>Simon Lou</td>
-                          <td className={'total'}>140$</td>
-                      </tr>
-                      <tr>
-                          <td className={'id'}>1</td>
-                          <td className={'pseudo'}>Simon Lou</td>
-                          <td className={'total'}>140$</td>
-                      </tr>
-                      <tr>
-                          <td className={'id'}>1</td>
-                          <td className={'pseudo'}>Simon Lou</td>
-                          <td className={'total'}>140$</td>
-                      </tr>
-                      <tr>
-                          <td className={'id'}>1</td>
-                          <td className={'pseudo'}>Simon Lou</td>
-                          <td className={'total'}>140$</td>
-                      </tr>
-                      <tr>
-                          <td className={'id'}>1</td>
-                          <td className={'pseudo'}>Simon Lou</td>
-                          <td className={'total'}>140$</td>
-                      </tr>
-                      <tr>
-                          <td className={'id'}>1</td>
-                          <td className={'pseudo'}>Simon Lou</td>
-                          <td className={'total'}>140$</td>
-                      </tr>
-                      <tr>
-                          <td className={'id'}>1</td>
-                          <td className={'pseudo'}>Simon Lou</td>
-                          <td className={'total'}>140$</td>
-                      </tr>
-                      <tr>
-                          <td className={'id'}>1</td>
-                          <td className={'pseudo'}>Simon Lou</td>
-                          <td className={'total'}>140$</td>
-                      </tr>
-                      <tr>
-                          <td className={'id'}>1</td>
-                          <td className={'pseudo'}>Simon Lou</td>
-                          <td className={'total'}>140$</td>
-                      </tr>
-                      <tr>
-                          <td className={'id'}>1</td>
-                          <td className={'pseudo'}>Simon Lou</td>
-                          <td className={'total'}>140$</td>
-                      </tr>
-                      <tr>
-                          <td className={'id'}>2</td>
-                          <td className={'pseudo'}>Simon Lou</td>
-                          <td className={'total'}>140$</td>
-                      </tr>
+                          {this.state.list && this.state.list.map((item)=>
+                              <tr key={item.id}>
+                                  <td className={'id'}>{item.id}</td>
+                                  <td className={'pseudo'}>{item.get_user.name}</td>
+                                  <td className={'total'}>${item.total}</td>
+                              </tr>
+                          )}
                       </tbody>
                   </table>
-                  <TableBottom placeholder={'rechercher un nom'} page={1} pages={5}/>
               </div>
+              }
           </div>
         );
     }

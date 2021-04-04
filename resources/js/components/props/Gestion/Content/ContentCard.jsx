@@ -5,7 +5,7 @@ export const rootUrl = document.querySelector('body').getAttribute('data-root-ur
 class ContentCard extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {title: "", path: "", items: [], formcontent: '', type: this.props.type, data:false};
+        this.state = {title: "", path: "", price: 0,items: [], formcontent: '', type: this.props.type, data:false};
         this.post = this.post.bind(this);
         this.delete = this.delete.bind(this);
         this.display = this.display.bind(this);
@@ -30,6 +30,12 @@ class ContentCard extends React.Component {
             case 6:
                 this.setState({title: "Vetements BC"});
                 break;
+            case 7:
+                this.setState({title: 'Lieux survols'})
+                break;
+            case 8:
+                this.setState({title: 'item remboursement'})
+                break;
             default:
                 break;
         }
@@ -43,15 +49,29 @@ class ContentCard extends React.Component {
     async post(e) {
         e.preventDefault();
         if (this.state.formcontent !== "") {
-            var req = await axios({
-                url: '/data/gestion/content/add/' + this.state.type,
-                method: 'POST',
-                data: {
-                    formcontent: this.state.formcontent,
-                }
-            });
+            if(this.props.type === 8){
+                var req = await axios({
+                    url: '/data/gestion/content/add/' + this.state.type,
+                    method: 'POST',
+                    data: {
+                        formcontent: this.state.formcontent,
+                        price: this.state.price
+                    }
+                });
+            }else{
+                var req = await axios({
+                    url: '/data/gestion/content/add/' + this.state.type,
+                    method: 'POST',
+                    data: {
+                        formcontent: this.state.formcontent,
+                    }
+                });
+            }
             if(req.status === 201){
                 this.setState({formcontent:''})
+                if(this.props.type === 8){
+                    this.setState({price :0})
+                }
                 this.componentDidMount();
             }
         }
@@ -92,8 +112,12 @@ class ContentCard extends React.Component {
                     {this.state.data &&
                         this.state.items.map((item)=>
                             <div className={'item'} key={item.id}>
-                                {item.name &&
-                                <p>{item.name}</p>
+                                {this.props.type === 8&&
+                                    <p>{item.name} ${item.price}</p>
+                                }
+                                {this.props.type !== 8 &&
+                                    item.name &&
+                                        <p>{item.name}</p>
                                 }
                                 {item.title&&
                                 <p>{item.title}</p>
@@ -112,6 +136,9 @@ class ContentCard extends React.Component {
                 {this.state.type !== 5&&
                 <form method={"POST"} onSubmit={this.post}>
                     <input type={"text"} value={this.state.formcontent} maxLength={"30"} onChange={(e)=>{this.setState({formcontent: e.target.value})}}/>
+                    {this.props.type === 8&&
+                        <input type={'number'} value={this.state.price} onChange={(e)=>{this.setState({price:e.target.value})}} />
+                    }
                     <button type={'submit'} className={'btn'}>Ajouter</button>
                 </form>}
             </div>

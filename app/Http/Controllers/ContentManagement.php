@@ -10,6 +10,8 @@ use App\Models\CouleurVetement;
 use App\Models\Facture;
 use App\Models\Hospital;
 use App\Models\Intervention;
+use App\Models\LieuxSurvol;
+use App\Models\ObjRemboursement;
 use App\Models\Rapport;
 use App\Models\Service;
 use Illuminate\Http\Request;
@@ -19,6 +21,12 @@ use Illuminate\Support\Facades\Http;
 
 class ContentManagement extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+        $this->middleware('access');
+    }
+
     public function addcontent(Request $request, string $type): \Illuminate\Http\JsonResponse
     {
         /** @var string $request->formcontent */
@@ -43,13 +51,13 @@ class ContentManagement extends Controller
                 $content->name = $request->formcontent;
                 $content->save();
                 return response()->json(['status'=>'OK', 'created'=>$content], 201);
-            case "4";
+            case "4":
                 $content = new Blessure();
                 /** @var string $request->formcontent  */
                 $content->name = $request->formcontent;
                 $content->save();
                 return response()->json(['status'=>'OK', 'created'=>$content], 201);
-            case "5";
+            case "5":
                 $content = new Annonces();
                 /** @var string $request->title  */
                 $content->title = $request->title;
@@ -67,10 +75,21 @@ class ContentManagement extends Controller
                     ]
                 ]);
                 return response()->json(['status'=>'OK', 'created'=>$content], 201);
-            case 6;
+            case "6":
                 $content = new CouleurVetement();
                 /** @var string $request->formcontent  */
                 $content->name = $request->formcontent;
+                $content->save();
+                return response()->json(['status'=>'OK', 'created'=>$content], 201);
+            case "7" :
+                $content = new LieuxSurvol();
+                $content->name= $request->formcontent;
+                $content->save();
+                return response()->json(['status'=>'OK', 'created'=>$content], 201);
+            case '8':
+                $content =new ObjRemboursement();
+                $content->price = $request->price;
+                $content->name= $request->formcontent;
                 $content->save();
                 return response()->json(['status'=>'OK', 'created'=>$content], 201);
             default:
@@ -98,6 +117,12 @@ class ContentManagement extends Controller
                 break;
             case "6":
                 $data = CouleurVetement::all();
+                break;
+            case "7":
+                $data = LieuxSurvol::all();
+                break;
+            case "8":
+                $data = ObjRemboursement::all();
                 break;
             default: break;
         }

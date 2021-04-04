@@ -26,6 +26,7 @@ import Remboursement from "./Personnel/Remboursement";
 import BugRepport from "./BugRepport";
 import ReactNotifications from 'react-notifications-component';
 import { store } from 'react-notifications-component';
+import PermsContext from "./context/PermsContext";
 //import 'react-notifications-component/dist/theme.css';
 import 'animate.css'
 import dateFormat from "dateformat";
@@ -75,6 +76,9 @@ class Layout extends React.Component{
             perms: [],
             serviceStatus: false,
             user: [],
+            context: {
+                perms: {},
+            }
         }
         this.updateWindowDimensions = this.updateWindowDimensions.bind(this)
 
@@ -85,7 +89,7 @@ class Layout extends React.Component{
             url: '/data/getperm',
             method: 'get',
         });
-        this.setState({perms: req.data.perm, user: req.data.user});
+        this.setState({perms: req.data.perm,context:req.data.perm, user: req.data.user});
         this.updateWindowDimensions();
         window.addEventListener("resize", this.updateWindowDimensions);
         this.timerID = setInterval(
@@ -214,33 +218,33 @@ class Layout extends React.Component{
                         <div className="Copyright">
                             <p>Design & développement Simon Lou - Copyright &copy;</p>
                         </div>
-
                     </div>
-
                 </div>
                 <div id="content" style={{filter: this.state.bug ? 'blur(5px)' : 'none'}} >
-                        <Route exact path='/' component={Main}/>
-                        <Route path={'/bugrepport'} component={BugRepport}/>
+                        <PermsContext.Provider value={this.state.context}>
+                            <Route exact path='/' component={Main}/>
+                            <Route path={'/bugrepport'} component={BugRepport}/>
 
-                        <Route path='/patient/rapport' component={Rapport}/>
-                        <Route path={'/patient/blackcode'} component={BCController}/>
-                        <Route path={'/patient/dossiers'} component={RecherchePatient}/>
+                            <Route path='/patient/rapport' component={Rapport}/>
+                            <Route path={'/patient/blackcode'} component={BCController}/>
+                            <Route path={'/patient/dossiers'} component={RecherchePatient}/>
 
-                        <Route path={'/personnel/service'} component={Services}/>
-                        <Route path={'/personnel/factures'} component={Factures}/>
-                        <Route path={'/personnel/informations'} component={Informations}/>
-                        <Route path={'/personnel/moncompte'} component={MonCompte}/>
-                        <Route path={'/personnel/livret'} component={FormationsController}/>
-                        <Route path={'/personnel/vols'} component={CarnetVol}/>
-                        <Route path={'/personnel/remboursement'} component={Remboursement}/>
+                            <Route path={'/personnel/service'} component={Services}/>
+                            <Route path={'/personnel/factures'} component={Factures}/>
+                            <Route path={'/personnel/informations'} component={Informations}/>
+                            <Route path={'/personnel/moncompte'} component={MonCompte}/>
+                            <Route path={'/personnel/livret'} component={FormationsController}/>
+                            <Route path={'/personnel/vols'} component={CarnetVol}/>
+                            <Route path={'/personnel/remboursement'} component={Remboursement}/>
 
-                        <Route path={'/gestion/rapport'} component={RapportHoraire}/>
-                        <Route path={'/gestion/content'} component={ContentManagement}/>
-                        <Route path={'/gestion/personnel'} component={PersonnelList}/>
-                        <Route path={'/gestion/log'} component={Logs}/>
-                        <Route path={'/gestion/formation'} component={AFormaController}/>
-                        <Route path={'/gestion/informations'} component={InfoGestion}/>
-                        <Route path={'/gestion/perm'} component={Permissions}/>
+                            <Route path={'/gestion/rapport'} component={RapportHoraire}/>
+                            <Route path={'/gestion/content'} component={ContentManagement}/>
+                            <Route path={'/gestion/personnel'} component={PersonnelList}/>
+                            <Route path={'/gestion/log'} component={Logs}/>
+                            <Route path={'/gestion/formation'} component={AFormaController}/>
+                            <Route path={'/gestion/informations'} component={InfoGestion}/>
+                            <Route path={'/gestion/perm'} component={Permissions}/>
+                        </PermsContext.Provider>
                     <ReactNotifications/>
                 </div>
                 {this.state.bug &&

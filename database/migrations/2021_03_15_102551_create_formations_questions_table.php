@@ -20,7 +20,6 @@ class CreateFormationsQuestionsTable extends Migration
             $table->string('correction')->nullable();
             $table->string('max_note');
             $table->json('responses');
-            $table->json('right_response');
             $table->string('name');
             $table->string('img')->nullable();
             $table->mediumText('desc');

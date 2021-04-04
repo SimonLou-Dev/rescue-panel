@@ -21,7 +21,7 @@
         "postcss": "^8.1.14",
         "react": "^16.2.0",
         "react-dom": "^16.2.0",
-        "react-notifications-component": "^3.0.4",
+        "react-notifications-component": "^3.1.0",
         "resolve-url-loader": "^3.1.2",
         "sass": "^1.15.2",
         "sass-loader": "^8.0.2",

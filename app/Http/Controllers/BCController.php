@@ -20,6 +20,11 @@ use Illuminate\Support\Facades\Http;
 
 class BCController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+        $this->middleware('access');
+    }
 
     public function getUserInfos(): \Illuminate\Http\JsonResponse
     {

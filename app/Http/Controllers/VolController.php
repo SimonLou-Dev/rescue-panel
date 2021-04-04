@@ -2,14 +2,23 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\Notify;
 use App\Models\LieuxSurvol;
 use App\Models\User;
 use App\Models\Vol;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Http;
 
 class VolController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->middleware('auth');
+        $this->middleware('access');
+    }
+
     public function getVolsList(int $page, string $pilote = null): \Illuminate\Http\JsonResponse
     {
         $page--;
@@ -62,6 +71,30 @@ class VolController extends Controller
         $vol->pilote_id = $pilote_id;
         $vol->lieux_id = $request->lieux;
         $vol->save();
+
+        event(new Notify('Votre vol est pris en compte',1));
+        Http::post(env('WEBHOOK_VOLS'),[
+            'embeds'=>[
+                [
+                    'title'=>'Helicoptère en déployé:',
+                    'color'=>'13373531',
+                    'fields'=>[
+                        [
+                            'name'=>'Zone : ',
+                            'value'=>$vol->GetLieux->name,
+                            'inline'=>true
+                        ],[
+                            'name'=>'raison : ',
+                            'value'=>$vol->raison,
+                            'inline'=>false
+                        ]
+                    ],
+                    'footer'=>[
+                        'text' => 'Pilote : ' . Auth::user()->name,
+                    ]
+                ]
+            ]
+        ]);
         return response()->json(['status'=>'OK'],201);
 
     }

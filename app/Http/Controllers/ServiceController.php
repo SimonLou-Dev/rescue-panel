@@ -14,6 +14,13 @@ use Illuminate\Support\Facades\Http;
 
 class ServiceController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->middleware('auth');
+        $this->middleware('access');
+    }
+
     public function getUserService(): \Illuminate\Http\JsonResponse
     {
         $date = $this::getWeekNumber();

@@ -60,4 +60,8 @@ class User extends Authenticatable
     {
         return $this->hasMany(Certification::class, 'user_id')->orderBy('formation_id');
     }
+
+    public function GetAllRemboursement(){
+        return $this->hasMany(RemboursementList::class, 'user_id');
+    }
 }

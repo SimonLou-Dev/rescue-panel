@@ -3,6 +3,67 @@ import PagesTitle from "../props/utils/PagesTitle";
 import axios from "axios";
 
 class FormaUserList extends React.Component {
+
+    constructor(props) {
+        super(props);
+        this.state = {
+            data: false,
+            formations: [],
+            certifs: [],
+            nbrForma: 0,
+            arraybis: [],
+        }
+    }
+
+    async componentDidMount() {
+        let req = await axios({
+            url: '/data/certifications/admin/get',
+            method: 'GET'
+        })
+
+        if (req.status === 200) {
+            this.setState({
+                data: true,
+            })
+        }
+
+        //Création de l'array de chaque user
+        let array = this.state.arraybis;
+        let usernbr = 0;
+        while (usernbr < req.data.users.length){
+            const user = req.data.users[usernbr];
+            const certifs = user.get_certifications;
+            let formations = req.data.certifs;
+
+            //On récupère les id des formations validés
+            let validatedid = [];
+            certifs.map((certif)=>{
+                validatedid.push(certif.formation_id)
+            })
+
+            //formations array
+            let allfomartions = [];
+
+            //liste de toutes les formations
+            formations.map((formation)=>{
+                allfomartions.push({
+                    id: formation.id,
+                    validate: validatedid.includes(formation.id)
+                })
+            })
+
+            //Obj de l'utilisateurs
+            var obj = {
+                name: user.name,
+                id: user.id,
+                formations: allfomartions
+            }
+            array.push(obj)
+            usernbr++;
+        }
+        this.setState({arraybis:array})
+    }
+
     render() {
         return (
             <div className="f-userlist">
@@ -15,89 +76,26 @@ class FormaUserList extends React.Component {
                         <thead>
                             <tr>
                                 <th className={'name'}>nom</th>
-                                <th className={'forma'}>BC fire unit</th>
-                                <th className={'forma'}>BC fire unit</th>
-                                <th className={'forma'}>BC fire unit</th>
-                                <th className={'forma'}>BC fire unit</th>
-                                <th className={'forma'}>BC fire unit</th>
-                                <th className={'forma'}>BC fire unit</th>
-                                <th className={'forma'}>BC fire unit</th>
-                                <th className={'forma'}>BC fire unit</th>
-                                <th className={'forma'}>BC fire unit</th>
-                                <th className={'forma'}>BC fire unit</th>
-                                <th className={'forma'}>BC fire unit</th>
+                                {this.state.data && this.state.formations.map((formation)=>
+                                    <th key={formation.id} className={'forma'}>{formation.name}</th>
+                                )}
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td className={'name'}>Simon Lou</td>
-                                <td className={'forma'}><div className={'pilote-btn'}>
-                                    <input type="checkbox" id={"toggle_"+this.props.id }/>
-                                    <div>
-                                        <label htmlFor={"toggle"+this.props.id}/>
-                                    </div>
-                                </div></td>
-                                <td className={'forma'}><div className={'pilote-btn'}>
-                                    <input type="checkbox" id={"toggle"}/>
-                                    <div>
-                                        <label htmlFor={"toggle"+this.props.id}/>
-                                    </div>
-                                </div></td>
-                                <td className={'forma'}><div className={'pilote-btn'}>
-                                    <input type="checkbox" id={"toggle"+this.props.id}/>
-                                    <div>
-                                        <label htmlFor={"toggle"+this.props.id}/>
-                                    </div>
-                                </div></td>
-                                <td className={'forma'}><div className={'pilote-btn'}>
-                                    <input type="checkbox" id={"toggle"+this.props.id}/>
-                                    <div>
-                                        <label htmlFor={"toggle"+this.props.id}/>
-                                    </div>
-                                </div></td>
-                                <td className={'forma'}><div className={'pilote-btn'}>
-                                    <input type="checkbox" id={"toggle"+this.props.id}/>
-                                    <div>
-                                        <label htmlFor={"toggle"+this.props.id}/>
-                                    </div>
-                                </div></td>
-                                <td className={'forma'}><div className={'pilote-btn'}>
-                                    <input type="checkbox" id={"toggle"+this.props.id}/>
-                                    <div>
-                                        <label htmlFor={"toggle"+this.props.id}/>
-                                    </div>
-                                </div></td>
-                                <td className={'forma'}><div className={'pilote-btn'}>
-                                    <input type="checkbox" id={"toggle"+this.props.id}/>
-                                    <div>
-                                        <label htmlFor={"toggle"+this.props.id}/>
-                                    </div>
-                                </div></td>
-                                <td className={'forma'}><div className={'pilote-btn'}>
-                                    <input type="checkbox" id={"toggle"+this.props.id}/>
-                                    <div>
-                                        <label htmlFor={"toggle"+this.props.id}/>
-                                    </div>
-                                </div></td>
-                                <td className={'forma'}><div className={'pilote-btn'}>
-                                    <input type="checkbox" id={"toggle"+this.props.id}/>
-                                    <div>
-                                        <label htmlFor={"toggle"+this.props.id}/>
-                                    </div>
-                                </div></td>
-                                <td className={'forma'}><div className={'pilote-btn'}>
-                                    <input type="checkbox" id={"toggle"+this.props.id}/>
-                                    <div>
-                                        <label htmlFor={"toggle"+this.props.id}/>
-                                    </div>
-                                </div></td>
-                                <td className={'forma'}><div className={'pilote-btn'}>
-                                    <input type="checkbox" id={"toggle"+this.props.id}/>
-                                    <div>
-                                        <label htmlFor={"toggle"+this.props.id}/>
-                                    </div>
-                                </div></td>
+                        {this.state.data && this.state.arraybis && this.state.arraybis.map((user)=>
+                            <tr key={user.id}>
+                                {user.formations.map((forma)=>
+                                    <td className={'forma'}>
+                                        <div className={'pilote-btn'}>
+                                                <input type="checkbox" id={"toggle"} checked={forma.validate === true}/>
+                                            <div>
+                                                <label htmlFor={"toggle"+this.props.id}/>
+                                            </div>
+                                        </div>
+                                    </td>
+                                )}
                             </tr>
+                        )}
                         </tbody>
                     </table>
                 </section>
@@ -107,6 +105,7 @@ class FormaUserList extends React.Component {
 }
 
 class FormaList extends React.Component {
+
     constructor(props) {
         super(props);
     }
@@ -117,6 +116,7 @@ class FormaList extends React.Component {
                 <section className="header">
                     <PagesTitle title={'Liste des formations'}/>
                     <button onClick={()=>this.props.change(0)} className={'btn'}>Certifications</button>
+                    <button onClick={()=>{this.props.change(2)}} className={'btn'}>Creer une formation</button>
                 </section>
             </div>
         );
@@ -131,13 +131,14 @@ class CreatorItem extends React.Component {
             responses: [],
             lasresponseid: 0,
             image: '',
-            formationid: null,
+            questionid: null,
             updated: false,
             text: "",
             desc: '',
             correction: '',
             needcorect: false,
         }
+        this.save = this.save.bind(this)
         this.addResponse = this.addResponse.bind(this)
         this.deleteResponse = this.deleteResponse.bind(this)
         this.changeBtnResponseState = this.changeBtnResponseState.bind(this)
@@ -198,23 +199,59 @@ class CreatorItem extends React.Component {
         this.setState({responses:array, updated:true})
     }
 
-    componentDidMount() {
+    async componentDidMount() {
+        if (this.props.questionid) {
+            var req = await axios({
+                method: 'GET',
+                url: '/data/formations/question/'+this.props.questionid,
+            })
+            if(req.status === 200){
+             this.setState({
+                 questionid: this.props.questionid,
+                 image: '/storage/formations/question_img/'+this.props.formationid+'/'+req.data.question.img,
+                 correction:req.data.correction,
+                 desc: req.data.question.desc,
+                 text:req.data.question.name,
+                 responses: req.data.question.responses,
+             })
+            }
+        }
         window.addEventListener("saveAll", this.save);
     }
 
     async save() {
-        if(this.state.formationid){
+        if(this.state.questionid){
             if(this.state.updated){
                 var req = await axios({
-                    method: 'POST',
-
+                    method: 'PUT',
+                    url: '/data/formations/admin/question/'+ this.state.questionid + '/update',
+                    data: {
+                        img: this.state.img,
+                        correction: this.state.correction,
+                        description: this.state.desc,
+                        name: this.state.text,
+                        responses: this.state.responses
+                    }
                 })
+                if(req.status ===201){
+                    this.setState({updated:false});
+                }
             }
         }else{
             var req = await axios({
-                method: 'PUT',
-
+                method: 'POST',
+                url : '/data/formations/' + this.props.formationid + '/admin/question/post',
+                data: {
+                    img: this.state.img,
+                    correction: this.state.correction,
+                    description: this.state.desc,
+                    name: this.state.text,
+                    responses: this.state.responses
+                }
             })
+            if(req.status === 201){
+                this.setState({questionid:req.data.questionid, updated:false})
+            }
         }
     }
 
@@ -241,10 +278,10 @@ class CreatorItem extends React.Component {
                     </div>
                     <div className={'add-image'}>
                         <div className={'image'}>
-                            {this.state.img &&
+                            {this.state.image &&
                             <img alt={""} src={this.state.image}/>
                             }
-                            {!this.state.img &&
+                            {!this.state.image &&
                             <h3>ajouter une image 960x540</h3>
                             }
                             <input accept={["image/jpeg", "image/png"]} type={"file"} onChange={(e)=>{
@@ -272,10 +309,12 @@ class CreatorItem extends React.Component {
                         <label>Description</label>
                         <textarea value={this.state.desc} onChange={(e)=> {this.setState({desc:e.target.value, updated:true})}}/>
                     </div>
-                    <div className="correction">
-                        <label>Phrase de correction</label>
-                        <input type={'text'} maxLength={255} value={this.state.correction} onChange={(e)=> {this.setState({correction:e.target.value, updated:true})}}/>
-                    </div>
+                    {this.props.correct &&
+                        <div className="correction">
+                            <label>Phrase de correction</label>
+                            <input type={'text'} maxLength={255} value={this.state.correction} onChange={(e)=> {this.setState({correction:e.target.value, updated:true})}}/>
+                        </div>
+                    }
                 </form>
             </section>
         );
@@ -283,6 +322,7 @@ class CreatorItem extends React.Component {
 }
 
 class FormaCreate extends React.Component {
+
     constructor(props) {
         super(props);
         this.state = {
@@ -344,27 +384,58 @@ class FormaCreate extends React.Component {
         }
     }
 
-    componentDidMount() {
+    async componentDidMount() {
+        if (this.props.id === null) {
+            this.setState({formationid: null});
+        } else {
+            var req = await axios({
+                method: 'GET',
+                url: '/data/formations/admin/' + this.props.id + '/get',
+            })
+            if(req.status ===  200){
+                let a = 0;
+                let item = this.state.item;
+                while (a < req.data.responses.length){
+                    item.push({id: item.length, itemid: req.data.responses[a].id});
+                    a++;
+                }
+                let timer = Math.trunc(req.data.formation.timer / 3600);
+                let reste = req.data.formation.timer % 3600 / 60
+                const final_timer = (timer < 10 ? '0' : '') + timer + ':' + (reste < 10 ? '0' : '') + reste;
+                console.log(reste, timer, final_timer);
+
+                let time = req.data.formation.time_btw_try;
+                let time_btw = Math.trunc(time / 86400);
+                let rest = time % 86400/ 3600;
+                time_btw = (time_btw < 10 ? '0' : '') + time_btw + ' ' + (rest < 10 ? '0' : '') + rest;
+
+                this.setState({
+                    formationid: this.props.id,
+                    updated:false,
+                    img: undefined,
+                    item: item,
+
+                    correction: req.data.formation.correction,
+                    desc: req.data.formation.desc,
+                    name: req.data.formation.name,
+                    getcertif: req.data.formation.certify,
+                    getfinalnote: req.data.formation.displaynote,
+                    max_try: req.data.formation.max_try,
+                    time: (req.data.formation.timer !== null),
+                    time_str: final_timer,
+                    total: req.data.formation.timed,
+                    question: req.data.formation.question_timed,
+                    retry_soon: req.data.formation.can_retry_later,
+                    time_btw: time_btw,
+                    unic_try: req.data.formation.unic_try,
+                    save: req.data.formation.save_on_deco,
+                    image: '/storage/formations/front_img/'+this.props.id+'/'+req.data.formation.image,
+                })
+            }
+        }
+
         window.addEventListener("saveAll", this.save);
     }
-
-    /*
-     * bool correction
-     * string desc
-     * bool certif
-     * bool finalnote
-     * file img
-     * int max_try
-     * string name
-     * bool time
-     * bool total (timed)
-     * bool question (timed)
-     * string time_str
-     * bool unic_try
-     * bool time_btw
-     * string time_btw_str
-     * bool unic_try
-     */
 
     async save(add = null){
         if(this.state.formationid === null ){
@@ -402,12 +473,29 @@ class FormaCreate extends React.Component {
 
         }else if(this.state.updated){
             var req = await axios({
-                method: 'POST',
-                url: '',
+                method: 'PUT',
+                url: '/data/formations/admin/'+ this.state.formationid+'/update',
                 data: {
-
+                    correction: this.state.correction,
+                    desc: this.state.desc,
+                    name: this.state.name,
+                    certif: this.state.getcertif,
+                    finalnote: this.state.getfinalnote,
+                    img: this.state.img,
+                    max_try: this.state.max_try,
+                    time: this.state.time,
+                    total: this.state.total,
+                    question: this.state.question,
+                    time_str: this.state.time_str,
+                    time_btw: this.state.retry_soon,
+                    time_btw_str: this.state.time_btw,
+                    unic_try: this.state.unic_try,
+                    save: this.state.saveondeco,
                 }
             })
+            if(req.status === 201){
+                this.setState({updated: false});
+            }
         }
     }
 
@@ -425,7 +513,7 @@ class FormaCreate extends React.Component {
         return (
             <div className="formationCretor">
                 <section className={'header'}>
-                    <button className={'btn'}>Quitter</button>
+                    <button className={'btn'} onClick={()=>{this.props.change(1)}}>Quitter</button>
                     <PagesTitle  title={'creer une formation'}/>
                     <button className={'btn'} disabled={this.state.formationid ? false : true} onClick={()=>{window.dispatchEvent(new CustomEvent("saveAll", {}))}}>Enregistrer</button>
                 </section>
@@ -482,10 +570,10 @@ class FormaCreate extends React.Component {
                                     </div>
                                     <div className="image">
                                         <div className={'add-image'}>
-                                            {this.state.img &&
+                                            {this.state.image &&
                                             <img alt={""} src={this.state.image}/>
                                             }
-                                            {!this.state.img &&
+                                            {!this.state.image &&
                                             <h3>ajouter une image 960x540</h3>
                                             }
                                             <input accept={["image/jpeg", "image/png"]} type={"file"} onChange={(e)=>{
@@ -590,7 +678,7 @@ class FormaCreate extends React.Component {
                         }
                         {this.state.data && this.state.formationid && this.state.item.map((it)=>
                            it.id !== 0 &&
-                              <CreatorItem key={it.id} id={it.id} current={it.id === this.state.itemid}/>
+                              <CreatorItem key={it.id} id={it.id} current={it.id === this.state.itemid} correct={this.state.correction} formationid={this.state.formationid} questionid={it.itemid}/>
                         ) }
                     </section>
                     <section className={'creator-bottom'}>
@@ -615,19 +703,24 @@ class AFormaController extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            status: 2,
+            status: 0,
+            formationid: null,
         }
+        this.change =this.change.bind(this);
     }
 
+    change(page, formationid =null){
+        this.setState({status: page, formationid: formationid})
+    }
 
     render() {
         switch (this.state.status){
             case 0:
-                return (<FormaUserList change={(page)=>this.setState({status: page})}/>)
+                return (<FormaUserList change={this.change}/>)
             case 1:
-                return (<FormaList change={(page)=>this.setState({status: page})}/>)
+                return (<FormaList change={this.change}/>)
             case 2:
-                return (<FormaCreate change={(page)=>this.setState({status: page})}/>)
+                return (<FormaCreate change={this.change} id={this.state.formationid} />)
         }
     }
 }
