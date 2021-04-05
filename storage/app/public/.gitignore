@@ -1,2 +1,4 @@
-*
+/formations/front_img/*
+/formations/question_img/*
+/user_background/*
 !.gitignore
