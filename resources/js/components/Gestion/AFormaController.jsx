@@ -1,6 +1,7 @@
 import React from 'react';
 import PagesTitle from "../props/utils/PagesTitle";
 import axios from "axios";
+import PermsContext from "../context/PermsContext";
 
 class FormaUserList extends React.Component {
 
@@ -132,22 +133,80 @@ class FormaList extends React.Component {
 
     constructor(props) {
         super(props);
+        this.state = {
+            formations: [],
+            data:false,
+        }
+    }
+
+    async componentDidMount() {
+        var req = await axios({
+            url: '/data/formations/get',
+            method: 'GET',
+        })
+        if(req.status === 200){
+            this.setState({formations:req.data.formations, data:true})
+        }
     }
 
     render() {
+        let perm = this.context;
         return (
             <div className="f-formalist">
                 <section className="header">
                     <PagesTitle title={'Liste des formations'}/>
                     <button onClick={()=>this.props.change(0)} className={'btn'}>Certifications</button>
-                    <button onClick={()=>{this.props.change(2)}} className={'btn'}>Creer une formation</button>
+                    <button disabled={!perm.create_forma} onClick={()=>{this.props.change(2)}} className={'btn'}>Creer une formation</button>
+                </section>
+                <section className={'f-list'}>
+                    {this.state.data === true && this.state.formations.map((forma)=>
+                        <div className={'item'}>
+                            <div className={'columns img'}>
+                                <img src={'/storage/formations/front_img/'+forma.id+ '/'+forma.image} alt={''}/>
+                            </div>
+                            <div className={'columns text'}>
+                                <h2>{forma.name}</h2>
+                                <p>{forma.desc}</p>
+                            </div>
+                            <div className={'columns infos'}>
+                                <h5>Réussites : {forma.success}</h5>
+                                <h5>Essais : {forma.try}</h5>
+                                <h5>Echecs : {forma.try - forma.success}</h5>
+                            </div>
+                            <div className={'columns actions'}>
+                                <div className={'row'}>
+                                    <button disabled={!perm.create_forma} onClick={()=>this.props.change(2,forma.id)}><img src={'/assets/images/editer.png'} alt={''}/></button>
+                                    <button disabled={!perm.forma_delete} onClick={async () => {
+                                        let req = await axios({
+                                            url: '/data/formations/admin/' + forma.id + '/delete',
+                                            method: 'DELETE',
+                                        });
+                                        if(req.status === 200){this.componentDidMount()}
+                                    }}><img src={'/assets/images/cancel.png'} alt={''}/></button>
+                                </div>
+                                <h5>public</h5>
+                                <div className={'switch-container'}>
+                                    <input id={"switch"} checked={forma.public} disabled={!perm.forma_publi} className="payed_switch" type="checkbox" onChange={async () => {
+                                        let req = await axios({
+                                            url: '/data/formations/admin/' + forma.id + '/visibylity',
+                                            method: 'PUT',
+                                        });
+                                        if(req.status === 201){this.componentDidMount()}
+                                    }}/>
+                                    <label htmlFor={"switch"} className={"payed_switchLabel"}/>
+                                </div>
+                            </div>
+                        </div>
+                    )}
                 </section>
             </div>
         );
     }
 }
+FormaList.contextType = PermsContext;
 
 class CreatorItem extends React.Component {
+
     constructor(props) {
         super(props);
         this.state= {

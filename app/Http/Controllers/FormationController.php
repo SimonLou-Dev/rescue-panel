@@ -6,6 +6,7 @@ use App\Events\Notify;
 use App\Models\Certification;
 use App\Models\Formation;
 use App\Models\FormationsQuestion;
+use App\Models\FormationsResponse;
 use App\Models\Grade;
 use App\Models\ListCertification;
 use App\Models\User;
@@ -23,6 +24,9 @@ class FormationController extends Controller
         $this->middleware('access');
     }
 
+    /**
+     * @return JsonResponse
+     */
     public function getUsersCertifications(): JsonResponse
     {
         $forma = Formation::all();
@@ -41,6 +45,49 @@ class FormationController extends Controller
             'certifs'=>$forma,
             'nbrForma'=>count($forma),
         ]);
+    }
+
+    /**
+     * @return JsonResponse
+     */
+    public function getFormations(string $page =null, string $max = null): JsonResponse
+    {
+        $user = User::where('id', Auth::user()->id)->first();
+        $pages = null;
+
+        if(!is_null($max)){
+            $page = (int) $page;
+            $page--;
+            if($user->GetGrade->perm_21 || $user->GetGrade->perm_20){
+                $formations = Formation::orderByDesc('id')->skip($page*4)->take(4)->get();
+                $formationsCount = Formation::count();
+            }else{
+                $formations = Formation::where('public', true)->skip($page*4)->take(4)->orderByDesc('id')->get();
+                $formationsCount =  Formation::where('public', true)->count();
+            }
+            $pages = ceil($formationsCount / 4);
+            $myformations = [];
+            foreach ($user->GetCertifications as $certification){
+                array_push($myformations, $certification->formation_id);
+            }
+            foreach ($formations as $formation){
+                if (in_array($formation->id, $myformations)){
+                    $formation->validate= true;
+                }else{
+                    $formation->validate = false;
+                }
+            }
+
+        }else{
+            if($user->GetGrade->perm_21 || $user->GetGrade->perm_20){
+                $formations = Formation::orderByDesc('id')->get();
+            }else{
+                $formations = Formation::where('public', true)->orderByDesc('id')->get();
+            }
+        }
+
+
+        return \response()->json(['status'=>'OK', 'formations'=>$formations, 'pages'=>$pages]);
     }
 
     /**
@@ -80,9 +127,16 @@ class FormationController extends Controller
 
     /**
      * @param string $formation_id
+     * @return JsonResponse
      */
-    public function changeFormationVisibility(string $formation_id){
-        // a faire
+    public function changeFormationVisibility(string $formation_id): JsonResponse
+    {
+        $formation_id = (int) $formation_id;
+        $formation = Formation::where('id', $formation_id)->first();
+        $formation->public = !$formation->public;
+        $formation->save();
+        event(new Notify('La formation est maintenant ' . ($formation->public ? 'publique': 'privée'),1));
+        return \response()->json(['status'=>'OK'],201);
     }
 
     /**
@@ -348,20 +402,23 @@ class FormationController extends Controller
             mkdir($dir);
             Image::make($img)->resize(960,540)->save($dir . '/' . $imgname);
         }
-        event(new Notify('Vous avez ajouté une question', 1));
+        event(new Notify('Vous avez mis a jour une question', 1));
         return \response()->json(['status'=>'OK'],201);
     }
 
     /**
      * @param string $formation_id
+     * @return JsonResponse
      */
-    public function deleteFormationById(string $formation_id){
+    public function deleteFormationById(string $formation_id): JsonResponse
+    {
         $formation_id = (int) $formation_id;
+        $formation = Formation::where('id', $formation_id)->first();
+        $formation->delete();
+        event(new Notify('Formation supprimée',1));
+        return \response()->json(['status'=>"OK"]);
     }
 
-    public function getFormations(){
-        // a faire
-    }
 
     /**
      * @param string $formation_id
@@ -370,11 +427,51 @@ class FormationController extends Controller
     public function getFormationById(string $formation_id): JsonResponse
     {
         $formation_id = (int) $formation_id;
-        $formation = Formation::where('id', $formation_id);
+        $tentative = FormationsResponse::where('user_id', Auth::user()->id)->where('formation_id', $formation_id)->where('finished', false)->count() > 0;
+
+        $formation = Formation::where('id', $formation_id)->first();
+
+        if(!$tentative){
+            if($formation->unic_try){
+                foreach ($formation->GetResponses as $response){
+                    if($response->user_id == Auth::user()->id){
+                        event(new Notify('Cette formation est a essai unique',2));
+                        return  response()->json(['status'=>'TO MANY TRY'], 500);
+                    }
+                }
+            }
+            $userstry = 0;
+            foreach ($formation->GetResponses as $response){
+                if($response->user_id == Auth::user()->id){
+                    $userstry++;
+                }
+            }
+            if($userstry == $formation->max_try && $formation->max_try != 0){
+                event(new Notify('Vous avez épuisé toute vos tentatives',2));
+                return  response()->json(['status'=>'TO MANY TRY'], 500);
+            }
+
+            if($formation->can_retry_later){
+                $last = FormationsResponse::where('user_id', Auth::user()->id)->where('formation_id', $formation_id)->orderByDesc('id')->first();
+                if(isset($last)){
+                    $time = strtotime($last->created_at);
+                    $possibily = time() > $formation->time_btw_try + $time;
+                    if(!$possibily){
+                        event(new Notify('Vous ne pouvez pas refaire cette formation maintenant',2));
+                        return  response()->json(['status'=>'TO MANY TRY'], 500);
+                    }
+                }
+            }
+        }
+
+        foreach ($formation->GetQuestions as $question){
+            $question->responses = json_decode($question->responses);
+        }
+
         return response()->json([
             'status'=>'OK',
             'formation'=>$formation,
-            'responses'=>$formation->GetQuestions]);
+        ]);
     }
 
     /**
@@ -395,7 +492,24 @@ class FormationController extends Controller
      */
     public function saveResponseState(Request $request, string $question_id){
         $question_id = (int) $question_id;
-        // a faire
+        $question = FormationsQuestion::where('id',$question_id)->first();
+        $response = FormationsResponse::where('finished', false)->where('user_id', Auth::user()->id);
+        if($response->count() == 0){
+            $response = new FormationsResponse();
+            $response->finished = false;
+            $response->lastquestion_id = (int) $question_id;
+            $response->formation_id = $question->GetFormation->id;
+            $response->user_id = Auth::user()->id;
+            $response->note = (int) $request->points;
+        }else{
+            $response->first();
+            if (!empty($response)) {
+                $response->note = $response->note + (int) $request->points;
+                $response->lastquestion_id = (int) $question_id;
+            }
+        }
+        $response->save();
+        return \response()->json(['status'=>'OK']);
     }
 
     /**

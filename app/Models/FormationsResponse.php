@@ -21,7 +21,7 @@ use Illuminate\Database\Eloquent\Model;
 class FormationsResponse extends Model
 {
     use HasFactory;
-    protected $table = "FormationResponses";
+    protected $table = "FormationsResponses";
 
     protected $fillable = ['finished', 'lastquestion_id', 'user_id', 'note'];
 

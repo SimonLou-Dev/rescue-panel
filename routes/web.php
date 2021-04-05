@@ -122,7 +122,7 @@ Route::delete('/data/formations/admin/{formation_id}/delete', [\App\Http\Control
 Route::post('/data/formations/{formation_id}/admin/question/post', [\App\Http\Controllers\FormationController::class, 'addQuestion']);
 Route::put('/data/formations/admin/question/{question_id}/update', [\App\Http\Controllers\FormationController::class, 'updateQuestion']);
 Route::delete('/data/formations/admin/question/{question_id}/delete', [\App\Http\Controllers\FormationController::class, 'deleteQuestion']);
-Route::get('/data/formations/get', [\App\Http\Controllers\FormationController::class, 'getFormations']);
+Route::get('/data/formations/get/{page?}/{max?}', [\App\Http\Controllers\FormationController::class, 'getFormations']);
 Route::get('/data/formations/{formation_id}/get', [\App\Http\Controllers\FormationController::class, 'getFormationById']);
 Route::get('/data/formations/question/{question_id}', [\App\Http\Controllers\FormationController::class, 'getQuestionById']);
 Route::post('/data/formations/response/{question_id}/save', [\App\Http\Controllers\FormationController::class, 'saveResponseState']);

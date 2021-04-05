@@ -52,7 +52,7 @@ class Time extends React.Component {
     }
 
     tick(){
-        var d = dateFormat(new Date(), 'HH:mm:ss');
+        var d = dateFormat(new Date(), 'HH:MM:ss');
         this.setState({date: d})
     }
     componentWillUnmount() {
