@@ -93,12 +93,36 @@ class ResponsePage extends React.Component {
             formation: {},
             responses: {},
             length: 1,
-            actuel: 1,
+            actuel: 0,
             incorrect: false,
             myresponses: {},
+            time: 0,
+            timerpaused: false,
+            note: '?/?',
         }
 
         this.nextPage = this.nextPage.bind(this)
+        this.timer = this.timer.bind(this)
+        this.endPage = this.endPage.bind(this)
+        this.finalSave = this.finalSave.bind(this)
+        this.ScoreCouter = this.ScoreCouter.bind(this)
+
+    }
+
+    timer(){
+        console.log('call')
+        if(!this.state.timerpaused){
+            let time = this.state.time - 1
+            this.setState({ time : time });
+            if(time === 0){
+                if(this.state.formation.question_timed){
+                    this.nextPage()
+                }
+                if(this.state.formation.timed){
+                    this.endPage();
+                }
+            }
+        }
     }
 
     async componentDidMount() {
@@ -114,33 +138,61 @@ class ResponsePage extends React.Component {
             length = length + (req.data.formation.displaynote === 1 ? 1 : 0)
 
             this.setState({formation: req.data.formation, responses: req.data.formation.get_questions, length:length})
+            this.nextPage()
         }
     }
 
-    componentWillUnmount() {
+    async componentWillUnmount() {
+        var req = await axios({
+            url: '/data/formation/response/'+ this.state.formationid +'/save',
+            method: 'POST'
+        })
+    }
 
+    endPage(){
+        this.setState({actuel: this.state.length});
+        this.ScoreCouter().then(r => {this.finalSave();});
     }
 
     nextPage(){
-        if(this.state.actuel === this.state.length){
-
-        }else{
-            if(this.state.actuel === 0){
+        if(this.state.actuel === 0 || this.state.actuel === this.state.length){
+            if(this.state.actuel  === 0){
                 this.setState({actuel: this.state.actuel+1, incorrect:false});
-            }else{
-                if(this.state.formation.correction){
-                    if(this.state.incorrect){
-                        this.setState({actuel: this.state.actuel+1, incorrect:false});
-                    }else{
-                        this.setState({incorrect:true});
-                        this.ScoreCouter();
-                    }
+                this.setState( {time: this.state.formation.timer})
+                this.interval = setInterval(this.timer,1000);
+            }
+            if(this.state.actuel === this.state.length){
+                this.props.change(null)
+            }
+        }else{
+            if(this.state.formation.question_timed != null) {
+                this.setState( {time:this.state.formation.timer})
+            }
+            if(this.state.formation.correction){
+                if(this.state.incorrect){
+                    this.setState({actuel: this.state.actuel+1, incorrect:false, timerpaused:false});
                 }else{
+                    this.setState({incorrect:true, timerpaused:true});
+                    this.ScoreCouter();
+                }
+            }else{
                     this.ScoreCouter();
                     this.setState({actuel: this.state.actuel+1});
                 }
-            }
+        }if(this.state.actuel === this.state.length -1){
+            this.finalSave()
         }
+    }
+
+    async finalSave(){
+        var req = await axios({
+            url: '/data/formation/'+ this.state.formation.id +'/final',
+            method: 'GET'
+        })
+        if(req.status === 200){
+            this.setState({note: req.data.note})
+        }
+
     }
 
     async ScoreCouter() {
@@ -176,11 +228,6 @@ class ResponsePage extends React.Component {
                 <PagesTitle title={"formation | " + this.state.formation.name}/>
                 <div className="responsecontent">
                         <section className="question">
-                            {this.state.actuel === 0 &&
-                                <div className={'question-infos'}>
-
-                                </div>
-                            }
                             {this.state.actuel > 0 && this.state.actuel < this.state.length &&
                                 <div className={'left'}>
                                     <h2><span>Question n°{this.state.actuel} :</span> {this.state.responses[this.state.actuel - 1 - (this.state.formation.displaynote === 1 ? 1 : 0)].name}</h2>
@@ -210,7 +257,7 @@ class ResponsePage extends React.Component {
                                 </div>
                             </div>
                             }
-                            {this.state.actuel >  0 && this.state.actuel < this.state.length &&
+                            {this.state.actuel > 0 && this.state.actuel < this.state.length &&
                                 <div className="infos">
                                 <img alt={""} src={'/storage/formations/question_img/'+ (this.state.responses[this.state.actuel - 1 - (this.state.formation.displaynote === 1 ? 1 : 0)].id) + '/' + this.state.responses[this.state.actuel - 1 - (this.state.formation.displaynote === 1 ? 1 : 0)].img}/>
                                 <p>{this.state.responses[this.state.actuel - 1 - (this.state.formation.displaynote === 1 ? 1 : 0)].desc}</p>
@@ -223,13 +270,14 @@ class ResponsePage extends React.Component {
                             }
                             {this.state.actuel === this.state.length &&
                                 <div className={'question-end'}>
-
+                                    <h1>Note finale</h1>
+                                    <h1>{this.state.note}</h1>
                                 </div>
                             }
                         </section>
 
                         <section className="bottom">
-                            <h3>1 mins 27</h3>
+                            <h3>{this.state.time}</h3>
                             {this.state.actuel > 0 && this.state.actuel < this.state.length &&
                                 <h3>{this.state.responses[this.state.actuel - 1 - (this.state.formation.displaynote === 1 ? 1 : 0)].type}</h3>
                             }
@@ -246,8 +294,8 @@ class FormationsController extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            status: 1,
-            formaid: 19,
+            status: null,
+            formaid: null,
         }
         this.changePage = this.changePage.bind(this)
     }

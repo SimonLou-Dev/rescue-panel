@@ -60,7 +60,14 @@ class PersonnelLine extends React.Component {
                 <td className={'pilote'}>
                     {perm.set_pilot === 1 &&
                         <div className={'pilote-btn'}>
-                            <input type="checkbox" id={"toggle"+this.props.id}/>
+                            <input type="checkbox" id={"toggle"+this.props.id} onClick={async () => {
+                                var req = await axios({
+                                    url: '/data/users/pilote/' + this.state.id,
+                                    method: 'PUT'
+                                })
+                                this.props.update();
+                            }
+                            }/>
                             <div>
                                 <label htmlFor={"toggle"+this.props.id}/>
                             </div>

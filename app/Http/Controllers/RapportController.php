@@ -96,6 +96,10 @@ class RapportController extends Controller
                             'name'=>'Facture : ',
                             'value'=>$fact.'$',
                             'inline'=>false
+                        ],[
+                            'name'=>"Debut de l'intervention : ",
+                            'value'=>date('d/m/y H:I:S', strtotime($rapport->started_at)),
+                            'inline'=>false
                         ]
                         ,[
                             'name'=>'Description : ',

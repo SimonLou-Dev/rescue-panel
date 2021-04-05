@@ -51,6 +51,10 @@ body{
         height: 100vh;
         content: " ";
         filter: blur(5px);
+        overflow-y: hidden;
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: cover;
     }
     overflow-x: hidden !important;
 }
@@ -329,7 +333,6 @@ body{
     height: 100vh;
     position: absolute;
     overflow-y: hidden;
-    background-repeat: no-repeat;
     background-repeat: no-repeat;
     background-position: center;
     background-size: cover;
@@ -2704,6 +2707,12 @@ body{
                         }
                     }
                 }
+                .question-end{
+                    width: 100%;
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: center;
+                }
             }
             .bottom{
                 border-top: 1px $light_blue solid;
@@ -2927,7 +2936,7 @@ body{
                 width: 100%;
                 border-collapse: collapse;
                 display: grid;
-                grid-template-columns:repeat(27, 160px);
+                grid-template-columns:repeat(28, 160px);
                 thead, tbody, tr {
                     display: contents;
                 }

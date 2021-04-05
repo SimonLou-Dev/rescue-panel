@@ -115,7 +115,13 @@ class Account extends React.Component {
     render() {
         return (
             <div className="acc-content">
-                <section className="changedata" style={{filter: this.state.popup ? 'blur(5px)' : 'none'}}>
+                {!this.state.data &&
+                    <div className={'load'}>
+                        <img src={'/assets/images/loading.svg'} alt={''}/>
+                    </div>
+                }
+                {this.state.data &&
+                    <section className="changedata" style={{filter: this.state.popup ? 'blur(5px)' : 'none'}}>
                     <form onSubmit={this.postInfos}>
                         <div className="rowed">
                             <label>pseudo</label>
@@ -143,7 +149,9 @@ class Account extends React.Component {
                         <button type={'submit'} className={'btn'}>valider</button>
                     </form>
                 </section>
-                <section className={'bigchange'} style={{filter: this.state.popup ? 'blur(5px)' : 'none'}} >
+                }
+                {this.state.data &&
+                    <section className={'bigchange'} style={{filter: this.state.popup ? 'blur(5px)' : 'none'}} >
                     <button className={'btn'} onClick={()=>this.setState({popup:true})}>changer de mot de passe</button>
                     <div className="img">
                         <div className="rowed">
@@ -179,6 +187,9 @@ class Account extends React.Component {
                         </form>
                     </div>
                 </section>
+                }
+
+
                 {this.state.popup &&
                     <section className={'popup'}>
                     <div className={'center'}>

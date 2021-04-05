@@ -99,6 +99,7 @@ Route::put('/data/service/admin/modify', [\App\Http\Controllers\ServiceControlle
 Route::get('/data/users/getall', [\App\Http\Controllers\UserController::class, 'getUser']);
 Route::post('/data/users/setgrade/{id}/{userid}', [\App\Http\Controllers\UserController::class, 'setusergrade']);
 Route::get('/data/users/search/{user}', [\App\Http\Controllers\UserController::class, 'searchUser']);
+Route::put('/data/users/pilote/{user_id}', [\App\Http\Controllers\UserController::class, 'changePilote']);
 
 //Content management
 Route::post('/data/gestion/content/add/{type}', [\App\Http\Controllers\ContentManagement::class, 'addcontent']);
@@ -126,7 +127,7 @@ Route::get('/data/formations/get/{page?}/{max?}', [\App\Http\Controllers\Formati
 Route::get('/data/formations/{formation_id}/get', [\App\Http\Controllers\FormationController::class, 'getFormationById']);
 Route::get('/data/formations/question/{question_id}', [\App\Http\Controllers\FormationController::class, 'getQuestionById']);
 Route::post('/data/formations/response/{question_id}/save', [\App\Http\Controllers\FormationController::class, 'saveResponseState']);
-Route::delete('/data/formation/response/{question_id}/delete', [\App\Http\Controllers\FormationController::class, 'deleteResponseStateById']);
+Route::get('/data/formations/userdeco/{formation_id}', [\App\Http\Controllers\FormationController::class, 'userDisconnect']);
 Route::get('/data/formation/{formation_id}/final', [\App\Http\Controllers\FormationController::class, 'getFinalDatas']);
 
 //Recap
@@ -142,9 +143,11 @@ Route::put('/data/user/mdp/put', [\App\Http\Controllers\AccountController::class
 Route::post('/data/user/bg/post', [\App\Http\Controllers\AccountController::class, 'addBgImg']);
 Route::delete('/data/user/bg/delete', [\App\Http\Controllers\AccountController::class, 'deleteBgImg']);
 
-Route::get('/teste', function (){
-    return \App\Http\Controllers\ServiceController::removeTime('00:01:30', '00:00:59');
-});
+//Pems management
+Route::get('/data/admin/grades/get', [\App\Http\Controllers\UserController::class, 'getAllGrades']);
+Route::put('/data/admin/grades/{perm}/{grade_id}', [\App\Http\Controllers\UserController::class, 'changePerm']);
+
+Route::post('/data/bug', [\App\Http\Controllers\MainController::class, 'postBug']);
 
 
 

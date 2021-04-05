@@ -489,8 +489,10 @@ class FormationController extends Controller
     /**
      * @param Request $request
      * @param string $question_id
+     * @return JsonResponse
      */
-    public function saveResponseState(Request $request, string $question_id){
+    public function saveResponseState(Request $request, string $question_id): JsonResponse
+    {
         $question_id = (int) $question_id;
         $question = FormationsQuestion::where('id',$question_id)->first();
         $response = FormationsResponse::where('finished', false)->where('user_id', Auth::user()->id);
@@ -513,19 +515,51 @@ class FormationController extends Controller
     }
 
     /**
-     * @param string $response_id
+     * @param $formation_id
+     * @return JsonResponse
      */
-    public function deleteResponseStateById(string $response_id){
-        $response_id = (int) $response_id;
-        // a faire
+    public function userDisconnect($formation_id): JsonResponse
+    {
+        $formation_id = (int)$formation_id;
+        $formation = Formation::where('id', $formation_id)->first();
+        $response = FormationsResponse::where('user_id', Auth::user()->id)->where('formation_id', $formation_id)->first();
+        if(!$formation->save_on_deco){
+            $response->delete();
+        }
+        return response()->json([]);
     }
+
 
     /**
      * @param string $formation_id
+     * @return JsonResponse
      */
-    public function getFinalDatas(string $formation_id){
+    public function getFinalDatas(string $formation_id): JsonResponse
+    {
         $formation_id = (int) $formation_id;
-        // a faire
+        $formation = Formation::where('id', $formation_id)->first();
+        $response = FormationsResponse::where('user_id', Auth::user()->id)->where('formation_id', $formation_id)->first();
+        $responses = FormationsResponse::where('formation_id', $formation_id)->where('finished', true)->get();
+        $total =0;
+        foreach ($responses as $respons){
+            $total = $total + $respons->note;
+        }
+        $formation->average_note = round($total / (count($responses)+1));
+        if($formation->certify && $response->note > ($formation->max_note/3)*2){
+            $certif = Certification::where('user_id',Auth::user()->id)->where('formation_id', $formation_id)->first();
+            if(!isset($certif)){
+                $certif = new Certification();
+                $certif->formation_id = $formation_id;
+                $certif->user_id= Auth::user()->id;
+                $certif->save();
+                $formation->success = $formation->success +1;
+            }
+        }
+        $formation->try = $formation->try+1;
+        $response->finished = true;
+        $response->save();
+        $formation->save();
+        return \response()->json(['note'=>$response->note.'/'.$formation->max_note]);
     }
 
 

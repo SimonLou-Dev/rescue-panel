@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\Notify;
+use App\Models\Grade;
 use App\Models\User;
 use http\Env\Response;
 use Illuminate\Http\JsonResponse;
@@ -16,6 +18,10 @@ use Illuminate\Support\Facades\Session;
 
 class UserController extends Controller
 {
+    /**
+     * @param Request $request
+     * @return JsonResponse
+     */
     public function register(Request  $request): JsonResponse
     {
         $pseudo = $request->pseudo;
@@ -55,6 +61,10 @@ class UserController extends Controller
         }
     }
 
+    /**
+     * @param Request $request
+     * @return JsonResponse
+     */
     public function login(Request $request): JsonResponse
     {
         $email = $request->email;
@@ -94,6 +104,10 @@ class UserController extends Controller
         return $returned;
     }
 
+    /**
+     * @param Request $request
+     * @return JsonResponse
+     */
     public function getUser(Request $request): JsonResponse
     {
         $me= User::where('id', Auth::user()->id)->first();
@@ -104,6 +118,12 @@ class UserController extends Controller
         ]);
     }
 
+    /**
+     * @param Request $request
+     * @param int $id
+     * @param int $userid
+     * @return JsonResponse
+     */
     public function setusergrade(Request $request, int $id, int $userid): JsonResponse
     {
         $user= User::where('id', $userid)->first();
@@ -113,6 +133,9 @@ class UserController extends Controller
         return \response()->json(['status'=>'OK']);
     }
 
+    /**
+     * @return JsonResponse
+     */
     public function checkConnexion(): JsonResponse
     {
         if(Auth::user()){
@@ -121,6 +144,10 @@ class UserController extends Controller
         return response()->json(['session'=>false]);
     }
 
+    /**
+     * @param Request $request
+     * @return JsonResponse
+     */
     public function postInfos(Request $request): JsonResponse
     {
         $living = $request->living;
@@ -161,6 +188,10 @@ class UserController extends Controller
         return \response()->json(['status'=>'OK'],201);
     }
 
+    /**
+     * @param Request $request
+     * @return JsonResponse
+     */
     public function GetUserPerm(Request $request): JsonResponse
     {
         $user = \App\Models\User::where('id', Auth::id())->first();
@@ -196,10 +227,43 @@ class UserController extends Controller
         return \response()->json(['status'=>'ok', 'perm'=>$perm, 'user'=>$user]);
     }
 
+    /**
+     * @param string $user
+     * @return JsonResponse
+     */
     public function searchUser(string $user): JsonResponse
     {
         $users = User::where('name', 'like', $user . '%')->take(5)->get();
         return \response()->json(['status'=>'OK', 'users'=>$users],200);
+    }
+
+    /**
+     * @param Request $request
+     * @param string $user_id
+     * @return JsonResponse
+     */
+    public function changePilote(Request $request, string $user_id): JsonResponse
+    {
+        $user_id = (int) $user_id;
+        $user = User::where('id', $user_id)->first();
+        $user->pilote= !$user->pilote;
+        $user->save();
+        return \response()->json(['status'=>'OK'],201);
+    }
+
+    public function getAllGrades(): JsonResponse
+    {
+        $user = User::where('id', Auth::user()->id)->first();
+        $grades = Grade::where('id', '<=', $user->grade_id)->get();
+        return \response()->json(['status'=>'OK','grades'=>$grades]);
+    }
+
+    public function changePerm(string $perm, string $grade_id){
+        $grade = Grade::where('id', $grade_id)->first();
+        $grade[$perm] = !$grade[$perm];
+        $grade->save();
+        event(new Notify('Vous avez changé une permissions',1));
+        return \response()->json(['status'=>'OK'],201);
     }
 
 }

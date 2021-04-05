@@ -757,6 +757,10 @@ body {
   height: 100vh;
   content: " ";
   filter: blur(5px);
+  overflow-y: hidden;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
 }
 
 ::-webkit-scrollbar {
@@ -1023,7 +1027,6 @@ body {
   height: 100vh;
   position: absolute;
   overflow-y: hidden;
-  background-repeat: no-repeat;
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;
@@ -3362,6 +3365,12 @@ body {
 .responsepage .responsecontent .question .infos .correction p {
   color: green;
 }
+.responsepage .responsecontent .question .question-end {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
 .responsepage .responsecontent .bottom {
   border-top: 1px #00FFFF solid;
   display: flex;
@@ -3577,7 +3586,7 @@ body {
   width: 100%;
   border-collapse: collapse;
   display: grid;
-  grid-template-columns: repeat(27, 160px);
+  grid-template-columns: repeat(28, 160px);
 }
 .perm .content .tablecontainer table thead, .perm .content .tablecontainer table tbody, .perm .content .tablecontainer table tr {
   display: contents;
