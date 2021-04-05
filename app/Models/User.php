@@ -30,7 +30,7 @@ class User extends Authenticatable
 {
     use HasFactory;
     protected $table = "Users";
-    protected $fillable = ['grade_id', 'email', 'password', 'token', 'service', 'liveplace', 'tel', 'pilote', 'compte', 'timezone', 'bg_img'];
+    protected $fillable = ['grade_id', 'name', 'email', 'password', 'token', 'service', 'liveplace', 'tel', 'pilote', 'compte', 'timezone', 'bg_img'];
 
     public function GetRapports(): \Illuminate\Database\Eloquent\Relations\HasMany
     {

@@ -5529,6 +5529,7 @@ var RapportHoraire = /*#__PURE__*/function (_React$Component) {
     };
     _this.update = _this.update.bind(_assertThisInitialized(_this));
     _this.submit = _this.submit.bind(_assertThisInitialized(_this));
+    _this.modifyTime = _this.modifyTime.bind(_assertThisInitialized(_this));
     return _this;
   }
 
@@ -5634,18 +5635,33 @@ var RapportHoraire = /*#__PURE__*/function (_React$Component) {
                 _context3.next = 3;
                 return axios__WEBPACK_IMPORTED_MODULE_4___default()({
                   method: 'PUT',
-                  url: ''
+                  url: '/data/service/admin/modify',
+                  data: {
+                    name: this.state.name,
+                    action: this.state.action,
+                    time: this.state.time
+                  }
                 });
 
               case 3:
                 req = _context3.sent;
 
-              case 4:
+                if (req.status === 201) {
+                  this.update();
+                  this.setState({
+                    name: '',
+                    action: 0,
+                    time: '',
+                    popup: false
+                  });
+                }
+
+              case 5:
               case "end":
                 return _context3.stop();
             }
           }
-        }, _callee3);
+        }, _callee3, this);
       }));
 
       function modifyTime(_x) {

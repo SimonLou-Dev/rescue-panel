@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\Notify;
 use App\Models\DayService;
 use App\Models\Service;
 use App\Models\Services;
@@ -103,11 +104,13 @@ class ServiceController extends Controller
         $user = \App\Models\User::where('name', $name)->firstOrFail();
         $WeekService= WeekService::where('user_id', $user->id)->where('week_number', $this::getWeekNumber())->first();
         if($action === 1){
-            $WeekService->total = $this::addTime($WeekService->total, $time);
+            $WeekService->total = $this::addTime($WeekService->total, $time.':00');
         }else{
-            $WeekService->total = $this::removeTime($WeekService->total, $time);
+            $WeekService->total = $this::removeTime($WeekService->total, $time.':00');
         }
         $WeekService->save();
+
+        event(new Notify('Vous avez bien modifé le temps de service',1));
         return response()->json(['status'=>'OK'],201);
     }
 

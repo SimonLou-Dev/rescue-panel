@@ -22,6 +22,7 @@ class RapportHoraire extends React.Component {
         }
         this.update = this.update.bind(this);
         this.submit = this.submit.bind(this);
+        this.modifyTime= this.modifyTime.bind(this)
     }
 
     setdata(bool){
@@ -62,8 +63,22 @@ class RapportHoraire extends React.Component {
         e.preventDefault();
         var req = await axios({
             method: 'PUT',
-            url: '',
+            url: '/data/service/admin/modify',
+            data:{
+                name: this.state.name,
+                action: this.state.action,
+                time: this.state.time,
+            }
         });
+        if(req.status === 201){
+            this.update();
+            this.setState({
+                name: '',
+                action: 0,
+                time: '',
+                popup:false,
+            })
+        }
     }
 
 
