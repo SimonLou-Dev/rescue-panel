@@ -14,40 +14,103 @@ class Stats extends React.Component {
 }
 
 class Account extends React.Component {
+
+    constructor(props) {
+        super(props);
+        this.state = {
+            data: false,
+            email: '',
+            name: '',
+            compte: '0000',
+            tel: '00000000',
+            liveplace: 'BC',
+            popup:false,
+            mdp: '',
+            mdprepet: '',
+            lastmdp: '',
+
+        }
+        this.postInfos = this.postInfos.bind(this);
+        this.changeMdp = this.changeMdp.bind(this)
+    }
+
+    async componentDidMount() {
+        var req = await axios({
+            url: '/data/user/infos/get',
+            method: 'get',
+        })
+        if(req.status === 200){
+            this.setState({
+                data:true,
+                email: req.data.user.email,
+                name: req.data.user.name,
+                compte: req.data.user.compte,
+                tel: req.data.user.tel,
+                liveplace: req.data.user.liveplace,
+            });
+        }
+    }
+
+    async postInfos(e){
+        e.preventDefault()
+        var req = await  axios({
+            url: '/data/user/infos/put',
+            method:'PUT',
+            data: {
+                email: this.state.email,
+                name: this.state.name,
+                compte: this.state.compte,
+                tel: this.state.tel,
+                liveplace: this.state.liveplace,
+            }
+        })
+    }
+
+    async changeMdp(e){
+        e.preventDefault();
+        var req = await axios({
+            url: '/data/user/mdp/put',
+            method: 'put',
+            data: {
+                last: this.state.lastmdp,
+                newmdp: this.state.mdp,
+                mdprepet: this.state.mdprepet,
+            }
+        })
+        if(req.status === 201){
+            this.setState({
+                lastmdp: '',
+                mdp: '',
+                mdprepet: '',
+                popup: false,
+            })
+        }
+    }
+
     render() {
         return (
             <div className="acc-content">
-                <section className="changedata">
-                    <form>
+                <section className="changedata" style={{filter: this.state.popup ? 'blur(5px)' : 'none'}}>
+                    <form onSubmit={this.postInfos}>
                         <div className="rowed">
                             <label>pseudo</label>
-                            <input type={"text"}/>
+                            <input required type={"text"} value={this.state.name} onChange={(e)=>{this.setState({name:e.target.value})}}/>
                         </div>
                         <div className="rowed">
                             <label>email</label>
-                            <input type={"text"}/>
-                        </div>
-                        <div className="column">
-                            <div className="rowed">
-                                <label>fuseau horaire</label>
-                                <select>
-                                    <option>[FR] Paris - GMT+1</option>
-                                    <option>[NY] New York - UTC-5</option>
-                                </select>
-                            </div>
-                            <label className={'info'}>prend effet à la prochaine connexion</label>
+                            <input required type={"email"} value={this.state.email} onChange={(e)=>{this.setState({email:e.target.value})}}/>
                         </div>
                         <div className="rowed">
                             <label>numéro de tel</label>
-                            <input type={"number"} max={'99999999'}/>
+                            <input required type={"number"} max={'99999999'} value={this.state.tel} onChange={(e)=>{this.setState({tel:e.target.value})}}/>
                         </div>
                         <div className="rowed">
                             <label>numéro de compte</label>
-                            <input type={"number"}/>
+                            <input required type={"number"} value={this.state.compte} onChange={(e)=>{this.setState({compte:e.target.value})}}/>
                         </div>
                         <div className="rowed">
                             <label>Conté habité</label>
-                            <select>
+                            <select value={this.state.liveplace} onChange={(e)=>{this.setState({liveplace:e.target.value})}}>
                                 <option>BC</option>
                                 <option>LS</option>
                             </select>
@@ -55,8 +118,8 @@ class Account extends React.Component {
                         <button type={'submit'} className={'btn'}>valider</button>
                     </form>
                 </section>
-                <section className={'bigchange'}>
-                    <button className={'btn'}>changer de mot de passe</button>
+                <section className={'bigchange'} style={{filter: this.state.popup ? 'blur(5px)' : 'none'}} >
+                    <button className={'btn'} onClick={()=>this.setState({popup:true})}>changer de mot de passe</button>
                     <div className="img">
                         <div className="rowed">
                             <h2>Arrière plan du site</h2>
@@ -65,16 +128,41 @@ class Account extends React.Component {
                         <form>
                             <div className="rowed">
                                 <label>image</label>
-                                <input type={'file'}/>
+                                <input type={'file'} disabled/>
                             </div>
-                            <button className={'btn right'}type={'submit'}>ajouter</button>
+                            <button className={'btn right'} type={'submit'} disabled>ajouter</button>
                             <div className="rowed">
                                 <h4>1920x1080 - max 10Mo</h4>
-                                <button className={'btn'}>supprimer</button>
+                                <button className={'btn'} disabled>supprimer</button>
                             </div>
                         </form>
                     </div>
                 </section>
+                {this.state.popup &&
+                    <section className={'popup'}>
+                    <div className={'center'}>
+                        <form onSubmit={this.changeMdp}>
+                            <h1>Changer de mot de passe</h1>
+                            <div className={'row'}>
+                                <label>Ancien mot de passe</label>
+                                <input type={'password'} value={this.state.lastmdp} onChange={(e)=>{this.setState({lastmdp:e.target.value})}}/>
+                            </div>
+                            <div className={'row'}>
+                                <label>Nouveau mot de passe</label>
+                                <input type={'password'} value={this.state.mdp} onChange={(e)=>{this.setState({mdp:e.target.value})}}/>
+                            </div>
+                            <div className={'row'}>
+                                <label>Répéter le mot de passe</label>
+                                <input type={'password'} value={this.state.mdprepet} onChange={(e)=>{this.setState({mdprepet:e.target.value})}}/>
+                            </div>
+                            <div className={'row-evenly'}>
+                                <button className={'btn'} onClick={()=>this.setState({popup:false})}>Fermer</button>
+                                <button className={'btn'} type={'submit'}>Envoyer</button>
+                            </div>
+                        </form>
+                    </div>
+                </section>
+                }
             </div>
         );
     }

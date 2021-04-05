@@ -98,6 +98,7 @@ Route::put('/data/service/admin/modify', [\App\Http\Controllers\ServiceControlle
 //User management
 Route::get('/data/users/getall', [\App\Http\Controllers\UserController::class, 'getUser']);
 Route::post('/data/users/setgrade/{id}/{userid}', [\App\Http\Controllers\UserController::class, 'setusergrade']);
+Route::get('/data/users/search/{user}', [\App\Http\Controllers\UserController::class, 'searchUser']);
 
 //Content management
 Route::post('/data/gestion/content/add/{type}', [\App\Http\Controllers\ContentManagement::class, 'addcontent']);
@@ -134,7 +135,14 @@ Route::get('/data/remboursements/get/admin/{weeknumber?}', [\App\Http\Controller
 Route::post('/data/remboursements/post', [\App\Http\Controllers\RemboursementsController::class, 'addRemboursement']);
 Route::delete('/data/remboursements/delete/{itemid}', [\App\Http\Controllers\RemboursementsController::class, 'deleteRemboursement']);
 
+//Acount infos
+Route::get('/data/user/infos/get', [\App\Http\Controllers\AccountController::class, 'getInfos']);
+Route::put('/data/user/infos/put', [\App\Http\Controllers\AccountController::class, 'updateInfos']);
+Route::put('/data/user/mdp/put', [\App\Http\Controllers\AccountController::class, 'changeMdp']);
+
 Route::get('/teste', function (){
     return \App\Http\Controllers\ServiceController::removeTime('00:01:30', '00:00:59');
 });
+
+
 

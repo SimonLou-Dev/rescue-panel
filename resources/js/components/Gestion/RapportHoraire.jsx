@@ -7,6 +7,7 @@ import PermsContext from "../context/PermsContext";
 
 
 class RapportHoraire extends React.Component {
+
     constructor(props) {
         super(props);
         this.state = {
@@ -22,7 +23,8 @@ class RapportHoraire extends React.Component {
         }
         this.update = this.update.bind(this);
         this.submit = this.submit.bind(this);
-        this.modifyTime= this.modifyTime.bind(this)
+        this.modifyTime= this.modifyTime.bind(this);
+        this.search = this.search.bind(this);
     }
 
     setdata(bool){
@@ -42,6 +44,7 @@ class RapportHoraire extends React.Component {
         })
         this.setdata(true);
     }
+
     async update(){
         this.setdata(false);
         var req = await axios({
@@ -78,6 +81,16 @@ class RapportHoraire extends React.Component {
                 time: '',
                 popup:false,
             })
+        }
+    }
+
+    async search(e) {
+        var req = await axios({
+            url: '/data/users/search/' + e.target.value,
+            method: 'GET'
+        })
+        if(req.status === 200){
+            this.setState({namelist: req.data.users})
         }
     }
 
@@ -151,7 +164,17 @@ class RapportHoraire extends React.Component {
                                 <h2>Ajouter/enelever du temps</h2>
                                 <div className="rowed">
                                     <label>nom</label>
-                                    <input type={'text'}  value={this.state.name} max={100} onChange={(e)=>this.setState({name:e.target.value})}/>
+                                    <input type={'text'} list={'autocomplete'} value={this.state.name} max={100} onChange={(e)=>{
+                                        this.setState({name:e.target.value})
+                                        if(e.target.value.length > 3){
+                                            this.search(e)
+                                        }
+                                    }}/>
+                                    <datalist id={'autocomplete'}>
+                                    {this.state.namelist && this.state.namelist.map((user)=>
+                                        <option key={user.id}>{user.name}</option>
+                                    )}
+                                    </datalist>
                                 </div>
                                 <div className="rowed">
                                     <label>action</label>

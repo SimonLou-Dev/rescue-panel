@@ -3215,10 +3215,22 @@ body {
   display: flex;
   flex-direction: row;
   flex-wrap: nowrap;
+  position: relative;
 }
 .moncompte .account-container .acc-content .rowed {
   display: flex;
   flex-direction: row;
+}
+.moncompte .account-container .acc-content .row {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+.moncompte .account-container .acc-content .row-evenly {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
 }
 .moncompte .account-container .acc-content .conlumn {
   display: flex;
@@ -3226,6 +3238,7 @@ body {
 }
 .moncompte .account-container .acc-content .changedata {
   width: 50%;
+  z-index: 1;
 }
 .moncompte .account-container .acc-content .changedata form {
   height: 95%;
@@ -3256,6 +3269,7 @@ body {
   text-align: right;
 }
 .moncompte .account-container .acc-content .bigchange {
+  z-index: 1;
   width: 50%;
   padding: 20px;
   display: flex;
@@ -3290,6 +3304,28 @@ body {
 .moncompte .account-container .acc-content .bigchange .img form .rowed label, .moncompte .account-container .acc-content .bigchange .img form .rowed h4 {
   margin: auto 0;
   font-size: 25px;
+}
+.moncompte .account-container .acc-content .popup {
+  position: absolute;
+  width: 100%;
+  height: calc(100vh - 340px);
+  z-index: 3;
+}
+.moncompte .account-container .acc-content .popup .center {
+  padding: 5px;
+  background-color: #0c2646;
+  border-radius: 30px;
+  border: 1px #00FFFF solid;
+  width: 90%;
+  max-width: 560px;
+  height: 350px;
+}
+.moncompte .account-container .acc-content .popup .center label {
+  margin-left: 10px;
+  margin: auto 0;
+}
+.moncompte .account-container .acc-content .popup .center h1 {
+  text-align: center;
 }
 
 .perm {

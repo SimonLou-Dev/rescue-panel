@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use http\Env\Response;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cookie;
@@ -15,7 +16,7 @@ use Illuminate\Support\Facades\Session;
 
 class UserController extends Controller
 {
-    public function register(Request  $request): \Illuminate\Http\JsonResponse
+    public function register(Request  $request): JsonResponse
     {
         $pseudo = $request->pseudo;
         $mail = $request->email;
@@ -54,7 +55,7 @@ class UserController extends Controller
         }
     }
 
-    public function login(Request $request): \Illuminate\Http\JsonResponse
+    public function login(Request $request): JsonResponse
     {
         $email = $request->email;
         $psw = $request->psw;
@@ -93,7 +94,7 @@ class UserController extends Controller
         return $returned;
     }
 
-    public function getUser(Request $request): \Illuminate\Http\JsonResponse
+    public function getUser(Request $request): JsonResponse
     {
         $users = User::all();
         return response()->json([
@@ -102,7 +103,7 @@ class UserController extends Controller
         ]);
     }
 
-    public function setusergrade(Request $request, int $id, int $userid): \Illuminate\Http\JsonResponse
+    public function setusergrade(Request $request, int $id, int $userid): JsonResponse
     {
         $user= User::where('id', $userid)->first();
         $user->grade_id = $id;
@@ -111,7 +112,7 @@ class UserController extends Controller
         return \response()->json(['status'=>'OK']);
     }
 
-    public function checkConnexion(): \Illuminate\Http\JsonResponse
+    public function checkConnexion(): JsonResponse
     {
         if(Auth::user()){
             return response()->json(['session'=>true]);
@@ -119,7 +120,7 @@ class UserController extends Controller
         return response()->json(['session'=>false]);
     }
 
-    public function postInfos(Request $request): \Illuminate\Http\JsonResponse
+    public function postInfos(Request $request): JsonResponse
     {
         $living = $request->living;
         $timezone = $request->timezone;
@@ -161,7 +162,7 @@ class UserController extends Controller
         return \response()->json(['status'=>'OK'],201);
     }
 
-    public function GetUserPerm(Request $request): \Illuminate\Http\JsonResponse
+    public function GetUserPerm(Request $request): JsonResponse
     {
         $user = \App\Models\User::where('id', Auth::id())->first();
         $grade = $user->GetGrade;
@@ -194,6 +195,12 @@ class UserController extends Controller
             'content_mgt'=>$grade->perm_25
         ];
         return \response()->json(['status'=>'ok', 'perm'=>$perm, 'user'=>$user]);
+    }
+
+    public function searchUser(string $user): JsonResponse
+    {
+        $users = User::where('name', 'like', $user . '%')->take(5)->get();
+        return \response()->json(['status'=>'OK', 'users'=>$users],200);
     }
 
 }
