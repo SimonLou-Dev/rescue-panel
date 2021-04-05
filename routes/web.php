@@ -139,6 +139,8 @@ Route::delete('/data/remboursements/delete/{itemid}', [\App\Http\Controllers\Rem
 Route::get('/data/user/infos/get', [\App\Http\Controllers\AccountController::class, 'getInfos']);
 Route::put('/data/user/infos/put', [\App\Http\Controllers\AccountController::class, 'updateInfos']);
 Route::put('/data/user/mdp/put', [\App\Http\Controllers\AccountController::class, 'changeMdp']);
+Route::post('/data/user/bg/post', [\App\Http\Controllers\AccountController::class, 'addBgImg']);
+Route::delete('/data/user/bg/delete', [\App\Http\Controllers\AccountController::class, 'deleteBgImg']);
 
 Route::get('/teste', function (){
     return \App\Http\Controllers\ServiceController::removeTime('00:01:30', '00:00:59');

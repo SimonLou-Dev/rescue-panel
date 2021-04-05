@@ -8,7 +8,7 @@ class AnnonceCard extends React.Component{
 
     render() {return(
         <div className={'Annonce-Card'}>
-            <h3 className={'Title'}dangerouslySetInnerHTML={{__html:this.props.title}}/>
+            <h3 className={'Title'} dangerouslySetInnerHTML={{__html:this.props.title}}/>
             <div className={'Separator'}/>
             <p className={'Text'} dangerouslySetInnerHTML={{__html:this.props.content}}/>
             <div className={'Separator'}/>

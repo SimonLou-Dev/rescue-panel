@@ -8,8 +8,11 @@ use App\Models\User;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Storage;
+use Intervention\Image\Facades\Image;
 
 class AccountController extends Controller
 {
@@ -93,7 +96,12 @@ class AccountController extends Controller
 
     }
 
-    public function changeMdp(Request $request){
+    /**
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function changeMdp(Request $request): JsonResponse
+    {
         $user = User::where('id', Auth::user()->id)->first();
         if(!Hash::check($request->last, $user->password)){
             event(new Notify('Votre ancien mot de passe ne correspond pas',4));
@@ -108,5 +116,41 @@ class AccountController extends Controller
         $user->save();
         event(new Notify('Mot de passe changé',1));
         return response()->json(['status'=>'OK'], 201);
+    }
+
+    /**
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function addBgImg(Request $request): JsonResponse
+    {
+        $user = User::where('id', Auth::user()->id)->first();
+        $img = $request->get('image');
+        $imgname = Auth::user()->id . '_' . time() . '.' . explode('/', explode(':', substr($img, 0, strpos($img, ';')))[1])[1];
+        $path = "/storage/user_background/";
+        $dir = public_path($path . Auth::user()->id);
+        $user->bg_img = $imgname;
+        $user->save();
+        if(!is_dir($dir)){
+            mkdir($dir);
+        }
+        event(new Notify('Votre image de fond a bien été mis en ligne', 1));
+        Image::make($img)->resize(960,540)->save($dir . '/' . $imgname);
+        return response()->json([],201);
+    }
+
+    /**
+     * @return JsonResponse
+     */
+    public function deleteBgImg(): JsonResponse
+    {
+        $user = User::where('id', Auth::user()->id)->first();
+        if($user->bg_img != null){
+            $dir = public_path('storage/user_background/' . Auth::user()->id.'/');
+            File::delete($dir.$user->bg_img);
+            $user->bg_img = null;
+            $user->save();
+        }
+        return response()->json([],201);
     }
 }

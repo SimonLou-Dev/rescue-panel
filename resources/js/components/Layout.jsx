@@ -76,6 +76,7 @@ class Layout extends React.Component{
             perms: [],
             serviceStatus: false,
             user: [],
+            style:null,
             context: {
                 perms: {},
             }
@@ -89,7 +90,14 @@ class Layout extends React.Component{
             url: '/data/getperm',
             method: 'get',
         });
-        this.setState({perms: req.data.perm,context:req.data.perm, user: req.data.user});
+        this.setState({
+            perms: req.data.perm,
+            context:req.data.perm,
+            user: req.data.user,
+            style:
+                'background-image:' + (req.data.user.bg_img === null ? 'none' : 'url(/storage/user_background/' + req.data.user.id + '/'+ req.data.user.bg_img+');' )
+
+        });
         this.updateWindowDimensions();
         window.addEventListener("resize", this.updateWindowDimensions);
         this.timerID = setInterval(
@@ -181,13 +189,15 @@ class Layout extends React.Component{
     render() {
         return(
             <div id="layout">
+                <style dangerouslySetInnerHTML={{__html:'#layout::before{'+this.state.style+'}'}}/>
+
                 <div id="Menu" className={this.state.minview?(this.state.openmenu? 'open collapsed' : 'close collapsed') : null}>
                     <div className={'closed-menu'}>
                         <button onClick={()=>{
                             this.setState({openmenu : true});
                         }}>Menu</button>
                     </div>
-                    <div className={'menu-content'}>
+                    <div className={'menu-content'} >
                         <div id={'logout'}>
                             <a href={'/logout'}><img src={'/assets/images/logout.svg'} alt={''}/></a>
                         </div>

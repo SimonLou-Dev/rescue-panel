@@ -66,6 +66,7 @@ class FormationController extends Controller
 
     /**
      * @param string $formation_id
+     * @return JsonResponse
      */
     public function getFormationByIdAdmin(string $formation_id): JsonResponse
     {
