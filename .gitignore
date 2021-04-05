@@ -1,6 +1,9 @@
 /node_modules
 /public/hot
 /storage/*.key
+/formations/front_img/*.*
+/formations/question_img/*.*
+/user_background/*.*
 /vendor
 /node_modules/
 /public/.htaccess
