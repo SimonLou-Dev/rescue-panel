@@ -9,11 +9,9 @@ class GetInfos extends React.Component {
             live: 1,
             tel: "",
             compte: "",
-            timezone: 1,
             liveempty: false,
             telempty: false,
             compteempty: false,
-            timezoneempty:false
         }
         this.sendinfos = this.sendinfos.bind(this)
     }
@@ -29,10 +27,6 @@ class GetInfos extends React.Component {
             this.setState({compteempty: true})
             errore = true;
         }
-        if (this.state.timezone === 1) {
-            this.setState({timezoneempty: true})
-            errore = true;
-        }
         if (this.state.live === 1) {
             this.setState({liveempty: true})
             errore = true;
@@ -43,7 +37,6 @@ class GetInfos extends React.Component {
                 url: '/data/postuserinfos',
                 data: {
                     'living': this.state.live,
-                    'timezone': this.state.timezone,
                     'tel': this.state.tel,
                     'compte': this.state.compte,
                     'X-CSRF-TOKEN': csrf,
@@ -101,18 +94,6 @@ class GetInfos extends React.Component {
                         {this.state.compteempty &&
                         <div className={'form-error'}>
                             <p>Pas de numéros de compte</p>
-                        </div>
-                        }
-                        <label>Fuseau horaire : </label>
-                        <select  defaultValue={this.state.timezone} name={'psw_repeat'} onChange={(e)=>this.setState({timezone:e.target.value})}>
-                            <option value={1} disabled>choisir</option>
-                            <option>[FR] Paris - UTC+1</option>
-                            <option>[EU] Europte de l'est - UTC+2</option>steq
-                            <option>[NY] New York - UTC-5</option>
-                        </select>
-                        {this.state.timezoneempty &&
-                        <div className={'form-error'}>
-                            <p>Choisier une time zone</p>
                         </div>
                         }
                         <div className={'btn-contain'}>

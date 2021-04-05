@@ -96,7 +96,7 @@ class BCController extends Controller
         $blessures = Blessure::all();
         $color= CouleurVetement::all();
         return response()->json([
-            'stauts'=>'OK',
+            'status'=>'OK',
             'bc'=>$bc,
             'colors'=>$color,
             'blessures'=>$blessures,

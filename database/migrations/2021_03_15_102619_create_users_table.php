@@ -26,7 +26,6 @@ class CreateUsersTable extends Migration
             $table->integer('tel')->nullable();
             $table->boolean('pilote')->default(false);
             $table->integer('compte')->nullable();
-            $table->string('timezone')->nullable();
             $table->string('bg_img')->nullable();
             $table->timestamps();
         });

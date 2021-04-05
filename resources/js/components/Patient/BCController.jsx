@@ -38,6 +38,7 @@ class ListPatient extends React.Component {
 }
 
 class BCBase extends React.Component {
+
     constructor(props) {
         super(props);
         this.state = {
@@ -82,7 +83,6 @@ class BCBase extends React.Component {
         this.setState({cliked:false});
     }
 
-
     render() {
         var perm = this.context;
         return (
@@ -124,7 +124,7 @@ class BCBase extends React.Component {
                                     <h5>{bc.patients}</h5>
                                 </div>
                                 <div className="separator"/>
-                                <h4>{dateFormat(bc.created_at, 'yyyy/mm/dd H:M')} [FR]</h4>
+                                <h4>{dateFormat(bc.created_at, 'yyyy/mm/dd H:MM')} [FR]</h4>
                                 <h4>alerte de {bc.get_user.name}</h4>
                             </div>
                         )
@@ -154,8 +154,8 @@ class BCBase extends React.Component {
                                  <h5>{bc.patients}</h5>
                              </div>
                              <div className="separator"/>
-                             <h4>{dateFormat(bc.created_at, 'yyyy/mm/dd H:M')} [FR]</h4>
-                             <h4>{dateFormat(bc.updated_at, 'yyyy/mm/dd H:M')} [FR]</h4>
+                             <h4>{dateFormat(bc.created_at, 'yyyy/mm/dd H:MM')} [FR]</h4>
+                             <h4>{dateFormat(bc.updated_at, 'yyyy/mm/dd H:MM')} [FR]</h4>
                              <h4>alerte de {bc.get_user.name}</h4>
                          </div>
                      )}
@@ -191,80 +191,84 @@ class BCBase extends React.Component {
 BCBase.contextType = PermsContext;
 
 class BCLast extends React.Component {
+
+    constructor(props) {
+        super(props);
+        this.state = {
+            bc: [],
+            data:false,
+        }
+    }
+
+    async componentDidMount() {
+        var req = await axios({
+            url: '/data/blackcode/' + this.props.id + '/infos',
+            method: 'GET'
+        })
+        if(req.status === 200){
+            this.setState({data:true, bc:req.data.bc})
+        }
+    }
+
     render() {
-        return (
-            <div className={"BC-Last"}>
-                <section className="left">
-                    <div className={'header'}>
-                        <PagesTitle title={'Fusillade LS Longs beach'}/>
-                    </div>
-                    <div className="infos">
+        if(this.state.data){
+            const bc = this.state.bc;
+            return (
+                <div className={"BC-Last"}>
+                    <section className="left">
+                        <div className={'header'}>
+                            <PagesTitle title={bc.get_type.name + ' ' + bc.place}/>
+                            <div className={'btn-contain'}>
+                                <div className={'bgforbtn'}>
+                                    <button className={'btn'} onClick={()=>this.props.update(0)}>Retour</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="infos">
                             <h2>Informations</h2>
                             <div className={'row-spaced'}>
                                 <label>date de début</label>
-                                <label>00/00/0000 à 00h00</label>
+                                <label>{dateFormat(bc.created_at, 'yyyy/mm/dd H:MM')} [FR]</label>
                             </div>
                             <div className={'row-spaced'}>
                                 <label>date de fin</label>
-                                <label>00/00/0000 à 00h00</label>
-                            </div>
-                            <div className={'row-spaced'}>
-                                <label>durée</label>
-                                <label>00h00</label>
+                                <label>{dateFormat(bc.updated_at, 'yyyy/mm/dd H:MM')} [FR]</label>
                             </div>
                             <div className={'row-spaced'}>
                                 <label>Patients secourus</label>
-                                <label>10</label>
+                                <label>{bc.get_patients.length}</label>
                             </div>
                             <div className={'row-spaced'}>
                                 <label>Personnel engagé</label>
-                                <label>3</label>
+                                <label>{bc.get_personnel.length}</label>
                             </div>
                             <div className={'row-spaced'}>
                                 <label>Bc engagé par</label>
-                                <label>Jean mouloud</label>
+                                <label>{bc.get_user.name}</label>
                             </div>
-                    </div>
-                    <div className="personnel-list">
-                        <div className="tag">Lorem Ispum</div>
-                        <div className="tag">Lorem Ispum Dolor</div>
-                        <div className="tag">Lorem Ispum</div>
-                        <div className="tag">Lorem Ispum Dolor</div>
-                        <div className="tag">Lorem Ispum</div>
-                        <div className="tag">Lorem Ispum Dolor</div>
-                        <div className="tag">Lorem Ispum </div>
-                        <div className="tag">Lorem Ispum Dolor</div>
-                        <div className="tag">Lorem Ispum Dolor</div>
-                        <div className="tag">Lorem Ispum Dolor</div>
-                        <div className="tag">Lorem Ispum Dolor</div>
-                        <div className="tag">Lorem Ispum Dolor</div>
-                        <div className="tag">Lorem Ispum Dolor</div>
-                        <div className="tag">Lorem Ispum Dolor</div>
-                        <div className="tag">Lorem Ispum Dolor</div>
-                        <div className="tag">Lorem Ispum Dolor</div>
-                        <div className="tag">Lorem Ispum Dolor</div>
-                        <div className="tag">Lorem Ispum Dolor</div>
-                        <div className="tag">Lorem Ispum Dolor</div>
-                        <div className="tag">Lorem Ispum Dolor</div>
-                        <div className="tag">Lorem Ispum Dolor</div>
-                        <div className="tag">Lorem Ispum Dolor</div>
-                        <div className="tag">Lorem Ispum Dolor</div>
-                        <div className="tag">Lorem Ispum Dolor</div>
-                        <div className="tag">Lorem Ispum Dolor</div>
-                        <div className="tag">Lorem Ispum Dolor</div>
-                        <div className="tag">Lorem Ispum Dolor</div>
-                        <div className="tag">Lorem Ispum Dolor</div>
-                        <div className="tag">Lorem Ispum Dolor</div>
-                        <div className="tag">Lorem Ispum Dolor</div>
-                    </div>
-                </section>
-                <ListPatient/>
-            </div>
-        );
+                        </div>
+                        <div className="personnel-list">
+                            {bc.get_personnel.map((user)=>
+                                <div className="tag">{user.name}</div>
+                            )}
+                        </div>
+                    </section>
+                    <ListPatient patients={bc.get_patients}/>
+                </div>
+            );
+        }else{
+            return (
+                <div className={'load'}>
+                    <img src={'/assets/images/loading.svg'} alt={''}/>
+                </div>
+            )
+        }
+
     }
 }
 
 class BCView extends React.Component {
+
     constructor(props) {
         super(props);
         this.state = {
@@ -507,9 +511,11 @@ class BCView extends React.Component {
             </div>
         )
     }
+
 }
 
 class BCController extends React.Component {
+
     constructor(props) {
         super(props);
         this.state = {
@@ -543,6 +549,7 @@ class BCController extends React.Component {
             this.setState({bc_id: id});
         }
     }
+
     render() {
         return (
             <div className={"BC-Container"}>
@@ -553,7 +560,7 @@ class BCController extends React.Component {
                     <BCView id={this.state.bc_id} update={(status, id)=> {this.updatestatus(status, id)}}/>
                 }
                 {this.state.status === 2 &&
-                    <BCLast update={(status, id)=> {this.updatestatus(status, id)}}/>
+                    <BCLast id={this.state.bc_id} update={(status, id)=> {this.updatestatus(status, id)}}/>
                 }
                 {this.state.status === null &&
                     <div className={'load'}>

@@ -41,6 +41,7 @@ $border-radius: 30px;
 @function box_glow($color, $blur: 20px, $size: 7px){
     @return 0 0 $blur $size $color;
 }
+
 //Defaults
 h1{
     font-family: "Baloo Thambi 2", serif;
@@ -108,7 +109,6 @@ a, p, label{
     font-weight: normal;
     font-size: 20px;
 }
-
 .Title{
     font-size: 35px;
     font-family: 'Baloo Thambi 2', monospace;
@@ -125,31 +125,6 @@ a{
     flex-direction: row;
     flex-wrap: nowrap;
     justify-content: center;
-}
-.btn{
-    height: fit-content;
-    width: fit-content;
-    padding: 10px 20px;
-    background-color: $medium_blue;
-    color: $light_blue;
-    border-radius: $border-radius;
-    font-family: "Baloo Thambi 2", monospace;
-    font-weight: 600;
-    font-size: 25px;
-    border: none;
-    cursor: pointer;
-    transition: 400ms cubic-bezier(0.28,-0.46, 0.33, 1.5);
-    &:hover{
-        -webkit-transform: scale(1.2);
-    }
-    &:disabled{
-        opacity: 0.7;
-        transition: none;
-        cursor: default;
-        &:hover{
-            -webkit-transform: scale(1) !important;
-        }
-    }
 }
 
 .form-error{
@@ -234,6 +209,193 @@ a{
     }
 }
 
+
+//Btn & switch
+.btn{
+    height: fit-content;
+    width: fit-content;
+    padding: 10px 20px;
+    background-color: $medium_blue;
+    color: $light_blue;
+    border-radius: $border-radius;
+    font-family: "Baloo Thambi 2", monospace;
+    font-weight: 600;
+    font-size: 25px;
+    border: none;
+    cursor: pointer;
+    transition: 400ms cubic-bezier(0.28,-0.46, 0.33, 1.5);
+    &:hover{
+        -webkit-transform: scale(1.2);
+    }
+    &:disabled{
+        opacity: 0.7;
+        transition: none;
+        cursor: default;
+        animation: none;
+        &:hover{
+            transform: none;
+        }
+    }
+}
+.pilote-btn{
+
+    //disalbed btn
+    input[type="checkbox"]:disabled ~ div{
+        box-shadow: none;
+        opacity: 0.7;
+    }
+    //normal
+    *::before, *::after {
+        transition: 400ms all ease-in-out 50ms;
+        box-sizing: border-box;
+        backface-visibility: hidden;
+    }
+    /*Button is :CHECKED*/
+
+    input[type="checkbox"]:checked ~ div {
+        background: rgba(73,168,68,1);
+        box-shadow: 0 0 2px rgba(73,168,68,1);
+    }
+
+
+    input[type="checkbox"]:checked ~ div label {
+
+        transform: translate(60px);
+    }
+
+    input[type="checkbox"] ~ div label {
+        transition: 300ms all ease-in-out 50ms;
+    }
+
+    /*shared*/
+    div,
+    label {
+        border-radius: 50px;
+    }
+
+    input[type="checkbox"] {
+        display: none;
+    }
+
+    /*'un':checked state*/
+    div {
+        height: 40px;
+        width: 80px;
+        background: rgba(43, 43, 43, 1);
+        position: relative;
+        top: 0;
+        left: calc(50% - 35px);
+        box-shadow: 0 0 2px rgba(43,43,43,1);
+
+    }
+    label {
+        height: 40px;
+        width: 40px;
+        background: rgba(255, 255, 255, 1);
+        position: absolute;
+        top: 0;
+        left: -15px;
+        cursor: pointer;
+    }
+    label::before {
+        content: '';
+        height: 60px;
+        width: 5px;
+        position: absolute;
+        top: calc(50% - 30px);
+        left: calc(50% - 2.5px);
+        transform: rotate(45deg);
+    }
+
+    label::after {
+        content: '';
+        height: 5px;
+        width: 60px;
+        position: absolute;
+        top: calc(50% - 2.5px);
+        left: calc(50% - 30px);
+        transform: rotate(45deg);
+    }
+
+    label::before,
+    label::after{
+        background: rgba(43,43,43,1);
+        border-radius: 5px;
+    }
+
+    /* pesduo class on toggle */
+
+    input[type="checkbox"]:checked ~ div label::before{
+        height: 32px;
+        top: calc(55% - 19px);
+        left: calc(60% + 2px);
+        background: rgba(73,168,68,1);
+    }
+    input[type="checkbox"]:checked ~ div label::after{
+        width: 21px;
+        top: calc(95% - 17px);
+        left: calc(22.5% - 7px);
+        background: rgba(73,168,68,1);
+    }
+}
+.switch-container{
+    display: flex;
+    margin: auto auto;
+    z-index: 1;
+    .payed_switch{
+        height: 0;
+        width: 0;
+        visibility: hidden;
+    }
+    .payed_switch:disabled + .payed_switchLabel{
+        box-shadow: none;
+        opacity: 0.7;
+    }
+    .payed_switchLabel{
+        z-index: 1;
+        margin: auto auto;
+        cursor: pointer;
+        text-indent: -9999px;
+        width: 100px;
+        height: 30px;
+        background: $red_light;
+        box-shadow: box_glow($red_light);
+        display: block;
+        border-radius: 100px;
+        position: relative;
+        transition: 400ms cubic-bezier(0.28,-0.46, 0.33, 1.5);
+        &::after {
+            z-index: 1;
+            content: ' ';
+            position: absolute;
+            top: -5px;
+            left: -5px;
+            width: 40px;
+            height: 40px;
+            background: #222;
+            border-radius: 90px;
+            transition: 400ms cubic-bezier(0.28,-0.46, 0.33, 1.5);
+
+
+        }
+    }
+    .payed_switch:checked + .payed_switchLabel {
+        background: $green_light;
+        box-shadow:  box-glow($green_light);
+        z-index: 1;
+    }
+
+    .payed_switch:checked + .payed_switchLabel:after {
+        left: calc(100% + 5px);
+        transform: translateX(-100%);
+        z-index: 1;
+    }
+
+    .payed_switchLabel:active:after {
+        width: 40px;
+        z-index: 1;
+    }
+}
 .onoffswitch {
     position: relative; width: 120px;
     -webkit-user-select:none; -moz-user-select:none; -ms-user-select: none;
@@ -362,5 +524,105 @@ a{
         }
     }
 }
+
+//Animations
 @keyframes timer{0%{width:100%}to{width:0}}
+@keyframes slideIn {
+    0%{
+        opacity: 0;
+        z-index: 0;
+        visibility: hidden;
+    }
+    1%{
+        visibility: visible;
+    }
+    100%{
+        opacity: 1;
+        z-index: 3;
+        visibility: visible;
+    }
+
+}
+@keyframes slideOut {
+
+    0%{
+        opacity: 1;
+        z-index: 0;
+        visibility: visible;
+    }
+    99%{
+        opacity: 0;
+        z-index: 0;
+
+    }
+    100%{
+        visibility: hidden;
+    }
+}
+@keyframes checked-icon {
+    from {
+        transform: translateZ(12px);
+    }
+    to {
+        transform: translateX(16px) rotateY(90deg) translateZ(12px);
+    }
+}
+@keyframes unchecked-icon {
+    from {
+        transform: translateX(-16px) rotateY(-90deg) translateZ(12px);
+    }
+    to {
+        transform: translateZ(12px);
+    }
+}
+@keyframes checked {
+    from {
+        background-image: radial-gradient(ellipse at center, $green 0%, $green 25%, $red 25.1%, $red 100%);
+        background-position: 100% 50%;
+    }
+    to {
+        background-image: radial-gradient(ellipse at center, $green 0%, $green 25%, $red 25.1%, $red 100%);
+        background-position: 50% 50%;
+        box-shadow: box_glow($green_light);
+    }
+}
+@keyframes unchecked {
+    from {
+        background-image: radial-gradient(ellipse at center,$red 0%, $red 25%, $green 25.1%, $green 100%);
+        background-position: 100% 50%;
+
+    }
+    to {
+        background-image: radial-gradient(ellipse at center,$red 0%, $red 25%, $green 25.1%, $green 100%);
+        background-position: 50% 50%;
+        box-shadow: box_glow($red_light);
+    }
+}
+@keyframes fromTop {
+    0%{
+        visibility: hidden;
+        transform: translateY(-100%);
+    }
+    1%{
+        visibility: visible;
+    }
+    100%{
+        transform: translateY(0%);
+    }
+
+}
+@keyframes toTop {
+    0%{
+        visibility: visible;
+        transform: translateY(0%);
+    }
+    99%{
+        visibility: hidden;
+    }
+    100%{
+        visibility: hidden;
+        transform: translateY(-100%);
+    }
+
+}
 

@@ -123,12 +123,10 @@ class UserController extends Controller
     public function postInfos(Request $request): JsonResponse
     {
         $living = $request->living;
-        $timezone = $request->timezone;
         $tel = $request->tel;
         $compte= $request->compte;
         $user = User::where('id', Auth::id())->first();
         $user->liveplace= $living;
-        $user->timezone = $timezone;
         $user->tel = $tel;
         $user->compte = $compte;
         $user->save();

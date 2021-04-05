@@ -53,7 +53,7 @@ class Account extends React.Component {
 
     async postInfos(e){
         e.preventDefault()
-        var req = await  axios({
+        await  axios({
             url: '/data/user/infos/put',
             method:'PUT',
             data: {
