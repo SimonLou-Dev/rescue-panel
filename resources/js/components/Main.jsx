@@ -2,6 +2,7 @@ import React from 'react';
 import AnnonceCard from "./props/Main/AnnonceCard";
 import PersonnelList from "./props/Main/PersonnelList";
 import axios from "axios";
+import dateFormat from "dateformat";
 
 
 
@@ -40,7 +41,7 @@ class Main extends React.Component {
                         }
                         {this.state.data &&
                          this.state.annonces.map((annonce) =>
-                             <AnnonceCard title={annonce.title} key={annonce.id} content={annonce.content} date={annonce.posted_at}/>
+                             <AnnonceCard title={annonce.title} key={annonce.id} content={annonce.content} date={dateFormat(annonce.updated_at, 'yyyy/mm/dd ') +  '[FR]'}/>
                          )
                         }
                     </div>

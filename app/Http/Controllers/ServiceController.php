@@ -52,7 +52,8 @@ class ServiceController extends Controller
         }else{
             $date = $this::getWeekNumber();
         }
-        $service = WeekService::where('week_number', $date)->get();
+        $me= \App\Models\User::where('id', Auth::user()->id)->first();
+        $service = WeekService::where('week_number', $date)->where('grade_id', '<=', $me->grade_id)->orderBy('id','asc')->get();
         $a= 0;
         while($a < count($service)){
             $service[$a]->GetUser->GetGrade;

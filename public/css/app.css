@@ -2743,6 +2743,9 @@ body {
   text-align: center;
   margin-bottom: 10px;
 }
+.maintenance .card .btn {
+  margin: 15px auto;
+}
 
 .remboursement {
   display: flex;

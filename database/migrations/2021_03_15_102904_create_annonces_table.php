@@ -15,7 +15,6 @@ class CreateAnnoncesTable extends Migration
     {
         Schema::create('Annonces', function (Blueprint $table) {
             $table->id();
-            $table->integer('discord_msg_id');
             $table->string('title');
             $table->longText('content');
             $table->timestamps();

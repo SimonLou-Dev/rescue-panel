@@ -96,7 +96,8 @@ class UserController extends Controller
 
     public function getUser(Request $request): JsonResponse
     {
-        $users = User::all();
+        $me= User::where('id', Auth::user()->id)->first();
+        $users = User::where('grade_id', '<=', $me->grade_id)->get();
         return response()->json([
             'status'=>'OK',
             'users'=>$users,

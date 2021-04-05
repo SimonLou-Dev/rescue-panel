@@ -63,7 +63,6 @@ class ContentManagement extends Controller
                 $content->title = $request->title;
                 /** @var string $request->formcontent  */
                 $content->content = $request->formcontent;
-                $content->posted_at = date('Y-m-d H:i:s', time());
                 $content->save();
                 Http::post(env('WEBHOOK_ANNONCE'),[
                     'embeds'=>[
