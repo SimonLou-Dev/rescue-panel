@@ -66,6 +66,7 @@ class BCBase extends React.Component {
 
     async addbc(e) {
         e.preventDefault();
+        debugger;
         if(this.state.type !== 0){
             var req = await axios({
                 method: 'POST',
@@ -80,7 +81,6 @@ class BCBase extends React.Component {
                 this.props.update(1,req.data.bc_id);
             }
         }
-        this.setState({cliked:false});
     }
 
     render() {
@@ -177,7 +177,7 @@ class BCBase extends React.Component {
                             </div>
                             <div className={'btn-contain'}>
                                 <button onClick={()=> this.setState({add: false})} className={'btn'}>fermer</button>
-                                <button type={'submit'} disabled={this.state.clicked=== true} className={'btn'} onClick={()=>{this.setState({clicked:true})}}> Ajouter</button>
+                                <button type={'submit'} disabled={this.state.clicked=== true} className={'btn'}> Ajouter</button>
                             </div>
 
                         </form>

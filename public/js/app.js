@@ -8711,13 +8711,14 @@ var BCBase = /*#__PURE__*/function (_React$Component2) {
             switch (_context2.prev = _context2.next) {
               case 0:
                 e.preventDefault();
+                debugger;
 
                 if (!(this.state.type !== 0)) {
-                  _context2.next = 6;
+                  _context2.next = 7;
                   break;
                 }
 
-                _context2.next = 4;
+                _context2.next = 5;
                 return axios__WEBPACK_IMPORTED_MODULE_3___default()({
                   method: 'POST',
                   url: '/data/blackcode/create',
@@ -8727,7 +8728,7 @@ var BCBase = /*#__PURE__*/function (_React$Component2) {
                   }
                 });
 
-              case 4:
+              case 5:
                 req = _context2.sent;
 
                 if (req.status === 201) {
@@ -8737,11 +8738,6 @@ var BCBase = /*#__PURE__*/function (_React$Component2) {
                   });
                   this.props.update(1, req.data.bc_id);
                 }
-
-              case 6:
-                this.setState({
-                  cliked: false
-                });
 
               case 7:
               case "end":
@@ -8953,13 +8949,8 @@ var BCBase = /*#__PURE__*/function (_React$Component2) {
                   children: "fermer"
                 }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("button", {
                   type: 'submit',
-                  disabled: this.state.clicked,
+                  disabled: this.state.clicked === true,
                   className: 'btn',
-                  onClick: function onClick() {
-                    _this3.setState({
-                      clicked: true
-                    });
-                  },
                   children: " Ajouter"
                 })]
               })]
