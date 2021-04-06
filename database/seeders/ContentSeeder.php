@@ -16,7 +16,7 @@ class ContentSeeder extends Seeder
     public function run()
     {
         $bc = new BCType();
-        $bc->name = 'Fusillade';
+        $bc->name = 'Black Code';
         $bc->save();
 
         $tsp = new Hospital();
