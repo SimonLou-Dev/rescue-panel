@@ -18,6 +18,7 @@ class CreateRemboursementListsTable extends Migration
             $table->integer('user_id');
             $table->integer('item_id');
             $table->integer('week_number');
+            $table->integer('total');
             $table->timestamps();
         });
     }
