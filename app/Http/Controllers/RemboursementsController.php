@@ -55,7 +55,7 @@ class RemboursementsController extends Controller
     {
         $itemid = (int) $itemid;
         $item = RemboursementList::where('id', $itemid)->first();
-        $userRemboursement = WeekRemboursement::where('user_id', Auth::user()->id)->where('week_number', ServiceController::getWeekNumber());
+        $userRemboursement = WeekRemboursement::where('user_id', Auth::user()->id)->where('week_number', ServiceController::getWeekNumber())->first();
         $userRemboursement->total = (int) $userRemboursement->total -  (int) $item->getItem->price;
         $userRemboursement->save();
         $item->delete();

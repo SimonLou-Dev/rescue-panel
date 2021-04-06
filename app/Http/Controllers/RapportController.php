@@ -59,7 +59,6 @@ class RapportController extends Controller
         $rapport->ATA_end = date('Y/m/d H:i:s', strtotime($request->enddate . ' ' . $request->endtime));
         $rapport->save();
         $this::addFactureMethod($Patient, $request->payed, $request->montant, Auth::user()->id, $rapport->id);
-        $transport =  Hospital::where('id', $rapport->transport)->first();
         if($rapport->ATA_start === $rapport->ATA_end){
             $ata = 'non ';
         }else{
@@ -258,8 +257,6 @@ class RapportController extends Controller
             $Patient->save();
         }
         $this->addFactureMethod((object) $Patient,(bool) $request->payed, (int) $request->montant, (int) Auth::user()->id, null);
-
-        event(new \App\Events\Notify('Facture ajoutée ! ',1));
         return response()->json(['status'=>'OK'],201);
     }
 

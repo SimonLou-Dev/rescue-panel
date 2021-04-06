@@ -92,7 +92,7 @@ class Myview extends React.Component {
                     }
                     {this.state.data && this.state.list && this.state.list.map((item)=>
                         <div className={'row'}>
-                            <h5>{dateFormat(item.created_at, 'dd/mm/yyyy')} | {item.get_item.name} ${item.price}</h5>
+                            <h5>{dateFormat(item.created_at, 'dd/mm/yyyy')} | {item.get_item.name} ${item.get_item.price}</h5>
                             <button onClick={()=>{this.delete(item.id)}}><img src={'/assets/images/cancel.png'} alt={''}/></button>
                         </div>
                     )}
