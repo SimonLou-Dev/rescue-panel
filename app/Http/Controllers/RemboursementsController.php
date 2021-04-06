@@ -55,7 +55,7 @@ class RemboursementsController extends Controller
     public function deleteRemboursement(string $itemid): \Illuminate\Http\JsonResponse
     {
         $itemid = (int) $itemid;
-        $item = RemboursementList::where('id', $itemid)->first;
+        $item = RemboursementList::where('id', $itemid)->first();
         $userRemboursement = WeekRemboursement::where('user_id', Auth::user()->id)->where('week_number', ServiceController::getWeekNumber());
         $userRemboursement->total = (int) $userRemboursement->total -  (int) $item->getItem->price;
         $userRemboursement->save();
