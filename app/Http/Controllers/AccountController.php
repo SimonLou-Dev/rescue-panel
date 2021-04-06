@@ -126,7 +126,7 @@ class AccountController extends Controller
     {
         $user = User::where('id', Auth::user()->id)->first();
         $img = $request->get('image');
-        return response()->json([explode(':', substr($img, 0, strpos($img, ';')))],500);
+        return response()->json([$img],500);
         $imgname = Auth::user()->id . '_' . time() . '.' . explode('/', $img)[1];
         $path = "/storage/user_background/";
         $dir = public_path($path . Auth::user()->id);
