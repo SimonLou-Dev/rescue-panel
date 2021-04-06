@@ -31,25 +31,25 @@ class PersonnelLine extends React.Component {
                     <form onSubmit={this.isupdate}>
                         <select value={this.state.grade} onChange={(e)=>{this.setState({grade: e.target.value})}}>
                             <optgroup label={'pas d\'accès'}>
-                                <option value={0}>user</option>
+                                <option value={1}>user</option>
                             </optgroup>
                             <optgroup label={'membre'}>
-                                <option value={1}>Resident</option>
-                                <option value={2}>Caregiver</option>
-                                <option value={3}>Nurse</option>
-                                <option value={4}>Doctor</option>
+                                <option value={2}>Resident</option>
+                                <option value={3}>Caregiver</option>
+                                <option value={4}>Nurse</option>
+                                <option value={5}>Doctor</option>
                             </optgroup>
                             <optgroup label={'référents'}>
-                                <option value={5}>Senior Doctor</option>
-                                <option value={6}>Team Manager</option>
+                                <option value={6}>Senior Doctor</option>
+                                <option value={7}>Team Manager</option>
                             </optgroup>
                             <optgroup label={'direction'}>
-                                <option value={7}>Assistant - Chief </option>
-                                <option value={8}>Paramedical - Chief</option>
+                                <option value={8}>Assistant - Chief</option>
+                                <option value={9}>Paramedical - Chief</option>
                             </optgroup>
                             <optgroup label={'autre'}>
-                                <option value={9}>Inspecteur</option>
-                                <option value={10}>Développeur</option>
+                                <option value={10}>Inspecteur</option>
+                                <option value={11}>Développeur</option>
                             </optgroup>
                         </select>
                         {perm.edit_perm === 1 &&

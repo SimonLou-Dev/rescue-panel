@@ -10,7 +10,7 @@ class gradeSeeder extends Seeder
     /**
      * @var string[]
      */
-    private $grades = ['user','admin'];
+    private $grades = ['user','Resident','Caregiver','Nurse','Doctor','Senior Doctor','Team Manager','Assistant - Chief','Paramedical - Chief','Inspecteur', 'Développeur'];
 
     /**
      * Run the database seeds.
@@ -22,10 +22,13 @@ class gradeSeeder extends Seeder
         foreach ($this->grades as $grade){
             $newgrade = new Grade();
             $a = 0;
-            $perms = $grade == 'user' ? 1 : 0;
             $newgrade['name'] = $grade;
             while ($a <= 26) {
-                $newgrade['perm_' . $a] = $perms;
+                if($a == 0){
+                    $newgrade->perm_0 = 1;
+                }else{
+                    $newgrade['perm_' . $a] = 0;
+                }
                 $a++;
             }
             echo $newgrade->save();
