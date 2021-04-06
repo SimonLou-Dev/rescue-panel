@@ -18,7 +18,7 @@ class PatientListPU extends React.Component {
         }else {
             return (
                 <div className={'Patient-list-card'}>
-                    {this.props.idcard &&
+                    {this.props.idcard === true || this.props.idcard === 1&&
                     <h5 className={'id'}>[ID]</h5>
                     }
                     <h5 className={'name'}>{this.props.name}</h5>

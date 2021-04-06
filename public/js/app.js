@@ -6365,9 +6365,9 @@ var PersonnelList = /*#__PURE__*/function (_React$Component) {
               className: 'btn',
               children: "g\xE9rer les permissions"
             })]
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("section", {
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("section", {
             className: 'list-personnel',
-            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("table", {
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("table", {
               children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("thead", {
                 children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("tr", {
                   children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("th", {
@@ -6394,6 +6394,7 @@ var PersonnelList = /*#__PURE__*/function (_React$Component) {
                 children: this.state.userlist && this.state.userlist.map(function (user) {
                   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_props_Gestion_Personnel_PersonnelLine__WEBPACK_IMPORTED_MODULE_4__.default, {
                     id: user.id,
+                    pilote: user.pilote,
                     name: user.name,
                     compte: user.compte,
                     tel: user.tel,
@@ -6402,11 +6403,7 @@ var PersonnelList = /*#__PURE__*/function (_React$Component) {
                   }, user.id);
                 })
               })]
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_props_utils_TableBottom__WEBPACK_IMPORTED_MODULE_6__.default, {
-              placeholder: 'rechercher un nom',
-              page: 1,
-              pages: 5
-            })]
+            })
           })]
         });
       } else {
@@ -9337,7 +9334,7 @@ var BCView = /*#__PURE__*/function (_React$Component4) {
 
                 if (req.status === 201) {
                   this.setState({
-                    name: '',
+                    nom: '',
                     color: 0,
                     blessure: 0,
                     payed: false,
@@ -9459,7 +9456,7 @@ var BCView = /*#__PURE__*/function (_React$Component4) {
                   children: "Couleur dominante :"
                 }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("select", {
                   className: 'input',
-                  defaultValue: this.state.color,
+                  value: this.state.color,
                   onChange: function onChange(e) {
                     _this8.setState({
                       color: e.target.value
@@ -9482,7 +9479,7 @@ var BCView = /*#__PURE__*/function (_React$Component4) {
                   children: "Type de blessure :"
                 }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("select", {
                   className: 'input',
-                  defaultValue: this.state.blessure,
+                  value: this.state.blessure,
                   onChange: function onChange(e) {
                     _this8.setState({
                       blessure: e.target.value
@@ -10332,7 +10329,7 @@ var Rapport = /*#__PURE__*/function (_React$Component) {
                     name: "",
                     startinter: '',
                     tel: "",
-                    type: 0,
+                    type: 1,
                     transport: 1,
                     desc: '',
                     montant: 0,
@@ -10628,7 +10625,10 @@ var CarnetVol = /*#__PURE__*/function (_React$Component) {
 
       if (req.status === 201) {
         this.setState({
-          data: null
+          data: null,
+          raison: '',
+          lieux: '',
+          popup: false
         });
         this.update();
       }
@@ -12921,7 +12921,7 @@ var Myview = /*#__PURE__*/function (_React$Component) {
               return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
                 className: 'row',
                 children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("h5", {
-                  children: [dateformat__WEBPACK_IMPORTED_MODULE_5___default()(item.created_at, 'dd/mm/yyyy'), " | ", item.get_item.name, " $", item.price]
+                  children: [dateformat__WEBPACK_IMPORTED_MODULE_5___default()(item.created_at, 'dd/mm/yyyy'), " | ", item.get_item.name, " $", item.get_item.price]
                 }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("button", {
                   onClick: function onClick() {
                     _this2["delete"](item.id);
@@ -14348,7 +14348,7 @@ var PersonnelLine = /*#__PURE__*/function (_React$Component) {
           children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("form", {
             onSubmit: this.isupdate,
             children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("select", {
-              value: this.state.grade,
+              value: this.state.grade_id,
               onChange: function onChange(e) {
                 _this2.setState({
                   grade: e.target.value
@@ -14357,49 +14357,49 @@ var PersonnelLine = /*#__PURE__*/function (_React$Component) {
               children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("optgroup", {
                 label: 'pas d\'accès',
                 children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", {
-                  value: 0,
+                  value: 1,
                   children: "user"
                 })
               }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("optgroup", {
                 label: 'membre',
                 children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", {
-                  value: 1,
+                  value: 2,
                   children: "Resident"
                 }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", {
-                  value: 2,
+                  value: 3,
                   children: "Caregiver"
                 }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", {
-                  value: 3,
+                  value: 4,
                   children: "Nurse"
                 }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", {
-                  value: 4,
+                  value: 5,
                   children: "Doctor"
                 })]
               }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("optgroup", {
                 label: 'référents',
                 children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", {
-                  value: 5,
+                  value: 6,
                   children: "Senior Doctor"
                 }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", {
-                  value: 6,
+                  value: 7,
                   children: "Team Manager"
                 })]
               }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("optgroup", {
                 label: 'direction',
                 children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", {
-                  value: 7,
-                  children: "Assistant - Chief "
-                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", {
                   value: 8,
+                  children: "Assistant - Chief"
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", {
+                  value: 9,
                   children: "Paramedical - Chief"
                 })]
               }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("optgroup", {
                 label: 'autre',
                 children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", {
-                  value: 9,
+                  value: 10,
                   children: "Inspecteur"
                 }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", {
-                  value: 10,
+                  value: 11,
                   children: "D\xE9veloppeur"
                 })]
               })]
@@ -14415,6 +14415,7 @@ var PersonnelLine = /*#__PURE__*/function (_React$Component) {
             className: 'pilote-btn',
             children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("input", {
               type: "checkbox",
+              checked: this.props.pilote === 1,
               id: "toggle" + this.props.id,
               onClick: /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_1___default().mark(function _callee2() {
                 var req;
@@ -16989,7 +16990,7 @@ var PatientListPU = /*#__PURE__*/function (_React$Component) {
       } else {
         return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
           className: 'Patient-list-card',
-          children: [this.props.idcard && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("h5", {
+          children: [this.props.idcard === true || this.props.idcard === 1 && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("h5", {
             className: 'id',
             children: "[ID]"
           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("h5", {

@@ -362,7 +362,7 @@ class BCView extends React.Component {
             })
             if(req.status === 201){
                 this.setState({
-                    name: '',
+                    nom: '',
                     color: 0,
                     blessure:0,
                     payed: false,
@@ -425,7 +425,7 @@ class BCView extends React.Component {
 
                             <div className={'row-spaced'}>
                                 <label>Couleur dominante :</label>
-                                <select className={'input'} defaultValue={this.state.color} onChange={(e)=>{this.setState({color:e.target.value})}} >
+                                <select className={'input'} value={this.state.color} onChange={(e)=>{this.setState({color:e.target.value})}} >
                                     <option value={0} disabled>choisir</option>
                                     {this.state.data && this.state.couleurs.map((item)=>
                                         <option key={item.id} value={item.id}>{item.name}</option>
@@ -434,7 +434,7 @@ class BCView extends React.Component {
                             </div>
                             <div className={'row-spaced'}>
                                 <label>Type de blessure :</label>
-                                <select className={'input'} defaultValue={this.state.blessure} onChange={(e)=>{this.setState({blessure:e.target.value})}}>
+                                <select className={'input'} value={this.state.blessure} onChange={(e)=>{this.setState({blessure:e.target.value})}}>
                                     <option value={0} disabled>choisir</option>
                                     {this.state.data && this.state.blessures.map((item)=>
                                         <option key={item.id} value={item.id}>{item.name}</option>

@@ -52,7 +52,6 @@ class ServiceController extends Controller
         }else{
             $date = $this::getWeekNumber();
         }
-        $me= \App\Models\User::where('id', Auth::user()->id)->first();
         $service = WeekService::where('week_number', $date)->orderBy('id','asc')->get();
         $a= 0;
         while($a < count($service)){
@@ -124,9 +123,9 @@ class ServiceController extends Controller
             $start = date_create($service->started_at);
             $interval = $start->diff(date_create(date('Y-m-d H:i:s', time())));
             $diff = $interval->d*24 + $interval->h;
-            $formated = $diff . ':' . $interval->format('%I:%S');
+            $formated = $diff . ':' . $interval->format('%i:%S');
             $week =  ServiceController::getWeekNumber();
-            $service->ended_at = date('H:i:s', time());
+            $service->ended_at = date('H:I:s', time());
             $service->total = $formated;
             $service->save();
 
@@ -149,12 +148,13 @@ class ServiceController extends Controller
                 $WeekService->save();
             }
             $user->save();
+            $formated = explode(':', $formated);
             if($admin){
                 Http::post(env('WEBHOOK_SERVICE'),[
                     'embeds'=>[
                         [
                             'title'=>'Fin de service de ' . $user->name,
-                            'description'=> 'temps de service : ' . $formated,
+                            'description'=> 'temps de service : ' . $formated[0]. ':' . $formated[1],
                             'color'=>'15158332',
                             'footer'=>[
                                 'text'=>'stoppé par : ' . Auth::user()->name
@@ -167,7 +167,7 @@ class ServiceController extends Controller
                     'embeds'=>[
                         [
                             'title'=>'Fin de service de ' . $user->name,
-                            'description'=> 'temps de service : ' . $formated,
+                            'description'=> 'temps de service : ' . $formated[0]. ':' . $formated[1],
                             'color'=>'15158332',
                         ]
                     ]
