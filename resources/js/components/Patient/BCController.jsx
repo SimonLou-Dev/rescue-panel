@@ -65,8 +65,6 @@ class BCBase extends React.Component {
     }
 
     async addbc(e) {
-        e.preventDefault();
-        debugger;
         if(this.state.type !== 0){
             var req = await axios({
                 method: 'POST',
@@ -81,6 +79,7 @@ class BCBase extends React.Component {
                 this.props.update(1,req.data.bc_id);
             }
         }
+        this.setState({cliked:false});
     }
 
     render() {
@@ -165,7 +164,10 @@ class BCBase extends React.Component {
                  <section className={'popup'}>
                      <div className={'popup-content'}>
                         <h1>Ajouter un BC</h1>
-                        <form onSubmit={(e)=>{this.addbc(e)}}>
+                        <form onSubmit={(e)=>{
+                            e.preventDefault();
+                            this.addbc(e)
+                        }}>
                             <div className={'row'}>
                                 <input type={'text'} placeholder={'lieux'} value={this.state.place} onChange={(e)=>{this.setState({place:e.target.value})}}/>
                                 <select defaultValue={this.state.type} onChange={(e)=>{this.setState({type:e.target.value})}}>
@@ -177,7 +179,7 @@ class BCBase extends React.Component {
                             </div>
                             <div className={'btn-contain'}>
                                 <button onClick={()=> this.setState({add: false})} className={'btn'}>fermer</button>
-                                <button type={'submit'} disabled={this.state.clicked=== true} className={'btn'}> Ajouter</button>
+                                <button type={'submit'} disabled={this.state.clicked===true} className={'btn'} onClick={()=>{this.setState({clicked:true})}}>Ajouter</button>
                             </div>
 
                         </form>
