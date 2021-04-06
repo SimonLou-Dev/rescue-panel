@@ -6306,6 +6306,7 @@ var PersonnelList = /*#__PURE__*/function (_React$Component) {
       userlist: null,
       data: false
     };
+    _this.getdata = _this.getdata.bind(_assertThisInitialized(_this));
     return _this;
   }
 
@@ -6313,26 +6314,13 @@ var PersonnelList = /*#__PURE__*/function (_React$Component) {
     key: "componentDidMount",
     value: function () {
       var _componentDidMount = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_1___default().mark(function _callee() {
-        var req;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_1___default().wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                _context.next = 2;
-                return axios__WEBPACK_IMPORTED_MODULE_2___default()({
-                  url: '/data/users/getall',
-                  method: 'GET'
-                });
+                this.getdata();
 
-              case 2:
-                req = _context.sent;
-                console.log(req);
-                this.setState({
-                  userlist: req.data.users,
-                  data: true
-                });
-
-              case 5:
+              case 1:
               case "end":
                 return _context.stop();
             }
@@ -6345,6 +6333,43 @@ var PersonnelList = /*#__PURE__*/function (_React$Component) {
       }
 
       return componentDidMount;
+    }()
+  }, {
+    key: "getdata",
+    value: function () {
+      var _getdata = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_1___default().mark(function _callee2() {
+        var req;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_1___default().wrap(function _callee2$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                _context2.next = 2;
+                return axios__WEBPACK_IMPORTED_MODULE_2___default()({
+                  url: '/data/users/getall',
+                  method: 'GET'
+                });
+
+              case 2:
+                req = _context2.sent;
+                console.log(req);
+                this.setState({
+                  userlist: req.data.users,
+                  data: true
+                });
+
+              case 5:
+              case "end":
+                return _context2.stop();
+            }
+          }
+        }, _callee2, this);
+      }));
+
+      function getdata() {
+        return _getdata.apply(this, arguments);
+      }
+
+      return getdata;
     }()
   }, {
     key: "render",
@@ -6398,8 +6423,8 @@ var PersonnelList = /*#__PURE__*/function (_React$Component) {
                     name: user.name,
                     compte: user.compte,
                     tel: user.tel,
-                    grade: user.grade,
-                    update: _this2.componentDidMount
+                    grade: user.grade_id,
+                    update: _this2.getdata
                   }, user.id);
                 })
               })]
@@ -14348,7 +14373,7 @@ var PersonnelLine = /*#__PURE__*/function (_React$Component) {
           children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("form", {
             onSubmit: this.isupdate,
             children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("select", {
-              value: this.state.grade_id,
+              value: this.state.grade,
               onChange: function onChange(e) {
                 _this2.setState({
                   grade: e.target.value
