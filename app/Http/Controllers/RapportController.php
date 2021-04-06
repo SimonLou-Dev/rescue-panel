@@ -58,7 +58,7 @@ class RapportController extends Controller
         $rapport->ATA_start = date('Y/m/d H:i:s', strtotime($request->startdate . ' ' . $request->starttime));
         $rapport->ATA_end = date('Y/m/d H:i:s', strtotime($request->enddate . ' ' . $request->endtime));
         $rapport->save();
-        return response()->json([$rapport->GetType, $rapport->GetTransport],500);
+        return response()->json([$rapport->GetType, $rapport->GetTransport, $rapport],500);
         $this::addFactureMethod($Patient, $request->payed, $request->montant, Auth::user()->id, $rapport->id);
         $transport =  Hospital::where('id', $rapport->transport)->first();
         if($rapport->ATA_start === $rapport->ATA_end){
