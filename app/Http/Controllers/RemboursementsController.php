@@ -32,14 +32,13 @@ class RemboursementsController extends Controller
     {
         $item = (int) $request->item;
         $item = ObjRemboursement::where('id', $item)->first();
-        $userRemboursements = WeekRemboursement::where('week_number', ServiceController::getWeekNumber())->where('user_id', Auth::user()->id);
-        if($userRemboursements->count() == 0){
+        $userRemboursements = WeekRemboursement::where('week_number', ServiceController::getWeekNumber())->where('user_id', Auth::user()->id)->first();
+        if(!isset($userRemboursements)){
             $userRemboursements = new WeekRemboursement();
             $userRemboursements->week_number = ServiceController::getWeekNumber();
             $userRemboursements->user_id = Auth::user()->id;
             $userRemboursements->total = $item->price;
         }else{
-            $userRemboursements->first();
             $userRemboursements->total = (int) $userRemboursements->total + (int) $item->price;
         }
         $rmbsem = new RemboursementList();
