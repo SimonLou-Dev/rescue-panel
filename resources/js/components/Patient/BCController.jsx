@@ -177,7 +177,7 @@ class BCBase extends React.Component {
                             </div>
                             <div className={'btn-contain'}>
                                 <button onClick={()=> this.setState({add: false})} className={'btn'}>fermer</button>
-                                <button type={'submit'} disabled={this.state.clicked} className={'btn'} onClick={()=>{this.setState({clicked:true})}}> Ajouter</button>
+                                <button type={'submit'} disabled={this.state.clicked=== true} className={'btn'} onClick={()=>{this.setState({clicked:true})}}> Ajouter</button>
                             </div>
 
                         </form>
