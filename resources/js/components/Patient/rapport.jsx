@@ -59,7 +59,7 @@ class Rapport extends React.Component{
                 name: "",
                 startinter: '',
                 tel: "",
-                type: 0,
+                type: 1,
                 transport: 1,
                 desc: '',
                 montant: 0,
