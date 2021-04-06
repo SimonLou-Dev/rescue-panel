@@ -288,6 +288,7 @@ class BCView extends React.Component {
             payed: false,
             carteid:false,
             searsh:null,
+            clicked:false,
         }
         this.quitbc = this.quitbc.bind(this);
         this.check = this.check.bind(this);
@@ -349,7 +350,6 @@ class BCView extends React.Component {
     }
 
     async post(e){
-        e.preventDefault()
         if(this.state.blessure !== 0 && this.state.color !== 0){
             let req = await axios({
                 url: '/data/blackcode/'+ this.props.id +'/add/patient',
@@ -372,6 +372,7 @@ class BCView extends React.Component {
                 });
             }
         }
+        this.setState({clicked:false})
     }
 
     componentDidMount() {
@@ -409,14 +410,17 @@ class BCView extends React.Component {
                     </div>
                     <div className="addpatient">
 
-                        <form onSubmit={this.post}>
+                        <form onSubmit={(e)=>{
+                            e.preventDefault();
+                            this.post(e);
+                        }}>
                             <div className="top">
-                                <button type={"submit"} className={'btn'}>ajouter</button>
+                                <button type={"submit"} className={'btn'} disabled={this.state.clicked === true} onClick={()=>{this.setState({clicked:true})}}>ajouter</button>
                                 <h2>Ajouter un patient</h2>
                             </div>
 
                             <div className={'row-spaced'}>
-                                <label>nom prénom :</label>
+                                <label>prénom nom :</label>
                                 <input list="autocomplete" autoComplete="off" className={'input'} type={'text'} value={this.state.nom} onChange={(e)=>{this.searsh(e.target.value)}}/>
                                 <datalist id="autocomplete">
                                     {this.state.searsh && this.state.searsh.map((patient)=>

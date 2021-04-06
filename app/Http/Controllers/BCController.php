@@ -205,7 +205,7 @@ class BCController extends Controller
         $msg = "";
         while ($a < count($personnels)){
             if($a == 0){
-                $msg = 'Secourites : ' . $personnels[$a]->name;
+                $msg = 'Secouristes : ' . $personnels[$a]->name;
             }else{
                 $msg = $msg . ', ' . $personnels[$a]->name;
             }
