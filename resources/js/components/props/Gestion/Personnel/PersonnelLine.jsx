@@ -29,7 +29,7 @@ class PersonnelLine extends React.Component {
                 <td className={'compte'}>{this.props.compte}</td>
                 <td className={'grade'}>
                     <form onSubmit={this.isupdate}>
-                        <select value={this.state.grade_id} onChange={(e)=>{this.setState({grade: e.target.value})}}>
+                        <select value={this.state.grade} onChange={(e)=>{this.setState({grade: e.target.value})}}>
                             <optgroup label={'pas d\'accès'}>
                                 <option value={1}>user</option>
                             </optgroup>

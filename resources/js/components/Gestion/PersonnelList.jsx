@@ -13,9 +13,14 @@ class PersonnelList extends React.Component {
             userlist: null,
             data:false
         }
+        this.getdata = this.getdata.bind(this)
     }
 
     async componentDidMount(){
+        this.getdata()
+    }
+
+    async getdata() {
         var req = await axios({
             url: '/data/users/getall',
             method: 'GET'
@@ -23,7 +28,7 @@ class PersonnelList extends React.Component {
         console.log(req)
         this.setState({
             userlist: req.data.users,
-            data:true
+            data: true
         })
     }
 
@@ -52,7 +57,7 @@ class PersonnelList extends React.Component {
                             </thead>
                             <tbody>
                                 {this.state.userlist && this.state.userlist.map((user)=>
-                                        <PersonnelLine id={user.id} key={user.id} pilote={user.pilote} name={user.name} compte={user.compte} tel={user.tel} grade={user.grade} update={this.componentDidMount}/>
+                                        <PersonnelLine id={user.id} key={user.id} pilote={user.pilote} name={user.name} compte={user.compte} tel={user.tel} grade={user.grade_id} update={this.getdata}/>
                                 )}
                             </tbody>
                         </table>
