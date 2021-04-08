@@ -6,12 +6,11 @@ export default defineConfig({
   plugins: [reactRefresh()],
     root: './resources',
     base: '/assets/',
-    mode: "development",
     build: {
       outDir: '../public/assets',
         assetsDir: '',
         manifest: true,
-        minify: false,
+        minify: true,
         rollupOptions: {
           output: {
               manualChunks: undefined

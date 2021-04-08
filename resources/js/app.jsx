@@ -17,7 +17,7 @@ import Login from "./components/Login";
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {BrowserRouter, Route, Switch} from 'react-router-dom'
-import Layout, {NewLayout} from "./components/Layout";
+import Layout from "./components/Layout";
 import '../../public/css/app.css';
 import Register from "./components/Register";
 import Mdpreset from './components/Mdpreset';
@@ -46,7 +46,7 @@ class App extends React.Component{
                         <Route path='/ANA' component={Error}/>
                         <Route path='/maintenance' component={Maintenance}/>
                         <Route path='/informations' component={GetInfos}/>
-                        <NewLayout />
+                        <Layout />
                     </Switch>
                 </BrowserRouter>
             </NotificationsProvider>
