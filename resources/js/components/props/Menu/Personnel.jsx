@@ -25,7 +25,7 @@ class Personnel extends React.Component{
             }
         }
 
-        if(this.props.perm !== prevProps.perm){
+        if(this.props.perm !== prevProps.perm && this.props.perm !== null){
             if(!this.props.service){
                 if(this.props.perm['HS_facture']){
                     this.setState({facture:true})
@@ -35,7 +35,7 @@ class Personnel extends React.Component{
             }
         }
 
-        if(this.props.user !== prevProps.user){
+        if(this.props.user !== prevProps.user && this.props.user !== null){
             if(this.props.user.pilote){
                 this.setState({vols:true})
             }else{
@@ -46,7 +46,7 @@ class Personnel extends React.Component{
 
     render() {
         return (
-            <div className="Menu-Item" id="Service">
+            <div className="Menu-Item">
                 <h2 className="Menu_title"><span>Personnel</span></h2>
                 <ul className="Menu-list">
                     <li className={'mobildisabled'}><NavLink to={'/personnel/service'}>Service</NavLink></li>

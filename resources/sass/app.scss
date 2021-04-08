@@ -17,8 +17,6 @@ body{
     margin: 0;
     height: 100vh;
     width: 100vw;
-
-
 }
 
 .AppContainer{
@@ -27,6 +25,7 @@ body{
     height: 100vh;
     width: 100vw;
 }
+
 #app{
     height: 100vh;
     width: 100vw;
@@ -3728,4 +3727,18 @@ body{
 
         }
     }
+}
+
+
+
+.notification-item .bar {
+    height: 10px;
+}
+
+.notification-item.success .bar {
+    background-color: #65d266;
+}
+
+.notification-item.error .bar {
+    background-color: red;
 }

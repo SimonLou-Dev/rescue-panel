@@ -2487,6 +2487,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_4__);
 /* harmony import */ var _context_PermsContext__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../context/PermsContext */ "./resources/js/components/context/PermsContext.jsx");
+/* harmony import */ var react_resumable_js_src_ReactResumableJs__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! react-resumable-js/src/ReactResumableJs */ "./node_modules/react-resumable-js/src/ReactResumableJs.js");
+/* harmony import */ var react_resumable_js_src_ReactResumableJs__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(react_resumable_js_src_ReactResumableJs__WEBPACK_IMPORTED_MODULE_6__);
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 
@@ -2516,6 +2518,7 @@ function _assertThisInitialized(self) { if (self === void 0) { throw new Referen
 function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
 
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
 
 
 
@@ -3784,29 +3787,9 @@ var FormaCreate = /*#__PURE__*/function (_React$Component4) {
                   })]
                 }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", {
                   className: "image",
-                  children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
+                  children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", {
                     className: 'add-image',
-                    children: [this.state.image && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("img", {
-                      alt: "",
-                      src: this.state.image
-                    }), !this.state.image && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h3", {
-                      children: "ajouter une image 960x540"
-                    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("input", {
-                      accept: ["image/jpeg", "image/png"],
-                      type: "file",
-                      onChange: function onChange(e) {
-                        var file = e.target.files[0];
-
-                        _this10.createImage(file);
-
-                        var src = URL.createObjectURL(file);
-
-                        _this10.setState({
-                          image: src,
-                          updated: true
-                        });
-                      }
-                    })]
+                    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)((react_resumable_js_src_ReactResumableJs__WEBPACK_IMPORTED_MODULE_6___default()), {})
                   })
                 }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
                   className: "desc",
@@ -8710,15 +8693,12 @@ var BCBase = /*#__PURE__*/function (_React$Component2) {
           while (1) {
             switch (_context2.prev = _context2.next) {
               case 0:
-                e.preventDefault();
-                debugger;
-
                 if (!(this.state.type !== 0)) {
-                  _context2.next = 7;
+                  _context2.next = 5;
                   break;
                 }
 
-                _context2.next = 5;
+                _context2.next = 3;
                 return axios__WEBPACK_IMPORTED_MODULE_3___default()({
                   method: 'POST',
                   url: '/data/blackcode/create',
@@ -8728,7 +8708,7 @@ var BCBase = /*#__PURE__*/function (_React$Component2) {
                   }
                 });
 
-              case 5:
+              case 3:
                 req = _context2.sent;
 
                 if (req.status === 201) {
@@ -8739,7 +8719,12 @@ var BCBase = /*#__PURE__*/function (_React$Component2) {
                   this.props.update(1, req.data.bc_id);
                 }
 
-              case 7:
+              case 5:
+                this.setState({
+                  cliked: false
+                });
+
+              case 6:
               case "end":
                 return _context2.stop();
             }
@@ -8906,6 +8891,8 @@ var BCBase = /*#__PURE__*/function (_React$Component2) {
               children: "Ajouter un BC"
             }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("form", {
               onSubmit: function onSubmit(e) {
+                e.preventDefault();
+
                 _this3.addbc(e);
               },
               children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
@@ -8951,7 +8938,12 @@ var BCBase = /*#__PURE__*/function (_React$Component2) {
                   type: 'submit',
                   disabled: this.state.clicked === true,
                   className: 'btn',
-                  children: " Ajouter"
+                  onClick: function onClick() {
+                    _this3.setState({
+                      clicked: true
+                    });
+                  },
+                  children: "Ajouter"
                 })]
               })]
             })]
@@ -9144,7 +9136,8 @@ var BCView = /*#__PURE__*/function (_React$Component4) {
       blessure: 0,
       payed: false,
       carteid: false,
-      searsh: null
+      searsh: null,
+      clicked: false
     };
     _this6.quitbc = _this6.quitbc.bind(_assertThisInitialized(_this6));
     _this6.check = _this6.check.bind(_assertThisInitialized(_this6));
@@ -9325,14 +9318,12 @@ var BCView = /*#__PURE__*/function (_React$Component4) {
           while (1) {
             switch (_context9.prev = _context9.next) {
               case 0:
-                e.preventDefault();
-
                 if (!(this.state.blessure !== 0 && this.state.color !== 0)) {
-                  _context9.next = 6;
+                  _context9.next = 5;
                   break;
                 }
 
-                _context9.next = 4;
+                _context9.next = 3;
                 return axios__WEBPACK_IMPORTED_MODULE_3___default()({
                   url: '/data/blackcode/' + this.props.id + '/add/patient',
                   method: 'post',
@@ -9345,7 +9336,7 @@ var BCView = /*#__PURE__*/function (_React$Component4) {
                   }
                 });
 
-              case 4:
+              case 3:
                 req = _context9.sent;
 
                 if (req.status === 201) {
@@ -9357,6 +9348,11 @@ var BCView = /*#__PURE__*/function (_React$Component4) {
                     carteid: false
                   });
                 }
+
+              case 5:
+                this.setState({
+                  clicked: false
+                });
 
               case 6:
               case "end":
@@ -9435,12 +9431,22 @@ var BCView = /*#__PURE__*/function (_React$Component4) {
           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
             className: "addpatient",
             children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("form", {
-              onSubmit: this.post,
+              onSubmit: function onSubmit(e) {
+                e.preventDefault();
+
+                _this8.post(e);
+              },
               children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
                 className: "top",
                 children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("button", {
                   type: "submit",
                   className: 'btn',
+                  disabled: this.state.clicked === true,
+                  onClick: function onClick() {
+                    _this8.setState({
+                      clicked: true
+                    });
+                  },
                   children: "ajouter"
                 }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("h2", {
                   children: "Ajouter un patient"
@@ -9448,7 +9454,7 @@ var BCView = /*#__PURE__*/function (_React$Component4) {
               }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
                 className: 'row-spaced',
                 children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("label", {
-                  children: "nom pr\xE9nom :"
+                  children: "pr\xE9nom nom :"
                 }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("input", {
                   list: "autocomplete",
                   autoComplete: "off",
@@ -81803,6 +81809,16 @@ module.exports = __webpack_require__(/*! react */ "./node_modules/react/index.js
 
 /******/ });
 //# sourceMappingURL=react-notifications.dev.js.map
+
+/***/ }),
+
+/***/ "./node_modules/react-resumable-js/src/ReactResumableJs.js":
+/*!*****************************************************************!*\
+  !*** ./node_modules/react-resumable-js/src/ReactResumableJs.js ***!
+  \*****************************************************************/
+/***/ (() => {
+
+throw new Error("Module parse failed: Unexpected token (27:22)\nYou may need an appropriate loader to handle this file type, currently no loaders are configured to process this file. See https://webpack.js.org/concepts#loaders\n|     }\n| \n>     componentDidMount = () => {\n| \n|         let ResumableField = new Resumablejs({");
 
 /***/ }),
 

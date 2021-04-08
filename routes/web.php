@@ -17,25 +17,25 @@ use Illuminate\Support\Facades\Route;
 |
 */
 //Main view
-Route::get('/', function () {return view("app");})->middleware(['auth','access']);
+Route::get('/', [\App\Http\Controllers\HomeController::class, 'getIndex'])->middleware(['auth','access']);
 //View in patient
-Route::get('/patient/{a}', function (){return view("app");})->middleware(['auth','access']);
+Route::get('/patient/{a}', [\App\Http\Controllers\HomeController::class, 'getIndex']); //->middleware(['auth','access']);
 //View of personnel
-Route::get('/personnel/{a}', function (){return view("app");})->middleware(['auth','access']);
+Route::get('/personnel/{a}', [\App\Http\Controllers\HomeController::class, 'getIndex']); //->middleware(['auth','access']);
 //View of gestion
-Route::get('/gestion/{a}', function (){return view("app");})->middleware('auth');
+Route::get('/gestion/{a}', [\App\Http\Controllers\HomeController::class, 'getIndex']); //->middleware('auth');
 // Report bug
-Route::get('/bugrepport', function (){return view("app");})->middleware('auth');
+Route::get('/bugrepport/{a?}', [\App\Http\Controllers\HomeController::class, 'getIndex']); //->middleware('auth');
 //Cant access
-Route::get('/ANA', function (){return view("app");})->name('ANA');
+Route::get('/ANA/{a?}', [\App\Http\Controllers\HomeController::class, 'getIndex'])->name('ANA');
 //Maintenance
-Route::get('/maintenance', function (){return view("app");})->name('mnt');
+Route::get('/maintenance/{a?}', [\App\Http\Controllers\HomeController::class, 'getIndex'])->name('mnt');
 //informations
-Route::get('/informations', function (){return view("app");})->middleware(['auth']);
+Route::get('/informations/{a?}', [\App\Http\Controllers\HomeController::class, 'getIndex']); //->middleware(['auth']);
 //register
-Route::get('/register',function (){return view("app");})->name('register')->middleware('guest');
+Route::get('/register/{a?}', [\App\Http\Controllers\HomeController::class, 'getIndex'])->name('register'); //->middleware('guest');
 //login
-Route::get('/login',function (){return view("app");})->name('login')->middleware('guest');
+Route::get('/login/{a?}',[\App\Http\Controllers\HomeController::class, 'getIndex'])->name('login'); //->middleware('guest');
 //log out
 Route::get('/logout', function (){
    \Illuminate\Support\Facades\Auth::logout();
@@ -43,9 +43,9 @@ Route::get('/logout', function (){
    return redirect()->route('login');
 })->middleware('auth')->name('logout');
 //reset mdp view
-Route::get('/reset/*', function (){return view("app");})->middleware('guest');
+Route::get('/reset/*', [\App\Http\Controllers\MainController::class, 'getIndex'])->middleware('guest');
 //send mail for reseset
-Route::get('/sendmail', function (){return view("app");})->middleware('guest');
+Route::get('/sendmail', [\App\Http\Controllers\MainController::class, 'getIndex'])->middleware('guest');
 
 //Connexion management
 Route::post('/data/register', [\App\Http\Controllers\UserController::class, 'register']);
@@ -148,6 +148,9 @@ Route::get('/data/admin/grades/get', [\App\Http\Controllers\UserController::clas
 Route::put('/data/admin/grades/{perm}/{grade_id}', [\App\Http\Controllers\UserController::class, 'changePerm']);
 
 Route::post('/data/bug', [\App\Http\Controllers\MainController::class, 'postBug']);
+
+
+Route::post('/data/tempupload', [\App\Http\Controllers\FileController::class, 'uploadFile']);
 
 
 

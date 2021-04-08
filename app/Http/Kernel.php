@@ -4,6 +4,7 @@ namespace App\Http;
 
 use App\Http\Middleware\Authed;
 use App\Http\Middleware\CanAccess;
+use App\Http\Middleware\Cors;
 use App\Http\Middleware\NotAuthed;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 
@@ -67,5 +68,6 @@ class Kernel extends HttpKernel
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
         'not-authed'=>\App\Http\Middleware\NotAuthed::class,
         'access'=>\App\Http\Middleware\CanAccess::class,
+        'cors'=>\App\Http\Middleware\Cors::class
     ];
 }

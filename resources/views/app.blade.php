@@ -9,14 +9,24 @@
     <script>
         const csrf = '{{csrf_token()}}'
     </script>
-    <title>BCFD - Intranet</title>
+    <script type="module">
+        import RefreshRuntime from "http://localhost:3000/@react-refresh"
+        RefreshRuntime.injectIntoGlobalHook(window)
+        window.$RefreshReg$ = () => {}
+        window.$RefreshSig$ = () => (type) => type
+        window.__vite_plugin_react_preamble_installed__ = true
+    </script>
+    <script type="module" src="http://localhost:3000/@vite/client"></script>
+
+    {!!ViteGetAssets::asset('main.jsx')!!}
+
     <!-- styles -->
+
+
     <link href=”{{ asset('css/app.css') }}” rel=”stylesheet”>
-    <!-- pusher -->
-    <script src="https://js.pusher.com/7.0/pusher.min.js"></script>
+
 </head>
 <body data-root-url={{ asset('') }}>
     <div id="app"></div>
-    <script src="{{ asset('js/app.js') }}"></script>
 </body>
 </html>
