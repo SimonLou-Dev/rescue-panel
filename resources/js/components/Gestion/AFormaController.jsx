@@ -2,7 +2,6 @@ import React from 'react';
 import PagesTitle from "../props/utils/PagesTitle";
 import axios from "axios";
 import PermsContext from "../context/PermsContext";
-
 class FormaUserList extends React.Component {
 
     constructor(props) {
@@ -653,18 +652,7 @@ class FormaCreate extends React.Component {
                                     </div>
                                     <div className="image">
                                         <div className={'add-image'}>
-                                            {this.state.image &&
-                                            <img alt={""} src={this.state.image}/>
-                                            }
-                                            {!this.state.image &&
-                                            <h3>ajouter une image 960x540</h3>
-                                            }
-                                            <input accept={["image/jpeg", "image/png"]} type={"file"} onChange={(e)=>{
-                                                let file = e.target.files[0];
-                                                this.createImage(file)
-                                                let src = URL.createObjectURL(file)
-                                                this.setState({image:src, updated:true});
-                                            }}/>
+
                                         </div>
                                     </div>
                                     <div className="desc">

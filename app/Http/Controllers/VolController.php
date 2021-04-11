@@ -76,15 +76,15 @@ class VolController extends Controller
         Http::post(env('WEBHOOK_VOLS'),[
             'embeds'=>[
                 [
-                    'title'=>'Helicoptère en déployé:',
+                    'title'=>'Helicoptère du BCFD déployé:',
                     'color'=>'13373531',
                     'fields'=>[
                         [
-                            'name'=>'Zone : ',
+                            'name'=>'Secteur : ',
                             'value'=>$vol->GetLieux->name,
                             'inline'=>true
                         ],[
-                            'name'=>'raison : ',
+                            'name'=>'Motif : ',
                             'value'=>$vol->raison,
                             'inline'=>false
                         ]

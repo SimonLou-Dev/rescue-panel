@@ -7,8 +7,6 @@
 
 import Login from "./components/Login";
 
-require('./bootstrap');
-
 /**
  * Next, we will create a fresh React component instance and attach it to
  * the page. Then, you may begin adding components to this application
@@ -25,11 +23,9 @@ import Register from "./components/Register";
 import Mdpreset from './components/Mdpreset';
 import Error from './components/Error';
 import Emailsender from './components/Emailsender';
-import NotifSucces from './components/props/notifs/Notifs';
-import Notifications from "./components/props/utils/Notifications";
 import Maintenance from "./components/Maintenance";
 import GetInfos from "./components/GetInfos";
-var notifs = true;
+import NotificationsProvider from "./components/context/NotificationProvider";
 
 class App extends React.Component{
     constructor(props) {
@@ -40,6 +36,7 @@ class App extends React.Component{
 
     render() {
         return (
+            <NotificationsProvider>
                 <BrowserRouter>
                     <Switch>
                         <Route path='/login' component={Login}/>
@@ -52,6 +49,7 @@ class App extends React.Component{
                         <Layout />
                     </Switch>
                 </BrowserRouter>
+            </NotificationsProvider>
         );
     }
 }

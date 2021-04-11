@@ -8,6 +8,8 @@ use Illuminate\Support\Facades\Cookie;
 
 class Authed
 {
+
+
     /**
      * Handle an incoming request.
      *

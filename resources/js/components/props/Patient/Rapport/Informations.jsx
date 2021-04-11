@@ -61,8 +61,8 @@ class Informations extends React.Component{
                     }
                     <input type="text" autoComplete={'off'} placeholder="n° de tel" value={tel} onChange={this.telchange}/>
                     <label>Début d'intervention</label>
-                    <input type={'date'} autoComplete={'off'} value={startinter[0]} onChange={this.startdatechange}/>
-                    <input type={'time'} autoComplete={'off'} value={startinter[1]} onChange={this.starttimechange}/>
+                    <input required type={'date'} autoComplete={'off'} value={startinter[0]} onChange={this.startdatechange}/>
+                    <input required type={'time'} autoComplete={'off'} value={startinter[1]} onChange={this.starttimechange}/>
                 </div>
             </div>
         )

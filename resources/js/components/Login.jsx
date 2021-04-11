@@ -79,7 +79,7 @@ class Login extends React.Component {
             var psw = this.state.psw;
             var req = await axios({
                 method: 'post',
-                url: 'data/login',
+                url: '/data/login',
                 data: {
                   'email': email,
                   'psw': psw,

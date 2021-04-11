@@ -12,11 +12,6 @@ use Illuminate\Support\Facades\Http;
 
 class MainController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('auth');
-        $this->middleware('access');
-    }
 
     public function getInServices(Request $request): \Illuminate\Http\JsonResponse
     {
@@ -53,4 +48,6 @@ class MainController extends Controller
         ]);
         return response()->json([],201);
     }
+
+
 }

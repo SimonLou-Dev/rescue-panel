@@ -1,6 +1,7 @@
 import React from 'react';
 import axios from "axios";
 import PagesTitle from "../props/utils/PagesTitle";
+import Uploader from "../props/utils/Uploader";
 
 
 class Stats extends React.Component {
@@ -28,25 +29,14 @@ class Account extends React.Component {
             mdp: '',
             mdprepet: '',
             lastmdp: '',
-            img: null,
             image: null,
         }
 
         this.postInfos = this.postInfos.bind(this);
         this.changeMdp = this.changeMdp.bind(this)
-        this.createImage = this.createImage.bind(this);
         this.postBg = this.postBg.bind(this);
     }
 
-    createImage(file) {
-        let reader = new FileReader();
-        reader.onload = (e) => {
-            this.setState({
-                img: e.target.result
-            })
-        };
-        reader.readAsDataURL(file);
-    }
 
     async componentDidMount() {
         var req = await axios({
@@ -78,6 +68,7 @@ class Account extends React.Component {
                 liveplace: this.state.liveplace,
             }
         })
+        this.postBg(e);
     }
 
     async changeMdp(e){
@@ -107,7 +98,7 @@ class Account extends React.Component {
             method:'POST',
             url: '/data/user/bg/post',
             data: {
-                image: this.state.img,
+                image: this.state.image,
             }
         })
     }
@@ -158,33 +149,7 @@ class Account extends React.Component {
                             <h2>Arrière plan du site (Affeté à la prochainne connexion)</h2>
                             <div className="beta"/>
                         </div>
-                        <form onSubmit={this.postBg}>
-                            <div className="rowed">
-                                <label>image 1920*1080</label>
-                                <input accept={["image/jpeg", "image/png"]} type={"file"} onChange={(e)=>{
-                                    let file = e.target.files[0];
-                                    this.createImage(file)
-                                    let src = URL.createObjectURL(file)
-                                    this.setState({image:src});
-                                }}/>
-                            </div>
-                            <div className={"rowed"}>
-                                {this.state.image &&
-                                <img alt={""} src={this.state.image}/>
-                                }
-                                <div className={'column'}>
-                                    <button className={'btn right'} type={'submit'}>ajouter</button>
-                                    <button className={'btn'} onClick={async (e) => {
-                                        e.preventDefault();
-                                        await axios({
-                                            method: 'DELETE',
-                                            url: '/data/user/bg/delete',
-                                        })
-                                    }}>supprimer</button>
-                                </div>
-                            </div>
-
-                        </form>
+                        <Uploader text={'1920*1080 2MO'} images={(image)=>{this.setState({image:image})}}/>
                     </div>
                 </section>
                 }

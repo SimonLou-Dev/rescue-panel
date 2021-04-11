@@ -445,84 +445,186 @@ a{
     }
 }
 
-//Notifications
-.notifications-component {
-    top: 0;
-    right: 0;
-    z-index: 154400;
-    pointer-events: none;
-    position: fixed;
-    width: 500px;
-    height: 100vw;
-    .notification-container--top-right{
-        right: 20px;
-        top: 20px;
-        min-width: 370px;
-        position: absolute;
-        pointer-events: all;
-        .notification{
-            min-height: 65px;
-            width: 370px;
-            transition: height 600ms linear 0ms;
-            margin-left: auto;
-            .notification__item {
-                display: flex;
-                position: relative;
-                border-radius: 3px;
-                margin-bottom: 15px;
-                box-shadow: 1px 3px 4px rgba(0,0,0,.2);
-                cursor: pointer;
-                .notification__content {
-                    padding: 8px 15px;
-                    display: inline-block;
-                    width: 100%;
-                    .notification__message {
-                        color: #fff;
-                        max-width: calc(100% - 15px);
-                        font-family: "Baloo Thambi 2", monospace;
-                        font-weight: 600;
-                        font-size: 22px;
-                        line-height: 150%;
-                        word-wrap: break-word;
-                        margin-bottom: 0;
-                    }
-                    .notification__timer{
-                        background-color: $dark_blue;
-                        width: 100%;
-                        margin-top: 10px;
-                        border-radius: 20px;
-                        .notification__timer-filler{
-                            height: 10px !important;
-                            background-color: $medium_blue;
-                            border-radius: 20px;
-                            animation-name: timer;
-                            animation-duration: 3000ms;
-                            animation-timing-function: linear;
-                            animation-fill-mode: forwards;
-                            animation-play-state: running;
-                        }
-                    }
-                }
-            }
-            .notification__item--danger {
-                background-color: $red;
-                border-left: 8px solid #bd1120;
-            }
-            .notification__item--warning {
-                background-color: $orange;
-                border-left: 8px solid #b06319;
-            }
-            .notification__item--info{
-                background-color: $purple;
-                border-left: 8px solid #5b20b3;
-            }
-            .notification__item--success {
-                background-color: $green;
-                border-left: 8px solid #118c45;
-            }
+@keyframes SlideLeft {
+    0% {
+        margin-left: 120%;
+    }
 
+    100% {
+        margin-left: 0;
+    }
+}
+
+@keyframes SlideRight {
+    0% {
+        margin-left: 0;
+    }
+
+    100% {
+        margin-left: 120%;
+    }
+}
+
+//Notifications
+.notification-wrapper {
+    position: fixed;
+    height: 100vh;
+    top: 10px;
+    right: 10px;
+    width: 350px;
+    pointer-events: none;
+    z-index: 15;
+    .notification-item{
+        padding: 5px 10px;
+        min-height: 65px;
+        pointer-events: all;
+        box-shadow: 0 0 10px rgba(0,0,0, 0.3), 1px 3px 4px rgba(0,0,0,.2);
+        border-radius: 10px;
+        overflow: hidden;
+        margin-bottom: 20px;
+        animation: SlideLeft 0.4s;
+        animation-fill-mode: forwards;
+        width: 90%;
+        cursor: pointer;
+        p{
+            color: #fff;
+            max-width: calc(100% - 15px);
+            font-family: "Baloo Thambi 2", monospace;
+            font-weight: 600;
+            font-size: 22px;
+            line-height: 100%;
+            word-wrap: break-word;
+            margin-top: 10px;
         }
     }
+    .danger {
+        background-color: $red;
+        border-left: 8px solid #bd1120;
+    }
+    .warning {
+        background-color: $orange;
+        border-left: 8px solid #b06319;
+    }
+    .info{
+        background-color: $purple;
+        border-left: 8px solid #5b20b3;
+    }
+    .success {
+        background-color: $green;
+        border-left: 8px solid #118c45;
+    }
+    .exit {
+        animation: SlideRight 0.4s;
+        animation-fill-mode: forwards;
+    }
+    .undefined{
+        display: none;
+    }
+}
+//Progress bar
+.bar{
+    background-color: $dark_blue;
+    width: 100%;
+    margin-top: 10px;
+    border-radius: 20px;
+    .bar--filler{
+        height: 10px !important;
+        background-color: $medium_blue;
+        border-radius: 20px;
+    }
+}
+//Uploader
+.uploader--container{
+    width: 240px;
+    height: 135px;
+    border-radius: $border-radius;
+    background-color: $medium_blue;
+    position: absolute;
+    overflow:hidden;
+    .img{
+        position: relative;
+        width: 100%;
+        height: 100%;
+        filter: blur(2px);
+    }
+    .Uploader{
+        width: 100%;
+        height: 100%;
+    }
+
+    label{
+        width: 100%;
+        top: 10%;
+        position: absolute;
+        display: block;
+        text-align: center;
+
+    }
+    .upload-btn{
+        position: absolute;
+        top: 40%;
+        left: calc(50% - 92px);
+        background-color: $dark_blue;
+        border-radius: $border-radius;
+        border: none;
+        color: $light_blue;
+        font-family: "Baloo Thambi 2", monospace;
+        padding: 10px;
+        font-size: 20px;
+        font-weight: 700;
+        cursor: pointer;
+        transition: 400ms cubic-bezier(0.28,-0.46, 0.33, 1.5);
+        &:hover{
+            -webkit-transform: scale(1.2);
+        }
+        &:disabled{
+            opacity: 0.7;
+            transition: none;
+            cursor: default;
+            animation: none;
+            &:hover{
+                transform: none;
+            }
+        }
+    }
+    .bar{
+        position: absolute;
+        left: 10%;
+        top: 80%;
+        width: 80%;
+        .bar--filler{
+            background-color: $light_blue;
+        }
+    }
+    .hasFile{
+        display: none;
+    }
+    .delete{
+        position: absolute;
+        background: transparent;
+        border: none;
+        top: 25%;
+        left: 35%;
+        cursor: pointer;
+        transition: 400ms cubic-bezier(0.28,-0.46, 0.33, 1.5);
+        &:hover{
+            -webkit-transform: scale(1.2);
+        }
+        &:disabled{
+            opacity: 0.7;
+            transition: none;
+            cursor: default;
+            animation: none;
+            &:hover{
+                transform: none;
+            }
+        }
+    }
+    .anyFile{
+        display: none;
+    }
+
+
 }
 
 //Animations

@@ -57,12 +57,6 @@ input, select, textarea {
   border-radius: 30px;
   padding: 10px;
 }
-input::-moz-placeholder, select::-moz-placeholder, textarea::-moz-placeholder {
-  color: #00FFFF;
-}
-input:-ms-input-placeholder, select:-ms-input-placeholder, textarea:-ms-input-placeholder {
-  color: #00FFFF;
-}
 input::placeholder, select::placeholder, textarea::placeholder {
   color: #00FFFF;
 }
@@ -106,7 +100,6 @@ a {
   background-color: #004662;
   width: 100%;
   height: 100px;
-  position: -webkit-sticky;
   position: sticky;
   bottom: 0;
   border-top: 1px #0c2646 solid;
@@ -179,11 +172,7 @@ a {
 }
 
 .btn {
-  height: -webkit-fit-content;
-  height: -moz-fit-content;
   height: fit-content;
-  width: -webkit-fit-content;
-  width: -moz-fit-content;
   width: fit-content;
   padding: 10px 20px;
   background-color: #004662;
@@ -203,8 +192,7 @@ a {
   opacity: 0.7;
   transition: none;
   cursor: default;
-  -webkit-animation: none;
-          animation: none;
+  animation: none;
 }
 .btn:disabled:hover {
   transform: none;
@@ -223,8 +211,7 @@ a {
 .pilote-btn *::before, .pilote-btn *::after {
   transition: 400ms all ease-in-out 50ms;
   box-sizing: border-box;
-  -webkit-backface-visibility: hidden;
-          backface-visibility: hidden;
+  backface-visibility: hidden;
 }
 .pilote-btn input[type=checkbox]:checked ~ div {
   background: #49a844;
@@ -423,96 +410,177 @@ a {
   right: -5px;
 }
 
-.notifications-component {
-  top: 0;
-  right: 0;
-  z-index: 154400;
-  pointer-events: none;
+@keyframes SlideLeft {
+  0% {
+    margin-left: 120%;
+  }
+  100% {
+    margin-left: 0;
+  }
+}
+@keyframes SlideRight {
+  0% {
+    margin-left: 0;
+  }
+  100% {
+    margin-left: 120%;
+  }
+}
+.notification-wrapper {
   position: fixed;
-  width: 500px;
-  height: 100vw;
+  height: 100vh;
+  top: 10px;
+  right: 10px;
+  width: 350px;
+  pointer-events: none;
+  z-index: 15;
 }
-.notifications-component .notification-container--top-right {
-  right: 20px;
-  top: 20px;
-  min-width: 370px;
-  position: absolute;
-  pointer-events: all;
-}
-.notifications-component .notification-container--top-right .notification {
+.notification-wrapper .notification-item {
+  padding: 5px 10px;
   min-height: 65px;
-  width: 370px;
-  transition: height 600ms linear 0ms;
-  margin-left: auto;
-}
-.notifications-component .notification-container--top-right .notification .notification__item {
-  display: flex;
-  position: relative;
-  border-radius: 3px;
-  margin-bottom: 15px;
-  box-shadow: 1px 3px 4px rgba(0, 0, 0, 0.2);
+  pointer-events: all;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3), 1px 3px 4px rgba(0, 0, 0, 0.2);
+  border-radius: 10px;
+  overflow: hidden;
+  margin-bottom: 20px;
+  animation: SlideLeft 0.4s;
+  animation-fill-mode: forwards;
+  width: 90%;
   cursor: pointer;
 }
-.notifications-component .notification-container--top-right .notification .notification__item .notification__content {
-  padding: 8px 15px;
-  display: inline-block;
-  width: 100%;
-}
-.notifications-component .notification-container--top-right .notification .notification__item .notification__content .notification__message {
+.notification-wrapper .notification-item p {
   color: #fff;
   max-width: calc(100% - 15px);
   font-family: "Baloo Thambi 2", monospace;
   font-weight: 600;
   font-size: 22px;
-  line-height: 150%;
+  line-height: 100%;
   word-wrap: break-word;
-  margin-bottom: 0;
+  margin-top: 10px;
 }
-.notifications-component .notification-container--top-right .notification .notification__item .notification__content .notification__timer {
+.notification-wrapper .danger {
+  background-color: #e3342f;
+  border-left: 8px solid #bd1120;
+}
+.notification-wrapper .warning {
+  background-color: #f6993f;
+  border-left: 8px solid #b06319;
+}
+.notification-wrapper .info {
+  background-color: #9561e2;
+  border-left: 8px solid #5b20b3;
+}
+.notification-wrapper .success {
+  background-color: #38c172;
+  border-left: 8px solid #118c45;
+}
+.notification-wrapper .exit {
+  animation: SlideRight 0.4s;
+  animation-fill-mode: forwards;
+}
+.notification-wrapper .undefined {
+  display: none;
+}
+
+.bar {
   background-color: #0c2646;
   width: 100%;
   margin-top: 10px;
   border-radius: 20px;
 }
-.notifications-component .notification-container--top-right .notification .notification__item .notification__content .notification__timer .notification__timer-filler {
+.bar .bar--filler {
   height: 10px !important;
   background-color: #004662;
   border-radius: 20px;
-  -webkit-animation-name: timer;
-          animation-name: timer;
-  -webkit-animation-duration: 3000ms;
-          animation-duration: 3000ms;
-  -webkit-animation-timing-function: linear;
-          animation-timing-function: linear;
-  -webkit-animation-fill-mode: forwards;
-          animation-fill-mode: forwards;
-  -webkit-animation-play-state: running;
-          animation-play-state: running;
-}
-.notifications-component .notification-container--top-right .notification .notification__item--danger {
-  background-color: #e3342f;
-  border-left: 8px solid #bd1120;
-}
-.notifications-component .notification-container--top-right .notification .notification__item--warning {
-  background-color: #f6993f;
-  border-left: 8px solid #b06319;
-}
-.notifications-component .notification-container--top-right .notification .notification__item--info {
-  background-color: #9561e2;
-  border-left: 8px solid #5b20b3;
-}
-.notifications-component .notification-container--top-right .notification .notification__item--success {
-  background-color: #38c172;
-  border-left: 8px solid #118c45;
 }
 
-@-webkit-keyframes timer {
-  0% {
-    width: 100%;
-  }
-  to {
-    width: 0;
-  }
+.uploader--container {
+  width: 240px;
+  height: 135px;
+  border-radius: 30px;
+  background-color: #004662;
+  position: absolute;
+  overflow: hidden;
+}
+.uploader--container .img {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  filter: blur(2px);
+}
+.uploader--container .Uploader {
+  width: 100%;
+  height: 100%;
+}
+.uploader--container label {
+  width: 100%;
+  top: 10%;
+  position: absolute;
+  display: block;
+  text-align: center;
+}
+.uploader--container .upload-btn {
+  position: absolute;
+  top: 40%;
+  left: calc(50% - 92px);
+  background-color: #0c2646;
+  border-radius: 30px;
+  border: none;
+  color: #00FFFF;
+  font-family: "Baloo Thambi 2", monospace;
+  padding: 10px;
+  font-size: 20px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: 400ms cubic-bezier(0.28, -0.46, 0.33, 1.5);
+}
+.uploader--container .upload-btn:hover {
+  -webkit-transform: scale(1.2);
+}
+.uploader--container .upload-btn:disabled {
+  opacity: 0.7;
+  transition: none;
+  cursor: default;
+  animation: none;
+}
+.uploader--container .upload-btn:disabled:hover {
+  transform: none;
+}
+.uploader--container .bar {
+  position: absolute;
+  left: 10%;
+  top: 80%;
+  width: 80%;
+}
+.uploader--container .bar .bar--filler {
+  background-color: #00FFFF;
+}
+.uploader--container .hasFile {
+  display: none;
+}
+.uploader--container .delete {
+  position: absolute;
+  background: transparent;
+  border: none;
+  top: 25%;
+  left: 35%;
+  cursor: pointer;
+  transition: 400ms cubic-bezier(0.28, -0.46, 0.33, 1.5);
+}
+.uploader--container .delete:hover {
+  -webkit-transform: scale(1.2);
+}
+.uploader--container .delete:disabled {
+  opacity: 0.7;
+  transition: none;
+  cursor: default;
+  animation: none;
+}
+.uploader--container .delete:disabled:hover {
+  transform: none;
+}
+.uploader--container .anyFile {
+  display: none;
 }
 
 @keyframes timer {
@@ -521,21 +589,6 @@ a {
   }
   to {
     width: 0;
-  }
-}
-@-webkit-keyframes slideIn {
-  0% {
-    opacity: 0;
-    z-index: 0;
-    visibility: hidden;
-  }
-  1% {
-    visibility: visible;
-  }
-  100% {
-    opacity: 1;
-    z-index: 3;
-    visibility: visible;
   }
 }
 @keyframes slideIn {
@@ -553,20 +606,6 @@ a {
     visibility: visible;
   }
 }
-@-webkit-keyframes slideOut {
-  0% {
-    opacity: 1;
-    z-index: 0;
-    visibility: visible;
-  }
-  99% {
-    opacity: 0;
-    z-index: 0;
-  }
-  100% {
-    visibility: hidden;
-  }
-}
 @keyframes slideOut {
   0% {
     opacity: 1;
@@ -581,14 +620,6 @@ a {
     visibility: hidden;
   }
 }
-@-webkit-keyframes checked-icon {
-  from {
-    transform: translateZ(12px);
-  }
-  to {
-    transform: translateX(16px) rotateY(90deg) translateZ(12px);
-  }
-}
 @keyframes checked-icon {
   from {
     transform: translateZ(12px);
@@ -597,31 +628,12 @@ a {
     transform: translateX(16px) rotateY(90deg) translateZ(12px);
   }
 }
-@-webkit-keyframes unchecked-icon {
-  from {
-    transform: translateX(-16px) rotateY(-90deg) translateZ(12px);
-  }
-  to {
-    transform: translateZ(12px);
-  }
-}
 @keyframes unchecked-icon {
   from {
     transform: translateX(-16px) rotateY(-90deg) translateZ(12px);
   }
   to {
     transform: translateZ(12px);
-  }
-}
-@-webkit-keyframes checked {
-  from {
-    background-image: radial-gradient(ellipse at center, #38c172 0%, #38c172 25%, #e3342f 25.1%, #e3342f 100%);
-    background-position: 100% 50%;
-  }
-  to {
-    background-image: radial-gradient(ellipse at center, #38c172 0%, #38c172 25%, #e3342f 25.1%, #e3342f 100%);
-    background-position: 50% 50%;
-    box-shadow: 0 0 20px 7px #00FF00;
   }
 }
 @keyframes checked {
@@ -635,17 +647,6 @@ a {
     box-shadow: 0 0 20px 7px #00FF00;
   }
 }
-@-webkit-keyframes unchecked {
-  from {
-    background-image: radial-gradient(ellipse at center, #e3342f 0%, #e3342f 25%, #38c172 25.1%, #38c172 100%);
-    background-position: 100% 50%;
-  }
-  to {
-    background-image: radial-gradient(ellipse at center, #e3342f 0%, #e3342f 25%, #38c172 25.1%, #38c172 100%);
-    background-position: 50% 50%;
-    box-shadow: 0 0 20px 7px #FF0000;
-  }
-}
 @keyframes unchecked {
   from {
     background-image: radial-gradient(ellipse at center, #e3342f 0%, #e3342f 25%, #38c172 25.1%, #38c172 100%);
@@ -655,18 +656,6 @@ a {
     background-image: radial-gradient(ellipse at center, #e3342f 0%, #e3342f 25%, #38c172 25.1%, #38c172 100%);
     background-position: 50% 50%;
     box-shadow: 0 0 20px 7px #FF0000;
-  }
-}
-@-webkit-keyframes fromTop {
-  0% {
-    visibility: hidden;
-    transform: translateY(-100%);
-  }
-  1% {
-    visibility: visible;
-  }
-  100% {
-    transform: translateY(0%);
   }
 }
 @keyframes fromTop {
@@ -679,19 +668,6 @@ a {
   }
   100% {
     transform: translateY(0%);
-  }
-}
-@-webkit-keyframes toTop {
-  0% {
-    visibility: visible;
-    transform: translateY(0%);
-  }
-  99% {
-    visibility: hidden;
-  }
-  100% {
-    visibility: hidden;
-    transform: translateY(-100%);
   }
 }
 @keyframes toTop {
@@ -891,8 +867,6 @@ body {
   padding: 0 5px 0 12px;
   z-index: 12;
   border-left: 7px #004662 solid;
-  width: -webkit-fit-content;
-  width: -moz-fit-content;
   width: fit-content;
   position: relative;
 }
@@ -1121,8 +1095,6 @@ body {
   margin: 10px;
   background-color: #004662;
   border-radius: 30px;
-  height: -webkit-min-content;
-  height: -moz-min-content;
   height: min-content;
   padding: 6px 10px;
 }
@@ -1161,8 +1133,6 @@ body {
   background-color: #0c2646;
   border-radius: 30px;
   padding: 10px;
-  height: -webkit-min-content;
-  height: -moz-min-content;
   height: min-content;
 }
 #Rapport-Patient .Header .pdf a {
@@ -1211,8 +1181,6 @@ body {
   padding: 15px;
   background-color: #0c2646;
   border-radius: 30px;
-  width: -webkit-fit-content;
-  width: -moz-fit-content;
   width: fit-content;
 }
 #Rapport-Patient .content .Rapport-Card h1 {
@@ -1240,16 +1208,6 @@ body {
   border: none;
   border-radius: 30px;
   background-color: #004662;
-  color: #00FFFF;
-}
-#Rapport-Patient .content .Rapport-Card .Form-Group input::-moz-placeholder, #Rapport-Patient .content .Rapport-Card .Form-Group select::-moz-placeholder, #Rapport-Patient .content .Rapport-Card .Form-Group textarea::-moz-placeholder {
-  font-family: "Baloo Thambi 2", monospace;
-  font-weight: 500;
-  color: #00FFFF;
-}
-#Rapport-Patient .content .Rapport-Card .Form-Group input:-ms-input-placeholder, #Rapport-Patient .content .Rapport-Card .Form-Group select:-ms-input-placeholder, #Rapport-Patient .content .Rapport-Card .Form-Group textarea:-ms-input-placeholder {
-  font-family: "Baloo Thambi 2", monospace;
-  font-weight: 500;
   color: #00FFFF;
 }
 #Rapport-Patient .content .Rapport-Card .Form-Group input::placeholder, #Rapport-Patient .content .Rapport-Card .Form-Group select::placeholder, #Rapport-Patient .content .Rapport-Card .Form-Group textarea::placeholder {
@@ -1414,8 +1372,7 @@ body {
   height: 100vh;
   position: fixed;
   top: 0;
-  -webkit-backdrop-filter: blur(2px);
-          backdrop-filter: blur(2px);
+  backdrop-filter: blur(2px);
   display: flex;
   justify-content: center;
   padding: 10px;
@@ -1620,8 +1577,6 @@ body {
   border-radius: 30px;
   padding: 5px 12px;
   margin: 10px 10px;
-  height: -webkit-min-content;
-  height: -moz-min-content;
   height: min-content;
 }
 .BC-Container .BC-View .list-container, .BC-Container .BC-Last .list-container {
@@ -1732,8 +1687,6 @@ body {
   padding: 10px;
 }
 .RecherchePatient .header {
-  max-width: -webkit-fit-content;
-  max-width: -moz-fit-content;
   max-width: fit-content;
   margin: auto;
 }
@@ -2121,13 +2074,9 @@ body {
   }
 }
 .Services section {
-  height: -webkit-min-content;
-  height: -moz-min-content;
   height: min-content;
 }
 .Services .title-contain {
-  max-width: -webkit-fit-content;
-  max-width: -moz-fit-content;
   max-width: fit-content;
   margin: 0 auto;
 }
@@ -2155,7 +2104,6 @@ body {
   border-bottom: none;
 }
 .Services .week table .head {
-  position: -webkit-sticky;
   position: sticky;
   top: 0;
   border-bottom: black 1px solid;
@@ -2306,7 +2254,6 @@ body {
   border-bottom: none;
 }
 .impayes .impayelist .ImpayeTableContainer table .head {
-  position: -webkit-sticky;
   position: sticky;
   top: 0;
   border-bottom: black 1px solid;
@@ -2462,7 +2409,6 @@ body {
   text-align: center;
 }
 .RapportHorraire .rapport-table-container .rapport-table .head {
-  position: -webkit-sticky;
   position: sticky;
   top: 0;
   border-bottom: black 1px solid;
@@ -2488,7 +2434,6 @@ body {
 .RapportHorraire .rapport-table-container .rapport-table .table-header {
   background-color: #004662;
   border-top: none !important;
-  position: -webkit-sticky;
   position: sticky;
   height: 70px;
   top: 0;
@@ -2620,7 +2565,6 @@ body {
   width: 100%;
 }
 .PersonnelList .list-personnel table th {
-  position: -webkit-sticky;
   position: sticky;
   top: 0;
   border-bottom: black 1px solid;
@@ -2790,14 +2734,10 @@ body {
   justify-content: space-between;
 }
 .remboursement .title-contain {
-  width: -webkit-min-content;
-  width: -moz-min-content;
   width: min-content;
   margin: 0 40px 0 auto;
 }
 .remboursement .MainContainer {
-  height: -webkit-max-content;
-  height: -moz-max-content;
   height: max-content;
   width: 80vw;
   margin: 0 auto;
@@ -2932,7 +2872,6 @@ body {
   border-radius: 30px;
 }
 .remboursement .MainContainer .adminview .table-container table .head {
-  position: -webkit-sticky;
   position: sticky;
   color: #00FFFF;
   text-align: center;
@@ -3057,7 +2996,6 @@ body {
   border-right: none;
 }
 .Logs .log-list .table table thead {
-  position: -webkit-sticky;
   position: sticky;
   top: 0;
   border-bottom: black 1px solid;
@@ -3089,8 +3027,7 @@ body {
   width: 100%;
   position: fixed;
   top: 0;
-  -webkit-backdrop-filter: blur(5px);
-          backdrop-filter: blur(5px);
+  backdrop-filter: blur(5px);
   height: 100vh;
   display: flex;
 }
@@ -3279,8 +3216,7 @@ body {
   margin-left: 20px;
 }
 .responsepage .responsecontent .question .left h2 span {
-  -webkit-text-decoration: #00FFFF underline 3px;
-          text-decoration: #00FFFF underline 3px;
+  text-decoration: #00FFFF underline 3px;
 }
 .responsepage .responsecontent .question .left .response {
   padding-left: 60px;
@@ -3503,35 +3439,6 @@ body {
 .moncompte .account-container .acc-content .bigchange .btn {
   margin: 0 auto;
 }
-.moncompte .account-container .acc-content .bigchange .img {
-  width: 100%;
-  height: 60%;
-}
-.moncompte .account-container .acc-content .bigchange .img .rowed h2 {
-  margin: auto 50px auto 0;
-}
-.moncompte .account-container .acc-content .bigchange .img img {
-  max-width: 270px;
-}
-.moncompte .account-container .acc-content .bigchange .img form {
-  margin-top: 35px;
-  height: 60%;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-evenly;
-}
-.moncompte .account-container .acc-content .bigchange .img form .right {
-  margin: 0 0 0 auto;
-}
-.moncompte .account-container .acc-content .bigchange .img form .rowed {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-}
-.moncompte .account-container .acc-content .bigchange .img form .rowed label, .moncompte .account-container .acc-content .bigchange .img form .rowed h4 {
-  margin: auto 0;
-  font-size: 25px;
-}
 .moncompte .account-container .acc-content .popup {
   position: absolute;
   width: 100%;
@@ -3618,7 +3525,6 @@ body {
   color: #00FFFF;
   font-family: "Baloo Thambi 2", monospace;
   height: 110px;
-  position: -webkit-sticky;
   position: sticky;
   top: 0;
   background: #004662;
@@ -3696,7 +3602,6 @@ body {
 }
 .carnetvol .table-container table th {
   background-color: #004662;
-  position: -webkit-sticky;
   position: sticky;
   top: 0;
 }
@@ -3705,8 +3610,7 @@ body {
   position: fixed;
   top: 0;
   height: 100vh;
-  -webkit-backdrop-filter: blur(2px);
-          backdrop-filter: blur(2px);
+  backdrop-filter: blur(2px);
   z-index: 14;
   display: flex;
 }
@@ -3810,8 +3714,7 @@ body {
 .formationCretor .creator .creator-items .creator-item .questionadder label {
   font-weight: 500;
   font-size: 25px;
-  -webkit-text-decoration: underline #00FFFF;
-          text-decoration: underline #00FFFF;
+  text-decoration: underline #00FFFF;
 }
 .formationCretor .creator .creator-items .creator-item .questionadder .question-title {
   grid-row: 1/1;
@@ -3916,8 +3819,7 @@ body {
   background-size: 300% 300%;
   transition: transform 0.3s;
   transform: scale(var(--scale, 1)) translateZ(0);
-  -webkit-animation: var(--name, unchecked) var(--duration) ease forwards;
-          animation: var(--name, unchecked) var(--duration) ease forwards;
+  animation: var(--name, unchecked) var(--duration) ease forwards;
 }
 .formationCretor .creator .creator-items .creator-item .questionadder .responses-list .response input[type=checkbox]:before, .formationCretor .creator .creator-items .creator-item .questionadder .responses-list .response input[type=checkbox]:after {
   content: "";
@@ -3926,12 +3828,10 @@ body {
   height: var(--height, 16px);
   left: 6px;
   top: var(--top, 6px);
-  -webkit-animation: var(--name-icon-b, var(--name-icon, unchecked-icon)) var(--duration) ease forwards;
-          animation: var(--name-icon-b, var(--name-icon, unchecked-icon)) var(--duration) ease forwards;
+  animation: var(--name-icon-b, var(--name-icon, unchecked-icon)) var(--duration) ease forwards;
 }
 .formationCretor .creator .creator-items .creator-item .questionadder .responses-list .response input[type=checkbox]:before {
-  -webkit-clip-path: polygon(0 6px, 6px 6px, 6px 0, 10px 0, 10px 6px, 16px 6px, 16px 10px, 10px 10px, 10px 16px, 6px 16px, 6px 10px, 0 10px);
-          clip-path: polygon(0 6px, 6px 6px, 6px 0, 10px 0, 10px 6px, 16px 6px, 16px 10px, 10px 10px, 10px 16px, 6px 16px, 6px 10px, 0 10px);
+  clip-path: polygon(0 6px, 6px 6px, 6px 0, 10px 0, 10px 6px, 16px 6px, 16px 10px, 10px 10px, 10px 16px, 6px 16px, 6px 10px, 0 10px);
 }
 .formationCretor .creator .creator-items .creator-item .questionadder .responses-list .response input[type=checkbox]:after {
   --height: 4px;
@@ -3977,8 +3877,7 @@ body {
 .formationCretor .creator .creator-items .creator-item .infos label {
   font-weight: 500;
   font-size: 25px;
-  -webkit-text-decoration: underline #00FFFF;
-          text-decoration: underline #00FFFF;
+  text-decoration: underline #00FFFF;
 }
 .formationCretor .creator .creator-items .creator-item .infos .row {
   width: 100%;
@@ -3993,12 +3892,10 @@ body {
   justify-content: space-between;
 }
 .formationCretor .creator .creator-items .creator-item .infos .item-hidden {
-  -webkit-animation: toTop 500ms ease-in-out forwards;
-          animation: toTop 500ms ease-in-out forwards;
+  animation: toTop 500ms ease-in-out forwards;
 }
 .formationCretor .creator .creator-items .creator-item .infos .item-current {
-  -webkit-animation: fromTop 500ms ease-in-out forwards;
-          animation: fromTop 500ms ease-in-out forwards;
+  animation: fromTop 500ms ease-in-out forwards;
 }
 .formationCretor .creator .creator-items .creator-item .infos .name {
   grid-row: 1/4;
@@ -4009,8 +3906,7 @@ body {
 .formationCretor .creator .creator-items .creator-item .infos .time {
   grid-row: 5/10;
   grid-column: 1/10;
-  -webkit-animation: slideIn 500ms ease-in-out forwards;
-          animation: slideIn 500ms ease-in-out forwards;
+  animation: slideIn 500ms ease-in-out forwards;
 }
 .formationCretor .creator .creator-items .creator-item .infos .time .rowed {
   z-index: 2;
@@ -4019,8 +3915,6 @@ body {
 }
 .formationCretor .creator .creator-items .creator-item .infos .time .time-data-container {
   margin-top: 20px;
-  height: -webkit-max-content;
-  height: -moz-max-content;
   height: max-content;
   overflow: hidden;
 }
@@ -4063,8 +3957,6 @@ body {
 .formationCretor .creator .creator-items .creator-item .infos .try .try-data-container {
   padding-left: 30px;
   margin-top: 20px;
-  height: -webkit-max-content;
-  height: -moz-max-content;
   height: max-content;
   overflow: hidden;
 }
@@ -4152,15 +4044,13 @@ body {
   margin: auto 0;
 }
 .formationCretor .creator .creator-items .hidden {
-  -webkit-animation: slideOut 500ms ease-in-out forwards;
-          animation: slideOut 500ms ease-in-out forwards;
+  animation: slideOut 500ms ease-in-out forwards;
 }
 .formationCretor .creator .creator-items .hidden .time, .formationCretor .creator .creator-items .hidden .try {
   visibility: hidden !important;
 }
 .formationCretor .creator .creator-items .current {
-  -webkit-animation: slideIn 500ms ease-in-out forwards;
-          animation: slideIn 500ms ease-in-out forwards;
+  animation: slideIn 500ms ease-in-out forwards;
 }
 .formationCretor .creator .creator-items .current .time, .formationCretor .creator .creator-items .current .try {
   visibility: visible;
@@ -4262,7 +4152,6 @@ body {
   border-bottom: 1px black solid !important;
 }
 .f-userlist .user-list table thead th {
-  position: -webkit-sticky;
   position: sticky;
   top: 0;
   border-bottom: black 1px solid;
@@ -4383,3 +4272,17 @@ body {
   margin: 0 auto;
   font-weight: 500;
 }
+
+.notification-item .bar {
+  height: 10px;
+}
+
+.notification-item.success .bar {
+  background-color: #65d266;
+}
+
+.notification-item.error .bar {
+  background-color: red;
+}
+
+/*# sourceMappingURL=app.css.map */
