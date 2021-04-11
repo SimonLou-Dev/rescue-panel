@@ -68,7 +68,6 @@ class Account extends React.Component {
                 liveplace: this.state.liveplace,
             }
         })
-        this.postBg(e);
     }
 
     async changeMdp(e){
@@ -149,7 +148,7 @@ class Account extends React.Component {
                             <h2>Arrière plan du site (Affeté à la prochainne connexion)</h2>
                             <div className="beta"/>
                         </div>
-                        <Uploader text={'1920*1080 2MO'} images={(image)=>{this.setState({image:image})}}/>
+                        <Uploader text={'1920*1080 2MO'} images={(image)=>{this.setState({image:image}); this.postBg(e);}}/>
                     </div>
                 </section>
                 }

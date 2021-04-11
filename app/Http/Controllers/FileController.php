@@ -24,12 +24,16 @@ class FileController extends Controller
         $this->laravelTempDir = public_path('/storage/temp_upload/');
     }
 
-    public function uploadFile(Request $request)
+    public function uploadFile(Request $request): JsonResponse
     {
         $file = $request->file('file');
         if(!isset($file) || !isset($request->id)){
             return response()->json(['status'=>'error'],500);
         }
+        if(!$file->isValid()){
+            return response()->json(['status'=>'PAS OK'],500);
+        }
+
 
         $tempFile = $this->laravelTempDir  . $request->id . '_' . explode('/', $file->getClientMimeType())[1] . '.temp';
 
