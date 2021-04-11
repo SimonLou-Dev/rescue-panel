@@ -43,9 +43,9 @@ Route::get('/logout', function (){
    return redirect()->route('login');
 })->middleware('auth')->name('logout');
 //reset mdp view
-Route::get('/reset/*', [\App\Http\Controllers\MainController::class, 'getIndex'])->middleware('guest');
+Route::get('/reset/*', [\App\Http\Controllers\HomeController::class, 'getIndex']); //->middleware('guest');
 //send mail for reseset
-Route::get('/sendmail', [\App\Http\Controllers\MainController::class, 'getIndex'])->middleware('guest');
+Route::get('/sendmail', [\App\Http\Controllers\HomeController::class, 'getIndex'])->middleware('guest');
 
 //Connexion management
 Route::post('/data/register', [\App\Http\Controllers\UserController::class, 'register']);
@@ -150,7 +150,7 @@ Route::put('/data/admin/grades/{perm}/{grade_id}', [\App\Http\Controllers\UserCo
 Route::post('/data/bug', [\App\Http\Controllers\MainController::class, 'postBug']);
 
 
-Route::post('/data/tempupload', [\App\Http\Controllers\FileController::class, 'uploadFile']);
+Route::post('/data/tempupload', [\App\Http\Controllers\FileController::class, 'uploadFile'])->middleware('auth');
 
 
 

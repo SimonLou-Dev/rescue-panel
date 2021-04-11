@@ -6,6 +6,9 @@ export default defineConfig({
   plugins: [reactRefresh()],
     root: './resources',
     base: '/assets/',
+    define: {
+        'process.env': {}
+    },
     build: {
       outDir: '../public/assets',
         assetsDir: '',
