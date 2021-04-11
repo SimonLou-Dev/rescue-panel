@@ -132,7 +132,7 @@ class AccountController extends Controller
         $dir = public_path($path . Auth::user()->id);
         $user->bg_img = $imgname;
         $user->save();
-        if(is_dir($dir)){
+        if(!is_dir($dir)){
             mkdir($dir);
         }
         FileController::moveTempFile($img, $dir . '/' . $imgname);
