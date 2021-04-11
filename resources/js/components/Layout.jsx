@@ -242,7 +242,7 @@ export function Layout(){
             </div>
             <div id="content" style={{filter: bugPopup ? 'blur(5px)' : 'none'}} >
 
-                <PermsContext.Provider value={{perm: perm}}>
+                <PermsContext.Provider value={perm}>
                     <Route exact path='/' component={Main}/>
                     <Route path={'/bugrepport'} component={BugRepport}/>
 
