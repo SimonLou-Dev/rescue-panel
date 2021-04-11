@@ -136,7 +136,7 @@ class AccountController extends Controller
             mkdir($dir);
         }
         FileController::moveTempFile($img, $dir . '/' . $imgname);
-        event(new Notify('Votre image de fond a bien été mis en ligne', 1));
+        event(new Notify('', 1));
         return response()->json([],201);
     }
 
