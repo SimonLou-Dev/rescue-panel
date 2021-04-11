@@ -91,8 +91,7 @@ class Account extends React.Component {
         }
     }
 
-    async postBg(e){
-        e.preventDefault();
+    async postBg(){
         var req = await axios({
             method:'POST',
             url: '/data/user/bg/post',
@@ -150,7 +149,7 @@ class Account extends React.Component {
                         </div>
                         <Uploader text={'1920*1080 2MO'} images={(image)=>{
                             this.setState({image:image});
-                            this.postBg(e);
+                            this.postBg();
                         }}/>
                     </div>
                 </section>
