@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Storage;
 use Intervention\Image\Facades\Image;
+use function PHPUnit\Framework\directoryExists;
 
 class AccountController extends Controller
 {
@@ -126,17 +127,16 @@ class AccountController extends Controller
     {
         $user = User::where('id', Auth::user()->id)->first();
         $img = $request->get('image');
-        return response()->json([$img],500);
-        $imgname = Auth::user()->id . '_' . time() . '.' . explode('/', $img)[1];
+        $imgname = Auth::user()->id . '_' . time() . '.' . explode('.', $img)[1];
         $path = "/storage/user_background/";
         $dir = public_path($path . Auth::user()->id);
         $user->bg_img = $imgname;
         $user->save();
-        if(!is_dir($dir)){
+        if(!directoryExists($dir)){
             mkdir($dir);
         }
+        FileController::moveTempFile($img, $dir . '/' . $imgname);
         event(new Notify('Votre image de fond a bien été mis en ligne', 1));
-        Image::make($img)->resize(960,540)->save($dir . '/' . $imgname);
         return response()->json([],201);
     }
 

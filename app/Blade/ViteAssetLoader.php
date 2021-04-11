@@ -28,6 +28,8 @@ class ViteAssetLoader
      */
     private CacheInterface $cache;
 
+
+
     public function __construct(bool $isDev, string $manifest, CacheInterface $cache)
     {
         $this->isDev = $isDev;

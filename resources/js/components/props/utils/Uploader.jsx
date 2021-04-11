@@ -1,39 +1,67 @@
-import React, {useState, useEffect, Fragment ,useMemo,useRef, useCallback, useContext} from 'react';
+import React, {useState,useRef, useCallback, useContext} from 'react';
 import { v4 } from 'uuid';
 import ChunkedUploady, {
-    useItemStartListener,
-    useItemFinishListener,
     UploadyContext,
-    useItemProgressListener, useFileInput
+    useItemProgressListener, useFileInput,
+    useChunkStartListener,
+
 } from "@rpldy/chunked-uploady";
-
-
+import {useBatchFinishListener} from "@rpldy/shared-ui";
+import axios from "axios";
 
 const CustomButton = (props) => {
     const uploady = useContext(UploadyContext);
     const hanldeUpload = useCallback(()=> {
         uploady.showFileUpload();
     },[uploady]);
-    return <button onClick={hanldeUpload} type="primary" disabled={props.disabled}>Custom Upload Button</button>
+    return <button onClick={hanldeUpload} className={'upload-btn ' + (props.hasFile ===true ? 'hasFile' : '')} disabled={props.disabled}>Ajouter une image</button>
 }
 
-export default function Uploader(){
-    const [file, useFile] = useState(null);
+export default function Uploader(props){
+    const [file, setFile] = useState(false);
     const [FileId, setFileId] = useState(v4());
     const [disabled, setDisabled] = useState(false);
     const [imgUrl, setImgUrl] = useState(null);
 
-    const UploadFinished = () => {
-        //Call for say end of Upload
-        //Check if props.setFile and if exist setFile dir
-        //Return File imgUrl
-        setDisabled(false);
+    const UploadFinished = async (type, id) => {
+        console.log('call')
+        let req = await axios({
+            method: 'PUT',
+            url: '/data/finish/tempupload/' + id,
+            data: {
+                type: type
+            }
+        })
 
+        if(req.status === 200){
+            setImgUrl(req.data.image);
+            if(props && props.images){
+                props.images(req.data.image);
+            }
+        }
+        setDisabled(false);
     }
 
-    const FileAdded= () => {
-        //Call to delete last File
+    const FileAdded= (e) => {
+        setFile(true);
         setDisabled(true)
+        setFileId(v4);
+    }
+
+    const deleteFile = async () => {
+        let clear = await axios({
+            url: '/data/delete/tempupload',
+            method: 'DELETE',
+            data: {
+                image: imgUrl,
+            }
+        })
+        if(props && props.image){
+            props.images(null)
+        }
+        setFile(false);
+        setDisabled(false);
+        setImgUrl(null);
         setFileId(v4);
     }
 
@@ -44,6 +72,7 @@ export default function Uploader(){
                 chunkSize={100000}
                 sendWithFormData={true}
                 retries={2}
+                debug={false}
                 chunked={true}
                 params={{id:FileId}}
                 customInput={true}
@@ -51,7 +80,10 @@ export default function Uploader(){
                 destination={{ url: "/data/tempupload", headers: {'X-CSRF-TOKEN':csrf} }}
             >
                 <div className={'Uploader'}>
-                    <CustomButton disabled={disabled}/>
+                    <img className={'img'} src={'/storage/temp_upload/'+imgUrl} alt={''}/>
+                    <label className={(file ===true ? 'hasFile' : '')}>{props.text ? props.text : '1920*1080 2MO'}</label>
+                    <button disabled={disabled} className={'delete ' + (file ===true ? '' : 'anyFile')} onClick={deleteFile}><img src={'/assets/images/cancel.png'} alt={''}/></button>
+                    <CustomButton disabled={disabled} hasFile={file}/>
                     <CustomFrom disabled={disabled} fileadded={FileAdded}/>
                     <UploadProgress uploadfinished={UploadFinished}/>
                 </div>
@@ -64,19 +96,40 @@ export default function Uploader(){
 
 const UploadProgress = (props) => {
     const [progress, setProgess] = useState(0);
+    const [first,setFirst] = useState(0)
+    const [inRun, setRun] =useState(false);
+    const [imgId, setimgId] = useState(null);
 
     const progressData = useItemProgressListener();
 
-    if(progressData && progressData.completed === 100){
-        props.uploadfinished();
-    }
+    useChunkStartListener((data) => {
+        if(data.chunkCount){
+            if(!inRun){
+                setFirst(data.chunkCount)
+                setRun(true)
+            }else{
+                setProgess(Math.abs((data.chunkCount/first)*100-100));
+                if(!imgId){
+                    setimgId(data.sendOptions.params.id);
+                }
+            }
+        }
+    });
 
-    if (progressData && progressData.completed > progress) {
-        setProgess(() => progressData.completed);
-    }
+    useBatchFinishListener((batch) => {
+        setRun(false)
+        setProgess(100)
+        console.log('finished')
+        console.log(batch)
+        props.uploadfinished(batch.items[0].file.type, imgId);
+        setimgId(null)
+    });
+
     return (
         progressData && (
-            <div style={{width: progress + 'px'}}/>
+            <div className={"bar"}>
+                <div style={{width: progress + '%'}} className={'bar--filler'}/>
+            </div>
         )
     );
 };
@@ -89,19 +142,3 @@ const CustomFrom = (props) => {
         <input type="file" name="testFile" style={{ display: "none" }} ref={inputRef} disabled={props.disabled} onChange={props.fileadded}/>
     )
 }
-
-
-
-
-/*
-
-<FileUploader name={"file"}
-                          accept="image/*"
-                          uploadUrl="/data/tempupload"
-                          uploadHeaders={{
-                              'X-CSRF-Token': csrf
-                          }}
-                          chunkSize={100000}
-                          onUploadStarted={onUploadStarted}
-                          onProgress={onUploadProgress} />
- */

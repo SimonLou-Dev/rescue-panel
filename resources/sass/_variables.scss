@@ -496,17 +496,6 @@ a{
             word-wrap: break-word;
             margin-top: 10px;
         }
-        .bar{
-            background-color: $dark_blue;
-            width: 100%;
-            margin-top: 10px;
-            border-radius: 20px;
-            .bar--filler{
-                height: 10px !important;
-                background-color: $medium_blue;
-                border-radius: 20px;
-            }
-        }
     }
     .danger {
         background-color: $red;
@@ -531,6 +520,111 @@ a{
     .undefined{
         display: none;
     }
+}
+//Progress bar
+.bar{
+    background-color: $dark_blue;
+    width: 100%;
+    margin-top: 10px;
+    border-radius: 20px;
+    .bar--filler{
+        height: 10px !important;
+        background-color: $medium_blue;
+        border-radius: 20px;
+    }
+}
+//Uploader
+.uploader--container{
+    width: 240px;
+    height: 135px;
+    border-radius: $border-radius;
+    background-color: $medium_blue;
+    position: absolute;
+    overflow:hidden;
+    .img{
+        position: relative;
+        width: 100%;
+        height: 100%;
+        filter: blur(2px);
+    }
+    .Uploader{
+        width: 100%;
+        height: 100%;
+    }
+
+    label{
+        width: 100%;
+        top: 10%;
+        position: absolute;
+        display: block;
+        text-align: center;
+
+    }
+    .upload-btn{
+        position: absolute;
+        top: 40%;
+        left: calc(50% - 92px);
+        background-color: $dark_blue;
+        border-radius: $border-radius;
+        border: none;
+        color: $light_blue;
+        font-family: "Baloo Thambi 2", monospace;
+        padding: 10px;
+        font-size: 20px;
+        font-weight: 700;
+        cursor: pointer;
+        transition: 400ms cubic-bezier(0.28,-0.46, 0.33, 1.5);
+        &:hover{
+            -webkit-transform: scale(1.2);
+        }
+        &:disabled{
+            opacity: 0.7;
+            transition: none;
+            cursor: default;
+            animation: none;
+            &:hover{
+                transform: none;
+            }
+        }
+    }
+    .bar{
+        position: absolute;
+        left: 10%;
+        top: 80%;
+        width: 80%;
+        .bar--filler{
+            background-color: $light_blue;
+        }
+    }
+    .hasFile{
+        display: none;
+    }
+    .delete{
+        position: absolute;
+        background: transparent;
+        border: none;
+        top: 25%;
+        left: 35%;
+        cursor: pointer;
+        transition: 400ms cubic-bezier(0.28,-0.46, 0.33, 1.5);
+        &:hover{
+            -webkit-transform: scale(1.2);
+        }
+        &:disabled{
+            opacity: 0.7;
+            transition: none;
+            cursor: default;
+            animation: none;
+            &:hover{
+                transform: none;
+            }
+        }
+    }
+    .anyFile{
+        display: none;
+    }
+
+
 }
 
 //Animations

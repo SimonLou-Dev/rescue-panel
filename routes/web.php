@@ -151,6 +151,7 @@ Route::post('/data/bug', [\App\Http\Controllers\MainController::class, 'postBug'
 
 
 Route::post('/data/tempupload', [\App\Http\Controllers\FileController::class, 'uploadFile'])->middleware('auth');
-
+Route::put('/data/finish/tempupload/{uuid}', [\App\Http\Controllers\FileController::class, 'endOffUpload'])->middleware('auth');
+Route::delete('/data/delete/tempupload', [\App\Http\Controllers\FileController::class, 'deleteTempFile'])->middleware('auth');
 
 

@@ -458,17 +458,6 @@ a {
   word-wrap: break-word;
   margin-top: 10px;
 }
-.notification-wrapper .notification-item .bar {
-  background-color: #0c2646;
-  width: 100%;
-  margin-top: 10px;
-  border-radius: 20px;
-}
-.notification-wrapper .notification-item .bar .bar--filler {
-  height: 10px !important;
-  background-color: #004662;
-  border-radius: 20px;
-}
 .notification-wrapper .danger {
   background-color: #e3342f;
   border-left: 8px solid #bd1120;
@@ -490,6 +479,107 @@ a {
   animation-fill-mode: forwards;
 }
 .notification-wrapper .undefined {
+  display: none;
+}
+
+.bar {
+  background-color: #0c2646;
+  width: 100%;
+  margin-top: 10px;
+  border-radius: 20px;
+}
+.bar .bar--filler {
+  height: 10px !important;
+  background-color: #004662;
+  border-radius: 20px;
+}
+
+.uploader--container {
+  width: 240px;
+  height: 135px;
+  border-radius: 30px;
+  background-color: #004662;
+  position: absolute;
+  overflow: hidden;
+}
+.uploader--container .img {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  filter: blur(2px);
+}
+.uploader--container .Uploader {
+  width: 100%;
+  height: 100%;
+}
+.uploader--container label {
+  width: 100%;
+  top: 10%;
+  position: absolute;
+  display: block;
+  text-align: center;
+}
+.uploader--container .upload-btn {
+  position: absolute;
+  top: 40%;
+  left: calc(50% - 92px);
+  background-color: #0c2646;
+  border-radius: 30px;
+  border: none;
+  color: #00FFFF;
+  font-family: "Baloo Thambi 2", monospace;
+  padding: 10px;
+  font-size: 20px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: 400ms cubic-bezier(0.28, -0.46, 0.33, 1.5);
+}
+.uploader--container .upload-btn:hover {
+  -webkit-transform: scale(1.2);
+}
+.uploader--container .upload-btn:disabled {
+  opacity: 0.7;
+  transition: none;
+  cursor: default;
+  animation: none;
+}
+.uploader--container .upload-btn:disabled:hover {
+  transform: none;
+}
+.uploader--container .bar {
+  position: absolute;
+  left: 10%;
+  top: 80%;
+  width: 80%;
+}
+.uploader--container .bar .bar--filler {
+  background-color: #00FFFF;
+}
+.uploader--container .hasFile {
+  display: none;
+}
+.uploader--container .delete {
+  position: absolute;
+  background: transparent;
+  border: none;
+  top: 25%;
+  left: 35%;
+  cursor: pointer;
+  transition: 400ms cubic-bezier(0.28, -0.46, 0.33, 1.5);
+}
+.uploader--container .delete:hover {
+  -webkit-transform: scale(1.2);
+}
+.uploader--container .delete:disabled {
+  opacity: 0.7;
+  transition: none;
+  cursor: default;
+  animation: none;
+}
+.uploader--container .delete:disabled:hover {
+  transform: none;
+}
+.uploader--container .anyFile {
   display: none;
 }
 
@@ -3348,35 +3438,6 @@ body {
 }
 .moncompte .account-container .acc-content .bigchange .btn {
   margin: 0 auto;
-}
-.moncompte .account-container .acc-content .bigchange .img {
-  width: 100%;
-  height: 60%;
-}
-.moncompte .account-container .acc-content .bigchange .img .rowed h2 {
-  margin: auto 50px auto 0;
-}
-.moncompte .account-container .acc-content .bigchange .img img {
-  max-width: 270px;
-}
-.moncompte .account-container .acc-content .bigchange .img form {
-  margin-top: 35px;
-  height: 60%;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-evenly;
-}
-.moncompte .account-container .acc-content .bigchange .img form .right {
-  margin: 0 0 0 auto;
-}
-.moncompte .account-container .acc-content .bigchange .img form .rowed {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-}
-.moncompte .account-container .acc-content .bigchange .img form .rowed label, .moncompte .account-container .acc-content .bigchange .img form .rowed h4 {
-  margin: auto 0;
-  font-size: 25px;
 }
 .moncompte .account-container .acc-content .popup {
   position: absolute;
