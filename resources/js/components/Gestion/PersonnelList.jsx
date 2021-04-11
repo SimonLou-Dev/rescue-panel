@@ -39,7 +39,7 @@ class PersonnelList extends React.Component {
                 <div className={"PersonnelList"}>
                     <section className={'header'}>
                         <PagesTitle title={'Liste du personnel'}/>
-                        {perm.edit_perm  === 1 &&
+                        {perm.edit_perm === true &&
                             <Link to={'/gestion/perm'} className={'btn'}>gérer les permissions</Link>
                         }
                     </section>
