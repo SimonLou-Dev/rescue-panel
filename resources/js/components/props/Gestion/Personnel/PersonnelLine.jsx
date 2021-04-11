@@ -34,18 +34,18 @@ class PersonnelLine extends React.Component {
                                 <option value={1}>user</option>
                             </optgroup>
                             <optgroup label={'membre'}>
-                                <option value={2}>Resident</option>
-                                <option value={3}>Caregiver</option>
-                                <option value={4}>Nurse</option>
-                                <option value={5}>Doctor</option>
+                                <option value={2}>Probies</option>
+                                <option value={3}>Engineer</option>
+                                <option value={4}>Firefighter</option>
+                                <option value={5}>Senior Firefighter</option>
                             </optgroup>
                             <optgroup label={'référents'}>
-                                <option value={6}>Senior Doctor</option>
-                                <option value={7}>Team Manager</option>
+                                <option value={6}>Lead Firefighter</option>
+                                <option value={7}>Fire Marshall</option>
                             </optgroup>
                             <optgroup label={'direction'}>
-                                <option value={8}>Assistant - Chief</option>
-                                <option value={9}>Paramedical - Chief</option>
+                                <option value={8}>Assistant Chief</option>
+                                <option value={9}>Chief</option>
                             </optgroup>
                             <optgroup label={'autre'}>
                                 <option value={10}>Inspecteur</option>

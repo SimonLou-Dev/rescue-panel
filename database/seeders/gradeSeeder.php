@@ -10,7 +10,7 @@ class gradeSeeder extends Seeder
     /**
      * @var string[]
      */
-    private $grades = ['user','Resident','Caregiver','Nurse','Doctor','Senior Doctor','Team Manager','Assistant - Chief','Paramedical - Chief','Inspecteur', 'Développeur'];
+    private $grades = ['user','Probies','Engineer','Firefighter','Senior Firefighter','Lead firefighter','fire marshall','Assistant - Chief','Chief','Inspecteur', 'Développeur'];
 
     /**
      * Run the database seeds.
