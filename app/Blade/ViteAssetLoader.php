@@ -52,7 +52,6 @@ class ViteAssetLoader
 
         if(in_array('react', $array)){
             $html .= <<<HTML
-
                 <script type="module">
                     import RefreshRuntime from "{$base}/@react-refresh"
                     RefreshRuntime.injectIntoGlobalHook(window)
