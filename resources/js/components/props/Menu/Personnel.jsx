@@ -44,6 +44,8 @@ class Personnel extends React.Component{
         }
     }
 
+    // <li><NavLink to={'/personnel/livret'}>Mes formations</NavLink></li>
+
     render() {
         return (
             <div className="Menu-Item">
@@ -55,7 +57,7 @@ class Personnel extends React.Component{
                     }
                     <li><NavLink to={'/personnel/remboursement'}>Remboursement</NavLink></li>
                     <li><NavLink to={'/personnel/moncompte'}>Mon Compte</NavLink></li>
-                    <li><NavLink to={'/personnel/livret'}>Mes formations</NavLink></li>
+
                     {this.state.vols &&
                         <li><NavLink to={'/personnel/vols'}>Carnet de vol</NavLink></li>
                     }

@@ -11,11 +11,16 @@ class ListPatient extends React.Component {
     constructor(props) {
         super(props);
         this.state= {
-            patients: null
+            patients: this.props.patients
         }
     }
 
+    shouldComponentUpdate(nextProps, nextState, nextContext) {
+        console.log('need update')
+    }
+
     componentDidUpdate(prevProps, prevState, snapshot) {
+        console.log(this.props.patients ,prevState.patients)
         if(this.props.patients !== prevState.patients){
             this.setState({patients: this.props.patients})
         }
@@ -27,7 +32,7 @@ class ListPatient extends React.Component {
                 <div className={'list-content'}>
                     <h1>Liste des patients</h1>
                     <div className={'list'}>
-                        {this.state.patients && this.state.patients.map((patient)=>
+                        {this.state.patients !== null && this.state.patients.map((patient)=>
                             <PatientListPU name={patient.name} date={dateFormat(patient.created_at, 'hh:mm')} urlid={patient.id} color={patient.get_color.name} idcard={patient.idcard}/>
                         )}
                     </div>
@@ -214,7 +219,7 @@ class BCLast extends React.Component {
     }
 
     render() {
-        if(this.state.data){
+        if(this.state.data) {
             const bc = this.state.bc;
             return (
                 <div className={"BC-Last"}>
@@ -223,7 +228,7 @@ class BCLast extends React.Component {
                             <PagesTitle title={bc.get_type.name + ' ' + bc.place}/>
                             <div className={'btn-contain'}>
                                 <div className={'bgforbtn'}>
-                                    <button className={'btn'} onClick={()=>this.props.update(0)}>Retour</button>
+                                    <button className={'btn'} onClick={() => this.props.update(0)}>Retour</button>
                                 </div>
                             </div>
                         </div>
@@ -251,12 +256,12 @@ class BCLast extends React.Component {
                             </div>
                         </div>
                         <div className="personnel-list">
-                            {bc.get_personnel.map((user)=>
+                            {bc.get_personnel.map((user) =>
                                 <div className="tag">{user.name}</div>
                             )}
                         </div>
                     </section>
-                    <ListPatient patients={bc.get_patients}/>
+                    <ListPatient patients={this.state.bc.get_patients}/>
                 </div>
             );
         }else{
