@@ -37,14 +37,12 @@ class FormationController extends Controller
         foreach ($users as $user){
             $user->GetCertifications;
         }
-        return response()->json(
-            [
+        return response()->json([
             'status'=>'OK',
             'users'=>$users,
             'certifs'=>$forma,
             'nbrForma'=>count($forma),
-            ]
-        );
+        ]);
     }
 
     /**
@@ -55,10 +53,10 @@ class FormationController extends Controller
         $user = User::where('id', Auth::user()->id)->first();
         $pages = null;
 
-        if(!is_null($max)) {
+        if(!is_null($max)){
             $page = (int) $page;
             $page--;
-            if($user->GetGrade->perm_21 || $user->GetGrade->perm_20) {
+            if($user->GetGrade->perm_21 || $user->GetGrade->perm_20){
                 $formations = Formation::orderByDesc('id')->skip($page*4)->take(4)->get();
                 $formationsCount = Formation::count();
             }else{
@@ -71,7 +69,7 @@ class FormationController extends Controller
                 array_push($myformations, $certification->formation_id);
             }
             foreach ($formations as $formation){
-                if (in_array($formation->id, $myformations)) {
+                if (in_array($formation->id, $myformations)){
                     $formation->validate= true;
                 }else{
                     $formation->validate = false;
@@ -79,7 +77,7 @@ class FormationController extends Controller
             }
 
         }else{
-            if($user->GetGrade->perm_21 || $user->GetGrade->perm_20) {
+            if($user->GetGrade->perm_21 || $user->GetGrade->perm_20){
                 $formations = Formation::orderByDesc('id')->get();
             }else{
                 $formations = Formation::where('public', true)->orderByDesc('id')->get();
@@ -91,8 +89,8 @@ class FormationController extends Controller
     }
 
     /**
-     * @param  string $forma_id
-     * @param  string $user_id
+     * @param string $forma_id
+     * @param string $user_id
      * @return JsonResponse
      */
     public function changeUserCertification(string $forma_id, string $user_id): JsonResponse
@@ -100,7 +98,7 @@ class FormationController extends Controller
         $forma_id = (int) $forma_id;
         $user_id = (int) $user_id;
         $certif = Certification::where('formation_id', $forma_id);
-        if($certif->count() == 0) {
+        if($certif->count() == 0){
             $certif = new Certification();
             $certif->user_id = $user_id;
             $certif->formation_id = $forma_id;
@@ -108,27 +106,25 @@ class FormationController extends Controller
         }else{
             $certif->first()->delete();
         }
-        return \response()->json(['status'=>'OK'], 200);
+        return \response()->json(['status'=>'OK'],200);
     }
 
     /**
-     * @param  string $formation_id
+     * @param string $formation_id
      * @return JsonResponse
      */
     public function getFormationByIdAdmin(string $formation_id): JsonResponse
     {
         $formation_id = (int) $formation_id;
         $formation = Formation::where('id', $formation_id)->first();
-        return response()->json(
-            [
+        return response()->json([
             'status'=>'OK',
             'formation'=>$formation,
-            'responses'=>$formation->GetQuestions]
-        );
+            'responses'=>$formation->GetQuestions]);
     }
 
     /**
-     * @param  string $formation_id
+     * @param string $formation_id
      * @return JsonResponse
      */
     public function changeFormationVisibility(string $formation_id): JsonResponse
@@ -137,12 +133,12 @@ class FormationController extends Controller
         $formation = Formation::where('id', $formation_id)->first();
         $formation->public = !$formation->public;
         $formation->save();
-        event(new Notify('La formation est maintenant ' . ($formation->public ? 'publique': 'privée'), 1));
-        return \response()->json(['status'=>'OK'], 201);
+        event(new Notify('La formation est maintenant ' . ($formation->public ? 'publique': 'privée'),1));
+        return \response()->json(['status'=>'OK'],201);
     }
 
     /**
-     * @param  Request $request
+     * @param Request $request
      * @return JsonResponse
      */
     public function postFormation(Request $request): JsonResponse
@@ -163,18 +159,18 @@ class FormationController extends Controller
         $time_btw = (bool) $request->time_btw;
         $time_btw_str = (string) $request->time_btw_str;
 
-        if($unic_try) {
+        if($unic_try){
             $time_btw = false;
             $time_btw_str= null;
             $max_try = 0;
         }
-        if(!$time_btw) {
+        if(!$time_btw){
             $time_btw_str = (int)null;
         }else{
             $time_btw_str = explode(' ', $time_btw_str);
             $time_btw_str = (int) (  $time_btw_str[0] *86400) + ((int) $time_btw_str[1]*3600);
         }
-        if(!$time) {
+        if(!$time){
             $total = false;
             $question= false;
             $time_str = "";
@@ -213,18 +209,16 @@ class FormationController extends Controller
         $dir = public_path($path . $formation->id);
         mkdir($dir);
         event(new Notify('Vous avez ajouté une formation', 1));
-        Image::make($img)->resize(960, 540)->save($dir . '/' . $imgname);
+        Image::make($img)->resize(960,540)->save($dir . '/' . $imgname);
 
-        return response()->json(
-            [
+        return response()->json([
             'formation'=>$formation,
-            ], 201
-        );
+        ],201);
     }
 
     /**
-     * @param  Request $request
-     * @param  string  $formation_id
+     * @param Request $request
+     * @param string $formation_id
      * @return JsonResponse
      */
     public function updateFormation(Request $request, string $formation_id): JsonResponse
@@ -249,18 +243,18 @@ class FormationController extends Controller
         $time_btw = (bool) $request->time_btw;
         $time_btw_str = (string) $request->time_btw_str;
 
-        if($unic_try) {
+        if($unic_try){
             $time_btw = false;
             $time_btw_str= null;
             $max_try = 0;
         }
-        if(!$time_btw) {
+        if(!$time_btw){
             $time_btw_str = (int)null;
         }else{
             $time_btw_str = explode(' ', $time_btw_str);
             $time_btw_str = (int) (  $time_btw_str[0] *86400) + ((int) $time_btw_str[1]*3600);
         }
-        if(!$time) {
+        if(!$time){
             $total = false;
             $question= false;
             $time_str = "";
@@ -270,7 +264,7 @@ class FormationController extends Controller
             $timer = (int) ($time_str[0]*3600) + ($time_str[1]*60);
         }
 
-        if($img != 'undefined') {
+        if($img != 'undefined'){
             $imgname = time() . '.' . explode('/', explode(':', substr($img, 0, strpos($img, ';')))[1])[1];
             $path = "/storage/formations/front_img/";
         }
@@ -300,31 +294,29 @@ class FormationController extends Controller
         $formation->displaynote= $finalnote;
         $formation->certify = $certif;
         $formation->save();
-        if($img != 'undefined') {
+        if($img != 'undefined'){
             $dir = public_path($path . $formation->id);
             mkdir($dir);
-            Image::make($img)->resize(960, 540)->save($dir . '/' . $imgname);
+            Image::make($img)->resize(960,540)->save($dir . '/' . $imgname);
         }
 
         event(new Notify('Vous avez sauvegarder la formations', 1));
-        return response()->json(
-            [
+        return response()->json([
             'formation'=>$formation,
-            ], 201
-        );
+        ],201);
     }
 
     /**
      * @param Request $request
-     * @param string  $formation_id
+     * @param string $formation_id
      */
     public function addQuestion(Request $request, string $formation_id): JsonResponse
     {
         $img = $request->get('img');
         $formation_id = (int) $formation_id;
         $formation = Formation::where('id', $formation_id)->first();
-        if(!isset($formation)) {
-            return \response()->json([], 500);
+        if(!isset($formation)){
+            return \response()->json([],500);
         }
         $imgname = time() . '.' . explode('/', explode(':', substr($img, 0, strpos($img, ';')))[1])[1];
         $path = "/storage/formations/question_img/";
@@ -333,7 +325,7 @@ class FormationController extends Controller
         $responses=$request->responses;
         $a=0;
         foreach ($responses as $response){
-            if($response['active']) {
+            if($response['active']){
                 $a++;
             }
         }
@@ -350,22 +342,21 @@ class FormationController extends Controller
         $dir = public_path($path . $formation->id);
         mkdir($dir);
         event(new Notify('Vous avez ajouté une question', 1));
-        Image::make($img)->resize(960, 540)->save($dir . '/' . $imgname);
-        return \response()->json(['status'=>'OK', 'questionid'=>$question->id], 201);
+        Image::make($img)->resize(960,540)->save($dir . '/' . $imgname);
+        return \response()->json(['status'=>'OK', 'questionid'=>$question->id],201);
     }
 
     /**
      * @param string $question_id
      */
-    public function deleteQuestion(string $question_id)
-    {
+    public function deleteQuestion(string $question_id){
         $question_id = (int) $question_id;
         // a faire
     }
 
     /**
-     * @param  Request $request
-     * @param  string  $question_id
+     * @param Request $request
+     * @param string $question_id
      * @return JsonResponse
      */
     public function updateQuestion(Request $request, string $question_id): JsonResponse
@@ -377,17 +368,17 @@ class FormationController extends Controller
         }
         $question = FormationsQuestion::where('id', $question_id)->first();
         $formation = Formation::where('id', $question->GetFormation->id)->first();
-        if(!isset($question)) {
-            return \response()->json([], 500);
+        if(!isset($question)){
+            return \response()->json([],500);
         }
-        if($img != 'undefined') {
+        if($img != 'undefined'){
             $imgname = time() . '.' . explode('/', explode(':', substr($img, 0, strpos($img, ';')))[1])[1];
             $path = "/storage/formations/question_img/";
         }
         $responses=$request->responses;
         $a=0;
         foreach ($responses as $response){
-            if($response['active']) {
+            if($response['active']){
                 $a++;
             }
         }
@@ -407,14 +398,14 @@ class FormationController extends Controller
         if($img != 'undefined') {
             $dir = public_path($path . $question->GetFormation->id);
             mkdir($dir);
-            Image::make($img)->resize(960, 540)->save($dir . '/' . $imgname);
+            Image::make($img)->resize(960,540)->save($dir . '/' . $imgname);
         }
         event(new Notify('Vous avez mis a jour une question', 1));
-        return \response()->json(['status'=>'OK'], 201);
+        return \response()->json(['status'=>'OK'],201);
     }
 
     /**
-     * @param  string $formation_id
+     * @param string $formation_id
      * @return JsonResponse
      */
     public function deleteFormationById(string $formation_id): JsonResponse
@@ -422,13 +413,13 @@ class FormationController extends Controller
         $formation_id = (int) $formation_id;
         $formation = Formation::where('id', $formation_id)->first();
         $formation->delete();
-        event(new Notify('Formation supprimée', 1));
+        event(new Notify('Formation supprimée',1));
         return \response()->json(['status'=>"OK"]);
     }
 
 
     /**
-     * @param  string $formation_id
+     * @param string $formation_id
      * @return JsonResponse
      */
     public function getFormationById(string $formation_id): JsonResponse
@@ -438,33 +429,33 @@ class FormationController extends Controller
 
         $formation = Formation::where('id', $formation_id)->first();
 
-        if(!$tentative) {
-            if($formation->unic_try) {
+        if(!$tentative){
+            if($formation->unic_try){
                 foreach ($formation->GetResponses as $response){
-                    if($response->user_id == Auth::user()->id) {
-                        event(new Notify('Cette formation est a essai unique', 2));
+                    if($response->user_id == Auth::user()->id){
+                        event(new Notify('Cette formation est a essai unique',2));
                         return  response()->json(['status'=>'TO MANY TRY'], 500);
                     }
                 }
             }
             $userstry = 0;
             foreach ($formation->GetResponses as $response){
-                if($response->user_id == Auth::user()->id) {
+                if($response->user_id == Auth::user()->id){
                     $userstry++;
                 }
             }
-            if($userstry == $formation->max_try && $formation->max_try != 0) {
-                event(new Notify('Vous avez épuisé toute vos tentatives', 2));
+            if($userstry == $formation->max_try && $formation->max_try != 0){
+                event(new Notify('Vous avez épuisé toute vos tentatives',2));
                 return  response()->json(['status'=>'TO MANY TRY'], 500);
             }
 
-            if($formation->can_retry_later) {
+            if($formation->can_retry_later){
                 $last = FormationsResponse::where('user_id', Auth::user()->id)->where('formation_id', $formation_id)->orderByDesc('id')->first();
-                if(isset($last)) {
+                if(isset($last)){
                     $time = strtotime($last->created_at);
                     $possibily = time() > $formation->time_btw_try + $time;
-                    if(!$possibily) {
-                        event(new Notify('Vous ne pouvez pas refaire cette formation maintenant', 2));
+                    if(!$possibily){
+                        event(new Notify('Vous ne pouvez pas refaire cette formation maintenant',2));
                         return  response()->json(['status'=>'TO MANY TRY'], 500);
                     }
                 }
@@ -475,16 +466,14 @@ class FormationController extends Controller
             $question->responses = json_decode($question->responses);
         }
 
-        return response()->json(
-            [
+        return response()->json([
             'status'=>'OK',
             'formation'=>$formation,
-            ]
-        );
+        ]);
     }
 
     /**
-     * @param  string $question_id
+     * @param string $question_id
      * @return JsonResponse
      */
     public function getQuestionById(string $question_id): JsonResponse
@@ -496,16 +485,16 @@ class FormationController extends Controller
     }
 
     /**
-     * @param  Request $request
-     * @param  string  $question_id
+     * @param Request $request
+     * @param string $question_id
      * @return JsonResponse
      */
     public function saveResponseState(Request $request, string $question_id): JsonResponse
     {
         $question_id = (int) $question_id;
-        $question = FormationsQuestion::where('id', $question_id)->first();
+        $question = FormationsQuestion::where('id',$question_id)->first();
         $response = FormationsResponse::where('finished', false)->where('user_id', Auth::user()->id);
-        if($response->count() == 0) {
+        if($response->count() == 0){
             $response = new FormationsResponse();
             $response->finished = false;
             $response->lastquestion_id = (int) $question_id;
@@ -524,7 +513,7 @@ class FormationController extends Controller
     }
 
     /**
-     * @param  $formation_id
+     * @param $formation_id
      * @return JsonResponse
      */
     public function userDisconnect($formation_id): JsonResponse
@@ -532,7 +521,7 @@ class FormationController extends Controller
         $formation_id = (int)$formation_id;
         $formation = Formation::where('id', $formation_id)->first();
         $response = FormationsResponse::where('user_id', Auth::user()->id)->where('formation_id', $formation_id)->first();
-        if(!$formation->save_on_deco) {
+        if(!$formation->save_on_deco){
             $response->delete();
         }
         return response()->json([]);
@@ -540,7 +529,7 @@ class FormationController extends Controller
 
 
     /**
-     * @param  string $formation_id
+     * @param string $formation_id
      * @return JsonResponse
      */
     public function getFinalDatas(string $formation_id): JsonResponse
@@ -554,9 +543,9 @@ class FormationController extends Controller
             $total = $total + $respons->note;
         }
         $formation->average_note = round($total / (count($responses)+1));
-        if($formation->certify && $response->note > ($formation->max_note/3)*2) {
-            $certif = Certification::where('user_id', Auth::user()->id)->where('formation_id', $formation_id)->first();
-            if(!isset($certif)) {
+        if($formation->certify && $response->note > ($formation->max_note/3)*2){
+            $certif = Certification::where('user_id',Auth::user()->id)->where('formation_id', $formation_id)->first();
+            if(!isset($certif)){
                 $certif = new Certification();
                 $certif->formation_id = $formation_id;
                 $certif->user_id= Auth::user()->id;

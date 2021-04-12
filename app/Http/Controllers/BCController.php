@@ -31,12 +31,10 @@ class BCController extends Controller
     public function getUserInfos(): \Illuminate\Http\JsonResponse
     {
         $user = User::where('id', Auth::user()->id)->first();
-        return response()->json(
-            [
+        return response()->json([
             'status'=>'OK',
             'bc'=>$user->bc_id
-            ]
-        );
+        ]);
     }
 
     public function getMainPage(): \Illuminate\Http\JsonResponse
@@ -64,31 +62,27 @@ class BCController extends Controller
             $a++;
         }
         $puTypes = BCType::all();
-        return response()->json(
-            [
+        return response()->json([
             "status"=>'OK',
             'active'=>$ActiveBc,
             'ended'=>$EndedBC,
             'types'=>$puTypes,
-            ]
-        );
+        ]);
     }
 
     public function getBCState(string $id): \Illuminate\Http\JsonResponse
     {
         $id = (int) $id;
-        $bc = BCList::where('id', $id)->first();
-        return response()->json(
-            [
-            'status'=>'OK',
-            'ended'=>$bc->ended,
-            ]
-        );
+       $bc = BCList::where('id',$id)->first();
+       return response()->json([
+           'status'=>'OK',
+           'ended'=>$bc->ended,
+       ]);
     }
 
     public function getBCByid(string $id): \Illuminate\Http\JsonResponse
     {
-        if($id == "undefined") {
+        if($id == "undefined"){
             $id = User::where('id', Auth::user()->id)->first()->bc_id;
         }else{
             $id = (int) $id;
@@ -103,14 +97,12 @@ class BCController extends Controller
         }
         $blessures = Blessure::all();
         $color= CouleurVetement::all();
-        return response()->json(
-            [
+        return response()->json([
             'status'=>'OK',
             'bc'=>$bc,
             'colors'=>$color,
             'blessures'=>$blessures,
-            ]
-        );
+        ]);
     }
 
     public function addBc(Request $request): \Illuminate\Http\JsonResponse
@@ -124,8 +116,7 @@ class BCController extends Controller
         $bc->save();
         $this->addPersonel((string)$bc->id);
 
-        Http::post(
-            env('WEBHOOK_PU'), [
+        Http::post(env('WEBHOOK_PU'),[
             'embeds'=>[
                 [
                     'title'=>'Black Code #' . $bc->id . ' en cours :',
@@ -147,17 +138,14 @@ class BCController extends Controller
                     ]
                 ]
             ]
-            ]
-        );
+        ]);
 
         event(new Brodcaster('Début du BC #'.$bc->id . ' à ' . $bc->place));
 
-        return response()->json(
-            [
+        return response()->json([
             'status'=>'OK',
             'bc_id'=>$bc->id,
-            ], 201
-        );
+        ],201);
     }
 
     public function endBc(int $id=9): \Illuminate\Http\JsonResponse
@@ -180,14 +168,12 @@ class BCController extends Controller
         $this->generateBCEndedEmbed($formated, $patients, $personnels, $bc);
         event(new Brodcaster('Fin du BC #'.$bc->id));
 
-        return response()->json(['status'=>'OK'], 201);
+        return response()->json(['status'=>'OK'],201);
     }
-    private function generateBCEndedEmbed(string $formated, object $patients, object $personnels,BCList $bc)
-    {
+    private function generateBCEndedEmbed(string $formated, object $patients, object $personnels,BCList $bc){
         $number = count($patients);
         $finalembedslist = array();
-        array_push(
-            $finalembedslist, [
+        array_push($finalembedslist,[
             'title'=>'Fin du Black Code #' . $bc->id .' :',
             'fields'=>[
                 [
@@ -209,19 +195,18 @@ class BCController extends Controller
                 ],
             ],
             'color'=>'10368531',
-            ]
-        );
-        if($number != 0) {
-            if($number > 31) {
+        ]);
+        if($number != 0){
+            if($number > 31){
                 $this->manyPatientEmbed($number, $patients);
             }else{
-                array_push($finalembedslist, $this->onePatientEmbed($patients, 1, 1, 0)[1]);
+                array_push($finalembedslist,$this->onePatientEmbed($patients, 1,1,0)[1]);
             }
         }
         $a = 0;
         $msg = "";
         while ($a < count($personnels)){
-            if($a == 0) {
+            if($a == 0){
                 $msg = 'Secouristes : ' . $personnels[$a]->name;
             }else{
                 $msg = $msg . ', ' . $personnels[$a]->name;
@@ -229,8 +214,7 @@ class BCController extends Controller
             $a++;
         }
 
-        array_push(
-            $finalembedslist, [
+        array_push($finalembedslist,[
             'title'=>'---------------',
             'color'=>'10368531',
             'description'=>$msg,
@@ -249,14 +233,11 @@ class BCController extends Controller
                     'inline'=>true,
                 ]
             ]
-            ]
-        );
+        ]);
 
-        Http::post(
-            env('WEBHOOK_PU'), [
+        Http::post(env('WEBHOOK_PU'),[
             'embeds'=>$finalembedslist,
-            ]
-        );
+        ]);
     }
     private function manyPatientEmbed(int $number, object $patients): bool
     {
@@ -278,7 +259,7 @@ class BCController extends Controller
         $b = 0;
         $msg = "";
         $max = 0;
-        if(count($patients) > 31) {
+        if(count($patients) > 31){
             $max = 31;
         }else{
             $max = count($patients);
@@ -301,7 +282,7 @@ class BCController extends Controller
         $id = (int) $id;
         $bc = BCList::where('id', $id)->firstOrFail();
         $personnel = BCPersonnel::where('BC_id', $id)->where('user_id', Auth::user()->id)->get()->count();
-        if($personnel == 0) {
+        if($personnel == 0){
             $personnel = new BCPersonnel();
             $personnel->user_id = Auth::user()->id;
             $personnel->name = Auth::user()->name;
@@ -311,8 +292,8 @@ class BCController extends Controller
         $user = User::where('id', Auth::user()->id)->first();
         $user->bc_id = $bc->id;
         $user->save();
-        event(new Notify('Vous avez été affecté à ce BC ! ', 1));
-        return response()->json(['status'=>'OK'], 201);
+        event(new Notify('Vous avez été affecté à ce BC ! ',1));
+        return response()->json(['status'=>'OK'],201);
     }
 
     public function removePersonnel(int $id): \Illuminate\Http\JsonResponse
@@ -320,8 +301,8 @@ class BCController extends Controller
         $user = User::where('id', Auth::user()->id)->first();
         $user->bc_id = null;
         $user->save();
-        event(new Notify('Vous avez été désaffecté de ce BC ! ', 1));
-        return response()->json(['status'=>'OK'], 202);
+        event(new Notify('Vous avez été désaffecté de ce BC ! ',1));
+        return response()->json(['status'=>'OK'],202);
     }
 
     public function addPatient(Request $request, int $id): \Illuminate\Http\JsonResponse
@@ -362,22 +343,22 @@ class BCController extends Controller
         $BcP->BC_id = $bc->id;
         $BcP->name = $Patient->vorname . ' ' .$Patient->name;
         $BcP->save();
-        RapportController::addFactureMethod($Patient, $request->payed, 700, Auth::user()->id, $rapport->id);
-        event(new Notify('Patient ajouté ! ', 1));
-        return response()->json(['status'=>'OK'], 201);
+        RapportController::addFactureMethod($Patient, $request->payed, 700, Auth::user()->id,$rapport->id);
+        event(new Notify('Patient ajouté ! ',1));
+        return response()->json(['status'=>'OK'],201);
     }
 
     public function removePatient(int $patient_id): \Illuminate\Http\JsonResponse
     {
         $bcp = BCPatient::where('id', $patient_id)->first();
-        if (!is_null($bcp->rapport_id)) {
+        if (!is_null($bcp->rapport_id)){
             $rapport = Rapport::where('id', $bcp->rapport_id)->first();
             $facture = Facture::where('id', $rapport->GetFacture->id)->first();
             $facture->delete();
             $rapport->delete();
         }
         $bcp->delete();
-        event(new Notify('Patient retiré (la page va se mettre à jour)! ', 1));
+        event(new Notify('Patient retiré (la page va se mettre à jour)! ',1));
         return response()->json(['status'=>'OK']);
     }
 

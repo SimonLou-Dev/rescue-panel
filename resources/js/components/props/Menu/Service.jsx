@@ -58,12 +58,12 @@ function Service(props){
     }
 
 
-    if(timer !== 0 && timer !== 120) {
+    if(timer !== 0 && timer !== 120){
         return (
             <button type={"button"} disabled={true} id='service' className={'CountDownService'}>
                 {timer} sec
             </button>
-        );
+            );
     }else{
         if(service){
             return (

@@ -33,7 +33,7 @@ class RemboursementsController extends Controller
         $item = (int) $request->item;
         $item = ObjRemboursement::where('id', $item)->first();
         $userRemboursements = WeekRemboursement::where('week_number', ServiceController::getWeekNumber())->where('user_id', Auth::user()->id)->first();
-        if(!isset($userRemboursements)) {
+        if(!isset($userRemboursements)){
             $userRemboursements = new WeekRemboursement();
             $userRemboursements->week_number = ServiceController::getWeekNumber();
             $userRemboursements->user_id = Auth::user()->id;
@@ -48,8 +48,8 @@ class RemboursementsController extends Controller
         $rmbsem->week_number = ServiceController::getWeekNumber();
         $rmbsem->save();
         $userRemboursements->save();
-        event(new Notify('Remboursement pris en compte', 1));
-        return response()->json(['stauts'=>'OK'], 201);
+        event(new Notify('Remboursement pris en compte',1));
+        return response()->json(['stauts'=>'OK'],201);
     }
 
     public function deleteRemboursement(string $itemid): \Illuminate\Http\JsonResponse
@@ -60,13 +60,13 @@ class RemboursementsController extends Controller
         $userRemboursement->total = (int) $userRemboursement->total -  (int) $item->getItem->price;
         $userRemboursement->save();
         $item->delete();
-        event(new Notify('Remboursement supprimé', 1));
+        event(new Notify('Remboursement supprimé',1));
         return response()->json(['status'=>'OK']);
     }
 
     public function getRemboursementByWeek(string $weeknumber = null): \Illuminate\Http\JsonResponse
     {
-        if($weeknumber == '' || $weeknumber == null) {
+        if($weeknumber == '' || $weeknumber == null){
             $weeknumber = ServiceController::getWeekNumber();
         }else{
             $weeknumber = (int) $weeknumber;
@@ -75,13 +75,11 @@ class RemboursementsController extends Controller
         foreach ($list as $item){
             $item->GetUser;
         }
-        return response()->json(
-            [
+        return response()->json([
             'status'=>'OK',
             'list'=>$list,
             'maxweek'=>ServiceController::getWeekNumber(),
-            ]
-        );
+        ]);
     }
 
 

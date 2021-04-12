@@ -27,11 +27,11 @@ class FileController extends Controller
     public function uploadFile(Request $request): JsonResponse
     {
         $file = $request->file('file');
-        if(!isset($file) || !isset($request->id)) {
-            return response()->json(['status'=>'error'], 500);
+        if(!isset($file) || !isset($request->id)){
+            return response()->json(['status'=>'error'],500);
         }
-        if(!$file->isValid()) {
-            return response()->json(['status'=>'PAS OK'], 500);
+        if(!$file->isValid()){
+            return response()->json(['status'=>'PAS OK'],500);
         }
 
 
@@ -39,18 +39,18 @@ class FileController extends Controller
 
         file_put_contents($tempFile, $file->getContent(), FILE_APPEND);
 
-        return response()->json(['status'=>'OK'], 200);
+        return response()->json(['status'=>'OK'],200);
     }
 
 
     /**
-     * @param  Request $request
-     * @param  string  $uuid
+     * @param Request $request
+     * @param string $uuid
      * @return JsonResponse
      */
     public function endOffUpload(Request $request, string $uuid): JsonResponse
     {
-        $type = explode('/', $request->type)[1];
+        $type = explode('/',$request->type)[1];
         $file = $this->laravelTempDir . $uuid . '_' .$type . '.temp';
         if(!File::exists($file)) {
             event(new Notify('Erreur lors de la mise en ligne', 4));
@@ -58,21 +58,19 @@ class FileController extends Controller
         }
         $img= $uuid . '.' . $type;
         File::move($file, $this->laravelTempDir . $img);
-        event(new Notify('Fichier mis en ligne', 1));
-        return response()->json(
-            ['status'=>'OK',
+        event(new Notify('Fichier mis en ligne',1));
+        return response()->json(['status'=>'OK',
             'image' => $img,
-            ], 200
-        );
+            ],200);
     }
 
     /**
-     * @param  string $fillWithFullPath
+     * @param string $fillWithFullPath
      * @return bool
      */
     public static function moveTempFile(string $lastname, string $newSpace): bool
     {
-        if(File::exists(public_path('/storage/temp_upload/') . $lastname)) {
+        if(File::exists(public_path('/storage/temp_upload/') . $lastname)){
             File::move(public_path('/storage/temp_upload/') .$lastname, $newSpace);
             return true;
         }
@@ -80,19 +78,19 @@ class FileController extends Controller
     }
 
     /**
-     * @param  Request $request
+     * @param Request $request
      * @return JsonResponse
      */
     public function deleteTempFile(Request $request): JsonResponse
     {
         $image = $request->image;
-        if(File::exists($this->laravelTempDir . $image)) {
+        if(File::exists($this->laravelTempDir . $image)){
             File::delete($this->laravelTempDir . $image);
-            event(new Notify('Votre fichier a été supprimé', 1));
+            event(new Notify('Votre fichier a été supprimé',1));
             return response()->json(['status'=>'OK']);
         }
         event(new Notify('Nous trouvons pas votre fichier'));
-        return response()->json(['status'=>'PAS OK'], 500);
+        return response()->json(['status'=>'PAS OK'],500);
     }
 
 
