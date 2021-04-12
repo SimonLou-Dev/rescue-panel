@@ -68,7 +68,7 @@ class ServiceController extends Controller
         ]);
     }
 
-    public function setServiceByAdmin(Request $request, int $userid): \Illuminate\Http\JsonResponse
+    public function setServiceByAdmin(Request $request, string $userid): \Illuminate\Http\JsonResponse
     {
         $user = User::where('id', $userid)->first();
         $this->setService($user, true);

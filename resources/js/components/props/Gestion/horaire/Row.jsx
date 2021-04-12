@@ -19,8 +19,8 @@ class Row extends React.Component {
             this.setState({inService: true})
         }
         await axios({
-            url: '/data/service/setbyadmin/{userid}' + this.props.userid,
-            method: 'GET',
+            url: '/data/service/setbyadmin/' + this.props.userid,
+            method: 'PUT',
         })
 
     }

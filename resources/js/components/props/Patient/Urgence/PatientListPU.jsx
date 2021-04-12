@@ -11,6 +11,7 @@ class PatientListPU extends React.Component {
     }
 
     render() {
+        console.log(this.props)
         if(this.state.redirect){
             return (
                 <Redirect to={this.state.redirect}/>
