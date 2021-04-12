@@ -73,36 +73,18 @@ class VolController extends Controller
         $vol->save();
 
         event(new Notify('Votre vol est pris en compte',1));
-        Http::post(env('WEBHOOK_VOLS'),[
-            'embeds'=>[
-                [
-                    'title'=>'Helicoptère du BCFD déployé:',
-                    'color'=>'13373531',
-                    'fields'=>[
-                        [
-                            'name'=>'Secteur : ',
-                            'value'=>$vol->GetLieux->name,
-                            'inline'=>true
-                        ],[
-                            'name'=>'Motif : ',
-                            'value'=>$vol->raison,
-                            'inline'=>false
-                        ]
-                    ],
-                    'footer'=>[
-                        'text' => 'Pilote : ' . Auth::user()->name,
-                    ]
-                ]
-            ]
-        ]);
+
         return response()->json(['status'=>'OK'],201);
 
     }
 
-    public function seatchPilote(string $pilote): \Illuminate\Http\JsonResponse
+    public function seatchPilote(string $pilote =null): \Illuminate\Http\JsonResponse
     {
-        $pilotes = User::where('name', 'LIKE', '%'.$pilote.'%')->take(5)->get();
-        return response()->json(['status'=>'OK', 'datas'=>['users'=>$pilotes]]);
+        if(isset($pilote)){
+            $pilotes = User::where('name', 'LIKE', '%'.$pilote.'%')->take(5)->get();
+            return response()->json(['status'=>'OK', 'datas'=>['users'=>$pilotes]]);
+        }
+        return response()->json(['status'=>'OK']);
     }
 
 }

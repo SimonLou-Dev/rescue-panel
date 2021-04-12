@@ -6,12 +6,16 @@ use App\Events\Notify;
 use App\Models\DayService;
 use App\Models\Service;
 use App\Models\Services;
+use App\Models\User;
+use App\Models\WeekRemboursement;
 use App\Models\WeekService;
-use DateInterval;
-use Illuminate\Foundation\Auth\User;
+use App\PDFExporter\ServicePDFExporter;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
+use Maatwebsite\Excel\Facades\Excel;
+use Maatwebsite\Excel\Concerns\FromArray;
 
 class ServiceController extends Controller
 {
@@ -75,7 +79,7 @@ class ServiceController extends Controller
     public function addRows(): \Illuminate\Http\JsonResponse
     {
         $week =  date('W', time());
-        $users = \App\Models\User::where('grade', '>', 1)->get();
+        $users = User::where('grade', '>', 1)->get();
         $dayservice = WeekService::where('week', $week)->get('user_id');
         $b = 0;
         $array = array();
@@ -101,7 +105,7 @@ class ServiceController extends Controller
         $action = (int) $request->action;
         $time = (string) $request->time;
 
-        $user = \App\Models\User::where('name', $name)->firstOrFail();
+        $user =User::where('name', $name)->firstOrFail();
         $WeekService= WeekService::where('user_id', $user->id)->where('week_number', $this::getWeekNumber())->first();
         if($action === 1){
             $WeekService->total = $this::addTime($WeekService->total, $time.':00');
@@ -281,5 +285,74 @@ class ServiceController extends Controller
             return $date;
         }
     }
+
+    public function getWeekServiceExel(string $week = null){
+        if(is_null($week)){
+            $week = $this::getWeekNumber();
+        }else{
+            $week = (int) $week;
+        }
+        $users = User::where('grade_id', '>', 1)->orderByDesc('grade_id')->get();
+        $services = WeekService::where('week_number', '=', '15')->get();
+        $remboursements = WeekRemboursement::where('week_number',$week)->get();
+
+        $column[] = array();
+        $column[] = array('Membre','grade', 'Remboursements', 'dimanche', 'lundi', 'mardi', 'mercredi', 'jeudi', 'vendredi', 'samedi', 'total');
+        $userRemboursements = [];
+        foreach ($remboursements as $remboursement){
+            $userRemboursements[$remboursement->user_id] = $remboursement->total;
+        }
+
+
+        $userServices = array();
+        foreach ($services as $service){
+            $userServices[$service->user_id] = 0;
+        }
+
+        $servicesNumber = array();
+        foreach ($services as $service){
+            $servicesNumber[$service->user_id] = 0;
+        }
+
+        foreach ($users as $user){
+            if(array_key_exists($user->id, $userServices) == true){
+                $service = $services[array_search($user->id, $servicesNumber)];
+                $column[] = [
+                    'Membre'=> $service->GetUser->name,
+                    'grade'=>$service->GetUser->GetGrade->name,
+                    'Remboursements'=> array_key_exists($user->id, $userRemboursements) ? $userRemboursements[$user->id] :0,
+                    'dimanche'=>$service->dimanche,
+                    'lundi'=>$service->lundi,
+                    'mardi'=>$service->mardi,
+                    'mercredi'=>$service->mercredi,
+                    'jeudi'=>$service->jeudi,
+                    'vendredi'=>$service->vendredi,
+                    'samedi'=>$service->samedi,
+                    'total'=>$service->total,
+                ];
+            }else{
+                $user = User::where('id', $user->id)->first();
+                $column[] = [
+                    'Membre'=> $user->name,
+                    'grade'=>$user->GetGrade->name,
+                    'Remboursements'=> array_key_exists($user->id, $userRemboursements) ? $userRemboursements[$user->id] :0,
+                    'dimanche'=>0,
+                    'lundi'=>0,
+                    'mardi'=>0,
+                    'mercredi'=>0,
+                    'jeudi'=>0,
+                    'vendredi'=>0,
+                    'samedi'=>0,
+                    'total'=>0,
+                ];
+            }
+        }
+        $export = new ServicePDFExporter($column);
+
+        return Excel::download((object)$export, 'RemboursementsServicesSemaine'. $week .'.xlsx');
+
+
+    }
+
 
 }

@@ -17,7 +17,7 @@ class LayoutController extends Controller
 
     public function setservice(Request $request): \Illuminate\Http\JsonResponse
     {
-        $user = \App\Models\User::where('id', Auth::id())->first();
+        $user = User::where('id', Auth::id())->first();
         ServiceController::setService($user, false);
         $text = "";
         if($user->service){
@@ -25,7 +25,7 @@ class LayoutController extends Controller
         }else{
             $text = 'Vous n\'êtes plus en service';
         }
-        event(new \App\Events\Notify($text,2));
+        event(new Notify($text,2));
         return response()->json([
             'status'=>'OK',
             'user'=>$user,

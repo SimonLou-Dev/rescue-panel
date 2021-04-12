@@ -27,19 +27,19 @@ class UserController extends Controller
         $pseudo = $request->pseudo;
         $mail = $request->email;
         $psw = $request->psw;
-        if($user = \App\Models\User::where('email', $mail)->count() != 0){
+        if($user = User::where('email', $mail)->count() != 0){
             return response()->json([
                 'status' => 'ERROR',
                 'raison'=> 'Email taken',
                 'datas' => []
             ], 200);
         }else{
-            $createuser = new \App\Models\User();
+            $createuser = new User();
             $createuser->name = $pseudo;
             $createuser->email = $mail;
             $createuser->password = Hash::make($psw);
             $createuser->save();
-            $newuser = \App\Models\User::where('email', $mail)->first();
+            $newuser = User::where('email', $mail)->first();
             Auth::login($newuser);
             Session::push('user_grade', $newuser->GetGrade);
             if(Auth::check()){
@@ -69,7 +69,7 @@ class UserController extends Controller
     {
         $email = $request->email;
         $psw = $request->psw;
-        if(\App\Models\User::where('email', $email)->count() == 0){
+        if(User::where('email', $email)->count() == 0){
             $returned = response()->json([
                 'status'=> 'adresse mail non existante',
                 'user' => null,
@@ -129,7 +129,7 @@ class UserController extends Controller
         $user= User::where('id', $userid)->first();
         $user->grade_id = $id;
         $user->save();
-        event(new \App\Events\Notify('Le grade a été bien changé ! ',1));
+        event(new Notify('Le grade a été bien changé ! ',1));
         return \response()->json(['status'=>'OK']);
     }
 
@@ -194,7 +194,7 @@ class UserController extends Controller
      */
     public function GetUserPerm(Request $request): JsonResponse
     {
-        $user = \App\Models\User::where('id', Auth::id())->first();
+        $user = User::where('id', Auth::id())->first();
         $grade = $user->GetGrade;
         $perm = [
             'acces'=>$grade->perm_0,

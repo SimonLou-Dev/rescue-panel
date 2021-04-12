@@ -45,9 +45,9 @@ class CarnetVol extends React.Component {
         }
     }
 
-    postdata(e){
+    async postdata(e) {
         e.preventDefault();
-        var req = axios({
+        let req = await axios({
             method: 'POST',
             url: '/data/vol/add',
             data: {
@@ -55,8 +55,9 @@ class CarnetVol extends React.Component {
                 raison: this.state.raison
             }
         })
-        if(req.status === 201){
-            this.setState({data: null, raison: '', lieux: '', popup:false});
+        if (req.status === 201) {
+            console.log('into')
+            this.setState({data: null, raison: '', lieux: '', popup: false});
             this.update();
         }
     }
@@ -78,19 +79,21 @@ class CarnetVol extends React.Component {
     }
 
     async typing(e) {
-        if (e.target.value.length > 3) {
-            let req = await axios({
-                url: '/data/vol/searsh/' + e.target.value,
-                method: 'GET'
-            })
+        let req = await axios({
+            url: '/data/vol/searsh/' + e.target.value,
+            method: 'GET'
+        })
+        if(!req.data.datas){
+            this.setState({name: '', list: []});
+            this.update();
+        }else{
             this.setState({list: req.data.datas.users})
             if(req.data.datas.users.length === 1){
                 this.setState({name: req.data.datas.users[0].name})
-                this.update();
             }
 
         }
-
+        this.update();
     }
     render() {
         return (

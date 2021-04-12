@@ -44,6 +44,7 @@ class RemboursementsController extends Controller
         $rmbsem = new RemboursementList();
         $rmbsem->user_id = Auth::user()->id;
         $rmbsem->item_id = $item->id;
+        $rmbsem->total = $item->price;
         $rmbsem->week_number = ServiceController::getWeekNumber();
         $rmbsem->save();
         $userRemboursements->save();

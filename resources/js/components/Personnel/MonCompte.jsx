@@ -151,6 +151,13 @@ class Account extends React.Component {
                             this.setState({image:image});
                             this.postBg();
                         }}/>
+                        <button className={'btn'} onClick={async (e) => {
+                            e.preventDefault();
+                            await axios({
+                                method: 'DELETE',
+                                url: '/data/user/bg/delete',
+                            })
+                        }}>supprimer</button>
                     </div>
                 </section>
                 }
@@ -191,14 +198,25 @@ class MonCompte extends React.Component {
         super(props);
         this.state = {
             stats: false,
-            account: true
+            account: true,
+            grade: 'chargement'
         }
     }
+    async componentDidMount() {
+        var req = await axios({
+            url: '/data/getperm',
+            method: 'get',
+        })
+        if (req.status === 200) {
+            this.setState({grade: req.data.user.get_grade.name})
+        }
+    }
+
     // Btn des stats <button onClick={()=> this.setState({stats: true, account: false})} className={this.state.stats ? '' : 'unselected'}><img src={'/assets/images/stats.svg'} alt={''}/>mes statistiques</button>
     render() {
         return (
             <div className={"moncompte"}>
-                <PagesTitle title={"Mon Compte <br> <span>Resident BC</span>"}/>
+                <PagesTitle title={"Mon Compte <br> <span>"+ this.state.grade +"</span>"}/>
                 <div className={'account-container'}>
                     <div className={'header'}>
                         <button onClick={()=> this.setState({stats: false, account: true})} className={this.state.account ? '' : 'unselected'}><img src={'/assets/images/settings.svg'} alt={''}/> mes informations</button>

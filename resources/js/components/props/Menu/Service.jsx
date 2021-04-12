@@ -13,7 +13,7 @@ function Service(props){
             method: "GET",
             url: '/data/getstatus',
         });
-        setService()
+        setService(req.data.service === 1)
         props.serviceUpade(req.data.service === 1)
     }, [])
 
@@ -60,7 +60,7 @@ function Service(props){
 
     if(timer !== 0 && timer !== 120){
         return (
-            <button type={"button"} disabled={true} id='service'>
+            <button type={"button"} disabled={true} id='service' className={'CountDownService'}>
                 {timer} sec
             </button>
             );

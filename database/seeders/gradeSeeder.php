@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Models\Grade;
+use App\PDFExporter\Models\Grade;
 use Illuminate\Database\Seeder;
 
 class gradeSeeder extends Seeder

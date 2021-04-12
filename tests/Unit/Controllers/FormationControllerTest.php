@@ -2,7 +2,7 @@
 
 namespace Controllers;
 
-use App\Http\Controllers\FormationController;
+use App\PDFExporter\Http\Controllers\FormationController;
 use PHPUnit\Framework\TestCase;
 
 class FormationControllerTest extends TestCase

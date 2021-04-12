@@ -2,8 +2,8 @@
 
 namespace Database\Seeders;
 
-use App\Models\BCType;
-use App\Models\Hospital;
+use App\PDFExporter\Models\BCType;
+use App\PDFExporter\Models\Hospital;
 use Illuminate\Database\Seeder;
 
 class ContentSeeder extends Seeder

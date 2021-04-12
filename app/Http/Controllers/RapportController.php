@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\Notify;
 use App\Models\Facture;
 use App\Models\Factures;
 use App\Models\Hospital;
@@ -10,7 +11,6 @@ use App\Models\InterType;
 use App\Models\Intervention;
 use App\Models\Patient;
 use App\Models\Rapport;
-
 use http\Env\Response;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -98,7 +98,7 @@ class RapportController extends Controller
                             'inline'=>false
                         ],[
                             'name'=>"Debut de l'intervention : ",
-                            'value'=>date('d/m/y H:I:S', strtotime($rapport->started_at)),
+                            'value'=>date('d/m/y H:I', strtotime($rapport->started_at)),
                             'inline'=>false
                         ]
                         ,[
@@ -113,7 +113,7 @@ class RapportController extends Controller
                 ]
             ]
         ]);
-        event(new \App\Events\Notify('Rapport ajouté ! ',1));
+        event(new Notify('Rapport ajouté ! ',1));
         return response()->json([],201);
     }
 
@@ -170,7 +170,7 @@ class RapportController extends Controller
         }
         $facture->save();
         $rapport->save();
-        event(new \App\Events\Notify('Rapport mis à jour',1));
+        event(new Notify('Rapport mis à jour',1));
         return response()->json(['status'=>'OK'],201);
     }
 
@@ -235,7 +235,7 @@ class RapportController extends Controller
                 ]
             ]
         ]);
-        event(new \App\Events\Notify('Facture payée ! ',2));
+        event(new Notify('Facture payée ! ',2));
         return response()->json(['status'=>'OK']);
     }
 
@@ -267,7 +267,7 @@ class RapportController extends Controller
         $patient->name = $request->nom;
         $patient->vorname = $request->prenom;
         $patient->save();
-        event(new \App\Events\Notify('Information mises à jour ! ',1));
+        event(new Notify('Information mises à jour ! ',1));
         return response()->json(['status'=>'OK'],201);
     }
 
@@ -354,7 +354,7 @@ class RapportController extends Controller
                 ]
             ]
         ]);
-        event(new \App\Events\Notify('Facture de $'. $price .' ajoutée ! ',1));
+        event(new Notify('Facture de $'. $price .' ajoutée ! ',1));
     }
 
 }

@@ -109,7 +109,7 @@ class RapportHoraire extends React.Component {
                                 <button type={'submit'} className={'btn'}>Valider</button>
                             </form>
                         </div>
-                        <button className={'btn add-perso'}>Exporter en exel</button>
+                        <a className={'btn add-perso'} target={'_blank'} href={'/data/service/admin/exel/' + this.state.wek}>Exporter en exel</a>
                         {perm.time_modify ===1&&
                             <button className={'btn add-perso'} onClick={()=>this.setState({popup:true})}>Modifier le temps de service</button>
                         }

@@ -769,13 +769,6 @@ body {
   text-shadow: 0 0 30px #FF0000;
 }
 
-.CountDownService {
-  color: #1a202c;
-  font-family: "Baloo Thambi 2", monospace;
-  font-weight: 600;
-  font-size: 25px;
-}
-
 #service {
   height: 66px;
   width: 240px;
@@ -1180,7 +1173,6 @@ body {
   flex-direction: row;
   flex-wrap: wrap;
   justify-content: space-evenly;
-  overflow-y: auto;
 }
 #Rapport-Patient .content .Rapport-Card {
   margin: 10px;
@@ -4293,4 +4285,4 @@ body {
   background-color: red;
 }
 
-/*# sourceMappingURL=app.css.map */
+/*# sourceMappingURL=css.css.map */

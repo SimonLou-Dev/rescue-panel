@@ -65,6 +65,7 @@ class BCBase extends React.Component {
     }
 
     async addbc(e) {
+        console.log('clicked')
         if(this.state.type !== 0){
             var req = await axios({
                 method: 'POST',
@@ -179,7 +180,7 @@ class BCBase extends React.Component {
                             </div>
                             <div className={'btn-contain'}>
                                 <button onClick={()=> this.setState({add: false})} className={'btn'}>fermer</button>
-                                <button type={'submit'} disabled={this.state.clicked===true} className={'btn'} onClick={()=>{this.setState({clicked:true})}}>Ajouter</button>
+                                <button type={'submit'} disabled={this.state.clicked===true} className={'btn'} onClick={()=>{this.setState({clicked:true}); this.addbc()}}>Ajouter</button>
                             </div>
 
                         </form>
@@ -350,6 +351,9 @@ class BCView extends React.Component {
     }
 
     async post(e){
+        this.setState({clicked:true})
+        console.log('added')
+        e.preventDefault()
         if(this.state.blessure !== 0 && this.state.color !== 0){
             let req = await axios({
                 url: '/data/blackcode/'+ this.props.id +'/add/patient',
@@ -411,11 +415,10 @@ class BCView extends React.Component {
                     <div className="addpatient">
 
                         <form onSubmit={(e)=>{
-                            e.preventDefault();
                             this.post(e);
                         }}>
                             <div className="top">
-                                <button type={"submit"} className={'btn'} disabled={this.state.clicked === true} onClick={()=>{this.setState({clicked:true})}}>ajouter</button>
+                                <button type={"submit"} className={'btn'} disabled={this.state.clicked === true}>ajouter</button>
                                 <h2>Ajouter un patient</h2>
                             </div>
 

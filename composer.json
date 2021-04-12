@@ -20,6 +20,7 @@
         "laravel/framework": "^8.24",
         "laravel/tinker": "^2.5",
         "laravel/ui": "^3.2",
+        "maatwebsite/excel": "^3.1",
         "pion/laravel-chunk-upload": "^1.4",
         "pusher/pusher-php-server": "^5.0"
     },
