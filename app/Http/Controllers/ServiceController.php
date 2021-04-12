@@ -29,43 +29,47 @@ class ServiceController extends Controller
     public function getUserService(): \Illuminate\Http\JsonResponse
     {
         $date = $this::getWeekNumber();
-        if($date == 1 ){
-            $week = WeekService::where('week_number', '=', 1)->orderBy('id','desc')->where('user_id', Auth::id())->get();
-        }else if($date == 2){
-            $week = WeekService::where('week_number', '<=', 2)->orderBy('id','desc')->where('user_id', Auth::id())->get();
-        }else if($date == 3){
-            $week = WeekService::where('week_number', '<=', 3)->orderBy('id','desc')->where('user_id', Auth::id())->get();
+        if($date == 1 ) {
+            $week = WeekService::where('week_number', '=', 1)->orderBy('id', 'desc')->where('user_id', Auth::id())->get();
+        }else if($date == 2) {
+            $week = WeekService::where('week_number', '<=', 2)->orderBy('id', 'desc')->where('user_id', Auth::id())->get();
+        }else if($date == 3) {
+            $week = WeekService::where('week_number', '<=', 3)->orderBy('id', 'desc')->where('user_id', Auth::id())->get();
         }else{
             $date = $date -3;
-            $week = WeekService::where('week_number', '>', $date)->orderBy('id','desc')->where('user_id', Auth::id())->get();
+            $week = WeekService::where('week_number', '>', $date)->orderBy('id', 'desc')->where('user_id', Auth::id())->get();
         }
-        $userserivce= Service::where('user_id', Auth::user()->id)->orderBy('id','desc')->take(20)->get();
-        return response()->json([
+        $userserivce= Service::where('user_id', Auth::user()->id)->orderBy('id', 'desc')->take(20)->get();
+        return response()->json(
+            [
             'status'=>'ok',
             'week'=>$week,
             'services'=>$userserivce,
-        ]);
+            ]
+        );
 
     }
 
-    public function getAllservice(int $semaine = NULL): \Illuminate\Http\JsonResponse
+    public function getAllservice(int $semaine = null): \Illuminate\Http\JsonResponse
     {
         $max = $this::getWeekNumber();
-        if($semaine){
+        if($semaine) {
             $date= (int) $semaine;
         }else{
             $date = $this::getWeekNumber();
         }
-        $service = WeekService::where('week_number', $date)->orderBy('id','asc')->get();
+        $service = WeekService::where('week_number', $date)->orderBy('id', 'asc')->get();
         $a= 0;
         while($a < count($service)){
             $service[$a]->GetUser->GetGrade;
             $a++;
         }
-        return response()->json([
+        return response()->json(
+            [
             'service'=>$service,
             'maxweek'=>$max,
-        ]);
+            ]
+        );
     }
 
     public function setServiceByAdmin(Request $request, int $userid): \Illuminate\Http\JsonResponse
@@ -90,13 +94,13 @@ class ServiceController extends Controller
         $a = 0;
         $datas = array();
         while ($a < count($users)){
-            if(!in_array($users[$a]->id, $array)){
+            if(!in_array($users[$a]->id, $array)) {
                 array_push($datas, ['week'=>$week, 'user_id'=>$users[$a]->id]);
             }
             $a++;
         }
         WeekService::insert($datas);
-        return response()->json(['status'=>"OK"],201);
+        return response()->json(['status'=>"OK"], 201);
     }
 
     public function modifyTimeService(Request $request): \Illuminate\Http\JsonResponse
@@ -107,20 +111,20 @@ class ServiceController extends Controller
 
         $user =User::where('name', $name)->firstOrFail();
         $WeekService= WeekService::where('user_id', $user->id)->where('week_number', $this::getWeekNumber())->first();
-        if($action === 1){
+        if($action === 1) {
             $WeekService->total = $this::addTime($WeekService->total, $time.':00');
         }else{
             $WeekService->total = $this::removeTime($WeekService->total, $time.':00');
         }
         $WeekService->save();
 
-        event(new Notify('Vous avez bien modifé le temps de service',1));
-        return response()->json(['status'=>'OK'],201);
+        event(new Notify('Vous avez bien modifé le temps de service', 1));
+        return response()->json(['status'=>'OK'], 201);
     }
 
     public static function setService(User $user, bool $admin): bool
     {
-        if($user->service){
+        if($user->service) {
             $user->service = false;
             $user->save();
             $service = Service::where('user_id', $user->id)->whereNull('Total')->first();
@@ -134,7 +138,7 @@ class ServiceController extends Controller
             $service->save();
 
             $WeekService = WeekService::where('week_number', $week)->where('user_id', $user->id);
-            if($WeekService->count() == 1){
+            if($WeekService->count() == 1) {
                 $WeekService = $WeekService->first();
                 $total = $WeekService->total;
                 $day = $WeekService[LayoutController::getdaystring()];
@@ -153,8 +157,9 @@ class ServiceController extends Controller
             }
             $user->save();
             $formated = explode(':', $formated);
-            if($admin){
-                Http::post(env('WEBHOOK_SERVICE'),[
+            if($admin) {
+                Http::post(
+                    env('WEBHOOK_SERVICE'), [
                     'embeds'=>[
                         [
                             'title'=>'Fin de service de ' . $user->name,
@@ -165,9 +170,11 @@ class ServiceController extends Controller
                             ]
                         ]
                     ]
-                ]);
+                    ]
+                );
             }else{
-                Http::post(env('WEBHOOK_SERVICE'),[
+                Http::post(
+                    env('WEBHOOK_SERVICE'), [
                     'embeds'=>[
                         [
                             'title'=>'Fin de service de ' . $user->name,
@@ -175,7 +182,8 @@ class ServiceController extends Controller
                             'color'=>'15158332',
                         ]
                     ]
-                ]);
+                    ]
+                );
             }
             return true;
 
@@ -183,12 +191,13 @@ class ServiceController extends Controller
             $user->service= true;
             $service = new Service();
             $service->user_id = $user->id;
-            $service->started_at = date('Y-m-d H:i:s',time());
+            $service->started_at = date('Y-m-d H:i:s', time());
             $service->save();
             $user->save();
             Auth::user()->service = true;
-            if($admin){
-                Http::post(env('WEBHOOK_SERVICE'),[
+            if($admin) {
+                Http::post(
+                    env('WEBHOOK_SERVICE'), [
                     'embeds'=>[
                         [
                             'title'=>'Prise de service de ' . $user->name,
@@ -198,16 +207,19 @@ class ServiceController extends Controller
                             ]
                         ]
                     ]
-                ]);
+                    ]
+                );
             }else{
-                Http::post(env('WEBHOOK_SERVICE'),[
+                Http::post(
+                    env('WEBHOOK_SERVICE'), [
                     'embeds'=>[
                         [
                             'title'=>'Prise de service de ' . $user->name,
                             'color'=>'3066993',
                         ]
                     ]
-                ]);
+                    ]
+                );
             }
             return true;
         }
@@ -226,7 +238,7 @@ class ServiceController extends Controller
 
 
         $sec = (int) $base["s"] + (int) $toadd['s'];
-        if($sec > 59){
+        if($sec > 59) {
             while ($sec > 59){
                 $base['m']++;
                 $sec = $sec - 60;
@@ -236,7 +248,7 @@ class ServiceController extends Controller
             $toadd["s"] = $sec;
         }
         $min = (int) $base["m"] + (int) $toadd['m'];
-        if($min > 59){
+        if($min > 59) {
             while ($min > 59){
                 $base['h']++;
                 $min= $min - 60;
@@ -279,22 +291,23 @@ class ServiceController extends Controller
     {
         $day = LayoutController::getdaystring();
         $date = (int) date('W', time());
-        if($day == 'dimanche'){
+        if($day == 'dimanche') {
             return $date +1;
         }else{
             return $date;
         }
     }
 
-    public function getWeekServiceExel(string $week = null){
-        if(is_null($week)){
+    public function getWeekServiceExel(string $week = null)
+    {
+        if(is_null($week)) {
             $week = $this::getWeekNumber();
         }else{
             $week = (int) $week;
         }
         $users = User::where('grade_id', '>', 1)->orderByDesc('grade_id')->get();
         $services = WeekService::where('week_number', '=', '15')->get();
-        $remboursements = WeekRemboursement::where('week_number',$week)->get();
+        $remboursements = WeekRemboursement::where('week_number', $week)->get();
 
         $column[] = array();
         $column[] = array('Membre','grade', 'Remboursements', 'dimanche', 'lundi', 'mardi', 'mercredi', 'jeudi', 'vendredi', 'samedi', 'total');
@@ -315,9 +328,10 @@ class ServiceController extends Controller
         }
 
         foreach ($users as $user){
-            if(array_key_exists($user->id, $userServices) == true){
+            if(array_key_exists($user->id, $userServices) == true) {
                 $service = $services[array_search($user->id, $servicesNumber)];
                 $column[] = [
+                    'Id membre'=>$user->id,
                     'Membre'=> $service->GetUser->name,
                     'grade'=>$service->GetUser->GetGrade->name,
                     'Remboursements'=> array_key_exists($user->id, $userRemboursements) ? $userRemboursements[$user->id] :0,
@@ -333,6 +347,7 @@ class ServiceController extends Controller
             }else{
                 $user = User::where('id', $user->id)->first();
                 $column[] = [
+                    'Id membre'=>$user->id,
                     'Membre'=> $user->name,
                     'grade'=>$user->GetGrade->name,
                     'Remboursements'=> array_key_exists($user->id, $userRemboursements) ? $userRemboursements[$user->id] :0,

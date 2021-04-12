@@ -33,7 +33,7 @@ class AccountController extends Controller
     }
 
     /**
-     * @param Request $request
+     * @param  Request $request
      * @return JsonResponse
      */
     public function updateInfos(Request $request): JsonResponse
@@ -53,11 +53,12 @@ class AccountController extends Controller
         $liveplaceC = $liveplace != $user->liveplace;
 
 
-        if($nameC || $compteC || $telC || $liveplaceC){
+        if($nameC || $compteC || $telC || $liveplaceC) {
             $changed = true;
         }
-        if($changed){
-            Http::post(env('WEBHOOK_INFOS'),[
+        if($changed) {
+            Http::post(
+                env('WEBHOOK_INFOS'), [
                 'embeds'=>[
                     [
                         'title'=>"Numéro de compte *(Changement d'informations)*",
@@ -83,7 +84,8 @@ class AccountController extends Controller
                         ],
                     ]
                 ]
-            ]);
+                ]
+            );
         }
         $user->name = $name;
         $user->compte = $compte;
@@ -93,34 +95,34 @@ class AccountController extends Controller
         $user->save();
         return response()->json([$changed, $nameC, $compteC, $telC, $liveplaceC]);
         event(new Notify('Vos informations on été enregistrées', 1));
-        return response()->json(['status'=>'OK'],201);
+        return response()->json(['status'=>'OK'], 201);
 
     }
 
     /**
-     * @param Request $request
+     * @param  Request $request
      * @return JsonResponse
      */
     public function changeMdp(Request $request): JsonResponse
     {
         $user = User::where('id', Auth::user()->id)->first();
-        if(!Hash::check($request->last, $user->password)){
-            event(new Notify('Votre ancien mot de passe ne correspond pas',4));
+        if(!Hash::check($request->last, $user->password)) {
+            event(new Notify('Votre ancien mot de passe ne correspond pas', 4));
             return response()->json(['status'=>'PAS OK'], 500);
         }
-        if($request->newmdp !== $request->mdprepet){
-            event(new Notify('Les deux mots de passes entrés ne correspondent pas',4));
+        if($request->newmdp !== $request->mdprepet) {
+            event(new Notify('Les deux mots de passes entrés ne correspondent pas', 4));
             return response()->json(['status'=>'PAS OK'], 500);
         }
 
         $user->password = Hash::make($request->newmdp);
         $user->save();
-        event(new Notify('Mot de passe changé',1));
+        event(new Notify('Mot de passe changé', 1));
         return response()->json(['status'=>'OK'], 201);
     }
 
     /**
-     * @param Request $request
+     * @param  Request $request
      * @return JsonResponse
      */
     public function addBgImg(Request $request): JsonResponse
@@ -132,12 +134,12 @@ class AccountController extends Controller
         $dir = public_path($path . Auth::user()->id);
         $user->bg_img = $imgname;
         $user->save();
-        if(!is_dir($dir)){
+        if(!is_dir($dir)) {
             mkdir($dir);
         }
         FileController::moveTempFile($img, $dir . '/' . $imgname);
         event(new Notify('', 1));
-        return response()->json([],201);
+        return response()->json([], 201);
     }
 
     /**
@@ -146,12 +148,12 @@ class AccountController extends Controller
     public function deleteBgImg(): JsonResponse
     {
         $user = User::where('id', Auth::user()->id)->first();
-        if($user->bg_img != null){
+        if($user->bg_img != null) {
             $dir = public_path('storage/user_background/' . Auth::user()->id.'/');
             File::delete($dir.$user->bg_img);
             $user->bg_img = null;
             $user->save();
         }
-        return response()->json([],201);
+        return response()->json([], 201);
     }
 }

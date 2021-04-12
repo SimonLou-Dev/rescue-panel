@@ -29,12 +29,13 @@ class MainController extends Controller
 
 
     /**
-     * @param Request $request
+     * @param  Request $request
      * @return \Illuminate\Http\JsonResponse
      */
     public function postBug(Request $request): \Illuminate\Http\JsonResponse
     {
-        Http::post(env('WEBHOOK_BUGS'),[
+        Http::post(
+            env('WEBHOOK_BUGS'), [
             'embeds'=>[
                 [
                     'title'=>'Nouveau BUG :',
@@ -45,8 +46,9 @@ class MainController extends Controller
                     ]
                 ]
             ]
-        ]);
-        return response()->json([],201);
+            ]
+        );
+        return response()->json([], 201);
     }
 
 

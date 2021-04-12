@@ -22,16 +22,18 @@ class VolController extends Controller
     public function getVolsList(int $page, string $pilote = null): \Illuminate\Http\JsonResponse
     {
         $page--;
-        if($pilote == null || $pilote == 'null'){
+        if($pilote == null || $pilote == 'null') {
             $vols = Vol::orderByDesc('id')->skip(20 * $page)->take(20)->get();
             $nbrVols = Vol::all()->count();
         }else{
             $pilote = User::where('pilote', true)->where('name', 'like', $pilote)->first();
-            if($pilote == null){
-                return response()->json([
+            if($pilote == null) {
+                return response()->json(
+                    [
                     'status'=>'ERROR',
                     'raison'=>'NO PILOTE'
-                ]);
+                    ]
+                );
             }
             $vols = Vol::where('pilote_id', $pilote->id)->orderByDesc('id')->skip(20 * $page)->take(20)->get();
             $nbrVols = Vol::where('pilote_id', $pilote->id)->get()->count();
@@ -47,7 +49,8 @@ class VolController extends Controller
         $page++;
         $lieux = LieuxSurvol::all();
 
-        return response()->json([
+        return response()->json(
+            [
             'status'=>'OK',
             'datas'=>[
                 'vols'=>$vols,
@@ -55,7 +58,8 @@ class VolController extends Controller
                 'pages'=>$pages,
                 'lieux'=>$lieux,
             ]
-        ]);
+            ]
+        );
 
     }
 
@@ -72,15 +76,15 @@ class VolController extends Controller
         $vol->lieux_id = $request->lieux;
         $vol->save();
 
-        event(new Notify('Votre vol est pris en compte',1));
+        event(new Notify('Votre vol est pris en compte', 1));
 
-        return response()->json(['status'=>'OK'],201);
+        return response()->json(['status'=>'OK'], 201);
 
     }
 
     public function seatchPilote(string $pilote =null): \Illuminate\Http\JsonResponse
     {
-        if(isset($pilote)){
+        if(isset($pilote)) {
             $pilotes = User::where('name', 'LIKE', '%'.$pilote.'%')->take(5)->get();
             return response()->json(['status'=>'OK', 'datas'=>['users'=>$pilotes]]);
         }

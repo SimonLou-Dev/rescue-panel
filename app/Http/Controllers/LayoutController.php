@@ -20,16 +20,18 @@ class LayoutController extends Controller
         $user = User::where('id', Auth::id())->first();
         ServiceController::setService($user, false);
         $text = "";
-        if($user->service){
+        if($user->service) {
             $text = 'Vous êtes en service !';
         }else{
             $text = 'Vous n\'êtes plus en service';
         }
-        event(new Notify($text,2));
-        return response()->json([
+        event(new Notify($text, 2));
+        return response()->json(
+            [
             'status'=>'OK',
             'user'=>$user,
-        ]);
+            ]
+        );
     }
 
     public function getservice(Request $request): \Illuminate\Http\JsonResponse
@@ -42,30 +44,30 @@ class LayoutController extends Controller
     {
         $string = null;
         switch (date('D', time())){
-            case "Mon":
-                $string = 'lundi';
-                break;
-            case 'Tue':
-                $string = 'mardi';
-                break;
-            case 'Wed':
-                $string = 'mercredi';
-                break;
-            case 'Thu':
-                $string = 'jeudi';
-                break;
-            case 'Fri':
-                $string = 'vendredi';
-                break;
-            case 'Sat':
-                $string = 'samedi';
-                break;
-            case 'Sun':
-                $string = 'dimanche';
-                break;
-            default:
-                $string = null;
-                break;
+        case "Mon":
+            $string = 'lundi';
+            break;
+        case 'Tue':
+            $string = 'mardi';
+            break;
+        case 'Wed':
+            $string = 'mercredi';
+            break;
+        case 'Thu':
+            $string = 'jeudi';
+            break;
+        case 'Fri':
+            $string = 'vendredi';
+            break;
+        case 'Sat':
+            $string = 'samedi';
+            break;
+        case 'Sun':
+            $string = 'dimanche';
+            break;
+        default:
+            $string = null;
+            break;
         }
         return $string;
     }

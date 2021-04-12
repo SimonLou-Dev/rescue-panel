@@ -59,18 +59,19 @@ class RapportController extends Controller
         $rapport->ATA_end = date('Y/m/d H:i:s', strtotime($request->enddate . ' ' . $request->endtime));
         $rapport->save();
         $this::addFactureMethod($Patient, $request->payed, $request->montant, Auth::user()->id, $rapport->id);
-        if($rapport->ATA_start === $rapport->ATA_end){
+        if($rapport->ATA_start === $rapport->ATA_end) {
             $ata = 'non ';
         }else{
             $ata = 'Du ' . date('Y/m/d H:i', strtotime($rapport->ATA_start)) . ' au ' . date('Y/m/d H:i', strtotime($rapport->ATA_end));
         }
 
-        if($request->payed){
+        if($request->payed) {
             $fact= 'Payée : ' . $request->montant;
         }else{
             $fact= 'Impayée : ' . $request->montant;
         }
-        Http::post(env('WEBHOOK_RI'),[
+        Http::post(
+            env('WEBHOOK_RI'), [
             'embeds'=>[
                 [
                     'title'=>'Ajout d\'un rapport :',
@@ -112,16 +113,17 @@ class RapportController extends Controller
                     ]
                 ]
             ]
-        ]);
-        event(new Notify('Rapport ajouté ! ',1));
-        return response()->json([],201);
+            ]
+        );
+        event(new Notify('Rapport ajouté ! ', 1));
+        return response()->json([], 201);
     }
 
     public function search(Request $request, string $text): \Illuminate\Http\JsonResponse
     {
         $text = explode(" ", $text);
         $prenom = $text[0];
-        if(count($text) > 1){
+        if(count($text) > 1) {
             $nom = $text[1];
         }else{
             $nom = null;
@@ -135,10 +137,10 @@ class RapportController extends Controller
 
         $text = explode(" ", $text);
         $prenom = $text[0];
-        if(count($text) > 1){
+        if(count($text) > 1) {
             $nom = $text[1];
             $patient = $this->PatientExist($nom, $prenom);
-            if(!is_null($patient)){
+            if(!is_null($patient)) {
                 $inter = Rapport::where('patient_id', $patient->id)->orderBy('id', 'desc')->get();
 
                 return response()->json(['status'=>'OK', 'patient'=>$patient, 'inter'=>$inter]);
@@ -164,14 +166,14 @@ class RapportController extends Controller
         $rapport->transport= (integer) $request->transport;
         $rapport->description = $request->desc;
         $rapport->prix = (integer) $request->montant;
-        if($request->starttime != '00:00'){
+        if($request->starttime != '00:00') {
             $rapport->ATA_start = date('Y/m/d H:i:s', strtotime($request->startdate . ' ' . $request->starttime));
             $rapport->ATA_end = date('Y/m/d H:i:s', strtotime($request->enddate . ' ' . $request->endtime));
         }
         $facture->save();
         $rapport->save();
-        event(new Notify('Rapport mis à jour',1));
-        return response()->json(['status'=>'OK'],201);
+        event(new Notify('Rapport mis à jour', 1));
+        return response()->json(['status'=>'OK'], 201);
     }
 
     public function getRapportById(string $id): \Illuminate\Http\JsonResponse
@@ -187,9 +189,10 @@ class RapportController extends Controller
         return response()->json(['status'=>'ok', 'rapport'=>$rapport, 'patient'=>$patient, 'rapportlist'=>$raportlist, 'broum'=>$transport, 'types'=>$types]);
     }
 
-    public static function PatientExist(string $name, string $vorname): ?Patient{
-        $patient = Patient::where('name', 'LIKE', $name)->where('vorname','LIKE', $vorname);
-        if($patient->count() == 1){
+    public static function PatientExist(string $name, string $vorname): ?Patient
+    {
+        $patient = Patient::where('name', 'LIKE', $name)->where('vorname', 'LIKE', $vorname);
+        if($patient->count() == 1) {
             return $patient->first();
         }
         return null;
@@ -213,7 +216,8 @@ class RapportController extends Controller
         $facture = Facture::where('id', $id)->first();
         $facture->payed = true;
         $facture->save();
-        Http::post(env('WEBHOOK_FACTURE'),[
+        Http::post(
+            env('WEBHOOK_FACTURE'), [
             'embeds'=>[
                 [
                     'title'=>'Facture payée :',
@@ -234,8 +238,9 @@ class RapportController extends Controller
                     ]
                 ]
             ]
-        ]);
-        event(new Notify('Facture payée ! ',2));
+            ]
+        );
+        event(new Notify('Facture payée ! ', 2));
         return response()->json(['status'=>'OK']);
     }
 
@@ -256,8 +261,8 @@ class RapportController extends Controller
             $Patient->tel = $request->tel;
             $Patient->save();
         }
-        $this->addFactureMethod((object) $Patient,(bool) $request->payed, (int) $request->montant, (int) Auth::user()->id, null);
-        return response()->json(['status'=>'OK'],201);
+        $this->addFactureMethod((object) $Patient, (bool) $request->payed, (int) $request->montant, (int) Auth::user()->id, null);
+        return response()->json(['status'=>'OK'], 201);
     }
 
     public function updatePatientInfos(Request $request, int $id): \Illuminate\Http\JsonResponse
@@ -267,29 +272,33 @@ class RapportController extends Controller
         $patient->name = $request->nom;
         $patient->vorname = $request->prenom;
         $patient->save();
-        event(new Notify('Information mises à jour ! ',1));
-        return response()->json(['status'=>'OK'],201);
+        event(new Notify('Information mises à jour ! ', 1));
+        return response()->json(['status'=>'OK'], 201);
     }
 
-    public function makeRapportPdf(Request $request, int $id){
+    public function makeRapportPdf(Request $request, int $id)
+    {
         $data = array();
         $rapport = Rapport::where('id', $id)->first();
 
         $pdf = \PDF::loadView('pdf.rapport', compact('rapport'))->setOptions(['isRemoteEnabled'=>true, 'isHtml5ParserEnabled'=>true, 'isPhpEnabled'=>true, 'debugPng'=>true, 'setBasePath'=>$_SERVER['DOCUMENT_ROOT'], 'chroot'=>public_path()]);
         $pdf->getDomPDF()->setHttpContext(
-            stream_context_create([
+            stream_context_create(
+                [
                 'ssl' => [
-                    'allow_self_signed'=> TRUE,
-                    'verify_peer' => FALSE,
-                    'verify_peer_name' => FALSE,
+                    'allow_self_signed'=> true,
+                    'verify_peer' => false,
+                    'verify_peer_name' => false,
                 ]
-            ])
+                ]
+            )
         );
         $name = 'patient_'.$id.'.pdf';
         return $pdf->stream($name);
     }
 
-    public function makeImpayPdf(Request $request, string $from , string $to){
+    public function makeImpayPdf(Request $request, string $from , string $to)
+    {
         //2021-01-05
         $impaye = Facture::where('payed', false)->where('created_at', '>', $from)->where('created_at', '<', $to)->orderBy('id', 'desc')->get();
         $a = 0;
@@ -304,35 +313,39 @@ class RapportController extends Controller
 
         $pdf = \PDF::loadView('pdf.factures', compact('data'))->setOptions(['isRemoteEnabled'=>true, 'isHtml5ParserEnabled'=>true, 'isPhpEnabled'=>true, 'debugPng'=>true, 'setBasePath'=>$_SERVER['DOCUMENT_ROOT'], 'chroot'=>public_path()]);
         $pdf->getDomPDF()->setHttpContext(
-            stream_context_create([
+            stream_context_create(
+                [
                 'ssl' => [
-                    'allow_self_signed'=> TRUE,
-                    'verify_peer' => FALSE,
-                    'verify_peer_name' => FALSE,
+                    'allow_self_signed'=> true,
+                    'verify_peer' => false,
+                    'verify_peer_name' => false,
                 ]
-            ])
+                ]
+            )
         );
         $name = 'impaye_'.time().'.pdf';
         return $pdf->stream($name);
     }
 
-    public static function addFactureMethod(object $patient, bool $payed, int $price, int $cofirm_id=null, int $rapport_id=null){
+    public static function addFactureMethod(object $patient, bool $payed, int $price, int $cofirm_id=null, int $rapport_id=null)
+    {
         $facture = new Facture();
         $facture->patient_id = $patient->id;
         $facture->payed = $payed;
         $facture->price = $price;
-        if($payed){
+        if($payed) {
             $facture->payement_confirm_id = $cofirm_id;
         }
         $facture->rapport_id = $rapport_id;
         $facture->save();
-        if($facture->payed){
+        if($facture->payed) {
             $fact= 'Payée : ' . $facture->price .'$';
         }else{
             $fact= 'Impayée : ' . $facture->price .'$';
         }
 
-        Http::post(env('WEBHOOK_FACTURE'),[
+        Http::post(
+            env('WEBHOOK_FACTURE'), [
             'embeds'=>[
                 [
                     'title'=>'Nouvelle facture :',
@@ -353,8 +366,9 @@ class RapportController extends Controller
                     ]
                 ]
             ]
-        ]);
-        event(new Notify('Facture de $'. $price .' ajoutée ! ',1));
+            ]
+        );
+        event(new Notify('Facture de $'. $price .' ajoutée ! ', 1));
     }
 
 }

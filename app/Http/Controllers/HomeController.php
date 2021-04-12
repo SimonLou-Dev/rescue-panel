@@ -15,10 +15,11 @@ class HomeController extends Controller
     }
 
     /**
-     * @param string|null $a
+     * @param  string|null $a
      * @return Application|Factory|View
      */
-    public function getIndex(string $a =null){
+    public function getIndex(string $a =null)
+    {
         return view("home");
     }
 }
