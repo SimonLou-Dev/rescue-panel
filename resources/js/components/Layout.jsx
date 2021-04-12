@@ -113,19 +113,7 @@ export function Layout(){
         userChan.bind('notify', (data)=>{addNotification(data)});
 
         let BroadCastChan = pusher.subscribe('Broadcater');
-        BroadCastChan.bind('notify', function(data) {
-            store.addNotification({
-                message: data.text,
-                type: 'warning',                         // 'default', 'success', 'info', 'warning'
-                container: 'top-right',                // where to position the notifications
-                animationIn: ["animate__animated", "animate__fadeInRight"],     // animate.css classes that's applied
-                animationOut: ["animate__animated", "animate__fadeOutDown"],   // animate.css classes that's applied
-                dismiss: {
-                    duration: 3000,
-                    onScreen: true
-                }
-            })
-        })
+        BroadCastChan.bind('notify',(data) => { addNotification(data)});
 
         return () => {
             window.removeEventListener("resize", updateWindowDimensions);
@@ -156,6 +144,11 @@ export function Layout(){
     }
 
     const addNotification = (data) => {
+
+        if(!data.type){
+            data.type = 'warning';
+        }
+
         let payload = {};
         switch (data.type){
             case 1:

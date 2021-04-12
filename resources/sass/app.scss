@@ -88,6 +88,13 @@ body{
     font-size: 25px;
     text-shadow: text_glow($red_light);
 }
+.CountDownService{
+    color: #1a202c;
+    font-family: 'Baloo Thambi 2', monospace;
+    font-weight: 600;
+    font-size: 25px;
+}
+
 #service{
     height: 66px;
     width: 240px;
@@ -513,6 +520,7 @@ body{
         flex-direction: row;
         flex-wrap: wrap;
         justify-content: space-evenly;
+        overflow-y: auto;
         .Rapport-Card{
             margin: 10px;
             display: flex;

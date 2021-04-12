@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 
+use App\Events\Brodcaster;
+use App\Events\Notify;
 use App\Models\BCList;
 use App\Models\BCPatient;
 use App\Models\BCPersonnel;
@@ -48,7 +50,7 @@ class BCController extends Controller
             $ActiveBc[$a]->secouristes = count($ActiveBc[$a]->GetPersonnel);
             $a++;
         }
-        $EndedBC = BCList::where('ended', true)->orderByDesc('id')->get();
+        $EndedBC = BCList::where('ended', true)->orderByDesc('id')->take(15)->get();
         $a = 0;
         while ($a < count($EndedBC)){
             $EndedBC[$a]->GetUser;
@@ -138,7 +140,7 @@ class BCController extends Controller
             ]
         ]);
 
-        event(new \App\Events\Brodcaster('Début du BC #'.$bc->id . ' à ' . $bc->place));
+        event(new Brodcaster('Début du BC #'.$bc->id . ' à ' . $bc->place));
 
         return response()->json([
             'status'=>'OK',
@@ -164,7 +166,7 @@ class BCController extends Controller
         $interval = $start->diff($end);
         $formated = $interval->format('%H h %I min(s)');
         $this->generateBCEndedEmbed($formated, $patients, $personnels, $bc);
-        event(new \App\Events\Brodcaster('Fin du BC #'.$bc->id));
+        event(new Brodcaster('Fin du BC #'.$bc->id));
 
         return response()->json(['status'=>'OK'],201);
     }
@@ -290,7 +292,7 @@ class BCController extends Controller
         $user = User::where('id', Auth::user()->id)->first();
         $user->bc_id = $bc->id;
         $user->save();
-        event(new \App\Events\Notify('Vous avez été affecté à ce BC ! ',1));
+        event(new Notify('Vous avez été affecté à ce BC ! ',1));
         return response()->json(['status'=>'OK'],201);
     }
 
@@ -299,7 +301,7 @@ class BCController extends Controller
         $user = User::where('id', Auth::user()->id)->first();
         $user->bc_id = null;
         $user->save();
-        event(new \App\Events\Notify('Vous avez été désaffecté de ce BC ! ',1));
+        event(new Notify('Vous avez été désaffecté de ce BC ! ',1));
         return response()->json(['status'=>'OK'],202);
     }
 
@@ -342,7 +344,7 @@ class BCController extends Controller
         $BcP->name = $Patient->vorname . ' ' .$Patient->name;
         $BcP->save();
         RapportController::addFactureMethod($Patient, $request->payed, 700, Auth::user()->id,$rapport->id);
-        event(new \App\Events\Notify('Patient ajouté ! ',1));
+        event(new Notify('Patient ajouté ! ',1));
         return response()->json(['status'=>'OK'],201);
     }
 
@@ -356,7 +358,7 @@ class BCController extends Controller
             $rapport->delete();
         }
         $bcp->delete();
-        event(new \App\Events\Notify('Patient retiré (la page va se mettre à jour)! ',1));
+        event(new Notify('Patient retiré (la page va se mettre à jour)! ',1));
         return response()->json(['status'=>'OK']);
     }
 

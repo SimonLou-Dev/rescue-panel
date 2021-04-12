@@ -4,7 +4,6 @@ namespace App\Console\Commands;
 
 use App\Models\DayService;
 use App\Models\WeekService;
-use http\Client\Curl\User;
 use Illuminate\Console\Command;
 
 class StartWeek extends Command
@@ -41,7 +40,7 @@ class StartWeek extends Command
     public function handle()
     {
         $week =  date('W', time());
-        $users = \App\Models\User::where('grade', '>', 1)->get();
+        $users = \App\PDFExporter\Models\User::where('grade', '>', 1)->get();
         $dayservice = WeekService::where('week', $week)->get('user_id');
         $b = 0;
         $array = array();

@@ -174,9 +174,9 @@ class ContentManagement extends Controller
                $row = $counter;
                $a = 0;
                while($a < count($datas)){
-                   $datas[$a]->Inter;
-                   $datas[$a]->Patient;
-                   $datas[$a]->facture;
+                   $datas[$a]->GetPatient;
+                   $datas[$a]->GetType;
+                   $datas[$a]->GetFacture;
                    $a++;
                }
                break;
@@ -198,7 +198,7 @@ class ContentManagement extends Controller
                $row = $counter;
                $a = 0;
                while($a < count($datas)){
-                   $datas[$a]->patient;
+                   $datas[$a]->GetPatient;
                    $a++;
                }
 
@@ -210,7 +210,7 @@ class ContentManagement extends Controller
                $row = $counter;
                $a = 0;
                while($a < count($datas)){
-                   $datas[$a]->user;
+                   $datas[$a]->GetUser;
                    $a++;
                }
                break;

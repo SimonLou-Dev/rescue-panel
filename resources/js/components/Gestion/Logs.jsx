@@ -113,9 +113,9 @@ class Logs extends React.Component {
                                         this.state.datas.map((data)=>
                                             <tr>
                                                 <td>{data.id}</td>
-                                                <td>{data.patient.vorname} {data.patient.name}</td>
-                                                <td>{data.prix}</td>
-                                                <td>{data.facture?(data.facture.payed? 'oui':'non'):'pas de facture'}</td>
+                                                <td>{data.get_patient.vorname} {data.get_patient.name}</td>
+                                                <td>{data.price}</td>
+                                                <td>{data.get_facture?(data.get_facture.payed? 'oui':'non'):'pas de facture'}</td>
                                                 <td>{dateFormat(data.created_at, 'dd/mm/yyyy à H:MM')}</td>
                                                 <td>{dateFormat(data.updated_at, 'dd/mm/yyyy à H:MM')}</td>
                                             </tr>
@@ -169,7 +169,7 @@ class Logs extends React.Component {
                                     this.state.datas.map((data)=>
                                         <tr>
                                             <td>{data.id}</td>
-                                            <td>{data.patient.vorname} {data.patient.name}</td>
+                                            <td>{data.get_patient.vorname} {data.get_patient.name}</td>
                                             <td>{data.rapport_id?data.rapport_id : 'pas de rapport'}</td>
                                             <td>{data.payed? 'oui':'non'}</td>
                                             <td>{data.price}</td>
@@ -197,7 +197,7 @@ class Logs extends React.Component {
                                     this.state.datas.map((data)=>
                                         <tr>
                                             <td>{data.id}</td>
-                                            <td>{data.user.name}</td>
+                                            <td>{data.get_user.name}</td>
                                             <td>{data.ended?'oui': 'non'}</td>
                                             <td>{dateFormat(data.created_at, 'dd/mm/yyyy à H:MM')}</td>
                                             <td>{dateFormat(data.updated_at, 'dd/mm/yyyy à H:MM')}</td>
