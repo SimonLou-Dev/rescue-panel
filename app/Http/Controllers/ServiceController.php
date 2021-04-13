@@ -79,7 +79,7 @@ class ServiceController extends Controller
     public function addRows(): \Illuminate\Http\JsonResponse
     {
         $week =  date('W', time());
-        $users = User::where('grade', '>', 1)->get();
+        $users = User::where('grade_id', '>', 1)->where('grade_id', '<', 10)->get();
         $dayservice = WeekService::where('week', $week)->get('user_id');
         $b = 0;
         $array = array();
