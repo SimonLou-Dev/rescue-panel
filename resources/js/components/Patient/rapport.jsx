@@ -33,7 +33,6 @@ class Rapport extends React.Component{
     }
 
     async handleSubmit(event) {
-        console.log(this.state.startdate)
         event.preventDefault();
         var req = await axios({
             url: '/data/rapport/post',

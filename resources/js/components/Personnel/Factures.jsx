@@ -70,7 +70,6 @@ class Factures extends React.Component {
                 montant: this.state.prix,
             }
         })
-        console.log(req);
         if(req.status === 201){
             this.setState({addfacture:false, name: "", payed:false, prix:null,});
             this.componentDidMount();

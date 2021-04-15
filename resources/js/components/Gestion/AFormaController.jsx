@@ -67,8 +67,6 @@ class FormaUserList extends React.Component {
     }
 
     async updateCertif(userid, formaid) {
-        console.log('clicked')
-
         let array = this.state.arraybis;
         array.map((user) => {
             if (user.id === userid) {
@@ -439,7 +437,6 @@ class FormaCreate extends React.Component {
         const lastIndex = this.state.item.length - 1;
         const resetIndex = this.state.itemid === lastIndex;
         const index = resetIndex ? 0 : this.state.itemid + 1;
-        console.log(lastIndex, index, resetIndex)
         this.setState({
             itemid: index,
         });
@@ -484,7 +481,6 @@ class FormaCreate extends React.Component {
                 let timer = Math.trunc(req.data.formation.timer / 3600);
                 let reste = req.data.formation.timer % 3600 / 60
                 const final_timer = (timer < 10 ? '0' : '') + timer + ':' + (reste < 10 ? '0' : '') + reste;
-                console.log(reste, timer, final_timer);
 
                 let time = req.data.formation.time_btw_try;
                 let time_btw = Math.trunc(time / 86400);

@@ -16,11 +16,10 @@ class ListPatient extends React.Component {
     }
 
     shouldComponentUpdate(nextProps, nextState, nextContext) {
-        console.log('need update')
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
-        console.log(this.props.patients ,prevState.patients)
+
         if(this.props.patients !== prevState.patients){
             this.setState({patients: this.props.patients})
         }
@@ -70,7 +69,6 @@ class BCBase extends React.Component {
     }
 
     async addbc(e) {
-        console.log('clicked')
         if(this.state.type !== 0){
             var req = await axios({
                 method: 'POST',
@@ -357,7 +355,6 @@ class BCView extends React.Component {
 
     async post(e){
         this.setState({clicked:true})
-        console.log('added')
         e.preventDefault()
         if(this.state.blessure !== 0 && this.state.color !== 0){
             let req = await axios({
@@ -557,7 +554,6 @@ class BCController extends React.Component {
     }
 
     updatestatus(status, id = undefined){
-        console.log('update');
         this.setState({status: status});
         if(id !== undefined){
             this.setState({bc_id: id});

@@ -110,7 +110,6 @@ class ResponsePage extends React.Component {
     }
 
     timer(){
-        console.log('call')
         if(!this.state.timerpaused){
             let time = this.state.time - 1
             this.setState({ time : time });

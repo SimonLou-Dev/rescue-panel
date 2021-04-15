@@ -163,7 +163,7 @@ class RapportController extends Controller
         $rapport->InterType= (integer) $request->type;
         $rapport->transport= (integer) $request->transport;
         $rapport->description = $request->desc;
-        $rapport->prix = (integer) $request->montant;
+        $rapport->price = (integer) $request->montant;
         if($request->starttime != '00:00'){
             $rapport->ATA_start = date('Y/m/d H:i:s', strtotime($request->startdate . ' ' . $request->starttime));
             $rapport->ATA_end = date('Y/m/d H:i:s', strtotime($request->enddate . ' ' . $request->endtime));

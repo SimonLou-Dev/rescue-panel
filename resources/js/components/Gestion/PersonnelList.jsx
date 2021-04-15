@@ -25,7 +25,6 @@ class PersonnelList extends React.Component {
             url: '/data/users/getall',
             method: 'GET'
         })
-        console.log(req)
         this.setState({
             userlist: req.data.users,
             data: true
