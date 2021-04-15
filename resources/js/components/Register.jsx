@@ -130,7 +130,6 @@ class Register extends React.Component {
                     'X-CSRF-TOKEN': csrf,
                 }
             });
-            console.log(res)
             if(res.data['raison'] === "Email taken"){
                 this.setState({email_exist: true, error: true});
             }

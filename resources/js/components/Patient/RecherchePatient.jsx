@@ -30,7 +30,7 @@ class RecherchePatient extends React.Component {
     async updatetel(e) {
         e.preventDefault();
         await axios({
-            url: '/data/rapport/changetel/' + this.state.patientid,
+            url: '/data/patient/'+ this.state.patientid +'/update' ,
             method: 'post',
             data: {
                 tel: this.state.tel,

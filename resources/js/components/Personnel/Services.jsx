@@ -46,9 +46,6 @@ class Services extends React.Component {
                             </tr>
                             </thead>
                             <tbody className={'body'}>
-                            {
-                                console.log(this.state.services)
-                            }
                             {this.state.services &&
                             this.state.services.map((service) =>
                                 <tr key={service.id}>

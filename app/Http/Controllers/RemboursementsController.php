@@ -8,6 +8,7 @@ use App\Models\RemboursementList;
 use App\Models\WeekRemboursement;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Http;
 
 class RemboursementsController extends Controller
 {
@@ -48,6 +49,26 @@ class RemboursementsController extends Controller
         $rmbsem->week_number = ServiceController::getWeekNumber();
         $rmbsem->save();
         $userRemboursements->save();
+        Http::post(env('WEBHOOK_REMBOURSEMENTS'), [
+            'embeds'=>[
+                [
+                    'title'=>'Ajout d\'un remboursement :',
+                    'color'=>'16745560 ',
+                    'fields'=>[
+                        [
+                            'name'=>'Item : ',
+                            'value'=>$item->name . '($' . $item->price . ')',
+                            'inline'=>true
+                        ]
+                    ],
+                    'footer'=>[
+                        'text' => 'Membre : ' . Auth::user()->name
+                    ]
+                ]
+            ]
+        ]);
+
+
         event(new Notify('Remboursement pris en compte',1));
         return response()->json(['stauts'=>'OK'],201);
     }
@@ -59,6 +80,25 @@ class RemboursementsController extends Controller
         $userRemboursement = WeekRemboursement::where('user_id', Auth::user()->id)->where('week_number', ServiceController::getWeekNumber())->first();
         $userRemboursement->total = (int) $userRemboursement->total -  (int) $item->getItem->price;
         $userRemboursement->save();
+        Http::post(env('WEBHOOK_REMBOURSEMENTS'), [
+            'embeds'=>[
+                [
+                    'title'=>'Suppression d\'un remboursement :',
+                    'color'=>'16745560 ',
+                    'fields'=>[
+                        [
+                            'name'=>'Item : ',
+                            'value'=>$item->name . '($' . $item->price . ')',
+                            'inline'=>true
+                        ]
+                    ],
+                    'footer'=>[
+                        'text' => 'Membre : ' . Auth::user()->name
+                    ]
+                ]
+            ]
+        ]);
+
         $item->delete();
         event(new Notify('Remboursement supprimé',1));
         return response()->json(['status'=>'OK']);

@@ -56,7 +56,6 @@ class CarnetVol extends React.Component {
             }
         })
         if (req.status === 201) {
-            console.log('into')
             this.setState({data: null, raison: '', lieux: '', popup: false});
             this.update();
         }

@@ -24,7 +24,6 @@ export default function Uploader(props){
     const [imgUrl, setImgUrl] = useState(null);
 
     const UploadFinished = async (type, id) => {
-        console.log('call')
         let req = await axios({
             method: 'PUT',
             url: '/data/finish/tempupload/' + id,
@@ -119,8 +118,6 @@ const UploadProgress = (props) => {
     useBatchFinishListener((batch) => {
         setRun(false)
         setProgess(100)
-        console.log('finished')
-        console.log(batch)
         props.uploadfinished(batch.items[0].file.type, imgId);
         setimgId(null)
     });

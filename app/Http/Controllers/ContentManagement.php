@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\Notify;
 use App\Models\Annonces;
 use App\Models\BCList;
 use App\Models\BCType;
@@ -155,10 +156,17 @@ class ContentManagement extends Controller
                 $data = CouleurVetement::where('id', $id)->first();
                 $data->delete();
                 break;
+            case '7':
+                LieuxSurvol::where('id',$id)->first()->delete();
+                break;
+            case '8':
+                ObjRemboursement::where('id',$id)->first()->delete();
+                break;
             default: break;
         }
-        return response()->json(['status'=>'OK'], 204);
 
+        event(new Notify('Suppression réussie', 1));
+        return response()->json(['status'=>'OK'], 204);
     }
 
     public function getLogs(string $range,string $page, string $type): \Illuminate\Http\JsonResponse

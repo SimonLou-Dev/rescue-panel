@@ -31,23 +31,23 @@ use Illuminate\Support\Facades\Route;
 //Main view
 Route::get('/', [HomeController::class, 'getIndex'])->middleware(['auth','access']);
 //View in patient
-Route::get('/patient/{a}', [HomeController::class, 'getIndex']); //->middleware(['auth','access']);
+Route::get('/patient/{a}', [HomeController::class, 'getIndex'])->middleware(['auth','access']);
 //View of personnel
-Route::get('/personnel/{a}', [HomeController::class, 'getIndex']); //->middleware(['auth','access']);
+Route::get('/personnel/{a}', [HomeController::class, 'getIndex'])->middleware(['auth','access']);
 //View of gestion
-Route::get('/gestion/{a}', [HomeController::class, 'getIndex']); //->middleware('auth');
+Route::get('/gestion/{a}', [HomeController::class, 'getIndex'])->middleware('auth');
 // Report bug
-Route::get('/bugrepport/{a?}', [HomeController::class, 'getIndex']); //->middleware('auth');
+Route::get('/bugrepport/{a?}', [HomeController::class, 'getIndex'])->middleware('auth');
 //Cant access
 Route::get('/ANA/{a?}', [HomeController::class, 'getIndex'])->name('ANA');
 //Maintenance
 Route::get('/maintenance/{a?}', [HomeController::class, 'getIndex'])->name('mnt');
 //informations
-Route::get('/informations/{a?}', [HomeController::class, 'getIndex']); //->middleware(['auth']);
+Route::get('/informations/{a?}', [HomeController::class, 'getIndex'])->middleware(['auth']);
 //register
-Route::get('/register/{a?}', [HomeController::class, 'getIndex'])->name('register'); //->middleware('guest');
+Route::get('/register/{a?}', [HomeController::class, 'getIndex'])->name('register')->middleware('guest');
 //login
-Route::get('/login/{a?}', [HomeController::class, 'getIndex'])->name('login'); //->middleware('guest');
+Route::get('/login/{a?}', [HomeController::class, 'getIndex'])->name('login')->middleware('guest');
 //log out
 Route::get('/logout', function (){
    \Illuminate\Support\Facades\Auth::logout();
@@ -55,7 +55,7 @@ Route::get('/logout', function (){
    return redirect()->route('login');
 })->middleware('auth')->name('logout');
 //reset mdp view
-Route::get('/reset/*', [HomeController::class, 'getIndex']); //->middleware('guest');
+Route::get('/reset/*', [HomeController::class, 'getIndex'])->middleware('guest');
 //send mail for reseset
 Route::get('/sendmail', [HomeController::class, 'getIndex'])->middleware('guest');
 
@@ -78,7 +78,7 @@ Route::get('/data/patient/interlist/{text}', [RapportController::class, 'getPati
 // DELETED Route::get('/data/rapport/inter/{id}', [\A [RapportController::class, 'getInter']);
 Route::get('/data/rapport/get/{id}', [RapportController::class, 'getRapportById']);
 Route::put('/data/rapport/update/{id}', [RapportController::class, 'updateRapport']);
-Route::post('/data/patient/{id]/update', [RapportController::class, 'updatePatientInfos']);
+Route::post('/data/patient/{id}/update', [RapportController::class, 'updatePatientInfos']);
 Route::get('/PDF/rapport/{id}', [RapportController::class, 'makeRapportPdf']);
 
 //LES BC
