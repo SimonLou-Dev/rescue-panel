@@ -11,16 +11,12 @@ class ListPatient extends React.Component {
     constructor(props) {
         super(props);
         this.state= {
-            patients: this.props.patients
+            patients: this.props.patients,
         }
     }
 
-    shouldComponentUpdate(nextProps, nextState, nextContext) {
-    }
-
     componentDidUpdate(prevProps, prevState, snapshot) {
-
-        if(this.props.patients !== prevState.patients){
+        if(this.props.patients !== prevState.patients) {
             this.setState({patients: this.props.patients})
         }
     }
@@ -467,7 +463,7 @@ class BCView extends React.Component {
                                     </div>
                                 </div>
                                 <div className="idcard">
-                                    <label>carte d'identité :</label>
+                                    <label>carte d'identité : </label>
                                     <div className="onoffswitch">
                                         <input type="checkbox" name="onoffswitch" className="onoffswitch-checkbox"
                                                id="myonoffswitch" tabIndex="0" checked={this.state.carteid} onChange={(e)=>{
