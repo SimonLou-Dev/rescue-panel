@@ -190,7 +190,7 @@ class BCController extends Controller
                     'inline'=>true,
                 ],[
                     'name'=>'Liste des patients',
-                    'value'=>"nom | carte d'intetité | couleur de vètement",
+                    'value'=>"nom | carte d'identité | couleur de vêtement",
                     'inline'=>false,
                 ],
             ],
