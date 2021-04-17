@@ -1180,16 +1180,16 @@
         },
         {
             "name": "innocenzi/laravel-vite",
-            "version": "0.1.1",
+            "version": "0.1.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/innocenzi/laravel-vite.git",
-                "reference": "0fe291d214d2ed09558d1615ceaf6f2f5c3ffc65"
+                "reference": "52e46c7d2340fc1f664350c32305143ce5a35354"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/innocenzi/laravel-vite/zipball/0fe291d214d2ed09558d1615ceaf6f2f5c3ffc65",
-                "reference": "0fe291d214d2ed09558d1615ceaf6f2f5c3ffc65",
+                "url": "https://api.github.com/repos/innocenzi/laravel-vite/zipball/52e46c7d2340fc1f664350c32305143ce5a35354",
+                "reference": "52e46c7d2340fc1f664350c32305143ce5a35354",
                 "shasum": ""
             },
             "require": {
@@ -1245,7 +1245,7 @@
             ],
             "support": {
                 "issues": "https://github.com/innocenzi/laravel-vite/issues",
-                "source": "https://github.com/innocenzi/laravel-vite/tree/0.1.1"
+                "source": "https://github.com/innocenzi/laravel-vite/tree/0.1.2"
             },
             "funding": [
                 {
@@ -1253,7 +1253,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2021-02-25T19:46:20+00:00"
+            "time": "2021-04-14T17:03:59+00:00"
         },
         {
             "name": "intervention/image",
@@ -1331,16 +1331,16 @@
         },
         {
             "name": "laravel/framework",
-            "version": "v8.36.2",
+            "version": "v8.37.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/framework.git",
-                "reference": "0debd8ad6b5aa1f61ccc73910adf049af4ca0444"
+                "reference": "cf4082973abc796ec285190f0603380021f6d26f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/framework/zipball/0debd8ad6b5aa1f61ccc73910adf049af4ca0444",
-                "reference": "0debd8ad6b5aa1f61ccc73910adf049af4ca0444",
+                "url": "https://api.github.com/repos/laravel/framework/zipball/cf4082973abc796ec285190f0603380021f6d26f",
+                "reference": "cf4082973abc796ec285190f0603380021f6d26f",
                 "shasum": ""
             },
             "require": {
@@ -1495,7 +1495,7 @@
                 "issues": "https://github.com/laravel/framework/issues",
                 "source": "https://github.com/laravel/framework"
             },
-            "time": "2021-04-07T12:37:22+00:00"
+            "time": "2021-04-13T13:49:49+00:00"
         },
         {
             "name": "laravel/tinker",
@@ -2691,16 +2691,16 @@
         },
         {
             "name": "paragonie/sodium_compat",
-            "version": "v1.14.0",
+            "version": "v1.15.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/paragonie/sodium_compat.git",
-                "reference": "a1cfe0b21faf9c0b61ac0c6188c4af7fd6fd0db3"
+                "reference": "69ac8357b0b5916e997226143a401ce2c09f5585"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/paragonie/sodium_compat/zipball/a1cfe0b21faf9c0b61ac0c6188c4af7fd6fd0db3",
-                "reference": "a1cfe0b21faf9c0b61ac0c6188c4af7fd6fd0db3",
+                "url": "https://api.github.com/repos/paragonie/sodium_compat/zipball/69ac8357b0b5916e997226143a401ce2c09f5585",
+                "reference": "69ac8357b0b5916e997226143a401ce2c09f5585",
                 "shasum": ""
             },
             "require": {
@@ -2771,9 +2771,9 @@
             ],
             "support": {
                 "issues": "https://github.com/paragonie/sodium_compat/issues",
-                "source": "https://github.com/paragonie/sodium_compat/tree/v1.14.0"
+                "source": "https://github.com/paragonie/sodium_compat/tree/v1.15.3"
             },
-            "time": "2020-12-03T16:26:19+00:00"
+            "time": "2021-04-14T21:40:16+00:00"
         },
         {
             "name": "phenx/php-font-lib",
@@ -6884,16 +6884,16 @@
         },
         {
             "name": "facade/flare-client-php",
-            "version": "1.6.1",
+            "version": "1.7.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/facade/flare-client-php.git",
-                "reference": "f2b0969f2d9594704be74dbeb25b201570a98098"
+                "reference": "6bf380035890cb0a09b9628c491ae3866b858522"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/facade/flare-client-php/zipball/f2b0969f2d9594704be74dbeb25b201570a98098",
-                "reference": "f2b0969f2d9594704be74dbeb25b201570a98098",
+                "url": "https://api.github.com/repos/facade/flare-client-php/zipball/6bf380035890cb0a09b9628c491ae3866b858522",
+                "reference": "6bf380035890cb0a09b9628c491ae3866b858522",
                 "shasum": ""
             },
             "require": {
@@ -6937,7 +6937,7 @@
             ],
             "support": {
                 "issues": "https://github.com/facade/flare-client-php/issues",
-                "source": "https://github.com/facade/flare-client-php/tree/1.6.1"
+                "source": "https://github.com/facade/flare-client-php/tree/1.7.0"
             },
             "funding": [
                 {
@@ -6945,7 +6945,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2021-04-08T08:50:01+00:00"
+            "time": "2021-04-12T09:30:36+00:00"
         },
         {
             "name": "facade/ignition",
@@ -7285,16 +7285,16 @@
         },
         {
             "name": "laravel/sail",
-            "version": "v1.4.11",
+            "version": "v1.4.12",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/sail.git",
-                "reference": "e46a3228da4e95a411a981ac807bd119ab2485fa"
+                "reference": "d1a91b03885c9c29bc2d88d61a4b10bd1f678156"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/sail/zipball/e46a3228da4e95a411a981ac807bd119ab2485fa",
-                "reference": "e46a3228da4e95a411a981ac807bd119ab2485fa",
+                "url": "https://api.github.com/repos/laravel/sail/zipball/d1a91b03885c9c29bc2d88d61a4b10bd1f678156",
+                "reference": "d1a91b03885c9c29bc2d88d61a4b10bd1f678156",
                 "shasum": ""
             },
             "require": {
@@ -7341,7 +7341,7 @@
                 "issues": "https://github.com/laravel/sail/issues",
                 "source": "https://github.com/laravel/sail"
             },
-            "time": "2021-04-06T14:00:39+00:00"
+            "time": "2021-04-13T15:35:40+00:00"
         },
         {
             "name": "myclabs/deep-copy",
@@ -7491,16 +7491,16 @@
         },
         {
             "name": "nunomaduro/larastan",
-            "version": "v0.7.2",
+            "version": "v0.7.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/nunomaduro/larastan.git",
-                "reference": "cb7fa0b5af3738772e3568c0a0c7a080851e281d"
+                "reference": "0ceef2a39b45be9d7f7dd96192a1721ba5112278"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nunomaduro/larastan/zipball/cb7fa0b5af3738772e3568c0a0c7a080851e281d",
-                "reference": "cb7fa0b5af3738772e3568c0a0c7a080851e281d",
+                "url": "https://api.github.com/repos/nunomaduro/larastan/zipball/0ceef2a39b45be9d7f7dd96192a1721ba5112278",
+                "reference": "0ceef2a39b45be9d7f7dd96192a1721ba5112278",
                 "shasum": ""
             },
             "require": {
@@ -7564,7 +7564,7 @@
             ],
             "support": {
                 "issues": "https://github.com/nunomaduro/larastan/issues",
-                "source": "https://github.com/nunomaduro/larastan/tree/v0.7.2"
+                "source": "https://github.com/nunomaduro/larastan/tree/v0.7.4"
             },
             "funding": [
                 {
@@ -7584,7 +7584,7 @@
                     "type": "patreon"
                 }
             ],
-            "time": "2021-04-08T10:51:16+00:00"
+            "time": "2021-04-16T08:25:31+00:00"
         },
         {
             "name": "phar-io/manifest",

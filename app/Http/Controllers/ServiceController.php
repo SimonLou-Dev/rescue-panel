@@ -16,6 +16,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
 use Maatwebsite\Excel\Facades\Excel;
 use Maatwebsite\Excel\Concerns\FromArray;
+use function Psy\debug;
 
 class ServiceController extends Controller
 {
@@ -292,35 +293,22 @@ class ServiceController extends Controller
         }else{
             $week = (int) $week;
         }
-        $users = User::where('grade_id', '>', 1)->orderByDesc('grade_id')->get();
-        $services = WeekService::where('week_number', '=', '15')->get();
-        $remboursements = WeekRemboursement::where('week_number',$week)->get();
+        $users = User::where('grade_id', '>', 1)->where('grade_id', '<', 10)->orderByDesc('grade_id')->get();
 
-        $column[] = array();
         $column[] = array('Membre','grade', 'Remboursements', 'dimanche', 'lundi', 'mardi', 'mercredi', 'jeudi', 'vendredi', 'samedi', 'total');
-        $userRemboursements = [];
-        foreach ($remboursements as $remboursement){
-            $userRemboursements[$remboursement->user_id] = $remboursement->total;
-        }
 
 
-        $userServices = array();
-        foreach ($services as $service){
-            $userServices[$service->user_id] = 0;
-        }
-
-        $servicesNumber = array();
-        foreach ($services as $service){
-            $servicesNumber[$service->user_id] = 0;
-        }
 
         foreach ($users as $user){
-            if(array_key_exists($user->id, $userServices) == true){
-                $service = $services[array_search($user->id, $servicesNumber)];
+
+            $service = $user->GetWeekServices->where('week_number', $week)->first();
+            $remboursement=$user->GetRemboursement->where('week_number', $week)->first();
+
+            if(isset($service)){
                 $column[] = [
-                    'Membre'=> $service->GetUser->name,
-                    'grade'=>$service->GetUser->GetGrade->name,
-                    'Remboursements'=> array_key_exists($user->id, $userRemboursements) ? $userRemboursements[$user->id] :0,
+                    'Membre'=> $user->name,
+                    'grade'=>$user->GetGrade->name,
+                    'Remboursements'=> isset($remboursement) ? $remboursement->total : '0',
                     'dimanche'=>$service->dimanche,
                     'lundi'=>$service->lundi,
                     'mardi'=>$service->mardi,
@@ -331,11 +319,10 @@ class ServiceController extends Controller
                     'total'=>$service->total,
                 ];
             }else{
-                $user = User::where('id', $user->id)->first();
                 $column[] = [
                     'Membre'=> $user->name,
                     'grade'=>$user->GetGrade->name,
-                    'Remboursements'=> array_key_exists($user->id, $userRemboursements) ? $userRemboursements[$user->id] :0,
+                    'Remboursements'=> isset($remboursement) ? $remboursement->total : '0' ,
                     'dimanche'=>0,
                     'lundi'=>0,
                     'mardi'=>0,

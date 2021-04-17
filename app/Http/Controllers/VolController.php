@@ -70,9 +70,33 @@ class VolController extends Controller
         $vol->raison = $raison;
         $vol->pilote_id = $pilote_id;
         $vol->lieux_id = $request->lieux;
+        $lieux = LieuxSurvol::where('id', $request->lieux)->first();
         $vol->save();
 
         event(new Notify('Votre vol est pris en compte',1));
+
+        Http::post(env('WEBHOOK_VOLS'),[
+            'embeds'=>[
+                [
+                    'title'=>'hélicoptère déployé ',
+                    'color'=>'15158332',
+                    'fields'=>[
+                        [
+                            'name'=>'Secteur : ',
+                            'value'=>$lieux->name,
+                            'inline'=>true
+                        ],[
+                            'name'=>'Motif : ',
+                            'value'=>$request->raison,
+                            'inline'=>true
+                        ]
+                    ],
+                    'footer'=>[
+                        'text' => 'Pilote : ' . Auth::user()->name
+                    ]
+                ]
+            ]
+        ]);
 
         return response()->json(['status'=>'OK'],201);
 
