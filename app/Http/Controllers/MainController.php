@@ -15,7 +15,7 @@ class MainController extends Controller
 
     public function getInServices(Request $request): \Illuminate\Http\JsonResponse
     {
-        $userInServie = User::where('service', true)->orderByDesc('id')->get();
+        $userInServie = User::where('service', true)->orderByDesc('grade_id')->get();
         return response()->json(['status'=>'OK', 'users'=>$userInServie]);
     }
     public function getAnnonces(Request $request): \Illuminate\Http\JsonResponse
