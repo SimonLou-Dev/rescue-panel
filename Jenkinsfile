@@ -12,9 +12,9 @@ pipeline {
       parallel {
         stage('Build') {
           environment {
-            DB_HOST = credentials('pre_bcfd-host')
-            DB_USERNAME = credentials('pre_bcfd-user')
-            DB_PASSWORD = credentials('pre_bcfd-password')
+            DB_HOST = credentials('DB-Host')
+            DB_USERNAME = credentials('DB_user')
+            DB_PASSWORD = credentials('DB_PASS')
           }
           steps {
             sh 'php --version'
