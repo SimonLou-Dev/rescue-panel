@@ -3197,8 +3197,6 @@ body {
   margin: 0 auto;
   background-color: #0c2646;
   border-radius: 30px;
-  width: 100%;
-  height: 100%;
   display: flex;
   flex-direction: column;
   flex-wrap: nowrap;
@@ -3315,7 +3313,53 @@ body {
   flex-direction: column;
   justify-content: center;
 }
+.responsepage .responsecontent .question .stater-page {
+  margin: 0 auto;
+  width: 80%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+}
+.responsepage .responsecontent .question .stater-page h1 {
+  text-align: center;
+  font-size: 70px;
+  font-weight: 700;
+}
+.responsepage .responsecontent .question .stater-page .questions {
+  text-align: center;
+}
+.responsepage .responsecontent .question .stater-page .questions h3 {
+  font-size: 30px;
+}
+.responsepage .responsecontent .question .stater-page .infosList {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+}
+.responsepage .responsecontent .question .stater-page .infosList .rowed {
+  margin-bottom: 20px;
+  height: 100px;
+  display: flex;
+  flex-direction: row;
+}
+.responsepage .responsecontent .question .stater-page .infosList .rowed .illustrations {
+  position: relative;
+  width: 100px;
+  overflow: hidden;
+}
+.responsepage .responsecontent .question .stater-page .infosList .rowed .illustrations img {
+  top: 0;
+  left: 0;
+  position: absolute;
+  width: 100px;
+  height: auto;
+}
+.responsepage .responsecontent .question .stater-page .infosList .rowed .text {
+  margin: auto 0 auto 30px;
+}
 .responsepage .responsecontent .bottom {
+  padding-top: 10px;
   border-top: 1px #00FFFF solid;
   display: flex;
   flex-direction: row;
