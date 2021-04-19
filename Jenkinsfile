@@ -8,7 +8,7 @@ pipeline {
       }
     }
 
-    stage('installer') {
+    stage('SetUp & scan') {
       parallel {
         stage('Build') {
           environment {
@@ -31,10 +31,10 @@ pipeline {
           }
         }
 
-        stage('Début de l\'analyse') {
-            environment {
-                scannerHome = tool 'sonar';
-            }
+        stage('Scan  SonarQube') {
+          environment {
+            scannerHome = 'sonar'
+          }
           steps {
             withSonarQubeEnv(installationName: 'Serveur sonarqube', credentialsId: 'sonarqube_access_token') {
               sh '${scannerHome}/bin/sonar-scanner'
@@ -52,10 +52,61 @@ pipeline {
       }
     }
 
-    stage('Static analyst') {
+    stage('Pre-Deploy') {
+      parallel {
+        stage('Reponse Sonarqube analyst') {
+          steps {
+            waitForQualityGate(credentialsId: 'sonarqube_access_token', webhookSecretId: 'sonarsecret_webhook', abortPipeline: true)
+          }
+        }
+
+        stage('Set Maintenance to the MainSite') {
+          steps {
+            echo 'coucou'
+          }
+        }
+
+        stage('Prepare GitHub') {
+          steps {
+            echo 'change gitigniore for add Vite config'
+          }
+        }
+
+      }
+    }
+
+    stage('Push on prod') {
       steps {
-        sh 'vendor/bin/phpstan analyse --memory-limit=2G'
-        sh 'vendor/bin/phpcs .\\app\\Http\\Controllers\\'
+        echo 'git add commit and push'
+      }
+    }
+
+    stage('Deploying on Prod') {
+      steps {
+        echo 'git pull tu connais'
+      }
+    }
+
+    stage('Mise en Prod') {
+      parallel {
+        stage('Front Build') {
+          steps {
+            echo 'yarn build and cache clear'
+          }
+        }
+
+        stage('db migrate') {
+          steps {
+            echo 'migrate DB'
+          }
+        }
+
+      }
+    }
+
+    stage('Clean') {
+      steps {
+        echo 'reset DB'
       }
     }
 
