@@ -1,6 +1,7 @@
 import React from 'react';
 import axios from "axios";
 import PagesTitle from "../props/utils/PagesTitle";
+import {useState} from "react/cjs/react.production.min";
 
 
 class LivretFormation extends React.Component {
@@ -289,6 +290,22 @@ class ResponsePage extends React.Component {
     }
 }
 
+
+function NewResponsePage(props: { id: null | *, change: FormationsController.changePage }) {
+    const [formation, setFormations] = useState();
+    const [name, setName]= useState('?');
+
+    use
+
+    return (
+        <div className="responsepage">
+            <PagesTitle title={"formation | " + name}/>
+            <div className="responsecontent"></div>
+        </div>
+
+    );
+}
+
 class FormationsController extends React.Component {
     constructor(props) {
         super(props);
@@ -308,7 +325,7 @@ class FormationsController extends React.Component {
             case null:
                 return (<LivretFormation change={this.changePage}/>)
             case 1:
-                return (<ResponsePage change={this.changePage} id={this.state.formaid}/>)
+                return (<NewResponsePage change={this.changePage} id={this.state.formaid}/>)
         }
     }
 }

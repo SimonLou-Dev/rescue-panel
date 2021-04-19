@@ -142,6 +142,8 @@ Route::get('/data/formations/question/{question_id}', [FormationController::clas
 Route::post('/data/formations/response/{question_id}/save', [FormationController::class, 'saveResponseState']);
 Route::get('/data/formations/userdeco/{formation_id}', [FormationController::class, 'userDisconnect']);
 Route::get('/data/formation/{formation_id}/final', [FormationController::class, 'getFinalDatas']);
+Route::post('/data/formations/question/{question_id}/image', [FormationController::class, 'postQuestionImage']);
+Route::post('/data/formations/{formation_id}/image', [FormationController::class, 'postFormationsImage']);
 
 //Recap
 Route::get('/data/remboursements/get', [RemboursementsController::class, 'getRemboursementOfUser']);

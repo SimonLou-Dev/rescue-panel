@@ -2,6 +2,8 @@ import React from 'react';
 import PagesTitle from "../props/utils/PagesTitle";
 import axios from "axios";
 import PermsContext from "../context/PermsContext";
+import Uploader from "../props/utils/Uploader";
+
 class FormaUserList extends React.Component {
 
     constructor(props) {
@@ -315,6 +317,7 @@ class CreatorItem extends React.Component {
                 })
                 if(req.status ===201){
                     this.setState({updated:false});
+                    this.postBg();
                 }
             }
         }else{
@@ -331,18 +334,19 @@ class CreatorItem extends React.Component {
             })
             if(req.status === 201){
                 this.setState({questionid:req.data.questionid, updated:false})
+                this.postBg();
             }
         }
     }
 
-    createImage(file) {
-        let reader = new FileReader();
-        reader.onload = (e) => {
-            this.setState({
-                img: e.target.result
-            })
-        };
-        reader.readAsDataURL(file);
+    async postBg(){
+        var req = await axios({
+            method:'POST',
+            url: '/data/formations/question/'+ this.state.questionid +'/image',
+            data: {
+                image: this.state.img,
+            }
+        })
     }
 
     render() {
@@ -357,20 +361,9 @@ class CreatorItem extends React.Component {
                         <input type={'text'} maxLength={255} value={this.state.text} onChange={(e)=>{this.setState({text: e.target.value, updated:true})}}/>
                     </div>
                     <div className={'add-image'}>
-                        <div className={'image'}>
-                            {this.state.image &&
-                            <img alt={""} src={this.state.image}/>
-                            }
-                            {!this.state.image &&
-                            <h3>ajouter une image 960x540</h3>
-                            }
-                            <input accept={["image/jpeg", "image/png"]} type={"file"} onChange={(e)=>{
-                                let file = e.target.files[0];
-                                this.createImage(file)
-                                let src = URL.createObjectURL(file)
-                                this.setState({image:src, updated:true});
-                            }}/>
-                        </div>
+                        <Uploader text={'1920*1080 2MO'} images={(image)=>{
+                            this.setState({img:image, updated:true});
+                        }}/>
                     </div>
                     <div className={'response-info'}>
                         <label className={'label-titel'}>Réponses</label>
@@ -463,6 +456,7 @@ class FormaCreate extends React.Component {
         }
     }
 
+
     async componentDidMount() {
         if (this.props.id === null) {
             this.setState({formationid: null});
@@ -516,7 +510,7 @@ class FormaCreate extends React.Component {
     }
 
     async save(add = null){
-        if(this.state.formationid === null ){
+        if(this.state.formationid === null && this.state.image ){
             var req = await axios({
                 url: '/data/formations/admin/post',
                 method: 'post',
@@ -526,7 +520,6 @@ class FormaCreate extends React.Component {
                     name: this.state.name,
                     certif: this.state.getcertif,
                     finalnote: this.state.getfinalnote,
-                    img: this.state.img,
                     max_try: this.state.max_try,
                     time: this.state.time,
                     total: this.state.total,
@@ -540,6 +533,7 @@ class FormaCreate extends React.Component {
             })
             if(req.status === 201){
                 this.setState({updated:false, formationid: req.data.formation.id})
+                this.postBg();
                 if(add){
                     var list = this.state.item;
                     list.push({
@@ -573,8 +567,19 @@ class FormaCreate extends React.Component {
             })
             if(req.status === 201){
                 this.setState({updated: false});
+                this.postBg();
             }
         }
+    }
+
+    async postBg(){
+        var req = await axios({
+            method:'POST',
+            url: '/data/formations/'+ this.state.formationid +'/image',
+            data: {
+                image: this.state.img,
+            }
+        })
     }
 
     createImage(file) {
@@ -647,9 +652,9 @@ class FormaCreate extends React.Component {
 
                                     </div>
                                     <div className="image">
-                                        <div className={'add-image'}>
-
-                                        </div>
+                                        <Uploader text={'1920*1080 2MO'} images={(image)=>{
+                                            this.setState({img:image, updated:true});
+                                        }}/>
                                     </div>
                                     <div className="desc">
                                         <label>Description :</label>

@@ -14,7 +14,7 @@ const CustomButton = (props) => {
     const hanldeUpload = useCallback(()=> {
         uploady.showFileUpload();
     },[uploady]);
-    return <button onClick={hanldeUpload} className={'upload-btn ' + (props.hasFile ===true ? 'hasFile' : '')} disabled={props.disabled}>Ajouter une image</button>
+    return <button onClick={hanldeUpload} type={"button"} className={'upload-btn ' + (props.hasFile ===true ? 'hasFile' : '')} disabled={props.disabled}>Ajouter une image</button>
 }
 
 export default function Uploader(props){
@@ -118,6 +118,7 @@ const UploadProgress = (props) => {
     useBatchFinishListener((batch) => {
         setRun(false)
         setProgess(100)
+        console.log(imgId)
         props.uploadfinished(batch.items[0].file.type, imgId);
         setimgId(null)
     });

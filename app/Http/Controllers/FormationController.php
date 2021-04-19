@@ -147,7 +147,6 @@ class FormationController extends Controller
         $desc = (string) $request->desc;
         $certif= (bool) $request->certif;
         $finalnote= (bool) $request->finalnote;
-        $img = $request->get('img');
         $max_try = (int) $request->max_try;
         $name = (string) $request->name;
         $time = (bool) $request->time;
@@ -180,8 +179,6 @@ class FormationController extends Controller
             $timer = (int) ($time_str[0]*3600) + ($time_str[1]*60);
         }
 
-        $imgname = time() . '.' . explode('/', explode(':', substr($img, 0, strpos($img, ';')))[1])[1];
-        $path = "/storage/formations/front_img/";
 
         $formation = new Formation();
         //infos bloballes
@@ -189,7 +186,6 @@ class FormationController extends Controller
         $formation->public = false;
         $formation->creator_id = Auth::user()->id;
         $formation->desc = $desc;
-        $formation->image = $imgname;
         //essai
         $formation->unic_try = $unic_try;
         $formation->can_retry_later = $time_btw;
@@ -206,10 +202,7 @@ class FormationController extends Controller
         $formation->displaynote= $finalnote;
         $formation->certify = $certif;
         $formation->save();
-        $dir = public_path($path . $formation->id);
-        mkdir($dir);
         event(new Notify('Vous avez ajouté une formation', 1));
-        Image::make($img)->resize(960,540)->save($dir . '/' . $imgname);
 
         return response()->json([
             'formation'=>$formation,
@@ -228,10 +221,6 @@ class FormationController extends Controller
         $desc = (string) $request->desc;
         $certif= (bool) $request->certif;
         $finalnote= (bool) $request->finalnote;
-        $img = $request->get('img');
-        if(!isset($img)) {
-            $img = 'undefined';
-        }
         $max_try = (int) $request->max_try;
         $name = (string) $request->name;
         $time = (bool) $request->time;
@@ -264,10 +253,6 @@ class FormationController extends Controller
             $timer = (int) ($time_str[0]*3600) + ($time_str[1]*60);
         }
 
-        if($img != 'undefined'){
-            $imgname = time() . '.' . explode('/', explode(':', substr($img, 0, strpos($img, ';')))[1])[1];
-            $path = "/storage/formations/front_img/";
-        }
 
         $formation = Formation::where('id', $formation_id)->first();
         //infos bloballes
@@ -275,9 +260,6 @@ class FormationController extends Controller
         $formation->public = false;
         $formation->creator_id = Auth::user()->id;
         $formation->desc = $desc;
-        if($img != 'undefined') {
-            $formation->image = $imgname;
-        }
         //essai
         $formation->unic_try = $unic_try;
         $formation->can_retry_later = $time_btw;
@@ -294,11 +276,6 @@ class FormationController extends Controller
         $formation->displaynote= $finalnote;
         $formation->certify = $certif;
         $formation->save();
-        if($img != 'undefined'){
-            $dir = public_path($path . $formation->id);
-            mkdir($dir);
-            Image::make($img)->resize(960,540)->save($dir . '/' . $imgname);
-        }
 
         event(new Notify('Vous avez sauvegarder la formations', 1));
         return response()->json([
@@ -318,7 +295,6 @@ class FormationController extends Controller
         if(!isset($formation)){
             return \response()->json([],500);
         }
-        $imgname = time() . '.' . explode('/', explode(':', substr($img, 0, strpos($img, ';')))[1])[1];
         $path = "/storage/formations/question_img/";
         $question = new FormationsQuestion();
         $question->formation_id = $formation->id;
@@ -336,13 +312,9 @@ class FormationController extends Controller
         $formation->max_note= $formation->max_note+$a;
         $question->desc = $request->description;
         $question->correction = $request->correction;
-        $question->img = $imgname;
         $question->save();
         $formation->save();
-        $dir = public_path($path . $formation->id);
-        mkdir($dir);
         event(new Notify('Vous avez ajouté une question', 1));
-        Image::make($img)->resize(960,540)->save($dir . '/' . $imgname);
         return \response()->json(['status'=>'OK', 'questionid'=>$question->id],201);
     }
 
@@ -527,7 +499,6 @@ class FormationController extends Controller
         return response()->json([]);
     }
 
-
     /**
      * @param string $formation_id
      * @return JsonResponse
@@ -560,5 +531,47 @@ class FormationController extends Controller
         return \response()->json(['note'=>$response->note.'/'.$formation->max_note]);
     }
 
+    /**
+     * @param Request $request
+     * @param string $question_id
+     * @return JsonResponse
+     */
+    public function postQuestionImage(Request $request, string $question_id): JsonResponse
+    {
+        $question = FormationsQuestion::where('id', $question_id)->first();
+        $img = $request->get('image');
+        $imgname = Auth::user()->id . '_' . time() . '.' . explode('.', $img)[1];
+        $path = "/storage/formations/question_img/".$question->GetFormation->id.'/'. $question_id;
+        $dir = public_path($path);
+        $question->img = $imgname;
+        $question->save();
+        if(!is_dir(public_path("/storage/formations/question_img/".$question->GetFormation->id))){
+            mkdir(public_path("/storage/formations/question_img/".$question->GetFormation->id));
+        }
+        if(!is_dir($dir)){
+            mkdir($dir);
+        }
+        FileController::moveTempFile($img, $dir . '/' . $imgname);
+        event(new Notify('Photo ajoutée à la formations', 1));
+        return response()->json([],201);
 
+    }
+
+    public function postFormationsImage(Request $request, string $formation_id): JsonResponse
+    {
+        $formation = Formation::where('id', $formation_id)->first();
+        $img = $request->get('image');
+        $imgname = Auth::user()->id . '_' . time() . '.' . explode('.', $img)[1];
+        $path = "/storage/formations/front_img/".$formation_id;
+        $dir = public_path($path);
+        $formation->image = $imgname;
+        $formation->save();
+        if(!is_dir($dir)){
+            mkdir($dir);
+        }
+        FileController::moveTempFile($img, $dir . '/' . $imgname);
+        event(new Notify('Photo ajoutée à la question', 1));
+        return response()->json([],201);
+
+    }
 }
