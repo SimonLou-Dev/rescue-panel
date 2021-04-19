@@ -33,7 +33,7 @@ pipeline {
 
         stage('Scan  SonarQube') {
           environment {
-            scannerHome = 'sonar'
+            scannerHome = tool 'sonar'
           }
           steps {
             withSonarQubeEnv(installationName: 'Serveur sonarqube', credentialsId: 'sonarqube_access_token') {
