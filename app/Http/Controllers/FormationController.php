@@ -406,7 +406,7 @@ class FormationController extends Controller
                 foreach ($formation->GetResponses as $response){
                     if($response->user_id == Auth::user()->id){
                         event(new Notify('Cette formation est a essai unique',2));
-                        return  response()->json(['status'=>'TO MANY TRY'], 500);
+                        return  response()->json(['status'=>'UNIC TRY'], 500);
                     }
                 }
             }
@@ -428,7 +428,7 @@ class FormationController extends Controller
                     $possibily = time() > $formation->time_btw_try + $time;
                     if(!$possibily){
                         event(new Notify('Vous ne pouvez pas refaire cette formation maintenant',2));
-                        return  response()->json(['status'=>'TO MANY TRY'], 500);
+                        return  response()->json(['status'=>'MUST WAIT', 'time'=> $formation->time_btw_try + $time], 500);
                     }
                 }
             }

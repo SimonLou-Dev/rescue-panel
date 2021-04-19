@@ -1,7 +1,7 @@
 import React from 'react';
 import axios from "axios";
 import PagesTitle from "../props/utils/PagesTitle";
-import {useState} from "react/cjs/react.production.min";
+import {useEffect, useState} from "react/cjs/react.production.min";
 
 
 class LivretFormation extends React.Component {
@@ -291,11 +291,45 @@ class ResponsePage extends React.Component {
 }
 
 
-function NewResponsePage(props: { id: null | *, change: FormationsController.changePage }) {
+function NewResponsePage(props) {
     const [formation, setFormations] = useState();
     const [name, setName]= useState('?');
+    const [error, setError] = useState(false);
+    const [errorType, setErrorType] = useState(null)
 
-    use
+    useEffect(async ()=>{
+        var req = await axios({
+            url: '/data/formations/' + this.props.id + '/get',
+            method: 'GET'
+        })
+        if(req.status === 500){
+            setError(true)
+            switch (req.data.status){
+                case 'UNIC TRY':
+                    setErrorType('UNIC TRY');
+                    break;
+                case 'TO MANY TRY':
+                    setErrorType('TO MANY TRY');
+                    break;
+                case 'MUST WAIT':
+                    setErrorType('MUST WAIT | ' + req.data.time);
+                    break
+                default:
+                    this.props.change(null);
+                    break;
+            }
+
+
+        }
+        if(req.status === 200){
+            let length = req.data.formation.get_questions.length +1;
+            length = length + (req.data.formation.displaynote === 1 ? 1 : 0)
+
+            this.setState({formation: req.data.formation, responses: req.data.formation.get_questions, length:length})
+            this.nextPage()
+        }
+    }, [])
+
 
     return (
         <div className="responsepage">
