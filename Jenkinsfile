@@ -56,7 +56,7 @@ pipeline {
       parallel {
         stage('Reponse Sonarqube analyst') {
           steps {
-            waitForQualityGate(credentialsId: 'sonarqube_access_token', webhookSecretId: 'sonarsecret_webhook', abortPipeline: true)
+            waitForQualityGate(credentialsId: 'sonarqube_access_token', webhookSecretId: 'sonarsecret_webhook', abortPipeline: false)
           }
         }
 
