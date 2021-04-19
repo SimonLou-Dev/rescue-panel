@@ -34,7 +34,7 @@ pipeline {
         stage('Début de l\'analyse') {
           steps {
             withSonarQubeEnv(installationName: 'Serveur sonarqube', credentialsId: 'sonarqube_access_token') {
-              waitForQualityGate(abortPipeline: true, webhookSecretId: 'ssonarqube_access_token', credentialsId: '31d1d0fd-8025-45c1-979e-50305cbe70dd')
+              sh '${scannerHome}/bin/sonar-scanner'
             }
 
           }
