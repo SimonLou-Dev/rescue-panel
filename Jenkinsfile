@@ -12,10 +12,10 @@ pipeline {
       parallel {
         stage('Build') {
           environment {
-            DB_HOST = credentials("pre_bcfd-host")
-            DB_USERNAME = credentials("pre_bcfd-user")
-            DB_PASSWORD = credentials("pre_bcfd-password")
-           }
+            DB_HOST = credentials('pre_bcfd-host')
+            DB_USERNAME = credentials('pre_bcfd-user')
+            DB_PASSWORD = credentials('pre_bcfd-password')
+          }
           steps {
             sh 'php --version'
             sh 'composer install'
@@ -34,10 +34,12 @@ pipeline {
         stage('Début de l\'analyse') {
           steps {
             withSonarQubeEnv(installationName: 'Serveur sonarqube', credentialsId: 'sonarqube_access_token') {
-              echo 'post'
+              waitForQualityGate(abortPipeline: true, webhookSecretId: 'sonarsecret_webhook', credentialsId: '31d1d0fd-8025-45c1-979e-50305cbe70dd')
             }
+
           }
         }
+
       }
     }
 
