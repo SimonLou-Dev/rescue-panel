@@ -67,7 +67,7 @@ pipeline {
         stage('Set Maintenance to the MainSite') {
           steps {
             echo 'coucou'
-            sh 'ssh root@75.119.154.204'
+            sh 'ssh root@75.119.154.204 -o StrictHostKeyChecking=no'
             sh 'ls -l'
           }
         }
