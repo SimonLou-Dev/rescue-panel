@@ -57,7 +57,8 @@ pipeline {
       parallel {
         stage('Reponse Sonarqube analyst') {
           steps {
-            waitForQualityGate(credentialsId: 'sonarqube_access_token', webhookSecretId: 'sonarsecret_webhook', abortPipeline: false)
+          echo 'coucou'
+            //waitForQualityGate(credentialsId: 'sonarqube_access_token', webhookSecretId: 'sonarsecret_webhook', abortPipeline: false)
           }
         }
 
@@ -65,7 +66,7 @@ pipeline {
         stage('Set Maintenance to the MainSite') {
           steps {
             echo 'coucou'
-            sshCommand remote: remote, command: "ls -l"
+            sh 'ssh root@75.119.154.204 -p /var/www/'
           }
         }
 
