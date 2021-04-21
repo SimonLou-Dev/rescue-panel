@@ -10,7 +10,7 @@ export default defineConfig({
   plugins: [reactRefresh()],
     root: './resources',
     base: '/assets/',
-    mode: 'production',
+    mode: 'development',
     define: {
         'process.env': {}
     },
@@ -18,7 +18,7 @@ export default defineConfig({
       outDir: '../public/assets',
         assetsDir: '',
         manifest: true,
-        minify: true,
+        minify: false,
         rollupOptions: {
           output: {
               manualChunks: undefined,

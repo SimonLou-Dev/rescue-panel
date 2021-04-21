@@ -62,7 +62,7 @@ class LivretFormation extends React.Component {
                     {this.state.data === true && this.state.list.map((forma) =>
                         <div className={'forma'} onClick={()=>{this.props.change(1,forma.id)}}>
                             <div className="infos">
-                                <img src={"/storage/front_img/"+forma.id+'/'+forma.image} alt={""}/>
+                                <img src={"/storage/formations/front_img/"+forma.id+'/'+forma.image} alt={""}/>
                                 <div className="text">
                                     <h5>{forma.name}</h5>
                                     <p>{forma.desc}</p>
@@ -100,6 +100,7 @@ class ResponsePage extends React.Component {
             time: 0,
             timerpaused: false,
             note: '?/?',
+            data: false,
         }
 
         this.nextPage = this.nextPage.bind(this)
@@ -121,6 +122,7 @@ class ResponsePage extends React.Component {
                 if(this.state.formation.timed){
                     this.endPage();
                 }
+                this.setState({timerpaused: true})
             }
         }
     }
@@ -137,8 +139,7 @@ class ResponsePage extends React.Component {
             let length = req.data.formation.get_questions.length + 1;
             length = length + (req.data.formation.displaynote === 1 ? 1 : 0)
 
-            this.setState({formation: req.data.formation, responses: req.data.formation.get_questions, length:length})
-            //this.nextPage()
+            this.setState({formation: req.data.formation, responses: req.data.formation.get_questions, length:length, data:true})
         }
     }
 
@@ -155,7 +156,6 @@ class ResponsePage extends React.Component {
     }
 
     nextPage(){
-        debugger;
         if(this.state.actuel === 0 || this.state.actuel === this.state.length){
             if(this.state.actuel  === 0){
                 this.setState({actuel: this.state.actuel+1, incorrect:false});
@@ -166,7 +166,7 @@ class ResponsePage extends React.Component {
                 this.props.change(null)
             }
         }else{
-            if(this.state.formation.question_timed != null) {
+            if(this.state.formation.question_timed === 1) {
                 this.setState( {time:this.state.formation.timer})
             }
             if(this.state.formation.correction){
@@ -199,7 +199,7 @@ class ResponsePage extends React.Component {
     async ScoreCouter() {
         let point = 0;
         let responses = this.state.myresponses;
-        let rightresponses = this.state.responses[this.state.actuel - 1 - (this.state.formation.displaynote === 1 ? 1 : 0)].responses;
+        let rightresponses = this.state.responses[this.state.actuel - 1].responses;
         let a = 0;
         while (a < rightresponses.length) {
             if (responses.hasOwnProperty(rightresponses[a].id)) {
@@ -212,7 +212,7 @@ class ResponsePage extends React.Component {
         if (point < 0) {
             point = 0;
         }
-        let path = this.state.responses[this.state.actuel - 1 - (this.state.formation.displaynote === 1 ? 1 : 0)].id
+        let path = this.state.responses[this.state.actuel - 1].id
 
         await axios({
             url: '/data/formations/response/' + path + '/save',
@@ -276,7 +276,7 @@ class ResponsePage extends React.Component {
                                     <h1>{this.state.note}</h1>
                                 </div>
                             }
-                            {this.state.actuel === 0 &&
+                            {this.state.actuel === 0 && this.state.data === true &&
                                 <div className={'stater-page'}>
                                     <h1>Informations</h1>
                                     <div className={'questions'}>
@@ -292,7 +292,7 @@ class ResponsePage extends React.Component {
                                             </div>
                                             <h4 className={'text'}>{
                                                 this.state.formation.timer !== 0  ?
-                                                    'Vous avez ' + (Math.round(this.state.formation.timer  / 60) + ' min(s)' + this.state.formation.timer % 60 < 10 ? '0' + this.state.formation.timer % 60 : this.state.formation.timer % 60)  + (this.state.formation.question_timed ? 'pour réponde à chaque question': 'Pour faire toute la formations') :
+                                                    'Vous avez ' + (Math.round(this.state.formation.timer / 60) + ' min(s) ' + (this.state.formation.timer % 60 < 10 ? '0' + this.state.formation.timer % 60 : this.state.formation.timer % 60))  + (this.state.formation.question_timed ? ' pour réponde à chaque question': ' pour faire toute la formations') :
                                                     'Cette formation n\'est pas chronométrée'
                                             }</h4>
                                         </div>
@@ -322,7 +322,7 @@ class ResponsePage extends React.Component {
                                                 'Vous n\'avez qu\'un seul essai' :
                                                     this.state.formation.max_try === 0 ?
                                                         'Vous avez un nom d\'essais infinis':
-                                                        'Vous avez ' + this.state.formation.max_try + 'essais'
+                                                        'Vous avez ' + this.state.formation.max_try + ' essais'
                                                 }
 
                                             </h4>
@@ -377,8 +377,8 @@ class FormationsController extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            status: 1,
-            formaid: 7,
+            status: null,
+            formaid: null,
         }
         this.changePage = this.changePage.bind(this)
     }

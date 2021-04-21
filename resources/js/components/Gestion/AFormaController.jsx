@@ -3,6 +3,7 @@ import PagesTitle from "../props/utils/PagesTitle";
 import axios from "axios";
 import PermsContext from "../context/PermsContext";
 import Uploader from "../props/utils/Uploader";
+import dateFormat from "dateformat";
 
 class FormaUserList extends React.Component {
 
@@ -44,6 +45,7 @@ class FormaUserList extends React.Component {
             certifs.map((certif)=>{
                 validatedid.push(certif.formation_id)
             })
+
 
             //formations array
             let allfomartions = [];
@@ -100,7 +102,7 @@ class FormaUserList extends React.Component {
                             <tr>
                                 <th className={'name'}>nom</th>
                                 {this.state.data && this.state.formations.map((formation)=>
-                                    <th key={formation.id} className={'forma'}>{formation.name}</th>
+                                    <th key={formation.id} className={'forma clicable'} onClick={()=>{this.props.change(3, formation.id)}}>{formation.name}</th>
                                 )}
                             </tr>
                         </thead>
@@ -340,7 +342,7 @@ class CreatorItem extends React.Component {
     }
 
     async postBg(){
-        var req = await axios({
+        await axios({
             method:'POST',
             url: '/data/formations/question/'+ this.state.questionid +'/image',
             data: {
@@ -510,7 +512,7 @@ class FormaCreate extends React.Component {
     }
 
     async save(add = null){
-        if(this.state.formationid === null && this.state.image ){
+        if(this.state.formationid === null && this.state.img !==null ){
             var req = await axios({
                 url: '/data/formations/admin/post',
                 method: 'post',
@@ -543,7 +545,7 @@ class FormaCreate extends React.Component {
                 }
             }
 
-        }else if(this.state.updated){
+        }else if(this.state.formationid !== null && this.state.updated){
             var req = await axios({
                 method: 'PUT',
                 url: '/data/formations/admin/'+ this.state.formationid+'/update',
@@ -573,7 +575,7 @@ class FormaCreate extends React.Component {
     }
 
     async postBg(){
-        var req = await axios({
+         await axios({
             method:'POST',
             url: '/data/formations/'+ this.state.formationid +'/image',
             data: {
@@ -793,7 +795,71 @@ class AFormaController extends React.Component {
                 return (<FormaList change={this.change}/>)
             case 2:
                 return (<FormaCreate change={this.change} id={this.state.formationid} />)
+            case 3 :
+                return (<FormaViewResponse change={this.change} id={this.state.formationid}/>)
         }
+    }
+}
+
+class FormaViewResponse extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            data: false,
+            formation: []
+        }
+    }
+
+    async componentDidMount() {
+        var req = await axios({
+            method: 'GET',
+            url: '/data/formations/' + this.props.id + '/responses'
+        })
+        this.setState({formation: req.data.formation, data: true})
+    }
+
+    render() {
+        return (
+            <div className="ViewFormaResponse">
+                <section className={'header'}>
+                    <button onClick={()=>this.props.change(0)} className={'btn'}>retour</button>
+                    <PagesTitle title={'Réponses | ' + this.state.formation.name}/>
+                </section>
+                <section className={'response-list'}>
+                    {this.state.data === true &&
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>nom</th>
+                                    <th>terminée</th>
+                                    <th>note actuelle</th>
+                                    <th>commencé le</th>
+                                    <th>dernière mise à jour</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            {this.state.formation.get_responses && this.state.formation.get_responses.map((response)=>
+                                <tr key={response.id}>
+                                    <td>{response.get_user.name}</td>
+                                    <td>{response.finished ? 'oui' : 'non'}</td>
+                                    <td>{response.note}/{this.state.formation.max_note}</td>
+                                    <td>{ dateFormat(response.created_at, 'dd/mm/yyyy à H:MM') }</td>
+                                    <td>{dateFormat(response.updated_at, 'dd/mm/yyyy à H:MM') }</td>
+                                </tr>
+                            )}
+
+                            </tbody>
+                        </table>
+                    }
+                    {!this.state.data &&
+                    <div className={'load'}>
+                        <img src={'/assets/images/loading.svg'} alt={''}/>
+                    </div>
+                    }
+
+                </section>
+            </div>
+        );
     }
 }
 
