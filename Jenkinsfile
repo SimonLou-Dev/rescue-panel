@@ -61,14 +61,10 @@ pipeline {
           }
         }
 
-        node {
-            def remote = [:]
-          remote.name = 'SimonLousServer'
-          remote.host = credentials('DB-Host')
-          remote.user = 'root'
-          remote.password = credentials('ssh')
-          remote.allowAnyHosts = true
-          stage('Set Maintenance to the MainSite') {
+
+        stage('Set Maintenance to the MainSite') {
+          steps {
+            echo 'coucou'
             sshCommand remote: remote, command: "ls -l"
           }
         }
