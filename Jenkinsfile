@@ -1,10 +1,5 @@
 pipeline {
-  def remote = [:]
-  remote.name = 'SimonLousServer'
-  remote.host = credentials('DB-Host')
-  remote.user = 'root'
-  remote.password = credentials('ssh')
-  remote.allowAnyHosts = true
+
   agent any
   stages {
     stage('Verification') {
@@ -66,9 +61,14 @@ pipeline {
           }
         }
 
-        stage('Set Maintenance to the MainSite') {
-          steps {
-            echo 'coucou'
+        node {
+            def remote = [:]
+          remote.name = 'SimonLousServer'
+          remote.host = credentials('DB-Host')
+          remote.user = 'root'
+          remote.password = credentials('ssh')
+          remote.allowAnyHosts = true
+          stage('Set Maintenance to the MainSite') {
             sshCommand remote: remote, command: "ls -l"
           }
         }
