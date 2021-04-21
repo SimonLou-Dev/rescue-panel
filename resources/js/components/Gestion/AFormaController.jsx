@@ -835,6 +835,7 @@ class FormaViewResponse extends React.Component {
                                     <th>note actuelle</th>
                                     <th>commencé le</th>
                                     <th>dernière mise à jour</th>
+                                    <th>actions</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -845,6 +846,15 @@ class FormaViewResponse extends React.Component {
                                     <td>{response.note}/{this.state.formation.max_note}</td>
                                     <td>{ dateFormat(response.created_at, 'dd/mm/yyyy à H:MM') }</td>
                                     <td>{dateFormat(response.updated_at, 'dd/mm/yyyy à H:MM') }</td>
+                                    <td><img alt={''} src={'/assets/images/cancel.png'} onClick={async () => {
+                                        let req = await axios({
+                                            method: 'delete',
+                                            url: '/data/formations/responses/' + response.id + '/delete'
+                                        })
+                                        if(req.status === 201){
+                                            this.componentDidMount()
+                                        }
+                                    }} /></td>
                                 </tr>
                             )}
 

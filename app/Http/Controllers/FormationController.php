@@ -378,38 +378,39 @@ class FormationController extends Controller
     public function getFormationById(string $formation_id): JsonResponse
     {
         $formation_id = (int) $formation_id;
+        $user = User::where('id',Auth::user()->id)->first();
+
         $tentative = FormationsResponse::where('user_id', Auth::user()->id)->where('formation_id', $formation_id)->where('finished', false)->count() > 0;
 
         $formation = Formation::where('id', $formation_id)->first();
-
-        if(!$tentative){
-            if($formation->unic_try){
-                foreach ($formation->GetResponses as $response){
-                    if($response->user_id == Auth::user()->id){
-                        event(new Notify('Cette formation est a essai unique',2));
-                        return  response()->json(['status'=>'UNIC TRY'], 500);
+        if(((!$user->GetGrade->perm_21 && !$user->GetGrade->perm_20) && !$tentative )) {
+            if ($formation->unic_try) {
+                foreach ($formation->GetResponses as $response) {
+                    if ($response->user_id == Auth::user()->id) {
+                        event(new Notify('Cette formation est a essai unique', 2));
+                        return response()->json(['status' => 'UNIC TRY'], 500);
                     }
                 }
             }
             $userstry = 0;
-            foreach ($formation->GetResponses as $response){
-                if($response->user_id == Auth::user()->id){
+            foreach ($formation->GetResponses as $response) {
+                if ($response->user_id == Auth::user()->id) {
                     $userstry++;
                 }
             }
-            if($userstry == $formation->max_try && $formation->max_try != 0){
-                event(new Notify('Vous avez épuisé toute vos tentatives',2));
-                return  response()->json(['status'=>'TO MANY TRY'], 500);
+            if ($userstry == $formation->max_try && $formation->max_try != 0) {
+                event(new Notify('Vous avez épuisé toute vos tentatives', 2));
+                return response()->json(['status' => 'TO MANY TRY'], 500);
             }
 
-            if($formation->can_retry_later){
+            if ($formation->can_retry_later) {
                 $last = FormationsResponse::where('user_id', Auth::user()->id)->where('formation_id', $formation_id)->orderByDesc('id')->first();
-                if(isset($last)){
+                if (isset($last)) {
                     $time = strtotime($last->created_at);
                     $possibily = time() > $formation->time_btw_try + $time;
-                    if(!$possibily){
-                        event(new Notify('Vous ne pouvez pas refaire cette formation maintenant',2));
-                        return  response()->json(['status'=>'MUST WAIT', 'time'=> $formation->time_btw_try + $time], 500);
+                    if (!$possibily) {
+                        event(new Notify('Vous ne pouvez pas refaire cette formation maintenant', 2));
+                        return response()->json(['status' => 'MUST WAIT', 'time' => $formation->time_btw_try + $time], 500);
                     }
                 }
             }
@@ -570,5 +571,16 @@ class FormationController extends Controller
             $response->GetUser;
         }
         return response()->json(['status'=>"OK", 'formation'=>$formation]);
+    }
+
+    /**
+     * @param string response_id
+     * @return JsonResponse
+     */
+    public function deleteResponseByID(string $response_id): JsonResponse
+    {
+        $response = FormationsResponse::where('id', $response_id)->first();
+        $response->delete();
+        return response()->json(['status'=>'OK',201]);
     }
 }

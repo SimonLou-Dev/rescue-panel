@@ -145,6 +145,7 @@ Route::get('/data/formation/{formation_id}/final', [FormationController::class, 
 Route::post('/data/formations/question/{question_id}/image', [FormationController::class, 'postQuestionImage']);
 Route::post('/data/formations/{formation_id}/image', [FormationController::class, 'postFormationsImage']);
 Route::get('/data/formations/{formation_id}/responses', [FormationController::class, 'getReponseOffFormations']);
+Route::delete('/data/formations/responses/{response_id}/delete', [FormationController::class, 'deleteResponseByID']);
 
 //Recap
 Route::get('/data/remboursements/get', [RemboursementsController::class, 'getRemboursementOfUser']);
