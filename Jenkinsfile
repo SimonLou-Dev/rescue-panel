@@ -38,7 +38,8 @@ pipeline {
           }
           steps {
             withSonarQubeEnv(installationName: 'Serveur sonarqube', credentialsId: 'sonarqube_access_token') {
-              sh '${scannerHome}/bin/sonar-scanner'
+              //sh '${scannerHome}/bin/sonar-scanner'
+              echo 'coucou'
             }
 
           }
@@ -57,7 +58,7 @@ pipeline {
       parallel {
         stage('Reponse Sonarqube analyst') {
           steps {
-          echo 'coucou'
+            echo 'coucou'
             //waitForQualityGate(credentialsId: 'sonarqube_access_token', webhookSecretId: 'sonarsecret_webhook', abortPipeline: false)
           }
         }
@@ -66,7 +67,8 @@ pipeline {
         stage('Set Maintenance to the MainSite') {
           steps {
             echo 'coucou'
-            sh 'ssh root@75.119.154.204 -p /var/www/'
+            sh 'ssh root@75.119.154.204'
+            sh 'ls -l'
           }
         }
 
