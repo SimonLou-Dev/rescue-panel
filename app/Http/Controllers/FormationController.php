@@ -147,7 +147,6 @@ class FormationController extends Controller
         $desc = (string) $request->desc;
         $certif= (bool) $request->certif;
         $finalnote= (bool) $request->finalnote;
-        $img = $request->get('img');
         $max_try = (int) $request->max_try;
         $name = (string) $request->name;
         $time = (bool) $request->time;
@@ -177,11 +176,9 @@ class FormationController extends Controller
             $timer = (int) null;
         }else{
             $time_str = explode(':', $time_str);
-            $timer = (int) ($time_str[0]*3600) + ($time_str[1]*60);
+            $timer = (int) ($time_str[0]*60) + ($time_str[1]);
         }
 
-        $imgname = time() . '.' . explode('/', explode(':', substr($img, 0, strpos($img, ';')))[1])[1];
-        $path = "/storage/formations/front_img/";
 
         $formation = new Formation();
         //infos bloballes
@@ -189,7 +186,6 @@ class FormationController extends Controller
         $formation->public = false;
         $formation->creator_id = Auth::user()->id;
         $formation->desc = $desc;
-        $formation->image = $imgname;
         //essai
         $formation->unic_try = $unic_try;
         $formation->can_retry_later = $time_btw;
@@ -206,10 +202,7 @@ class FormationController extends Controller
         $formation->displaynote= $finalnote;
         $formation->certify = $certif;
         $formation->save();
-        $dir = public_path($path . $formation->id);
-        mkdir($dir);
         event(new Notify('Vous avez ajouté une formation', 1));
-        Image::make($img)->resize(960,540)->save($dir . '/' . $imgname);
 
         return response()->json([
             'formation'=>$formation,
@@ -228,10 +221,6 @@ class FormationController extends Controller
         $desc = (string) $request->desc;
         $certif= (bool) $request->certif;
         $finalnote= (bool) $request->finalnote;
-        $img = $request->get('img');
-        if(!isset($img)) {
-            $img = 'undefined';
-        }
         $max_try = (int) $request->max_try;
         $name = (string) $request->name;
         $time = (bool) $request->time;
@@ -261,13 +250,9 @@ class FormationController extends Controller
             $timer = (int) null;
         }else{
             $time_str = explode(':', $time_str);
-            $timer = (int) ($time_str[0]*3600) + ($time_str[1]*60);
+            $timer = (int) ($time_str[0]*60) + ($time_str[1]);
         }
 
-        if($img != 'undefined'){
-            $imgname = time() . '.' . explode('/', explode(':', substr($img, 0, strpos($img, ';')))[1])[1];
-            $path = "/storage/formations/front_img/";
-        }
 
         $formation = Formation::where('id', $formation_id)->first();
         //infos bloballes
@@ -275,9 +260,6 @@ class FormationController extends Controller
         $formation->public = false;
         $formation->creator_id = Auth::user()->id;
         $formation->desc = $desc;
-        if($img != 'undefined') {
-            $formation->image = $imgname;
-        }
         //essai
         $formation->unic_try = $unic_try;
         $formation->can_retry_later = $time_btw;
@@ -294,11 +276,6 @@ class FormationController extends Controller
         $formation->displaynote= $finalnote;
         $formation->certify = $certif;
         $formation->save();
-        if($img != 'undefined'){
-            $dir = public_path($path . $formation->id);
-            mkdir($dir);
-            Image::make($img)->resize(960,540)->save($dir . '/' . $imgname);
-        }
 
         event(new Notify('Vous avez sauvegarder la formations', 1));
         return response()->json([
@@ -312,14 +289,11 @@ class FormationController extends Controller
      */
     public function addQuestion(Request $request, string $formation_id): JsonResponse
     {
-        $img = $request->get('img');
         $formation_id = (int) $formation_id;
         $formation = Formation::where('id', $formation_id)->first();
         if(!isset($formation)){
             return \response()->json([],500);
         }
-        $imgname = time() . '.' . explode('/', explode(':', substr($img, 0, strpos($img, ';')))[1])[1];
-        $path = "/storage/formations/question_img/";
         $question = new FormationsQuestion();
         $question->formation_id = $formation->id;
         $responses=$request->responses;
@@ -336,13 +310,9 @@ class FormationController extends Controller
         $formation->max_note= $formation->max_note+$a;
         $question->desc = $request->description;
         $question->correction = $request->correction;
-        $question->img = $imgname;
         $question->save();
         $formation->save();
-        $dir = public_path($path . $formation->id);
-        mkdir($dir);
         event(new Notify('Vous avez ajouté une question', 1));
-        Image::make($img)->resize(960,540)->save($dir . '/' . $imgname);
         return \response()->json(['status'=>'OK', 'questionid'=>$question->id],201);
     }
 
@@ -362,18 +332,10 @@ class FormationController extends Controller
     public function updateQuestion(Request $request, string $question_id): JsonResponse
     {
         $question_id = (int) $question_id;
-        $img = $request->get('img');
-        if(!isset($img)) {
-            $img = 'undefined';
-        }
         $question = FormationsQuestion::where('id', $question_id)->first();
         $formation = Formation::where('id', $question->GetFormation->id)->first();
         if(!isset($question)){
             return \response()->json([],500);
-        }
-        if($img != 'undefined'){
-            $imgname = time() . '.' . explode('/', explode(':', substr($img, 0, strpos($img, ';')))[1])[1];
-            $path = "/storage/formations/question_img/";
         }
         $responses=$request->responses;
         $a=0;
@@ -387,19 +349,11 @@ class FormationController extends Controller
         $question->type = ($a > 1 ? 'choix multiple' : 'choix unique');
         $question->desc = $request->description;
         $question->correction = $request->correction;
-        if($img != 'undefined') {
-            $question->img = $imgname;
-        }
         $formation->max_note = $formation->max_note - $question->max_note;
         $question->max_note = $a;
         $formation->max_note = $formation->max_note + $a;
         $formation->save();
         $question->save();
-        if($img != 'undefined') {
-            $dir = public_path($path . $question->GetFormation->id);
-            mkdir($dir);
-            Image::make($img)->resize(960,540)->save($dir . '/' . $imgname);
-        }
         event(new Notify('Vous avez mis a jour une question', 1));
         return \response()->json(['status'=>'OK'],201);
     }
@@ -417,7 +371,6 @@ class FormationController extends Controller
         return \response()->json(['status'=>"OK"]);
     }
 
-
     /**
      * @param string $formation_id
      * @return JsonResponse
@@ -425,38 +378,39 @@ class FormationController extends Controller
     public function getFormationById(string $formation_id): JsonResponse
     {
         $formation_id = (int) $formation_id;
+        $user = User::where('id',Auth::user()->id)->first();
+
         $tentative = FormationsResponse::where('user_id', Auth::user()->id)->where('formation_id', $formation_id)->where('finished', false)->count() > 0;
 
         $formation = Formation::where('id', $formation_id)->first();
-
-        if(!$tentative){
-            if($formation->unic_try){
-                foreach ($formation->GetResponses as $response){
-                    if($response->user_id == Auth::user()->id){
-                        event(new Notify('Cette formation est a essai unique',2));
-                        return  response()->json(['status'=>'TO MANY TRY'], 500);
+        if(((!$user->GetGrade->perm_21 && !$user->GetGrade->perm_20) && !$tentative )) {
+            if ($formation->unic_try) {
+                foreach ($formation->GetResponses as $response) {
+                    if ($response->user_id == Auth::user()->id) {
+                        event(new Notify('Cette formation est a essai unique', 2));
+                        return response()->json(['status' => 'UNIC TRY'], 500);
                     }
                 }
             }
             $userstry = 0;
-            foreach ($formation->GetResponses as $response){
-                if($response->user_id == Auth::user()->id){
+            foreach ($formation->GetResponses as $response) {
+                if ($response->user_id == Auth::user()->id) {
                     $userstry++;
                 }
             }
-            if($userstry == $formation->max_try && $formation->max_try != 0){
-                event(new Notify('Vous avez épuisé toute vos tentatives',2));
-                return  response()->json(['status'=>'TO MANY TRY'], 500);
+            if ($userstry == $formation->max_try && $formation->max_try != 0) {
+                event(new Notify('Vous avez épuisé toute vos tentatives', 2));
+                return response()->json(['status' => 'TO MANY TRY'], 500);
             }
 
-            if($formation->can_retry_later){
+            if ($formation->can_retry_later) {
                 $last = FormationsResponse::where('user_id', Auth::user()->id)->where('formation_id', $formation_id)->orderByDesc('id')->first();
-                if(isset($last)){
+                if (isset($last)) {
                     $time = strtotime($last->created_at);
                     $possibily = time() > $formation->time_btw_try + $time;
-                    if(!$possibily){
-                        event(new Notify('Vous ne pouvez pas refaire cette formation maintenant',2));
-                        return  response()->json(['status'=>'TO MANY TRY'], 500);
+                    if (!$possibily) {
+                        event(new Notify('Vous ne pouvez pas refaire cette formation maintenant', 2));
+                        return response()->json(['status' => 'MUST WAIT', 'time' => $formation->time_btw_try + $time], 500);
                     }
                 }
             }
@@ -493,8 +447,8 @@ class FormationController extends Controller
     {
         $question_id = (int) $question_id;
         $question = FormationsQuestion::where('id',$question_id)->first();
-        $response = FormationsResponse::where('finished', false)->where('user_id', Auth::user()->id);
-        if($response->count() == 0){
+        $response = FormationsResponse::where('finished', false)->where('user_id', Auth::user()->id)->first();
+        if(!isset($response->note)){
             $response = new FormationsResponse();
             $response->finished = false;
             $response->lastquestion_id = (int) $question_id;
@@ -502,11 +456,8 @@ class FormationController extends Controller
             $response->user_id = Auth::user()->id;
             $response->note = (int) $request->points;
         }else{
-            $response->first();
-            if (!empty($response)) {
                 $response->note = $response->note + (int) $request->points;
                 $response->lastquestion_id = (int) $question_id;
-            }
         }
         $response->save();
         return \response()->json(['status'=>'OK']);
@@ -526,7 +477,6 @@ class FormationController extends Controller
         }
         return response()->json([]);
     }
-
 
     /**
      * @param string $formation_id
@@ -560,5 +510,77 @@ class FormationController extends Controller
         return \response()->json(['note'=>$response->note.'/'.$formation->max_note]);
     }
 
+    /**
+     * @param Request $request
+     * @param string $question_id
+     * @return JsonResponse
+     */
+    public function postQuestionImage(Request $request, string $question_id): JsonResponse
+    {
+        $question = FormationsQuestion::where('id', $question_id)->first();
+        $img = $request->get('image');
+        $imgname = Auth::user()->id . '_' . time() . '.' . explode('.', $img)[1];
+        $path = "/storage/formations/question_img/".$question->GetFormation->id.'/'. $question_id;
+        $dir = public_path($path);
+        $question->img = $imgname;
+        $question->save();
+        if(!is_dir(public_path("/storage/formations/question_img/".$question->GetFormation->id))){
+            mkdir(public_path("/storage/formations/question_img/".$question->GetFormation->id));
+        }
+        if(!is_dir($dir)){
+            mkdir($dir);
+        }
+        FileController::moveTempFile($img, $dir . '/' . $imgname);
+        event(new Notify('Photo ajoutée à la formations', 1));
+        return response()->json([],201);
 
+    }
+
+    /**
+     * @param Request $request
+     * @param string $formation_id
+     * @return JsonResponse
+     */
+    public function postFormationsImage(Request $request, string $formation_id): JsonResponse
+    {
+        $formation = Formation::where('id', $formation_id)->first();
+        $img = $request->get('image');
+        $imgname = Auth::user()->id . '_' . time() . '.' . explode('.', $img)[1];
+        $path = "/storage/formations/front_img/".$formation_id;
+        $dir = public_path($path);
+        $formation->image = $imgname;
+        $formation->save();
+        if(!is_dir($dir)){
+            mkdir($dir);
+        }
+        FileController::moveTempFile($img, $dir . '/' . $imgname);
+        event(new Notify('Photo ajoutée à la question', 1));
+        return response()->json([],201);
+
+    }
+
+    /**
+     * @param string $formations_id
+     * @return JsonResponse
+     */
+    public function getReponseOffFormations(string $formations_id): JsonResponse
+    {
+        $formations_id = (int) $formations_id;
+        $formation = Formation::where('id', $formations_id)->first();
+        foreach ($formation->GetResponses as $response){
+            $response->GetUser;
+        }
+        return response()->json(['status'=>"OK", 'formation'=>$formation]);
+    }
+
+    /**
+     * @param string response_id
+     * @return JsonResponse
+     */
+    public function deleteResponseByID(string $response_id): JsonResponse
+    {
+        $response = FormationsResponse::where('id', $response_id)->first();
+        $response->delete();
+        return response()->json(['status'=>'OK',201]);
+    }
 }

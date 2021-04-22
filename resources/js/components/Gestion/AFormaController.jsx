@@ -2,6 +2,9 @@ import React from 'react';
 import PagesTitle from "../props/utils/PagesTitle";
 import axios from "axios";
 import PermsContext from "../context/PermsContext";
+import Uploader from "../props/utils/Uploader";
+import dateFormat from "dateformat";
+
 class FormaUserList extends React.Component {
 
     constructor(props) {
@@ -42,6 +45,7 @@ class FormaUserList extends React.Component {
             certifs.map((certif)=>{
                 validatedid.push(certif.formation_id)
             })
+
 
             //formations array
             let allfomartions = [];
@@ -98,7 +102,7 @@ class FormaUserList extends React.Component {
                             <tr>
                                 <th className={'name'}>nom</th>
                                 {this.state.data && this.state.formations.map((formation)=>
-                                    <th key={formation.id} className={'forma'}>{formation.name}</th>
+                                    <th key={formation.id} className={'forma clicable'} onClick={()=>{this.props.change(3, formation.id)}}>{formation.name}</th>
                                 )}
                             </tr>
                         </thead>
@@ -315,6 +319,7 @@ class CreatorItem extends React.Component {
                 })
                 if(req.status ===201){
                     this.setState({updated:false});
+                    this.postBg();
                 }
             }
         }else{
@@ -331,18 +336,19 @@ class CreatorItem extends React.Component {
             })
             if(req.status === 201){
                 this.setState({questionid:req.data.questionid, updated:false})
+                this.postBg();
             }
         }
     }
 
-    createImage(file) {
-        let reader = new FileReader();
-        reader.onload = (e) => {
-            this.setState({
-                img: e.target.result
-            })
-        };
-        reader.readAsDataURL(file);
+    async postBg(){
+        await axios({
+            method:'POST',
+            url: '/data/formations/question/'+ this.state.questionid +'/image',
+            data: {
+                image: this.state.img,
+            }
+        })
     }
 
     render() {
@@ -357,20 +363,9 @@ class CreatorItem extends React.Component {
                         <input type={'text'} maxLength={255} value={this.state.text} onChange={(e)=>{this.setState({text: e.target.value, updated:true})}}/>
                     </div>
                     <div className={'add-image'}>
-                        <div className={'image'}>
-                            {this.state.image &&
-                            <img alt={""} src={this.state.image}/>
-                            }
-                            {!this.state.image &&
-                            <h3>ajouter une image 960x540</h3>
-                            }
-                            <input accept={["image/jpeg", "image/png"]} type={"file"} onChange={(e)=>{
-                                let file = e.target.files[0];
-                                this.createImage(file)
-                                let src = URL.createObjectURL(file)
-                                this.setState({image:src, updated:true});
-                            }}/>
-                        </div>
+                        <Uploader text={'1920*1080 2MO'} images={(image)=>{
+                            this.setState({img:image, updated:true});
+                        }}/>
                     </div>
                     <div className={'response-info'}>
                         <label className={'label-titel'}>Réponses</label>
@@ -463,6 +458,7 @@ class FormaCreate extends React.Component {
         }
     }
 
+
     async componentDidMount() {
         if (this.props.id === null) {
             this.setState({formationid: null});
@@ -516,7 +512,7 @@ class FormaCreate extends React.Component {
     }
 
     async save(add = null){
-        if(this.state.formationid === null ){
+        if(this.state.formationid === null && this.state.img !==null ){
             var req = await axios({
                 url: '/data/formations/admin/post',
                 method: 'post',
@@ -526,7 +522,6 @@ class FormaCreate extends React.Component {
                     name: this.state.name,
                     certif: this.state.getcertif,
                     finalnote: this.state.getfinalnote,
-                    img: this.state.img,
                     max_try: this.state.max_try,
                     time: this.state.time,
                     total: this.state.total,
@@ -540,6 +535,7 @@ class FormaCreate extends React.Component {
             })
             if(req.status === 201){
                 this.setState({updated:false, formationid: req.data.formation.id})
+                this.postBg();
                 if(add){
                     var list = this.state.item;
                     list.push({
@@ -549,7 +545,7 @@ class FormaCreate extends React.Component {
                 }
             }
 
-        }else if(this.state.updated){
+        }else if(this.state.formationid !== null && this.state.updated){
             var req = await axios({
                 method: 'PUT',
                 url: '/data/formations/admin/'+ this.state.formationid+'/update',
@@ -573,8 +569,19 @@ class FormaCreate extends React.Component {
             })
             if(req.status === 201){
                 this.setState({updated: false});
+                this.postBg();
             }
         }
+    }
+
+    async postBg(){
+         await axios({
+            method:'POST',
+            url: '/data/formations/'+ this.state.formationid +'/image',
+            data: {
+                image: this.state.img,
+            }
+        })
     }
 
     createImage(file) {
@@ -647,9 +654,9 @@ class FormaCreate extends React.Component {
 
                                     </div>
                                     <div className="image">
-                                        <div className={'add-image'}>
-
-                                        </div>
+                                        <Uploader text={'1920*1080 2MO'} images={(image)=>{
+                                            this.setState({img:image, updated:true});
+                                        }}/>
                                     </div>
                                     <div className="desc">
                                         <label>Description :</label>
@@ -788,7 +795,81 @@ class AFormaController extends React.Component {
                 return (<FormaList change={this.change}/>)
             case 2:
                 return (<FormaCreate change={this.change} id={this.state.formationid} />)
+            case 3 :
+                return (<FormaViewResponse change={this.change} id={this.state.formationid}/>)
         }
+    }
+}
+
+class FormaViewResponse extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            data: false,
+            formation: []
+        }
+    }
+
+    async componentDidMount() {
+        var req = await axios({
+            method: 'GET',
+            url: '/data/formations/' + this.props.id + '/responses'
+        })
+        this.setState({formation: req.data.formation, data: true})
+    }
+
+    render() {
+        return (
+            <div className="ViewFormaResponse">
+                <section className={'header'}>
+                    <button onClick={()=>this.props.change(0)} className={'btn'}>retour</button>
+                    <PagesTitle title={'Réponses | ' + this.state.formation.name}/>
+                </section>
+                <section className={'response-list'}>
+                    {this.state.data === true &&
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>nom</th>
+                                    <th>terminée</th>
+                                    <th>note actuelle</th>
+                                    <th>commencé le</th>
+                                    <th>dernière mise à jour</th>
+                                    <th>actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            {this.state.formation.get_responses && this.state.formation.get_responses.map((response)=>
+                                <tr key={response.id}>
+                                    <td>{response.get_user.name}</td>
+                                    <td>{response.finished ? 'oui' : 'non'}</td>
+                                    <td>{response.note}/{this.state.formation.max_note}</td>
+                                    <td>{ dateFormat(response.created_at, 'dd/mm/yyyy à H:MM') }</td>
+                                    <td>{dateFormat(response.updated_at, 'dd/mm/yyyy à H:MM') }</td>
+                                    <td><img alt={''} src={'/assets/images/cancel.png'} onClick={async () => {
+                                        let req = await axios({
+                                            method: 'delete',
+                                            url: '/data/formations/responses/' + response.id + '/delete'
+                                        })
+                                        if(req.status === 201){
+                                            this.componentDidMount()
+                                        }
+                                    }} /></td>
+                                </tr>
+                            )}
+
+                            </tbody>
+                        </table>
+                    }
+                    {!this.state.data &&
+                    <div className={'load'}>
+                        <img src={'/assets/images/loading.svg'} alt={''}/>
+                    </div>
+                    }
+
+                </section>
+            </div>
+        );
     }
 }
 

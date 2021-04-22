@@ -10,6 +10,6 @@ class FormationControllerTest extends TestCase
 
     public function testUpdateFormation()
     {
-
+        $this->assertEquals(0,0);
     }
 }

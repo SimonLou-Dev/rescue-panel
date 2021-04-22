@@ -1,6 +1,7 @@
 import React from 'react';
 import axios from "axios";
 import PagesTitle from "../props/utils/PagesTitle";
+import {useEffect, useState} from "react/cjs/react.production.min";
 
 
 class LivretFormation extends React.Component {
@@ -61,7 +62,7 @@ class LivretFormation extends React.Component {
                     {this.state.data === true && this.state.list.map((forma) =>
                         <div className={'forma'} onClick={()=>{this.props.change(1,forma.id)}}>
                             <div className="infos">
-                                <img src={"/storage/front_img/"+forma.id+'/'+forma.image} alt={""}/>
+                                <img src={"/storage/formations/front_img/"+forma.id+'/'+forma.image} alt={""}/>
                                 <div className="text">
                                     <h5>{forma.name}</h5>
                                     <p>{forma.desc}</p>
@@ -99,6 +100,7 @@ class ResponsePage extends React.Component {
             time: 0,
             timerpaused: false,
             note: '?/?',
+            data: false,
         }
 
         this.nextPage = this.nextPage.bind(this)
@@ -120,6 +122,7 @@ class ResponsePage extends React.Component {
                 if(this.state.formation.timed){
                     this.endPage();
                 }
+                this.setState({timerpaused: true})
             }
         }
     }
@@ -133,11 +136,10 @@ class ResponsePage extends React.Component {
             this.props.change(null)
         }
         if(req.status === 200){
-            let length = req.data.formation.get_questions.length +1;
+            let length = req.data.formation.get_questions.length + 1;
             length = length + (req.data.formation.displaynote === 1 ? 1 : 0)
 
-            this.setState({formation: req.data.formation, responses: req.data.formation.get_questions, length:length})
-            this.nextPage()
+            this.setState({formation: req.data.formation, responses: req.data.formation.get_questions, length:length, data:true})
         }
     }
 
@@ -164,19 +166,19 @@ class ResponsePage extends React.Component {
                 this.props.change(null)
             }
         }else{
-            if(this.state.formation.question_timed != null) {
+            if(this.state.formation.question_timed === 1) {
                 this.setState( {time:this.state.formation.timer})
             }
             if(this.state.formation.correction){
                 if(this.state.incorrect){
-                    this.setState({actuel: this.state.actuel+1, incorrect:false, timerpaused:false});
+                    this.setState({actuel: this.state.actuel+1, incorrect:false, timerpaused:false, myresponses:{}});
                 }else{
                     this.setState({incorrect:true, timerpaused:true});
                     this.ScoreCouter();
                 }
             }else{
                     this.ScoreCouter();
-                    this.setState({actuel: this.state.actuel+1});
+                    this.setState({actuel: this.state.actuel+1, myresponses: {}});
                 }
         }if(this.state.actuel === this.state.length -1){
             this.finalSave()
@@ -197,7 +199,7 @@ class ResponsePage extends React.Component {
     async ScoreCouter() {
         let point = 0;
         let responses = this.state.myresponses;
-        let rightresponses = this.state.responses[this.state.actuel - 1 - (this.state.formation.displaynote === 1 ? 1 : 0)].responses;
+        let rightresponses = this.state.responses[this.state.actuel - 1].responses;
         let a = 0;
         while (a < rightresponses.length) {
             if (responses.hasOwnProperty(rightresponses[a].id)) {
@@ -210,7 +212,7 @@ class ResponsePage extends React.Component {
         if (point < 0) {
             point = 0;
         }
-        let path = this.state.responses[this.state.actuel - 1 - (this.state.formation.displaynote === 1 ? 1 : 0)].id
+        let path = this.state.responses[this.state.actuel - 1].id
 
         await axios({
             url: '/data/formations/response/' + path + '/save',
@@ -229,9 +231,10 @@ class ResponsePage extends React.Component {
                         <section className="question">
                             {this.state.actuel > 0 && this.state.actuel < this.state.length &&
                                 <div className={'left'}>
-                                    <h2><span>Question n°{this.state.actuel} :</span> {this.state.responses[this.state.actuel - 1 - (this.state.formation.displaynote === 1 ? 1 : 0)].name}</h2>
+                                    {console.log(this.state.actuel)}
+                                    <h2><span>Question n°{this.state.actuel} :</span> {this.state.responses[this.state.actuel - 1].name}</h2>
                                     <div className={"response"}>
-                                    {this.state.responses[this.state.actuel - 1 - (this.state.formation.displaynote === 1 ? 1 : 0)].responses.map((response)=>
+                                    {this.state.responses[this.state.actuel - 1].responses.map((response)=>
                                         <div className={'rowed'} key={response.id}>
                                             <div className={'checkbox'}>
                                                 <label className={"container " + (this.state.incorrect ? (response.active ? 'right':'') : '')} >{response.content}
@@ -258,11 +261,11 @@ class ResponsePage extends React.Component {
                             }
                             {this.state.actuel > 0 && this.state.actuel < this.state.length &&
                                 <div className="infos">
-                                <img alt={""} src={'/storage/formations/question_img/'+ (this.state.responses[this.state.actuel - 1 - (this.state.formation.displaynote === 1 ? 1 : 0)].id) + '/' + this.state.responses[this.state.actuel - 1 - (this.state.formation.displaynote === 1 ? 1 : 0)].img}/>
-                                <p>{this.state.responses[this.state.actuel - 1 - (this.state.formation.displaynote === 1 ? 1 : 0)].desc}</p>
+                                <img alt={""} src={'/storage/formations/question_img/'+ this.props.id + '/' + (this.state.responses[this.state.actuel - 1].id) + '/' + this.state.responses[this.state.actuel - 1].img}/>
+                                <p>{this.state.responses[this.state.actuel - 1].desc}</p>
                                 {this.state.incorrect &&
                                     <section className={'correction'}>
-                                        <p>{this.state.responses[this.state.actuel - 1 - (this.state.formation.displaynote === 1 ? 1 : 0)].correction}</p>
+                                        <p>{this.state.responses[this.state.actuel - 1].correction}</p>
                                     </section>
                                 }
                             </div>
@@ -273,12 +276,91 @@ class ResponsePage extends React.Component {
                                     <h1>{this.state.note}</h1>
                                 </div>
                             }
+                            {this.state.actuel === 0 && this.state.data === true &&
+                                <div className={'stater-page'}>
+                                    <h1>Informations</h1>
+                                    <div className={'questions'}>
+                                        <h3>{(this.state.formation.get_questions ? this.state.formation.get_questions.length :  '?') + ' questions'}</h3>
+                                    </div>
+                                    <div className={'infosList'}>
+                                        <div className={'rowed'}>
+                                            <div className={'illustrations'}>
+                                                <img alt={''} src={'/assets/images/formations/chronometer.png'}/>
+                                                {this.state.formation.timer === 0  &&
+                                                <img alt={''} src={'/assets/images/formations/cross.png'}/>
+                                                }
+                                            </div>
+                                            <h4 className={'text'}>{
+                                                this.state.formation.timer !== 0  ?
+                                                    'Vous avez ' + (Math.round(this.state.formation.timer / 60) + ' min(s) ' + (this.state.formation.timer % 60 < 10 ? '0' + this.state.formation.timer % 60 : this.state.formation.timer % 60))  + (this.state.formation.question_timed ? ' pour réponde à chaque question': ' pour faire toute la formations') :
+                                                    'Cette formation n\'est pas chronométrée'
+                                            }</h4>
+                                        </div>
+                                        <div className={'rowed'}>
+                                            <div className={'illustrations'}>
+                                                <img alt={''} src={'/assets/images/formations/correction.png'}/>
+                                                {this.state.formation.correction === 0  &&
+                                                <img alt={''} src={'/assets/images/formations/cross.png'}/>
+                                                }
+                                            </div>
+                                            <h4 className={'text'}>
+                                                {this.state.formation.correction ?
+                                                    'Cette formation est corrigée ' + (this.state.formation.timer !== 0 ? 'et le temps est mis en pause': ''):
+                                                    'Cette formation n\'est pas corrigée'
+                                                }
+                                            </h4>
+                                        </div>
+                                        <div className={'rowed'}>
+                                            <div className={'illustrations'}>
+                                                <img alt={''} src={'/assets/images/formations/retry.png'}/>
+                                                {this.state.formation.unic_try === 1 &&
+                                                <img alt={''} src={'/assets/images/formations/cross.png'}/>
+                                                }
+                                            </div>
+                                            <h4 className={'text'}>
+                                                {this.state.formation.unic_try ?
+                                                'Vous n\'avez qu\'un seul essai' :
+                                                    this.state.formation.max_try === 0 ?
+                                                        'Vous avez un nom d\'essais infinis':
+                                                        'Vous avez ' + this.state.formation.max_try + ' essais'
+                                                }
+
+                                            </h4>
+                                        </div>
+                                        <div className={'rowed'}>
+                                            <div className={'illustrations'}>
+                                                <img alt={''} src={'/assets/images/formations/wait.png'}/>
+                                                {this.state.formation.time_btw_try === 0 || (this.state.formation.unic_try === 1 || this.state.formation.max_try) &&
+                                                <img alt={''} src={'/assets/images/formations/cross.png'}/>
+                                                }
+                                            </div>
+                                            <h4 className={'text'}>Temps entre les retry</h4>
+                                        </div>
+                                        <div className={'rowed'}>
+                                            <div className={'illustrations'}>
+                                                <img alt={''} src={'/assets/images/formations/certifications.png'}/>
+                                                {this.state.formation.certify === 0  &&
+                                                <img alt={''} src={'/assets/images/formations/cross.png'}/>
+                                                }
+                                            </div>
+                                            <h4 className={'text'}> {this.state.formation.certify ?
+                                                'Vous aurez automatiquement la certifiations si vous avez plus  de 2/3 des points':
+                                                'Un référent dois valider votre formations'
+                                            }
+                                            </h4>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
                         </section>
 
                         <section className="bottom">
-                            <h3>{this.state.time}</h3>
+                            {this.state.formation.timer > 0 &&
+                            <h3> {Math.round(this.state.time / 60) + ' min (s)' + this.state.time % 60< 10 ? '0' + this.state.time % 60 : this.state.time % 60}</h3>
+                            }
+
                             {this.state.actuel > 0 && this.state.actuel < this.state.length &&
-                                <h3>{this.state.responses[this.state.actuel - 1 - (this.state.formation.displaynote === 1 ? 1 : 0)].type}</h3>
+                                <h3>{this.state.responses[this.state.actuel - 1].type}</h3>
                             }
                             <button className={'btn'} type={'submit'} onClick={this.nextPage}>valider</button>
                         </section>
@@ -288,6 +370,8 @@ class ResponsePage extends React.Component {
         );
     }
 }
+
+
 
 class FormationsController extends React.Component {
     constructor(props) {

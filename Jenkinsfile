@@ -1,4 +1,5 @@
 pipeline {
+
   agent any
   stages {
     stage('Verification') {
@@ -8,14 +9,14 @@ pipeline {
       }
     }
 
-    stage('installer') {
+    stage('SetUp & scan') {
       parallel {
         stage('Build') {
           environment {
-            DB_HOST = credentials("pre_bcfd-host")
-            DB_USERNAME = credentials("pre_bcfd-user")
-            DB_PASSWORD = credentials("pre_bcfd-password")
-           }
+            DB_HOST = credentials('DB-Host')
+            DB_USERNAME = credentials('DB_user')
+            DB_PASSWORD = credentials('DB_PASS')
+          }
           steps {
             sh 'php --version'
             sh 'composer install'
@@ -31,13 +32,19 @@ pipeline {
           }
         }
 
-        stage('Début de l\'analyse') {
+        stage('Scan  SonarQube') {
+          environment {
+            scannerHome = tool 'sonar'
+          }
           steps {
             withSonarQubeEnv(installationName: 'Serveur sonarqube', credentialsId: 'sonarqube_access_token') {
-              echo 'post'
+              //sh '${scannerHome}/bin/sonar-scanner'
+              echo 'coucou'
             }
+
           }
         }
+
       }
     }
 
@@ -47,10 +54,67 @@ pipeline {
       }
     }
 
-    stage('Static analyst') {
+    stage('Pre-Deploy') {
+      parallel {
+        stage('Reponse Sonarqube analyst') {
+          steps {
+            echo 'coucou'
+            //waitForQualityGate(credentialsId: 'sonarqube_access_token', webhookSecretId: 'sonarsecret_webhook', abortPipeline: false)
+          }
+        }
+
+
+        stage('Set Maintenance to the MainSite') {
+          steps {
+            echo 'coucou'
+            sshagent (credentials: ['myserver']) {
+                sh 'ssh -o StrictHostKeyChecking=no root@75.119.154.204'
+            }
+            sh 'ls -l'
+          }
+        }
+
+        stage('Prepare GitHub') {
+          steps {
+            echo 'change gitigniore for add Vite config'
+          }
+        }
+
+      }
+    }
+
+    stage('Push on prod') {
       steps {
-        sh 'vendor/bin/phpstan analyse --memory-limit=2G'
-        sh 'vendor/bin/phpcs .\\app\\Http\\Controllers\\'
+        echo 'git add commit and push'
+      }
+    }
+
+    stage('Deploying on Prod') {
+      steps {
+        echo 'git pull tu connais'
+      }
+    }
+
+    stage('Mise en Prod') {
+      parallel {
+        stage('Front Build') {
+          steps {
+            echo 'yarn build and cache clear'
+          }
+        }
+
+        stage('db migrate') {
+          steps {
+            echo 'migrate DB'
+          }
+        }
+
+      }
+    }
+
+    stage('Clean') {
+      steps {
+        echo 'reset DB'
       }
     }
 

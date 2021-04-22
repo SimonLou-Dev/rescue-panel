@@ -60,7 +60,12 @@ class User extends Authenticatable
     {
         return $this->hasMany(Certification::class, 'user_id')->orderBy('formation_id');
     }
-    public function GetAllRemboursement(){
+    public function GetAllRemboursement(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
         return $this->hasMany(RemboursementList::class, 'user_id');
+    }
+    public function getResponses(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(FormationsResponse::class, 'user_id');
     }
 }

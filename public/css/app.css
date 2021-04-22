@@ -3197,8 +3197,6 @@ body {
   margin: 0 auto;
   background-color: #0c2646;
   border-radius: 30px;
-  width: 100%;
-  height: 100%;
   display: flex;
   flex-direction: column;
   flex-wrap: nowrap;
@@ -3315,7 +3313,53 @@ body {
   flex-direction: column;
   justify-content: center;
 }
+.responsepage .responsecontent .question .stater-page {
+  margin: 0 auto;
+  width: 80%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+}
+.responsepage .responsecontent .question .stater-page h1 {
+  text-align: center;
+  font-size: 70px;
+  font-weight: 700;
+}
+.responsepage .responsecontent .question .stater-page .questions {
+  text-align: center;
+}
+.responsepage .responsecontent .question .stater-page .questions h3 {
+  font-size: 30px;
+}
+.responsepage .responsecontent .question .stater-page .infosList {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+}
+.responsepage .responsecontent .question .stater-page .infosList .rowed {
+  margin-bottom: 20px;
+  height: 100px;
+  display: flex;
+  flex-direction: row;
+}
+.responsepage .responsecontent .question .stater-page .infosList .rowed .illustrations {
+  position: relative;
+  width: 100px;
+  overflow: hidden;
+}
+.responsepage .responsecontent .question .stater-page .infosList .rowed .illustrations img {
+  top: 0;
+  left: 0;
+  position: absolute;
+  width: 100px;
+  height: auto;
+}
+.responsepage .responsecontent .question .stater-page .infosList .rowed .text {
+  margin: auto 0 auto 30px;
+}
 .responsepage .responsecontent .bottom {
+  padding-top: 10px;
   border-top: 1px #00FFFF solid;
   display: flex;
   flex-direction: row;
@@ -4174,7 +4218,91 @@ body {
 .f-userlist .user-list table thead th:last-child {
   border-right: none;
 }
+.f-userlist .user-list table .clicable {
+  text-decoration: underline #00FFFF 1px;
+  cursor: pointer;
+}
 .f-userlist .user-list table tbody tr:nth-child(even) td {
+  background: #0f2f57;
+}
+
+.ViewFormaResponse {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  width: 100%;
+  height: 100vh;
+  overflow-y: hidden;
+}
+.ViewFormaResponse .header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+}
+.ViewFormaResponse .header button {
+  margin: auto 0;
+}
+.ViewFormaResponse .response-list {
+  background-color: #0c2646;
+  border-radius: 30px;
+  width: 90%;
+  height: calc(100vh - 170px);
+  margin: 0 auto;
+  overflow-y: auto;
+}
+.ViewFormaResponse .response-list table {
+  width: 100%;
+  border-collapse: collapse;
+}
+.ViewFormaResponse .response-list table tr {
+  height: 60px;
+  border: black 1px solid;
+  border-left: none;
+  border-right: none;
+}
+.ViewFormaResponse .response-list table tr:first-child {
+  border-top: none;
+}
+.ViewFormaResponse .response-list table tr:last-child {
+  border-bottom: none;
+}
+.ViewFormaResponse .response-list table td, .ViewFormaResponse .response-list table th {
+  width: 100px;
+  padding: 5px;
+  text-align: center;
+  font-family: "Baloo Thambi 2", monospace;
+  font-size: 25px;
+  color: #00FFFF;
+  height: 70px;
+  border: black 1px solid;
+  border-top: none;
+  border-bottom: none;
+}
+.ViewFormaResponse .response-list table td:first-child, .ViewFormaResponse .response-list table th:first-child {
+  border-left: none;
+}
+.ViewFormaResponse .response-list table td:last-child, .ViewFormaResponse .response-list table th:last-child {
+  border-right: none;
+}
+.ViewFormaResponse .response-list table thead tr {
+  border-bottom: 1px black solid !important;
+}
+.ViewFormaResponse .response-list table thead th {
+  position: sticky;
+  top: 0;
+  border-bottom: black 1px solid;
+  background-color: #004662;
+  z-index: 10;
+  border-left: 1px black solid;
+  border-right: 1px black solid;
+}
+.ViewFormaResponse .response-list table thead th:first-child {
+  border-left: none;
+}
+.ViewFormaResponse .response-list table thead th:last-child {
+  border-right: none;
+}
+.ViewFormaResponse .response-list table tbody tr:nth-child(even) td {
   background: #0f2f57;
 }
 

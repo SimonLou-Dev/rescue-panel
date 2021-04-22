@@ -50,10 +50,10 @@ class RapportController extends Controller
         $rapport = new Rapport();
         $rapport->patient_id = $patient_id;
         $rapport->started_at = $request->startinter;
-        $rapport->interType= (integer) $request->type;
-        $rapport->transport= (integer) $request->transport;
+        $rapport->interType= (int) $request->type;
+        $rapport->transport= (int) $request->transport;
         $rapport->description = $request->desc;
-        $rapport->price = (integer) $request->montant;
+        $rapport->price = (int) $request->montant;
         $rapport->user_id = Auth::user()->id;
         $rapport->ATA_start = date('Y/m/d H:i:s', strtotime($request->startdate . ' ' . $request->starttime));
         $rapport->ATA_end = date('Y/m/d H:i:s', strtotime($request->enddate . ' ' . $request->endtime));
@@ -82,7 +82,7 @@ class RapportController extends Controller
                             'inline'=>true
                         ],[
                             'name'=>'Type d\'intervention : ',
-                            'value'=>$rapport->GetType->name,
+                            'value'=> Intervention::where('id', $request->type)->first()->name,
                             'inline'=>true
                         ],[
                             'name'=>'Transport : ',

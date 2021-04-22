@@ -2,7 +2,7 @@
 
 namespace Tests\Unit;
 
-use App\PDFExporter\Http\Controllers\ServiceController;
+use App\Http\Controllers\ServiceController;
 use PHPUnit\Framework\ExpectationFailedException;
 use PHPUnit\Framework\TestCase;
 use SebastianBergmann\RecursionContext\InvalidArgumentException;
