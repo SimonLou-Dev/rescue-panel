@@ -136,7 +136,7 @@ class ResponsePage extends React.Component {
             this.props.change(null)
         }
         if(req.status === 200){
-            let length = req.data.formation.get_questions.length + 1;
+            let length = req.data.formation.get_questions.length;
             length = length + (req.data.formation.displaynote === 1 ? 1 : 0)
 
             this.setState({formation: req.data.formation, responses: req.data.formation.get_questions, length:length, data:true})
@@ -182,6 +182,7 @@ class ResponsePage extends React.Component {
                 }
         }if(this.state.actuel === this.state.length -1){
             this.finalSave()
+            this.setState({timerpaused:true})
         }
     }
 
@@ -232,7 +233,7 @@ class ResponsePage extends React.Component {
                             {this.state.actuel > 0 && this.state.actuel < this.state.length &&
                                 <div className={'left'}>
                                     {console.log(this.state.actuel)}
-                                    <h2><span>Question n°{this.state.actuel} :</span> {this.state.responses[this.state.actuel - 1].name}</h2>
+                                    <h2><span>Question n°{this.state.actuel} :</span> {(this.state.responses[this.state.actuel - 1] !== undefined ? this.state.responses[this.state.actuel - 1].name : '?')}</h2>
                                     <div className={"response"}>
                                     {this.state.responses[this.state.actuel - 1].responses.map((response)=>
                                         <div className={'rowed'} key={response.id}>
@@ -355,8 +356,8 @@ class ResponsePage extends React.Component {
                         </section>
 
                         <section className="bottom">
-                            {this.state.formation.timer > 0 &&
-                            <h3> {Math.round(this.state.time / 60) + ' min (s)' + this.state.time % 60< 10 ? '0' + this.state.time % 60 : this.state.time % 60}</h3>
+                            {this.state.formation.timer > 0 && this.state.actuel !== this.state.length -1 && this.state.actuel !== 0 &&
+                            <h3> {Math.round(this.state.time / 60)}  min(s) {this.state.time % 60< 10 ? '0' + this.state.time % 60 : this.state.time % 60}</h3>
                             }
 
                             {this.state.actuel > 0 && this.state.actuel < this.state.length &&

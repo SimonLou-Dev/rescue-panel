@@ -187,14 +187,14 @@ class FormaList extends React.Component {
                                 </div>
                                 <h5>public</h5>
                                 <div className={'switch-container'}>
-                                    <input id={"switch"} checked={forma.public} disabled={!perm.forma_publi} className="payed_switch" type="checkbox" onChange={async () => {
+                                    <input id={"switch_"+ forma.id} checked={forma.public} disabled={!perm.forma_publi} className="payed_switch" type="checkbox" onChange={async () => {
                                         let req = await axios({
                                             url: '/data/formations/admin/' + forma.id + '/visibylity',
                                             method: 'PUT',
                                         });
                                         if(req.status === 201){this.componentDidMount()}
                                     }}/>
-                                    <label htmlFor={"switch"} className={"payed_switchLabel"}/>
+                                    <label htmlFor={"switch_"+ forma.id} className={"payed_switchLabel"}/>
                                 </div>
                             </div>
                         </div>
