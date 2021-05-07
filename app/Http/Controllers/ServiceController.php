@@ -295,7 +295,7 @@ class ServiceController extends Controller
         }
         $users = User::where('grade_id', '>', 1)->where('grade_id', '<', 10)->orderByDesc('grade_id')->get();
 
-        $column[] = array('Membre','grade', 'Remboursements', 'dimanche', 'lundi', 'mardi', 'mercredi', 'jeudi', 'vendredi', 'samedi', 'total');
+        $column[] = array('Membre','grade', 'n° de compte', 'Remboursements', 'dimanche', 'lundi', 'mardi', 'mercredi', 'jeudi', 'vendredi', 'samedi', 'total');
 
 
 
@@ -308,6 +308,7 @@ class ServiceController extends Controller
                 $column[] = [
                     'Membre'=> $user->name,
                     'grade'=>$user->GetGrade->name,
+                    'n° de compte'=>$user->compte,
                     'Remboursements'=> isset($remboursement) ? $remboursement->total : '0',
                     'dimanche'=>$service->dimanche,
                     'lundi'=>$service->lundi,
@@ -322,6 +323,7 @@ class ServiceController extends Controller
                 $column[] = [
                     'Membre'=> $user->name,
                     'grade'=>$user->GetGrade->name,
+                    'n° de compte'=>$user->compte,
                     'Remboursements'=> isset($remboursement) ? $remboursement->total : '0' ,
                     'dimanche'=>0,
                     'lundi'=>0,
