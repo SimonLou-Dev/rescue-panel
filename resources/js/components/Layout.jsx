@@ -109,10 +109,10 @@ export function Layout(){
         let pusher = new Pusher('fd78f74e8faecbd2405b', {
             cluster: 'eu'
         });
-        let userChan = pusher.subscribe('UserChannel_'+req.data.user.id);
+        let userChan = pusher.subscribe('UserChannel_'+req.data.user.id+'_'+env);
         userChan.bind('notify', (data)=>{addNotification(data)});
 
-        let BroadCastChan = pusher.subscribe('Broadcater');
+        let BroadCastChan = pusher.subscribe('Broadcater'+'_'+env);
         BroadCastChan.bind('notify',(data) => { addNotification(data)});
 
         return () => {

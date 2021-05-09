@@ -14,6 +14,7 @@ use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
 use Maatwebsite\Excel\Facades\Excel;
 use Maatwebsite\Excel\Concerns\FromArray;
 use function Psy\debug;
@@ -109,8 +110,68 @@ class ServiceController extends Controller
         $user =User::where('name', $name)->firstOrFail();
         $WeekService= WeekService::where('user_id', $user->id)->where('week_number', $this::getWeekNumber())->first();
         if($action === 1){
+            if($WeekService->ajustement == '00:00:00'){
+                $WeekService->ajustement = '+'.$time.':00';
+            }else{
+                $ajustement = $WeekService->ajustement;
+                $symbole = substr($ajustement, 0, 1-(strlen($ajustement)) );
+                if($symbole == '+'){
+                    $WeekService->ajustement = '+'.$this::addTime(substr($ajustement,1), $time.':00');
+                }else{
+                    $calculate = $WeekService->ajustement = $this::removeTime(substr($ajustement,1), $time.':00');
+                    $calculate = str_replace(['+','-'], '', $calculate);
+                    $ajustement = explode(':', $ajustement);
+                    $base = explode(':',  $time.':00');
+                    if($base[0] > $ajustement[0]){
+                        $operator = '+';
+                    }else if ($base[1] > $ajustement[1]){
+                        $operator = '+';
+                    } else if ($base[2] > $ajustement[2]){
+                        $operator = '+';
+                    }else {
+                        $operator = '-';
+                    }
+                    if($calculate == '00:00:00'){
+                        $operator = '';
+                    }
+
+                    $WeekService->ajustement = $operator.$calculate;
+                }
+            }
             $WeekService->total = $this::addTime($WeekService->total, $time.':00');
         }else{
+
+
+            if($WeekService->ajustement == '00:00:00'){
+                $WeekService->ajustement = '-'.$time.':00';
+            }else{
+                $ajustement = $WeekService->ajustement;
+                $symbole = substr($ajustement, 0, 1-(strlen($ajustement)) );
+                if($symbole == '-'){
+                    $WeekService->ajustement = '-'.$this::addTime(substr($ajustement,1), $time.':00');
+                }else{
+                    $calculate = $WeekService->ajustement = $this::removeTime(substr($ajustement,1), $time.':00');
+                    $calculate = str_replace(['+','-'], '', $calculate);
+                    $ajustement = explode(':', $ajustement);
+                    $base = explode(':',  $time.':00');
+
+                    if($base[0] > $ajustement[0]){
+                        $operator = '-';
+                    }else if ($base[1] > $ajustement[1]){
+                        $operator = '-';
+                    } else if ($base[2] > $ajustement[2]){
+                        $operator = '-';
+                    }else {
+                        $operator = '+';
+                    }
+                    if($calculate == '00:00:00'){
+                        $operator = '';
+                    }
+
+                    $WeekService->ajustement = $operator.$calculate;
+                }
+            }
+
             $WeekService->total = $this::removeTime($WeekService->total, $time.':00');
         }
         $WeekService->save();
@@ -155,7 +216,9 @@ class ServiceController extends Controller
             $user->save();
             $formated = explode(':', $formated);
             if($admin){
-                Http::post(env('WEBHOOK_SERVICE'),[
+                Http::post(env('WEBHOOK_SERVICE') ,[
+                    'username'=> "BCFD - Intranet",
+                    'avatar_url'=>'https://bcfd.simon-lou.com/assets/images/BCFD.png',
                     'embeds'=>[
                         [
                             'title'=>'Fin de service de ' . $user->name,
@@ -169,6 +232,8 @@ class ServiceController extends Controller
                 ]);
             }else{
                 Http::post(env('WEBHOOK_SERVICE'),[
+                    'username'=> "BCFD - Intranet",
+                    'avatar_url'=>'https://bcfd.simon-lou.com/assets/images/BCFD.png',
                     'embeds'=>[
                         [
                             'title'=>'Fin de service de ' . $user->name,
@@ -190,6 +255,8 @@ class ServiceController extends Controller
             Auth::user()->service = true;
             if($admin){
                 Http::post(env('WEBHOOK_SERVICE'),[
+                    'username'=> "BCFD - Intranet",
+                    'avatar_url'=>'https://bcfd.simon-lou.com/assets/images/BCFD.png',
                     'embeds'=>[
                         [
                             'title'=>'Prise de service de ' . $user->name,
@@ -202,6 +269,8 @@ class ServiceController extends Controller
                 ]);
             }else{
                 Http::post(env('WEBHOOK_SERVICE'),[
+                    'username'=> "BCFD - Intranet",
+                    'avatar_url'=>'https://bcfd.simon-lou.com/assets/images/BCFD.png',
                     'embeds'=>[
                         [
                             'title'=>'Prise de service de ' . $user->name,
@@ -273,6 +342,11 @@ class ServiceController extends Controller
         $seconde = (string) ($seconde < 10 ? '0'. (int) $seconde :  (int) $seconde);
         $secondeR = (string) ($secondeR < 10 ? '0'. (int) $secondeR :  (int)$secondeR);
 
+        $first = str_replace('0-','',$first);
+        $seconde = str_replace('0-','',$seconde);
+        $secondeR = str_replace('0-','',$secondeR);
+
+
         return $first . ':' .  $seconde . ':'. $secondeR;
     }
 
@@ -295,7 +369,7 @@ class ServiceController extends Controller
         }
         $users = User::where('grade_id', '>', 1)->where('grade_id', '<', 10)->orderByDesc('grade_id')->get();
 
-        $column[] = array('Membre','grade', 'n° de compte', 'Remboursements', 'dimanche', 'lundi', 'mardi', 'mercredi', 'jeudi', 'vendredi', 'samedi', 'total');
+        $column[] = array('Membre','grade', 'n° de compte', 'Remboursements', 'dimanche', 'lundi', 'mardi', 'mercredi', 'jeudi', 'vendredi', 'samedi', 'ajustement', 'total');
 
 
 
@@ -317,6 +391,7 @@ class ServiceController extends Controller
                     'jeudi'=>$service->jeudi,
                     'vendredi'=>$service->vendredi,
                     'samedi'=>$service->samedi,
+                    'ajustement'=>$service->ajustement,
                     'total'=>$service->total,
                 ];
             }else{
@@ -325,14 +400,15 @@ class ServiceController extends Controller
                     'grade'=>$user->GetGrade->name,
                     'n° de compte'=>$user->compte,
                     'Remboursements'=> isset($remboursement) ? $remboursement->total : '0' ,
-                    'dimanche'=>0,
-                    'lundi'=>0,
-                    'mardi'=>0,
-                    'mercredi'=>0,
-                    'jeudi'=>0,
-                    'vendredi'=>0,
-                    'samedi'=>0,
-                    'total'=>0,
+                    'dimanche'=>'00:00:00',
+                    'lundi'=>'00:00:00',
+                    'mardi'=>'00:00:00',
+                    'mercredi'=>'00:00:00',
+                    'jeudi'=>'00:00:00',
+                    'vendredi'=>'00:00:00',
+                    'samedi'=>'00:00:00',
+                    'ajustement'=>'00:00:00',
+                    'total'=>'00:00:00',
                 ];
             }
         }

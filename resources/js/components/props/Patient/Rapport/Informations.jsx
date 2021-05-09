@@ -51,13 +51,20 @@ class Informations extends React.Component{
             <div className={'Rapport-Card'}>
                 <h1>Informations</h1>
                 <div className="Form-Group">
-                    <input required type="text" list={'autocomplete'} autoComplete={'off'} placeholder="prénom nom" value={name} onChange={this.nomchange}/>
+                    <input required type="text" className={(this.props.errors.name ? 'form-error': '')} list={'autocomplete'} autoComplete={'off'} placeholder="prénom nom" value={name} onChange={this.nomchange}/>
                     {this.state.list &&
                         <datalist id={'autocomplete'}>
                             {this.state.list.map((item)=>
                                 <option>{item.vorname} {item.name}</option>
                             )}
                         </datalist>
+                    }
+                    {this.props.errors.name &&
+                        <ul className={'error-list'}>
+                            {this.props.errors.name.map((item)=>
+                                <li>{item}</li>
+                            )}
+                        </ul>
                     }
                     <input type="text" autoComplete={'off'} placeholder="n° de tel" value={tel} onChange={this.telchange}/>
                     <label>Début d'intervention</label>

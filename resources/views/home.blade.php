@@ -24,6 +24,7 @@
     <!-- GET CSRF TOKEN -->
     <script>
         const csrf = '{{csrf_token()}}'
+        const env = '{{env('APP_ENV')}}';
     </script>
 
     <title>BCFD - Intranet</title>

@@ -37,6 +37,18 @@ class RapportController extends Controller
 
     public function addRapport(Request $request): \Illuminate\Http\JsonResponse
     {
+
+        $request->validate([
+            'name'=>['required', 'string','regex:/[a-zA-Z.+_]+\s[a-zA-Z.+_]/'],
+            'startinter'=>['required'],
+            'type'=>['required'],
+            'transport'=>['required'],
+            'desc'=>['required'],
+            'montant'=>['required'],
+            'payed'=>['required'],
+            'montant'=>['required','integer']
+        ]);
+
         $patientname = explode(' ', $request->name);
         $Patient = $this->PatientExist($patientname[1], $patientname[0]);
         if(is_null($Patient)) {
@@ -71,6 +83,8 @@ class RapportController extends Controller
             $fact= 'Impayée : ' . $request->montant;
         }
         Http::post(env('WEBHOOK_RI'),[
+            'username'=> "BCFD - Intranet",
+            'avatar_url'=>'https://bcfd.simon-lou.com/assets/images/BCFD.png',
             'embeds'=>[
                 [
                     'title'=>'Ajout d\'un rapport :',
@@ -157,6 +171,8 @@ class RapportController extends Controller
 
     public function updateRapport(Request $request, int $id): \Illuminate\Http\JsonResponse
     {
+
+
         $rapport = Rapport::where('id', $id)->first();
         $facture = $rapport->GetFacture;
         $facture->price = (integer) $request->montant;
@@ -210,10 +226,14 @@ class RapportController extends Controller
 
     public function paye(Request $request, int $id): \Illuminate\Http\JsonResponse
     {
+
+
         $facture = Facture::where('id', $id)->first();
         $facture->payed = true;
         $facture->save();
         Http::post(env('WEBHOOK_FACTURE'),[
+            'username'=> "BCFD - Intranet",
+            'avatar_url'=>'https://bcfd.simon-lou.com/assets/images/BCFD.png',
             'embeds'=>[
                 [
                     'title'=>'Facture payée :',
@@ -241,11 +261,12 @@ class RapportController extends Controller
 
     public function addFacture(Request $request): \Illuminate\Http\JsonResponse
     {
-            /*
-               payed: this.state.payed,
-                name: this.state.name,
-                montant: this.state.montant,
-             */
+        $request->validate([
+            'name'=>['required', 'string','regex:/[a-zA-Z.+_]+\s[a-zA-Z.+_]/'],
+            'payed'=>['required'],
+            'montant'=>['required','integer']
+        ]);
+
         $name = explode(" ", $request->name);
 
         $Patient = $this->PatientExist($name[1], $name[0]);
@@ -333,6 +354,8 @@ class RapportController extends Controller
         }
 
         Http::post(env('WEBHOOK_FACTURE'),[
+            'username'=> "BCFD - Intranet",
+            'avatar_url'=>'https://bcfd.simon-lou.com/assets/images/BCFD.png',
             'embeds'=>[
                 [
                     'title'=>'Nouvelle facture :',

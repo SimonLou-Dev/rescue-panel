@@ -172,3 +172,6 @@ Route::put('/data/finish/tempupload/{uuid}', [FileController::class, 'endOffUplo
 Route::delete('/data/delete/tempupload', [FileController::class, 'deleteTempFile'])->middleware('auth');
 
 
+Route::get('/teste', function (){
+   dd(ServiceController::removeTime('01:02:30','05:50:35'));
+});

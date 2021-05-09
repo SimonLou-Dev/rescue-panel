@@ -30,9 +30,6 @@ class ContentManagement extends Controller
 
     public function addcontent(Request $request, string $type): \Illuminate\Http\JsonResponse
     {
-        /** @var string $request->formcontent */
-        $formcontent = $request->formcontent;
-
         switch ($type) {
             case "1":
                 $content = new Intervention();

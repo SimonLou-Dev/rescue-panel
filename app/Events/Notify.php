@@ -53,7 +53,7 @@ class Notify implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-        return new Channel('UserChannel_'.$this->id);
+        return new Channel('UserChannel_'.$this->id. '_' .env('APP_ENV'));
 
     }
 

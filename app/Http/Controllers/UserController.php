@@ -159,6 +159,8 @@ class UserController extends Controller
         $user->compte = $compte;
         $user->save();
         Http::post(env('WEBHOOK_INFOS'),[
+            'username'=> "BCFD - Intranet",
+            'avatar_url'=>'https://bcfd.simon-lou.com/assets/images/BCFD.png',
             'embeds'=>[
                 [
                     'title'=>'Numéro de compte',

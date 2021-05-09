@@ -25,10 +25,10 @@ class ListPatient extends React.Component {
         return (
             <section className="list-container" style={{filter: this.props.blur? 'blur(5px)' : 'none'}}>
                 <div className={'list-content'}>
-                    <h1>Liste des patients</h1>
+                    <h1>Liste des patients ({this.state.patients ? this.state.patients.length : '?'})</h1>
                     <div className={'list'}>
                         {this.state.patients !== null && this.state.patients.map((patient)=>
-                            <PatientListPU name={patient.name} date={dateFormat(patient.created_at, 'hh:mm')} urlid={patient.id} color={patient.get_color.name} idcard={patient.idcard}/>
+                            <PatientListPU name={patient.name} date={dateFormat(patient.created_at, 'hh:mm')} urlid={patient.rapport_id} color={patient.get_color.name} idcard={patient.idcard}/>
                         )}
                     </div>
                 </div>
@@ -275,7 +275,7 @@ class BCView extends React.Component {
         super(props);
         this.state = {
             CloseMenuOpen: false,
-            id:'',
+            id:this.props.id,
             data: null,
             patients: null,
             bc: null,
@@ -289,6 +289,8 @@ class BCView extends React.Component {
             carteid:false,
             searsh:null,
             clicked:false,
+            correctid: true,
+            realname: '',
         }
         this.quitbc = this.quitbc.bind(this);
         this.check = this.check.bind(this);
@@ -315,6 +317,7 @@ class BCView extends React.Component {
         if(req.status === 200){
             this.setState({
                 data: true,
+                bc: req.data.bc,
                 patients: req.data.bc.get_patients,
                 personnels: req.data.bc.get_personnel,
                 blessures: req.data.blessures,
@@ -362,6 +365,9 @@ class BCView extends React.Component {
                     blessure: this.state.blessure,
                     payed: this.state.payed,
                     carteid: this.state.carteid,
+                    correctid: this.state.correctid,
+                    realname: this.state.realname,
+
                 }
             })
             if(req.status === 201){
@@ -370,7 +376,9 @@ class BCView extends React.Component {
                     color: 0,
                     blessure:0,
                     payed: false,
-                    carteid: false
+                    carteid: false,
+                    correctid: true,
+                    realname: '',
                 });
             }
         }
@@ -378,7 +386,6 @@ class BCView extends React.Component {
     }
 
     componentDidMount() {
-        this.setState({id:this.props.id})
         this.update();
         this.updator = setInterval(
             () => this.update(),
@@ -400,7 +407,9 @@ class BCView extends React.Component {
             <div className={"BC-View"}>
                 <section style={{filter: this.state.CloseMenuOpen ? 'blur(5px)' : 'none'}} className="left">
                     <div className={'header'}>
-                        <PagesTitle title={'Fusillade LS Longs beach'}/>
+                        {this.state.data &&
+                        <PagesTitle title={this.state.bc.get_type.name + ' ' + this.state.bc.place}/>
+                        }
                         <div className={'btn-contain'}>
                             <div className={'bgforquibtn'}>
                                 <button className={'btn'} onClick={this.quitbc}>Quitter le BC</button>
@@ -448,6 +457,28 @@ class BCView extends React.Component {
                                     )}
                                 </select>
                             </div>
+                           <div className={'idCheck'}>
+
+                               <div className={'row-spaced'}>
+                                   <label>HRP identité correcte:</label>
+                                   <div className={'switch-container'}>
+                                       <input id={"switch"+12} className="payed_switch" type="checkbox" checked={this.state.correctid} onChange={(e)=>{
+                                           if(this.state.correctid){
+                                               this.setState({correctid:false})
+                                           }else{
+                                               this.setState({correctid:true})
+                                           }
+                                       }}/>
+                                       <label htmlFor={"switch"+12} className={"payed_switchLabel"}/>
+                                   </div>
+                               </div>
+                               {this.state.correctid === false &&
+                               <div className={'row-spaced'}>
+                                   <label>HRP nom prénom  : </label>
+                                   <input autoComplete="off" placeholder={'prénom nom réels'} className={'input'} type={'text'} value={this.state.realname} onChange={(e)=>{this.setState({realname:e.target.value})}}/>
+                               </div>
+                               }
+                           </div>
                             <div className={'bottom'}>
                                 <div className="paye">
                                     <label>Payé : </label>

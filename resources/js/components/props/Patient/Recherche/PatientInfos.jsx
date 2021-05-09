@@ -35,8 +35,8 @@ class PatientInfos extends React.Component {
             types: req.data.types,
             broum: req.data.broum,
             rapport: req.data.rapport,
-            type: req.data.rapport.get_type,
-            transport: req.data.rapport.get_transport,
+            type: req.data.rapport.get_type.id,
+            transport: req.data.rapport.get_transport.id,
             desc: req.data.rapport.description,
             montant: req.data.rapport.price
         });
@@ -91,25 +91,6 @@ class PatientInfos extends React.Component {
     render() {
         return (
             <div className={'PatientInfos'}>
-                {this.state.succsess &&
-                <div className={'card-ok'}>
-                    <h1>Le rapport n°{this.state.id} a  été mis à jour</h1>
-                    <button className={'btn'} onClick={()=>this.setState({succsess:false})}>OK</button>
-                </div>
-                }
-                {this.state.error &&
-                <div className={'card-error'}>
-                    <h1>Erreur lors de la création du rapport</h1>
-                    <button className={'btn'} onClick={()=>this.setState({error:false})}>OK</button>
-                </div>
-                }
-                {this.state.rapport &&
-                    <section className={"Infos-Header"}>
-                        <div className={"Title"}>
-                            <h1 className={"Title"}>Intervention du {dateFormat(this.state.rapport.created_at, 'dd/mm/yyyy à H:MM:ss')}</h1>
-                        </div>
-                    </section>
-                }
                 {this.state.rapport &&
                     <section className={"form"}>
                         <form method={'POST'} onSubmit={this.post}>
