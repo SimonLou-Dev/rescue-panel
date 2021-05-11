@@ -39,23 +39,67 @@ class PersonnelList extends React.Component{
         }
 
     render(){
-        return(
-            <div className={'Personnel_service'}>
+        if(this.state.data === true){
+            return(
+                <div className={'Personnel_service'}>
                     <h1>Personnel en service : </h1>
                     <div className={'Personnel-list'}>
-                    {this.state.data &&
-                        this.state.users.map((user)=>
-                            <PersonnelCard key={user.id} name={user.name}/>
-                         )
-                    }
-                    {!this.state.data &&
-                                    <div className={'load'}>
-                                        <img src={'/assets/images/loading.svg'} alt={''}/>
-                                    </div>
-                                    }
+                        {this.state.users.map((user)=>
+                            <PersonnelCard key={user.id} name={user.name} color={'#eb34eb'}/>
+                        )}
                     </div>
-            </div>
-        );
+                    <div className={'bottom'}>
+                        <div className={'groupcard'}>
+                            <div className={'contain'}>
+                                <div className={'tag'}>
+                                    <label>Formations</label>
+                                    <div style={{backgroundColor: '#eb34eb'}}/>
+                                </div>
+                                <div className={'tag'}>
+                                    <label>Formations</label>
+                                    <div style={{backgroundColor: '#eb34eb'}}/>
+                                </div>
+                                <div className={'tag'}>
+                                    <label>Formations</label>
+                                    <div style={{backgroundColor: '#eb34eb'}}/>
+                                </div>
+                                <div className={'tag'}>
+                                    <label>Formations</label>
+                                    <div style={{backgroundColor: '#eb34eb'}}/>
+                                </div>
+                                <div className={'tag'}>
+                                    <label>Formations</label>
+                                    <div style={{backgroundColor: '#eb34eb'}}/>
+                                </div>
+                                <div className={'tag'}>
+                                    <label>Formations</label>
+                                    <div style={{backgroundColor: '#eb34eb'}}/>
+                                </div>
+                                <div className={'tag'}>
+                                    <label>Formations</label>
+                                    <div style={{backgroundColor: '#eb34eb'}}/>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            );
+
+        }else{
+            return(
+                <div className={'Personnel_service'}>
+                    <h1>Personnel en service : </h1>
+                    <div className={'Personnel-list'}>
+                        {!this.state.data &&
+                        <div className={'load'}>
+                            <img src={'/assets/images/loading.svg'} alt={''}/>
+                        </div>
+                        }
+                    </div>
+                </div>
+            );
+        }
     }
 }
 export default PersonnelList;

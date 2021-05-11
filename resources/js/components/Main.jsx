@@ -31,19 +31,24 @@ class Main extends React.Component {
         return (
             <div id={"Main-Page"}>
                 <PersonnelList/>
-                <div className={'Annonces'}>
-                    <h1>Annonces : </h1>
-                    <div className={'Annonces-List'}>
-                        {!this.state.data &&
-                        <div className={'load'}>
-                            <img src={'/assets/images/loading.svg'} alt={''}/>
+                <div className={'rowed'}>
+                    <div className={'Annonces'}>
+                        <h1>Annonces : </h1>
+                        <div className={'Annonces-List'}>
+                            {!this.state.data &&
+                            <div className={'load'}>
+                                <img src={'/assets/images/loading.svg'} alt={''}/>
+                            </div>
+                            }
+                            {this.state.data &&
+                            this.state.annonces.map((annonce) =>
+                                <AnnonceCard title={annonce.title} key={annonce.id} content={annonce.content} date={dateFormat(annonce.updated_at, 'yyyy/mm/dd ') +  '[FR]'}/>
+                            )
+                            }
                         </div>
-                        }
-                        {this.state.data &&
-                         this.state.annonces.map((annonce) =>
-                             <AnnonceCard title={annonce.title} key={annonce.id} content={annonce.content} date={dateFormat(annonce.updated_at, 'yyyy/mm/dd ') +  '[FR]'}/>
-                         )
-                        }
+                    </div>
+                    <div className={'Links'}>
+                        <h1>Liens utiles : </h1>
                     </div>
                 </div>
             </div>

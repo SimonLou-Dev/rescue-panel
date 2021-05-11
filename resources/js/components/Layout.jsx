@@ -124,14 +124,20 @@ export function Layout(){
 
 
 
-    const tick = async () => {
-        let req = await axios({
+    const tick =async() => {
+        let req =await axios({
             url: '/data/check/connexion',
             method: 'GET'
+        }).then(response => {
+            if(!response.data.session) {
+                window.location.replace('/login')
+            }
+        }).catch( error => {
+            if(error.response.status === 503){
+                window.location.replace('/maintenance')
+            }
         })
-        if (!req.data.session) {
-            window.location.replace('/login')
-        }
+
     }
 
     const updateWindowDimensions = () => {

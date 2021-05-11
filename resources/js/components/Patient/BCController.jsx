@@ -65,23 +65,22 @@ class BCBase extends React.Component {
     }
 
     async addbc(e) {
+        e.preventDefault();
         if(this.state.type !== 0){
-            var req = await axios({
+            await axios({
                 method: 'POST',
                 url: '/data/blackcode/create',
                 data: {
-                    type: this.state.type,
-                    place: this.state.place,
+                    type:this.state.type,
+                    place:this.state.place,
                 }
-            })
-            if(req.status === 201){
+            }).then(response => {
                 this.setState({place: "", type:0})
-                this.props.update(1,req.data.bc_id);
-            }
+                this.props.update(1,response.data.bc_id);
+            })
         }
         this.setState({cliked:false});
     }
-
     render() {
         var perm = this.context;
         return (
@@ -179,7 +178,7 @@ class BCBase extends React.Component {
                             </div>
                             <div className={'btn-contain'}>
                                 <button onClick={()=> this.setState({add: false})} className={'btn'}>fermer</button>
-                                <button type={'submit'} disabled={this.state.clicked===true} className={'btn'} onClick={()=>{this.setState({clicked:true}); this.addbc()}}>Ajouter</button>
+                                <button type={'submit'} disabled={this.state.clicked===true} className={'btn'} onClick={()=>{this.setState({clicked:true});}}>Ajouter</button>
                             </div>
 
                         </form>
@@ -274,18 +273,18 @@ class BCView extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            CloseMenuOpen: false,
+            CloseMenuOpen:false,
             id:this.props.id,
-            data: null,
-            patients: null,
-            bc: null,
-            personnels: null,
-            blessures: null,
-            couleurs: null,
+            data:null,
+            patients:null,
+            bc:null,
+            personnels:null,
+            blessures:null,
+            couleurs:null,
             nom:"",
             color:0,
             blessure:0,
-            payed: false,
+            payed:false,
             carteid:false,
             searsh:null,
             clicked:false,
@@ -306,6 +305,13 @@ class BCView extends React.Component {
         })
         if (req.status === 202) {
             this.props.update(0);
+        }
+    }
+
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        if(prevProps.id !==this.props.id){
+            this.setState({id:this.props.id})
+            this.update();
         }
     }
 
@@ -386,13 +392,12 @@ class BCView extends React.Component {
     }
 
     componentDidMount() {
-        this.update();
-        this.updator = setInterval(
-            () => this.update(),
+        this.updator =setInterval(
+            () =>this.update(),
             20000
         );
-        this.checker = setInterval(
-            () => this.check(),
+        this.checker =setInterval(
+            () =>this.check(),
             10000
         );
     }
