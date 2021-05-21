@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\Notify;
 use App\Models\Annonce;
 use App\Models\Annonces;
+use App\Models\Params;
 use App\Models\User;
 use GrahamCampbell\Markdown\Facades\Markdown;
 use Illuminate\Http\Request;
@@ -47,6 +49,38 @@ class MainController extends Controller
             ]
         ]);
         return response()->json([],201);
+    }
+
+    /**
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function getUtilsInfos(): \Illuminate\Http\JsonResponse
+    {
+        $infos = Params::where('type', 'utilsInfos')->first();
+        if(!isset($infos->value)){
+            $infos = '';
+        }else{
+            $infos = $infos->value;
+        }
+
+        return response()->json(['status'=>'OK', 'infos'=>$infos]);
+    }
+
+    public function updateUtilsInfos(Request $request){
+        $text = $request->text;
+        $infos = Params::where('type', 'utilsInfos')->first();
+        if(!isset($infos)){
+            $infos = new Params();
+            $infos->type = 'utilsInfos';
+            $infos->value=$text;
+        }else{
+            $infos->value = $text;
+        }
+
+        $infos->save();
+        event(new Notify('Informations sauvegardées', 1));
+        return response()->json(['status'=>"ok"],201);
+
     }
 
 

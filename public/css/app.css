@@ -4503,6 +4503,98 @@ body {
   font-weight: 500;
 }
 
+.GestionsUtils {
+  width: 100%;
+  height: 100vh;
+  overflow-y: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+}
+.GestionsUtils .head {
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: space-evenly;
+}
+.GestionsUtils .head button {
+  margin: auto 0;
+}
+.GestionsUtils .content {
+  overflow-y: hidden;
+  height: calc(100vh - 270px);
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+}
+.GestionsUtils .content .preview {
+  height: 100%;
+  width: 32%;
+  background-color: #0c2646;
+  border-radius: 30px;
+}
+.GestionsUtils .content .preview .utilsName {
+  padding-left: 20px;
+  font-size: 50px;
+  margin: 0 auto;
+  text-align: center;
+}
+.GestionsUtils .content .preview .render {
+  margin: auto 0;
+  width: 100%;
+  height: 90%;
+}
+.GestionsUtils .content .writing {
+  height: 100%;
+  width: 62%;
+  background-color: #0c2646;
+  border-radius: 30px;
+  border: none;
+}
+.GestionsUtils .content .writing .ql-toolbar, .GestionsUtils .content .writing .ql-container {
+  border: none;
+}
+.GestionsUtils .content .writing .ql-toolbar {
+  border-bottom: 2px #004662 solid;
+  text-align: center;
+}
+
+#UtilsRendering {
+  padding: 15px;
+}
+#UtilsRendering h1 {
+  font-size: 26px;
+  font-weight: 800;
+}
+#UtilsRendering h2 {
+  font-size: 24px;
+  font-weight: 700;
+}
+#UtilsRendering h3 {
+  font-size: 22px;
+  font-weight: 600;
+}
+#UtilsRendering p {
+  font-size: 20px;
+  margin: 0;
+}
+#UtilsRendering a {
+  color: #3490dc;
+  text-decoration: underline #3490dc 1px;
+  transition: all 500ms;
+}
+#UtilsRendering a:hover {
+  color: #6cb2eb;
+  text-decoration: none;
+}
+#UtilsRendering li {
+  color: #00FFFF;
+  font-family: "Baloo Thambi 2", monospace;
+  font-size: 18px;
+}
+#UtilsRendering li::marker {
+  font-weight: 800;
+}
+
 .notification-item .bar {
   height: 10px;
 }

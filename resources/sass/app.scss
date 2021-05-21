@@ -3940,6 +3940,100 @@ body{
     }
 }
 
+.GestionsUtils{
+    width: 100%;
+    height: 100vh;
+    overflow-y: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    .head{
+        display: flex;
+        flex-direction: row-reverse;
+        justify-content: space-evenly;
+        button{
+            margin: auto 0;
+        }
+    }
+    .content{
+        overflow-y: hidden;
+        height: calc(100vh - 270px);
+        display: flex;
+        flex-direction: row;
+        justify-content: space-evenly;
+        .preview{
+            height: 100%;
+            width: 32%;
+            background-color: $dark-blue;
+            border-radius: $border-radius;
+            .utilsName{
+                padding-left: 20px;
+                font-size: 50px;
+                margin: 0 auto;
+                text-align: center;
+            }
+            .render{
+                margin: auto 0;
+                width: 100%;
+                height: 90%;
+            }
+        }
+        .writing{
+            height: 100%;
+            width: 62%;
+            background-color: $dark-blue;
+            border-radius: $border-radius;
+            border: none;
+            .ql-toolbar, .ql-container{
+                border: none;
+            }
+
+            .ql-toolbar{
+                border-bottom: 2px $medium_blue solid;
+                text-align: center;
+            }
+
+        }
+    }
+}
+
+#UtilsRendering{
+    padding: 15px;
+    h1{
+        font-size: 26px;
+        font-weight: 800;
+    }
+    h2{
+        font-size: 24px;
+        font-weight: 700;
+    }
+    h3{
+        font-size: 22px;
+        font-weight: 600;
+    }
+    p{
+        font-size: 20px;
+        margin: 0;
+    }
+    a{
+        color: $blue;
+        text-decoration: underline $blue 1px;
+        transition: all 500ms;
+        &:hover{
+            color: $cyan;
+            text-decoration: none;
+        }
+    }
+    li{
+        color: $light-blue;
+        font-family: "Baloo Thambi 2", monospace;
+        font-size: 18px;
+        &::marker{
+            font-weight: 800;
+        }
+    }
+
+}
 
 
 .notification-item .bar {

@@ -11,6 +11,7 @@ class Gestion extends React.Component{
             logs: false,
             content: false,
             personnel: false,
+            infos:false,
             time:false,
         }
     }
@@ -34,6 +35,9 @@ class Gestion extends React.Component{
         if(this.props.perm['content_mgt']){
             this.setState({content:true, total:true});
         }
+        if(this.props.perm['infos_edit']){
+            this.setState({infos:true, total:true});
+        }
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
@@ -55,6 +59,9 @@ class Gestion extends React.Component{
             }
             if(this.props.perm['content_mgt']){
                 this.setState({content:true, total:true});
+            }
+            if(this.props.perm['infos_edit']){
+                this.setState({infos:true, total:true});
             }
         }
     }
@@ -79,6 +86,9 @@ class Gestion extends React.Component{
                         }
                         {this.state.forma &&
                             <li><NavLink to={'/gestion/formation'}>Formations</NavLink></li>
+                        }
+                        {this.state.infos &&
+                            <li><NavLink to={'/gestion/utils'}>Gestions infos</NavLink></li>
                         }
                     </ul>
                 </div>

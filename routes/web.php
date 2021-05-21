@@ -171,7 +171,6 @@ Route::post('/data/tempupload', [FileController::class, 'uploadFile'])->middlewa
 Route::put('/data/finish/tempupload/{uuid}', [FileController::class, 'endOffUpload'])->middleware('auth');
 Route::delete('/data/delete/tempupload', [FileController::class, 'deleteTempFile'])->middleware('auth');
 
+Route::get('/data/infosutils/get', [MainController::class, 'getUtilsInfos']);
+Route::put('/data/infosutils/put', [MainController::class, 'updateUtilsInfos']);
 
-Route::get('/teste', function (){
-   dd(ServiceController::removeTime('01:02:30','05:50:35'));
-});

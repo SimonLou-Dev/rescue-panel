@@ -10,7 +10,7 @@ import dateFormat from "dateformat";
 class Main extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {annonces: [], data:false};
+        this.state = {annonces: [], data:false, text: ''};
     }
 
     async componentDidMount() {
@@ -18,6 +18,12 @@ class Main extends React.Component {
         var req = await axios({
             url: '/data/annonces',
             method: 'GET'
+        });
+        await axios({
+            method: 'GET',
+            url: '/data/infosutils/get',
+        }).then(response => {
+            this.setState({text : response.data.infos})
         });
         this.setState({annonces: req.data.annonces});
         this.hasdata(true);
@@ -48,7 +54,17 @@ class Main extends React.Component {
                         </div>
                     </div>
                     <div className={'Links'}>
-                        <h1>Liens utiles : </h1>
+                        <h1 className={'utilsName'}>Liens utiles</h1>
+                        {!this.state.data &&
+                        <div className={'load'}>
+                            <img src={'/assets/images/loading.svg'} alt={''}/>
+                        </div>
+                        }
+
+                        {this.state.data &&
+                            <div className={'render'} id={'UtilsRendering'} dangerouslySetInnerHTML={{__html:this.state.text}}/>
+                        }
+
                     </div>
                 </div>
             </div>

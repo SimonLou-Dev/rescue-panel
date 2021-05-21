@@ -30,6 +30,7 @@ import dateFormat from "dateformat";
 import {v4} from "uuid";
 import NotificationContext from "./context/NotificationContext";
 import {useNotifications} from "./context/NotificationProvider";
+import LiensUtilesMgt from "./Gestion/LiensUtilesMgt";
 
 export const rootUrl = document.querySelector('body').getAttribute('data-root-url');
 
@@ -264,6 +265,7 @@ export function Layout(){
                     <Route path={'/gestion/formation'} component={AFormaController}/>
                     <Route path={'/gestion/informations'} component={InfoGestion}/>
                     <Route path={'/gestion/perm'} component={Permissions}/>
+                    <Route path={'/gestion/utils'} component={LiensUtilesMgt}/>
                 </PermsContext.Provider>
             </div>
             {bugPopup &&
