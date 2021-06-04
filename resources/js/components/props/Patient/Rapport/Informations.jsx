@@ -66,7 +66,14 @@ class Informations extends React.Component{
                             )}
                         </ul>
                     }
-                    <input type="text" autoComplete={'off'} placeholder="n° de tel" value={tel} onChange={this.telchange}/>
+                    <input type="text" autoComplete={'off'} className={(this.props.errors.tel ? 'form-error': '')} placeholder="n° de tel" value={tel} onChange={this.telchange}/>
+                    {this.props.errors.tel &&
+                    <ul className={'error-list'}>
+                        {this.props.errors.tel.map((item)=>
+                            <li>{item}</li>
+                        )}
+                    </ul>
+                    }
                     <label>Début d'intervention</label>
                     <input required type={'date'} autoComplete={'off'} value={startinter[0]} onChange={this.startdatechange}/>
                     <input required type={'time'} autoComplete={'off'} value={startinter[1]} onChange={this.starttimechange}/>

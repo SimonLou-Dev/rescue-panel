@@ -41,7 +41,14 @@ class Intervention extends React.Component{
                 </div>
                 <div className="From-Group description">
                     <label>Description</label>
-                    <textarea autoComplete={'off'} rows='4' maxLength={"255"} onChange={(e)=> this.props.onDescChange(e.target.value)} value={this.props.description}/>
+                    <textarea autoComplete={'off'} className={(this.props.errors.desc ? 'form-error': '')} rows='4' maxLength={"255"} onChange={(e)=> this.props.onDescChange(e.target.value)} value={this.props.description}/>
+                    {this.props.errors.desc &&
+                    <ul className={'error-list'}>
+                        {this.props.errors.desc.map((item)=>
+                            <li>{item}</li>
+                        )}
+                    </ul>
+                    }
                 </div>
             </div>
         )

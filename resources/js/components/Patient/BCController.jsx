@@ -290,6 +290,7 @@ class BCView extends React.Component {
             clicked:false,
             correctid: true,
             realname: '',
+            errors: []
         }
         this.quitbc = this.quitbc.bind(this);
         this.check = this.check.bind(this);
@@ -362,7 +363,7 @@ class BCView extends React.Component {
         this.setState({clicked:true})
         e.preventDefault()
         if(this.state.blessure !== 0 && this.state.color !== 0){
-            let req = await axios({
+            await axios({
                 url: '/data/blackcode/'+ this.props.id +'/add/patient',
                 method: 'post',
                 data: {
@@ -375,23 +376,34 @@ class BCView extends React.Component {
                     realname: this.state.realname,
 
                 }
+            }).then(response => {
+                if(response.status === 201){
+                    this.setState({
+                        nom: '',
+                        color: 0,
+                        blessure:0,
+                        payed: false,
+                        carteid: false,
+                        correctid: true,
+                        realname: '',
+                    });
+                }
+            }).catch(error => {
+                error = Object.assign({}, error);
+                if(error.response.status === 422){
+                    this.setState({errors: error.response.data.errors})
+                }
             })
-            if(req.status === 201){
-                this.setState({
-                    nom: '',
-                    color: 0,
-                    blessure:0,
-                    payed: false,
-                    carteid: false,
-                    correctid: true,
-                    realname: '',
-                });
-            }
+
         }
         this.setState({clicked:false})
     }
 
     componentDidMount() {
+
+        this.update();
+        this.check();
+
         this.updator =setInterval(
             () =>this.update(),
             20000
@@ -436,12 +448,19 @@ class BCView extends React.Component {
 
                             <div className={'row-spaced'}>
                                 <label>prénom nom :</label>
-                                <input list="autocomplete" autoComplete="off" className={'input'} type={'text'} value={this.state.nom} onChange={(e)=>{this.searsh(e.target.value)}}/>
+                                <input list="autocomplete" autoComplete="off" className={'input '+ (this.props.errors.name ? 'form-error': '')} type={'text'} value={this.state.nom} onChange={(e)=>{this.searsh(e.target.value)}}/>
                                 <datalist id="autocomplete">
                                     {this.state.searsh && this.state.searsh.map((patient)=>
                                         <option key={patient.id} value={patient.vorname+ ' '+patient.name}/>
                                     )}
                                 </datalist>
+                                {this.state.errors.name &&
+                                <ul className={'error-list'}>
+                                    {this.state.errors.name.map((item)=>
+                                        <li>{item}</li>
+                                    )}
+                                </ul>
+                                }
                             </div>
 
                             <div className={'row-spaced'}>
@@ -467,7 +486,7 @@ class BCView extends React.Component {
                                <div className={'row-spaced'}>
                                    <label>HRP identité correcte:</label>
                                    <div className={'switch-container'}>
-                                       <input id={"switch"+12} className="payed_switch" type="checkbox" checked={this.state.correctid} onChange={(e)=>{
+                                       <input id={"switch"+12} className={"payed_switch "+ (this.props.errors.correctid ? 'form-error': '')} type="checkbox" checked={this.state.correctid} onChange={(e)=>{
                                            if(this.state.correctid){
                                                this.setState({correctid:false})
                                            }else{
@@ -481,6 +500,13 @@ class BCView extends React.Component {
                                <div className={'row-spaced'}>
                                    <label>HRP nom prénom  : </label>
                                    <input autoComplete="off" placeholder={'prénom nom réels'} className={'input'} type={'text'} value={this.state.realname} onChange={(e)=>{this.setState({realname:e.target.value})}}/>
+                                   {this.state.errors.realname &&
+                                   <ul className={'error-list'}>
+                                       {this.state.errors.realname.map((item)=>
+                                           <li>{item}</li>
+                                       )}
+                                   </ul>
+                                   }
                                </div>
                                }
                            </div>

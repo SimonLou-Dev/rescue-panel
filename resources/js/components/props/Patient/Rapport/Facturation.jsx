@@ -28,7 +28,14 @@ class Facturation extends React.Component{
             <div className={'Rapport-Card'}>
                 <h1>Facturation</h1>
                 <div className="Form-Group facture">
-                    <input type="number" autoComplete={'off'} placeholder="montant en $" value={this.props.montant} onChange={(e)=> this.props.onMotantChange(e.target.value)}/>
+                    <input type="number" className={(this.props.errors.montant ? 'form-error': '')} autoComplete={'off'} placeholder="montant en $" value={this.props.montant} onChange={(e)=> this.props.onMotantChange(e.target.value)}/>
+                    {this.props.errors.montant &&
+                    <ul className={'error-list'}>
+                        {this.props.errors.montant.map((item) =>
+                            <li>{item}</li>
+                        )}
+                    </ul>
+                    }
                     <input id="facture_checkbox" className="switch" type="checkbox" checked={this.state.activate} onChange={(e)=>this.onchange(e)} />
                     <label htmlFor="facture_checkbox" id="switch">a</label>
                 </div>

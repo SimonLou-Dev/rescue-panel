@@ -68,13 +68,10 @@ class Rapport extends React.Component{
                 endtime: '',});
         }).catch(error => {
             error = Object.assign({}, error);
-
             this.setState({error: true});
             if(error.response.status === 422){
                 this.setState({errors: error.response.data.errors})
             }
-
-
         })
 
         console.log('test')
@@ -105,7 +102,7 @@ class Rapport extends React.Component{
 
                         <Informations name={this.state.name} startinter={this.state.startinter} tel={this.state.tel} onStartChange={(str)=>{this.setState({startinter:str})}} onNameChange={(str) =>{this.setState({name:str});}} onTelChange={(str) =>  {this.setState({tel:str});}} errors={this.state.errors}/>
                         <Intervention type={this.state.type} transport={this.state.transport} description={this.state.desc} onTypeChange={(str) =>{this.setState({type:str});}} onTransportChange={(str) => {this.setState({transport:str});}} onDescChange={(str) => {this.setState({desc:str});}} errors={this.state.errors}/>
-                        <Facturation payed={this.state.payed} montant ={this.state.montant} onPayedChange={(str) => {this.setState({payed:str});}} onMotantChange={(str) => {this.setState({montant:str});}}/>
+                        <Facturation payed={this.state.payed} montant ={this.state.montant} onPayedChange={(str) => {this.setState({payed:str});}} onMotantChange={(str) => {this.setState({montant:str});}} errors={this.state.errors}/>
                         <ATA startDate={this.state.startdate} startTime={this.state.starttime} endDate={ this.state.enddate} endTime={ this.state.endtime} onStartDateChange={(str) => {this.setState({startdate:str});}} onStartTimeChange={(str) => {this.setState({starttime:str});}} onEndDateChange={(str) => {this.setState({enddate:str});}} onEndTimeChange={(str) => {this.setState({endtime:str});}} errors={this.state.errors}/>
                 </div>
                 </form>

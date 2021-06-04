@@ -17,6 +17,7 @@ class Factures extends React.Component {
             data: false,
             pdfstart: '',
             pdfend: '',
+            errors: [],
         }
         this.paye = this.paye.bind(this);
         this.OnPost = this.OnPost.bind(this);
@@ -61,7 +62,7 @@ class Factures extends React.Component {
 
     async OnPost(e) {
         e.preventDefault();
-        var req = await axios({
+        await axios({
             url: '/data/facture/add',
             method: 'POST',
             data: {
@@ -69,11 +70,19 @@ class Factures extends React.Component {
                 name: this.state.name,
                 montant: this.state.prix,
             }
+        }).then(response => {
+            if(response.status === 201){
+                this.setState({addfacture:false, name: "", payed:false, prix:null,});
+                this.componentDidMount();
+            }
+        }).catch(error => {
+            error = Object.assign({}, error);
+            this.setState({error: true});
+            if(error.response.status === 422){
+                this.setState({errors: error.response.data.errors})
+            }
         })
-        if(req.status === 201){
-            this.setState({addfacture:false, name: "", payed:false, prix:null,});
-            this.componentDidMount();
-        }
+
     }
     setdata(bool){
         this.setState({data:bool});
@@ -112,7 +121,7 @@ class Factures extends React.Component {
                             <h1>Ajouter une facture :</h1>
                             <form onSubmit={this.OnPost}>
                                 <div className={'content'}>
-                                    <input list={'autocomplete'} autoComplete={'off'} value={this.state.name} type={'text'} placeholder={'Patient'} onChange={event => {this.ShearshChange(event)}}/>
+                                    <input list={'autocomplete'} autoComplete={'off'} className={(this.state.errors.name ? 'form-error': '')} value={this.state.name} type={'text'} placeholder={'Patient'} onChange={event => {this.ShearshChange(event)}}/>
                                     <datalist id="autocomplete">
                                         {this.state.names &&
                                             this.state.names.map((option) =>
@@ -120,7 +129,21 @@ class Factures extends React.Component {
                                             )
                                         }
                                     </datalist>
-                                    <input type={'number'} placeholder={'prix en $'} value={this.state.prix} onChange={event => {this.setState({prix: event.target.value})}}/>
+                                    {this.state.errors.name &&
+                                    <ul className={'error-list'}>
+                                        {this.state.errors.name.map((item)=>
+                                            <li>{item}</li>
+                                        )}
+                                    </ul>
+                                    }
+                                    <input type={'number'} placeholder={'prix en $'} className={(this.state.errors.montant ? 'form-error': '')} value={this.state.prix} onChange={event => {this.setState({prix: event.target.value})}}/>
+                                    {this.state.errors.montant &&
+                                    <ul className={'error-list'}>
+                                        {this.state.errors.montant.map((item)=>
+                                            <li>{item}</li>
+                                        )}
+                                    </ul>
+                                    }
                                     <div className={'switch-container'}>
                                         <input id={"switch1"} checked={this.state.payed} className="payed_switch" type="checkbox" onChange={event => {this.onchange(event)}}/>
                                         <label htmlFor={"switch1"} className={"payed_switchLabel"}/>
