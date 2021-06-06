@@ -17,6 +17,7 @@ use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 use Maatwebsite\Excel\Facades\Excel;
 use Maatwebsite\Excel\Concerns\FromArray;
+use phpDocumentor\Reflection\Types\Null_;
 use function Psy\debug;
 
 class ServiceController extends Controller
@@ -184,6 +185,7 @@ class ServiceController extends Controller
     {
         if($user->service){
             $user->service = false;
+            $user->serviceState = null;
             $user->save();
             $service = Service::where('user_id', $user->id)->whereNull('Total')->first();
             $start = date_create($service->started_at);

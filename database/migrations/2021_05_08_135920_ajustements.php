@@ -16,6 +16,10 @@ class Ajustements extends Migration
         Schema::table('WeekServices', function (Blueprint $table) {
             $table->string('ajustement')->default('00:00:00');
         });
+
+        Schema::table('Users', function (Blueprint $table) {
+           $table->integer('serviceState')->nullable();
+        });
     }
 
     /**

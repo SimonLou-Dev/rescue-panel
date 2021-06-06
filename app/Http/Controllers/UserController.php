@@ -224,7 +224,8 @@ class UserController extends Controller
             'forma_delete'=>$grade->perm_22,
             'access_stats'=>$grade->perm_23,
             'HS_facture'=>$grade->perm_24,
-            'content_mgt'=>$grade->perm_25
+            'content_mgt'=>$grade->perm_25,
+            'user_id'=>$user->id
         ];
         return \response()->json(['status'=>'ok', 'perm'=>$perm, 'user'=>$user]);
     }
@@ -260,12 +261,22 @@ class UserController extends Controller
         return \response()->json(['status'=>'OK','grades'=>$grades]);
     }
 
-    public function changePerm(string $perm, string $grade_id){
+    public function changePerm(string $perm, string $grade_id): JsonResponse
+    {
         $grade = Grade::where('id', $grade_id)->first();
         $grade[$perm] = !$grade[$perm];
         $grade->save();
         event(new Notify('Vous avez changé une permissions',1));
         return \response()->json(['status'=>'OK'],201);
+    }
+
+    public function changeState(Request $request,string $user_id,string $state): JsonResponse
+    {
+        $user = User::where('id', (int) $user_id)->first();
+        $user->serviceState = $state;
+        $user->save();
+        event(new Notify('Etat de service mis à jour',1));
+        return response()->json(['status'=>'OK'],200);
     }
 
 }

@@ -6,7 +6,8 @@ class PersonnelList extends React.Component{
 
     constructor(props){
         super(props);
-        this.state = {date: new Date(), users: [],data:false};
+        this.state = {date: new Date(), users: [],states: [], displayed: [], data:false};
+        this.request= this.request.bind(this);
     }
     componentDidMount() {
         this.request();
@@ -31,7 +32,7 @@ class PersonnelList extends React.Component{
             url: '/data/AllInService',
             method: 'GET',
         });
-        this.setState({users: req.data.users, data:true})
+        this.setState({users: req.data.users, states: req.data.states, displayed:req.data.userStates, data:true})
 
     }
     hasdata(bool){
@@ -45,41 +46,20 @@ class PersonnelList extends React.Component{
                     <h1>Personnel en service : </h1>
                     <div className={'Personnel-list'}>
                         {this.state.users.map((user)=>
-                            <PersonnelCard key={user.id} name={user.name} color={'#eb34eb'}/>
+                            <PersonnelCard key={user.id} name={user.name} user={user} states={this.state.states} update={this.request}/>
                         )}
                     </div>
                     <div className={'bottom'}>
                         <div className={'groupcard'}>
                             <div className={'contain'}>
-                                <div className={'tag'}>
-                                    <label>Formations</label>
-                                    <div style={{backgroundColor: '#eb34eb'}}/>
-                                </div>
-                                <div className={'tag'}>
-                                    <label>Formations</label>
-                                    <div style={{backgroundColor: '#eb34eb'}}/>
-                                </div>
-                                <div className={'tag'}>
-                                    <label>Formations</label>
-                                    <div style={{backgroundColor: '#eb34eb'}}/>
-                                </div>
-                                <div className={'tag'}>
-                                    <label>Formations</label>
-                                    <div style={{backgroundColor: '#eb34eb'}}/>
-                                </div>
-                                <div className={'tag'}>
-                                    <label>Formations</label>
-                                    <div style={{backgroundColor: '#eb34eb'}}/>
-                                </div>
-                                <div className={'tag'}>
-                                    <label>Formations</label>
-                                    <div style={{backgroundColor: '#eb34eb'}}/>
-                                </div>
-                                <div className={'tag'}>
-                                    <label>Formations</label>
-                                    <div style={{backgroundColor: '#eb34eb'}}/>
-                                </div>
-
+                                {this.state.data === true &&
+                                    this.state.displayed.length > 0 &&
+                                        this.state.displayed.map((item)=>
+                                            <div className={'tag'} key={item.id}>
+                                            <label>{item.name}</label>
+                                            <div style={{backgroundColor:item.color}}/>
+                                        </div>
+                                    )}
                             </div>
                         </div>
                     </div>

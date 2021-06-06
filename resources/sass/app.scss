@@ -1983,6 +1983,7 @@ body{
                             -webkit-transform: rotate(6deg);
                         }
                     }
+
                     p{
                         margin: auto 0;
                         font-size: 25px;
@@ -1990,6 +1991,14 @@ body{
                         white-space: nowrap;
                         overflow: hidden;
                         text-overflow: ellipsis;
+                    }
+                    .colorTag{
+                        height: 25px;
+                        width: 25px;
+                        content: ' ';
+                        border: 1px black solid;
+                        border-radius: 100%;
+                        margin: auto 0 auto 5px;
                     }
                 }
 

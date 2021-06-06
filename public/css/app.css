@@ -2625,6 +2625,14 @@ body {
   overflow: hidden;
   text-overflow: ellipsis;
 }
+.ContentManagement .content-mgt .ContentCard .item-list .item .colorTag, .ContentManagement .content-mgt .ContentCard textarea .item .colorTag {
+  height: 25px;
+  width: 25px;
+  content: " ";
+  border: 1px black solid;
+  border-radius: 100%;
+  margin: auto 0 auto 5px;
+}
 .ContentManagement .content-mgt .ContentCard form {
   margin: 10px auto;
   display: flex;

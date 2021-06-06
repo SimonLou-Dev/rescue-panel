@@ -113,6 +113,7 @@ Route::get('/data/users/getall', [UserController::class, 'getUser']);
 Route::post('/data/users/setgrade/{id}/{userid}', [UserController::class, 'setusergrade']);
 Route::get('/data/users/search/{user}', [UserController::class, 'searchUser']);
 Route::put('/data/users/pilote/{user_id}', [UserController::class, 'changePilote']);
+Route::put('/data/user/{user_id}/changestate/{state}', [UserController::class, 'changeState']);
 
 //Content management
 Route::post('/data/gestion/content/add/{type}', [ContentManagement::class, 'addcontent']);

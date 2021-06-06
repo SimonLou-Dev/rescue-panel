@@ -1,5 +1,6 @@
 import React from 'react';
 import PermsContext from "../../context/PermsContext";
+import axios from "axios";
 
 
 class PersonnelCard extends React.Component{
@@ -8,7 +9,19 @@ class PersonnelCard extends React.Component{
         this.state = {
             moused: false
         }
+        this.BtnClick = this.BtnClick.bind(this);
     }
+
+    async BtnClick(id) {
+        await axios({
+            method: 'PUT',
+            url: '/data/user/' + this.props.user.id + '/changestate/' + id,
+        }).then(() =>{
+            this.props.update();
+        })
+
+    }
+
     render() {
         let perm = this.context
         return(
@@ -18,25 +31,19 @@ class PersonnelCard extends React.Component{
                 this.setState({moused:false})
             }}>
                 <h5>{this.props.name}</h5>
-                <div className={'tag'} style={{backgroundColor: this.props.color}}/>
-                {this.state.moused &&
+
+                {this.props.user.serviceState !== null &&
+                    <div className={'tag'} style={{backgroundColor: this.props.user.get_service_state.color}}/>
+                }
+
+                {this.state.moused && (perm.service_modify === 1 || perm.user_id === this.props.user.id) &&
                     <div className={'tag-selector'}>
-                        <button>
-                            <label>Formations</label>
-                            <div className={'tag'} style={{backgroundColor: '#eb34eb'}}/>
-                        </button>
-                        <button>
-                            <label>Formations</label>
-                            <div className={'tag'} style={{backgroundColor: '#eb34eb'}}/>
-                        </button>
-                        <button>
-                            <label>Formations</label>
-                            <div className={'tag'} style={{backgroundColor: '#eb34eb'}}/>
-                        </button>
-                        <button>
-                            <label>N/A</label>
-                            <div className={'tag'} style={{backgroundColor: '#303030'}}/>
-                        </button>
+                        {this.props.states && this.props.states.map((item)=>
+                            <button onClick={()=>{this.BtnClick(item.id);}} key={item.id}>
+                                <label>{item.name}</label>
+                                <div className={'tag'} style={{backgroundColor:item.color}}/>
+                            </button>
+                        )}
                     </div>
                 }
             </div>

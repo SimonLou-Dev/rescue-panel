@@ -22,6 +22,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
  * @property int compte
  * @property string timezone
  * @property string bg_img
+ * @property int serviceState
  * @method static where(string $column, string $operator = null, mixed $value = null)
  * @method static orderByDesc(string $string)
  *
@@ -67,5 +68,9 @@ class User extends Authenticatable
     public function getResponses(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
         return $this->hasMany(FormationsResponse::class, 'user_id');
+    }
+    public function getServiceState(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
+        return $this->belongsTo(ServiceState::class, 'serviceState');
     }
 }

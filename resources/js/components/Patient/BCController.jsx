@@ -448,7 +448,7 @@ class BCView extends React.Component {
 
                             <div className={'row-spaced'}>
                                 <label>prénom nom :</label>
-                                <input list="autocomplete" autoComplete="off" className={'input '+ (this.props.errors.name ? 'form-error': '')} type={'text'} value={this.state.nom} onChange={(e)=>{this.searsh(e.target.value)}}/>
+                                <input list="autocomplete" autoComplete="off" className={'input '+ (this.state.errors.name ? 'form-error': '')} type={'text'} value={this.state.nom} onChange={(e)=>{this.searsh(e.target.value)}}/>
                                 <datalist id="autocomplete">
                                     {this.state.searsh && this.state.searsh.map((patient)=>
                                         <option key={patient.id} value={patient.vorname+ ' '+patient.name}/>
@@ -486,7 +486,7 @@ class BCView extends React.Component {
                                <div className={'row-spaced'}>
                                    <label>HRP identité correcte:</label>
                                    <div className={'switch-container'}>
-                                       <input id={"switch"+12} className={"payed_switch "+ (this.props.errors.correctid ? 'form-error': '')} type="checkbox" checked={this.state.correctid} onChange={(e)=>{
+                                       <input id={"switch"+12} className={"payed_switch "+ (this.state.errors.correctid ? 'form-error': '')} type="checkbox" checked={this.state.correctid} onChange={(e)=>{
                                            if(this.state.correctid){
                                                this.setState({correctid:false})
                                            }else{
