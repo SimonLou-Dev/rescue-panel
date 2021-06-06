@@ -114,8 +114,6 @@ class BCController extends Controller
             'place'=>['required'],
         ]);
 
-
-
         $type = $request->type;
         $place = $request->place;
         $bc = new BCList();

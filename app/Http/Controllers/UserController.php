@@ -150,6 +150,12 @@ class UserController extends Controller
      */
     public function postInfos(Request $request): JsonResponse
     {
+        $request->validate([
+            'compte'=> 'required|digits_between:3,7|integer',
+            'tel'=> 'required|digits_between:8,15|integer',
+        ]);
+
+
         $living = $request->living;
         $tel = $request->tel;
         $compte= $request->compte;

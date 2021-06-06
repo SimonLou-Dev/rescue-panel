@@ -50,6 +50,7 @@ class BCBase extends React.Component {
             clicked:false,
             place: "",
             type: 0,
+            errors:[],
         }
         this.addbc = this.addbc.bind(this);
     }
@@ -77,6 +78,11 @@ class BCBase extends React.Component {
             }).then(response => {
                 this.setState({place: "", type:0})
                 this.props.update(1,response.data.bc_id);
+            }).catch(error => {
+                error = Object.assign({}, error);
+                if(error.response.status === 422){
+                    this.setState({errors: error.response.data.errors})
+                }
             })
         }
         this.setState({cliked:false});
@@ -168,7 +174,12 @@ class BCBase extends React.Component {
                             this.addbc(e)
                         }}>
                             <div className={'row'}>
-                                <input type={'text'} placeholder={'lieux'} value={this.state.place} onChange={(e)=>{this.setState({place:e.target.value})}}/>
+                                <input type={'text'} placeholder={'lieux'} className={(this.state.errors.place ? 'form-error': '')} value={this.state.place} onChange={(e)=>{this.setState({place:e.target.value})}}/>
+                                <ul className={'error-list'}>
+                                    {this.state.errors.place && this.state.errors.place.map((item)=>
+                                        <li>{item}</li>
+                                    )}
+                                </ul>
                                 <select defaultValue={this.state.type} onChange={(e)=>{this.setState({type:e.target.value})}}>
                                     <option value={0} disabled>choisir</option>
                                     {this.state.types && this.state.types.map((type)=>

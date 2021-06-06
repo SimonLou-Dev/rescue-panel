@@ -62,6 +62,10 @@ class VolController extends Controller
     public function addVol(Request $request): \Illuminate\Http\JsonResponse
     {
 
+        $request->validate([
+           'lieux'=>['required', 'string']
+        ]);
+
         $raison = $request->raison;
         $pilote_id = Auth::user()->id;
         $decollage = date_create();

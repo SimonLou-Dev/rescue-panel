@@ -150,7 +150,7 @@ class Register extends React.Component {
                   <form method={'POST'} onSubmit={this.registering}>
                       <img alt={""} src={rootUrl + 'assets/images/LONG_EMS_BC_2.png'}/>
                       <h1>Inscription</h1>
-                      <label>nom prénom: </label>
+                      <label>nom prénom : </label>
                       <input type={'text'} value={this.state.pseudo} maxLength={"20"} onChange={this.PseudoCheck}/>
                       {this.state.pseudo_error &&
                         <div className={'form-error'}>

@@ -46,7 +46,6 @@ class AccountController extends Controller
             'email'=>'required|email'
         ]);
 
-
         $name= (string) $request->name;
         $compte = (int) $request->compte;
         $tel = (int) $request->tel;
