@@ -80,10 +80,10 @@
             </div>
             <div class="card-content id">
                 <div class="item">
-                    <p><span class="fixed">Nom, prénom :</span>{{' '.$rapport->Patient->name . ' ' . $rapport->Patient->vorname}}</p>
+                    <p><span class="fixed">Nom, prénom :</span>{{' '.$rapport->GetPatient->name . ' ' . $rapport->GetPatient->vorname}}</p>
                 </div>
                 <div class="item">
-                    <p><span class="fixed">n° de téléphone :</span>{{' '.$rapport->Patient->tel}}</p>
+                    <p><span class="fixed">n° de téléphone :</span>{{' '.$rapport->GetPatient->tel}}</p>
                 </div>
             </div>
         </div>
@@ -96,10 +96,10 @@
                     <p><span class="fixed">Date et heure de l'intervention :</span>{{' '. date('d/m/y H:i', strtotime($rapport->created_at))}}</p>
                 </div>
                 <div class="item">
-                    <p><span class="fixed">Transport :</span>{{' '. $rapport->Hospital->name}}</p>
+                    <p><span class="fixed">Transport :</span>{{' '. $rapport->GetTransport->name}}</p>
                 </div>
                 <div class="item">
-                    <p><span class="fixed">Facturation :</span>{{' '. $rapport->prix.'$'}} {{$rapport->facture->payed?'payé':'impoayé'}}</p>
+                    <p><span class="fixed">Facturation :</span>{{' '. $rapport->prix.'$'}} {{$rapport->GetFacture->payed?'payé':'impoayé'}}</p>
                 </div>
             </div>
         </div>

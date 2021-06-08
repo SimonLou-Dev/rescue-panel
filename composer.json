@@ -21,8 +21,10 @@
         "laravel/tinker": "^2.5",
         "laravel/ui": "^3.2",
         "maatwebsite/excel": "^3.1",
+        "php-http/guzzle7-adapter": "^1.0",
         "pion/laravel-chunk-upload": "^1.4",
-        "pusher/pusher-php-server": "^5.0"
+        "pusher/pusher-php-server": "^5.0",
+        "thecodingmachine/gotenberg-php-client": "^6.3"
     },
     "require-dev": {
         "facade/ignition": "^2.5",

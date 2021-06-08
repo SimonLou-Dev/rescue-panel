@@ -75,11 +75,10 @@ Route::get('/data/rapport/getforinter', [RapportController::class, 'getforinter'
 Route::post('/data/rapport/post', [RapportController::class, 'addRapport']);
 Route::get('/data/patient/search/{text}', [RapportController::class, 'search']);
 Route::get('/data/patient/interlist/{text}', [RapportController::class, 'getPatient']);
-// DELETED Route::get('/data/rapport/inter/{id}', [\A [RapportController::class, 'getInter']);
 Route::get('/data/rapport/get/{id}', [RapportController::class, 'getRapportById']);
 Route::put('/data/rapport/update/{id}', [RapportController::class, 'updateRapport']);
 Route::post('/data/patient/{id}/update', [RapportController::class, 'updatePatientInfos']);
-Route::get('/PDF/rapport/{id}', [RapportController::class, 'makeRapportPdf']);
+Route::get('/pdf/rapport/{id}', [RapportController::class, 'makeRapportPdf']);
 
 //LES BC
 Route::get('/data/blackcode/load', [BCController::class, 'getMainPage']);
