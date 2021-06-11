@@ -51,6 +51,8 @@ class BCBase extends React.Component {
             place: "",
             type: 0,
             errors:[],
+            pdfstart: '',
+            pdfend: '',
         }
         this.addbc = this.addbc.bind(this);
     }
@@ -95,6 +97,21 @@ class BCBase extends React.Component {
                  <PagesTitle title={'Black Codes'}/>
                  {perm.add_BC === 1 &&
                     <button className={'btn'} onClick={()=>this.setState({add: true})}>Ajouter un BC</button>
+                 }
+                 {perm.factures_PDF === 1 &&
+                 <div className={'pdf_Generator mobildisabled'} >
+                     <form onSubmit={(e)=>{
+                         e.preventDefault();
+                         window.open('/exel/allPList/'+this.state.pdfstart+'/'+this.state.pdfend)
+                     }
+                     }>
+                         <label>Liste des patients du</label>
+                         <input type={"date"} value={this.state.pdfstart} onChange={(e)=>{this.setState({pdfstart:e.target.value})}}/>
+                         <label>au</label>
+                         <input type={"date"} value={this.state.pdfend} onChange={(e)=>{this.setState({pdfend:e.target.value})}}/>
+                         <button type={"submit"} className={'btn'}>générer</button>
+                     </form>
+                 </div>
                  }
              </section>
              <section className="contain" style={{filter: this.state.add ? 'blur(5px)' : 'none'}} >
@@ -225,6 +242,7 @@ class BCLast extends React.Component {
     render() {
         if(this.state.data) {
             const bc = this.state.bc;
+            let perm = this.context
             return (
                 <div className={"BC-Last"}>
                     <section className="left">
@@ -232,9 +250,13 @@ class BCLast extends React.Component {
                             <PagesTitle title={bc.get_type.name + ' ' + bc.place}/>
                             <div className={'btn-contain'}>
                                 <div className={'bgforbtn'}>
+                                    {perm.factures_PDF === 1 &&
+                                        <a className={'btn'} target={'_blank'} href={'/data/bc/rapport/'+bc.id}>rapport</a>
+                                    }
                                     <button className={'btn'} onClick={() => this.props.update(0)}>Retour</button>
                                 </div>
                             </div>
+
                         </div>
                         <div className="infos">
                             <h2>Informations</h2>
@@ -278,6 +300,7 @@ class BCLast extends React.Component {
 
     }
 }
+BCLast.contextType = PermsContext;
 
 class BCView extends React.Component {
 

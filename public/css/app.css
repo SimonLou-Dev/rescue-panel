@@ -2292,6 +2292,25 @@ body {
   border-top: none;
 }
 
+.pdf_Generator {
+  margin: auto 0;
+  padding: 15px;
+  background-color: #0c2646;
+  border-radius: 30px;
+}
+.pdf_Generator form {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  margin: auto 0;
+}
+.pdf_Generator form label {
+  margin: auto 10px;
+}
+.pdf_Generator form .btn {
+  margin: auto 10px;
+}
+
 .impayes {
   height: 100vh;
   display: flex;
@@ -2303,24 +2322,6 @@ body {
   flex-direction: row;
   flex-wrap: nowrap;
   justify-content: space-evenly;
-}
-.impayes .header .pdf_Generator {
-  margin: auto 0;
-  padding: 15px;
-  background-color: #0c2646;
-  border-radius: 30px;
-}
-.impayes .header .pdf_Generator form {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-evenly;
-  margin: auto 0;
-}
-.impayes .header .pdf_Generator form label {
-  margin: auto 10px;
-}
-.impayes .header .pdf_Generator form .btn {
-  margin: auto 10px;
 }
 .impayes .header .Add-facture {
   margin: auto 0;

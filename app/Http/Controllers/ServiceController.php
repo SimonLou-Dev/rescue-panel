@@ -224,7 +224,7 @@ class ServiceController extends Controller
                     'embeds'=>[
                         [
                             'title'=>'Fin de service de ' . $user->name,
-                            'description'=> 'temps de service : ' . $formated[0]. ':' . $formated[1],
+                            'description'=> 'temps de service : ' . $formated[0]. ' h et ' . $formated[1]. ' min(s)',
                             'color'=>'15158332',
                             'footer'=>[
                                 'text'=>'stoppé par : ' . Auth::user()->name
@@ -239,7 +239,7 @@ class ServiceController extends Controller
                     'embeds'=>[
                         [
                             'title'=>'Fin de service de ' . $user->name,
-                            'description'=> 'temps de service : ' . $formated[0]. ':' . $formated[1],
+                            'description'=> 'temps de service : ' . $formated[0]. ' h et ' . $formated[1] . ' min(s)',
                             'color'=>'15158332',
                         ]
                     ]

@@ -15,6 +15,7 @@ use http\Env\Response;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Storage;
 use TheCodingMachine\Gotenberg\Client;
 use TheCodingMachine\Gotenberg\DocumentFactory;
 use TheCodingMachine\Gotenberg\HTMLRequest;
@@ -47,7 +48,7 @@ class RapportController extends Controller
             'montant'=>['required'],
             'payed'=>['required'],
             'montant'=>['required','integer'],
-            'tel'=>['integer']
+            'tel'=>['required','numeric']
         ]);
 
         $patientname = explode(' ', $request->name);
@@ -83,6 +84,8 @@ class RapportController extends Controller
         }else{
             $fact= 'Impayée : ' . $request->montant;
         }
+        $user = Auth::user()->name;
+
         Http::post(env('WEBHOOK_RI'),[
             'username'=> "BCFD - Intranet",
             'avatar_url'=>'https://bcfd.simon-lou.com/assets/images/BCFD.png',
@@ -128,7 +131,26 @@ class RapportController extends Controller
                 ]
             ]
         ]);
+
+        $client = new Client('http://75.119.154.204:3000', new \Http\Adapter\Guzzle7\Client());
+
+        ob_start();
+        require(base_path('/resources/PDF/RI/index.php'));
+        $content = ob_get_clean();
+
+        $index = DocumentFactory::makeFromString('index.html', $content);
+        $assets = [
+            DocumentFactory::makeFromPath('LONG_EMS_BC_2.png', base_path('/resources/PDF/RI/LONG_EMS_BC_2.png')),
+            DocumentFactory::makeFromPath('signature.png', base_path('/resources/PDF/RI/signature.png'))
+        ];
+
+        $request = new HTMLRequest($index);
+        $request->setAssets($assets);
+        $path = storage_path('app/public/RI/'. $rapport->id . ".pdf");
+        $client->store($request, $path);
+
         event(new Notify('Rapport ajouté ! ',1));
+
         return response()->json([],201);
     }
 
@@ -172,8 +194,6 @@ class RapportController extends Controller
 
     public function updateRapport(Request $request, int $id): \Illuminate\Http\JsonResponse
     {
-
-
         $rapport = Rapport::where('id', $id)->first();
         $facture = $rapport->GetFacture;
         $facture->price = (integer) $request->montant;
@@ -187,6 +207,30 @@ class RapportController extends Controller
         }
         $facture->save();
         $rapport->save();
+        $path = storage_path('app/public/RI/'. $rapport->id . ".pdf");
+
+        if(Storage::exists('/public/RI/'. $rapport->id . ".pdf")){
+            Storage::delete('/public/RI/'. $rapport->id . ".pdf");
+        }
+
+        $user = $rapport->GetUser->name;
+
+        $client = new Client('http://75.119.154.204:3000', new \Http\Adapter\Guzzle7\Client());
+
+        ob_start();
+        require(base_path('/resources/PDF/RI/index.php'));
+        $content = ob_get_clean();
+
+        $index = DocumentFactory::makeFromString('index.html', $content);
+        $assets = [
+            DocumentFactory::makeFromPath('LONG_EMS_BC_2.png', base_path('/resources/PDF/RI/LONG_EMS_BC_2.png')),
+            DocumentFactory::makeFromPath('signature.png', base_path('/resources/PDF/RI/signature.png'))
+        ];
+
+        $request = new HTMLRequest($index);
+        $request->setAssets($assets);
+        $client->store($request, $path);
+
         event(new Notify('Rapport mis à jour',1));
         return response()->json(['status'=>'OK'],201);
     }
@@ -295,34 +339,37 @@ class RapportController extends Controller
 
     public function makeRapportPdf(Request $request, int $id){
         $data = array();
+
         $rapport = Rapport::where('id', $id)->first();
-        $user = Auth::user()->name;
+        $path = storage_path('app/public/RI/'. $rapport->id . ".pdf");
 
+        if(!Storage::exists('/public/RI/'. $rapport->id . ".pdf")){
 
-        $client = new Client('http://75.119.154.204:3000', new \Http\Adapter\Guzzle7\Client());
+            $user = $rapport->GetUser->name;
 
-        ob_start();
-        require(base_path('/resources/PDF/RI/index.php'));
-        $content = ob_get_clean();
+            $client = new Client('http://75.119.154.204:3000', new \Http\Adapter\Guzzle7\Client());
 
+            ob_start();
+            require(base_path('/resources/PDF/RI/index.php'));
+            $content = ob_get_clean();
 
+            $index = DocumentFactory::makeFromString('index.html', $content);
+            $assets = [
+                DocumentFactory::makeFromPath('LONG_EMS_BC_2.png', base_path('/resources/PDF/RI/LONG_EMS_BC_2.png')),
+                DocumentFactory::makeFromPath('signature.png', base_path('/resources/PDF/RI/signature.png'))
+            ];
 
-        $index = DocumentFactory::makeFromString('index.html', $content);
-        $assets = [
-            DocumentFactory::makeFromPath('LONG_EMS_BC_2.png', base_path('/resources/PDF/RI/LONG_EMS_BC_2.png')),
-            DocumentFactory::makeFromPath('signature.png', base_path('/resources/PDF/RI/signature.png'))
-        ];
+            $request = new HTMLRequest($index);
+            $request->setAssets($assets);
+            $client->store($request, $path);
+        }
 
-        $request = new HTMLRequest($index);
-        $request->setAssets($assets);
-        $path = base_path('/pdftest/test.pdf');
-        $client->store($request, $path);
         return \response()->file($path);
     }
 
     public function makeImpayPdf(Request $request, string $from , string $to){
         //2021-01-05
-        $impaye = Facture::where('payed', false)->where('created_at', '>', $from)->where('created_at', '<', $to)->orderBy('id', 'desc')->get();
+        $impaye = Facture::where('payed', false)->where('created_at', '>=', $from)->where('created_at', '=<', $to)->orderBy('id', 'desc')->get();
 
         $infos = ['from'=>date('d/m/Y', strtotime($from)),'to'=>date('d/m/Y', strtotime($to))];
         $data = ['infos'=>$infos, 'impaye'=>$impaye];

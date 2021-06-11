@@ -151,9 +151,9 @@ class CarnetVol extends React.Component {
                                 <h2>ajouter un vol</h2>
                                 <div className="rowed">
                                     <label>raison du vol</label>
-                                    <input type={'text'} max={100} className={(this.state.errors.raison ? 'form-error': '')} value={this.state.raison} onChange={(e)=>{this.setState({raison: e.target.value})}}/>
+                                    <input type={'text'} max={100} className={(this.state.errors.lieux ? 'form-error': '')} value={this.state.raison} onChange={(e)=>{this.setState({raison: e.target.value})}}/>
                                     <ul className={'error-list'}>
-                                        {this.state.errors.raison && this.state.errors.raison.map((item)=>
+                                        {this.state.errors.lieux && this.state.errors.lieux.map((item)=>
                                             <li>{item}</li>
                                         )}
                                     </ul>

@@ -31,6 +31,7 @@ class Account extends React.Component {
             lastmdp: '',
             image: null,
             errors: [],
+            id: null,
         }
 
         this.postInfos = this.postInfos.bind(this);
@@ -52,6 +53,8 @@ class Account extends React.Component {
                 compte: req.data.user.compte,
                 tel: req.data.user.tel,
                 liveplace: req.data.user.liveplace,
+                image: req.data.user.bg_img,
+                id:req.data.user.id,
             });
         }
     }
@@ -176,7 +179,7 @@ class Account extends React.Component {
                         <Uploader text={'1920*1080 2MO'} images={(image)=>{
                             this.setState({image:image});
                             this.postBg();
-                        }}/>
+                        }} default={'/storage/user_background/'+this.state.id + '/' +this.state.image}/>
                         <button className={'btn'} onClick={async (e) => {
                             e.preventDefault();
                             await axios({

@@ -15,10 +15,12 @@ use App\Models\Facture;
 use App\Models\Patient;
 use App\Models\Rapport;
 use App\Models\User;
+use App\PDFExporter\ServicePDFExporter;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
+use Maatwebsite\Excel\Facades\Excel;
 use function GuzzleHttp\json_encode;
 
 
@@ -419,4 +421,76 @@ class BCController extends Controller
         return response()->json(['status'=>'OK']);
     }
 
+    public function generateListWithAllPatients(Request $request, string $from, string $to): \Symfony\Component\HttpFoundation\BinaryFileResponse
+    {
+
+        $Bcs = BCList::where('ended', true)->where('created_at', '>', $from . ' 00:00:00')->where('created_at', '<', $to . ' 00:00:00')->orderBy('id', 'desc')->get();
+
+        $idList = array();
+
+        foreach ($Bcs as $bc){
+            $patients = $bc->GetPatients;
+            foreach ($patients as $patient){
+                array_push($idList, $patient->patient_id);
+            }
+        }
+        $arrayOrdered = array_count_values($idList);
+        arsort($arrayOrdered);
+        $patientsId = array_keys($arrayOrdered);
+
+        $bcList = array();
+
+        foreach ($patientsId as $pid){
+            $bcList[$pid] = array();
+        }
+
+        foreach ($Bcs as $bc){
+            $patients = $bc->GetPatients;
+            foreach ($patients as $patient){
+                foreach ($patientsId as $pid){
+                    if($pid == $patient->patient_id){
+                        array_push($bcList[$pid], $bc->id);
+                    }
+                }
+            }
+        }
+        $columns[] = ['id patient','prénom nom', "nombre d’apparitions", 'liste des apparitions'];
+        foreach ($patientsId as $patient_id){
+            $patient = Patient::where('id', $patient_id)->first();
+
+            $string = '';
+            foreach ($bcList[$patient_id] as $pid){
+                if(strlen($string) == 0){
+                    $string = $pid;
+                }else{
+                    $string = $string . ', ' . $pid;
+                }
+            }
+
+            $columns[] = [
+                $patient_id,
+                $patient->vorname . ' ' . $patient->name,
+                $arrayOrdered[$patient_id],
+                $string
+            ];
+        }
+
+        $export = new ServicePDFExporter($columns);
+        return Excel::download((object)$export, 'listeDesPatientsDansLesBC.xlsx');
+    }
+
+    public function generateRapport(string $id){
+        $bc = BCList::where('id',$id)->first();
+        $columns[] = ['prénom nom', 'couleur vêtement', 'date et heure d\'ajout'];
+        foreach ($bc->GetPatients as $patient){
+            $columns[] = [
+                $patient->GetPatient->vorname . ' ' . $patient->GetPatient->name,
+                $patient->GetColor->name,
+                date('d/m/Y H:i', strtotime($patient->created_at))
+            ];
+        }
+
+        $export = new ServicePDFExporter($columns);
+        return Excel::download((object)$export, 'ListePatientsBc'. $id .'.xlsx');
+    }
 }

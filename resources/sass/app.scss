@@ -1645,6 +1645,25 @@ body{
     }
 }
 
+.pdf_Generator{
+    margin: auto 0;
+    padding: 15px;
+    background-color: $dark_blue;
+    border-radius: $border-radius;
+    form{
+        display: flex;
+        flex-direction: row;
+        justify-content: space-evenly;
+        margin: auto 0;
+        label{
+            margin: auto 10px;
+        }
+        .btn{
+            margin: auto 10px;
+        }
+    }
+}
+
 //Impayés
 .impayes{
     height: 100vh;
@@ -1656,24 +1675,7 @@ body{
         flex-direction: row;
         flex-wrap: nowrap;
         justify-content: space-evenly;
-        .pdf_Generator{
-            margin: auto 0;
-            padding: 15px;
-            background-color: $dark_blue;
-            border-radius: $border-radius;
-            form{
-                display: flex;
-                flex-direction: row;
-                justify-content: space-evenly;
-                margin: auto 0;
-                label{
-                    margin: auto 10px;
-                }
-                .btn{
-                    margin: auto 10px;
-                }
-            }
-        }
+
         .Add-facture{
             margin: auto 0;
         }

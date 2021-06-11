@@ -109,9 +109,6 @@
         <div class="item">
             <p><span class="fixed">Transport :</span><?php echo ' '. $rapport->GetTransport->name ?></p>
         </div>
-        <div class="item">
-            <p><span class="fixed">Facturation :</span> <?php echo ' ' . $rapport->GetFacture->payed? '$' . $rapport->price : 'impayé' ?></p>
-        </div>
     </div>
 </div>
 <div class="card">

@@ -91,6 +91,8 @@ Route::post('/data/blackcode/create', [BCController::class, 'addBc']);
 Route::put('/data/blackcode/{id}/close', [BCController::class, 'endBc']);
 Route::delete('/data/blackcode/delete/patient/{patient_id}', [BCController::class, 'removePatient']);
 Route::delete('/data/blackcode/{id}/delete/personnel', [BCController::class, 'removePersonnel']);
+Route::get('/exel/allPList/{from}/{to}', [BCController::class, 'generateListWithAllPatients']);
+Route::get('/data/bc/rapport/{id}', [BCController::class, 'generateRapport']);
 
 //Les factures
 Route::get('/data/facture/list', [RapportController::class, 'getAllimpaye']);
@@ -165,7 +167,6 @@ Route::get('/data/admin/grades/get', [UserController::class, 'getAllGrades']);
 Route::put('/data/admin/grades/{perm}/{grade_id}', [UserController::class, 'changePerm']);
 
 Route::post('/data/bug', [MainController::class, 'postBug']);
-
 
 Route::post('/data/tempupload', [FileController::class, 'uploadFile'])->middleware('auth');
 Route::put('/data/finish/tempupload/{uuid}', [FileController::class, 'endOffUpload'])->middleware('auth');

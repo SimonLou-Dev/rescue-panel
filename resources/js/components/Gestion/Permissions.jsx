@@ -49,7 +49,7 @@ class Permissions extends React.Component {
                                 <th className={'p-perm p-head'}>faire des rapports hors service</th>
                                 <th className={'p-perm p-head'}>acceder au dossier hors service</th>
                                 <th className={'p-perm p-head'}>voir les Bc hors service</th>
-                                <th className={'p-perm p-head'}>sortir le pdf des facture</th>
+                                <th className={'p-perm p-head'}>sortir les pdf (factures / BC)</th>
                                 <th className={'p-perm p-head'}>ajouter des factures</th>
                                 <th className={'p-perm p-head'}>créer un rapport</th>
                                 <th className={'p-perm p-head'}>créer un BC</th>
