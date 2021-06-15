@@ -11,6 +11,7 @@ use App\Models\InterType;
 use App\Models\Intervention;
 use App\Models\Patient;
 use App\Models\Rapport;
+use Hoa\File\File;
 use http\Env\Response;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -146,7 +147,7 @@ class RapportController extends Controller
 
         $request = new HTMLRequest($index);
         $request->setAssets($assets);
-        $path = storage_path('app/public/RI/'. $rapport->id . ".pdf");
+        $path = base_path('public/storage/RI/'. $rapport->id . ".pdf");
         $client->store($request, $path);
 
         event(new Notify('Rapport ajouté ! ',1));
@@ -207,7 +208,7 @@ class RapportController extends Controller
         }
         $facture->save();
         $rapport->save();
-        $path = storage_path('app/public/RI/'. $rapport->id . ".pdf");
+        $path = base_path('public/storage/RI/'. $rapport->id . ".pdf");
 
         if(Storage::exists('/public/RI/'. $rapport->id . ".pdf")){
             Storage::delete('/public/RI/'. $rapport->id . ".pdf");
@@ -341,9 +342,9 @@ class RapportController extends Controller
         $data = array();
 
         $rapport = Rapport::where('id', $id)->first();
-        $path = storage_path('app/public/RI/'. $rapport->id . ".pdf");
+        $path = base_path('public/storage/RI/'. $rapport->id . ".pdf");
 
-        if(!Storage::exists('/public/RI/'. $rapport->id . ".pdf")){
+        if(!file_exists($path)){
 
             $user = $rapport->GetUser->name;
 
@@ -388,7 +389,7 @@ class RapportController extends Controller
 
         $request = new HTMLRequest($index);
         $request->setAssets($assets);
-        $path = storage_path('/temp/factures/facture.pdf');
+        $path = base_path('public/storage/temp/factures/facture.pdf');
         $client->store($request, $path);
         return \response()->file($path);
 
