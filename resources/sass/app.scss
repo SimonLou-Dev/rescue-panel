@@ -374,7 +374,6 @@ body{
             overflow-y: auto;
             .Personnel-card{
                 position: relative;
-                z-index: 320;
                 margin: 10px;
                 display: flex;
                 flex-direction: row;
@@ -403,6 +402,7 @@ body{
                     background-color: $medium_blue;
                     border: 1px $light_blue solid;
                     display: flex;
+                    z-index: 100;
                     flex-direction: column;
                     button{
                         cursor: pointer;
@@ -424,7 +424,6 @@ body{
 
         }
         .bottom{
-            z-index: 1;
             position: relative;
             background-color: $medium_blue;
             width: 100%;
