@@ -15,9 +15,13 @@ use App\Models\Facture;
 use App\Models\Patient;
 use App\Models\Rapport;
 use App\Models\User;
+use App\PDFExporter\ServicePDFExporter;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
+use Maatwebsite\Excel\Facades\Excel;
+use function GuzzleHttp\json_encode;
 
 
 class BCController extends Controller
@@ -107,6 +111,11 @@ class BCController extends Controller
 
     public function addBc(Request $request): \Illuminate\Http\JsonResponse
     {
+        $request->validate([
+            'type'=>['required'],
+            'place'=>['required'],
+        ]);
+
         $type = $request->type;
         $place = $request->place;
         $bc = new BCList();
@@ -117,6 +126,8 @@ class BCController extends Controller
         $this->addPersonel((string)$bc->id);
 
         Http::post(env('WEBHOOK_PU'),[
+            'username'=> "BCFD - Intranet",
+            'avatar_url'=>'https://bcfd.simon-lou.com/assets/images/BCFD.png',
             'embeds'=>[
                 [
                     'title'=>'Black Code #' . $bc->id . ' en cours :',
@@ -155,7 +166,7 @@ class BCController extends Controller
         $bc->save();
         $users = User::where('bc_id', $id)->get();
         foreach ($users as $user){
-            $user->bc_id = null;
+           $user->bc_id = null;
             $user->save();
         }
 
@@ -166,7 +177,7 @@ class BCController extends Controller
         $interval = $start->diff($end);
         $formated = $interval->format('%H h %I min(s)');
         $this->generateBCEndedEmbed($formated, $patients, $personnels, $bc);
-        event(new Brodcaster('Fin du BC #'.$bc->id));
+        //event(new Brodcaster('Fin du BC #'.$bc->id));
 
         return response()->json(['status'=>'OK'],201);
     }
@@ -197,8 +208,8 @@ class BCController extends Controller
             'color'=>'10368531',
         ]);
         if($number != 0){
-            if($number > 31){
-                $this->manyPatientEmbed($number, $patients);
+            if($number > 20){
+                $finalembedslist = $this->manyPatientEmbed($number, $patients, $finalembedslist);
             }else{
                 array_push($finalembedslist,$this->onePatientEmbed($patients, 1,1,0)[1]);
             }
@@ -236,22 +247,24 @@ class BCController extends Controller
         ]);
 
         Http::post(env('WEBHOOK_PU'),[
+            'username'=> "BCFD - MDT",
+            'avatar_url'=>'https://bcfd.simon-lou.com/assets/images/BCFD.png',
             'embeds'=>$finalembedslist,
         ]);
     }
-    private function manyPatientEmbed(int $number, object $patients): bool
+    private function manyPatientEmbed(int $number, object $patients, array $finalembedslist): array
     {
         $nbr = $number-1;
-        $pages = (int) ceil($number/30);
+        $pages = (int) ceil($number/20);
         $page = 1;
         $a = 0;
         while($a < $nbr){
             $embed = $this->onePatientEmbed($patients, $page, $pages, $a);
-            array_push($finalembedslist, $embed[1]);
+            array_push($finalembedslist,$embed[1]);
+            $a = $embed[0];
             $page++;
-            $a = $a+ $embed[0];
         }
-        return true;
+        return $finalembedslist;
     }
     private function onePatientEmbed(object $patients,int $page,int $pages, $a): array
     {
@@ -259,11 +272,12 @@ class BCController extends Controller
         $b = 0;
         $msg = "";
         $max = 0;
-        if(count($patients) > 31){
-            $max = 31;
+        if(count($patients) - $a > 20){
+            $max = 20;
         }else{
-            $max = count($patients);
+            $max = count($patients) - $a;
         }
+
         while($b < $max){
             $item = $b +$a;
             $msg = $msg . ' '. $patients[$item]->name . ' ' . ($patients[$item]->idcard ? ':white_check_mark:' : ':x:') . ' ' . $patients[$item]->GetColor->name . " \n";
@@ -274,7 +288,7 @@ class BCController extends Controller
             'color'=>'10368531',
             'description'=>$msg
         ];
-        return [$a, $embedpatient];
+        return [$a+31, $embedpatient];
     }
 
     public function addPersonel(string $id): \Illuminate\Http\JsonResponse
@@ -307,6 +321,18 @@ class BCController extends Controller
 
     public function addPatient(Request $request, int $id): \Illuminate\Http\JsonResponse
     {
+        $request->validate([
+            'name'=>['required', 'string','regex:/[a-zA-Z.+_]+\s[a-zA-Z.+_]/'],
+            'blessure'=>['required'],
+            'carteid'=>['required'],
+            'blessure'=>['required'],
+            'color'=>['required'],
+            'payed'=>['required']
+        ]);
+
+
+
+
         $name = explode(" ", $request->name);
         $bc = BCList::where('id', $id)->first();
         $Patient = RapportController::PatientExist($name[1], $name[0]);
@@ -345,6 +371,39 @@ class BCController extends Controller
         $BcP->save();
         RapportController::addFactureMethod($Patient, $request->payed, 700, Auth::user()->id,$rapport->id);
         event(new Notify('Patient ajouté ! ',1));
+
+        if(!$request->correctid){
+            event(new Notify('Ajout d\'une déclaration de falsification d\'identité ! ',1));
+            Http::post(env('WEBHOOK_STAFF'),[
+                'username'=> "BCFD - MDT",
+                'avatar_url'=>'https://bcfd.simon-lou.com/assets/images/BCFD.png',
+                'embeds'=>[
+                    [
+                        'title'=>'Falsification d\'identité',
+                        'color'=>'10368531',
+                        'fields'=>[
+                            [
+                                'name'=>'nom donné au médecin :',
+                                'value'=>$Patient->name,
+                                'inline'=>true,
+                            ],[
+                                'name'=>'présentation d\'une id card :',
+                                'value'=>($BcP->idcard ? 'oui' : 'non'),
+                                'inline'=>true,
+                            ],[
+                                'name'=>'nom réel du personnage :',
+                                'value'=>$request->realname,
+                                'inline'=>false,
+                            ]
+                        ],
+                        'footer'=>[
+                            'text'=>'Information de  : ' . Auth::user()->name
+                        ]
+                    ]
+                ],
+            ]);
+        }
+
         return response()->json(['status'=>'OK'],201);
     }
 
@@ -362,4 +421,76 @@ class BCController extends Controller
         return response()->json(['status'=>'OK']);
     }
 
+    public function generateListWithAllPatients(Request $request, string $from, string $to): \Symfony\Component\HttpFoundation\BinaryFileResponse
+    {
+
+        $Bcs = BCList::where('ended', true)->where('created_at', '>', $from . ' 00:00:00')->where('created_at', '<', $to . ' 00:00:00')->orderBy('id', 'desc')->get();
+
+        $idList = array();
+
+        foreach ($Bcs as $bc){
+            $patients = $bc->GetPatients;
+            foreach ($patients as $patient){
+                array_push($idList, $patient->patient_id);
+            }
+        }
+        $arrayOrdered = array_count_values($idList);
+        arsort($arrayOrdered);
+        $patientsId = array_keys($arrayOrdered);
+
+        $bcList = array();
+
+        foreach ($patientsId as $pid){
+            $bcList[$pid] = array();
+        }
+
+        foreach ($Bcs as $bc){
+            $patients = $bc->GetPatients;
+            foreach ($patients as $patient){
+                foreach ($patientsId as $pid){
+                    if($pid == $patient->patient_id){
+                        array_push($bcList[$pid], $bc->id);
+                    }
+                }
+            }
+        }
+        $columns[] = ['id patient','prénom nom', "nombre d’apparitions", 'liste des apparitions'];
+        foreach ($patientsId as $patient_id){
+            $patient = Patient::where('id', $patient_id)->first();
+
+            $string = '';
+            foreach ($bcList[$patient_id] as $pid){
+                if(strlen($string) == 0){
+                    $string = $pid;
+                }else{
+                    $string = $string . ', ' . $pid;
+                }
+            }
+
+            $columns[] = [
+                $patient_id,
+                $patient->vorname . ' ' . $patient->name,
+                $arrayOrdered[$patient_id],
+                $string
+            ];
+        }
+
+        $export = new ServicePDFExporter($columns);
+        return Excel::download((object)$export, 'listeDesPatientsDansLesBC.xlsx');
+    }
+
+    public function generateRapport(string $id){
+        $bc = BCList::where('id',$id)->first();
+        $columns[] = ['prénom nom', 'couleur vêtement', 'date et heure d\'ajout'];
+        foreach ($bc->GetPatients as $patient){
+            $columns[] = [
+                $patient->GetPatient->vorname . ' ' . $patient->GetPatient->name,
+                $patient->GetColor->name,
+                date('d/m/Y H:i', strtotime($patient->created_at))
+            ];
+        }
+
+        $export = new ServicePDFExporter($columns);
+        return Excel::download((object)$export, 'ListePatientsBc'. $id .'.xlsx');
+    }
 }

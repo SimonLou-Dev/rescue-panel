@@ -59,8 +59,12 @@ class Row extends React.Component {
                 <div className={'cell column-6'}>
                     <p>{this.props.vendredi}</p>
                 </div>
+
                 <div className={'cell column-7'}>
                     <p>{this.props.samedi}</p>
+                </div>
+                <div className={'cell column-8'}>
+                    <p>{this.props.ajustement}</p>
                 </div>
                 <div className={'cell column-9'}>
                     <p>{this.props.total}</p>

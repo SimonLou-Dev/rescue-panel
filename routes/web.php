@@ -75,11 +75,10 @@ Route::get('/data/rapport/getforinter', [RapportController::class, 'getforinter'
 Route::post('/data/rapport/post', [RapportController::class, 'addRapport']);
 Route::get('/data/patient/search/{text}', [RapportController::class, 'search']);
 Route::get('/data/patient/interlist/{text}', [RapportController::class, 'getPatient']);
-// DELETED Route::get('/data/rapport/inter/{id}', [\A [RapportController::class, 'getInter']);
 Route::get('/data/rapport/get/{id}', [RapportController::class, 'getRapportById']);
 Route::put('/data/rapport/update/{id}', [RapportController::class, 'updateRapport']);
 Route::post('/data/patient/{id}/update', [RapportController::class, 'updatePatientInfos']);
-Route::get('/PDF/rapport/{id}', [RapportController::class, 'makeRapportPdf']);
+Route::get('/pdf/rapport/{id}', [RapportController::class, 'makeRapportPdf']);
 
 //LES BC
 Route::get('/data/blackcode/load', [BCController::class, 'getMainPage']);
@@ -92,6 +91,8 @@ Route::post('/data/blackcode/create', [BCController::class, 'addBc']);
 Route::put('/data/blackcode/{id}/close', [BCController::class, 'endBc']);
 Route::delete('/data/blackcode/delete/patient/{patient_id}', [BCController::class, 'removePatient']);
 Route::delete('/data/blackcode/{id}/delete/personnel', [BCController::class, 'removePersonnel']);
+Route::get('/exel/allPList/{from}/{to}', [BCController::class, 'generateListWithAllPatients']);
+Route::get('/data/bc/rapport/{id}', [BCController::class, 'generateRapport']);
 
 //Les factures
 Route::get('/data/facture/list', [RapportController::class, 'getAllimpaye']);
@@ -113,6 +114,7 @@ Route::get('/data/users/getall', [UserController::class, 'getUser']);
 Route::post('/data/users/setgrade/{id}/{userid}', [UserController::class, 'setusergrade']);
 Route::get('/data/users/search/{user}', [UserController::class, 'searchUser']);
 Route::put('/data/users/pilote/{user_id}', [UserController::class, 'changePilote']);
+Route::put('/data/user/{user_id}/changestate/{state}', [UserController::class, 'changeState']);
 
 //Content management
 Route::post('/data/gestion/content/add/{type}', [ContentManagement::class, 'addcontent']);
@@ -166,9 +168,10 @@ Route::put('/data/admin/grades/{perm}/{grade_id}', [UserController::class, 'chan
 
 Route::post('/data/bug', [MainController::class, 'postBug']);
 
-
 Route::post('/data/tempupload', [FileController::class, 'uploadFile'])->middleware('auth');
 Route::put('/data/finish/tempupload/{uuid}', [FileController::class, 'endOffUpload'])->middleware('auth');
 Route::delete('/data/delete/tempupload', [FileController::class, 'deleteTempFile'])->middleware('auth');
 
+Route::get('/data/infosutils/get', [MainController::class, 'getUtilsInfos']);
+Route::put('/data/infosutils/put', [MainController::class, 'updateUtilsInfos']);
 

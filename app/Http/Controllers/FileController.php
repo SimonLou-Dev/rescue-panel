@@ -89,7 +89,7 @@ class FileController extends Controller
             event(new Notify('Votre fichier a été supprimé',1));
             return response()->json(['status'=>'OK']);
         }
-        event(new Notify('Nous trouvons pas votre fichier'));
+        event(new Notify('Nous trouvons pas votre fichier',3));
         return response()->json(['status'=>'PAS OK'],500);
     }
 

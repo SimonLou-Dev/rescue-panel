@@ -30,6 +30,7 @@ import dateFormat from "dateformat";
 import {v4} from "uuid";
 import NotificationContext from "./context/NotificationContext";
 import {useNotifications} from "./context/NotificationProvider";
+import LiensUtilesMgt from "./Gestion/LiensUtilesMgt";
 
 export const rootUrl = document.querySelector('body').getAttribute('data-root-url');
 
@@ -109,10 +110,10 @@ export function Layout(){
         let pusher = new Pusher('fd78f74e8faecbd2405b', {
             cluster: 'eu'
         });
-        let userChan = pusher.subscribe('UserChannel_'+req.data.user.id);
+        let userChan = pusher.subscribe('UserChannel_'+req.data.user.id+'_'+env);
         userChan.bind('notify', (data)=>{addNotification(data)});
 
-        let BroadCastChan = pusher.subscribe('Broadcater');
+        let BroadCastChan = pusher.subscribe('Broadcater'+'_'+env);
         BroadCastChan.bind('notify',(data) => { addNotification(data)});
 
         return () => {
@@ -124,14 +125,20 @@ export function Layout(){
 
 
 
-    const tick = async () => {
-        let req = await axios({
+    const tick =async() => {
+        let req =await axios({
             url: '/data/check/connexion',
             method: 'GET'
+        }).then(response => {
+            if(!response.data.session) {
+                window.location.replace('/login')
+            }
+        }).catch( error => {
+            if(error.response.status === 503){
+                window.location.replace('/maintenance')
+            }
         })
-        if (!req.data.session) {
-            window.location.replace('/login')
-        }
+
     }
 
     const updateWindowDimensions = () => {
@@ -258,6 +265,7 @@ export function Layout(){
                     <Route path={'/gestion/formation'} component={AFormaController}/>
                     <Route path={'/gestion/informations'} component={InfoGestion}/>
                     <Route path={'/gestion/perm'} component={Permissions}/>
+                    <Route path={'/gestion/utils'} component={LiensUtilesMgt}/>
                 </PermsContext.Provider>
             </div>
             {bugPopup &&

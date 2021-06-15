@@ -51,7 +51,7 @@ class Informations extends React.Component{
             <div className={'Rapport-Card'}>
                 <h1>Informations</h1>
                 <div className="Form-Group">
-                    <input required type="text" list={'autocomplete'} autoComplete={'off'} placeholder="prénom nom" value={name} onChange={this.nomchange}/>
+                    <input required type="text" className={(this.props.errors.name ? 'form-error': '')} list={'autocomplete'} autoComplete={'off'} placeholder="prénom nom" value={name} onChange={this.nomchange}/>
                     {this.state.list &&
                         <datalist id={'autocomplete'}>
                             {this.state.list.map((item)=>
@@ -59,7 +59,21 @@ class Informations extends React.Component{
                             )}
                         </datalist>
                     }
-                    <input type="text" autoComplete={'off'} placeholder="n° de tel" value={tel} onChange={this.telchange}/>
+                    {this.props.errors.name &&
+                        <ul className={'error-list'}>
+                            {this.props.errors.name.map((item)=>
+                                <li>{item}</li>
+                            )}
+                        </ul>
+                    }
+                    <input type="text" autoComplete={'off'} className={(this.props.errors.tel ? 'form-error': '')} placeholder="n° de tel" value={tel} onChange={this.telchange}/>
+                    {this.props.errors.tel &&
+                    <ul className={'error-list'}>
+                        {this.props.errors.tel.map((item)=>
+                            <li>{item}</li>
+                        )}
+                    </ul>
+                    }
                     <label>Début d'intervention</label>
                     <input required type={'date'} autoComplete={'off'} value={startinter[0]} onChange={this.startdatechange}/>
                     <input required type={'time'} autoComplete={'off'} value={startinter[1]} onChange={this.starttimechange}/>

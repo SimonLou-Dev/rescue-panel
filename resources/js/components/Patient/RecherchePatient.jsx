@@ -71,26 +71,22 @@ class RecherchePatient extends React.Component {
 
     async componentDidMount() {
         let url = this.props.location.search;
-        let params = queryString.parse(url);
-        var id = 0;
-        for (var key in params) {
-            if (params.hasOwnProperty(key)) {
-                id = params[key];
-                var req = await axios({
-                    url: '/data/rapport/get/' + id,
-                    method: 'GET'
-                })
-                this.setState({
-                    recherche: req.data.patient.vorname + ' ' +req.data.patient.name,
-                    patient: req.data.patient,
-                    tel: req.data.patient.tel,
-                    pname:req.data.patient.name,
-                    pprenom: req.data.patient.vorname,
-                    interid: id,
-                    inter: req.data.rapportlist,
-                    patientid: req.data.patient.id,
-                })
-            }
+        let id = url.substr(4,12);
+        if(id.length > 0) {
+            var req = await axios({
+                url: '/data/rapport/get/' + id,
+                method: 'GET'
+            })
+            this.setState({
+                recherche: req.data.patient.vorname + ' ' +req.data.patient.name,
+                patient: req.data.patient,
+                tel: req.data.patient.tel,
+                pname:req.data.patient.name,
+                pprenom: req.data.patient.vorname,
+                interid: id,
+                inter: req.data.rapportlist,
+                patientid: req.data.patient.id,
+            })
         }
     }
 

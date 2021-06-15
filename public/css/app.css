@@ -683,6 +683,16 @@ a {
     transform: translateY(-100%);
   }
 }
+.form-error {
+  border: #FF0000 1px solid !important;
+}
+
+.error-list {
+  font-family: "Baloo Thambi 2", monospace;
+  font-weight: 500;
+  color: #e3342f;
+}
+
 html {
   position: fixed;
   padding: 0;
@@ -1019,44 +1029,142 @@ body {
   padding: 30px;
 }
 #Main-Page .Personnel_service {
+  z-index: 1;
   background-color: #0c2646;
   width: 100%;
   height: 250px;
   border-radius: 30px;
-  padding: 10px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
 }
 #Main-Page .Personnel_service h1 {
   padding-left: 20px;
-  font-size: 60px;
+  font-size: 50px;
   margin: 0 auto;
 }
-#Main-Page .Annonces {
+#Main-Page .Personnel_service .Personnel-list {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  padding: 10px;
+  width: 100%;
+  height: 150px;
+  overflow-y: auto;
+}
+#Main-Page .Personnel_service .Personnel-list .Personnel-card {
+  position: relative;
+  z-index: 320;
+  margin: 10px;
+  display: flex;
+  flex-direction: row;
+  background-color: #004662;
+  border-radius: 30px;
+  height: min-content;
+  padding: 6px 10px;
+}
+#Main-Page .Personnel_service .Personnel-list .Personnel-card h5 {
+  margin: 0;
+  font-size: 25px;
+}
+#Main-Page .Personnel_service .Personnel-list .Personnel-card .tag {
+  height: 25px;
+  width: 25px;
+  content: " ";
+  border: 1px black solid;
+  border-radius: 100%;
+  margin: auto 0 auto 5px;
+}
+#Main-Page .Personnel_service .Personnel-list .Personnel-card .tag-selector {
+  overflow: hidden;
+  position: fixed;
+  overflow-y: scroll;
+  width: 200px;
+  height: 175px;
+  background-color: #004662;
+  border: 1px #00FFFF solid;
+  display: flex;
+  flex-direction: column;
+}
+#Main-Page .Personnel_service .Personnel-list .Personnel-card .tag-selector button {
+  cursor: pointer;
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: space-between;
+  width: 100%;
+  padding: 0 15px 5px 5px;
+  background-color: transparent;
+  border: none;
+  border-bottom: 1px #0c2646 solid;
+  margin: 5px;
+}
+#Main-Page .Personnel_service .Personnel-list .Personnel-card .tag-selector button .tag, #Main-Page .Personnel_service .Personnel-list .Personnel-card .tag-selector button label {
+  cursor: pointer;
+}
+#Main-Page .Personnel_service .bottom {
+  z-index: 1;
+  position: relative;
+  background-color: #004662;
+  width: 100%;
+  height: 80px;
+}
+#Main-Page .Personnel_service .bottom .groupcard {
+  padding-top: 5px;
+  height: 100%;
+  width: 100%;
+  overflow-x: scroll;
+}
+#Main-Page .Personnel_service .bottom .groupcard .contain {
+  display: flex;
+  flex-direction: row;
+}
+#Main-Page .Personnel_service .bottom .groupcard .contain .tag {
+  margin: 0 10px 0 10px;
+  font-size: 20px;
+  display: flex;
+  flex-direction: row;
+  height: 30px;
+}
+#Main-Page .Personnel_service .bottom .groupcard .contain .tag div {
+  height: 25px !important;
+  width: 25px !important;
+  content: " ";
+  border: 1px black solid;
+  border-radius: 100%;
+  margin: auto 0 auto 5px;
+}
+#Main-Page .rowed {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+#Main-Page .rowed .Annonces {
   margin-top: 35px;
   background-color: #0c2646;
-  width: 100%;
+  width: 62%;
   min-height: 200px;
   border-radius: 30px;
   padding: 10px;
   display: flex;
   flex-direction: column;
 }
-#Main-Page .Annonces h1 {
+#Main-Page .rowed .Annonces h1 {
   padding-left: 20px;
-  font-size: 60px;
+  font-size: 50px;
   margin: 0 auto;
   text-align: center;
 }
-#Main-Page .Annonces .Annonces-List {
+#Main-Page .rowed .Annonces .Annonces-List {
   margin: 0 auto;
   width: 100%;
   height: calc(100vh - 464px);
-  overflow-y: scroll;
+  overflow-y: auto;
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
   justify-content: center;
 }
-#Main-Page .Annonces .Annonces-List .Annonce-Card {
+#Main-Page .rowed .Annonces .Annonces-List .Annonce-Card {
   background-color: #004662;
   margin: 10px;
   padding: 10px;
@@ -1065,15 +1173,15 @@ body {
   justify-content: space-between;
   border-radius: 30px;
   overflow-y: auto;
-  height: 350px;
+  height: 250px;
   width: 45%;
 }
-#Main-Page .Annonces .Annonces-List .Annonce-Card .Title {
+#Main-Page .rowed .Annonces .Annonces-List .Annonce-Card .Title {
   font-size: 30px;
   text-align: center;
   margin: 0 auto;
 }
-#Main-Page .Annonces .Annonces-List .Annonce-Card .Separator {
+#Main-Page .rowed .Annonces .Annonces-List .Annonce-Card .Separator {
   margin: 5px auto;
   content: " ";
   width: 100%;
@@ -1081,33 +1189,29 @@ body {
   background-color: #00FFFF;
   height: 2px;
 }
-#Main-Page .Annonces .Annonces-List .Annonce-Card .Text {
+#Main-Page .rowed .Annonces .Annonces-List .Annonce-Card .Text {
   font-size: 25px;
   text-indent: 20px;
 }
-#Main-Page .Annonces .Annonces-List .Annonce-Card .Date {
+#Main-Page .rowed .Annonces .Annonces-List .Annonce-Card .Date {
   font-size: 27px;
   text-align: center;
 }
-
-.Personnel-list {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  width: 100%;
-  height: 150px;
-  overflow-y: auto;
-}
-.Personnel-list .Personnel-card {
-  margin: 10px;
-  background-color: #004662;
+#Main-Page .rowed .Links {
+  margin-top: 35px;
+  background-color: #0c2646;
+  width: 32%;
+  min-height: 200px;
   border-radius: 30px;
-  height: min-content;
-  padding: 6px 10px;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
 }
-.Personnel-list .Personnel-card h5 {
-  margin: 0;
-  font-size: 25px;
+#Main-Page .rowed .Links h1 {
+  padding-left: 20px;
+  font-size: 50px;
+  margin: 0 auto;
+  text-align: center;
 }
 
 #Rapport-Patient {
@@ -2198,6 +2302,25 @@ body {
   border-top: none;
 }
 
+.pdf_Generator {
+  margin: auto 0;
+  padding: 15px;
+  background-color: #0c2646;
+  border-radius: 30px;
+}
+.pdf_Generator form {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  margin: auto 0;
+}
+.pdf_Generator form label {
+  margin: auto 10px;
+}
+.pdf_Generator form .btn {
+  margin: auto 10px;
+}
+
 .impayes {
   height: 100vh;
   display: flex;
@@ -2209,24 +2332,6 @@ body {
   flex-direction: row;
   flex-wrap: nowrap;
   justify-content: space-evenly;
-}
-.impayes .header .pdf_Generator {
-  margin: auto 0;
-  padding: 15px;
-  background-color: #0c2646;
-  border-radius: 30px;
-}
-.impayes .header .pdf_Generator form {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-evenly;
-  margin: auto 0;
-}
-.impayes .header .pdf_Generator form label {
-  margin: auto 10px;
-}
-.impayes .header .pdf_Generator form .btn {
-  margin: auto 10px;
 }
 .impayes .header .Add-facture {
   margin: auto 0;
@@ -2530,6 +2635,14 @@ body {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+.ContentManagement .content-mgt .ContentCard .item-list .item .colorTag, .ContentManagement .content-mgt .ContentCard textarea .item .colorTag {
+  height: 25px;
+  width: 25px;
+  content: " ";
+  border: 1px black solid;
+  border-radius: 100%;
+  margin: auto 0 auto 5px;
 }
 .ContentManagement .content-mgt .ContentCard form {
   margin: 10px auto;
@@ -3107,9 +3220,10 @@ body {
   flex-direction: row;
   flex-wrap: wrap;
   justify-content: space-between;
-  width: 100%;
+  width: 85%;
   padding: 0 10px;
   border-collapse: collapse;
+  margin: 0 auto;
 }
 .livret-page .livret .livret-content section .forma {
   padding: 10px;
@@ -4407,6 +4521,98 @@ body {
 .f-formalist .f-list .item .actions h5 {
   margin: 0 auto;
   font-weight: 500;
+}
+
+.GestionsUtils {
+  width: 100%;
+  height: 100vh;
+  overflow-y: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+}
+.GestionsUtils .head {
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: space-evenly;
+}
+.GestionsUtils .head button {
+  margin: auto 0;
+}
+.GestionsUtils .content {
+  overflow-y: hidden;
+  height: calc(100vh - 270px);
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+}
+.GestionsUtils .content .preview {
+  height: 100%;
+  width: 32%;
+  background-color: #0c2646;
+  border-radius: 30px;
+}
+.GestionsUtils .content .preview .utilsName {
+  padding-left: 20px;
+  font-size: 50px;
+  margin: 0 auto;
+  text-align: center;
+}
+.GestionsUtils .content .preview .render {
+  margin: auto 0;
+  width: 100%;
+  height: 90%;
+}
+.GestionsUtils .content .writing {
+  height: 100%;
+  width: 62%;
+  background-color: #0c2646;
+  border-radius: 30px;
+  border: none;
+}
+.GestionsUtils .content .writing .ql-toolbar, .GestionsUtils .content .writing .ql-container {
+  border: none;
+}
+.GestionsUtils .content .writing .ql-toolbar {
+  border-bottom: 2px #004662 solid;
+  text-align: center;
+}
+
+#UtilsRendering {
+  padding: 15px;
+}
+#UtilsRendering h1 {
+  font-size: 26px;
+  font-weight: 800;
+}
+#UtilsRendering h2 {
+  font-size: 24px;
+  font-weight: 700;
+}
+#UtilsRendering h3 {
+  font-size: 22px;
+  font-weight: 600;
+}
+#UtilsRendering p {
+  font-size: 20px;
+  margin: 0;
+}
+#UtilsRendering a {
+  color: #3490dc;
+  text-decoration: underline #3490dc 1px;
+  transition: all 500ms;
+}
+#UtilsRendering a:hover {
+  color: #6cb2eb;
+  text-decoration: none;
+}
+#UtilsRendering li {
+  color: #00FFFF;
+  font-family: "Baloo Thambi 2", monospace;
+  font-size: 18px;
+}
+#UtilsRendering li::marker {
+  font-weight: 800;
 }
 
 .notification-item .bar {

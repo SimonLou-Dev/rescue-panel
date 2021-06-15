@@ -10,60 +10,36 @@ class GetInfos extends React.Component {
             live: 1,
             tel: "",
             compte: "",
-            liveempty: false,
-            telempty: false,
-            compteempty: false,
+            errors: []
         }
         this.sendinfos = this.sendinfos.bind(this)
     }
 
     async sendinfos(e) {
         e.preventDefault();
-        let errore = false;
-        if (this.state.tel < 1) {
-            this.setState({telempty: true})
-            errore = true;
-        }
-        if (this.state.compte < 1) {
-            this.setState({compteempty: true})
-            errore = true;
-        }
-        if (this.state.live === 1) {
-            this.setState({liveempty: true})
-            errore = true;
-        }
-        if (!errore) {
-            let req = await axios({
-                method: 'post',
-                url: '/data/postuserinfos',
-                data: {
-                    'living': this.state.live,
-                    'tel': this.state.tel,
-                    'compte': this.state.compte,
-                    'X-CSRF-TOKEN': csrf,
-                }
-            })
-            if (req.status === 201) {
+        await axios({
+            method: 'post',
+            url: '/data/postuserinfos',
+            data: {
+                'living': this.state.live,
+                'tel': this.state.tel,
+                'compte': this.state.compte,
+                'X-CSRF-TOKEN': csrf,
+            }
+        }).then(response => {
+            if (response.status === 201) {
                 window.location.href = "/";
             }
-        }
+        }).catch(error => {
+            error = Object.assign({}, error);
+            if(error.response.status === 422){
+                this.setState({errors: error.response.data.errors})
+            }
+        })
+
     }
 
-    componentDidMount() {
-        setTimeout(() => {
-            if(this.state.tel < 8 ){
-                this.setState({telempty:true})
-            }else{
-                this.setState({telempty:false})
-            }
-            if(this.state.compte < 4 ){
-                this.setState({compteempty:true})
-            }
-            else{
-                this.setState({compteempty:false})
-            }
-        },500);
-    }
+
 
     render() {
         return (
@@ -78,25 +54,21 @@ class GetInfos extends React.Component {
                             <option>LS</option>
                             <option>BC</option>
                         </select>
-                        {this.state.liveempty &&
-                        <div className={'form-error'}>
-                            <p>Pas de numéros de téléphone (min 8 caractères)</p>
-                        </div>
-                        }
+
                         <label>n° de tel IG : </label>
-                        <input type={'number'} value={this.state.tel} onChange={(e)=>{this.setState({tel:e.target.value}); this.componentDidMount()}}/>
-                        {this.state.telempty &&
-                        <div className={'form-error'}>
-                            <p>Pas de numéros de téléphone (min 8 caractères)</p>
-                        </div>
-                        }
+                        <input type={'number'} value={this.state.tel} className={(this.state.errors.tel ? 'form-error': '')} onChange={(e)=>{this.setState({tel:e.target.value}); this.componentDidMount()}}/>
+                        <ul className={'error-list'}>
+                            {this.state.errors.tel && this.state.errors.tel.map((item)=>
+                                <li>{item}</li>
+                            )}
+                        </ul>
                         <label>n° de compte </label>
-                        <input type={'number'} value={this.state.compte} name={'psw'} onChange={(e)=>{this.setState({compte:e.target.value}); this.componentDidMount()}}/>
-                        {this.state.compteempty &&
-                        <div className={'form-error'}>
-                            <p>Pas de numéros de compte</p>
-                        </div>
-                        }
+                        <input type={'number'} value={this.state.compte} className={(this.state.errors.compte ? 'form-error': '')} name={'psw'} onChange={(e)=>{this.setState({compte:e.target.value}); this.componentDidMount()}}/>
+                        <ul className={'error-list'}>
+                            {this.state.errors.compte && this.state.errors.compte.map((item)=>
+                                <li>{item}</li>
+                            )}
+                        </ul>
                         <div className={'btn-contain'}>
                             <button type={'submit'} className={'btn'}>Terminer</button>
                         </div>

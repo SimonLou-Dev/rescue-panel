@@ -19,6 +19,7 @@ class CarnetVol extends React.Component {
             raison:null,
             name:null,
             list: null,
+            errors: [],
         }
         this.postdata = this.postdata.bind(this)
         this.update = this.update.bind(this)
@@ -47,18 +48,25 @@ class CarnetVol extends React.Component {
 
     async postdata(e) {
         e.preventDefault();
-        let req = await axios({
+        await axios({
             method: 'POST',
             url: '/data/vol/add',
             data: {
                 lieux: this.state.place,
                 raison: this.state.raison
             }
+        }).then(response => {
+            if (response.status === 201) {
+                this.setState({data: null, raison: '', lieux: '', popup: false});
+                this.update();
+            }
+        }).catch(error => {
+            error = Object.assign({}, error);
+            if(error.response.status === 422){
+                this.setState({errors: error.response.data.errors})
+            }
         })
-        if (req.status === 201) {
-            this.setState({data: null, raison: '', lieux: '', popup: false});
-            this.update();
-        }
+
     }
 
     next(){
@@ -143,7 +151,12 @@ class CarnetVol extends React.Component {
                                 <h2>ajouter un vol</h2>
                                 <div className="rowed">
                                     <label>raison du vol</label>
-                                    <input type={'text'} max={100} value={this.state.raison} onChange={(e)=>{this.setState({raison: e.target.value})}}/>
+                                    <input type={'text'} max={100} className={(this.state.errors.lieux ? 'form-error': '')} value={this.state.raison} onChange={(e)=>{this.setState({raison: e.target.value})}}/>
+                                    <ul className={'error-list'}>
+                                        {this.state.errors.lieux && this.state.errors.lieux.map((item)=>
+                                            <li>{item}</li>
+                                        )}
+                                    </ul>
                                 </div>
                                 <div className="rowed">
                                     <label>lieux</label>

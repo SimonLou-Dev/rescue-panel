@@ -62,6 +62,10 @@ class VolController extends Controller
     public function addVol(Request $request): \Illuminate\Http\JsonResponse
     {
 
+        $request->validate([
+           'lieux'=>['required', 'string']
+        ]);
+
         $raison = $request->raison;
         $pilote_id = Auth::user()->id;
         $decollage = date_create();
@@ -76,6 +80,8 @@ class VolController extends Controller
         event(new Notify('Votre vol est pris en compte',1));
 
         Http::post(env('WEBHOOK_VOLS'),[
+            'username'=> "BCFD - MDT",
+            'avatar_url'=>'https://bcfd.simon-lou.com/assets/images/BCFD.png',
             'embeds'=>[
                 [
                     'title'=>'hélicoptère déployé ',

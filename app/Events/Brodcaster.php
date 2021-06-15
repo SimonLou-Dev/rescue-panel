@@ -38,7 +38,7 @@ class Brodcaster implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-        return new Channel('Broadcater');
+        return new Channel('Broadcater_'.env('APP_ENV'));
 
     }
 
@@ -49,7 +49,7 @@ class Brodcaster implements ShouldBroadcast
 
     public function broadcastAs(): string
     {
-        return 'notify';
+        return 'notify_';
     }
 
     public function broadcastWith(): array

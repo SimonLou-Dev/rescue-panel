@@ -30,6 +30,8 @@ class Account extends React.Component {
             mdprepet: '',
             lastmdp: '',
             image: null,
+            errors: [],
+            id: null,
         }
 
         this.postInfos = this.postInfos.bind(this);
@@ -51,6 +53,8 @@ class Account extends React.Component {
                 compte: req.data.user.compte,
                 tel: req.data.user.tel,
                 liveplace: req.data.user.liveplace,
+                image: req.data.user.bg_img,
+                id:req.data.user.id,
             });
         }
     }
@@ -66,6 +70,11 @@ class Account extends React.Component {
                 compte: this.state.compte,
                 tel: this.state.tel,
                 liveplace: this.state.liveplace,
+            }
+        }).catch(error => {
+            error = Object.assign({}, error);
+            if(error.response.status === 422){
+                this.setState({errors: error.response.data.errors})
             }
         })
     }
@@ -113,20 +122,40 @@ class Account extends React.Component {
                     <section className="changedata" style={{filter: this.state.popup ? 'blur(5px)' : 'none'}}>
                     <form onSubmit={this.postInfos}>
                         <div className="rowed">
-                            <label>pseudo</label>
-                            <input required type={"text"} value={this.state.name} onChange={(e)=>{this.setState({name:e.target.value})}}/>
+                            <label>nom prénom</label>
+                            <input required type={"text"} className={(this.state.errors.name? 'form-error': '')} value={this.state.name} onChange={(e)=>{this.setState({name:e.target.value})}}/>
+                            <ul className={'error-list'}>
+                                {this.state.errors.name && this.state.errors.name.map((item)=>
+                                    <li>{item}</li>
+                                )}
+                            </ul>
                         </div>
                         <div className="rowed">
                             <label>email</label>
-                            <input required type={"email"} value={this.state.email} onChange={(e)=>{this.setState({email:e.target.value})}}/>
+                            <input required type={"email"} className={(this.state.errors.email ? 'form-error': '')} value={this.state.email} onChange={(e)=>{this.setState({email:e.target.value})}}/>
+                            <ul className={'error-list'}>
+                                {this.state.errors.email && this.state.errors.email.map((item)=>
+                                    <li>{item}</li>
+                                )}
+                            </ul>
                         </div>
                         <div className="rowed">
                             <label>numéro de tel</label>
-                            <input required type={"number"} max={'99999999'} value={this.state.tel} onChange={(e)=>{this.setState({tel:e.target.value})}}/>
+                            <input required type={"number"} className={(this.state.errors.tel ? 'form-error': '')} max={'99999999'} value={this.state.tel} onChange={(e)=>{this.setState({tel:e.target.value})}}/>
+                            <ul className={'error-list'}>
+                                {this.state.errors.tel  && this.state.errors.tel.map((item)=>
+                                    <li>{item}</li>
+                                )}
+                            </ul>
                         </div>
                         <div className="rowed">
                             <label>numéro de compte</label>
-                            <input required type={"number"} value={this.state.compte} onChange={(e)=>{this.setState({compte:e.target.value})}}/>
+                            <input required type={"number"} className={(this.state.errors.compte ? 'form-error': '')} value={this.state.compte} onChange={(e)=>{this.setState({compte:e.target.value})}}/>
+                            <ul className={'error-list'}>
+                                {this.state.errors.compte && this.state.errors.compte.map((item)=>
+                                    <li>{item}</li>
+                                )}
+                            </ul>
                         </div>
                         <div className="rowed">
                             <label>Conté habité</label>
@@ -150,7 +179,7 @@ class Account extends React.Component {
                         <Uploader text={'1920*1080 2MO'} images={(image)=>{
                             this.setState({image:image});
                             this.postBg();
-                        }}/>
+                        }} default={'/storage/user_background/'+this.state.id + '/' +this.state.image}/>
                         <button className={'btn'} onClick={async (e) => {
                             e.preventDefault();
                             await axios({

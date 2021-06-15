@@ -36,6 +36,9 @@ class ContentCard extends React.Component {
             case 8:
                 this.setState({title: 'item remboursement'})
                 break;
+            case 9:
+                this.setState({title: 'états de service'})
+                break;
             default:
                 break;
         }
@@ -58,6 +61,15 @@ class ContentCard extends React.Component {
                         price: this.state.price
                     }
                 });
+            }else if(this.props.type === 9){
+                var req = await axios({
+                    url: '/data/gestion/content/add/' + this.state.type,
+                    method: 'POST',
+                    data: {
+                        name: this.state.formcontent,
+                        color: this.state.color
+                    }
+                });
             }else{
                 var req = await axios({
                     url: '/data/gestion/content/add/' + this.state.type,
@@ -71,6 +83,9 @@ class ContentCard extends React.Component {
                 this.setState({formcontent:''})
                 if(this.props.type === 8){
                     this.setState({price :0})
+                }
+                if(this.props.type === 9 ){
+                    this.setState({color: ''})
                 }
                 this.componentDidMount();
             }
@@ -119,9 +134,14 @@ class ContentCard extends React.Component {
                                     item.name &&
                                         <p>{item.name}</p>
                                 }
+                                {this.props.type === 9 &&
+                                    item.color &&
+                                        <div className={'colorTag'} style={{backgroundColor:  item.color}}/>
+                                }
                                 {item.title&&
                                 <p>{item.title}</p>
                                 }
+
                                 <button  style={{display: this.display(item.id)}} onClick={this.delete}><img alt={""} data={this.state.type + '_' + item.id} src={rootUrl + 'assets/images/cancel.png'}/></button>
                             </div>
                         )
@@ -138,6 +158,9 @@ class ContentCard extends React.Component {
                     <input type={"text"} value={this.state.formcontent} maxLength={"30"} onChange={(e)=>{this.setState({formcontent: e.target.value})}}/>
                     {this.props.type === 8&&
                         <input type={'number'} value={this.state.price} onChange={(e)=>{this.setState({price:e.target.value})}} />
+                    }
+                    {this.props.type === 9 &&
+                        <input type={'text'} value={this.state.color} placeholder={'#ffffff'} onChange={(e)=>{this.setState({color:e.target.value})}} />
                     }
                     <button type={'submit'} className={'btn'}>Ajouter</button>
                 </form>}

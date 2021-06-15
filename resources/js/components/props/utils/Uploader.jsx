@@ -24,21 +24,26 @@ export default function Uploader(props){
     const [imgUrl, setImgUrl] = useState(null);
 
     const UploadFinished = async (type, id) => {
-        let req = await axios({
+        await axios({
             method: 'PUT',
             url: '/data/finish/tempupload/' + id,
             data: {
                 type: type
             }
+        }).then(response => {
+            if(response.status === 200){
+                setImgUrl(response.data.image);
+                if(props && props.images){
+                    props.images(response.data.image);
+                }
+                setDisabled(false);
+            }
+        }).catch(error => {
+            setDisabled(false);
         })
 
-        if(req.status === 200){
-            setImgUrl(req.data.image);
-            if(props && props.images){
-                props.images(req.data.image);
-            }
-        }
-        setDisabled(false);
+
+
     }
 
     const FileAdded= (e) => {
@@ -48,13 +53,6 @@ export default function Uploader(props){
     }
 
     const deleteFile = async () => {
-        let clear = await axios({
-            url: '/data/delete/tempupload',
-            method: 'DELETE',
-            data: {
-                image: imgUrl,
-            }
-        })
         if(props && props.image){
             props.images(null)
         }
@@ -62,6 +60,14 @@ export default function Uploader(props){
         setDisabled(false);
         setImgUrl(null);
         setFileId(v4);
+        let clear = await axios({
+            url: '/data/delete/tempupload',
+            method: 'DELETE',
+            data: {
+                image: imgUrl,
+            }
+        })
+
     }
 
     return (
@@ -79,7 +85,12 @@ export default function Uploader(props){
                 destination={{ url: "/data/tempupload", headers: {'X-CSRF-TOKEN':csrf} }}
             >
                 <div className={'Uploader'}>
-                    <img className={'img'} src={'/storage/temp_upload/'+imgUrl} alt={''}/>
+                    {imgUrl === null &&
+                        <img className={'img'} src={props.default} alt={''}/>
+                    }
+                    {imgUrl !== null &&
+                        <img className={'img'} src={'/storage/temp_upload/'+imgUrl} alt={''}/>
+                    }
                     <label className={(file ===true ? 'hasFile' : '')}>{props.text ? props.text : '1920*1080 2MO'}</label>
                     <button disabled={disabled} className={'delete ' + (file ===true ? '' : 'anyFile')} onClick={deleteFile}><img src={'/assets/images/cancel.png'} alt={''}/></button>
                     <CustomButton disabled={disabled} hasFile={file}/>

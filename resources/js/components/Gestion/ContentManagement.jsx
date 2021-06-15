@@ -47,6 +47,7 @@ class ContentManagement extends React.Component {
                     {perm.content_mgt ===1 && <ContentCard type={6}/>}
                     {perm.content_mgt ===1&& <ContentCard type={7}/>}
                     {perm.content_mgt ===1&& <ContentCard type={8}/>}
+                    {perm.content_mgt ===1&& <ContentCard type={9}/>}
                     {perm.post_annonces ===1&&
                         <div className={'ContentCard annonces'}>
                         <h1>Ajouter une annonce</h1>

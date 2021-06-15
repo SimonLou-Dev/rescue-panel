@@ -38,6 +38,14 @@ class AccountController extends Controller
      */
     public function updateInfos(Request $request): JsonResponse
     {
+        $request->validate([
+            'name'=> 'required|max:255',
+            'compte'=> 'required|digits_between:3,7|integer',
+            'tel'=> 'required|digits_between:8,15|integer',
+            'liveplace'=> 'required',
+            'email'=>'required|email'
+        ]);
+
         $name= (string) $request->name;
         $compte = (int) $request->compte;
         $tel = (int) $request->tel;
@@ -58,6 +66,8 @@ class AccountController extends Controller
         }
         if($changed){
             Http::post(env('WEBHOOK_INFOS'),[
+                'username'=> "BCFD - MDT",
+                'avatar_url'=>'https://bcfd.simon-lou.com/assets/images/BCFD.png',
                 'embeds'=>[
                     [
                         'title'=>"Numéro de compte *(Changement d'informations)*",

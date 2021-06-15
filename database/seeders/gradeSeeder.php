@@ -33,6 +33,7 @@ class gradeSeeder extends Seeder
                 }
                 $a++;
             }
+            $newgrade->save();
         }
 
     }

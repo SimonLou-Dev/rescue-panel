@@ -351,103 +351,200 @@ body{
     flex-direction: column;
     padding: 30px;
     .Personnel_service{
+        z-index: 1;
         background-color: $dark_blue;
         width: 100%;
         height: 250px;
         border-radius: $border-radius;
-        padding: 10px;
-        h1{
-            padding-left: 20px;
-            font-size: 60px;
-            margin: 0 auto;
-        }
-
-    }
-    .Annonces{
-        margin-top: 35px;
-        background-color: $dark_blue;
-        width: 100%;
-        min-height: 200px;
-        border-radius: $border-radius;
-        padding: 10px;
+        overflow: hidden;
         display: flex;
         flex-direction: column;
         h1{
             padding-left: 20px;
-            font-size: 60px;
+            font-size: 50px;
             margin: 0 auto;
-            text-align: center;
         }
-        .Annonces-List{
-            margin: 0 auto;
-            width: 100%;
-            height: calc(100vh - 464px);
-            overflow-y: scroll;
+        .Personnel-list{
             display: flex;
             flex-direction: row;
             flex-wrap: wrap;
-            justify-content: center;
-            .Annonce-Card{
-                background-color: $medium_blue;
+            padding: 10px;
+            width: 100%;
+            height: 150px;
+            overflow-y: auto;
+            .Personnel-card{
+                position: relative;
+                z-index: 320;
                 margin: 10px;
-                padding: 10px;
                 display: flex;
-                flex-direction: column;
-                justify-content: space-between;
+                flex-direction: row;
+                background-color: $medium_blue;
                 border-radius: $border-radius;
-                overflow-y: auto;
-                height: 350px;
-                width: 45%;
-                .Title{
-                    font-size: 30px;
-                    text-align: center;
-                    margin: 0 auto;
-                }
-                .Separator{
-                    margin: 5px auto;
-                    content: ' ';
-                    width: 100%;
-                    text-align: center;
-                    background-color: $light_blue;
-                    height: 2px;
-                }
-                .Text{
+                height: min-content;
+                padding: 6px 10px;
+                h5{
+                    margin: 0;
                     font-size: 25px;
-                    text-indent: 20px;
                 }
-                .Date{
-                    font-size: 27px;
-                    text-align: center;
+                .tag{
+                    height: 25px;
+                    width: 25px;
+                    content: ' ';
+                    border: 1px black solid;
+                    border-radius: 100%;
+                    margin: auto 0 auto 5px;
                 }
+                .tag-selector{
+                    overflow: hidden;
+                    position: fixed;
+                    overflow-y: scroll;
+                    width: 200px;
+                    height: 175px;
+                    background-color: $medium_blue;
+                    border: 1px $light_blue solid;
+                    display: flex;
+                    flex-direction: column;
+                    button{
+                        cursor: pointer;
+                        display: flex;
+                        flex-direction: row-reverse;
+                        justify-content: space-between;
+                        width: 100%;
+                        padding: 0 15px 5px 5px;
+                        background-color: transparent;
+                        border: none;
+                        border-bottom: 1px $dark_blue solid;
+                        margin: 5px;
+                        .tag,label{
+                            cursor: pointer;
+                        }
+                    }
+                }
+            }
+
+        }
+        .bottom{
+            z-index: 1;
+            position: relative;
+            background-color: $medium_blue;
+            width: 100%;
+            height: 80px;
+            //padding: 10px;
+            //overflow-x: auto;
+            .groupcard{
+                padding-top: 5px;
+                height: 100%;
+                width: 100%;
+                overflow-x: scroll;
+                .contain{
+                    display: flex;
+                    flex-direction: row;
+                    .tag{
+                        margin: 0 10px 0 10px;
+                        font-size: 20px;
+                        display: flex;
+                        flex-direction: row;
+                        height: 30px;
+                        div{
+                            height: 25px !important;
+                            width: 25px !important;
+                            content: ' ';
+                            border: 1px black solid;
+                            border-radius: 100%;
+                            margin: auto 0 auto 5px;
+                        }
+                    }
+                }
+            }
+        }
+
+    }
+    .rowed{
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+
+        .Annonces{
+            margin-top: 35px;
+            background-color: $dark_blue;
+            width: 62%;
+            min-height: 200px;
+            border-radius: $border-radius;
+            padding: 10px;
+            display: flex;
+            flex-direction: column;
+            h1{
+                padding-left: 20px;
+                font-size: 50px;
+                margin: 0 auto;
+                text-align: center;
+            }
+            .Annonces-List{
+                margin: 0 auto;
+                width: 100%;
+                height: calc(100vh - 464px);
+                overflow-y: auto;
+                display: flex;
+                flex-direction: row;
+                flex-wrap: wrap;
+                justify-content: center;
+                .Annonce-Card{
+                    background-color: $medium_blue;
+                    margin: 10px;
+                    padding: 10px;
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: space-between;
+                    border-radius: $border-radius;
+                    overflow-y: auto;
+                    height: 250px;
+                    width: 45%;
+                    .Title{
+                        font-size: 30px;
+                        text-align: center;
+                        margin: 0 auto;
+                    }
+                    .Separator{
+                        margin: 5px auto;
+                        content: ' ';
+                        width: 100%;
+                        text-align: center;
+                        background-color: $light_blue;
+                        height: 2px;
+                    }
+                    .Text{
+                        font-size: 25px;
+                        text-indent: 20px;
+                    }
+                    .Date{
+                        font-size: 27px;
+                        text-align: center;
+                    }
 
 
+                }
+            }
+        }
+        .Links{
+            margin-top: 35px;
+            background-color: $dark_blue;
+            width: 32%;
+            min-height: 200px;
+            border-radius: $border-radius;
+            padding: 10px;
+            display: flex;
+            flex-direction: column;
+            h1{
+                padding-left: 20px;
+                font-size: 50px;
+                margin: 0 auto;
+                text-align: center;
             }
         }
     }
-
-
 }
 
-//Personnel list
-.Personnel-list{
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    width: 100%;
-    height: 150px;
-    overflow-y: auto;
-    .Personnel-card{
-        margin: 10px;
-        background-color: $medium_blue;
-        border-radius: $border-radius;
-        height: min-content;
-        padding: 6px 10px;
-        h5{
-            margin: 0;
-            font-size: 25px;
-        }
-    }
-}
+
 
 //raport patient
 #Rapport-Patient{
@@ -1548,6 +1645,25 @@ body{
     }
 }
 
+.pdf_Generator{
+    margin: auto 0;
+    padding: 15px;
+    background-color: $dark_blue;
+    border-radius: $border-radius;
+    form{
+        display: flex;
+        flex-direction: row;
+        justify-content: space-evenly;
+        margin: auto 0;
+        label{
+            margin: auto 10px;
+        }
+        .btn{
+            margin: auto 10px;
+        }
+    }
+}
+
 //Impayés
 .impayes{
     height: 100vh;
@@ -1559,24 +1675,7 @@ body{
         flex-direction: row;
         flex-wrap: nowrap;
         justify-content: space-evenly;
-        .pdf_Generator{
-            margin: auto 0;
-            padding: 15px;
-            background-color: $dark_blue;
-            border-radius: $border-radius;
-            form{
-                display: flex;
-                flex-direction: row;
-                justify-content: space-evenly;
-                margin: auto 0;
-                label{
-                    margin: auto 10px;
-                }
-                .btn{
-                    margin: auto 10px;
-                }
-            }
-        }
+
         .Add-facture{
             margin: auto 0;
         }
@@ -1886,6 +1985,7 @@ body{
                             -webkit-transform: rotate(6deg);
                         }
                     }
+
                     p{
                         margin: auto 0;
                         font-size: 25px;
@@ -1893,6 +1993,14 @@ body{
                         white-space: nowrap;
                         overflow: hidden;
                         text-overflow: ellipsis;
+                    }
+                    .colorTag{
+                        height: 25px;
+                        width: 25px;
+                        content: ' ';
+                        border: 1px black solid;
+                        border-radius: 100%;
+                        margin: auto 0 auto 5px;
                     }
                 }
 
@@ -2499,9 +2607,10 @@ body{
                 flex-direction: row;
                 flex-wrap: wrap;
                 justify-content: space-between;
-                width: 100%;
+                width: 85%;
                 padding: 0 10px;
                 border-collapse: collapse;
+                margin: 0 auto;
                 .forma{
                     padding: 10px;
                     &:hover{
@@ -3843,6 +3952,100 @@ body{
     }
 }
 
+.GestionsUtils{
+    width: 100%;
+    height: 100vh;
+    overflow-y: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    .head{
+        display: flex;
+        flex-direction: row-reverse;
+        justify-content: space-evenly;
+        button{
+            margin: auto 0;
+        }
+    }
+    .content{
+        overflow-y: hidden;
+        height: calc(100vh - 270px);
+        display: flex;
+        flex-direction: row;
+        justify-content: space-evenly;
+        .preview{
+            height: 100%;
+            width: 32%;
+            background-color: $dark-blue;
+            border-radius: $border-radius;
+            .utilsName{
+                padding-left: 20px;
+                font-size: 50px;
+                margin: 0 auto;
+                text-align: center;
+            }
+            .render{
+                margin: auto 0;
+                width: 100%;
+                height: 90%;
+            }
+        }
+        .writing{
+            height: 100%;
+            width: 62%;
+            background-color: $dark-blue;
+            border-radius: $border-radius;
+            border: none;
+            .ql-toolbar, .ql-container{
+                border: none;
+            }
+
+            .ql-toolbar{
+                border-bottom: 2px $medium_blue solid;
+                text-align: center;
+            }
+
+        }
+    }
+}
+
+#UtilsRendering{
+    padding: 15px;
+    h1{
+        font-size: 26px;
+        font-weight: 800;
+    }
+    h2{
+        font-size: 24px;
+        font-weight: 700;
+    }
+    h3{
+        font-size: 22px;
+        font-weight: 600;
+    }
+    p{
+        font-size: 20px;
+        margin: 0;
+    }
+    a{
+        color: $blue;
+        text-decoration: underline $blue 1px;
+        transition: all 500ms;
+        &:hover{
+            color: $cyan;
+            text-decoration: none;
+        }
+    }
+    li{
+        color: $light-blue;
+        font-family: "Baloo Thambi 2", monospace;
+        font-size: 18px;
+        &::marker{
+            font-weight: 800;
+        }
+    }
+
+}
 
 
 .notification-item .bar {

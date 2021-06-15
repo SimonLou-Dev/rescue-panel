@@ -15,6 +15,7 @@ use App\Models\LieuxSurvol;
 use App\Models\ObjRemboursement;
 use App\Models\Rapport;
 use App\Models\Service;
+use App\Models\ServiceState;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
@@ -30,9 +31,6 @@ class ContentManagement extends Controller
 
     public function addcontent(Request $request, string $type): \Illuminate\Http\JsonResponse
     {
-        /** @var string $request->formcontent */
-        $formcontent = $request->formcontent;
-
         switch ($type) {
             case "1":
                 $content = new Intervention();
@@ -92,6 +90,12 @@ class ContentManagement extends Controller
                 $content->name= $request->formcontent;
                 $content->save();
                 return response()->json(['status'=>'OK', 'created'=>$content], 201);
+            case '9':
+                $content = new ServiceState();
+                $content->name = $request->name;
+                $content->color = $request->color;
+                $content->save();
+                return response()->json(['status'=>'OK', 'created'=>$content], 201);
             default:
                 return response()->json('error', 404);
         }
@@ -123,6 +127,9 @@ class ContentManagement extends Controller
                 break;
             case "8":
                 $data = ObjRemboursement::all();
+                break;
+            case '9':
+                $data = ServiceState::all();
                 break;
             default: break;
         }
@@ -161,6 +168,9 @@ class ContentManagement extends Controller
                 break;
             case '8':
                 ObjRemboursement::where('id',$id)->first()->delete();
+                break;
+            case '9':
+                ServiceState::where('id',$id)->first()->delete();
                 break;
             default: break;
         }

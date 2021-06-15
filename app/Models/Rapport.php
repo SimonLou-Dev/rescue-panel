@@ -35,6 +35,11 @@ class Rapport extends Model
         return $this->belongsTo(Patient::class, 'patient_id');
     }
 
+    public function GetUser(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
+        return $this->belongsTo(User::class, 'user_id');
+    }
+
     public function GetType(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(Intervention::class, 'interType');

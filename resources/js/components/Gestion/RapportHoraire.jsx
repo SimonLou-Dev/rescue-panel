@@ -141,6 +141,9 @@ class RapportHoraire extends React.Component {
                                 <div className={'cell head column-7'}>
                                     <p>samedi</p>
                                 </div>
+                                <div className={'cell head column-7'}>
+                                    <p>ajustements</p>
+                                </div>
                                 <div className={'cell head column-9'}>
                                     <p>total</p>
                                 </div>
@@ -152,7 +155,7 @@ class RapportHoraire extends React.Component {
                             {this.state.service &&
                             this.state.service.map((item)=>
                                     item.get_user.grade_id > 0 &&
-                                        <Row key={item.id} inService={item.get_user.service} itemid={item.id} update={this.update} userid={item.get_user.id} name={item.get_user.name} dimanche={item.dimanche} lundi={item.lundi} mardi={item.mardi} mercredi={item.mercredi} jeudi={item.jeudi} vendredi={item.vendredi} samedi={item.samedi} total={item.total}/>
+                                        <Row key={item.id} inService={item.get_user.service} itemid={item.id} update={this.update} userid={item.get_user.id} name={item.get_user.name} dimanche={item.dimanche} lundi={item.lundi} mardi={item.mardi} mercredi={item.mercredi} jeudi={item.jeudi} vendredi={item.vendredi} samedi={item.samedi} ajustement={item.ajustement} total={item.total}/>
                             )}
 
                         </div>
@@ -181,7 +184,7 @@ class RapportHoraire extends React.Component {
                                     <select defaultValue={this.state.action} onChange={(e)=>this.setState({action:e.target.value})}>
                                         <option value={0} disabled>choisir</option>
                                         <option value={1}>ajouter</option>
-                                        <option value={2}>enelever</option>
+                                        <option value={2}>enlever</option>
                                     </select>
                                 </div>
                                 <div className="rowed">

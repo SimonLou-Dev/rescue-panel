@@ -106,6 +106,7 @@ class FormationController extends Controller
         }else{
             $certif->first()->delete();
         }
+        event(new Notify('La certification a été ' . $certif->count()  == 0? 'ajoutée':'supprimée',1));
         return \response()->json(['status'=>'OK'],200);
     }
 
@@ -161,7 +162,7 @@ class FormationController extends Controller
         if($unic_try){
             $time_btw = false;
             $time_btw_str= null;
-            $max_try = 0;
+            $max_try = 1;
         }
         if(!$time_btw){
             $time_btw_str = (int)null;
@@ -189,7 +190,7 @@ class FormationController extends Controller
         //essai
         $formation->unic_try = $unic_try;
         $formation->can_retry_later = $time_btw;
-        $formation->try = $max_try;
+        $formation->max_try = $max_try;
         $formation->time_btw_try = $time_btw_str;
         //time
         $formation->timed = $total;
@@ -222,6 +223,7 @@ class FormationController extends Controller
         $certif= (bool) $request->certif;
         $finalnote= (bool) $request->finalnote;
         $max_try = (int) $request->max_try;
+
         $name = (string) $request->name;
         $time = (bool) $request->time;
         $total = (bool) $request->total;
@@ -235,8 +237,9 @@ class FormationController extends Controller
         if($unic_try){
             $time_btw = false;
             $time_btw_str= null;
-            $max_try = 0;
+            $max_try = 1;
         }
+
         if(!$time_btw){
             $time_btw_str = (int)null;
         }else{
@@ -263,7 +266,7 @@ class FormationController extends Controller
         //essai
         $formation->unic_try = $unic_try;
         $formation->can_retry_later = $time_btw;
-        $formation->try = $max_try;
+        $formation->max_try = $max_try;
         $formation->time_btw_try = $time_btw_str;
         //time
         $formation->timed = $total;
@@ -277,7 +280,7 @@ class FormationController extends Controller
         $formation->certify = $certif;
         $formation->save();
 
-        event(new Notify('Vous avez sauvegarder la formations', 1));
+        event(new Notify('Vous avez sauvegardé la formations', 1));
         return response()->json([
             'formation'=>$formation,
         ],201);
@@ -298,14 +301,17 @@ class FormationController extends Controller
         $question->formation_id = $formation->id;
         $responses=$request->responses;
         $a=0;
+        $Rresponse = 0;
         foreach ($responses as $response){
-            if($response['active']){
-                $a++;
+            $a++;
+            if($response['active'] === true){
+                $Rresponse++;
             }
         }
+
         $question->responses = json_encode($responses);
         $question->name = $request->name;
-        $question->type = ($a > 1 ? 'choix multiple' : 'choix unique');
+        $question->type = ($Rresponse > 1 ? 'choix multiple' : 'choix unique');
         $question->max_note = $a;
         $formation->max_note= $formation->max_note+$a;
         $question->desc = $request->description;
@@ -339,14 +345,16 @@ class FormationController extends Controller
         }
         $responses=$request->responses;
         $a=0;
+        $Rresponse = 0;
         foreach ($responses as $response){
+            $a++;
             if($response['active']){
-                $a++;
+                $Rresponse++;
             }
         }
         $question->responses = json_encode($responses);
         $question->name = $request->name;
-        $question->type = ($a > 1 ? 'choix multiple' : 'choix unique');
+        $question->type = ($Rresponse > 1 ? 'choix multiple' : 'choix unique');
         $question->desc = $request->description;
         $question->correction = $request->correction;
         $formation->max_note = $formation->max_note - $question->max_note;

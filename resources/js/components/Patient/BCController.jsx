@@ -25,10 +25,10 @@ class ListPatient extends React.Component {
         return (
             <section className="list-container" style={{filter: this.props.blur? 'blur(5px)' : 'none'}}>
                 <div className={'list-content'}>
-                    <h1>Liste des patients</h1>
+                    <h1>Liste des patients ({this.state.patients ? this.state.patients.length : '?'})</h1>
                     <div className={'list'}>
                         {this.state.patients !== null && this.state.patients.map((patient)=>
-                            <PatientListPU name={patient.name} date={dateFormat(patient.created_at, 'hh:mm')} urlid={patient.id} color={patient.get_color.name} idcard={patient.idcard}/>
+                            <PatientListPU name={patient.name} date={dateFormat(patient.created_at, 'hh:mm')} urlid={patient.rapport_id} color={patient.get_color.name} idcard={patient.idcard}/>
                         )}
                     </div>
                 </div>
@@ -50,6 +50,9 @@ class BCBase extends React.Component {
             clicked:false,
             place: "",
             type: 0,
+            errors:[],
+            pdfstart: '',
+            pdfend: '',
         }
         this.addbc = this.addbc.bind(this);
     }
@@ -65,23 +68,27 @@ class BCBase extends React.Component {
     }
 
     async addbc(e) {
+        e.preventDefault();
         if(this.state.type !== 0){
-            var req = await axios({
+            await axios({
                 method: 'POST',
                 url: '/data/blackcode/create',
                 data: {
-                    type: this.state.type,
-                    place: this.state.place,
+                    type:this.state.type,
+                    place:this.state.place,
+                }
+            }).then(response => {
+                this.setState({place: "", type:0})
+                this.props.update(1,response.data.bc_id);
+            }).catch(error => {
+                error = Object.assign({}, error);
+                if(error.response.status === 422){
+                    this.setState({errors: error.response.data.errors})
                 }
             })
-            if(req.status === 201){
-                this.setState({place: "", type:0})
-                this.props.update(1,req.data.bc_id);
-            }
         }
         this.setState({cliked:false});
     }
-
     render() {
         var perm = this.context;
         return (
@@ -90,6 +97,21 @@ class BCBase extends React.Component {
                  <PagesTitle title={'Black Codes'}/>
                  {perm.add_BC === 1 &&
                     <button className={'btn'} onClick={()=>this.setState({add: true})}>Ajouter un BC</button>
+                 }
+                 {perm.factures_PDF === 1 &&
+                 <div className={'pdf_Generator mobildisabled'} >
+                     <form onSubmit={(e)=>{
+                         e.preventDefault();
+                         window.open('/exel/allPList/'+this.state.pdfstart+'/'+this.state.pdfend)
+                     }
+                     }>
+                         <label>Liste des patients du</label>
+                         <input type={"date"} value={this.state.pdfstart} onChange={(e)=>{this.setState({pdfstart:e.target.value})}}/>
+                         <label>au</label>
+                         <input type={"date"} value={this.state.pdfend} onChange={(e)=>{this.setState({pdfend:e.target.value})}}/>
+                         <button type={"submit"} className={'btn'}>générer</button>
+                     </form>
+                 </div>
                  }
              </section>
              <section className="contain" style={{filter: this.state.add ? 'blur(5px)' : 'none'}} >
@@ -169,7 +191,12 @@ class BCBase extends React.Component {
                             this.addbc(e)
                         }}>
                             <div className={'row'}>
-                                <input type={'text'} placeholder={'lieux'} value={this.state.place} onChange={(e)=>{this.setState({place:e.target.value})}}/>
+                                <input type={'text'} placeholder={'lieux'} className={(this.state.errors.place ? 'form-error': '')} value={this.state.place} onChange={(e)=>{this.setState({place:e.target.value})}}/>
+                                <ul className={'error-list'}>
+                                    {this.state.errors.place && this.state.errors.place.map((item)=>
+                                        <li>{item}</li>
+                                    )}
+                                </ul>
                                 <select defaultValue={this.state.type} onChange={(e)=>{this.setState({type:e.target.value})}}>
                                     <option value={0} disabled>choisir</option>
                                     {this.state.types && this.state.types.map((type)=>
@@ -179,7 +206,7 @@ class BCBase extends React.Component {
                             </div>
                             <div className={'btn-contain'}>
                                 <button onClick={()=> this.setState({add: false})} className={'btn'}>fermer</button>
-                                <button type={'submit'} disabled={this.state.clicked===true} className={'btn'} onClick={()=>{this.setState({clicked:true}); this.addbc()}}>Ajouter</button>
+                                <button type={'submit'} disabled={this.state.clicked===true} className={'btn'} onClick={()=>{this.setState({clicked:true});}}>Ajouter</button>
                             </div>
 
                         </form>
@@ -215,6 +242,7 @@ class BCLast extends React.Component {
     render() {
         if(this.state.data) {
             const bc = this.state.bc;
+            let perm = this.context
             return (
                 <div className={"BC-Last"}>
                     <section className="left">
@@ -222,9 +250,13 @@ class BCLast extends React.Component {
                             <PagesTitle title={bc.get_type.name + ' ' + bc.place}/>
                             <div className={'btn-contain'}>
                                 <div className={'bgforbtn'}>
+                                    {perm.factures_PDF === 1 &&
+                                        <a className={'btn'} target={'_blank'} href={'/data/bc/rapport/'+bc.id}>rapport</a>
+                                    }
                                     <button className={'btn'} onClick={() => this.props.update(0)}>Retour</button>
                                 </div>
                             </div>
+
                         </div>
                         <div className="infos">
                             <h2>Informations</h2>
@@ -268,27 +300,31 @@ class BCLast extends React.Component {
 
     }
 }
+BCLast.contextType = PermsContext;
 
 class BCView extends React.Component {
 
     constructor(props) {
         super(props);
         this.state = {
-            CloseMenuOpen: false,
-            id:'',
-            data: null,
-            patients: null,
-            bc: null,
-            personnels: null,
-            blessures: null,
-            couleurs: null,
+            CloseMenuOpen:false,
+            id:this.props.id,
+            data:null,
+            patients:null,
+            bc:null,
+            personnels:null,
+            blessures:null,
+            couleurs:null,
             nom:"",
             color:0,
             blessure:0,
-            payed: false,
+            payed:false,
             carteid:false,
             searsh:null,
             clicked:false,
+            correctid: true,
+            realname: '',
+            errors: []
         }
         this.quitbc = this.quitbc.bind(this);
         this.check = this.check.bind(this);
@@ -307,6 +343,13 @@ class BCView extends React.Component {
         }
     }
 
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        if(prevProps.id !==this.props.id){
+            this.setState({id:this.props.id})
+            this.update();
+        }
+    }
+
     async update(){
         let req = await axios({
             method: 'GET',
@@ -315,6 +358,7 @@ class BCView extends React.Component {
         if(req.status === 200){
             this.setState({
                 data: true,
+                bc: req.data.bc,
                 patients: req.data.bc.get_patients,
                 personnels: req.data.bc.get_personnel,
                 blessures: req.data.blessures,
@@ -353,7 +397,7 @@ class BCView extends React.Component {
         this.setState({clicked:true})
         e.preventDefault()
         if(this.state.blessure !== 0 && this.state.color !== 0){
-            let req = await axios({
+            await axios({
                 url: '/data/blackcode/'+ this.props.id +'/add/patient',
                 method: 'post',
                 data: {
@@ -362,30 +406,44 @@ class BCView extends React.Component {
                     blessure: this.state.blessure,
                     payed: this.state.payed,
                     carteid: this.state.carteid,
+                    correctid: this.state.correctid,
+                    realname: this.state.realname,
+
+                }
+            }).then(response => {
+                if(response.status === 201){
+                    this.setState({
+                        nom: '',
+                        color: 0,
+                        blessure:0,
+                        payed: false,
+                        carteid: false,
+                        correctid: true,
+                        realname: '',
+                    });
+                }
+            }).catch(error => {
+                error = Object.assign({}, error);
+                if(error.response.status === 422){
+                    this.setState({errors: error.response.data.errors})
                 }
             })
-            if(req.status === 201){
-                this.setState({
-                    nom: '',
-                    color: 0,
-                    blessure:0,
-                    payed: false,
-                    carteid: false
-                });
-            }
+
         }
         this.setState({clicked:false})
     }
 
     componentDidMount() {
-        this.setState({id:this.props.id})
+
         this.update();
-        this.updator = setInterval(
-            () => this.update(),
+        this.check();
+
+        this.updator =setInterval(
+            () =>this.update(),
             20000
         );
-        this.checker = setInterval(
-            () => this.check(),
+        this.checker =setInterval(
+            () =>this.check(),
             10000
         );
     }
@@ -400,7 +458,9 @@ class BCView extends React.Component {
             <div className={"BC-View"}>
                 <section style={{filter: this.state.CloseMenuOpen ? 'blur(5px)' : 'none'}} className="left">
                     <div className={'header'}>
-                        <PagesTitle title={'Fusillade LS Longs beach'}/>
+                        {this.state.data &&
+                        <PagesTitle title={this.state.bc.get_type.name + ' ' + this.state.bc.place}/>
+                        }
                         <div className={'btn-contain'}>
                             <div className={'bgforquibtn'}>
                                 <button className={'btn'} onClick={this.quitbc}>Quitter le BC</button>
@@ -422,12 +482,19 @@ class BCView extends React.Component {
 
                             <div className={'row-spaced'}>
                                 <label>prénom nom :</label>
-                                <input list="autocomplete" autoComplete="off" className={'input'} type={'text'} value={this.state.nom} onChange={(e)=>{this.searsh(e.target.value)}}/>
+                                <input list="autocomplete" autoComplete="off" className={'input '+ (this.state.errors.name ? 'form-error': '')} type={'text'} value={this.state.nom} onChange={(e)=>{this.searsh(e.target.value)}}/>
                                 <datalist id="autocomplete">
                                     {this.state.searsh && this.state.searsh.map((patient)=>
                                         <option key={patient.id} value={patient.vorname+ ' '+patient.name}/>
                                     )}
                                 </datalist>
+                                {this.state.errors.name &&
+                                <ul className={'error-list'}>
+                                    {this.state.errors.name.map((item)=>
+                                        <li>{item}</li>
+                                    )}
+                                </ul>
+                                }
                             </div>
 
                             <div className={'row-spaced'}>
@@ -448,6 +515,35 @@ class BCView extends React.Component {
                                     )}
                                 </select>
                             </div>
+                           <div className={'idCheck'}>
+
+                               <div className={'row-spaced'}>
+                                   <label>HRP identité correcte:</label>
+                                   <div className={'switch-container'}>
+                                       <input id={"switch"+12} className={"payed_switch "+ (this.state.errors.correctid ? 'form-error': '')} type="checkbox" checked={this.state.correctid} onChange={(e)=>{
+                                           if(this.state.correctid){
+                                               this.setState({correctid:false})
+                                           }else{
+                                               this.setState({correctid:true})
+                                           }
+                                       }}/>
+                                       <label htmlFor={"switch"+12} className={"payed_switchLabel"}/>
+                                   </div>
+                               </div>
+                               {this.state.correctid === false &&
+                               <div className={'row-spaced'}>
+                                   <label>HRP nom prénom  : </label>
+                                   <input autoComplete="off" placeholder={'prénom nom réels'} className={'input'} type={'text'} value={this.state.realname} onChange={(e)=>{this.setState({realname:e.target.value})}}/>
+                                   {this.state.errors.realname &&
+                                   <ul className={'error-list'}>
+                                       {this.state.errors.realname.map((item)=>
+                                           <li>{item}</li>
+                                       )}
+                                   </ul>
+                                   }
+                               </div>
+                               }
+                           </div>
                             <div className={'bottom'}>
                                 <div className="paye">
                                     <label>Payé : </label>

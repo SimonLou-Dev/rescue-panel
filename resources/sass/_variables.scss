@@ -728,3 +728,12 @@ a{
 
 }
 
+.form-error{
+    border: $red_light 1px solid !important;
+}
+.error-list{
+    font-family: "Baloo Thambi 2", monospace;
+    font-weight: 500;
+    color: $red;
+}
+
