@@ -32,7 +32,7 @@ class PersonnelCard extends React.Component{
             }}>
                 <h5>{this.props.name}</h5>
 
-                {this.props.user.serviceState !== null &&
+                {this.props.user.get_service_state !== null &&
                     <div className={'tag'} style={{backgroundColor: this.props.user.get_service_state.color}}/>
                 }
 
@@ -44,6 +44,10 @@ class PersonnelCard extends React.Component{
                                 <div className={'tag'} style={{backgroundColor:item.color}}/>
                             </button>
                         )}
+                        <button onClick={()=>{this.BtnClick(null);}}>
+                            <label>N/A</label>
+                            <div className={'tag'}/>
+                        </button>
                     </div>
                 }
             </div>

@@ -683,6 +683,16 @@ a {
     transform: translateY(-100%);
   }
 }
+.form-error {
+  border: #FF0000 1px solid !important;
+}
+
+.error-list {
+  font-family: "Baloo Thambi 2", monospace;
+  font-weight: 500;
+  color: #e3342f;
+}
+
 html {
   position: fixed;
   padding: 0;
@@ -3210,9 +3220,10 @@ body {
   flex-direction: row;
   flex-wrap: wrap;
   justify-content: space-between;
-  width: 100%;
+  width: 85%;
   padding: 0 10px;
   border-collapse: collapse;
+  margin: 0 auto;
 }
 .livret-page .livret .livret-content section .forma {
   padding: 10px;

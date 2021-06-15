@@ -13,7 +13,7 @@ class PersonnelList extends React.Component{
         this.request();
         this.timerID = setInterval(
             () => this.tick(),
-            10*60*1000
+            2*60*1000
         );
     }
     componentWillUnmount() {

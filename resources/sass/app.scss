@@ -2607,9 +2607,10 @@ body{
                 flex-direction: row;
                 flex-wrap: wrap;
                 justify-content: space-between;
-                width: 100%;
+                width: 85%;
                 padding: 0 10px;
                 border-collapse: collapse;
+                margin: 0 auto;
                 .forma{
                     padding: 10px;
                     &:hover{

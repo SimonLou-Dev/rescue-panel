@@ -101,6 +101,7 @@ class ResponsePage extends React.Component {
             timerpaused: false,
             note: '?/?',
             data: false,
+            displayQuestion: false
         }
 
         this.nextPage = this.nextPage.bind(this)
@@ -136,16 +137,15 @@ class ResponsePage extends React.Component {
             this.props.change(null)
         }
         if(req.status === 200){
-            let length = req.data.formation.get_questions.length;
-            length = length + (req.data.formation.displaynote === 1 ? 1 : 0)
-
-            this.setState({formation: req.data.formation, responses: req.data.formation.get_questions, length:length, data:true})
+            let length = 0;
+            length = length + req.data.formation.get_questions.length + (req.data.formation.displaynote === 1 ? 1 : 0);
+            this.setState({formation: req.data.formation, responses: req.data.formation.get_questions, length: length, data:true})
         }
     }
 
     async componentWillUnmount() {
         var req = await axios({
-            url: '/data/formation/response/'+ this.state.formationid +'/save',
+            url: '/data/formation/userdeco/'+ this.props.id+'/save',
             method: 'POST'
         })
     }
@@ -156,14 +156,11 @@ class ResponsePage extends React.Component {
     }
 
     nextPage(){
-        if(this.state.actuel === 0 || this.state.actuel === this.state.length){
+        if(this.state.actuel === 0 || this.state.actuel === this.state.length) {
             if(this.state.actuel  === 0){
                 this.setState({actuel: this.state.actuel+1, incorrect:false});
                 this.setState( {time: this.state.formation.timer})
                 this.interval = setInterval(this.timer,1000);
-            }
-            if(this.state.actuel === this.state.length){
-                this.props.change(null)
             }
         }else{
             if(this.state.formation.question_timed === 1) {
@@ -180,10 +177,22 @@ class ResponsePage extends React.Component {
                     this.ScoreCouter();
                     this.setState({actuel: this.state.actuel+1, myresponses: {}});
                 }
-        }if(this.state.actuel === this.state.length -1){
+        }
+
+        if(this.state.actuel === this.state.length) {
+            if(this.state.formation.displaynote === 0){
+                this.ScoreCouter();
+            }
+
+            this.props.change(null);
+
+        }
+
+        if(this.state.actuel === this.state.formation.get_questions.length){
             this.finalSave()
             this.setState({timerpaused:true})
         }
+
     }
 
     async finalSave(){
@@ -230,9 +239,9 @@ class ResponsePage extends React.Component {
                 <PagesTitle title={"formation | " + this.state.formation.name}/>
                 <div className="responsecontent">
                         <section className="question">
-                            {this.state.actuel > 0 && this.state.actuel < this.state.length &&
+
+                            {this.state.actuel > 0 && this.state.actuel < (this.state.length + (this.state.formation.displaynote === 0 ? 1 : 0))   &&
                                 <div className={'left'}>
-                                    {console.log(this.state.actuel)}
                                     <h2><span>Question n°{this.state.actuel} :</span> {(this.state.responses[this.state.actuel - 1] !== undefined ? this.state.responses[this.state.actuel - 1].name : '?')}</h2>
                                     <div className={"response"}>
                                     {this.state.responses[this.state.actuel - 1].responses.map((response)=>
@@ -260,7 +269,8 @@ class ResponsePage extends React.Component {
                                 </div>
                             </div>
                             }
-                            {this.state.actuel > 0 && this.state.actuel < this.state.length &&
+
+                            {this.state.actuel > 0 && this.state.actuel < (this.state.length + (this.state.formation.displaynote === 0 ? 1 : 0))  &&
                                 <div className="infos">
                                 <img alt={""} src={'/storage/formations/question_img/'+ this.props.id + '/' + (this.state.responses[this.state.actuel - 1].id) + '/' + this.state.responses[this.state.actuel - 1].img}/>
                                 <p>{this.state.responses[this.state.actuel - 1].desc}</p>
@@ -271,7 +281,7 @@ class ResponsePage extends React.Component {
                                 }
                             </div>
                             }
-                            {this.state.actuel === this.state.length &&
+                            {this.state.actuel === (this.state.length +(this.state.formation.displaynote === 0 ? 1 : 0))  &&
                                 <div className={'question-end'}>
                                     <h1>Note finale</h1>
                                     <h1>{this.state.note}</h1>
@@ -293,7 +303,7 @@ class ResponsePage extends React.Component {
                                             </div>
                                             <h4 className={'text'}>{
                                                 this.state.formation.timer !== 0  ?
-                                                    'Vous avez ' + (Math.round(this.state.formation.timer / 60) + ' min(s) ' + (this.state.formation.timer % 60 < 10 ? '0' + this.state.formation.timer % 60 : this.state.formation.timer % 60))  + (this.state.formation.question_timed ? ' pour réponde à chaque question': ' pour faire toute la formations') :
+                                                    'Vous avez ' + (Math.floor(this.state.formation.timer / 60) + ' min(s) ' + (this.state.formation.timer % 60 < 10 ? '0' + this.state.formation.timer % 60 : this.state.formation.timer % 60))  + (this.state.formation.question_timed ? ' pour réponde à chaque question': ' pour faire toute la formations') :
                                                     'Cette formation n\'est pas chronométrée'
                                             }</h4>
                                         </div>
@@ -321,8 +331,8 @@ class ResponsePage extends React.Component {
                                             <h4 className={'text'}>
                                                 {this.state.formation.unic_try ?
                                                 'Vous n\'avez qu\'un seul essai' :
-                                                    this.state.formation.max_try === 0 ?
-                                                        'Vous avez un nom d\'essais infinis':
+                                                    this.state.formation.max_try === "0" ?
+                                                        'Vous avez un nombre d\'essais infinis':
                                                         'Vous avez ' + this.state.formation.max_try + ' essais'
                                                 }
 
@@ -331,11 +341,14 @@ class ResponsePage extends React.Component {
                                         <div className={'rowed'}>
                                             <div className={'illustrations'}>
                                                 <img alt={''} src={'/assets/images/formations/wait.png'}/>
-                                                {this.state.formation.time_btw_try === 0 || (this.state.formation.unic_try === 1 || this.state.formation.max_try) &&
+                                                {this.state.formation.time_btw_try === 0 || this.state.formation.max_try=== 1  &&
                                                 <img alt={''} src={'/assets/images/formations/cross.png'}/>
                                                 }
                                             </div>
-                                            <h4 className={'text'}>Temps entre les retry</h4>
+                                            <h4 className={'text'}>{this.state.formation.max_try === 1 ? 'Vous ne pourrez pas refaire cette formations' : this.state.formation.time_btw_try !== 0 ?
+                                               'Vous pouvez réessayer dans ' + Math.floor(this.state.formation.time_btw_try / 86400)  + ' jours et ' +  (this.state.formation.time_btw_try % 86400 / 3600 < 10 ? '0' : '') + this.state.formation.time_btw_try % 86400 / 3600 + ' heure(s)'
+
+                                                : 'Vous pouvez refaire cette formation quand vous voulez'}</h4>
                                         </div>
                                         <div className={'rowed'}>
                                             <div className={'illustrations'}>
@@ -356,8 +369,8 @@ class ResponsePage extends React.Component {
                         </section>
 
                         <section className="bottom">
-                            {this.state.formation.timer > 0 && this.state.actuel !== this.state.length -1 && this.state.actuel !== 0 &&
-                            <h3> {Math.round(this.state.time / 60)}  min(s) {this.state.time % 60< 10 ? '0' + this.state.time % 60 : this.state.time % 60}</h3>
+                            {this.state.formation.timer > 0 && this.state.actuel !== (this.state.length + (this.state.formation.displaynote === 0 ? 1 : 0)) && this.state.actuel !== 0 &&
+                            <h3> {Math.floor(this.state.time / 60)}  min(s) {this.state.time % 60< 10 ? '0' + this.state.time % 60 : this.state.time % 60}</h3>
                             }
 
                             {this.state.actuel > 0 && this.state.actuel < this.state.length &&
@@ -371,8 +384,6 @@ class ResponsePage extends React.Component {
         );
     }
 }
-
-
 
 class FormationsController extends React.Component {
     constructor(props) {

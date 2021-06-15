@@ -1,3 +1,4 @@
+<?php $total = 0 ?>
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -68,10 +69,16 @@
         echo '<td>' . date('H:i', strtotime($line->created_at)) . '</td>';
         echo '<td>' . ($line->GetPatient->vorname.' '.$line->GetPatient->name) . '</td>';
         echo '<td> $' . $line->price . '</td>';
+        $total += $line->price;
         echo '</tr>';
-
         }
     ?>
+    <tr>
+        <td style="border-bottom: none; border-left: none;"></td>
+        <td style="border-bottom: none; border-left: none;"></td>
+        <td style="border-bottom: none; border-left: none;"></td>
+        <td>$<?php echo $total?></td>
+    </tr>
     </tbody>
 </table>
 </body>

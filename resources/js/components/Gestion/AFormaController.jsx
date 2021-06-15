@@ -474,9 +474,10 @@ class FormaCreate extends React.Component {
                     item.push({id: item.length, itemid: req.data.responses[a].id});
                     a++;
                 }
-                let timer = Math.trunc(req.data.formation.timer / 3600);
-                let reste = req.data.formation.timer % 3600 / 60
+                let timer = Math.floor(req.data.formation.timer / 60);
+                let reste = req.data.formation.timer % 60;
                 const final_timer = (timer < 10 ? '0' : '') + timer + ':' + (reste < 10 ? '0' : '') + reste;
+
 
                 let time = req.data.formation.time_btw_try;
                 let time_btw = Math.trunc(time / 86400);

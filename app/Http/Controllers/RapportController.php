@@ -87,7 +87,7 @@ class RapportController extends Controller
         $user = Auth::user()->name;
 
         Http::post(env('WEBHOOK_RI'),[
-            'username'=> "BCFD - Intranet",
+            'username'=> "BCFD - MDT",
             'avatar_url'=>'https://bcfd.simon-lou.com/assets/images/BCFD.png',
             'embeds'=>[
                 [
@@ -277,7 +277,7 @@ class RapportController extends Controller
         $facture->payed = true;
         $facture->save();
         Http::post(env('WEBHOOK_FACTURE'),[
-            'username'=> "BCFD - Intranet",
+            'username'=> "BCFD - MDT",
             'avatar_url'=>'https://bcfd.simon-lou.com/assets/images/BCFD.png',
             'embeds'=>[
                 [
@@ -411,7 +411,7 @@ class RapportController extends Controller
         }
 
         Http::post(env('WEBHOOK_FACTURE'),[
-            'username'=> "BCFD - Intranet",
+            'username'=> "BCFD - MDT",
             'avatar_url'=>'https://bcfd.simon-lou.com/assets/images/BCFD.png',
             'embeds'=>[
                 [

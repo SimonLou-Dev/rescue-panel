@@ -165,7 +165,7 @@ class UserController extends Controller
         $user->compte = $compte;
         $user->save();
         Http::post(env('WEBHOOK_INFOS'),[
-            'username'=> "BCFD - Intranet",
+            'username'=> "BCFD - MDT",
             'avatar_url'=>'https://bcfd.simon-lou.com/assets/images/BCFD.png',
             'embeds'=>[
                 [
@@ -279,7 +279,7 @@ class UserController extends Controller
     public function changeState(Request $request,string $user_id,string $state): JsonResponse
     {
         $user = User::where('id', (int) $user_id)->first();
-        $user->serviceState = $state;
+        $user->serviceState = ($state == 'null' ? null: $state);
         $user->save();
         event(new Notify('Etat de service mis à jour',1));
         return response()->json(['status'=>'OK'],200);

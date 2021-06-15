@@ -247,7 +247,7 @@ class BCController extends Controller
         ]);
 
         Http::post(env('WEBHOOK_PU'),[
-            'username'=> "BCFD - Intranet",
+            'username'=> "BCFD - MDT",
             'avatar_url'=>'https://bcfd.simon-lou.com/assets/images/BCFD.png',
             'embeds'=>$finalembedslist,
         ]);
@@ -375,7 +375,7 @@ class BCController extends Controller
         if(!$request->correctid){
             event(new Notify('Ajout d\'une déclaration de falsification d\'identité ! ',1));
             Http::post(env('WEBHOOK_STAFF'),[
-                'username'=> "BCFD - Intranet",
+                'username'=> "BCFD - MDT",
                 'avatar_url'=>'https://bcfd.simon-lou.com/assets/images/BCFD.png',
                 'embeds'=>[
                     [

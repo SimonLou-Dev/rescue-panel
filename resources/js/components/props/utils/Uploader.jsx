@@ -24,21 +24,26 @@ export default function Uploader(props){
     const [imgUrl, setImgUrl] = useState(null);
 
     const UploadFinished = async (type, id) => {
-        let req = await axios({
+        await axios({
             method: 'PUT',
             url: '/data/finish/tempupload/' + id,
             data: {
                 type: type
             }
+        }).then(response => {
+            if(response.status === 200){
+                setImgUrl(response.data.image);
+                if(props && props.images){
+                    props.images(response.data.image);
+                }
+                setDisabled(false);
+            }
+        }).catch(error => {
+            setDisabled(false);
         })
 
-        if(req.status === 200){
-            setImgUrl(req.data.image);
-            if(props && props.images){
-                props.images(req.data.image);
-            }
-        }
-        setDisabled(false);
+
+
     }
 
     const FileAdded= (e) => {

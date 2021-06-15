@@ -219,7 +219,7 @@ class ServiceController extends Controller
             $formated = explode(':', $formated);
             if($admin){
                 Http::post(env('WEBHOOK_SERVICE') ,[
-                    'username'=> "BCFD - Intranet",
+                    'username'=> "BCFD - MDT",
                     'avatar_url'=>'https://bcfd.simon-lou.com/assets/images/BCFD.png',
                     'embeds'=>[
                         [
@@ -234,7 +234,7 @@ class ServiceController extends Controller
                 ]);
             }else{
                 Http::post(env('WEBHOOK_SERVICE'),[
-                    'username'=> "BCFD - Intranet",
+                    'username'=> "BCFD - MDT",
                     'avatar_url'=>'https://bcfd.simon-lou.com/assets/images/BCFD.png',
                     'embeds'=>[
                         [
@@ -257,7 +257,7 @@ class ServiceController extends Controller
             Auth::user()->service = true;
             if($admin){
                 Http::post(env('WEBHOOK_SERVICE'),[
-                    'username'=> "BCFD - Intranet",
+                    'username'=> "BCFD - MDT",
                     'avatar_url'=>'https://bcfd.simon-lou.com/assets/images/BCFD.png',
                     'embeds'=>[
                         [
@@ -271,7 +271,7 @@ class ServiceController extends Controller
                 ]);
             }else{
                 Http::post(env('WEBHOOK_SERVICE'),[
-                    'username'=> "BCFD - Intranet",
+                    'username'=> "BCFD - MDT",
                     'avatar_url'=>'https://bcfd.simon-lou.com/assets/images/BCFD.png',
                     'embeds'=>[
                         [
