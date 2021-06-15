@@ -53,7 +53,7 @@ class Rapport extends React.Component{
                 endtime: this.state.endtime,
             }
         }).then(response => {
-            this.setState({succsess: true,req: req,
+            this.setState({succsess: true,req: response,
                 name: "",
                 startinter: '',
                 tel: "",
