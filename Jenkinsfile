@@ -37,7 +37,7 @@ pipeline {
           }
           steps {
             withSonarQubeEnv(installationName: 'Serveur sonarqube', credentialsId: 'sonarqube_access_token') {
-              //sh '${scannerHome}/bin/sonar-scanner'
+              sh '${scannerHome}/bin/sonar-scanner'
               echo 'coucou'
             }
           }
