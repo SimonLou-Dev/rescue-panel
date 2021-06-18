@@ -1054,7 +1054,6 @@ body {
 }
 #Main-Page .Personnel_service .Personnel-list .Personnel-card {
   position: relative;
-  z-index: 320;
   margin: 10px;
   display: flex;
   flex-direction: row;
@@ -1084,6 +1083,7 @@ body {
   background-color: #004662;
   border: 1px #00FFFF solid;
   display: flex;
+  z-index: 100;
   flex-direction: column;
 }
 #Main-Page .Personnel_service .Personnel-list .Personnel-card .tag-selector button {
@@ -1102,7 +1102,6 @@ body {
   cursor: pointer;
 }
 #Main-Page .Personnel_service .bottom {
-  z-index: 1;
   position: relative;
   background-color: #004662;
   width: 100%;
