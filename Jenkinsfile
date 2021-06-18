@@ -52,28 +52,17 @@ pipeline {
       }
     }
 
-    stage('Pre-Deploy') {
+    stage('Reponse Sonarqube analyst') {
       parallel {
         stage('Reponse Sonarqube analyst') {
           steps {
-            echo 'coucou'
+            waitForQualityGate(abortPipeline: true, webhookSecretId: 'sonarsecret_webhook', credentialsId: 'sonarqube_access_token')
           }
         }
 
-        stage('Set Maintenance to the MainSite') {
+        stage('modify files for prod') {
           steps {
-            echo 'coucou'
-            sshagent(credentials: ['myserver']) {
-              sh 'ssh -o StrictHostKeyChecking=no root@75.119.154.204'
-            }
-
-            sh 'ls -l'
-          }
-        }
-
-        stage('Prepare GitHub') {
-          steps {
-            echo 'change gitigniore for add Vite config'
+            echo 'test'
           }
         }
 
@@ -89,7 +78,7 @@ pipeline {
 
     stage('Clean') {
       steps {
-        echo 'reset DB'
+        echo 'test'
       }
     }
 
