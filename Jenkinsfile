@@ -1,5 +1,4 @@
 pipeline {
-
   agent any
   stages {
     stage('Verification') {
@@ -34,11 +33,10 @@ pipeline {
 
         stage('Scan  SonarQube') {
           environment {
-            scannerHome = tool 'sonar'
+            scannerHome = 'sonar'
           }
           steps {
             withSonarQubeEnv(installationName: 'Serveur sonarqube', credentialsId: 'sonarqube_access_token') {
-              //sh '${scannerHome}/bin/sonar-scanner'
               echo 'coucou'
             }
 
@@ -59,17 +57,16 @@ pipeline {
         stage('Reponse Sonarqube analyst') {
           steps {
             echo 'coucou'
-            //waitForQualityGate(credentialsId: 'sonarqube_access_token', webhookSecretId: 'sonarsecret_webhook', abortPipeline: false)
           }
         }
-
 
         stage('Set Maintenance to the MainSite') {
           steps {
             echo 'coucou'
-            sshagent (credentials: ['myserver']) {
-                sh 'ssh -o StrictHostKeyChecking=no root@75.119.154.204'
+            sshagent(credentials: ['myserver']) {
+              sh 'ssh -o StrictHostKeyChecking=no root@75.119.154.204'
             }
+
             sh 'ls -l'
           }
         }
@@ -86,29 +83,7 @@ pipeline {
     stage('Push on prod') {
       steps {
         echo 'git add commit and push'
-      }
-    }
-
-    stage('Deploying on Prod') {
-      steps {
-        echo 'git pull tu connais'
-      }
-    }
-
-    stage('Mise en Prod') {
-      parallel {
-        stage('Front Build') {
-          steps {
-            echo 'yarn build and cache clear'
-          }
-        }
-
-        stage('db migrate') {
-          steps {
-            echo 'migrate DB'
-          }
-        }
-
+        git(url: 'https://github.com/SimonLou-Dev/BCFD', branch: 'prod', changelog: true, credentialsId: 'github')
       }
     }
 
