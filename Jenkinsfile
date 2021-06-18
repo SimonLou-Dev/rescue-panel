@@ -33,13 +33,13 @@ pipeline {
 
         stage('Scan  SonarQube') {
           environment {
-            scannerHome = 'sonar'
+            scannerHome = tool 'sonar'
           }
           steps {
             withSonarQubeEnv(installationName: 'Serveur sonarqube', credentialsId: 'sonarqube_access_token') {
+              //sh '${scannerHome}/bin/sonar-scanner'
               echo 'coucou'
             }
-
           }
         }
 
@@ -56,7 +56,7 @@ pipeline {
       parallel {
         stage('Reponse Sonarqube analyst') {
           steps {
-            waitForQualityGate(abortPipeline: true, webhookSecretId: 'sonarsecret_webhook', credentialsId: 'sonarqube_access_token')
+            waitForQualityGate(credentialsId: 'sonarqube_access_token', webhookSecretId: 'sonarsecret_webhook', abortPipeline: true)
           }
         }
 
