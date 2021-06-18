@@ -9,10 +9,6 @@ use Illuminate\Http\Request;
 
 class HomeController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('cors');
-    }
 
     /**
      * @param string|null $a

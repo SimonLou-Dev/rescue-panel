@@ -133,7 +133,7 @@ class RapportController extends Controller
             ]
         ]);
 
-        $client = new Client('http://75.119.154.204:3000', new \Http\Adapter\Guzzle7\Client());
+        $client = new Client(env('PDF_ADDR'), new \Http\Adapter\Guzzle7\Client());
 
         ob_start();
         require(base_path('/resources/PDF/RI/index.php'));
@@ -216,7 +216,7 @@ class RapportController extends Controller
 
         $user = $rapport->GetUser->name;
 
-        $client = new Client('http://75.119.154.204:3000', new \Http\Adapter\Guzzle7\Client());
+        $client = new Client(env('PDF_ADDR'), new \Http\Adapter\Guzzle7\Client());
 
         ob_start();
         require(base_path('/resources/PDF/RI/index.php'));
@@ -348,7 +348,7 @@ class RapportController extends Controller
 
             $user = $rapport->GetUser->name;
 
-            $client = new Client('http://75.119.154.204:3000', new \Http\Adapter\Guzzle7\Client());
+            $client = new Client(env('PDF_ADDR'), new \Http\Adapter\Guzzle7\Client());
 
             ob_start();
             require(base_path('/resources/PDF/RI/index.php'));
@@ -360,9 +360,9 @@ class RapportController extends Controller
                 DocumentFactory::makeFromPath('signature.png', base_path('/resources/PDF/RI/signature.png'))
             ];
 
-            $request = new HTMLRequest($index);
-            $request->setAssets($assets);
-            $client->store($request, $path);
+            $pdf = new HTMLRequest($index);
+            $pdf->setAssets($assets);
+            $client->store($pdf, $path);
         }
 
         return \response()->file($path);
@@ -376,7 +376,7 @@ class RapportController extends Controller
         $data = ['infos'=>$infos, 'impaye'=>$impaye];
 
 
-        $client = new Client('http://75.119.154.204:3000', new \Http\Adapter\Guzzle7\Client());
+        $client = new Client(env('PDF_ADDR'), new \Http\Adapter\Guzzle7\Client());
 
         ob_start();
         require(base_path('/resources/PDF/facture/index.php'));
@@ -387,10 +387,10 @@ class RapportController extends Controller
             DocumentFactory::makeFromPath('LONG_EMS_BC_2.png', base_path('/resources/PDF/facture/LONG_EMS_BC_2.png'))
         ];
 
-        $request = new HTMLRequest($index);
-        $request->setAssets($assets);
+        $pdf = new HTMLRequest($index);
+        $pdf->setAssets($assets);
         $path = base_path('public/storage/temp/factures/facture.pdf');
-        $client->store($request, $path);
+        $client->store($pdf, $path);
         return \response()->file($path);
 
     }
