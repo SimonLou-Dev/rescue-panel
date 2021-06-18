@@ -1,6 +1,7 @@
 <?php $total = 0 ?>
 <!DOCTYPE html>
 <html lang="fr">
+<title>Facture PDF</title>
 <head>
     <style>
         body{
@@ -55,12 +56,12 @@
 <h4>Du <?php echo $infos['from'] ?> au <?php echo $infos['to'] ?> </h4>
 <table>
     <thead>
-    <tr>
+    <th>
         <td>date</td>
         <td>heure</td>
         <td>patient</td>
         <td>montant</td>
-    </tr>
+    </th>
     </thead>
     <tbody>
     <?php foreach ($data['impaye'] as $line) {

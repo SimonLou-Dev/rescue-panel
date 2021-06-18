@@ -101,7 +101,6 @@ class AccountController extends Controller
         $user->email = $email;
         $user->liveplace = $liveplace;
         $user->save();
-        return response()->json([$changed, $nameC, $compteC, $telC, $liveplaceC]);
         event(new Notify('Vos informations on été enregistrées', 1));
         return response()->json(['status'=>'OK'],201);
 

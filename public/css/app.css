@@ -3620,8 +3620,7 @@ body {
   height: 350px;
 }
 .moncompte .account-container .acc-content .popup .center label {
-  margin-left: 10px;
-  margin: auto 0;
+  margin: auto 0 auto 10px;
 }
 .moncompte .account-container .acc-content .popup .center h1 {
   text-align: center;
