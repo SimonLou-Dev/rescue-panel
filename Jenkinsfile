@@ -1,5 +1,4 @@
 pipeline {
-
   agent any
   stages {
     stage('Verification') {
@@ -38,10 +37,9 @@ pipeline {
           }
           steps {
             withSonarQubeEnv(installationName: 'Serveur sonarqube', credentialsId: 'sonarqube_access_token') {
-              //sh '${scannerHome}/bin/sonar-scanner'
+              sh '${scannerHome}/bin/sonar-scanner'
               echo 'coucou'
             }
-
           }
         }
 
@@ -54,29 +52,17 @@ pipeline {
       }
     }
 
-    stage('Pre-Deploy') {
+    stage('Reponse Sonarqube analyst') {
       parallel {
         stage('Reponse Sonarqube analyst') {
           steps {
-            echo 'coucou'
-            //waitForQualityGate(credentialsId: 'sonarqube_access_token', webhookSecretId: 'sonarsecret_webhook', abortPipeline: false)
+            waitForQualityGate(credentialsId: 'sonarqube_access_token', webhookSecretId: 'sonarsecret_webhook', abortPipeline: true)
           }
         }
 
-
-        stage('Set Maintenance to the MainSite') {
+        stage('modify files for prod') {
           steps {
-            echo 'coucou'
-            sshagent (credentials: ['myserver']) {
-                sh 'ssh -o StrictHostKeyChecking=no root@75.119.154.204'
-            }
-            sh 'ls -l'
-          }
-        }
-
-        stage('Prepare GitHub') {
-          steps {
-            echo 'change gitigniore for add Vite config'
+            echo 'test'
           }
         }
 
@@ -86,35 +72,13 @@ pipeline {
     stage('Push on prod') {
       steps {
         echo 'git add commit and push'
-      }
-    }
-
-    stage('Deploying on Prod') {
-      steps {
-        echo 'git pull tu connais'
-      }
-    }
-
-    stage('Mise en Prod') {
-      parallel {
-        stage('Front Build') {
-          steps {
-            echo 'yarn build and cache clear'
-          }
-        }
-
-        stage('db migrate') {
-          steps {
-            echo 'migrate DB'
-          }
-        }
-
+        git(url: 'https://github.com/SimonLou-Dev/BCFD', branch: 'prod', changelog: true, credentialsId: 'github')
       }
     }
 
     stage('Clean') {
       steps {
-        echo 'reset DB'
+        echo 'test'
       }
     }
 

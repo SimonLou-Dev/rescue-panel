@@ -187,7 +187,7 @@ class BCBase extends React.Component {
                      <div className={'popup-content'}>
                         <h1>Ajouter un BC</h1>
                         <form onSubmit={(e)=>{
-                            e.preventDefault();
+                            this.setState({clicked:true});
                             this.addbc(e)
                         }}>
                             <div className={'row'}>
@@ -206,7 +206,7 @@ class BCBase extends React.Component {
                             </div>
                             <div className={'btn-contain'}>
                                 <button onClick={()=> this.setState({add: false})} className={'btn'}>fermer</button>
-                                <button type={'submit'} disabled={this.state.clicked===true} className={'btn'} onClick={()=>{this.setState({clicked:true});}}>Ajouter</button>
+                                <button type={'submit'} disabled={this.state.clicked===true} className={'btn'}>Ajouter</button>
                             </div>
 
                         </form>
