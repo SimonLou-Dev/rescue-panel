@@ -5,6 +5,7 @@ pipeline {
       steps {
         validateDeclarativePipeline 'Jenkinsfile'
         sh 'php -v'
+        sh 'php -i'
       }
     }
 
@@ -29,6 +30,12 @@ pipeline {
             sh 'cp .env .env.testing'
             sh 'php artisan migrate'
           }
+        }
+
+        stage('PHP unit test & code coverage'){
+            steps  {
+                sh './vendor/bin/phpunit --coverage-clover ./reports/coverage.xml --log-junit ./reports/test.xml'
+            }
         }
 
         stage('Scan  SonarQube') {

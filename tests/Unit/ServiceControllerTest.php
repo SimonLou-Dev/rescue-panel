@@ -9,10 +9,13 @@ use SebastianBergmann\RecursionContext\InvalidArgumentException;
 
 class ServiceControllerTest extends TestCase
 {
+
+
     /**
      * A basic unit test example.
      *
      * @return void
+     * @covers \App\Http\Controllers\ServiceController::addTime
      */
     public function test_ServiceTimeAdder()
     {
