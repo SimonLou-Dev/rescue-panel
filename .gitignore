@@ -19,4 +19,7 @@ yarn-error.log
 /.idea
 vite.config.js
 /reports
-/public/storage/RI
+/public/storage/RI/
+/public/storage/formations/
+/ublic/storage/temp_upload/
+/public/storage/user_background/
