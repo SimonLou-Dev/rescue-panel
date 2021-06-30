@@ -19,3 +19,4 @@ yarn-error.log
 /.idea
 vite.config.js
 /reports
+/public/storage/RI
