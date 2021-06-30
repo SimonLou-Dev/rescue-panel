@@ -1200,7 +1200,8 @@ body {
   margin-top: 35px;
   background-color: #0c2646;
   width: 32%;
-  min-height: 200px;
+  height: calc(100vh - 364px);
+  overflow-y: scroll;
   border-radius: 30px;
   padding: 10px;
   display: flex;

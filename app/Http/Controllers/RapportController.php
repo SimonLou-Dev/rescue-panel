@@ -49,7 +49,7 @@ class RapportController extends Controller
             'montant'=>['required'],
             'payed'=>['required'],
             'montant'=>['required','integer'],
-            'tel'=>['required','numeric']
+            'tel'=>['numeric']
         ]);
 
         $patientname = explode(' ', $request->name);
