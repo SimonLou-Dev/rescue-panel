@@ -1,6 +1,7 @@
 <?php $total = 0 ?>
 <!DOCTYPE html>
 <html lang="fr">
+<title>Facture PDF</title>
 <head>
     <style>
         body{
@@ -55,20 +56,23 @@
 <h4>Du <?php echo $infos['from'] ?> au <?php echo $infos['to'] ?> </h4>
 <table>
     <thead>
-    <tr>
+    <th id="head">
         <td>date</td>
         <td>heure</td>
         <td>patient</td>
         <td>montant</td>
-    </tr>
+    </th>
     </thead>
     <tbody>
     <?php foreach ($data['impaye'] as $line) {
-        echo '<tr>';
-        echo '<td>' . date('d/m/Y', strtotime($line->created_at)) . '</td>';
-        echo '<td>' . date('H:i', strtotime($line->created_at)) . '</td>';
-        echo '<td>' . ($line->GetPatient->vorname.' '.$line->GetPatient->name) . '</td>';
-        echo '<td> $' . $line->price . '</td>';
+        $first = "<th>";
+        $end = "</th>";
+
+        echo $first;
+        echo $first . date('d/m/Y', strtotime($line->created_at)) . $end;
+        echo $first . date('H:i', strtotime($line->created_at)) . $end;
+        echo $first . ($line->GetPatient->vorname.' '.$line->GetPatient->name) . $end;
+        echo $first . '$' . $line->price . $end;
         $total += $line->price;
         echo '</tr>';
         }

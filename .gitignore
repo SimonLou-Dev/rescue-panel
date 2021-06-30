@@ -15,5 +15,8 @@ Homestead.json
 Homestead.yaml
 npm-debug.log
 yarn-error.log
+.env.testing
 /.idea
 vite.config.js
+/reports
+/public/storage/RI

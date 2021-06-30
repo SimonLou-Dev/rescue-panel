@@ -528,7 +528,8 @@ body{
             margin-top: 35px;
             background-color: $dark_blue;
             width: 32%;
-            min-height: 200px;
+            height: calc(100vh - 364px);
+            overflow-y: scroll;
             border-radius: $border-radius;
             padding: 10px;
             display: flex;
@@ -3020,8 +3021,7 @@ body{
                     max-width: 560px;
                     height: 350px;
                     label{
-                        margin-left: 10px;
-                        margin: auto 0;
+                        margin: auto 0 auto 10px;
                     }
                     h1{
                         text-align: center;

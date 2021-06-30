@@ -41,7 +41,7 @@ class AccountController extends Controller
         $request->validate([
             'name'=> 'required|max:255',
             'compte'=> 'required|digits_between:3,7|integer',
-            'tel'=> 'required|digits_between:8,15|integer',
+            'tel'=> 'required|digits_between:6,15|integer',
             'liveplace'=> 'required',
             'email'=>'required|email'
         ]);
@@ -101,7 +101,6 @@ class AccountController extends Controller
         $user->email = $email;
         $user->liveplace = $liveplace;
         $user->save();
-        return response()->json([$changed, $nameC, $compteC, $telC, $liveplaceC]);
         event(new Notify('Vos informations on été enregistrées', 1));
         return response()->json(['status'=>'OK'],201);
 

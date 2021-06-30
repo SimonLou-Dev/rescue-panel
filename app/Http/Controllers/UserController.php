@@ -152,7 +152,7 @@ class UserController extends Controller
     {
         $request->validate([
             'compte'=> 'required|digits_between:3,7|integer',
-            'tel'=> 'required|digits_between:8,15|integer',
+            'tel'=> 'required|digits_between:6,15|integer',
         ]);
 
 

@@ -63,7 +63,7 @@
         .item:last-child{
             border-bottom: none;
         }
-        signature{
+        .signature{
             display: flex;
             flex-direction: column;
         }
