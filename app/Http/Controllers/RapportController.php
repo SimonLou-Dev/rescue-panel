@@ -16,10 +16,14 @@ use http\Env\Response;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use TheCodingMachine\Gotenberg\Client;
+use TheCodingMachine\Gotenberg\ClientException;
 use TheCodingMachine\Gotenberg\DocumentFactory;
+use TheCodingMachine\Gotenberg\FilesystemException;
 use TheCodingMachine\Gotenberg\HTMLRequest;
+use TheCodingMachine\Gotenberg\RequestException;
 
 class RapportController extends Controller
 {
@@ -49,8 +53,13 @@ class RapportController extends Controller
             'montant'=>['required'],
             'payed'=>['required'],
             'montant'=>['required','integer'],
-            'tel'=>['numeric']
         ]);
+
+        if(isset($request->tel)){
+            $request->validate([
+                'tel'=>['numeric']
+            ]);
+        }
 
         $patientname = explode(' ', $request->name);
         $Patient = $this->PatientExist($patientname[1], $patientname[0]);
@@ -148,7 +157,17 @@ class RapportController extends Controller
         $request = new HTMLRequest($index);
         $request->setAssets($assets);
         $path = base_path('public/storage/RI/'. $rapport->id . ".pdf");
-        $client->store($request, $path);
+        try {
+            $client->store($request, $path);
+        } catch (ClientException $e) {
+            Log::critical($e);
+        } catch (FilesystemException $e) {
+            Log::critical($e);
+        } catch (RequestException $e) {
+            Log::critical($e);
+        } catch (\Exception $e) {
+            Log::critical($e);
+        }
 
         event(new Notify('Rapport ajouté ! ',1));
 
