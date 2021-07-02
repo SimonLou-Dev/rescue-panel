@@ -249,7 +249,11 @@ class RapportController extends Controller
 
         $request = new HTMLRequest($index);
         $request->setAssets($assets);
-        $client->store($request, $path);
+        try {
+            $client->store($request, $path);
+        } catch (ClientException | FilesystemException | RequestException | \Exception $e) {
+            Log::critical($e);
+        }
 
         event(new Notify('Rapport mis à jour',1));
         return response()->json(['status'=>'OK'],201);
@@ -381,7 +385,11 @@ class RapportController extends Controller
 
             $pdf = new HTMLRequest($index);
             $pdf->setAssets($assets);
-            $client->store($pdf, $path);
+            try {
+                $client->store($pdf, $path);
+            } catch (ClientException | FilesystemException | RequestException | \Exception $e) {
+                Log::critical($e);
+            }
         }
 
         return \response()->file($path);
@@ -409,7 +417,11 @@ class RapportController extends Controller
         $pdf = new HTMLRequest($index);
         $pdf->setAssets($assets);
         $path = base_path('public/storage/temp/factures/facture.pdf');
-        $client->store($pdf, $path);
+        try {
+            $client->store($pdf, $path);
+        } catch (ClientException | FilesystemException | RequestException | \Exception $e) {
+            Log::critical($e);
+        }
         return \response()->file($path);
 
     }
