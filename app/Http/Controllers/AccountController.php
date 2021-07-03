@@ -41,7 +41,7 @@ class AccountController extends Controller
         $request->validate([
             'name'=> 'required|max:255',
             'compte'=> 'required|digits_between:3,7|integer',
-            'tel'=> 'required|digits_between:8,15|integer',
+            'tel'=> 'required|digits_between:6,15|integer',
             'liveplace'=> 'required',
             'email'=>'required|email'
         ]);

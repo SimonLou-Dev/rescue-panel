@@ -528,7 +528,8 @@ body{
             margin-top: 35px;
             background-color: $dark_blue;
             width: 32%;
-            min-height: 200px;
+            height: calc(100vh - 364px);
+            overflow-y: scroll;
             border-radius: $border-radius;
             padding: 10px;
             display: flex;
