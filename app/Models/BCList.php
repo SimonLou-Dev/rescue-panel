@@ -12,6 +12,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property int starter_id
  * @property string place
  * @property int type_id
+ * @property bool ended
  * @method static where(string $column, string $operator = null, mixed $value = null)
  * @method static orderByDesc(string $string)
  *
@@ -20,7 +21,7 @@ class BCList extends Model
 {
     protected $table = "BCLists";
 
-    protected $fillable = ['starter_id', 'place', 'type_id', 'started_at'];
+    protected $fillable = ['starter_id', 'place', 'type_id', 'started_at', 'ended'];
     use HasFactory;
     public function GetUser(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
