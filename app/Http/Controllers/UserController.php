@@ -203,7 +203,7 @@ class UserController extends Controller
     public function GetUserPerm(Request $request): JsonResponse
     {
         $user = User::where('id', Auth::id())->first();
-        $grade = $user->GetGrade;
+        $grade = Grade::where('id', $user->grade_id)->first();
         $perm = [
             'acces'=>$grade->perm_0,
             'HS_rapport'=>$grade->perm_1,
