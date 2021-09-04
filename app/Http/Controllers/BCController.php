@@ -99,8 +99,8 @@ class BCController extends Controller
         foreach ($bc->GetPatients as $patient){
             $patient->GetColor;
         }
-        $blessures = Blessure::all();
-        $color= CouleurVetement::all();
+        $blessures = Blessure::withTrashed()->get();
+        $color= CouleurVetement::withTrashed()->get();
         return response()->json([
             'status'=>'OK',
             'bc'=>$bc,
@@ -485,7 +485,7 @@ class BCController extends Controller
         foreach ($bc->GetPatients as $patient){
             $columns[] = [
                 $patient->GetPatient->vorname . ' ' . $patient->GetPatient->name,
-                $patient->GetColor->name,
+                CouleurVetement::withTrashed()->where('id', $patient->couleur)->first(),
                 date('d/m/Y H:i', strtotime($patient->created_at))
             ];
         }

@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
  * Class Hospital
@@ -16,7 +17,7 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Hospital extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
     protected $table = "Hospitals";
     protected $fillable = ['name'];
 }

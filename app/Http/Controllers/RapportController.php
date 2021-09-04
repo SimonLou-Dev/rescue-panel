@@ -207,8 +207,8 @@ class RapportController extends Controller
     public function getInter(Request $request, int $id): \Illuminate\Http\JsonResponse
     {
         $inter  = Rapport::where('id', $id)->first();
-        $types = Intervention::all();
-        $broum = Hospital::all();
+        $types = Intervention::withTrashed()->get();
+        $broum = Hospital::withTrashed()->get();
         return response()->json(['status'=>'OK', 'rapport'=>$inter, 'types'=>$types,'broum'=>$broum]);
     }
 
@@ -266,8 +266,8 @@ class RapportController extends Controller
         $rapport->GetType;
         $rapport->GetTransport;
         $patient = $rapport->GetPatient;
-        $transport = Hospital::all();
-        $types = Intervention::all();
+        $transport = Hospital::withTrashed()->get();
+        $types = Intervention::withTrashed()->get();
         $raportlist = Rapport::where('patient_id', $patient->id)->get();
         return response()->json(['status'=>'ok', 'rapport'=>$rapport, 'patient'=>$patient, 'rapportlist'=>$raportlist, 'broum'=>$transport, 'types'=>$types]);
     }

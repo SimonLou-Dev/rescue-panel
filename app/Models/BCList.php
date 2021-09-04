@@ -30,7 +30,7 @@ class BCList extends Model
 
     public function GetType(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
-        return $this->belongsTo(BCType::class, 'type_id');
+        return $this->belongsTo(BCType::class, 'type_id')->withTrashed();
     }
 
     public function GetPatients(): \Illuminate\Database\Eloquent\Relations\HasMany
