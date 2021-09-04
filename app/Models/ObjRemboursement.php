@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 /***
  * Class ObjRemboursement
@@ -17,7 +18,7 @@ use Illuminate\Database\Eloquent\Model;
  */
 class ObjRemboursement extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
     protected $table = "ObjRemboursements";
     protected $fillable = ['name', 'price', 'id'];
 }

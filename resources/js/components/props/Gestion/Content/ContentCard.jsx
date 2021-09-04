@@ -103,6 +103,17 @@ class ContentCard extends React.Component {
         }
     }
 
+    async hide (e){
+        var infos = e.target.getAttribute('data').split('_');
+        var req = await axios({
+            method: 'delete',
+            url: '/data/gestion/content/hide/'+ infos[0] +'/' + infos[1]
+        });
+        if(req.status === 204){
+            this.componentDidMount();
+        }
+    }
+
     display(id){
         if(this.props.type === 1){
             if(id === 1){
@@ -141,8 +152,12 @@ class ContentCard extends React.Component {
                                 {item.title&&
                                 <p>{item.title}</p>
                                 }
-
+                                {this.props.type === 4 &&
+                                    <button  style={{display: this.display(item.id)}} onClick={this.delete}><img alt={""} data={this.state.type + '_' + item.id} src={rootUrl + (item.deleted_at !== null ? 'assets/images/invisibility.svg' : 'assets/images/visibility.svg')}/></button>
+                                }
+                                {this.props.type !== 4 &&
                                 <button  style={{display: this.display(item.id)}} onClick={this.delete}><img alt={""} data={this.state.type + '_' + item.id} src={rootUrl + 'assets/images/cancel.png'}/></button>
+                                }
                             </div>
                         )
                     }

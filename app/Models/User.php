@@ -71,6 +71,6 @@ class User extends Authenticatable
     }
     public function getServiceState(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
-        return $this->belongsTo(ServiceState::class, 'serviceState');
+        return $this->belongsTo(ServiceState::class, 'serviceState')->withTrashed();
     }
 }

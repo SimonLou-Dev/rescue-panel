@@ -29,6 +29,6 @@ class RemboursementList extends Model
 
     public function getItem(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
-        return $this->belongsTo(ObjRemboursement::class, 'item_id');
+        return $this->belongsTo(ObjRemboursement::class, 'item_id')->withTrashed();
     }
 }

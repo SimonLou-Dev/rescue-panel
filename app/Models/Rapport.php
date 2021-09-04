@@ -42,12 +42,12 @@ class Rapport extends Model
 
     public function GetType(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
-        return $this->belongsTo(Intervention::class, 'interType');
+        return $this->belongsTo(Intervention::class, 'interType')->withTrashed();
     }
 
     public function GetTransport(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
-        return $this->belongsTo(Hospital::class, 'transport');
+        return $this->belongsTo(Hospital::class, 'transport')->withTrashed();
     }
 
     public function GetFacture(): \Illuminate\Database\Eloquent\Relations\HasOne

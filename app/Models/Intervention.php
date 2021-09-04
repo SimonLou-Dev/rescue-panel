@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
  * Class Intervention
@@ -16,7 +17,7 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Intervention extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
     protected $table = "Interventions";
     protected $fillable = ['name'];
 }

@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 
 /**
@@ -18,7 +19,7 @@ use Illuminate\Database\Eloquent\Model;
  */
 class BCType extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
     protected $table = "BCTypes";
 
     protected $fillable = ['name'];
