@@ -12,7 +12,6 @@ import Services from "./Personnel/Services";
 import Factures from "./Personnel/Factures";
 import RapportHoraire from "./Gestion/RapportHoraire";
 import ContentManagement from "./Gestion/ContentManagement";
-import PersonnelList from './Gestion/PersonnelList';
 import Logs from "./Gestion/Logs";
 import Permissions from "./Gestion/Permissions";
 import BCController from "./Patient/BCController";
@@ -31,6 +30,8 @@ import {v4} from "uuid";
 import NotificationContext from "./context/NotificationContext";
 import {useNotifications} from "./context/NotificationProvider";
 import LiensUtilesMgt from "./Gestion/LiensUtilesMgt";
+import FichePersonnel from "./Gestion/FichePersonnel";
+import ListPersonnel from "./Gestion/ListPersonnel";
 
 export const rootUrl = document.querySelector('body').getAttribute('data-root-url');
 
@@ -218,7 +219,7 @@ export function Layout(){
                         }}>fermer</button>
                     </div>
                     <div id="Logo">
-                        <NavLink to={'/'}><img src={'/assets/images/BCFD.svg'} alt={''}/></NavLink>
+                        <NavLink to={'/'}><img src={'/assets/images/BCFD.png'} alt={''}/></NavLink>
                     </div>
                     <div className="Menusepartor"/>
                     <Service serviceUpade={async (state) => {
@@ -260,12 +261,13 @@ export function Layout(){
 
                     <Route path={'/gestion/rapport'} component={RapportHoraire}/>
                     <Route path={'/gestion/content'} component={ContentManagement}/>
-                    <Route path={'/gestion/personnel'} component={PersonnelList}/>
+                    <Route path={'/gestion/personnel'} component={ListPersonnel}/>
                     <Route path={'/gestion/log'} component={Logs}/>
                     <Route path={'/gestion/formation'} component={AFormaController}/>
                     <Route path={'/gestion/informations'} component={InfoGestion}/>
                     <Route path={'/gestion/perm'} component={Permissions}/>
                     <Route path={'/gestion/utils'} component={LiensUtilesMgt}/>
+                    <Route path={'/gestion/Fiches'} component={FichePersonnel}/>
                 </PermsContext.Provider>
             </div>
             {bugPopup &&

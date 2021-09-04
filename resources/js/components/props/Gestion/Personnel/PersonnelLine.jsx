@@ -1,11 +1,12 @@
 import React from 'react';
 import axios from "axios";
 import PermsContext from "../../../context/PermsContext";
+import {Link} from "react-router-dom";
 
 class PersonnelLine extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {id: this.props.id, name: this.props.name, grade: this.props.grade}
+        this.state = {id: this.props.id, name: this.props.name, grade: this.props.grade, discordid: this.props.discordid}
         this.isupdate = this.isupdate.bind(this);
     }
 
@@ -24,9 +25,27 @@ class PersonnelLine extends React.Component {
         return (
             <tr>
                 <td className={'id'}>{this.state.id}</td>
-                <td className={'name'}>{this.state.name}</td>
+                <td className={'name'}><Link to={'/gestion/Fiches?id='+ this.state.id}>{this.state.name}</Link></td>
+                <td className={'matricule'}>{this.props.matricule}</td>
                 <td className={'tel'}>{this.props.tel}</td>
                 <td className={'compte'}>{this.props.compte}</td>
+                <td className={'discordId'}>
+                    <form onSubmit={async (e) => {
+                        e.preventDefault();
+                        await axios({
+                            method: 'PUT',
+                            url: '/data/users/setdiscordId/' + this.state.discordid + '/' + this.state.id,
+                        })
+                        this.props.update();
+                    }}>
+                        <input type={'number'} onChange={ async (e) => {
+                            this.setState({discordid: e.target.value})
+                        }} value={this.state.discordid}/>
+                        <button type={'submit'} className={'btn'}>valider</button>
+
+                    </form>
+
+                    </td>
                 <td className={'grade'}>
                     <form onSubmit={this.isupdate}>
                         <select value={this.state.grade} onChange={(e)=>{this.setState({grade: e.target.value})}}>
@@ -53,7 +72,7 @@ class PersonnelLine extends React.Component {
                             </optgroup>
                         </select>
                         {perm.edit_perm === 1 &&
-                            <button type={'submit'} className={'btn'}>valider</button>
+                        <button type={'submit'} className={'btn'}>valider</button>
                         }
                     </form>
                 </td>

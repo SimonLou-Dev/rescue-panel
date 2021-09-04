@@ -23,6 +23,10 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
  * @property string timezone
  * @property string bg_img
  * @property int serviceState
+ * @property integer matricule
+ * @property integer discord_id
+ * @property array sanctions
+ * @property array materiel
  * @method static where(string $column, string $operator = null, mixed $value = null)
  * @method static orderByDesc(string $string)
  *
@@ -31,7 +35,7 @@ class User extends Authenticatable
 {
     use HasFactory;
     protected $table = "Users";
-    protected $fillable = ['grade_id', 'name', 'email', 'password', 'token', 'service', 'liveplace', 'tel', 'pilote', 'compte', 'timezone', 'bg_img'];
+    protected $fillable = ['grade_id', 'name', 'email', 'password', 'token', 'service', 'liveplace', 'tel', 'pilote', 'compte', 'timezone', 'bg_img','matricule','discord_id','sanctions','materiel'];
 
     public function GetRapports(): \Illuminate\Database\Eloquent\Relations\HasMany
     {

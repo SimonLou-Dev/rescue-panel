@@ -2,7 +2,7 @@
 
 namespace Tests\Unit;
 
-use App\Http\Controllers\ServiceController;
+use App\Http\Controllers\Rapports\ServiceController;
 use PHPUnit\Framework\ExpectationFailedException;
 use PHPUnit\Framework\TestCase;
 use SebastianBergmann\RecursionContext\InvalidArgumentException;
@@ -15,7 +15,7 @@ class ServiceControllerTest extends TestCase
      * A basic unit test example.
      *
      * @return void
-     * @covers \App\Http\Controllers\ServiceController::addTime
+     * @covers \App\Http\Controllers\Rapports\ServiceController::addTime
      */
     public function test_ServiceTimeAdder()
     {

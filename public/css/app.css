@@ -2681,6 +2681,44 @@ body {
   overflow-y: scroll;
   flex-grow: 1;
 }
+.PersonnelList .list-personnel .tableHeader {
+  background: #004662;
+  width: 100%;
+  border-bottom: 1px black solid;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+.PersonnelList .list-personnel .tableHeader form {
+  margin: auto 0;
+  margin-left: 20px;
+}
+.PersonnelList .list-personnel .tableHeader form select {
+  background-color: #0c2646;
+}
+.PersonnelList .list-personnel .tableHeader form .btn {
+  margin-left: 20px;
+  background-color: #0c2646;
+}
+.PersonnelList .list-personnel .tableHeader form label {
+  font-weight: 500;
+  font-size: 25px;
+}
+.PersonnelList .list-personnel .tableHeader .secondPart {
+  display: flex;
+  flex-direction: row;
+}
+.PersonnelList .list-personnel .tableHeader .secondPart button {
+  margin: auto 0;
+  margin-left: 20px;
+  margin-right: 20px;
+  height: 60px;
+  background-color: #0c2646;
+}
+.PersonnelList .list-personnel .tableHeader .secondPart h4 {
+  margin: auto 0;
+  margin-right: 20px;
+}
 .PersonnelList .list-personnel table {
   border-collapse: collapse;
   width: 100%;
@@ -2700,6 +2738,27 @@ body {
 .PersonnelList .list-personnel table th:last-child {
   border-right: none;
 }
+.PersonnelList .list-personnel table th .orderable {
+  margin: auto 0;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+.PersonnelList .list-personnel table th .order {
+  margin-left: 10px;
+  display: flex;
+  flex-direction: column;
+}
+.PersonnelList .list-personnel table th .order img {
+  height: 20px;
+  opacity: 40%;
+}
+.PersonnelList .list-personnel table th .order .higlights {
+  opacity: 100% !important;
+}
+.PersonnelList .list-personnel table th .reverse {
+  transform: rotate(180deg);
+}
 .PersonnelList .list-personnel table .id {
   width: 5%;
   text-align: center;
@@ -2708,19 +2767,42 @@ body {
   width: 20%;
   text-align: center;
 }
+.PersonnelList .list-personnel table .name a {
+  width: 100%;
+  height: 100%;
+  font-size: 25px;
+  font-weight: 600;
+}
 .PersonnelList .list-personnel table .tel {
-  width: 15%;
+  width: 10%;
   text-align: center;
 }
+.PersonnelList .list-personnel table .matricule {
+  text-align: center;
+  width: 3%;
+}
+.PersonnelList .list-personnel table .discordid {
+  text-align: center;
+  width: 17%;
+}
+.PersonnelList .list-personnel table .discordid input {
+  background: #0c2646;
+  width: 100%;
+  height: 100%;
+  border-radius: 0;
+  text-align: center;
+  font-size: 26px;
+  -moz-appearance: textfield;
+}
 .PersonnelList .list-personnel table .compte {
-  width: 15%;
+  width: 10%;
   text-align: center;
 }
 .PersonnelList .list-personnel table .pilote {
-  width: 15%;
+  width: 7%;
 }
 .PersonnelList .list-personnel table .grade {
-  width: 30%;
+  width: 20%;
 }
 .PersonnelList .list-personnel table th, .PersonnelList .list-personnel table td {
   font-family: "Baloo Thambi 2", monospace;

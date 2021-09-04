@@ -1,8 +1,9 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Rapports;
 
 use App\Events\Notify;
+use App\Http\Controllers\Controller;
 use App\Models\Facture;
 use App\Models\Factures;
 use App\Models\Hospital;
@@ -62,7 +63,7 @@ class RapportController extends Controller
         }
 
         $patientname = explode(' ', $request->name);
-        $Patient = $this->PatientExist($patientname[1], $patientname[0]);
+        $Patient = PatientController::PatientExist($patientname[1], $patientname[0]);
         if(is_null($Patient)) {
             $Patient = new Patient();
             $Patient->name = $patientname[1];
@@ -82,7 +83,7 @@ class RapportController extends Controller
         $rapport->ATA_start = date('Y/m/d H:i:s', strtotime($request->startdate . ' ' . $request->starttime));
         $rapport->ATA_end = date('Y/m/d H:i:s', strtotime($request->enddate . ' ' . $request->endtime));
         $rapport->save();
-        $this::addFactureMethod($Patient, $request->payed, $request->montant, Auth::user()->id, $rapport->id);
+        FacturesController::addFactureMethod($Patient, $request->payed, $request->montant, Auth::user()->id, $rapport->id);
         if($rapport->ATA_start === $rapport->ATA_end){
             $ata = 'non ';
         }else{
@@ -174,36 +175,6 @@ class RapportController extends Controller
         return response()->json([],201);
     }
 
-    public function search(Request $request, string $text): \Illuminate\Http\JsonResponse
-    {
-        $text = explode(" ", $text);
-        $prenom = $text[0];
-        if(count($text) > 1){
-            $nom = $text[1];
-        }else{
-            $nom = null;
-        }
-        $patient = Patient::where('vorname', 'LIKE', $prenom.'%')->orWhere('name', 'LIKE', '%'.$nom.'%')->take(6)->get();
-        return response()->json(['status'=>'OK', 'list'=>$patient]);
-    }
-
-    public function getPatient(Request $request, string $text): \Illuminate\Http\JsonResponse
-    {
-
-        $text = explode(" ", $text);
-        $prenom = $text[0];
-        if(count($text) > 1){
-            $nom = $text[1];
-            $patient = $this->PatientExist($nom, $prenom);
-            if(!is_null($patient)){
-                $inter = Rapport::where('patient_id', $patient->id)->orderBy('id', 'desc')->get();
-
-                return response()->json(['status'=>'OK', 'patient'=>$patient, 'inter'=>$inter]);
-            }
-        }
-        return response()->json(['status'=>'erreur pas de patient']);
-    }
-
     public function getInter(Request $request, int $id): \Illuminate\Http\JsonResponse
     {
         $inter  = Rapport::where('id', $id)->first();
@@ -271,202 +242,4 @@ class RapportController extends Controller
         $raportlist = Rapport::where('patient_id', $patient->id)->get();
         return response()->json(['status'=>'ok', 'rapport'=>$rapport, 'patient'=>$patient, 'rapportlist'=>$raportlist, 'broum'=>$transport, 'types'=>$types]);
     }
-
-    public static function PatientExist(string $name, string $vorname): ?Patient{
-        $patient = Patient::where('name', 'LIKE', $name)->where('vorname','LIKE', $vorname);
-        if($patient->count() == 1){
-            return $patient->first();
-        }
-        return null;
-    }
-
-    public function getAllimpaye(Request $request): \Illuminate\Http\JsonResponse
-    {
-        $impaye = Facture::where('payed', false)->orderBy('id', 'desc')->get();
-        $size = count($impaye);
-        $a = 0;
-        while ($a < $size){
-            $impaye[$a]->GetPatient;
-
-            $a++;
-        }
-        return response()->json(['status'=>'OK', 'impaye'=>$impaye]);
-    }
-
-    public function paye(Request $request, int $id): \Illuminate\Http\JsonResponse
-    {
-
-
-        $facture = Facture::where('id', $id)->first();
-        $facture->payed = true;
-        $facture->save();
-        Http::post(env('WEBHOOK_FACTURE'),[
-            'username'=> "BCFD - MDT",
-            'avatar_url'=>'https://bcfd.simon-lou.com/assets/images/BCFD.png',
-            'embeds'=>[
-                [
-                    'title'=>'Facture payée :',
-                    'color'=>'13436400 ',
-                    'fields'=>[
-                        [
-                            'name'=>'Patient : ',
-                            'value'=>$facture->GetPatient->vorname . ' '.$facture->GetPatient->name,
-                            'inline'=>true
-                        ],[
-                            'name'=>'Montant : ',
-                            'value'=>$facture->price .'$',
-                            'inline'=>true
-                        ]
-                    ],
-                    'footer'=>[
-                        'text' => 'Confirmation de payement : ' . Auth::user()->name
-                    ]
-                ]
-            ]
-        ]);
-        event(new Notify('Facture payée ! ',2));
-        return response()->json(['status'=>'OK']);
-    }
-
-    public function addFacture(Request $request): \Illuminate\Http\JsonResponse
-    {
-        $request->validate([
-            'name'=>['required', 'string','regex:/[a-zA-Z.+_]+\s[a-zA-Z.+_]/'],
-            'payed'=>['required'],
-            'montant'=>['required','integer']
-        ]);
-
-        $name = explode(" ", $request->name);
-
-        $Patient = $this->PatientExist($name[1], $name[0]);
-        if(is_null($Patient)) {
-            $Patient = new Patient();
-            $Patient->name = $name[1];
-            $Patient->vorname = $name[0];
-            $Patient->tel = $request->tel;
-            $Patient->save();
-        }
-        $this->addFactureMethod((object) $Patient,(bool) $request->payed, (int) $request->montant, (int) Auth::user()->id, null);
-        return response()->json(['status'=>'OK'],201);
-    }
-
-    public function updatePatientInfos(Request $request, int $id): \Illuminate\Http\JsonResponse
-    {
-        $patient = Patient::where('id', $id)->first();
-        $patient->tel = $request->tel;
-        $patient->name = $request->nom;
-        $patient->vorname = $request->prenom;
-        $patient->save();
-        event(new Notify('Information mises à jour ! ',1));
-        return response()->json(['status'=>'OK'],201);
-    }
-
-    public function makeRapportPdf(Request $request, int $id){
-        $data = array();
-
-        $rapport = Rapport::where('id', $id)->first();
-        $path = base_path('public/storage/RI/'. $rapport->id . ".pdf");
-
-        if(!file_exists($path)){
-
-            $user = $rapport->GetUser->name;
-
-            $client = new Client(env('PDF_ADDR'), new \Http\Adapter\Guzzle7\Client());
-
-            ob_start();
-            require(base_path('/resources/PDF/RI/index.php'));
-            $content = ob_get_clean();
-
-            $index = DocumentFactory::makeFromString('index.html', $content);
-            $assets = [
-                DocumentFactory::makeFromPath('LONG_EMS_BC_2.png', base_path('/resources/PDF/RI/LONG_EMS_BC_2.png')),
-                DocumentFactory::makeFromPath('signature.png', base_path('/resources/PDF/RI/signature.png'))
-            ];
-
-            $pdf = new HTMLRequest($index);
-            $pdf->setAssets($assets);
-            try {
-                $client->store($pdf, $path);
-            } catch (ClientException | FilesystemException | RequestException | \Exception $e) {
-                Log::critical($e);
-            }
-        }
-
-        return \response()->file($path);
-    }
-
-    public function makeImpayPdf(Request $request, string $from , string $to){
-        //2021-01-05
-        $impaye = Facture::where('payed', false)->where('created_at', '>=', $from)->where('created_at', '=<', $to)->orderBy('id', 'desc')->get();
-
-        $infos = ['from'=>date('d/m/Y', strtotime($from)),'to'=>date('d/m/Y', strtotime($to))];
-        $data = ['infos'=>$infos, 'impaye'=>$impaye];
-
-
-        $client = new Client(env('PDF_ADDR'), new \Http\Adapter\Guzzle7\Client());
-
-        ob_start();
-        require(base_path('/resources/PDF/facture/index.php'));
-        $content = ob_get_clean();
-
-        $index = DocumentFactory::makeFromString('index.html', $content);
-        $assets = [
-            DocumentFactory::makeFromPath('LONG_EMS_BC_2.png', base_path('/resources/PDF/facture/LONG_EMS_BC_2.png'))
-        ];
-
-        $pdf = new HTMLRequest($index);
-        $pdf->setAssets($assets);
-        $path = base_path('public/storage/temp/factures/facture.pdf');
-        try {
-            $client->store($pdf, $path);
-        } catch (ClientException | FilesystemException | RequestException | \Exception $e) {
-            Log::critical($e);
-        }
-        return \response()->file($path);
-
-    }
-
-    public static function addFactureMethod(object $patient, bool $payed, int $price, int $cofirm_id=null, int $rapport_id=null){
-        $facture = new Facture();
-        $facture->patient_id = $patient->id;
-        $facture->payed = $payed;
-        $facture->price = $price;
-        if($payed){
-            $facture->payement_confirm_id = $cofirm_id;
-        }
-        $facture->rapport_id = $rapport_id;
-        $facture->save();
-        if($facture->payed){
-            $fact= 'Payée : ' . $facture->price .'$';
-        }else{
-            $fact= 'Impayée : ' . $facture->price .'$';
-        }
-
-        Http::post(env('WEBHOOK_FACTURE'),[
-            'username'=> "BCFD - MDT",
-            'avatar_url'=>'https://bcfd.simon-lou.com/assets/images/BCFD.png',
-            'embeds'=>[
-                [
-                    'title'=>'Nouvelle facture :',
-                    'color'=>'13436400 ',
-                    'fields'=>[
-                        [
-                            'name'=>'Patient : ',
-                            'value'=>$patient->vorname. ' ' . $patient->name,
-                            'inline'=>true
-                        ],[
-                            'name'=>'Facture : ',
-                            'value'=>$fact,
-                            'inline'=>true
-                        ]
-                    ],
-                    'footer'=>[
-                        'text' => 'Ajoutée par : ' . Auth::user()->name
-                    ]
-                ]
-            ]
-        ]);
-        event(new Notify('Facture de $'. $price .' ajoutée ! ',1));
-    }
-
 }
