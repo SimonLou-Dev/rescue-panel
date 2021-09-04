@@ -99,8 +99,13 @@ class BCController extends Controller
         foreach ($bc->GetPatients as $patient){
             $patient->GetColor;
         }
-        $blessures = Blessure::withTrashed()->get();
-        $color= CouleurVetement::withTrashed()->get();
+        if($bc->ended){
+            $blessures = Blessure::withTrashed()->get();
+            $color= CouleurVetement::withTrashed()->get();
+        }else{
+            $blessures = Blessure::all();
+            $color = CouleurVetement::all();
+        }
         return response()->json([
             'status'=>'OK',
             'bc'=>$bc,
