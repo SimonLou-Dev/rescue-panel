@@ -114,7 +114,7 @@ class ContentManagement extends Controller
                 $data = BCType::all();
                 break;
             case "4":
-                $data = Blessure::all();
+                $data = Blessure::withTrashed()->get();
                 break;
             case "5":
                 $data = Annonces::all();
@@ -152,8 +152,14 @@ class ContentManagement extends Controller
                 $data->delete();
                 break;
             case "4";
-                $data = Blessure::where('id', $id)->first();
-                $data->delete();
+                $data = Blessure::withTrashed()->where('id', $id)->first();
+                if(is_null($data->deleted_at)){
+                    $data->delete();
+                    event(new Notify('Cet item est invisible', 1));
+                }else{
+                    $data->restore();
+                    event(new Notify('Cet item est maintenant visible', 1));
+                }
                 break;
             case "5";
                 $data = Annonces::where('id', $id)->first();
@@ -174,8 +180,9 @@ class ContentManagement extends Controller
                 break;
             default: break;
         }
-
-        event(new Notify('Suppression réussie', 1));
+        if($type != '4'){
+            event(new Notify('Suppression réussie', 1));
+        }
         return response()->json(['status'=>'OK'], 204);
     }
 

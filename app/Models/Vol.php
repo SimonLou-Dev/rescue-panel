@@ -26,7 +26,7 @@ class Vol extends Model
 
     public function GetLieux(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
-        return $this->belongsTo(LieuxSurvol::class, 'lieux_id');
+        return $this->belongsTo(LieuxSurvol::class, 'lieux_id')->withTrashed();
     }
     public function GetUser(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {

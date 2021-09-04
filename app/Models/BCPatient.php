@@ -44,10 +44,10 @@ class BCPatient extends Model
     }
     public function GetBlessure(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
-        return $this->belongsTo(Blessure::class, 'blessure_type');
+        return $this->belongsTo(Blessure::class, 'blessure_type')->withTrashed();
     }
     public function GetColor(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
-        return $this->belongsTo(CouleurVetement::class, 'couleur');
+        return $this->belongsTo(CouleurVetement::class, 'couleur')->withTrashed();
     }
 }
