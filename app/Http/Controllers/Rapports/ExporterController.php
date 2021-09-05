@@ -58,14 +58,13 @@ class ExporterController extends Controller
 
     public function makeImpayPdf(Request $request, string $from , string $to){
         //2021-01-05
-        $impaye = Facture::where('payed', false)->where('created_at', '>=', $from)->where('created_at', '=<', $to)->orderBy('id', 'desc')->get();
+        $impaye = Facture::where('payed', 0)->where('created_at', '>=', $from)->where('created_at', '<=', $to)->orderBy('id', 'desc')->get();
 
         $infos = ['from'=>date('d/m/Y', strtotime($from)),'to'=>date('d/m/Y', strtotime($to))];
         $data = ['infos'=>$infos, 'impaye'=>$impaye];
 
 
         $client = new Client(env('PDF_ADDR'), new \Http\Adapter\Guzzle7\Client());
-
         ob_start();
         require(base_path('/resources/PDF/facture/index.php'));
         $content = ob_get_clean();

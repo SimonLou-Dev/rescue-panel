@@ -74,7 +74,7 @@ class UserConnexionController extends Controller
                 ]
             ]
         ]);
-        return \response()->json(['status'=>'OK'],201);
+        return \response()->json(['status'=>'OK', 'accessRight'=>$user->grade_id>1],201);
     }
 
     /**
@@ -157,11 +157,19 @@ class UserConnexionController extends Controller
 
 
                 if($user->liveplace != null && $user->tel != null && $user->compte != null){
-                    $returned = response()->json([
-                        'status'=>'OK',
-                        'user'=>$user,
-                        'authed'=>Auth::check(),
-                    ]);
+                    if($user->grade_id > 1 ){
+                        $returned = response()->json([
+                            'status'=>'OK',
+                            'user'=>$user,
+                            'authed'=>Auth::check(),
+                        ]);
+                    }else{
+                        $returned = response()->json([
+                            'status'=>"ANA",
+                            'user'=>$user,
+                            'authed'=>Auth::check(),
+                        ]);
+                    }
                 }else{
                     $returned = response()->json([
                         'status'=>'INFOS',

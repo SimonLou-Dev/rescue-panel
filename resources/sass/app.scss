@@ -2214,6 +2214,9 @@ body{
             }
             tr:nth-child(even) td {
                 background: #0f2f57;
+                input{
+                    background-color: #0f2f57;
+                }
             }
         }
     }
@@ -3147,7 +3150,7 @@ body{
                 width: 100%;
                 border-collapse: collapse;
                 display: grid;
-                grid-template-columns:repeat(28, 160px);
+                grid-template-columns:repeat(41, 160px);
                 thead, tbody, tr {
                     display: contents;
                 }
@@ -4129,7 +4132,176 @@ body{
     }
 
 }
+.FichePersonnel{
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    .header{
+        display: flex;
+        flex-direction: row;
+        justify-content: space-around;
+        width: 100%;
+        height: 120px;
+        a,.btn,div{
+            margin: auto 0;
+        }
+    }
+    .content{
+        width: 90%;
+        margin: auto auto;
+        height: calc(100vh - 140px);
+        display: grid;
+        grid-template-columns: 42% 5% 52%;
+        grid-template-rows: repeat(11, calc(97%/11));
+        overflow: hidden;
+        h4 span {
+            text-decoration: underline $light_blue;
+            font-weight: 700;
+        }
+        .infos{
+            grid-row: 1/3;
+            grid-column: 1;
+            padding: 10px;
+            background-color: $dark_blue;
+            width: 100%;
+            border-radius: $border_radius;
+            height: 100%;
+            display: flex;
+            flex-direction: row;
+            justify-content: space-evenly;
+            overflow: auto;
+            .infoCat{
+                h2{
+                    text-decoration: underline $light_blue;
+                }
+                margin: auto 10px;
+            }
+        }
 
+        .sanctions{
+            grid-row: 1/9;
+            grid-column: 3;
+            padding: 10px;
+            background-color: $dark_blue;
+            border-radius: $border_radius;
+            height: 100%;
+            width: 100%;
+            overflow: hidden;
+            h1{
+                text-align: center;
+            }
+            .heading{
+                display: flex;
+                flex-direction: row;
+                justify-content: space-evenly;
+            }
+            .sanctionsListe{
+                height: 88%;
+                padding-bottom: 2px;
+                border: 1px black solid;
+                overflow-y: auto;
+                background-color: $medium_blue;
+                border-radius: $border_radius;
+                li{
+                    width: 95%;
+                    margin: 40px 0 40px auto;
+                    position: relative;
+                    &::marker{
+                        position: absolute;
+                        color: $dark_blue;
+                        font-size: 70px;
+
+                    }
+                    button{
+                        position: absolute;
+                        left: -85px;
+                        top: 30px;
+                        img{
+                            width: 40px;
+                        }
+
+                    }
+                    h4{
+                        position: relative;
+                        top: -20px;
+                    }
+                }
+            }
+        }
+
+        .notes{
+            grid-column: 1;
+            grid-row: 4/9;
+            padding: 10px;
+            background-color: $dark_blue;
+            border-radius: $border_radius;
+            h1{
+                text-align: center;
+            }
+            .heading{
+                display: flex;
+                flex-direction: row;
+                justify-content: space-evenly;
+            }
+            .notelist{
+                height: 50%;
+                padding-bottom: 2px;
+                border: 1px black solid;
+                overflow-y: auto;
+                background-color: $medium_blue;
+                border-radius: $border_radius;
+                li{
+                    width: 95%;
+                    margin: 40px 0 40px auto;
+                    position: relative;
+                    &::marker{
+                        position: absolute;
+                        color: $dark_blue;
+                        font-size: 70px;
+
+                    }
+                    button{
+                        position: absolute;
+                        left: -85px;
+                        top: 20px;
+                        img{
+                            width: 40px;
+                        }
+
+                    }
+                    h4{
+                        position: relative;
+                        top: -20px;
+                    }
+                }
+            }
+            .noteadder, form{
+                display: flex;
+                width: 100%;
+                flex-direction: row;
+                justify-content: space-evenly;
+                textarea{
+                    width: 80%;
+                    resize: none;
+                }
+                button{
+                    margin: auto 0;
+                }
+            }
+        }
+        .formations{
+            grid-column: 1/4;
+            grid-row: 10/12;
+            width: 100%;
+            height: 100%;
+            padding: 10px;
+            background-color: $dark_blue;
+            border-radius: $border_radius;
+        }
+    }
+}
 
 .notification-item .bar {
     height: 10px;

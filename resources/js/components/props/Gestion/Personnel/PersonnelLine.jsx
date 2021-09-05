@@ -25,7 +25,15 @@ class PersonnelLine extends React.Component {
         return (
             <tr>
                 <td className={'id'}>{this.state.id}</td>
-                <td className={'name'}><Link to={'/gestion/Fiches?id='+ this.state.id}>{this.state.name}</Link></td>
+                <td className={'name'}>
+                    {perm.view_member_sheet === 1 &&
+                    <Link to={'/gestion/Fiches?id='+ this.state.id}>{this.state.name}</Link>
+                    }
+
+                   {perm.view_member_sheet === 0 &&
+                    this.state.name
+                   }
+                    </td>
                 <td className={'matricule'}>{this.props.matricule}</td>
                 <td className={'tel'}>{this.props.tel}</td>
                 <td className={'compte'}>{this.props.compte}</td>
@@ -38,11 +46,12 @@ class PersonnelLine extends React.Component {
                         })
                         this.props.update();
                     }}>
-                        <input type={'number'} onChange={ async (e) => {
+                        <input type={'number'} disabled={(perm.set_discordid === 1 ? false : true)} onChange={ async (e) => {
                             this.setState({discordid: e.target.value})
                         }} value={this.state.discordid}/>
+                        {perm.set_discordid === 1 &&
                         <button type={'submit'} className={'btn'}>valider</button>
-
+                        }
                     </form>
 
                     </td>
@@ -50,7 +59,7 @@ class PersonnelLine extends React.Component {
                     <form onSubmit={this.isupdate}>
                         <select value={this.state.grade} onChange={(e)=>{this.setState({grade: e.target.value})}}>
                             <optgroup label={'pas d\'accès'}>
-                                <option value={1}>user</option>
+                                <option value={1} disabled={true}>user</option>
                             </optgroup>
                             <optgroup label={'membre'}>
                                 <option value={2}>Probies</option>
@@ -71,7 +80,7 @@ class PersonnelLine extends React.Component {
                                 <option value={11}>Développeur</option>
                             </optgroup>
                         </select>
-                        {perm.edit_perm === 1 &&
+                        {perm.grade_modify === 1 &&
                         <button type={'submit'} className={'btn'}>valider</button>
                         }
                     </form>

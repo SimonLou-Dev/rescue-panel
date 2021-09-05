@@ -18,7 +18,39 @@ class BigUpdate3 extends Migration
             $table->bigInteger('discord_id')->nullable()->unique();
             $table->json('sanctions')->nullable();
             $table->json('materiel')->nullable();
+            $table->json('note')->nullable();
+            $table->json('formations')->nullable();
             $table->softDeletes();
+        });
+
+        Schema::table('Grades', function (Blueprint $table) {
+            $a = 27;
+            while ($a <= 40){
+                $table->boolean('perm_'.$a)->default(false);
+                $a++;
+            }
+        });
+
+        Schema::create('ServiceStatesLogs', function (Blueprint $table) {
+            $table->id();
+            $table->integer('user_id');
+            $table->integer('state_id');
+            $table->timestamps();
+        });
+
+        Schema::create('PouderTests', function (Blueprint $table) {
+            $table->id();
+            $table->integer('user_id');
+            $table->integer('patient_id');
+            $table->string('lieux_prelevement');
+            $table->boolean('on_skin_positivity')->default(false);
+            $table->boolean('on_clothes_positivity')->default(false);
+            $table->timestamps();
+        });
+
+        Schema::table('Patients', function (Blueprint $table) {
+            $table->date('naissance')->nullable();
+            $table->string('living_place')->nullable();
         });
 
     }

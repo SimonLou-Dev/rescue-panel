@@ -93,7 +93,7 @@ class Login extends React.Component {
                 this.setState({email_error: true, error: true})
             }
             if(req.data.status === 'ANA'){
-               // window.location.href = "/ANA";
+               window.location.href = "/ANA";
             }
             if(req.data.status === 'INFOS'){
                 window.location.href = "/informations";

@@ -2843,6 +2843,9 @@ body {
 .PersonnelList .list-personnel table tr:nth-child(even) td {
   background: #0f2f57;
 }
+.PersonnelList .list-personnel table tr:nth-child(even) td input {
+  background-color: #0f2f57;
+}
 
 .Login, .Register {
   width: 100%;
@@ -3740,7 +3743,7 @@ body {
   width: 100%;
   border-collapse: collapse;
   display: grid;
-  grid-template-columns: repeat(28, 160px);
+  grid-template-columns: repeat(41, 160px);
 }
 .perm .content .tablecontainer table thead, .perm .content .tablecontainer table tbody, .perm .content .tablecontainer table tr {
   display: contents;
@@ -4694,6 +4697,171 @@ body {
 }
 #UtilsRendering li::marker {
   font-weight: 800;
+}
+
+.FichePersonnel {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+}
+.FichePersonnel .header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  width: 100%;
+  height: 120px;
+}
+.FichePersonnel .header a, .FichePersonnel .header .btn, .FichePersonnel .header div {
+  margin: auto 0;
+}
+.FichePersonnel .content {
+  width: 90%;
+  margin: auto auto;
+  height: calc(100vh - 140px);
+  display: grid;
+  grid-template-columns: 42% 5% 52%;
+  grid-template-rows: repeat(11, calc(97%/11));
+  overflow: hidden;
+}
+.FichePersonnel .content h4 span {
+  text-decoration: underline #00FFFF;
+  font-weight: 700;
+}
+.FichePersonnel .content .infos {
+  grid-row: 1/3;
+  grid-column: 1;
+  padding: 10px;
+  background-color: #0c2646;
+  width: 100%;
+  border-radius: 30px;
+  height: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  overflow: auto;
+}
+.FichePersonnel .content .infos .infoCat {
+  margin: auto 10px;
+}
+.FichePersonnel .content .infos .infoCat h2 {
+  text-decoration: underline #00FFFF;
+}
+.FichePersonnel .content .sanctions {
+  grid-row: 1/9;
+  grid-column: 3;
+  padding: 10px;
+  background-color: #0c2646;
+  border-radius: 30px;
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+}
+.FichePersonnel .content .sanctions h1 {
+  text-align: center;
+}
+.FichePersonnel .content .sanctions .heading {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+}
+.FichePersonnel .content .sanctions .sanctionsListe {
+  height: 88%;
+  padding-bottom: 2px;
+  border: 1px black solid;
+  overflow-y: auto;
+  background-color: #004662;
+  border-radius: 30px;
+}
+.FichePersonnel .content .sanctions .sanctionsListe li {
+  width: 95%;
+  margin: 40px 0 40px auto;
+  position: relative;
+}
+.FichePersonnel .content .sanctions .sanctionsListe li::marker {
+  position: absolute;
+  color: #0c2646;
+  font-size: 70px;
+}
+.FichePersonnel .content .sanctions .sanctionsListe li button {
+  position: absolute;
+  left: -85px;
+  top: 30px;
+}
+.FichePersonnel .content .sanctions .sanctionsListe li button img {
+  width: 40px;
+}
+.FichePersonnel .content .sanctions .sanctionsListe li h4 {
+  position: relative;
+  top: -20px;
+}
+.FichePersonnel .content .notes {
+  grid-column: 1;
+  grid-row: 4/9;
+  padding: 10px;
+  background-color: #0c2646;
+  border-radius: 30px;
+}
+.FichePersonnel .content .notes h1 {
+  text-align: center;
+}
+.FichePersonnel .content .notes .heading {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+}
+.FichePersonnel .content .notes .notelist {
+  height: 50%;
+  padding-bottom: 2px;
+  border: 1px black solid;
+  overflow-y: auto;
+  background-color: #004662;
+  border-radius: 30px;
+}
+.FichePersonnel .content .notes .notelist li {
+  width: 95%;
+  margin: 40px 0 40px auto;
+  position: relative;
+}
+.FichePersonnel .content .notes .notelist li::marker {
+  position: absolute;
+  color: #0c2646;
+  font-size: 70px;
+}
+.FichePersonnel .content .notes .notelist li button {
+  position: absolute;
+  left: -85px;
+  top: 20px;
+}
+.FichePersonnel .content .notes .notelist li button img {
+  width: 40px;
+}
+.FichePersonnel .content .notes .notelist li h4 {
+  position: relative;
+  top: -20px;
+}
+.FichePersonnel .content .notes .noteadder, .FichePersonnel .content .notes form {
+  display: flex;
+  width: 100%;
+  flex-direction: row;
+  justify-content: space-evenly;
+}
+.FichePersonnel .content .notes .noteadder textarea, .FichePersonnel .content .notes form textarea {
+  width: 80%;
+  resize: none;
+}
+.FichePersonnel .content .notes .noteadder button, .FichePersonnel .content .notes form button {
+  margin: auto 0;
+}
+.FichePersonnel .content .formations {
+  grid-column: 1/4;
+  grid-row: 10/12;
+  width: 100%;
+  height: 100%;
+  padding: 10px;
+  background-color: #0c2646;
+  border-radius: 30px;
 }
 
 .notification-item .bar {

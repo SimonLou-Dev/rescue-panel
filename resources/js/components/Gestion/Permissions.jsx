@@ -61,7 +61,6 @@ class Permissions extends React.Component {
                                 <th className={'p-perm p-head'}>modifier le temps de service d'un membre</th>
                                 <th className={'p-perm p-head'}>voir la liste du personnel</th>
                                 <th className={'p-perm p-head'}>mettre la capacité de pilote</th>
-                                <th className={'p-perm p-head'}>modifier les grade</th>
                                 <th className={'p-perm p-head'}>gérer les permissions</th>
                                 <th className={'p-perm p-head'}>poster des annonces</th>
                                 <th className={'p-perm p-head'}>acceder au logs</th>
@@ -69,18 +68,33 @@ class Permissions extends React.Component {
                                 <th className={'p-perm p-head'}>créer des formation</th>
                                 <th className={'p-perm p-head'}>rendre public les formations</th>
                                 <th className={'p-perm p-head'}>supprimer des formation</th>
-                                <th className={'p-perm p-head'}>acceder au statisques admins</th>
+                                <th className={'p-perm p-head'}>modifier les grades</th>
                                 <th className={'p-perm p-head'}>Acceder au facture hors service</th>
                                 <th className={'p-perm p-head'}>acceder à la page gestion de contenu</th>
+                                <th className={'p-perm p-head'}>Voir la fiche d'un membre</th>
+                                <th className={'p-perm p-head'}>Modifier le discord ID d'un membre</th>
+                                <th className={'p-perm p-head'}>mettre la sanction MAP</th>
+                                <th className={'p-perm p-head'}>mettre la sanction exclusion</th>
+                                <th className={'p-perm p-head'}>mettre la sanction avertissement</th>
+                                <th className={'p-perm p-head'}>mettre la sanction -1 grade</th>
+                                <th className={'p-perm p-head'}>enlever une sanction</th>
+                                <th className={'p-perm p-head'}>modifier le matériel prété à un membre</th>
+                                <th className={'p-perm p-head'}>écrire une note sur la fiche d'un personnel</th>
+                                <th className={'p-perm p-head'}>faire des test de poudre hors service</th>
+                                <th className={'p-perm p-head'}>acceder à l'historique de test de poudre hors service</th>
+                                <th className={'p-perm p-head'}>Acceder et accepter les modification de temps de service</th>
+                                <th className={'p-perm p-head'}>Voir les logs des états de service</th>
+                                <th className={'p-perm p-head'}>Recruter & faire la fiche d'un personnel</th>
                             </tr>
                             </thead>
                             <tbody>
                             {this.state.obj.map((ob)=>
                                 <tr>
                                     <td className={'grade'}>{ob.name}</td>
+
                                     <td>
                                         <div className="onoffswitch">
-                                            <input type="checkbox" className="onoffswitch-checkbox" checked={ob.perm_0} id={'myonoffswitch_A'+ob.id} tabIndex="0" onClick={async () => {
+                                            <input type="checkbox" className="onoffswitch-checkbox" checked={ob['perm_0']} id={'myonoffswitch_A'+ob.id} tabIndex="0" onClick={async () => {
                                                 var req = await axios({
                                                     url: '/data/admin/grades/perm_0/' + ob.id,
                                                     method: 'PUT',
@@ -532,6 +546,227 @@ class Permissions extends React.Component {
                                                 }
                                             }}/>
                                             <label className="onoffswitch-label" htmlFor={'myonoffswitch_ZA'+ob.id}>
+                                                <span className="onoffswitch-inner"/>
+                                                <span className="onoffswitch-switch"/>
+                                            </label>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div className="onoffswitch">
+                                            <input type="checkbox" className="onoffswitch-checkbox" checked={ob.perm_27} id={'myonoffswitch_ZB'+ob.id} tabIndex="0" onClick={async () => {
+                                                var req = await axios({
+                                                    url: '/data/admin/grades/perm_27/' + ob.id,
+                                                    method: 'PUT',
+                                                })
+                                                if (req.status === 201) {
+                                                    this.componentDidMount()
+                                                }
+                                            }}/>
+                                            <label className="onoffswitch-label" htmlFor={'myonoffswitch_ZB'+ob.id}>
+                                                <span className="onoffswitch-inner"/>
+                                                <span className="onoffswitch-switch"/>
+                                            </label>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div className="onoffswitch">
+                                            <input type="checkbox" className="onoffswitch-checkbox" checked={ob.perm_28} id={'myonoffswitch_ZC'+ob.id} tabIndex="0" onClick={async () => {
+                                                var req = await axios({
+                                                    url: '/data/admin/grades/perm_28/' + ob.id,
+                                                    method: 'PUT',
+                                                })
+                                                if (req.status === 201) {
+                                                    this.componentDidMount()
+                                                }
+                                            }}/>
+                                            <label className="onoffswitch-label" htmlFor={'myonoffswitch_ZC'+ob.id}>
+                                                <span className="onoffswitch-inner"/>
+                                                <span className="onoffswitch-switch"/>
+                                            </label>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div className="onoffswitch">
+                                            <input type="checkbox" className="onoffswitch-checkbox" checked={ob.perm_29} id={'myonoffswitch_ZD'+ob.id} tabIndex="0" onClick={async () => {
+                                                var req = await axios({
+                                                    url: '/data/admin/grades/perm_29/' + ob.id,
+                                                    method: 'PUT',
+                                                })
+                                                if (req.status === 201) {
+                                                    this.componentDidMount()
+                                                }
+                                            }}/>
+                                            <label className="onoffswitch-label" htmlFor={'myonoffswitch_ZD'+ob.id}>
+                                                <span className="onoffswitch-inner"/>
+                                                <span className="onoffswitch-switch"/>
+                                            </label>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div className="onoffswitch">
+                                            <input type="checkbox" className="onoffswitch-checkbox" checked={ob.perm_30} id={'myonoffswitch_ZE'+ob.id} tabIndex="0" onClick={async () => {
+                                                var req = await axios({
+                                                    url: '/data/admin/grades/perm_30/' + ob.id,
+                                                    method: 'PUT',
+                                                })
+                                                if (req.status === 201) {
+                                                    this.componentDidMount()
+                                                }
+                                            }}/>
+                                            <label className="onoffswitch-label" htmlFor={'myonoffswitch_ZE'+ob.id}>
+                                                <span className="onoffswitch-inner"/>
+                                                <span className="onoffswitch-switch"/>
+                                            </label>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div className="onoffswitch">
+                                            <input type="checkbox" className="onoffswitch-checkbox" checked={ob.perm_31} id={'myonoffswitch_ZF'+ob.id} tabIndex="0" onClick={async () => {
+                                                var req = await axios({
+                                                    url: '/data/admin/grades/perm_31/' + ob.id,
+                                                    method: 'PUT',
+                                                })
+                                                if (req.status === 201) {
+                                                    this.componentDidMount()
+                                                }
+                                            }}/>
+                                            <label className="onoffswitch-label" htmlFor={'myonoffswitch_ZF'+ob.id}>
+                                                <span className="onoffswitch-inner"/>
+                                                <span className="onoffswitch-switch"/>
+                                            </label>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div className="onoffswitch">
+                                            <input type="checkbox" className="onoffswitch-checkbox" checked={ob.perm_32} id={'myonoffswitch_ZG'+ob.id} tabIndex="0" onClick={async () => {
+                                                var req = await axios({
+                                                    url: '/data/admin/grades/perm_32/' + ob.id,
+                                                    method: 'PUT',
+                                                })
+                                                if (req.status === 201) {
+                                                    this.componentDidMount()
+                                                }
+                                            }}/>
+                                            <label className="onoffswitch-label" htmlFor={'myonoffswitch_ZG'+ob.id}>
+                                                <span className="onoffswitch-inner"/>
+                                                <span className="onoffswitch-switch"/>
+                                            </label>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div className="onoffswitch">
+                                            <input type="checkbox" className="onoffswitch-checkbox" checked={ob.perm_33} id={'myonoffswitch_ZH'+ob.id} tabIndex="0" onClick={async () => {
+                                                var req = await axios({
+                                                    url: '/data/admin/grades/perm_33/' + ob.id,
+                                                    method: 'PUT',
+                                                })
+                                                if (req.status === 201) {
+                                                    this.componentDidMount()
+                                                }
+                                            }}/>
+                                            <label className="onoffswitch-label" htmlFor={'myonoffswitch_ZH'+ob.id}>
+                                                <span className="onoffswitch-inner"/>
+                                                <span className="onoffswitch-switch"/>
+                                            </label>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div className="onoffswitch">
+                                            <input type="checkbox" className="onoffswitch-checkbox" checked={ob.perm_34} id={'myonoffswitch_ZI'+ob.id} tabIndex="0" onClick={async () => {
+                                                var req = await axios({
+                                                    url: '/data/admin/grades/perm_34/' + ob.id,
+                                                    method: 'PUT',
+                                                })
+                                                if (req.status === 201) {
+                                                    this.componentDidMount()
+                                                }
+                                            }}/>
+                                            <label className="onoffswitch-label" htmlFor={'myonoffswitch_ZI'+ob.id}>
+                                                <span className="onoffswitch-inner"/>
+                                                <span className="onoffswitch-switch"/>
+                                            </label>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div className="onoffswitch">
+                                            <input type="checkbox" className="onoffswitch-checkbox" checked={ob.perm_35} id={'myonoffswitch_ZJ'+ob.id} tabIndex="0" onClick={async () => {
+                                                var req = await axios({
+                                                    url: '/data/admin/grades/perm_35/' + ob.id,
+                                                    method: 'PUT',
+                                                })
+                                                if (req.status === 201) {
+                                                    this.componentDidMount()
+                                                }
+                                            }}/>
+                                            <label className="onoffswitch-label" htmlFor={'myonoffswitch_ZJ'+ob.id}>
+                                                <span className="onoffswitch-inner"/>
+                                                <span className="onoffswitch-switch"/>
+                                            </label>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div className="onoffswitch">
+                                            <input type="checkbox" className="onoffswitch-checkbox" checked={ob.perm_36} id={'myonoffswitch_ZK'+ob.id} tabIndex="0" onClick={async () => {
+                                                var req = await axios({
+                                                    url: '/data/admin/grades/perm_36/' + ob.id,
+                                                    method: 'PUT',
+                                                })
+                                                if (req.status === 201) {
+                                                    this.componentDidMount()
+                                                }
+                                            }}/>
+                                            <label className="onoffswitch-label" htmlFor={'myonoffswitch_ZK'+ob.id}>
+                                                <span className="onoffswitch-inner"/>
+                                                <span className="onoffswitch-switch"/>
+                                            </label>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div className="onoffswitch">
+                                            <input type="checkbox" className="onoffswitch-checkbox" checked={ob.perm_37} id={'myonoffswitch_ZL'+ob.id} tabIndex="0" onClick={async () => {
+                                                var req = await axios({
+                                                    url: '/data/admin/grades/perm_37/' + ob.id,
+                                                    method: 'PUT',
+                                                })
+                                                if (req.status === 201) {
+                                                    this.componentDidMount()
+                                                }
+                                            }}/>
+                                            <label className="onoffswitch-label" htmlFor={'myonoffswitch_ZL'+ob.id}>
+                                                <span className="onoffswitch-inner"/>
+                                                <span className="onoffswitch-switch"/>
+                                            </label>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div className="onoffswitch">
+                                            <input type="checkbox" className="onoffswitch-checkbox" checked={ob.perm_38} id={'myonoffswitch_ZM'+ob.id} tabIndex="0" onClick={async () => {
+                                                var req = await axios({
+                                                    url: '/data/admin/grades/perm_38/' + ob.id,
+                                                    method: 'PUT',
+                                                })
+                                                if (req.status === 201) {
+                                                    this.componentDidMount()
+                                                }
+                                            }}/>
+                                            <label className="onoffswitch-label" htmlFor={'myonoffswitch_ZM'+ob.id}>
+                                                <span className="onoffswitch-inner"/>
+                                                <span className="onoffswitch-switch"/>
+                                            </label>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div className="onoffswitch">
+                                            <input type="checkbox" className="onoffswitch-checkbox" checked={ob.perm_39} id={'myonoffswitch_ZN'+ob.id} tabIndex="0" onClick={async () => {
+                                                var req = await axios({
+                                                    url: '/data/admin/grades/perm_39/' + ob.id,
+                                                    method: 'PUT',
+                                                })
+                                                if (req.status === 201) {
+                                                    this.componentDidMount()
+                                                }
+                                            }}/>
+                                            <label className="onoffswitch-label" htmlFor={'myonoffswitch_ZN'+ob.id}>
                                                 <span className="onoffswitch-inner"/>
                                                 <span className="onoffswitch-switch"/>
                                             </label>

@@ -37,13 +37,18 @@
             text-align: center;
             padding: 5px;
         }
-        thead td{
+        thead th{
             background-color: #0C2646;
             color: #00FFFF;
         }
         h4{
             text-align: center;
             font-family: "Baloo Thambi 2", monospace;
+        }
+        .bottom{
+            border-bottom: none;
+            border-left: none;
+            border-right: none;
         }
 
     </style>
@@ -56,19 +61,18 @@
 <h4>Du <?php echo $infos['from'] ?> au <?php echo $infos['to'] ?> </h4>
 <table>
     <thead>
-    <th id="head">
-        <td>date</td>
-        <td>heure</td>
-        <td>patient</td>
-        <td>montant</td>
-    </th>
+    <tr id="head">
+        <th>date</th>
+        <th>heure</th>
+        <th>patient</th>
+        <th>montant</th>
+    </tr>
     </thead>
     <tbody>
     <?php foreach ($data['impaye'] as $line) {
-        $first = "<th>";
-        $end = "</th>";
-
-        echo $first;
+        $first = "<td>";
+        $end = "</td>";
+        echo "<tr>";
         echo $first . date('d/m/Y', strtotime($line->created_at)) . $end;
         echo $first . date('H:i', strtotime($line->created_at)) . $end;
         echo $first . ($line->GetPatient->vorname.' '.$line->GetPatient->name) . $end;
@@ -78,9 +82,9 @@
         }
     ?>
     <tr>
-        <td style="border-bottom: none; border-left: none;"></td>
-        <td style="border-bottom: none; border-left: none;"></td>
-        <td style="border-bottom: none; border-left: none;"></td>
+        <td class="bottom"></td>
+        <td class="bottom"></td>
+        <td class="bottom"></td>
         <td>$<?php echo $total?></td>
     </tr>
     </tbody>

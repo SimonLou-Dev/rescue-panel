@@ -59,9 +59,28 @@ class UserGradeController extends Controller
             'create_forma'=>$grade->perm_20,
             'forma_publi'=>$grade->perm_21,
             'forma_delete'=>$grade->perm_22,
-            'access_stats'=>$grade->perm_23,
+            'grade_modify'=>$grade->perm_23,
             'HS_facture'=>$grade->perm_24,
             'content_mgt'=>$grade->perm_25,
+
+            'view_member_sheet'=>$grade->perm_26,
+            'set_discordid'=>$grade->perm_27,
+            'sanction_MAP'=>$grade->perm_28,
+            'sanction_exclu'=>$grade->perm_29,
+            'sanction_warn'=>$grade->perm_30,
+            'sanction_degrade'=>$grade->perm_31,
+            'sanction_remove'=>$grade->perm32,
+            'modify_material'=>$grade->perm_33,
+            'membersheet_note'=>$grade->perm_34,
+            'HS_poudre'=>$grade->perm_35,
+            'HS_poudre_history'=>$grade->perm_36,
+            'timeserviceupdate_request'=>$grade->perm_37,
+            'see_serviceState_logs'=>$grade->perm_38,
+            'hire_people'=>$grade->perm_39,
+
+
+
+
             'user_id'=>$user->id
         ];
         return \response()->json(['status'=>'ok', 'perm'=>$perm, 'user'=>$user]);
