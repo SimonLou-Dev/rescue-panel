@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Users;
 
 use App\Events\Notify;
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\ServiceController;
 use App\Models\Grade;
 use App\Models\User;
 use Illuminate\Http\JsonResponse;
@@ -69,7 +70,7 @@ class UserGradeController extends Controller
             'sanction_exclu'=>$grade->perm_29,
             'sanction_warn'=>$grade->perm_30,
             'sanction_degrade'=>$grade->perm_31,
-            'sanction_remove'=>$grade->perm32,
+            'sanction_remove'=>$grade->perm_32,
             'modify_material'=>$grade->perm_33,
             'membersheet_note'=>$grade->perm_34,
             'HS_poudre'=>$grade->perm_35,
@@ -100,5 +101,20 @@ class UserGradeController extends Controller
         $grade->save();
         event(new Notify('Vous avez changé une permissions',1));
         return \response()->json(['status'=>'OK'],201);
+    }
+
+    public function removegradeFromuser(int $id){
+        $user = User::where('id', $id)->first();
+        $user->materiel = null;
+        $user->matricule = null;
+        $user->grade_id = 1;
+        if($user->service){
+            ServiceController::setService($user, true);
+        }
+        $user->save();
+
+        // mettre un embed de réinit du matériel
+
+        event(new Notify($user->name, 'ne fait plus partie du service',1));
     }
 }

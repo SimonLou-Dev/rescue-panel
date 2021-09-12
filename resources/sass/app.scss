@@ -4164,13 +4164,14 @@ body{
             grid-row: 1/3;
             grid-column: 1;
             padding: 10px;
+            padding-bottom: 20px;
             background-color: $dark_blue;
             width: 100%;
             border-radius: $border_radius;
             height: 100%;
             display: flex;
             flex-direction: row;
-            justify-content: space-evenly;
+            justify-content: space-between;
             overflow: auto;
             .infoCat{
                 h2{
@@ -4282,6 +4283,7 @@ body{
                 width: 100%;
                 flex-direction: row;
                 justify-content: space-evenly;
+                height: 53%;
                 textarea{
                     width: 80%;
                     resize: none;
@@ -4291,7 +4293,7 @@ body{
                 }
             }
         }
-        .formations{
+        .material{
             grid-column: 1/4;
             grid-row: 10/12;
             width: 100%;
@@ -4299,7 +4301,187 @@ body{
             padding: 10px;
             background-color: $dark_blue;
             border-radius: $border_radius;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-around;
+            .material-head{
+                display: flex;
+                flex-direction: row;
+                width: 100%;
+                justify-content: space-around;
+            }
+            .material-list{
+                background-color: $medium_blue;
+                padding: 10px;
+                display: flex;
+                flex-direction: row;
+                justify-content: space-evenly;
+                flex-wrap: wrap;
+                height: 40%;
+                border-radius: $border_radius;
+                overflow-y: auto;
+                .material-item{
+                    display: flex;
+                    flex-direction: row;
+                    background-color: $dark_blue;
+                    border-radius: $border_radius;
+                    padding: 10px;
+                    height: 30px;
+
+                    .deleter{
+                        width: 10px;
+                        height: auto;
+                        margin: auto 0;
+                        background-color: $dark_blue;
+                        display: flex;
+                        padding: 0;
+                        margin-left: 10px;
+                        margin-right: 15px;
+                        img{
+                            margin: auto 0;
+                            width: 20px;
+                            height: auto;
+                        }
+                    }
+                }
+            }
         }
+    }
+    .material-modifier{
+        z-index: 25;
+        width: 100%;
+        height: 100vh;
+        position: fixed;
+        top: 0;
+        backdrop-filter: blur(2px);
+        @media (min-width: 1100px) {
+            width: calc(100vw - 270px);
+        }
+        @media (max-width: 1100px) {
+            width: calc(100vw);
+        }
+        display: flex;
+        justify-content: center;
+        padding: 10px;
+        .popup{
+            margin-top: calc(50vh - (350px/2));
+            width: 90%;
+            max-width: 550px;
+            height: 350px;
+            display: flex;
+            flex-direction: column;
+            padding: 10px;
+            h1{
+                text-align: center;
+            }
+            form{
+                display: flex;
+                flex-direction: column;
+                justify-content: space-around;
+                height: 90%;
+                .form-content{
+                    width: 100%;
+                    height: 70%;
+                    display: flex;
+                    flex-direction: row;
+                    padding-left: 20%;
+                    .column{
+                        width: 40%;
+                        display: flex;
+                        justify-content: space-around;
+                        flex-direction: column;
+                        height: 100%;
+                    }
+                }
+                .footer{
+                    width: 100%;
+                    margin-top: 20px;
+                    display: flex;
+                    flex-direction: row;
+                    justify-content: space-evenly;
+                }
+                .item{
+                    margin: 7px 0;
+                }
+            }
+        }
+    }
+    .sanctions-adder{
+        z-index: 25;
+        width: 100%;
+        height: 100vh;
+        position: fixed;
+        top: 0;
+        backdrop-filter: blur(2px);
+        @media (min-width: 1100px) {
+            width: calc(100vw - 270px);
+        }
+        @media (max-width: 1100px) {
+            width: calc(100vw);
+        }
+        display: flex;
+        justify-content: center;
+        padding: 10px;
+        .popup {
+            margin-top: calc(50vh - (650px / 2));
+            width: 90%;
+            max-width: 550px;
+            height: 650px;
+            display: flex;
+            flex-direction: column;
+            padding: 10px;
+
+            h1 {
+                text-align: center;
+            }
+
+            form {
+                display: flex;
+                flex-direction: column;
+                justify-content: space-around;
+                height: 97%;
+
+                .form-content {
+                    width: 80%;
+                    height: 80%;
+                    display: flex;
+                    flex-direction: column;
+                    padding-left: 10%;
+
+                }
+                .item{
+                    display: flex;
+                    flex-direction: column;
+                }
+                .border{
+                    border-bottom: 1px $light_blue solid;
+                    margin-bottom: 10px;
+                    padding-bottom: 10px;
+                }
+
+                .footer {
+                    width: 100%;
+                    height: 20%;
+                    margin-top: 20px;
+                    display: flex;
+                    flex-direction: row;
+                    justify-content: space-evenly;
+                    border-top: 1px $light_blue solid;
+                    padding-top: 20px;
+                    .btn{
+                        height: 60px;
+                    }
+                }
+
+
+            }
+        }
+
+    }
+    .popup{
+        background-color: $dark_blue;
+        border-radius: $border-radius;
+        border: 1px $light_blue solid;
     }
 }
 

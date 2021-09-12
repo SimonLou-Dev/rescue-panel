@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Psy\Util\Json;
 
 /**
  * Class User
@@ -25,8 +26,9 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
  * @property int serviceState
  * @property integer matricule
  * @property integer discord_id
- * @property array sanctions
- * @property array materiel
+ * @property json sanctions
+ * @property json materiel
+ * @property json note
  * @method static where(string $column, string $operator = null, mixed $value = null)
  * @method static orderByDesc(string $string)
  *
@@ -35,7 +37,7 @@ class User extends Authenticatable
 {
     use HasFactory;
     protected $table = "Users";
-    protected $fillable = ['grade_id', 'name', 'email', 'password', 'token', 'service', 'liveplace', 'tel', 'pilote', 'compte', 'timezone', 'bg_img','matricule','discord_id','sanctions','materiel'];
+    protected $fillable = ['grade_id', 'name', 'email', 'password', 'token', 'service', 'liveplace', 'tel', 'pilote', 'compte', 'timezone', 'bg_img','matricule','discord_id','sanctions','materiel','note'];
 
     public function GetRapports(): \Illuminate\Database\Eloquent\Relations\HasMany
     {

@@ -127,6 +127,15 @@ Route::post('/data/users/setgrade/{id}/{userid}', [UserGradeController::class, '
 Route::get('/data/users/search/{user}', [UserController::class, 'searchUser']);
 Route::put('/data/users/pilote/{user_id}', [UserController::class, 'changePilote']);
 Route::put('/data/user/{user_id}/changestate/{state}', [UserController::class, 'changeState']);
+Route::get('/data/usersheet/{user_id}/note', [UserController::class, 'getUserNote']);
+Route::get('/data/usersheet/{user_id}/sanctions', [UserController::class, 'getUserSanctions']);
+Route::get('/data/usersheet/{user_id}/infos', [UserController::class, 'getUserInfos']);
+Route::get('/data/usersheet/{user_id}/material', [UserController::class, 'getUserMaterial']);
+Route::post('/data/usersheet/{user_id}/note', [UserController::class, 'addUserNote']);
+Route::delete('/data/usersheet/{user_id}/{note_id}/note', [UserController::class, 'removeUserNote']);
+Route::post('/data/usersheet/{user_id}/sanctions', [UserController::class, 'addUserSanction']);
+Route::put('/data/usersheet/{user_id}/material', [UserController::class, 'ModifyUserMaterial']);
+Route::put('/data/usersheet/{user_id}/quiService', [UserController::class, 'userQuitService']);
 
 //Content management
 Route::post('/data/gestion/content/add/{type}', [ContentManagement::class, 'addcontent']);
