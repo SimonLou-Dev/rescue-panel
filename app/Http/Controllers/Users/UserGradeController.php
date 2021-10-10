@@ -103,11 +103,12 @@ class UserGradeController extends Controller
         return \response()->json(['status'=>'OK'],201);
     }
 
-    public function removegradeFromuser(int $id){
+    public static function removegradeFromuser(int $id){
         $user = User::where('id', $id)->first();
         $user->materiel = null;
         $user->matricule = null;
         $user->grade_id = 1;
+        $user->bc_id = null;
         if($user->service){
             ServiceController::setService($user, true);
         }
@@ -115,6 +116,6 @@ class UserGradeController extends Controller
 
         // mettre un embed de réinit du matériel
 
-        event(new Notify($user->name, 'ne fait plus partie du service',1));
+        event(new Notify($user->name .' ne fait plus partie du service',1));
     }
 }

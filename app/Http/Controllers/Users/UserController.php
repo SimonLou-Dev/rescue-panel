@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Users;
 
+use _HumbugBox15516bb2b566\Nette\Utils\DateTime;
 use App\Events\Notify;
 use App\Http\Controllers\Controller;
 use App\Models\Grade;
@@ -101,7 +102,7 @@ class UserController extends Controller
         $user = User::where('id', $user_id)->first();
         return \response()->json([
             'status'=> 'ok',
-            'sanctions'=> $user->sanctions
+            'sanctions'=> (array) json_decode($user->sanctions)
         ]);
     }
 
@@ -109,6 +110,7 @@ class UserController extends Controller
     {
         $user = User::where('id', $user_id)->first();
         $user->GetGrade;
+
         return \response()->json([
             'status'=> 'ok',
             'infos'=> $user
@@ -138,13 +140,69 @@ class UserController extends Controller
 
     public function addUserSanction(Request $request, string $id)
     {
+        $user = User::where('id',  $id)->first();
+        $baseuser = $user;
+        $sanctionsinfos[] = array();
+        if(!is_null($user->sanctions)){
+            $sanctionsinfos = (array) json_decode($user->sanctions);
+        }
+        $array = array();
+        $prononcer = User::where('id', Auth::user()->id)->first();
+        $reqinfos= $request->get('infos');
+        $array['prononcedam'] = date('d/m/Y \à h\hi');
+        $array['prononcedby'] = $prononcer->name;
+
+        switch ($request->sanctions){
+            case "1": //Avertissement
+                $array['type'] = "Avertissement";
+                $text = "__**Type :**__ Avertissement";
+                break;
+            case "2": //MAP
+                $array['type'] = "Mise à pied";
+                $array['ended_at'] = date('d/m/Y', strtotime($reqinfos['map_date'])) . ' à ' . date('H:i', strtotime($reqinfos['map_time']));
+                $format = 'Y-m-d H:i';
+                $end= DateTime::createFromformat($format, $reqinfos['map_date'] . ' ' . $reqinfos['map_time']);
+                $now = new DateTime('now');
+                $diff = $end->diff($now);
+                $array['diff'] = $diff->format('%d jours et %H heures');
+                $text = "__**Type :**__ Mise à pied \n __**Durée :**__ " . $array['diff'] . " \n __**Fin le :**__ " . $array['ended_at'];
+                break;
+            case "3": //degradation
+                $array['type'] = "Dégradation";
+                $array['ungrad'] = $baseuser->GetGrade->name . ' -> ' . Grade::where('id', $baseuser->GetGrade->id - 1)->first()->name;
+                $text = "__**Type :**__ Perte d'un grade \n __**Ancien grade :**__  ". $baseuser->GetGrade->name . "\n __**Nouveau grade :**__" . Grade::where('id', $baseuser->GetGrade->id - 1)->first()->name;
+                $user->grade_id = $user->grade_id -1;
+                break;
+            case "4": //dehors
+                $array['type'] = "Exclusion";
+                $array['noteLic'] = $reqinfos['note_lic'];
+                $text = "__**Type:**__ Exclusion \n __**Infos licenciement:**__ " . $array['noteLic'];
+                UserGradeController::removegradeFromuser((int) $id);
+                break;
+        }
+        $array['raison'] = $reqinfos['raison'];
+        $final = ">>> ***__Nouvelle sanction :__*** \n __**De :**__". $array['prononcedby'] . "\n __**A :**__ " . ($user->discord_id != null ? ("<@" . $user->discord_id . "> ") : "") . $user->name . " \n ". $text . "\n **__Prononcé le :__** " . $array['prononcedam'] . " \n **__Raison :__** " . $array['raison'];
+
+        array_push($sanctionsinfos, $array);
+
+        $user->sanctions = json_encode($sanctionsinfos);
+
+        $user->save();
+
+        Http::post(env('WEBHOOK_SANCTIONS'),[
+            'username'=> "BCFD - MDT",
+            'avatar_url'=>'https://bcfd.simon-lou.com/assets/images/BCFD.png',
+            'content'=>$final
+
+        ]);
+
+
+        return \response()->json(['status'=>'ok'],201);
 
     }
 
     public function ModifyUserMaterial(Request $request, string $id)
     {
-
-
 
         $user = User::where('id',  $id)->first();
         $base = (array) json_decode($user->materiel);

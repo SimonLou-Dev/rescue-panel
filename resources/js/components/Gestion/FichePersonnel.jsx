@@ -37,6 +37,7 @@ class FichePersonnel extends React.Component {
         this.getsanctions = this.getsanctions.bind(this)
         this.getmaterial = this.getmaterial.bind(this)
         this.postmaterial = this.postmaterial.bind(this)
+        this.sendsanction = this.sendsanction.bind(this)
 
     }
 
@@ -103,6 +104,29 @@ class FichePersonnel extends React.Component {
 
     }
 
+    async sendsanction(e){
+        e.preventDefault()
+        await axios({
+            method: 'post',
+            url: '/data/usersheet/'+ this.state.user_id + '/sanctions',
+            data: {
+                sanctions : this.state.sanc,
+                infos: this.state.sanctionform
+            }
+        }).then(response => {
+            this.setState({
+                sanctionform: {
+                    raison: '',
+                    map_date: '',
+                    map_time: '',
+                    note_lic: ''
+                },blur: false, sanction: false
+            })
+            this.getsanctions(this.state.user_id)
+        })
+
+    }
+
 
     render() {
         const perm = this.context;
@@ -154,30 +178,29 @@ class FichePersonnel extends React.Component {
                             }}>Ajouter</button>
                         </div>
                         <ul className={'sanctionsListe'}>
-                            <li>
-                                <button className={'btn deleter'} disabled={(perm.sanction_remove!== 1)}><img src={rootUrl + 'assets/images/cancel.png'}/></button>
-                                <h4><span>Type : </span> mise à pied</h4>
-                                <h4><span>Prononcé le : </span> 13/06/2001 à 16h30 </h4>
-                                <h4><span>Fin : </span> 17/06/2001 16h30 </h4>
-                                <h4><span>Prononcé par : </span> 4J </h4>
-                                <h4><span>Raison : </span> Ce matériel ne peut être utilisé à des fins personnelles sans autorisation du supérieur hiérarchique. </h4>
-                            </li>
-                            <li>
-                                <button className={'btn deleter'}><img src={rootUrl + 'assets/images/cancel.png'}/></button>
-                                <h4><span>Type : </span> mise à pied</h4>
-                                <h4><span>Prononcé le : </span> 13/06/2001 à 16h30 </h4>
-                                <h4><span>Fin : </span> 17/06/2001 16h30 </h4>
-                                <h4><span>Prononcé par : </span> 4J </h4>
-                                <h4><span>Raison : </span> Ce matériel ne peut être utilisé à des fins personnelles sans autorisation du supérieur hiérarchique. </h4>
-                            </li>
-                            <li>
-                                <button className={'btn deleter'}><img src={rootUrl + 'assets/images/cancel.png'}/></button>
-                                <h4><span>Type : </span> mise à pied</h4>
-                                <h4><span>Prononcé le : </span> 13/06/2001 à 16h30 </h4>
-                                <h4><span>Fin : </span> 17/06/2001 16h30 </h4>
-                                <h4><span>Prononcé par : </span> 4J </h4>
-                                <h4><span>Raison : </span> Ce matériel ne peut être utilisé à des fins personnelles sans autorisation du supérieur hiérarchique. </h4>
-                            </li>
+                            {this.state.sanctions !== null && this.state.sanctions.map((one) =>
+                                <li>
+                                    <h4><span>Type : </span> {one.type}</h4>
+                                    <h4><span>Prononcé le : </span> {one.prononcedam}</h4>
+                                    <h4><span>Prononcé par : </span> {one.prononcedby}</h4>
+                                    <h4><span>Raison : </span> {one.raison} </h4>
+                                    {one.type === "Mise à pied" &&
+                                        <h4><span>Durée : </span>  {one.diff} </h4>
+                                    }
+                                    {one.type === "Mise à pied" &&
+                                        <h4><span>Fin : </span>  {one.ended_at} </h4>
+                                    }
+                                    {one.type === "Dégradation" &&
+                                    <h4><span>Infos : </span>  {one.ungrad} </h4>
+                                    }
+                                    {one.type === "Exclusion" &&
+                                    <h4><span>Info : </span>  {one.noteLic} </h4>
+                                    }
+
+                                </li>
+                            )
+
+                            }
                         </ul>
                     </div>
                     <div className={'notes'}>
@@ -303,7 +326,7 @@ class FichePersonnel extends React.Component {
                 {this.state.sanction === true &&
                     <div className={'sanctions-adder'}>
                     <div className={'popup'}>
-                        <form>
+                        <form onSubmit={this.sendsanction}>
                             <h1>Mettre une sanction</h1>
                             <div className={'form-content'}>
                                 <div className={'item border'}>
@@ -318,19 +341,43 @@ class FichePersonnel extends React.Component {
                                 {this.state.sanc === "2" &&
                                 <div className={'item'}>
                                     <label>Jusqu'au :</label>
-                                    <input type={'date'}/>
-                                    <input type={'time'}/>
+                                    <input type={'date'} onChange={ e => {
+                                        this.setState({ sanctionform: {
+                                                raison: this.state.sanctionform.raison,
+                                                map_date: e.target.value,
+                                                map_time: this.state.sanctionform.map_time,
+                                                note_lic: this.state.sanctionform.note_lic,
+                                    }})}}/>
+                                    <input type={'time'} onChange={ e => {
+                                        this.setState({ sanctionform: {
+                                                raison: this.state.sanctionform.raison,
+                                                map_date: this.state.sanctionform.map_date,
+                                                map_time: e.target.value,
+                                                note_lic: this.state.sanctionform.note_lic,
+                                            }})}}/>
                                 </div>
                                 }
                                 {this.state.sanc === "4" &&
                                 <div className={'item'}>
                                     <label>note du licenciement :</label>
-                                    <textarea placeholder={'(sans préavis, ni indemnité de licenciement, ni prime, ni salaire)'}/>
+                                    <textarea placeholder={'(sans préavis, ni indemnité de licenciement, ni prime, ni salaire)'} onChange={ e => {
+                                        this.setState({ sanctionform: {
+                                                raison: this.state.sanctionform.raison,
+                                                map_date: this.state.sanctionform.map_date,
+                                                map_time: this.state.sanctionform.map_time,
+                                                note_lic: e.target.value,
+                                            }})}}/>
                                 </div>
                                 }
                                 <div className={'item col'}>
                                     <label>Raison</label>
-                                    <textarea/>
+                                    <textarea onChange={ e => {
+                                        this.setState({ sanctionform: {
+                                                raison: e.target.value,
+                                                map_date: this.state.sanctionform.map_date,
+                                                map_time: this.state.sanctionform.map_time,
+                                                note_lic: this.state.sanctionform.note_lic,
+                                            }})}}/>/>
                                 </div>
                             </div>
                             <div className={'footer'}>
