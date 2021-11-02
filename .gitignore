@@ -25,7 +25,9 @@ vite.config.js
 /public/storage/user_background/*
 /public/storage/test/poudre/*
 /storage/app/public/RI/*
-/storage/app/public/formations/*
+/storage/app/public/temp/factures/*
+/storage/app/public/formations/front_img/*
+/storage/app/public/formations/question_img/*
 /storage/app/public/temp_upload/*
 /storage/app/public/user_background/*
 /storage/app/public/test/poudre/*
