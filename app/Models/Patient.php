@@ -30,4 +30,10 @@ class Patient extends Model
     {
         return $this->hasMany(Facture::class, 'patient_id');
     }
+
+    public function getTestsPoudre(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+
+        return $this->hasMany(TestPoudre::class, 'patient_id');
+    }
 }

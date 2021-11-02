@@ -18,7 +18,7 @@ class PersonnelController extends Controller
         $this->middleware('access');
     }
 
-    public function addPersonel(string $id): \Illuminate\Http\JsonResponse
+    public static function addPersonel(string $id): \Illuminate\Http\JsonResponse
     {
         $id = (int) $id;
         $bc = BCList::where('id', $id)->firstOrFail();
@@ -37,7 +37,7 @@ class PersonnelController extends Controller
         return response()->json(['status'=>'OK'],201);
     }
 
-    public function removePersonnel(int $id): \Illuminate\Http\JsonResponse
+    public static function removePersonnel(int $id): \Illuminate\Http\JsonResponse
     {
         $user = User::where('id', Auth::user()->id)->first();
         $user->bc_id = null;

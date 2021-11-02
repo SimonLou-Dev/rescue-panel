@@ -29,6 +29,7 @@ use Psy\Util\Json;
  * @property json sanctions
  * @property json materiel
  * @property json note
+ * @property int last_service_update
  * @method static where(string $column, string $operator = null, mixed $value = null)
  * @method static orderByDesc(string $string)
  *
@@ -37,7 +38,7 @@ class User extends Authenticatable
 {
     use HasFactory;
     protected $table = "Users";
-    protected $fillable = ['grade_id', 'name', 'email', 'password', 'token', 'service', 'liveplace', 'tel', 'pilote', 'compte', 'timezone', 'bg_img','matricule','discord_id','sanctions','materiel','note'];
+    protected $fillable = ['grade_id','last_service_update', 'name', 'email', 'password', 'token', 'service', 'liveplace', 'tel', 'pilote', 'compte', 'timezone', 'bg_img','matricule','discord_id','sanctions','materiel','note'];
 
     public function GetRapports(): \Illuminate\Database\Eloquent\Relations\HasMany
     {

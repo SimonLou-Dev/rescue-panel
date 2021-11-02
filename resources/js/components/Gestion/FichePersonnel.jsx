@@ -1,10 +1,10 @@
 import React from 'react';
 import PagesTitle from "../props/utils/PagesTitle";
 import {Link} from "react-router-dom";
-import {rootUrl} from "../props/Gestion/Content/ContentCard";
 import PermsContext from "../context/PermsContext";
 import axios from "axios";
 import dateFormat from "dateformat";
+export const rootUrl = document.querySelector('body').getAttribute('data-root-url');
 
 class FichePersonnel extends React.Component {
     constructor(props) {
@@ -136,7 +136,16 @@ class FichePersonnel extends React.Component {
                     <Link to={'/gestion/personnel'} className={'btn'}>retour</Link>
                     <a className={'btn'}>exporter</a>
                     <PagesTitle title={'Fiche Personnel'}/>
-                    <button className={'btn'}>déclarer la démission</button>
+                    <button className={'btn'} onClick={async () => {
+                        await axios({
+                            method: 'put',
+                            url: '/data/usersheet/' + this.state.user_id + '/quitService'
+                        }).then(response => {
+                            if(response.status === 200){
+                                window.location.replace('/gestion/personnel')
+                            }
+                        })
+                    }}>déclarer la démission</button>
                 </section>
                 <section className={'content'} style={{filter: this.state.blur? 'blur(5px)' : 'none'}} >
                     <div className={'infos'}>
@@ -235,6 +244,21 @@ class FichePersonnel extends React.Component {
                                 this.state.materiallist.map((material) =>
                                     material[1] === true &&
                                         <div className={'material-item'} key={material[0]}>
+                                            {material[0] === "flare" &&
+                                            <img alt={''} src={rootUrl + 'assets/images/material/flare.png'}/>
+                                            }
+                                            {material[0] === "lampe" &&
+                                            <img alt={''} src={rootUrl + 'assets/images/material/flashlights.png'}/>
+                                            }
+                                            {material[0] === "flareGun" &&
+                                            <img alt={''} src={rootUrl + 'assets/images/material/flaregun.png'}/>
+                                            }
+                                            {material[0] === "extincteur" &&
+                                            <img alt={''} src={rootUrl + 'assets/images/material/fire-extinguisher.png'}/>
+                                            }
+                                            {material[0] === "kevlar" &&
+                                            <img alt={''} src={rootUrl + 'assets/images/material/kevlar.png'}/>
+                                            }
                                             <h4>{material[0]}</h4>
                                         </div>
                                 )

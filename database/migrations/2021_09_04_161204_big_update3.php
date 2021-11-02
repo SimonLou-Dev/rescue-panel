@@ -20,6 +20,7 @@ class BigUpdate3 extends Migration
             $table->json('materiel')->nullable();
             $table->json('note')->nullable();
             $table->json('formations')->nullable();
+            $table->bigInteger('last_service_update')->nullable();
             $table->softDeletes();
         });
 

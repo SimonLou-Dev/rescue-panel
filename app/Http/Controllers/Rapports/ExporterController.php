@@ -3,9 +3,12 @@
 namespace App\Http\Controllers\Rapports;
 
 use App\Http\Controllers\Controller;
+use App\Jobs\ProcessRapportPDFGenerator;
 use App\Models\Facture;
 use App\Models\Rapport;
 use Illuminate\Http\Request;
+use Illuminate\Redis\Connections\PredisConnection;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use TheCodingMachine\Gotenberg\Client;
 use TheCodingMachine\Gotenberg\ClientException;
@@ -23,14 +26,14 @@ class ExporterController extends Controller
     }
 
     public function makeRapportPdf(Request $request, int $id){
-        $data = array();
+
 
         $rapport = Rapport::where('id', $id)->first();
         $path = base_path('public/storage/RI/'. $rapport->id . ".pdf");
+        $user = Auth::user()->name;
+
 
         if(!file_exists($path)){
-
-            $user = $rapport->GetUser->name;
 
             $client = new Client(env('PDF_ADDR'), new \Http\Adapter\Guzzle7\Client());
 
@@ -44,10 +47,14 @@ class ExporterController extends Controller
                 DocumentFactory::makeFromPath('signature.png', base_path('/resources/PDF/RI/signature.png'))
             ];
 
-            $pdf = new HTMLRequest($index);
-            $pdf->setAssets($assets);
+
+
+
+            $path = base_path('public/storage/RI/'. $rapport->id . ".pdf");
             try {
-                $client->store($pdf, $path);
+                $request = new HTMLRequest($index);
+                $request->setAssets($assets);
+                $client->store($request, $path);
             } catch (ClientException | FilesystemException | RequestException | \Exception $e) {
                 Log::critical($e);
             }

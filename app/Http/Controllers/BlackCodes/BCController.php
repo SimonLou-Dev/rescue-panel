@@ -129,8 +129,7 @@ class BCController extends Controller
         $bc->place = $place;
         $bc->type_id = $type;
         $bc->save();
-        $this->addPersonel((string)$bc->id);
-
+        PersonnelController::addPersonel((string)$bc->id);
         Http::post(env('WEBHOOK_PU'),[
             'username'=> "BCFD - Intranet",
             'avatar_url'=>'https://bcfd.simon-lou.com/assets/images/BCFD.png',

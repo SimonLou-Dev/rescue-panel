@@ -22,6 +22,34 @@ class UserGradeController extends Controller
     public function setusergrade(Request $request, int $id, int $userid): JsonResponse
     {
         $user= User::where('id', $userid)->first();
+        $requester = User::where('id', Auth::user()->id)->first();
+        if($requester->grade_id < 8){
+            if($user->id == $requester->id){
+                event(new Notify('Impossible de modifier son propre grade ! ',4));
+                return \response()->json(['status'=>'OK']);
+            }
+            if($id >= $requester->grade_id){
+                event(new Notify('Impossible de mettre un grade plus haut que le siens ! ',4));
+                return \response()->json(['status'=>'OK']);
+            }
+        }
+        if($id == 1){
+            $this::removegradeFromuser($userid);
+        }
+        if($user->grade_id == 1 && $id != 1){
+            $users = User::whereNotNull('matricule')->where('grade_id', '>',1)->where('grade_id', '<',10)->get();
+            $matricules = array();
+            foreach ($users as $usere){
+                array_push($matricules, $usere->matricule);
+            }
+            $generated = null;
+            while(is_null($generated) || array_search($generated, $matricules)){
+                $generated = random_int(10, 99);
+            }
+            $user->matricule = $generated;
+            $user->save();
+            event(new Notify($user->name . ' a le matricule ' . $generated,1));
+        }
         $user->grade_id = $id;
         $user->save();
         event(new Notify('Le grade a été bien changé ! ',1));

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Rapports;
 
 use App\Events\Notify;
 use App\Http\Controllers\Controller;
+use App\Jobs\ProcessRapportPDFGenerator;
 use App\Models\Facture;
 use App\Models\Factures;
 use App\Models\Hospital;
@@ -142,33 +143,8 @@ class RapportController extends Controller
                 ]
             ]
         ]);
-
-        $client = new Client(env('PDF_ADDR'), new \Http\Adapter\Guzzle7\Client());
-
-        ob_start();
-        require(base_path('/resources/PDF/RI/index.php'));
-        $content = ob_get_clean();
-
-        $index = DocumentFactory::makeFromString('index.html', $content);
-        $assets = [
-            DocumentFactory::makeFromPath('LONG_EMS_BC_2.png', base_path('/resources/PDF/RI/LONG_EMS_BC_2.png')),
-            DocumentFactory::makeFromPath('signature.png', base_path('/resources/PDF/RI/signature.png'))
-        ];
-
-        $request = new HTMLRequest($index);
-        $request->setAssets($assets);
         $path = base_path('public/storage/RI/'. $rapport->id . ".pdf");
-        try {
-            $client->store($request, $path);
-        } catch (ClientException $e) {
-            Log::critical($e);
-        } catch (FilesystemException $e) {
-            Log::critical($e);
-        } catch (RequestException $e) {
-            Log::critical($e);
-        } catch (\Exception $e) {
-            Log::critical($e);
-        }
+        $this->dispatch(new ProcessRapportPDFGenerator($rapport, $path));
 
         event(new Notify('Rapport ajouté ! ',1));
 

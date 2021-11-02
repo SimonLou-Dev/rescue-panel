@@ -4891,22 +4891,14 @@ body {
   background-color: #0c2646;
   border-radius: 30px;
   padding: 10px;
-  height: 30px;
+  height: 50px;
 }
-.FichePersonnel .content .material .material-list .material-item .deleter {
-  width: 10px;
-  height: auto;
-  margin: auto 0;
-  background-color: #0c2646;
-  display: flex;
-  padding: 0;
-  margin-left: 10px;
-  margin-right: 15px;
+.FichePersonnel .content .material .material-list .material-item img {
+  width: 50px;
+  height: 50px;
 }
-.FichePersonnel .content .material .material-list .material-item .deleter img {
-  margin: auto 0;
-  width: 20px;
-  height: auto;
+.FichePersonnel .content .material .material-list .material-item h4 {
+  margin: auto 10px;
 }
 .FichePersonnel .material-modifier {
   z-index: 25;
@@ -5043,6 +5035,148 @@ body {
   background-color: #0c2646;
   border-radius: 30px;
   border: 1px #00FFFF solid;
+}
+
+.TestPoudre {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  width: 98%;
+  height: 100vh;
+  padding: 10px;
+  overflow-x: hidden;
+  overflow-y: hidden;
+}
+.TestPoudre .left {
+  padding: 10px;
+  height: 100vh;
+  width: 45%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+}
+.TestPoudre .left .title-contain {
+  margin-top: 0;
+}
+.TestPoudre .left .title-contain h1 {
+  text-align: center;
+}
+.TestPoudre .left .TestForm {
+  display: flex;
+  flex-direction: column;
+  margin: auto auto;
+  background-color: #0c2646;
+  border-radius: 30px;
+  width: 95%;
+  height: 1050px;
+}
+.TestPoudre .left .TestForm form {
+  display: flex;
+  flex-direction: column;
+}
+.TestPoudre .left .TestForm .line {
+  width: 100%;
+  height: 2px;
+  background-color: #00FFFF;
+  margin: 10px 0;
+  opacity: 50%;
+}
+.TestPoudre .left .TestForm .formtitle {
+  display: flex;
+  flex-direction: column;
+  margin: 10px auto;
+}
+.TestPoudre .left .TestForm .formtitle h1 {
+  text-align: center;
+  margin-top: 10px;
+}
+.TestPoudre .left .TestForm .pouderFormPart {
+  display: flex;
+  flex-direction: column;
+  margin-left: 10px;
+  width: 90%;
+}
+.TestPoudre .left .TestForm .pouderFormPart label {
+  font-size: 25px;
+}
+.TestPoudre .left .TestForm .linear {
+  margin: 25px;
+  display: flex;
+  flex-direction: row !important;
+}
+.TestPoudre .left .TestForm .btn {
+  margin: 15px auto;
+}
+.TestPoudre .right {
+  padding: 10px;
+  height: 100vh;
+  width: 45%;
+  display: flex;
+}
+.TestPoudre .right .ResultListContainer {
+  background-color: #0c2646;
+  border-radius: 30px;
+  width: 100%;
+  margin: auto 15px;
+  padding: 10px;
+  height: calc(100vh - 120px);
+}
+.TestPoudre .right .ResultListContainer h1 {
+  text-align: center;
+  font-size: 50px;
+}
+.TestPoudre .right .ResultListContainer .liste {
+  margin-top: 60px;
+  overflow-y: auto;
+  height: 85%;
+  background-color: #004662;
+  border-radius: 30px;
+}
+.TestPoudre .right .ResultListContainer .liste table {
+  border-collapse: collapse;
+}
+.TestPoudre .right .ResultListContainer .liste table th {
+  position: sticky;
+  top: 0;
+  border-bottom: black 1px solid;
+  background-color: #004662;
+  z-index: 10;
+  border-left: 1px black solid;
+  border-right: 1px black solid;
+}
+.TestPoudre .right .ResultListContainer .liste table th:first-child {
+  border-left: none;
+}
+.TestPoudre .right .ResultListContainer .liste table th:last-child {
+  border-right: none;
+}
+.TestPoudre .right .ResultListContainer .liste table tr {
+  border: black 1px solid;
+  border-left: none;
+  border-right: none;
+}
+.TestPoudre .right .ResultListContainer .liste table tr:last-child {
+  border-bottom: none;
+}
+.TestPoudre .right .ResultListContainer .liste table td, .TestPoudre .right .ResultListContainer .liste table th {
+  width: 200px;
+  padding: 5px;
+  text-align: center;
+  font-family: "Baloo Thambi 2", monospace;
+  font-size: 25px;
+  color: #00FFFF;
+  border: black 1px solid;
+  border-top: none;
+  border-bottom: none;
+}
+.TestPoudre .right .ResultListContainer .liste table td:first-child, .TestPoudre .right .ResultListContainer .liste table th:first-child {
+  border-left: none;
+}
+.TestPoudre .right .ResultListContainer .liste table td:last-child, .TestPoudre .right .ResultListContainer .liste table th:last-child {
+  border-right: none;
+}
+.TestPoudre .right .ResultListContainer .liste table td .btn, .TestPoudre .right .ResultListContainer .liste table th .btn {
+  background-color: #0c2646;
 }
 
 .notification-item .bar {

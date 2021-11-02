@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Grade;
 use App\Models\Intervention;
 use App\Models\User;
+use App\PDFExporter\ServicePDFExporter;
 use http\Env\Response;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -16,6 +17,7 @@ use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Session;
+use Maatwebsite\Excel\Facades\Excel;
 use function GuzzleHttp\json_decode;
 use function GuzzleHttp\json_encode;
 
@@ -267,7 +269,45 @@ class UserController extends Controller
 
     public function userQuitService(Request $request, string $id)
     {
+        $user = User::where('id', $id)->first();
+        UserGradeController::removegradeFromuser($user->id);
 
+
+        event(new Notify('La démission a été prise en compte',1));
+        $prononcer = User::where('id', Auth::user()->id)->first();
+
+        Http::post(env('WEBHOOK_SANCTIONS'),[
+            'username'=> "BCFD - MDT",
+            'avatar_url'=>'https://bcfd.simon-lou.com/assets/images/BCFD.png',
+            'content'=>">>> ***__Démission :__*** \n **__Personnel :__** " . ($user->discord_id != null ? ("<@" . $user->discord_id . "> ") : "") . $user->name . "\n **__Déclaré par :__** ".$prononcer->name
+        ]);
+
+    }
+
+    public function exportListPersonnelExel(){
+        $users = User::where('grade_id', '>', 1)->where('grade_id', '<', 10)->orderByDesc('grade_id')->get();
+
+        $column[] = array('id','nom', 'matricule', 'grade', 'discordid', 'tel', 'compte', 'pilote', 'nombre de sanctions');
+
+        foreach ($users as $user){
+
+            $sanctions = json_decode($user->sanctions);
+            $column[] = [
+                'id' => $user->id,
+                'nom' => $user->name,
+                'matricule' => $user->matricule ? $user->matricule : '',
+                'grade' => $user->GetGrade->name,
+                'discordid' => $user->discord_id ? $user->discord_id : '',
+                'tel' => $user->tel,
+                'compte' => $user->compte,
+                'pilote' => $user->pilote ? 'oui' : 'non',
+                'nombre de sanctions' => count($sanctions),
+            ];
+
+        }
+        $export = new ServicePDFExporter($column);
+
+        return Excel::download((object)$export, 'BCFD_UserExport_'. now()->timestamp .'.xlsx');
     }
 
 }

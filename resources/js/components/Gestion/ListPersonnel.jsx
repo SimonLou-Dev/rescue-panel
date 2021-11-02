@@ -66,8 +66,12 @@ class ListPersonnel extends React.Component {
                     <section className={'header'}>
                         <PagesTitle title={'Liste du personnel'}/>
                         {perm.edit_perm === 1 &&
-                        <Link to={'/gestion/perm'} className={'btn'}>gérer les permissions</Link>
+                            <Link to={'/gestion/perm'} className={'btn'}>gérer les permissions</Link>
                         }
+                        {perm.edit_perm === 1 &&
+                            <a href={'/data/users/export'} target={'_blank'} className={'btn'}>Exporter</a>
+                        }
+                        
                     </section>
                     <section className={'list-personnel'}>
                         <div className={'tableHeader'}>

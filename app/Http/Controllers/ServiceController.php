@@ -183,6 +183,15 @@ class ServiceController extends Controller
 
     public static function setService(User $user, bool $admin): bool
     {
+        if ($user->last_service_update != null){
+            if($user->last_service_update + 120 > now()->timestamp) {
+                event(new Notify('Stop SPAMMMMMMM !!!!! ;)', 4));
+                return true;
+            }
+        }
+
+        $user->last_service_update = now()->timestamp;
+
         if($user->service){
             $user->service = false;
             $user->serviceState = null;
@@ -195,6 +204,7 @@ class ServiceController extends Controller
             $week =  ServiceController::getWeekNumber();
             $service->ended_at = date('H:I:s', time());
             $service->total = $formated;
+
             $service->save();
 
             $WeekService = WeekService::where('week_number', $week)->where('user_id', $user->id);

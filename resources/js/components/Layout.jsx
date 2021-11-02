@@ -32,6 +32,7 @@ import {useNotifications} from "./context/NotificationProvider";
 import LiensUtilesMgt from "./Gestion/LiensUtilesMgt";
 import FichePersonnel from "./Gestion/FichePersonnel";
 import ListPersonnel from "./Gestion/ListPersonnel";
+import TestPoudre from "./Patient/TestPoudre";
 
 export const rootUrl = document.querySelector('body').getAttribute('data-root-url');
 
@@ -250,6 +251,7 @@ export function Layout(){
                     <Route path='/patient/rapport' component={Rapport}/>
                     <Route path={'/patient/blackcode'} component={BCController}/>
                     <Route path={'/patient/dossiers'} component={RecherchePatient}/>
+                    <Route path={'/patient/poudre'} component={TestPoudre}/>
 
                     <Route path={'/personnel/service'} component={Services}/>
                     <Route path={'/personnel/factures'} component={Factures}/>

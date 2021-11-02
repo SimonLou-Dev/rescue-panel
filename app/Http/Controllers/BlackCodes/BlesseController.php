@@ -8,6 +8,7 @@ use App\Http\Controllers\Rapports\FacturesController;
 use App\Models\BCList;
 use App\Models\BCPatient;
 use App\Models\Blessure;
+use App\Models\CouleurVetement;
 use App\Models\Facture;
 use App\Models\Patient;
 use App\Models\Rapport;
@@ -73,6 +74,7 @@ class BlesseController extends Controller
         $BcP->BC_id = $bc->id;
         $BcP->name = $Patient->vorname . ' ' .$Patient->name;
         $BcP->save();
+        $color = CouleurVetement::where('id', $request->color)->first();
         FacturesController::addFactureMethod($Patient, $request->payed, 700, Auth::user()->id,$rapport->id);
         event(new Notify('Patient ajouté ! ',1));
 
@@ -98,6 +100,10 @@ class BlesseController extends Controller
                                 'name'=>'nom réel du personnage :',
                                 'value'=>$request->realname,
                                 'inline'=>false,
+                            ],[
+                                'name'=>'Couleur/groupe :',
+                                'value'=>$color->name,
+                                'inline'=>true,
                             ]
                         ],
                         'footer'=>[

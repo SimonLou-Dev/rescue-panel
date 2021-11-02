@@ -7,6 +7,7 @@ use App\Http\Controllers\FileController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\LayoutController;
 use App\Http\Controllers\MainController;
+use App\Http\Controllers\Rapports\PoudreTestController;
 use App\Http\Controllers\RemboursementsController;
 use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\VolController;
@@ -39,6 +40,12 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
+Route::get("/infos", function (){
+    return phpinfo();
+});
+
+
+
 //Main view
 Route::get('/', [HomeController::class, 'getIndex'])->middleware(['auth','access']);
 //View in patient
@@ -91,6 +98,11 @@ Route::get('/data/rapport/get/{id}', [RapportController::class, 'getRapportById'
 Route::put('/data/rapport/update/{id}', [RapportController::class, 'updateRapport']);
 Route::post('/data/patient/{id}/update', [RapportController::class, 'updatePatientInfos']);
 Route::get('/pdf/rapport/{id}', [ExporterController::class, 'makeRapportPdf']);
+//Tests de poudre
+
+Route::post('/data/poudre/add', [PoudreTestController::class, 'postTest']);
+Route::get('/data/poudre/get', [PoudreTestController::class, 'getAllTests']);
+Route::get('/data/poudre/PDF/{id}', [PoudreTestController::class, 'exportTest']);
 
 //LES BC
 Route::get('/data/blackcode/load', [BCController::class, 'getMainPage']);
@@ -135,7 +147,8 @@ Route::post('/data/usersheet/{user_id}/note', [UserController::class, 'addUserNo
 Route::delete('/data/usersheet/{user_id}/{note_id}/note', [UserController::class, 'removeUserNote']);
 Route::post('/data/usersheet/{user_id}/sanctions', [UserController::class, 'addUserSanction']);
 Route::put('/data/usersheet/{user_id}/material', [UserController::class, 'ModifyUserMaterial']);
-Route::put('/data/usersheet/{user_id}/quiService', [UserController::class, 'userQuitService']);
+Route::put('/data/usersheet/{user_id}/quitService', [UserController::class, 'userQuitService']);
+Route::get('/data/users/export', [UserController::class, 'exportListPersonnelExel']);
 
 //Content management
 Route::post('/data/gestion/content/add/{type}', [ContentManagement::class, 'addcontent']);
