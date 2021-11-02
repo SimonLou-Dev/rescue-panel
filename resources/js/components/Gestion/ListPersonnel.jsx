@@ -71,7 +71,7 @@ class ListPersonnel extends React.Component {
                         {perm.edit_perm === 1 &&
                             <a href={'/data/users/export'} target={'_blank'} className={'btn'}>Exporter</a>
                         }
-                        
+
                     </section>
                     <section className={'list-personnel'}>
                         <div className={'tableHeader'}>
