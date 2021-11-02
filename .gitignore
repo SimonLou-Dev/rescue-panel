@@ -19,8 +19,8 @@ yarn-error.log
 /.idea
 vite.config.js
 /reports
-/public/storage/RI/
-/public/storage/formations/
-/public/storage/temp_upload/
-/public/storage/user_background/
-/public/storage/test/poudre/
+/public/storage/RI/*
+/public/storage/formations/*
+/public/storage/temp_upload/*
+/public/storage/user_background/*
+/public/storage/test/poudre/*
