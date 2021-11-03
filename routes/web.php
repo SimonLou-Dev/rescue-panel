@@ -214,3 +214,6 @@ Route::put('/data/infosutils/put', [MainController::class, 'updateUtilsInfos']);
 
 Route::post('/data/front/errors', [ErrorsController::class, 'frontErrors']);
 
+Route::get('/debug-sentry', function () {
+    throw new Exception('My first Sentry error!');
+});

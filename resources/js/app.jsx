@@ -26,6 +26,18 @@ import Emailsender from './components/Emailsender';
 import Maintenance from "./components/Maintenance";
 import GetInfos from "./components/GetInfos";
 import NotificationsProvider from "./components/context/NotificationProvider";
+import * as Sentry from "@sentry/react";
+import { Integrations } from "@sentry/tracing";
+
+Sentry.init({
+    dsn: "https://4ef83bdc75054cc88ab4d44ef8c749d7@o1059354.ingest.sentry.io/6047890",
+    integrations: [new Integrations.BrowserTracing()],
+
+    // Set tracesSampleRate to 1.0 to capture 100%
+    // of transactions for performance monitoring.
+    // We recommend adjusting this value in production
+    tracesSampleRate: 1.0,
+});
 
 class App extends React.Component{
     constructor(props) {
