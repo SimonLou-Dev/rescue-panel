@@ -10,7 +10,8 @@ use App\Http\Controllers\LayoutController;
 use App\Http\Controllers\MainController;
 use App\Http\Controllers\Rapports\PoudreTestController;
 use App\Http\Controllers\RemboursementsController;
-use App\Http\Controllers\ServiceController;
+use App\Http\Controllers\Service\ServiceGetterController;
+use App\Http\Controllers\Service\ServiceSetterController;
 use App\Http\Controllers\VolController;
 use App\Http\Controllers\BlackCodes\BCController;
 use App\Http\Controllers\BlackCodes\BcEmbedController;
@@ -126,13 +127,13 @@ Route::post('/data/facture/add', [FacturesController::class, 'addFacture']);
 Route::get('/PDF/facture/{from}/{to}', [ExporterController::class, 'makeImpayPdf']);
 
 //Service management
-Route::get('/data/service/user', [ServiceController::class, 'getUserService']);
-Route::get('/data/service/alluser/{semaine?}', [ServiceController::class, 'getAllservice']);
-Route::get('/data/service/addwors', [ServiceController::class, 'addRows']);
+Route::get('/data/service/user', [ServiceGetterController::class, 'getUserService']);
+Route::get('/data/service/alluser/{semaine?}', [ServiceGetterController::class, 'getAllservice']);
+Route::get('/data/service/addwors', [ServiceSetterController::class, 'addRows']);
 Route::get('/data/AllInService', [MainController::class, 'getInServices']);
-Route::put('/data/service/setbyadmin/{userid}', [ServiceController::class, 'setServiceByAdmin']);
-Route::put('/data/service/admin/modify', [ServiceController::class, 'modifyTimeService']);
-Route::get('/data/service/admin/exel/{week?}', [ServiceController::class, 'getWeekServiceExel']);
+Route::put('/data/service/setbyadmin/{userid}', [ServiceSetterController::class, 'setServiceByAdmin']);
+Route::put('/data/service/admin/modify', [ServiceSetterController::class, 'modifyTimeService']);
+Route::get('/data/service/admin/exel/{week?}', [ServiceGetterController::class, 'getWeekServiceExel']);
 
 //User management
 Route::get('/data/users/getall', [UserController::class, 'getUser']);

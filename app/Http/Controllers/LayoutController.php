@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Events\Notify;
+use App\Http\Controllers\Service\OperatorController;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -19,7 +20,7 @@ class LayoutController extends Controller
     public function setservice(Request $request): \Illuminate\Http\JsonResponse
     {
         $user = User::where('id', Auth::id())->first();
-        ServiceController::setService($user, false);
+        OperatorController::setService($user, false);
         $text = "";
         if($user->service){
             $text = 'Vous êtes en service !';

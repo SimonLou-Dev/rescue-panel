@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Users;
 
 use App\Events\Notify;
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\Service\OperatorController;
 use App\Http\Controllers\ServiceController;
 use App\Models\Grade;
 use App\Models\User;
@@ -138,7 +139,7 @@ class UserGradeController extends Controller
         $user->grade_id = 1;
         $user->bc_id = null;
         if($user->service){
-            ServiceController::setService($user, true);
+            OperatorController::setService($user, true);
         }
         $user->save();
 
