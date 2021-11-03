@@ -3,6 +3,7 @@
 
 use App\Http\Controllers\AccountController;
 use App\Http\Controllers\ContentManagement;
+use App\Http\Controllers\ErrorsController;
 use App\Http\Controllers\FileController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\LayoutController;
@@ -190,7 +191,7 @@ Route::post('/data/remboursements/post', [RemboursementsController::class, 'addR
 Route::delete('/data/remboursements/delete/{itemid}', [RemboursementsController::class, 'deleteRemboursement']);
 
 //Acount infos
-Route::get('/data/user/infos/get', [AccountController::class, 'getInfos']);
+Route::get('/data/user/infos/get', [UserController::class, 'getUserInfos']);
 Route::put('/data/user/infos/put', [AccountController::class, 'updateInfos']);
 Route::put('/data/user/mdp/put', [AccountController::class, 'changeMdp']);
 Route::post('/data/user/bg/post', [AccountController::class, 'addBgImg']);
@@ -208,4 +209,7 @@ Route::delete('/data/delete/tempupload', [FileController::class, 'deleteTempFile
 
 Route::get('/data/infosutils/get', [MainController::class, 'getUtilsInfos']);
 Route::put('/data/infosutils/put', [MainController::class, 'updateUtilsInfos']);
+
+
+Route::post('/data/front/errors', [ErrorsController::class, 'frontErrors']);
 

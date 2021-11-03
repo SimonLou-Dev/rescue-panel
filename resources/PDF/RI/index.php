@@ -20,7 +20,7 @@
         }
         .head h1{
             text-align: center;
-            margin-top: 20px;
+            margin-top: 120px;
             font-weight: 700;
             font-family: "Baloo Thambi 2", monospace;
             margin-bottom: 0;
@@ -56,8 +56,14 @@
             line-height: 19px;
             margin: 5px 5px 5px 10px;
         }
+        .fixedd{
+            text-decoration: black underline;
+            margin-left: 200px;
+            font-weight: 600;
+        }
         .fixed{
             text-decoration: black underline;
+            margin-left: 10px;
             font-weight: 600;
         }
         .item:last-child{
@@ -66,23 +72,28 @@
         .signature{
             display: flex;
             flex-direction: column;
+            height: 200px;
         }
         .contents{
-            display: flex;
-            flex-direction: row;
-            justify-content: space-evenly;
+            margin-top: 110px;
+            margin-left: 120px;
+        }
+        .text,img{
+            margin-left: 100px;
+            margin-top: 25px;
         }
         .signiature{
             font-weight: 700;
             font-family: 'Brush Script MT', monospace;
             font-size: 40px;
-            margin-top: 50px;
+            margin-top: 20px;
+            margin-left: 50px;
         }
     </style>
 </head>
 <body>
 <div class="head">
-    <img src="LONG_EMS_BC_2.png" alt="">
+    <?php echo '<img src="'. public_path('assets/images/LONG_EMS_BC_2.png') .'" alt="">' ?>
     <h1>Rapport d'intervention</h1>
 </div>
 <div class="card">
@@ -104,7 +115,7 @@
     </div>
     <div class="card-content sa">
         <div class="item">
-            <p><span class="fixed">Date et heure de l'intervention :</span><?php echo ' '. date('d/m/y H:i', strtotime($rapport->started_at)) ?> </p>
+            <p><span class="fixed">Date et heure de l'intervention :</span><?php echo ' '. date('d/m/y H:i', strtotime($rapport->started_at.':00')) ?> </p>
         </div>
         <div class="item">
             <p><span class="fixed">Transport :</span><?php echo ' '. $rapport->GetTransport->name ?></p>
@@ -146,7 +157,7 @@
             <p><span class="fixed">Signature :</span></p>
             <div class="contents">
                 <p class="signiature"> <?php echo $user  ?></p>
-                <img class="imgsignature" src='signature.png' width="100px" alt="">
+                <div class="text"><?php echo '<img class="imgsignature" width="100px" alt=""src="'. public_path('assets/images/signature.png') .'" alt="">' ?></div>
             </div>
         </div>
     </div>

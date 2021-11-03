@@ -22,7 +22,7 @@
         }
         .head h1{
             text-align: center;
-            margin-top: 10px;
+            margin-top: 100px;
             font-weight: 700;
             font-family: "Baloo Thambi 2", monospace;
             margin-bottom: 0;
@@ -55,7 +55,7 @@
 </head>
 <body>
 <div class="head">
-    <img src="LONG_EMS_BC_2.png" alt="">
+    <?php echo '<img src="'. public_path('assets/images/LONG_EMS_BC_2.png') .'" alt="">' ?>
     <h1>Impayées</h1>
 </div>
 <h4>Du <?php echo $infos['from'] ?> au <?php echo $infos['to'] ?> </h4>

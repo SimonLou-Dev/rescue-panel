@@ -70,9 +70,20 @@ class Time extends React.Component {
 
 class ErrorBoundary extends React.Component{
 
-    componentDidCatch(error, errorInfo) {
+    async componentDidCatch(error, errorInfo) {
+        await axios({
+            method: 'POST',
+            url: '/data/front/errors',
+            data: {
+                error: error,
+                errorInfo: errorInfo,
+            }
+        })
+
         console.log(error, errorInfo)
     }
+
+
 
     render() {
         return this.props.children
@@ -124,7 +135,6 @@ export function Layout(){
         }
 
     }, [])
-
 
 
     const tick =async() => {
@@ -243,34 +253,38 @@ export function Layout(){
                 </div>
             </div>
             <div id="content" style={{filter: bugPopup ? 'blur(5px)' : 'none'}} >
+                <ErrorBoundary>
 
-                <PermsContext.Provider value={perm}>
-                    <Route exact path='/' component={Main}/>
-                    <Route path={'/bugrepport'} component={BugRepport}/>
+                    <PermsContext.Provider value={perm}>
+                        <Route exact path='/' component={Main}/>
+                        <Route path={'/bugrepport'} component={BugRepport}/>
 
-                    <Route path='/patient/rapport' component={Rapport}/>
-                    <Route path={'/patient/blackcode'} component={BCController}/>
-                    <Route path={'/patient/dossiers'} component={RecherchePatient}/>
-                    <Route path={'/patient/poudre'} component={TestPoudre}/>
+                        <Route path='/patient/rapport' component={Rapport}/>
+                        <Route path={'/patient/blackcode'} component={BCController}/>
+                        <Route path={'/patient/dossiers'} component={RecherchePatient}/>
+                        <Route path={'/patient/poudre'} component={TestPoudre}/>
 
-                    <Route path={'/personnel/service'} component={Services}/>
-                    <Route path={'/personnel/factures'} component={Factures}/>
-                    <Route path={'/personnel/informations'} component={Informations}/>
-                    <Route path={'/personnel/moncompte'} component={MonCompte}/>
-                    <Route path={'/personnel/livret'} component={FormationsController}/>
-                    <Route path={'/personnel/vols'} component={CarnetVol}/>
-                    <Route path={'/personnel/remboursement'} component={Remboursement}/>
+                        <Route path={'/personnel/service'} component={Services}/>
+                        <Route path={'/personnel/factures'} component={Factures}/>
+                        <Route path={'/personnel/informations'} component={Informations}/>
+                        <Route path={'/personnel/moncompte'} component={MonCompte}/>
+                        <Route path={'/personnel/livret'} component={FormationsController}/>
+                        <Route path={'/personnel/vols'} component={CarnetVol}/>
+                        <Route path={'/personnel/remboursement'} component={Remboursement}/>
 
-                    <Route path={'/gestion/rapport'} component={RapportHoraire}/>
-                    <Route path={'/gestion/content'} component={ContentManagement}/>
-                    <Route path={'/gestion/personnel'} component={ListPersonnel}/>
-                    <Route path={'/gestion/log'} component={Logs}/>
-                    <Route path={'/gestion/formation'} component={AFormaController}/>
-                    <Route path={'/gestion/informations'} component={InfoGestion}/>
-                    <Route path={'/gestion/perm'} component={Permissions}/>
-                    <Route path={'/gestion/utils'} component={LiensUtilesMgt}/>
-                    <Route path={'/gestion/Fiches'} component={FichePersonnel}/>
-                </PermsContext.Provider>
+                        <Route path={'/gestion/rapport'} component={RapportHoraire}/>
+                        <Route path={'/gestion/content'} component={ContentManagement}/>
+                        <Route path={'/gestion/personnel'} component={ListPersonnel}/>
+                        <Route path={'/gestion/log'} component={Logs}/>
+                        <Route path={'/gestion/formation'} component={AFormaController}/>
+                        <Route path={'/gestion/informations'} component={InfoGestion}/>
+                        <Route path={'/gestion/perm'} component={Permissions}/>
+                        <Route path={'/gestion/utils'} component={LiensUtilesMgt}/>
+                        <Route path={'/gestion/Fiches'} component={FichePersonnel}/>
+                    </PermsContext.Provider>
+
+                </ErrorBoundary>
+
             </div>
             {bugPopup &&
             <BugRepport close={()=>openPopup(false)}/>

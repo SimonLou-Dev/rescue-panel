@@ -9,7 +9,7 @@ use App\Models\Services;
 use App\Models\User;
 use App\Models\WeekRemboursement;
 use App\Models\WeekService;
-use App\PDFExporter\ServicePDFExporter;
+use App\Exporter\ExelPrepareExporter;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -373,7 +373,8 @@ class ServiceController extends Controller
         }
     }
 
-    public function getWeekServiceExel(string $week = null){
+    public function getWeekServiceExel(string $week = null): \Symfony\Component\HttpFoundation\BinaryFileResponse
+    {
         if(is_null($week)){
             $week = $this::getWeekNumber();
         }else{
@@ -424,12 +425,36 @@ class ServiceController extends Controller
                 ];
             }
         }
-        $export = new ServicePDFExporter($column);
+        $export = new ExelPrepareExporter($column);
 
         return Excel::download((object)$export, 'RemboursementsServicesSemaine'. $week .'.xlsx');
 
 
     }
 
+    public function postModifyTimeServiceRequest(request $request)
+    {
+        //create request
+    }
+
+    public function acceptModifyTimeServiceRequest(string $id)
+    {
+        //accept request
+    }
+
+    public function refuseModifyTimeServiceRequest(string $id)
+    {
+        //refuse request
+    }
+
+    public function getAllwaitingModifyTimeServiceRequest()
+    {
+        //Get all waiting request
+    }
+
+    public function getMyModifyTimeServiceRequest()
+    {
+        //Get my requests
+    }
 
 }

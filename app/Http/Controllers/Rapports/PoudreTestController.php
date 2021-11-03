@@ -49,12 +49,18 @@ class PoudreTestController extends Controller
             $Patient->name = $explode[1];
             $Patient->vorname = $explode[0];
             $Patient->tel = $request->tel;
+            $Patient->naissance = $request->DDN;
+            $Patient->living_place = $request->lieux;
             $Patient->save();
             event(new Notify('Nouveau patient créé',1));
         }else {
          $Patient->tel = $request->tel;
+         $Patient->naissance = $request->DDN;
+         $Patient->living_place = $request->lieux;
          $Patient->save();
         }
+
+
 
 
         $test->patient_id = $Patient->id;
@@ -65,8 +71,8 @@ class PoudreTestController extends Controller
         $test->save();
 
         $tester = User::where('id', Auth::id())->first();
-        $path = base_path('public/storage/test/poudre/'. $test->id . ".pdf");
-        $this->dispatch(new ProcesTestPoudrePDFGen($test, $path));
+        $path = 'public/test/poudre/'. $test->id . ".pdf";
+        $this->dispatch(new ProcesTestPoudrePDFGenerator($test, $path));
 
         Http::post(env('WEBHOOK_POUDRE'),[
             'username'=> "BCFD - MDT",

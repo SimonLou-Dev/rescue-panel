@@ -12,7 +12,7 @@ use App\Models\CouleurVetement;
 use App\Models\Facture;
 use App\Models\Patient;
 use App\Models\Rapport;
-use App\PDFExporter\ServicePDFExporter;
+use App\Exporter\ExelPrepareExporter;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
@@ -185,7 +185,7 @@ class BlesseController extends Controller
             ];
         }
 
-        $export = new ServicePDFExporter($columns);
+        $export = new ExelPrepareExporter($columns);
         return Excel::download((object)$export, 'listeDesPatientsDansLesBC.xlsx');
     }
 }

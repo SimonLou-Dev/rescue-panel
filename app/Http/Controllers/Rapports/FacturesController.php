@@ -85,7 +85,7 @@ class FacturesController extends Controller
 
     public function getAllimpaye(Request $request): \Illuminate\Http\JsonResponse
     {
-        $impaye = Facture::where('payed', false)->orderBy('id', 'desc')->get();
+        $impaye = Facture::where('payed', false)->orderBy('id', 'desc')->take(100)->get();
         $size = count($impaye);
         $a = 0;
         while ($a < $size){

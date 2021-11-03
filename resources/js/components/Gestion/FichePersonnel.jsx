@@ -31,7 +31,8 @@ class FichePersonnel extends React.Component {
                 map_date: '',
                 map_time: '',
                 note_lic: ''
-            }
+            },
+            noteform: '',
         }
         this.getnotes = this.getnotes.bind(this)
         this.getsanctions = this.getsanctions.bind(this)
@@ -215,16 +216,42 @@ class FichePersonnel extends React.Component {
                     <div className={'notes'}>
                         <h1>Notes</h1>
                         <ul className={'notelist'}>
-                            <li className={'note'}>
-                                <button disabled={(perm.membersheet_note!== 1)} className={'btn deleter'} ><img src={rootUrl + 'assets/images/cancel.png'}/></button>
-                                <h4><span>Ecrit par :</span> jean claude</h4>
-                                <h4><span>Date :</span> 15/05/2012</h4>
-                                <h4>Gratis mortem rare falleres navis est. A falsis, lamia barbatus hydra.</h4>
-                            </li>
+                            {this.state.notes != null &&
+                                this.state.notes.map((note) =>
+                                    <li className={'note'} key={note.id}>
+                                        <button disabled={(perm.membersheet_note!== 1)} className={'btn deleter'} ><img src={rootUrl + 'assets/images/cancel.png'} onClick={async () => {
+                                            await axios({
+                                                method: 'DELETE',
+                                                url: '/data/usersheet/' + this.state.user_id + '/' + note.id + '/note'
+                                            }).then(response => {
+                                                this.getnotes(this.state.user_id);
+                                            })
+                                        }}/></button>
+                                        <h4><span>Ecrit par :</span>{note.sender}</h4>
+                                        <h4><span>Date :</span> {note.posted_at}</h4>
+                                        <h4>{note.note}</h4>
+                                    </li>
+                                )
+                            }
+
                         </ul>
                         <div className={'noteadder'}>
-                            <form>
-                                <textarea placeholder={'Ecrire une note...'} disabled={(perm.membersheet_note!== 1)}/>
+                            <form onSubmit={async e => {
+                                e.preventDefault();
+                                await axios({
+                                    method: 'POST',
+                                    url: '/data/usersheet/' + this.state.user_id + '/note',
+                                    data: {
+                                        note: this.state.noteform
+                                    }
+                                }).then(response => {
+                                    if (response.status === 201) {
+                                        this.setState({noteform: ''});
+                                        this.getnotes(this.state.user_id)
+                                    }
+                                })
+                            }}>
+                                <textarea placeholder={'Ecrire une note...'} disabled={(perm.membersheet_note!== 1)} value={this.state.noteform} onChange={e => {this.setState({noteform:e.target.value})}}/>
                                 <button type={'submit'} disabled={(perm.membersheet_note!== 1)} className={'btn'}>valider</button>
                             </form>
                         </div>

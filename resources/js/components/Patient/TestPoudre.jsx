@@ -32,7 +32,12 @@ class TestPoudre extends React.Component {
             method: 'GET',
         });
         if(req.data.list.length === 1){
-            this.setState({tel: req.data.list[0].tel})
+            this.setState({
+                tel: req.data.list[0].tel,
+                DDN: req.data.list[0].naissance,
+                lieux: req.data.list[0].living_place
+            })
+
         }
         this.setState({list: req.data.list})
 

@@ -174,33 +174,13 @@ class RapportController extends Controller
         }
         $facture->save();
         $rapport->save();
-        $path = base_path('public/storage/RI/'. $rapport->id . ".pdf");
+        $path = '/public/RI/'. $rapport->id . ".pdf";
 
-        if(Storage::exists('/public/RI/'. $rapport->id . ".pdf")){
-            Storage::delete('/public/RI/'. $rapport->id . ".pdf");
+        if(Storage::exists($path)){
+            Storage::delete($path);
         }
 
-        $user = $rapport->GetUser->name;
-
-        $client = new Client(env('PDF_ADDR'), new \Http\Adapter\Guzzle7\Client());
-
-        ob_start();
-        require(base_path('/resources/PDF/RI/index.php'));
-        $content = ob_get_clean();
-
-        $index = DocumentFactory::makeFromString('index.html', $content);
-        $assets = [
-            DocumentFactory::makeFromPath('LONG_EMS_BC_2.png', base_path('/resources/PDF/RI/LONG_EMS_BC_2.png')),
-            DocumentFactory::makeFromPath('signature.png', base_path('/resources/PDF/RI/signature.png'))
-        ];
-
-        $request = new HTMLRequest($index);
-        $request->setAssets($assets);
-        try {
-            $client->store($request, $path);
-        } catch (ClientException | FilesystemException | RequestException | \Exception $e) {
-            Log::critical($e);
-        }
+        $this->dispatch(new ProcessRapportPDFGenerator($rapport, $path));
 
         event(new Notify('Rapport mis à jour',1));
         return response()->json(['status'=>'OK'],201);

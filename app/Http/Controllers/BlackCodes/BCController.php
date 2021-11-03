@@ -16,7 +16,7 @@ use App\Models\Facture;
 use App\Models\Patient;
 use App\Models\Rapport;
 use App\Models\User;
-use App\PDFExporter\ServicePDFExporter;
+use App\Exporter\ExelPrepareExporter;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
@@ -115,6 +115,10 @@ class BCController extends Controller
         ]);
     }
 
+    /**
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function addBc(Request $request): \Illuminate\Http\JsonResponse
     {
         $request->validate([
@@ -164,6 +168,10 @@ class BCController extends Controller
         ],201);
     }
 
+    /**
+     * @param int $id
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function endBc(int $id=9): \Illuminate\Http\JsonResponse
     {
         $bc = BCList::where('id', $id)->firstOrFail();
@@ -172,7 +180,7 @@ class BCController extends Controller
         $users = User::where('bc_id', $id)->get();
         foreach ($users as $user){
            $user->bc_id = null;
-            $user->save();
+           $user->save();
         }
 
         $patients = $bc->GetPatients;
@@ -187,18 +195,23 @@ class BCController extends Controller
         return response()->json(['status'=>'OK'],201);
     }
 
-    public function generateRapport(string $id){
+    /**
+     * @param string $id
+     * @return \Symfony\Component\HttpFoundation\BinaryFileResponse
+     */
+    public function generateRapport(string $id): \Symfony\Component\HttpFoundation\BinaryFileResponse
+    {
         $bc = BCList::where('id',$id)->first();
         $columns[] = ['prénom nom', 'couleur vêtement', 'date et heure d\'ajout'];
         foreach ($bc->GetPatients as $patient){
             $columns[] = [
                 $patient->GetPatient->vorname . ' ' . $patient->GetPatient->name,
-                CouleurVetement::withTrashed()->where('id', $patient->couleur)->first(),
+                CouleurVetement::withTrashed()->where('id', $patient->couleur)->first()->name,
                 date('d/m/Y H:i', strtotime($patient->created_at))
             ];
         }
 
-        $export = new ServicePDFExporter($columns);
+        $export = new ExelPrepareExporter($columns);
         return Excel::download((object)$export, 'ListePatientsBc'. $id .'.xlsx');
     }
 }

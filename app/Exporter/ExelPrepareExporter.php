@@ -1,12 +1,12 @@
 <?php
 
 
-namespace App\PDFExporter;
+namespace App\Exporter;
 
 
 use Maatwebsite\Excel\Concerns\FromArray;
 
-class ServicePDFExporter implements FromArray
+class ExelPrepareExporter implements FromArray
 {
 
     protected $final;

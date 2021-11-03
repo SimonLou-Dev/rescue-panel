@@ -8,7 +8,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Grade;
 use App\Models\Intervention;
 use App\Models\User;
-use App\PDFExporter\ServicePDFExporter;
+use App\Exporter\ExelPrepareExporter;
 use http\Env\Response;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -17,10 +17,11 @@ use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Str;
 use Maatwebsite\Excel\Facades\Excel;
+use Ramsey\Uuid\Uuid;
 use function GuzzleHttp\json_decode;
 use function GuzzleHttp\json_encode;
-
 
 class UserController extends Controller
 {
@@ -69,6 +70,12 @@ class UserController extends Controller
         return \response()->json(['status' => 'OK'], 201);
     }
 
+    /**
+     * @param Request $request
+     * @param string $user_id
+     * @param string $state
+     * @return JsonResponse
+     */
     public function changeState(Request $request, string $user_id, string $state): JsonResponse
     {
         $user = User::where('id', (int)$user_id)->first();
@@ -78,6 +85,12 @@ class UserController extends Controller
         return response()->json(['status' => 'OK'], 200);
     }
 
+    /**
+     * @param Request $request
+     * @param string $discordid
+     * @param string $id
+     * @return JsonResponse
+     */
     public function setDiscordId(Request $request, string $discordid, string $id): JsonResponse
     {
         $user = User::where('id', $id)->first();
@@ -90,26 +103,41 @@ class UserController extends Controller
         return response()->json(['status' => 'OK'], 200);
     }
 
+    /**
+     * @param string $user_id
+     * @return JsonResponse
+     */
     public function getUserNote(string $user_id): JsonResponse
     {
         $user = User::where('id', $user_id)->first();
         return \response()->json([
             'status'=> 'ok',
-            'note'=> $user->note
+            'note'=> (array) array_reverse(json_decode($user->note))
         ]);
     }
 
+    /**
+     * @param string $user_id
+     * @return JsonResponse
+     */
     public function getUserSanctions(string $user_id): JsonResponse
     {
         $user = User::where('id', $user_id)->first();
         return \response()->json([
             'status'=> 'ok',
-            'sanctions'=> (array) json_decode($user->sanctions)
+            'sanctions'=> (array) array_reverse(json_decode($user->sanctions))
         ]);
     }
 
-    public function getUserInfos(string $user_id): JsonResponse
+    /**
+     * @param string|null $user_id
+     * @return JsonResponse
+     */
+    public function getUserInfos(string $user_id = NULL): JsonResponse
     {
+        if(is_null($user_id)){
+            $user_id = Auth::id();
+        }
         $user = User::where('id', $user_id)->first();
         $user->GetGrade;
 
@@ -119,6 +147,10 @@ class UserController extends Controller
         ]);
     }
 
+    /**
+     * @param string $user_id
+     * @return JsonResponse
+     */
     public function getUserMaterial(string $user_id): JsonResponse
     {
         $user = User::where('id', $user_id)->first();
@@ -132,15 +164,63 @@ class UserController extends Controller
 
     public function addUserNote(Request $request, string $id)
     {
+        $user = User::where('id', $id)->first();
 
+        $request->validate([
+            'note'=>'required'
+        ]);
+        $newnote = [
+            'id' => Str::uuid(),
+            'sender' => Auth::user()->name,
+            'note' => $request->note,
+            'posted_at'=>date('d/m/Y à H:i')
+        ];
+
+
+        if(is_null($user->note)){
+            $notes = [$newnote];
+        }else{
+            $notes = json_decode($user->note);
+            array_push($notes, $newnote);
+        }
+        $user->note = json_encode($notes);
+        $user->save();
+
+        return \response()->json([],201);
     }
 
     public function removeUserNote(Request $request, string $id, string $note_id)
     {
+        $user = User::where('id',  $id)->first();
+        $notes = json_decode($user->note);
+        $find = null;
+        $a = 0;
+
+        while($a < count($notes)){
+            if($notes[$a]->id = $note_id){
+                $find =$a;
+            }
+            $a++;
+        }
+
+        if(!is_null($find)){
+            unset($notes[$find]);
+            $user->note = $notes;
+            $user->save();
+            event(new Notify('Cette note à été supprimée',1));
+        }else{
+            event(new Notify('Une erreur est survenue',4));
+        }
+        return \response()->json([]);
 
     }
 
-    public function addUserSanction(Request $request, string $id)
+    /**
+     * @param Request $request
+     * @param string $id
+     * @return JsonResponse
+     */
+    public function addUserSanction(Request $request, string $id): JsonResponse
     {
         $user = User::where('id',  $id)->first();
         $baseuser = $user;
@@ -151,7 +231,7 @@ class UserController extends Controller
         $array = array();
         $prononcer = User::where('id', Auth::user()->id)->first();
         $reqinfos= $request->get('infos');
-        $array['prononcedam'] = date('d/m/Y \à h\hi');
+        $array['prononcedam'] = date('d/m/Y \à H\hi');
         $array['prononcedby'] = $prononcer->name;
 
         switch ($request->sanctions){
@@ -203,7 +283,12 @@ class UserController extends Controller
 
     }
 
-    public function ModifyUserMaterial(Request $request, string $id)
+    /**
+     * @param Request $request
+     * @param string $id
+     * @return JsonResponse
+     */
+    public function ModifyUserMaterial(Request $request, string $id): JsonResponse
     {
 
         $user = User::where('id',  $id)->first();
@@ -267,6 +352,10 @@ class UserController extends Controller
         ]);
     }
 
+    /**
+     * @param Request $request
+     * @param string $id
+     */
     public function userQuitService(Request $request, string $id)
     {
         $user = User::where('id', $id)->first();
@@ -284,7 +373,11 @@ class UserController extends Controller
 
     }
 
-    public function exportListPersonnelExel(){
+    /**
+     * @return \Symfony\Component\HttpFoundation\BinaryFileResponse
+     */
+    public function exportListPersonnelExel(): \Symfony\Component\HttpFoundation\BinaryFileResponse
+    {
         $users = User::where('grade_id', '>', 1)->where('grade_id', '<', 10)->orderByDesc('grade_id')->get();
 
         $column[] = array('id','nom', 'matricule', 'grade', 'discordid', 'tel', 'compte', 'pilote', 'nombre de sanctions');
@@ -305,7 +398,7 @@ class UserController extends Controller
             ];
 
         }
-        $export = new ServicePDFExporter($column);
+        $export = new ExelPrepareExporter($column);
 
         return Excel::download((object)$export, 'BCFD_UserExport_'. now()->timestamp .'.xlsx');
     }

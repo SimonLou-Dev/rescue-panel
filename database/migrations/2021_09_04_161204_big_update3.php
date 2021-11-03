@@ -54,6 +54,36 @@ class BigUpdate3 extends Migration
             $table->string('living_place')->nullable();
         });
 
+        Schema::create('Primes', function (Blueprint $table) {
+            $table->id();
+            $table->integer('item_id');
+            $table->integer('user_id');
+            $table->integer('week_number');
+            $table->boolean('accepted')->default(false);
+            $table->timestamps();
+        });
+
+        Schema::create('PrimeItems', function (Blueprint $table) {
+            $table->id();
+            $table->integer('montant');
+            $table->string('name');
+            $table->softDeletes();
+            $table->timestamps();
+        });
+
+        Schema::create('ModifyServiceReqs', function (Blueprint $table) {
+            $table->id();
+            $table->integer('user_id');
+            $table->integer('week_number');
+            $table->string('reason');
+            $table->boolean('adder'); //true add time / false remove time
+            $table->bigInteger('time_quantity'); // in Sec
+            $table->boolean('acceped')->nullable()->default(null); //null : non traitré
+            $table->integer('admin_id')->nullable()->default(null);
+            $table->string('admin_reason')->nullable()->default(null);
+            $table->timestamps();
+        });
+
     }
 
     /**

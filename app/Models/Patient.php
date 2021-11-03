@@ -12,6 +12,8 @@ use Illuminate\Database\Eloquent\Model;
  * @property string name
  * @property string vorname
  * @property string tel
+ * @property mixed naissance
+ * @property string living_place
  * @method static where(string $column, string $operator = null, mixed $value = null)
  * @method static orderByDesc(string $string)
  *

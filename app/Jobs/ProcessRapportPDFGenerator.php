@@ -10,7 +10,9 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
 use TheCodingMachine\Gotenberg\Client;
 use TheCodingMachine\Gotenberg\ClientException;
 use TheCodingMachine\Gotenberg\DocumentFactory;
@@ -44,29 +46,17 @@ class ProcessRapportPDFGenerator implements ShouldQueue
      */
     public function handle()
     {
-        $data = array();
+
         $user = $this->rapport->GetUser->name;
         $rapport = $this->rapport;
 
-        $client = new Client(env('PDF_ADDR'), new \Http\Adapter\Guzzle7\Client());
+        $path = $this->path;
 
         ob_start();
         require(base_path('/resources/PDF/RI/index.php'));
         $content = ob_get_clean();
-
-        $index = DocumentFactory::makeFromString('index.html', $content);
-        $assets = [
-            DocumentFactory::makeFromPath('LONG_EMS_BC_2.png', base_path('/resources/PDF/RI/LONG_EMS_BC_2.png')),
-            DocumentFactory::makeFromPath('signature.png', base_path('/resources/PDF/RI/signature.png'))
-        ];
-
-        $pdf = new HTMLRequest($index);
-        $pdf->setAssets($assets);
-
-        try {
-            $client->store($pdf, $this->path);
-        } catch (ClientException | FilesystemException | RequestException | \Exception $e) {
-            Log::critical($e);
-        }
+        $pdf = App::make('dompdf.wrapper');
+        $pdf->loadHTML($content);
+        $pdf->save(Storage::path($path));
     }
 }

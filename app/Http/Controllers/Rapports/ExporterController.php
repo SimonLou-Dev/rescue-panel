@@ -8,8 +8,10 @@ use App\Models\Facture;
 use App\Models\Rapport;
 use Illuminate\Http\Request;
 use Illuminate\Redis\Connections\PredisConnection;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
 use TheCodingMachine\Gotenberg\Client;
 use TheCodingMachine\Gotenberg\ClientException;
 use TheCodingMachine\Gotenberg\DocumentFactory;
@@ -29,38 +31,25 @@ class ExporterController extends Controller
 
 
         $rapport = Rapport::where('id', $id)->first();
-        $path = base_path('public/storage/RI/'. $rapport->id . ".pdf");
         $user = Auth::user()->name;
 
+        $path = '/public/RI/'. $rapport->id . ".pdf";
 
-        if(!file_exists($path)){
+        if(!Storage::exists($path)){
+            $user = $rapport->GetUser->name;
+            $rapport = $rapport;
 
-            $client = new Client(env('PDF_ADDR'), new \Http\Adapter\Guzzle7\Client());
 
             ob_start();
             require(base_path('/resources/PDF/RI/index.php'));
             $content = ob_get_clean();
-
-            $index = DocumentFactory::makeFromString('index.html', $content);
-            $assets = [
-                DocumentFactory::makeFromPath('LONG_EMS_BC_2.png', base_path('/resources/PDF/RI/LONG_EMS_BC_2.png')),
-                DocumentFactory::makeFromPath('signature.png', base_path('/resources/PDF/RI/signature.png'))
-            ];
-
-
-
-
-            $path = base_path('public/storage/RI/'. $rapport->id . ".pdf");
-            try {
-                $request = new HTMLRequest($index);
-                $request->setAssets($assets);
-                $client->store($request, $path);
-            } catch (ClientException | FilesystemException | RequestException | \Exception $e) {
-                Log::critical($e);
-            }
+            $pdf = App::make('dompdf.wrapper');
+            $pdf->loadHTML($content);
+            return $pdf->stream();
+        }else{
+            return \response()->file(Storage::path($path));
         }
 
-        return \response()->file($path);
     }
 
     public function makeImpayPdf(Request $request, string $from , string $to){
@@ -70,26 +59,13 @@ class ExporterController extends Controller
         $infos = ['from'=>date('d/m/Y', strtotime($from)),'to'=>date('d/m/Y', strtotime($to))];
         $data = ['infos'=>$infos, 'impaye'=>$impaye];
 
-
-        $client = new Client(env('PDF_ADDR'), new \Http\Adapter\Guzzle7\Client());
         ob_start();
         require(base_path('/resources/PDF/facture/index.php'));
         $content = ob_get_clean();
 
-        $index = DocumentFactory::makeFromString('index.html', $content);
-        $assets = [
-            DocumentFactory::makeFromPath('LONG_EMS_BC_2.png', base_path('/resources/PDF/facture/LONG_EMS_BC_2.png'))
-        ];
-
-        $pdf = new HTMLRequest($index);
-        $pdf->setAssets($assets);
-        $path = base_path('public/storage/temp/factures/facture.pdf');
-        try {
-            $client->store($pdf, $path);
-        } catch (ClientException | FilesystemException | RequestException | \Exception $e) {
-            Log::critical($e);
-        }
-        return \response()->file($path);
+        $pdf = App::make('dompdf.wrapper');
+        $pdf->loadHTML($content);
+        return $pdf->stream();
 
     }
 }
