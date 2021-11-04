@@ -16,56 +16,35 @@ import Login from "./components/Login";
 
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {BrowserRouter, Route, Switch} from 'react-router-dom'
-import Layout from "./components/Layout";
 import '../../public/css/app.css';
-import Register from "./components/Register";
-import Mdpreset from './components/Mdpreset';
-import Error from './components/Error';
-import Emailsender from './components/Emailsender';
-import Maintenance from "./components/Maintenance";
-import GetInfos from "./components/GetInfos";
-import NotificationsProvider from "./components/context/NotificationProvider";
 import * as Sentry from "@sentry/react";
 import { Integrations } from "@sentry/tracing";
+import PreApp from "./components/PreApp";
+
+
+
 
 Sentry.init({
-    dsn: "https://4ef83bdc75054cc88ab4d44ef8c749d7@o1059354.ingest.sentry.io/6047890",
-    integrations: [new Integrations.BrowserTracing()],
-
-    // Set tracesSampleRate to 1.0 to capture 100%
-    // of transactions for performance monitoring.
-    // We recommend adjusting this value in production
-    tracesSampleRate: 1.0,
-});
-
-class App extends React.Component{
-    constructor(props) {
-        super(props);
-
-    }
+        dsn: "https://4ef83bdc75054cc88ab4d44ef8c749d7@o1059354.ingest.sentry.io/6047890",
+        integrations: [new Integrations.BrowserTracing()],
+        // Set tracesSampleRate to 1.0 to capture 100%
+        // of transactions for performance monitoring.
+        // We recommend adjusting this value in production
+        tracesSampleRate: 1.0,
+    });
 
 
-    render() {
-        return (
-            <NotificationsProvider>
-                <BrowserRouter>
-                    <Switch>
-                        <Route path='/login' component={Login}/>
-                        <Route path='/register' component={Register}/>
-                        <Route path='/reset/*' component={Mdpreset}/>
-                        <Route path='/sendmail' component={Emailsender}/>
-                        <Route path='/ANA' component={Error}/>
-                        <Route path='/maintenance' component={Maintenance}/>
-                        <Route path='/informations' component={GetInfos}/>
-                        <Layout />
-                    </Switch>
-                </BrowserRouter>
-            </NotificationsProvider>
-        );
-    }
+
+
+function App(){
+    return (
+        <Sentry.ErrorBoundary>
+            <PreApp/>
+        </Sentry.ErrorBoundary>
+    )
 }
 export default App;
+
 if (document.getElementById('app')) {
     ReactDOM.render(<App/>, document.getElementById('app'));
 }

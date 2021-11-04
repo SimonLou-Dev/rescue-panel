@@ -19,6 +19,8 @@ class ProcesTestPoudrePDFGenerator implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
+    public $tries = 2;
+
     protected $test;
     protected $path;
 

@@ -17,6 +17,8 @@ class ProcessEmbedBCGenerator implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
+    public $tries = 2;
+
     protected $formated;
     protected $patients;
     protected $personnels;

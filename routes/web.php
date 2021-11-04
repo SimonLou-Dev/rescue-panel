@@ -10,6 +10,7 @@ use App\Http\Controllers\LayoutController;
 use App\Http\Controllers\MainController;
 use App\Http\Controllers\Rapports\PoudreTestController;
 use App\Http\Controllers\RemboursementsController;
+use App\Http\Controllers\Service\ModifierReqController;
 use App\Http\Controllers\Service\ServiceGetterController;
 use App\Http\Controllers\Service\ServiceSetterController;
 use App\Http\Controllers\VolController;
@@ -134,6 +135,11 @@ Route::get('/data/AllInService', [MainController::class, 'getInServices']);
 Route::put('/data/service/setbyadmin/{userid}', [ServiceSetterController::class, 'setServiceByAdmin']);
 Route::put('/data/service/admin/modify', [ServiceSetterController::class, 'modifyTimeService']);
 Route::get('/data/service/admin/exel/{week?}', [ServiceGetterController::class, 'getWeekServiceExel']);
+Route::get('/data/service/req/mylist', [ModifierReqController::class,'getMyModifyTimeServiceRequest']);
+Route::post('/data/service/req/post', [ModifierReqController::class, 'postModifyTimeServiceRequest']);
+Route::put('/data/service/req/accept/{id}', [ModifierReqController::class,'acceptModifyTimeServiceRequest']);
+Route::put('/data/service/req/refuse/{id}', [ModifierReqController::class,'refuseModifyTimeServiceRequest']);
+Route::get('/data/service/req/waitinglist', [ModifierReqController::class,'getAllWaitingModifyTimeServiceRequest']);
 
 //User management
 Route::get('/data/users/getall', [UserController::class, 'getUser']);
@@ -211,6 +217,6 @@ Route::delete('/data/delete/tempupload', [FileController::class, 'deleteTempFile
 Route::get('/data/infosutils/get', [MainController::class, 'getUtilsInfos']);
 Route::put('/data/infosutils/put', [MainController::class, 'updateUtilsInfos']);
 
-
 Route::post('/data/front/errors', [ErrorsController::class, 'frontErrors']);
 
+Route::get('/tunnel', [ErrorsController::class, 'tunelSentry']);

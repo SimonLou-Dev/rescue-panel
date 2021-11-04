@@ -28,7 +28,7 @@ class ModifierReqController extends Controller
         //refuse request
     }
 
-    public function getAllwaitingModifyTimeServiceRequest()
+    public function getAllWaitingModifyTimeServiceRequest()
     {
         //Get all waiting request
     }

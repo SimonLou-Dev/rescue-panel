@@ -33,4 +33,8 @@ class ErrorsController extends Controller
             ]
         ]);
     }
+
+    public function tunelSentry(request $request){
+        return dd($request);
+    }
 }
