@@ -80,11 +80,11 @@ class Permissions extends React.Component {
                                 <th className={'p-perm p-head'}>enlever une sanction</th>
                                 <th className={'p-perm p-head'}>modifier le matériel prété à un membre</th>
                                 <th className={'p-perm p-head'}>écrire une note sur la fiche d'un personnel</th>
-                                <th className={'p-perm p-head'}>faire des test de poudre hors service</th>
-                                <th className={'p-perm p-head'}>acceder à l'historique de test de poudre hors service</th>
+                                <th className={'p-perm p-head'}>faire des test de poudre + historique hors service </th>
+                                <th className={'p-perm p-head'}>accder à historiquedes test de poudre hors service</th>
                                 <th className={'p-perm p-head'}>Acceder et accepter les modification de temps de service</th>
-                                <th className={'p-perm p-head'}>Voir les logs des états de service</th>
-                                <th className={'p-perm p-head'}>Recruter & faire la fiche d'un personnel</th>
+                                <th className={'p-perm p-head'}>(Non utilisée)</th>
+                                <th className={'p-perm p-head'}>(Non utilisée)</th>
                             </tr>
                             </thead>
                             <tbody>

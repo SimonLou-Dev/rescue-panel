@@ -2177,6 +2177,7 @@ body {
   width: 100%;
   height: 100vh;
   overflow: hidden;
+  position: relative;
 }
 .Services .scroll {
   width: 100%;
@@ -2406,6 +2407,44 @@ body {
 .Services .page .infos div {
   margin: 10px;
 }
+.Services .modpopup {
+  position: fixed;
+  width: calc(100vw - 270px);
+  height: 100vh;
+  z-index: 3;
+  top: 0;
+  display: flex;
+}
+.Services .modpopup .center {
+  margin: auto;
+  z-index: 3;
+  background-color: #0c2646;
+  border-radius: 30px;
+  border: 1px #00FFFF solid;
+  width: 90%;
+  padding: 20px;
+  max-width: 470px;
+  height: 400px;
+}
+.Services .modpopup .center h2 {
+  text-align: center;
+}
+.Services .modpopup .center .rowed {
+  margin: 10px 0;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+}
+.Services .modpopup .center .rowed label {
+  margin: auto 0;
+  width: 130px;
+}
+.Services .modpopup .center .button {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+}
 
 .pdf_Generator {
   margin: auto 0;
@@ -2576,8 +2615,10 @@ body {
   padding: 10px;
   display: flex;
   flex-direction: row;
+  margin: auto 0;
 }
 .RapportHorraire .header .semaine-select form input {
+  width: 100px;
   margin: 0 10px;
 }
 .RapportHorraire .header .semaine-select form label, .RapportHorraire .header .semaine-select form button {
@@ -2585,6 +2626,13 @@ body {
 }
 .RapportHorraire .header .add-perso {
   margin: auto 0;
+}
+.RapportHorraire .header .btn {
+  margin: auto 0;
+}
+.RapportHorraire .header .btn a {
+  font-weight: 600;
+  font-size: 25px;
 }
 .RapportHorraire .rapport-table-container {
   margin: 25px auto;
@@ -5283,6 +5331,91 @@ body {
 }
 .TestPoudre .right .ResultListContainer .liste table td .btn, .TestPoudre .right .ResultListContainer .liste table th .btn {
   background-color: #0c2646;
+}
+
+.adminservicereq {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  width: calc(100% - 20px);
+  height: 100vh;
+  padding: 10px;
+}
+.adminservicereq .header {
+  display: flex;
+  height: 120px;
+  flex-direction: row;
+  justify-content: space-evenly;
+  overflow-x: hidden;
+}
+.adminservicereq .header .btn {
+  margin: auto 0;
+}
+.adminservicereq .content {
+  overflow-y: hidden;
+  display: flex;
+  padding: 30px;
+  height: calc(100vh - 320px);
+}
+.adminservicereq .content .table-container {
+  background-color: #0c2646;
+  border-radius: 30px;
+  overflow-y: auto;
+  margin: 0 auto;
+  height: calc(100vh - 320px);
+  width: 90%;
+}
+.adminservicereq .content .table-container table {
+  border-collapse: collapse;
+  width: 100%;
+}
+.adminservicereq .content .table-container table th {
+  position: sticky;
+  top: 0;
+  border-bottom: black 1px solid;
+  background-color: #004662;
+  z-index: 10;
+  border-left: 1px black solid;
+  border-right: 1px black solid;
+}
+.adminservicereq .content .table-container table th:first-child {
+  border-left: none;
+}
+.adminservicereq .content .table-container table th:last-child {
+  border-right: none;
+}
+.adminservicereq .content .table-container table tr {
+  border: black 1px solid;
+  height: 10px;
+  border-left: none;
+  border-right: none;
+}
+.adminservicereq .content .table-container table tr:last-child {
+  border-bottom: none;
+}
+.adminservicereq .content .table-container table tr:nth-child(even) td {
+  background: #0f2f57;
+}
+.adminservicereq .content .table-container table td, .adminservicereq .content .table-container table th {
+  width: 200px;
+  padding: 5px;
+  text-align: center;
+  font-family: "Baloo Thambi 2", monospace;
+  font-size: 25px;
+  color: #00FFFF;
+  border: black 1px solid;
+  border-top: none;
+  border-bottom: none;
+}
+.adminservicereq .content .table-container table td:first-child, .adminservicereq .content .table-container table th:first-child {
+  border-left: none;
+}
+.adminservicereq .content .table-container table td:last-child, .adminservicereq .content .table-container table th:last-child {
+  border-right: none;
+}
+.adminservicereq .content .table-container table td .btn, .adminservicereq .content .table-container table th .btn {
+  margin: 10px;
+  font-size: 20px;
 }
 
 .notification-item .bar {

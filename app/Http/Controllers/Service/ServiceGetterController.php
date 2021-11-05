@@ -93,21 +93,36 @@ class ServiceGetterController extends Controller
     public function getUserService(): \Illuminate\Http\JsonResponse
     {
         $date = $this::getWeekNumber();
-        if($date == 1 ){
-            $week = WeekService::where('week_number', '=', 1)->orderBy('id','desc')->where('user_id', Auth::id())->get();
-        }else if($date == 2){
-            $week = WeekService::where('week_number', '<=', 2)->orderBy('id','desc')->where('user_id', Auth::id())->get();
-        }else if($date == 3){
-            $week = WeekService::where('week_number', '<=', 3)->orderBy('id','desc')->where('user_id', Auth::id())->get();
-        }else{
-            $date = $date -3;
-            $week = WeekService::where('week_number', '>', $date)->orderBy('id','desc')->where('user_id', Auth::id())->get();
+        $weeks = WeekService::where('week_number', $date)->orderBy('id','asc')->where('user_id', Auth::id())->take(5)->get();
+        $userserivces= Service::where('user_id', Auth::user()->id)->orderBy('id','asc')->take(10)->get();
+        $weeknumber = array();
+        $weektotal = array();
+        foreach ($weeks as $week){
+            array_push($weeknumber, $week->week_number);
+            if(!is_null($week->total)){
+                $splited = explode(':',$week->total);
+                $week->total = $splited[0] + ($splited[1] > 30 ? 1 : 0);
+            }
+            array_push($weektotal, $week->total);
         }
-        $userserivce= Service::where('user_id', Auth::user()->id)->orderBy('id','desc')->take(20)->get();
+        $usersserviceid = array();
+        $userserivcetime = array();
+        foreach ($userserivces as $userserivce){
+            array_push($usersserviceid, $userserivce->id);
+            if(!is_null($userserivce->total)){
+                $splited = explode(':',$userserivce->total);
+                $userserivce->total = $splited[0] + ($splited[1] > 30 ? 1 : 0);
+            }
+            array_push($userserivcetime, $userserivce->total);
+        }
+
+
         return response()->json([
             'status'=>'ok',
-            'week'=>$week,
+            'week'=>$weeks,
             'services'=>$userserivce,
+            'weekgraph'=>[$weeknumber, $weektotal],
+            'servicegraph'=>[$usersserviceid, $userserivcetime]
         ]);
 
     }

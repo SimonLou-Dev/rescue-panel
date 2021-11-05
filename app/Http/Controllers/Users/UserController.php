@@ -153,6 +153,7 @@ class UserController extends Controller
      */
     public function getUserMaterial(string $user_id): JsonResponse
     {
+        if($user_id === 'null'){$user_id = Auth::user()->id;}
         $user = User::where('id', $user_id)->first();
         $base = (array) json_decode($user->materiel);
 

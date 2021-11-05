@@ -12,6 +12,7 @@ use App\Models\WeekService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
 
 class OperatorController extends Controller
 {
@@ -172,7 +173,7 @@ class OperatorController extends Controller
         }
         $toadd['h'] = (int) $base['h'] + (int) $toadd['h'];
 
-        return $toadd['h'] . ':' . $toadd['m'] . ':'. $toadd['s'];
+        return ($toadd['h']< 10 ? '0'. $toadd['h'] : $toadd['h']) . ':' . ($toadd['m']< 10 ? '0'. $toadd['m'] : $toadd['m']) . ':'. ($toadd['s']< 10 ? '0'. $toadd['s'] : $toadd['s']);
     }
 
     public static function removeTime(string $base, string $toremove): string
@@ -197,11 +198,91 @@ class OperatorController extends Controller
         $seconde = (string) ($seconde < 10 ? '0'. (int) $seconde :  (int) $seconde);
         $secondeR = (string) ($secondeR < 10 ? '0'. (int) $secondeR :  (int)$secondeR);
 
-        $first = str_replace('0-','',$first);
-        $seconde = str_replace('0-','',$seconde);
-        $secondeR = str_replace('0-','',$secondeR);
+        $first = (int) str_replace('0-','',$first);
+        $seconde = (int) str_replace('0-','',$seconde);
+        $secondeR = (int) str_replace('0-','',$secondeR);
+
+        return ($first < 10 ? '0' . $first : $first). ':' .  ($seconde < 10 ? '0' . $seconde : $seconde) . ':'. ($secondeR < 10 ? '0' . $secondeR : $secondeR);
+    }
+
+    public static function secondToTimeConvert(string $time): string
+    {
+        $mins = floor($time / 60);
+        $hours = floor($time / 3600);
+        $mins = $mins - $hours*60;
+        return ($hours < 10 ? '0'.$hours : $hours) . ':' . ($mins < 10 ? '0'.$mins : $mins);
+}
+
+    // $action = 1 add  else remove
+    public static function ajustementCalculator(string $base, string $modifier, int $action){
+        $final = "";
+        Log::critical($base. ' | ' . $modifier . ' | ' . $action);
+
+        if($action === 1){
+            if($base == '00:00:00'){
+                $final = '+'.$modifier;
+            }else{
+                $symbole = substr($base, 0, 1-(strlen($base)) );
+                if($symbole == '+'){
+                    $final = '+'.OperatorController::addTime(substr($base,1), $modifier);
+                }else{
+                    $calculate = OperatorController::removeTime(substr($base,1), $modifier);
+                    $calculate = str_replace(['+','-'], '', $calculate);
+                    $base =  str_replace(['+','-'], '', $base);
+                    Log::critical($calculate . ' | ' .  $base);
+                    $ajustement =  explode(':', $calculate);
+                    $base = explode(':',  $base);
+                    if($base[0] > $ajustement[0]){
+                        $operator = '+';
+                    }else if ($base[1] > $ajustement[1]){
+                        $operator = '+';
+                    } else if ($base[2] > $ajustement[2]){
+                        $operator = '+';
+                    }else {
+                        $operator = '-';
+                    }
+                    if($calculate == '00:00:00'){
+                        $operator = '';
+                    }
+
+                    $final = $operator.$calculate;
+
+                }
+            }
+        }else{
 
 
-        return $first . ':' .  $seconde . ':'. $secondeR;
+            if($base == '00:00:00'){
+                $base = '-'.$modifier;
+            }else{
+                $ajustement = $base;
+                $symbole = substr($ajustement, 0, 1-(strlen($ajustement)) );
+                if($symbole == '-'){
+                    $final = '-'.OperatorController::addTime(substr($ajustement,1), $modifier);
+                }else{
+                    $calculate =  OperatorController::removeTime(substr($ajustement,1), $modifier);
+                    $calculate = str_replace(['+','-'], '', $calculate);
+                    $ajustement = explode(':', $calculate);
+                    $base = explode(':',  $base);
+                    if($base[0] > $ajustement[0]){
+                        $operator = '-';
+                    }else if ($base[1] > $ajustement[1]){
+                        $operator = '-';
+                    } else if ($base[2] > $ajustement[2]){
+                        $operator = '-';
+                    }else {
+                        $operator = '+';
+                    }
+                    if($calculate == '00:00:00'){
+                        $operator = '';
+                    }
+
+                    $final = $operator.$calculate;
+                }
+            }
+
+
+        }
+        return $final;
     }
 }

@@ -33,6 +33,9 @@ import LiensUtilesMgt from "./Gestion/LiensUtilesMgt";
 import FichePersonnel from "./Gestion/FichePersonnel";
 import ListPersonnel from "./Gestion/ListPersonnel";
 import TestPoudre from "./Patient/TestPoudre";
+import * as Sentry from "@sentry/react";
+import Error from "./Error";
+import ModificationRequestAdmin from "./Gestion/ModificationRequestAdmin";
 
 export const rootUrl = document.querySelector('body').getAttribute('data-root-url');
 
@@ -253,7 +256,7 @@ export function Layout(){
                 </div>
             </div>
             <div id="content" style={{filter: bugPopup ? 'blur(5px)' : 'none'}} >
-                <ErrorBoundary>
+                <Sentry.ErrorBoundary showDialog>
 
                     <PermsContext.Provider value={perm}>
                         <Route exact path='/' component={Main}/>
@@ -281,9 +284,10 @@ export function Layout(){
                         <Route path={'/gestion/perm'} component={Permissions}/>
                         <Route path={'/gestion/utils'} component={LiensUtilesMgt}/>
                         <Route path={'/gestion/Fiches'} component={FichePersonnel}/>
+                        <Route path={'/gestion/service-request'} component={ModificationRequestAdmin}/>
                     </PermsContext.Provider>
 
-                </ErrorBoundary>
+                </Sentry.ErrorBoundary>
 
             </div>
             {bugPopup &&

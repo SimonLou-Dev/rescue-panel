@@ -105,8 +105,8 @@ class UserGradeController extends Controller
             'HS_poudre'=>$grade->perm_35,
             'HS_poudre_history'=>$grade->perm_36,
             'timeserviceupdate_request'=>$grade->perm_37,
-            'see_serviceState_logs'=>$grade->perm_38,
-            'hire_people'=>$grade->perm_39,
+            'non_use #1'=>$grade->perm_38,
+            'non_use #2'=>$grade->perm_39,
 
 
 

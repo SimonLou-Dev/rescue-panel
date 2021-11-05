@@ -35,6 +35,33 @@ class ErrorsController extends Controller
     }
 
     public function tunelSentry(request $request){
-        return dd($request);
+
+        $host = "sentry.io";
+        $known_project_ids = ['6047890'];
+        $envelope = $request->getContent();
+
+        $pieces = explode("\n", $envelope,2);
+
+        $header = json_decode($pieces[0], true);
+        if (isset($header["dsn"])) {
+            $dsn = parse_url($header["dsn"]);
+            $project_id = intval(trim($dsn["path"], "/"));
+
+            if (in_array($project_id, $known_project_ids)) {
+                $options = array(
+                    'http' => array(
+                        'header'  => "Content-type: application/x-sentry-envelope\r\n",
+                        'method'  => 'POST',
+                        'content' => $envelope
+                    )
+                );
+                $cotent =  file_get_contents(
+                    "https://$host/api/$project_id/envelope/",
+                    false,
+                    stream_context_create($options));
+                return $cotent;
+            }
+        }
+        return response()->json([],500);
     }
 }

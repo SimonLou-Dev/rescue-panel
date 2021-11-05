@@ -80,4 +80,9 @@ class User extends Authenticatable
     {
         return $this->belongsTo(ServiceState::class, 'serviceState')->withTrashed();
     }
+
+    public function getRequests(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(ModifyServiceReq::class, 'user_id');
+    }
 }

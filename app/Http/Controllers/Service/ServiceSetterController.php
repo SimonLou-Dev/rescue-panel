@@ -51,75 +51,18 @@ class ServiceSetterController extends Controller
     {
         $name = (string) $request->name;
         $action = (int) $request->action;
-        $time = (string) $request->time;
+        $time = (string) $request->time.':00';
 
         $user =User::where('name', $name)->firstOrFail();
         $WeekService= WeekService::where('user_id', $user->id)->where('week_number', ServiceGetterController::getWeekNumber())->first();
+        $WeekService->ajustement = OperatorController::ajustementCalculator($WeekService->ajustement, $time, $action === 1);
         if($action === 1){
-            if($WeekService->ajustement == '00:00:00'){
-                $WeekService->ajustement = '+'.$time.':00';
-            }else{
-                $ajustement = $WeekService->ajustement;
-                $symbole = substr($ajustement, 0, 1-(strlen($ajustement)) );
-                if($symbole == '+'){
-                    $WeekService->ajustement = '+'.OperatorController::addTime(substr($ajustement,1), $time.':00');
-                }else{
-                    $calculate = $WeekService->ajustement = OperatorController::removeTime(substr($ajustement,1), $time.':00');
-                    $calculate = str_replace(['+','-'], '', $calculate);
-                    $ajustement = explode(':', $ajustement);
-                    $base = explode(':',  $time.':00');
-                    if($base[0] > $ajustement[0]){
-                        $operator = '+';
-                    }else if ($base[1] > $ajustement[1]){
-                        $operator = '+';
-                    } else if ($base[2] > $ajustement[2]){
-                        $operator = '+';
-                    }else {
-                        $operator = '-';
-                    }
-                    if($calculate == '00:00:00'){
-                        $operator = '';
-                    }
-
-                    $WeekService->ajustement = $operator.$calculate;
-                }
-            }
-            $WeekService->total = OperatorController::addTime($WeekService->total, $time.':00');
+            $WeekService->total = OperatorController::addTime($WeekService->total, $time);
         }else{
-
-
-            if($WeekService->ajustement == '00:00:00'){
-                $WeekService->ajustement = '-'.$time.':00';
-            }else{
-                $ajustement = $WeekService->ajustement;
-                $symbole = substr($ajustement, 0, 1-(strlen($ajustement)) );
-                if($symbole == '-'){
-                    $WeekService->ajustement = '-'.OperatorController::addTime(substr($ajustement,1), $time.':00');
-                }else{
-                    $calculate = $WeekService->ajustement = OperatorController::removeTime(substr($ajustement,1), $time.':00');
-                    $calculate = str_replace(['+','-'], '', $calculate);
-                    $ajustement = explode(':', $ajustement);
-                    $base = explode(':',  $time.':00');
-
-                    if($base[0] > $ajustement[0]){
-                        $operator = '-';
-                    }else if ($base[1] > $ajustement[1]){
-                        $operator = '-';
-                    } else if ($base[2] > $ajustement[2]){
-                        $operator = '-';
-                    }else {
-                        $operator = '+';
-                    }
-                    if($calculate == '00:00:00'){
-                        $operator = '';
-                    }
-
-                    $WeekService->ajustement = $operator.$calculate;
-                }
-            }
-
-            $WeekService->total = OperatorController::removeTime($WeekService->total, $time.':00');
+            $WeekService->total = OperatorController::removeTime($WeekService->total, $time);
         }
+
+
         $WeekService->save();
 
         event(new Notify('Vous avez bien modifé le temps de service',1));

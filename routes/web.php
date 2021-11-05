@@ -139,7 +139,7 @@ Route::get('/data/service/req/mylist', [ModifierReqController::class,'getMyModif
 Route::post('/data/service/req/post', [ModifierReqController::class, 'postModifyTimeServiceRequest']);
 Route::put('/data/service/req/accept/{id}', [ModifierReqController::class,'acceptModifyTimeServiceRequest']);
 Route::put('/data/service/req/refuse/{id}', [ModifierReqController::class,'refuseModifyTimeServiceRequest']);
-Route::get('/data/service/req/waitinglist', [ModifierReqController::class,'getAllWaitingModifyTimeServiceRequest']);
+Route::get('/data/service/req/waitinglist', [ModifierReqController::class,'getAllModifyTimeServiceRequest']);
 
 //User management
 Route::get('/data/users/getall', [UserController::class, 'getUser']);
@@ -219,4 +219,4 @@ Route::put('/data/infosutils/put', [MainController::class, 'updateUtilsInfos']);
 
 Route::post('/data/front/errors', [ErrorsController::class, 'frontErrors']);
 
-Route::get('/tunnel', [ErrorsController::class, 'tunelSentry']);
+Route::post('/tunnel', [ErrorsController::class, 'tunelSentry']);
