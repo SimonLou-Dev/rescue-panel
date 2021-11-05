@@ -30,6 +30,7 @@ import Layout from "./components/Layout";
 Sentry.init({
         dsn: "https://4ef83bdc75054cc88ab4d44ef8c749d7@o1059354.ingest.sentry.io/6047890",
         integrations: [new Integrations.BrowserTracing()],
+        tunnel: '/tunnel',
         // Set tracesSampleRate to 1.0 to capture 100%
         // of transactions for performance monitoring.
         // We recommend adjusting this value in production
