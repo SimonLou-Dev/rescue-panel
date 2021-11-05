@@ -94,7 +94,11 @@ class ServiceGetterController extends Controller
     {
         $date = $this::getWeekNumber();
         $weeks = WeekService::where('week_number', $date)->orderBy('id','asc')->where('user_id', Auth::id())->take(5)->get();
-        $userserivces= Service::where('user_id', Auth::user()->id)->orderBy('id','asc')->take(10)->get();
+        $usercount = Service::where('user_id', Auth::user()->id)->count();
+        if($usercount > 10){
+            $usercount = $usercount - 10;
+        }
+        $userserivces= Service::where('user_id', Auth::user()->id)->orderBy('id','asc')->skip((int) $usercount)->take(10)->get();
         $weeknumber = array();
         $weektotal = array();
         foreach ($weeks as $week){

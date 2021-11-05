@@ -13,6 +13,7 @@ use App\Http\Controllers\RemboursementsController;
 use App\Http\Controllers\Service\ModifierReqController;
 use App\Http\Controllers\Service\ServiceGetterController;
 use App\Http\Controllers\Service\ServiceSetterController;
+use App\Http\Controllers\Users\CredentialController;
 use App\Http\Controllers\VolController;
 use App\Http\Controllers\BlackCodes\BCController;
 use App\Http\Controllers\BlackCodes\BcEmbedController;
@@ -76,7 +77,7 @@ Route::get('/logout', function (){
    return redirect()->route('login');
 })->middleware('auth')->name('logout');
 //reset mdp view
-Route::get('/reset/*', [HomeController::class, 'getIndex'])->middleware('guest');
+Route::get('/reset', [HomeController::class, 'getIndex']);
 //send mail for reseset
 Route::get('/sendmail', [HomeController::class, 'getIndex'])->middleware('guest');
 
@@ -91,6 +92,9 @@ Route::put('/data/setstatus', [LayoutController::class, 'setservice']);
 Route::get('/data/annonces', [MainController::class, 'getAnnonces']);
 Route::put('/data/users/setdiscordId/{discordid}/{id}', [UserController::class, 'setDiscordId']);
 //Route::post('/data/check/maintenance')
+Route::get('/data/user/reset/send/{mail?}',  [CredentialController::class, 'sendResetMail']);
+Route::get('/pass/reset/token/{uuid}',[CredentialController::class,'tokenVerify']);
+Route::post('/data/user/reset/post',[CredentialController::class,'changepass'] );
 
 //Rapport management
 Route::get('/data/rapport/getforinter', [RapportController::class, 'getforinter']);

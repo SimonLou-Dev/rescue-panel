@@ -172,7 +172,13 @@ class Account extends React.Component {
                 }
                 {this.state.data &&
                     <section className={'bigchange'} style={{filter: this.state.popup ? 'blur(5px)' : 'none'}} >
-                    <button className={'btn'} onClick={()=>this.setState({popup:true})}>changer de mot de passe</button>
+                    <button className={'btn'} onClick={async () => {
+                        await axios({
+                            method: 'GET',
+                            url: '/data/user/reset/send',
+                        })
+                    }
+                    }>changer de mot de passe</button>
                     <div className="img">
                         <div className="rowed">
                             <h2>Arrière plan du site (Affeté à la prochainne connexion)</h2>
