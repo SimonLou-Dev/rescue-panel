@@ -143,7 +143,7 @@ class RapportController extends Controller
                 ]
             ]
         ]);
-        $path = base_path('public/storage/RI/'. $rapport->id . ".pdf");
+        $path = 'public/storage/RI/'. $rapport->id . ".pdf";
         $this->dispatch(new ProcessRapportPDFGenerator($rapport, $path));
 
         event(new Notify('Rapport ajouté ! ',1));
