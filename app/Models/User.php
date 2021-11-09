@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Psy\Util\Json;
 
 /**
  * Class User
@@ -23,6 +24,12 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
  * @property string timezone
  * @property string bg_img
  * @property int serviceState
+ * @property integer matricule
+ * @property integer discord_id
+ * @property json sanctions
+ * @property json materiel
+ * @property json note
+ * @property int last_service_update
  * @method static where(string $column, string $operator = null, mixed $value = null)
  * @method static orderByDesc(string $string)
  *
@@ -31,7 +38,7 @@ class User extends Authenticatable
 {
     use HasFactory;
     protected $table = "Users";
-    protected $fillable = ['grade_id', 'name', 'email', 'password', 'token', 'service', 'liveplace', 'tel', 'pilote', 'compte', 'timezone', 'bg_img'];
+    protected $fillable = ['grade_id','last_service_update', 'name', 'email', 'password', 'token', 'service', 'liveplace', 'tel', 'pilote', 'compte', 'timezone', 'bg_img','matricule','discord_id','sanctions','materiel','note'];
 
     public function GetRapports(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
@@ -72,5 +79,10 @@ class User extends Authenticatable
     public function getServiceState(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(ServiceState::class, 'serviceState')->withTrashed();
+    }
+
+    public function getRequests(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(ModifyServiceReq::class, 'user_id');
     }
 }

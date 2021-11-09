@@ -3,6 +3,7 @@ import AnnonceCard from "./props/Main/AnnonceCard";
 import PersonnelList from "./props/Main/PersonnelList";
 import axios from "axios";
 import dateFormat from "dateformat";
+import {ListeServicePersonnel} from "./props/Main/ListeServicePersonnel";
 
 
 
@@ -36,7 +37,7 @@ class Main extends React.Component {
     render() {
         return (
             <div id={"Main-Page"}>
-                <PersonnelList/>
+                <ListeServicePersonnel/>
                 <div className={'rowed'}>
                     <div className={'Annonces'}>
                         <h1>Annonces : </h1>

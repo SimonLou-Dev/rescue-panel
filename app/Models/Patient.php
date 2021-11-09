@@ -12,6 +12,8 @@ use Illuminate\Database\Eloquent\Model;
  * @property string name
  * @property string vorname
  * @property string tel
+ * @property mixed naissance
+ * @property string living_place
  * @method static where(string $column, string $operator = null, mixed $value = null)
  * @method static orderByDesc(string $string)
  *
@@ -29,5 +31,11 @@ class Patient extends Model
     public function GetFactures(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
         return $this->hasMany(Facture::class, 'patient_id');
+    }
+
+    public function getTestsPoudre(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+
+        return $this->hasMany(TestPoudre::class, 'patient_id');
     }
 }

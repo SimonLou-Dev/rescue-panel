@@ -46,7 +46,7 @@ class ViteAssetLoader
     }
 
     public function assetDev(string $url, array $array){
-        $base = 'http://localhost:3000/assets';
+        $base = env('ASSETS_URL').'/assets';
         $html = '';
         $html .= <<<HTML
             <script type="module" src="{$base}/@vite/client"></script>

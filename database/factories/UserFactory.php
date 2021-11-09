@@ -2,7 +2,7 @@
 
 namespace Database\Factories;
 
-use App\PDFExporter\Models\User;
+use App\Exporter\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
 

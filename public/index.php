@@ -1,6 +1,8 @@
 <?php
 use Illuminate\Contracts\Http\Kernel;
 use Illuminate\Http\Request;
+define('STDIN',fopen("php://stdin","r"));
+
 
 define('LARAVEL_START', microtime(true));
 

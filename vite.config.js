@@ -1,7 +1,7 @@
 import { defineConfig } from 'vite'
 import reactRefresh from '@vitejs/plugin-react-refresh'
-
-const Global = "var process = { env: {NODE_ENV: 'production'}}"
+const env = 'production';
+const Global = "var process = { env: {NODE_ENV: '" + env + "'}}"
 
 
 //production //development
@@ -10,9 +10,11 @@ export default defineConfig({
   plugins: [reactRefresh()],
     root: './resources',
     base: '/assets/',
-    mode: 'production',
+    mode: env,
     define: {
-        'process.env': {}
+        'process.env': {
+            'NODE_ENV': env
+        }
     },
     build: {
       outDir: '../public/assets',

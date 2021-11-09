@@ -17,7 +17,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 
-Route::post('/register', [\App\PDFExporter\Http\Controllers\UserController::class , 'register']);
+Route::post('/register', [\App\Exporter\Http\Controllers\UserController::class , 'register']);
 
 
 

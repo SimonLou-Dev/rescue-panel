@@ -28,7 +28,12 @@ class GetInfos extends React.Component {
             }
         }).then(response => {
             if (response.status === 201) {
-                window.location.href = "/";
+                if(response.data.accessRight){
+                    window.location.href = "/";
+                }else{
+                    window.location.href = "/ANA";
+                }
+
             }
         }).catch(error => {
             error = Object.assign({}, error);

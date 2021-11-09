@@ -28,7 +28,7 @@ class ListPatient extends React.Component {
                     <h1>Liste des patients ({this.state.patients ? this.state.patients.length : '?'})</h1>
                     <div className={'list'}>
                         {this.state.patients !== null && this.state.patients.map((patient)=>
-                            <PatientListPU name={patient.name} date={dateFormat(patient.created_at, 'hh:mm')} urlid={patient.rapport_id} color={patient.get_color.name} idcard={patient.idcard}/>
+                            <PatientListPU name={patient.name} date={dateFormat(patient.created_at, 'HH:mm')} urlid={patient.rapport_id} color={patient.get_color.name} idcard={patient.idcard}/>
                         )}
                     </div>
                 </div>

@@ -25,7 +25,7 @@ class UserControllerTest extends TestCase
      * A basic feature test example.
      *
      * @return void
-     * @covers \App\Http\Controllers\UserController::register
+     * @covers \App\Http\Controllers\Rapports\UserController::register
      */
 
     public function test_register()
@@ -44,7 +44,7 @@ class UserControllerTest extends TestCase
      * A basic feature test example.
      *
      * @return void
-     * @covers \App\Http\Controllers\UserController::login
+     * @covers \App\Http\Controllers\Rapports\UserController::login
      */
     public function test_login(){
         $data = [

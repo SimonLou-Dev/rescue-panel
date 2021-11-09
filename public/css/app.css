@@ -1043,17 +1043,28 @@ body {
   font-size: 50px;
   margin: 0 auto;
 }
-#Main-Page .Personnel_service .Personnel-list {
+#Main-Page .Personnel_service .service--list {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+#Main-Page .Personnel_service .service--list .Personnel-list {
+  display: flex;
+  width: 90%;
+  flex-direction: column;
+}
+#Main-Page .Personnel_service .service--list .Personnel-list .tags-list {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
   padding: 10px;
-  width: 100%;
-  height: 150px;
+  height: 155px;
   overflow-y: auto;
 }
-#Main-Page .Personnel_service .Personnel-list .Personnel-card {
+#Main-Page .Personnel_service .service--list .Personnel-list .tags-list .Personnel-card {
   position: relative;
+  transition: all 0.35s;
   margin: 10px;
   display: flex;
   flex-direction: row;
@@ -1062,11 +1073,11 @@ body {
   height: min-content;
   padding: 6px 10px;
 }
-#Main-Page .Personnel_service .Personnel-list .Personnel-card h5 {
+#Main-Page .Personnel_service .service--list .Personnel-list .tags-list .Personnel-card h5 {
   margin: 0;
   font-size: 25px;
 }
-#Main-Page .Personnel_service .Personnel-list .Personnel-card .tag {
+#Main-Page .Personnel_service .service--list .Personnel-list .tags-list .Personnel-card .tag {
   height: 25px;
   width: 25px;
   content: " ";
@@ -1074,7 +1085,7 @@ body {
   border-radius: 100%;
   margin: auto 0 auto 5px;
 }
-#Main-Page .Personnel_service .Personnel-list .Personnel-card .tag-selector {
+#Main-Page .Personnel_service .service--list .Personnel-list .tags-list .Personnel-card .tag-selector {
   overflow: hidden;
   position: fixed;
   overflow-y: scroll;
@@ -1086,7 +1097,7 @@ body {
   z-index: 100;
   flex-direction: column;
 }
-#Main-Page .Personnel_service .Personnel-list .Personnel-card .tag-selector button {
+#Main-Page .Personnel_service .service--list .Personnel-list .tags-list .Personnel-card .tag-selector button {
   cursor: pointer;
   display: flex;
   flex-direction: row-reverse;
@@ -1098,39 +1109,52 @@ body {
   border-bottom: 1px #0c2646 solid;
   margin: 5px;
 }
-#Main-Page .Personnel_service .Personnel-list .Personnel-card .tag-selector button .tag, #Main-Page .Personnel_service .Personnel-list .Personnel-card .tag-selector button label {
+#Main-Page .Personnel_service .service--list .Personnel-list .tags-list .Personnel-card .tag-selector button .tag, #Main-Page .Personnel_service .service--list .Personnel-list .tags-list .Personnel-card .tag-selector button label {
   cursor: pointer;
 }
-#Main-Page .Personnel_service .bottom {
-  position: relative;
-  background-color: #004662;
-  width: 100%;
-  height: 80px;
+#Main-Page .Personnel_service .service--list .Personnel-list .tags-list .selected {
+  background-color: #002c3d;
 }
-#Main-Page .Personnel_service .bottom .groupcard {
+#Main-Page .Personnel_service .service--list .left {
+  position: relative;
+  border-radius: 30px 0 0 0;
+  background-color: #004662;
+  width: 20%;
+  max-width: 200px;
+  min-width: 120px;
+  height: 100%;
+}
+#Main-Page .Personnel_service .service--list .left .groupcard {
   padding-top: 5px;
   height: 100%;
   width: 100%;
-  overflow-x: scroll;
+  overflow-y: auto;
 }
-#Main-Page .Personnel_service .bottom .groupcard .contain {
+#Main-Page .Personnel_service .service--list .left .groupcard .contain {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
 }
-#Main-Page .Personnel_service .bottom .groupcard .contain .tag {
+#Main-Page .Personnel_service .service--list .left .groupcard .contain .tag {
+  cursor: pointer;
+  padding: 2px 10px;
   margin: 0 10px 0 10px;
   font-size: 20px;
   display: flex;
   flex-direction: row;
+  justify-content: space-between;
   height: 30px;
+  transition: all 0.35s;
 }
-#Main-Page .Personnel_service .bottom .groupcard .contain .tag div {
+#Main-Page .Personnel_service .service--list .left .groupcard .contain .tag div {
   height: 25px !important;
   width: 25px !important;
   content: " ";
   border: 1px black solid;
   border-radius: 100%;
   margin: auto 0 auto 5px;
+}
+#Main-Page .Personnel_service .service--list .left .groupcard .contain .tag:hover {
+  background-color: #0f2f57;
 }
 #Main-Page .rowed {
   display: flex;
@@ -2174,48 +2198,127 @@ body {
 }
 
 .Services {
-  padding: 15px;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+  position: relative;
+}
+.Services .scroll {
+  width: 100%;
+  height: 100vh;
+  overflow-y: auto;
+}
+.Services .page {
+  min-height: 100vh;
+  width: 100%;
+  overflow-x: hidden;
   display: flex;
-  height: 95vh;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: space-evenly;
 }
-@media (min-width: 1100px) and (max-width: 1200px) {
-  .Services {
-    overflow-x: scroll;
-  }
+.Services .page section {
+  margin: 20px;
 }
-.Services section {
-  height: min-content;
+.Services .page .header {
+  height: 120px;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
 }
-.Services .title-contain {
-  max-width: fit-content;
-  margin: 0 auto;
+.Services .page .header .btn {
+  margin: auto 0;
 }
-.Services .week {
-  margin: 0 auto;
+.Services .page .graph {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  justify-content: space-evenly;
 }
-.Services .week table {
-  width: 800px;
-  border-collapse: collapse;
-  border-radius: 30px;
+.Services .page .graph div {
   background-color: #0c2646;
-  display: block;
-  height: 300px;
-  overflow-y: scroll;
+  border-radius: 30px;
+  height: auto;
+  padding: 30px;
+  width: 700px;
 }
-.Services .week table tr {
-  border: black 1px solid;
-  border-left: none;
-  border-right: none;
+.Services .page .graph div h1 {
+  text-align: center;
+  margin-bottom: 10px;
 }
-.Services .week table tr:first-child {
-  border-top: none;
+.Services .page .graph div canvas {
+  background-color: #004662;
+  border-radius: 30px;
+  padding: 10px;
 }
-.Services .week table tr:last-child {
-  border-bottom: none;
+.Services .page .infos {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+  width: 100%;
 }
-.Services .week table .head {
+.Services .page .infos .material {
+  height: 500px;
+  width: 420px;
+  background-color: #0c2646;
+  border-radius: 30px;
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+}
+.Services .page .infos .material h1 {
+  text-align: center;
+}
+.Services .page .infos .material .material-list {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  height: 90%;
+  width: auto;
+  padding: 10px;
+  background-color: #004662;
+  border-radius: 30px;
+}
+.Services .page .infos .material .material-list .material-item {
+  display: flex;
+  flex-direction: row;
+  background-color: #0c2646;
+  border-radius: 30px;
+  padding: 10px;
+  height: 50px;
+}
+.Services .page .infos .material .material-list .material-item img {
+  width: 50px;
+  height: 50px;
+}
+.Services .page .infos .material .material-list .material-item h4 {
+  margin: auto 10px;
+}
+.Services .page .infos .ServiceReq {
+  height: 500px;
+  width: 800px;
+  background-color: #0c2646;
+  border-radius: 30px;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+}
+.Services .page .infos .ServiceReq h1 {
+  text-align: center;
+}
+.Services .page .infos .ServiceReq .table {
+  height: 450px;
+  width: auto;
+  overflow-y: auto;
+  background-color: #004662;
+  border-radius: 30px;
+}
+.Services .page .infos .ServiceReq table {
+  border-collapse: collapse;
+}
+.Services .page .infos .ServiceReq table th {
   position: sticky;
   top: 0;
   border-bottom: black 1px solid;
@@ -2224,13 +2327,22 @@ body {
   border-left: 1px black solid;
   border-right: 1px black solid;
 }
-.Services .week table .head:first-child {
+.Services .page .infos .ServiceReq table th:first-child {
   border-left: none;
 }
-.Services .week table .head:last-child {
+.Services .page .infos .ServiceReq table th:last-child {
   border-right: none;
 }
-.Services .week table td {
+.Services .page .infos .ServiceReq table tr {
+  border: black 1px solid;
+  height: 10px;
+  border-left: none;
+  border-right: none;
+}
+.Services .page .infos .ServiceReq table tr:last-child {
+  border-bottom: none;
+}
+.Services .page .infos .ServiceReq table td, .Services .page .infos .ServiceReq table th {
   width: 200px;
   padding: 5px;
   text-align: center;
@@ -2241,40 +2353,62 @@ body {
   border-top: none;
   border-bottom: none;
 }
-.Services .week table td:first-child {
+.Services .page .infos .ServiceReq table td:first-child, .Services .page .infos .ServiceReq table th:first-child {
   border-left: none;
 }
-.Services .week table td:last-child {
+.Services .page .infos .ServiceReq table td:last-child, .Services .page .infos .ServiceReq table th:last-child {
   border-right: none;
 }
-.Services .week table .body {
-  width: 800px;
-  padding-top: 40px;
-}
-.Services .week table .header {
-  width: 800px;
-  background-color: #004662;
-  height: 40px;
-}
-.Services .week-list {
-  margin: 0 auto;
-}
-.Services .week-list table {
-  width: 900px;
-  height: 300px;
-  border-collapse: collapse;
-  border-radius: 30px;
+.Services .page .infos .ServiceReq table td .btn, .Services .page .infos .ServiceReq table th .btn {
   background-color: #0c2646;
 }
-.Services .week-list table tr {
+.Services .page .infos .Primes {
+  height: 500px;
+  width: 800px;
+  background-color: #0c2646;
+  border-radius: 30px;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+}
+.Services .page .infos .Primes h1 {
+  text-align: center;
+}
+.Services .page .infos .Primes .table {
+  height: 450px;
+  width: auto;
+  overflow-y: auto;
+  background-color: #004662;
+  border-radius: 30px;
+}
+.Services .page .infos .Primes table {
+  border-collapse: collapse;
+}
+.Services .page .infos .Primes table th {
+  position: sticky;
+  top: 0;
+  border-bottom: black 1px solid;
+  background-color: #004662;
+  z-index: 10;
+  border-left: 1px black solid;
+  border-right: 1px black solid;
+}
+.Services .page .infos .Primes table th:first-child {
+  border-left: none;
+}
+.Services .page .infos .Primes table th:last-child {
+  border-right: none;
+}
+.Services .page .infos .Primes table tr {
   border: black 1px solid;
+  height: 10px;
   border-left: none;
   border-right: none;
 }
-.Services .week-list table tr:last-child {
+.Services .page .infos .Primes table tr:last-child {
   border-bottom: none;
 }
-.Services .week-list table td {
+.Services .page .infos .Primes table td, .Services .page .infos .Primes table th {
   width: 200px;
   padding: 5px;
   text-align: center;
@@ -2285,21 +2419,55 @@ body {
   border-top: none;
   border-bottom: none;
 }
-.Services .week-list table td:first-child {
+.Services .page .infos .Primes table td:first-child, .Services .page .infos .Primes table th:first-child {
   border-left: none;
 }
-.Services .week-list table td:last-child {
+.Services .page .infos .Primes table td:last-child, .Services .page .infos .Primes table th:last-child {
   border-right: none;
 }
-.Services .week-list table .body {
-  width: 800px;
+.Services .page .infos .Primes table td .btn, .Services .page .infos .Primes table th .btn {
+  background-color: #0c2646;
 }
-.Services .week-list table .header {
-  width: 800px;
-  background-color: #004662;
+.Services .page .infos div {
+  margin: 10px;
 }
-.Services .week-list table .header tr:first-child {
-  border-top: none;
+.Services .modpopup, .Services .primesreq {
+  position: fixed;
+  width: calc(100vw - 270px);
+  height: 100vh;
+  z-index: 3;
+  top: 0;
+  display: flex;
+}
+.Services .modpopup .center, .Services .primesreq .center {
+  margin: auto;
+  z-index: 3;
+  background-color: #0c2646;
+  border-radius: 30px;
+  border: 1px #00FFFF solid;
+  width: 90%;
+  padding: 20px;
+  max-width: 470px;
+  height: 400px;
+}
+.Services .modpopup .center h2, .Services .primesreq .center h2 {
+  text-align: center;
+}
+.Services .modpopup .center .rowed, .Services .primesreq .center .rowed {
+  margin: 10px 0;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+}
+.Services .modpopup .center .rowed label, .Services .primesreq .center .rowed label {
+  margin: auto 0;
+  width: 130px;
+}
+.Services .modpopup .center .button, .Services .primesreq .center .button {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
 }
 
 .pdf_Generator {
@@ -2471,8 +2639,10 @@ body {
   padding: 10px;
   display: flex;
   flex-direction: row;
+  margin: auto 0;
 }
 .RapportHorraire .header .semaine-select form input {
+  width: 100px;
   margin: 0 10px;
 }
 .RapportHorraire .header .semaine-select form label, .RapportHorraire .header .semaine-select form button {
@@ -2480,6 +2650,13 @@ body {
 }
 .RapportHorraire .header .add-perso {
   margin: auto 0;
+}
+.RapportHorraire .header .btn {
+  margin: auto 0;
+}
+.RapportHorraire .header .btn a {
+  font-weight: 600;
+  font-size: 25px;
 }
 .RapportHorraire .rapport-table-container {
   margin: 25px auto;
@@ -2681,6 +2858,44 @@ body {
   overflow-y: scroll;
   flex-grow: 1;
 }
+.PersonnelList .list-personnel .tableHeader {
+  background: #004662;
+  width: 100%;
+  border-bottom: 1px black solid;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+.PersonnelList .list-personnel .tableHeader form {
+  margin: auto 0;
+  margin-left: 20px;
+}
+.PersonnelList .list-personnel .tableHeader form select {
+  background-color: #0c2646;
+}
+.PersonnelList .list-personnel .tableHeader form .btn {
+  margin-left: 20px;
+  background-color: #0c2646;
+}
+.PersonnelList .list-personnel .tableHeader form label {
+  font-weight: 500;
+  font-size: 25px;
+}
+.PersonnelList .list-personnel .tableHeader .secondPart {
+  display: flex;
+  flex-direction: row;
+}
+.PersonnelList .list-personnel .tableHeader .secondPart button {
+  margin: auto 0;
+  margin-left: 20px;
+  margin-right: 20px;
+  height: 60px;
+  background-color: #0c2646;
+}
+.PersonnelList .list-personnel .tableHeader .secondPart h4 {
+  margin: auto 0;
+  margin-right: 20px;
+}
 .PersonnelList .list-personnel table {
   border-collapse: collapse;
   width: 100%;
@@ -2700,6 +2915,27 @@ body {
 .PersonnelList .list-personnel table th:last-child {
   border-right: none;
 }
+.PersonnelList .list-personnel table th .orderable {
+  margin: auto 0;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+.PersonnelList .list-personnel table th .order {
+  margin-left: 10px;
+  display: flex;
+  flex-direction: column;
+}
+.PersonnelList .list-personnel table th .order img {
+  height: 20px;
+  opacity: 40%;
+}
+.PersonnelList .list-personnel table th .order .higlights {
+  opacity: 100% !important;
+}
+.PersonnelList .list-personnel table th .reverse {
+  transform: rotate(180deg);
+}
 .PersonnelList .list-personnel table .id {
   width: 5%;
   text-align: center;
@@ -2708,19 +2944,42 @@ body {
   width: 20%;
   text-align: center;
 }
+.PersonnelList .list-personnel table .name a {
+  width: 100%;
+  height: 100%;
+  font-size: 25px;
+  font-weight: 600;
+}
 .PersonnelList .list-personnel table .tel {
-  width: 15%;
+  width: 10%;
   text-align: center;
 }
+.PersonnelList .list-personnel table .matricule {
+  text-align: center;
+  width: 3%;
+}
+.PersonnelList .list-personnel table .discordid {
+  text-align: center;
+  width: 17%;
+}
+.PersonnelList .list-personnel table .discordid input {
+  background: #0c2646;
+  width: 100%;
+  height: 100%;
+  border-radius: 0;
+  text-align: center;
+  font-size: 26px;
+  -moz-appearance: textfield;
+}
 .PersonnelList .list-personnel table .compte {
-  width: 15%;
+  width: 10%;
   text-align: center;
 }
 .PersonnelList .list-personnel table .pilote {
-  width: 15%;
+  width: 7%;
 }
 .PersonnelList .list-personnel table .grade {
-  width: 30%;
+  width: 20%;
 }
 .PersonnelList .list-personnel table th, .PersonnelList .list-personnel table td {
   font-family: "Baloo Thambi 2", monospace;
@@ -2760,6 +3019,9 @@ body {
 }
 .PersonnelList .list-personnel table tr:nth-child(even) td {
   background: #0f2f57;
+}
+.PersonnelList .list-personnel table tr:nth-child(even) td input {
+  background-color: #0f2f57;
 }
 
 .Login, .Register {
@@ -3658,7 +3920,7 @@ body {
   width: 100%;
   border-collapse: collapse;
   display: grid;
-  grid-template-columns: repeat(28, 160px);
+  grid-template-columns: repeat(41, 160px);
 }
 .perm .content .tablecontainer table thead, .perm .content .tablecontainer table tbody, .perm .content .tablecontainer table tr {
   display: contents;
@@ -4612,6 +4874,573 @@ body {
 }
 #UtilsRendering li::marker {
   font-weight: 800;
+}
+
+.FichePersonnel {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+}
+.FichePersonnel .header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  width: 100%;
+  height: 120px;
+}
+.FichePersonnel .header a, .FichePersonnel .header .btn, .FichePersonnel .header div {
+  margin: auto 0;
+}
+.FichePersonnel .content {
+  width: 90%;
+  margin: auto auto;
+  height: calc(100vh - 140px);
+  display: grid;
+  grid-template-columns: 42% 5% 52%;
+  grid-template-rows: repeat(11, calc(97%/11));
+  overflow: hidden;
+}
+.FichePersonnel .content h4 span {
+  text-decoration: underline #00FFFF;
+  font-weight: 700;
+}
+.FichePersonnel .content .infos {
+  grid-row: 1/3;
+  grid-column: 1;
+  padding: 10px;
+  padding-bottom: 20px;
+  background-color: #0c2646;
+  width: 100%;
+  border-radius: 30px;
+  height: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  overflow: auto;
+}
+.FichePersonnel .content .infos .infoCat {
+  margin: auto 10px;
+}
+.FichePersonnel .content .infos .infoCat h2 {
+  text-decoration: underline #00FFFF;
+}
+.FichePersonnel .content .sanctions {
+  grid-row: 1/9;
+  grid-column: 3;
+  padding: 10px;
+  background-color: #0c2646;
+  border-radius: 30px;
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+}
+.FichePersonnel .content .sanctions h1 {
+  text-align: center;
+}
+.FichePersonnel .content .sanctions .heading {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+}
+.FichePersonnel .content .sanctions .sanctionsListe {
+  height: 88%;
+  padding-bottom: 2px;
+  border: 1px black solid;
+  overflow-y: auto;
+  background-color: #004662;
+  border-radius: 30px;
+}
+.FichePersonnel .content .sanctions .sanctionsListe li {
+  width: 95%;
+  margin: 40px 0 40px auto;
+  position: relative;
+}
+.FichePersonnel .content .sanctions .sanctionsListe li::marker {
+  position: absolute;
+  color: #0c2646;
+  font-size: 70px;
+}
+.FichePersonnel .content .sanctions .sanctionsListe li button {
+  position: absolute;
+  left: -85px;
+  top: 30px;
+}
+.FichePersonnel .content .sanctions .sanctionsListe li button img {
+  width: 40px;
+}
+.FichePersonnel .content .sanctions .sanctionsListe li h4 {
+  position: relative;
+  top: -20px;
+}
+.FichePersonnel .content .notes {
+  grid-column: 1;
+  grid-row: 4/9;
+  padding: 10px;
+  background-color: #0c2646;
+  border-radius: 30px;
+}
+.FichePersonnel .content .notes h1 {
+  text-align: center;
+}
+.FichePersonnel .content .notes .heading {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+}
+.FichePersonnel .content .notes .notelist {
+  height: 50%;
+  padding-bottom: 2px;
+  border: 1px black solid;
+  overflow-y: auto;
+  background-color: #004662;
+  border-radius: 30px;
+}
+.FichePersonnel .content .notes .notelist li {
+  width: 95%;
+  margin: 40px 0 40px auto;
+  position: relative;
+}
+.FichePersonnel .content .notes .notelist li::marker {
+  position: absolute;
+  color: #0c2646;
+  font-size: 70px;
+}
+.FichePersonnel .content .notes .notelist li button {
+  position: absolute;
+  left: -85px;
+  top: 20px;
+}
+.FichePersonnel .content .notes .notelist li button img {
+  width: 40px;
+}
+.FichePersonnel .content .notes .notelist li h4 {
+  position: relative;
+  top: -20px;
+}
+.FichePersonnel .content .notes .noteadder, .FichePersonnel .content .notes form {
+  display: flex;
+  width: 100%;
+  flex-direction: row;
+  justify-content: space-evenly;
+  height: 53%;
+}
+.FichePersonnel .content .notes .noteadder textarea, .FichePersonnel .content .notes form textarea {
+  width: 80%;
+  resize: none;
+}
+.FichePersonnel .content .notes .noteadder button, .FichePersonnel .content .notes form button {
+  margin: auto 0;
+}
+.FichePersonnel .content .material {
+  grid-column: 1/4;
+  grid-row: 10/12;
+  width: 100%;
+  height: 100%;
+  padding: 10px;
+  background-color: #0c2646;
+  border-radius: 30px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+}
+.FichePersonnel .content .material .material-head {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  justify-content: space-around;
+}
+.FichePersonnel .content .material .material-list {
+  background-color: #004662;
+  padding: 10px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  flex-wrap: wrap;
+  height: 40%;
+  border-radius: 30px;
+  overflow-y: auto;
+}
+.FichePersonnel .content .material .material-list .material-item {
+  display: flex;
+  flex-direction: row;
+  background-color: #0c2646;
+  border-radius: 30px;
+  padding: 10px;
+  height: 50px;
+}
+.FichePersonnel .content .material .material-list .material-item img {
+  display: none;
+  width: 50px;
+  height: 50px;
+}
+.FichePersonnel .content .material .material-list .material-item h4 {
+  margin: auto 10px;
+}
+.FichePersonnel .material-modifier {
+  z-index: 25;
+  width: 100%;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  backdrop-filter: blur(2px);
+  display: flex;
+  justify-content: center;
+  padding: 10px;
+}
+@media (min-width: 1100px) {
+  .FichePersonnel .material-modifier {
+    width: calc(100vw - 270px);
+  }
+}
+@media (max-width: 1100px) {
+  .FichePersonnel .material-modifier {
+    width: calc(100vw);
+  }
+}
+.FichePersonnel .material-modifier .popup {
+  margin-top: calc(50vh - (350px/2));
+  width: 90%;
+  max-width: 550px;
+  height: 350px;
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+}
+.FichePersonnel .material-modifier .popup h1 {
+  text-align: center;
+}
+.FichePersonnel .material-modifier .popup form {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  height: 90%;
+}
+.FichePersonnel .material-modifier .popup form .form-content {
+  width: 100%;
+  height: 70%;
+  display: flex;
+  flex-direction: row;
+  padding-left: 20%;
+}
+.FichePersonnel .material-modifier .popup form .form-content .column {
+  width: 40%;
+  display: flex;
+  justify-content: space-around;
+  flex-direction: column;
+  height: 100%;
+}
+.FichePersonnel .material-modifier .popup form .footer {
+  width: 100%;
+  margin-top: 20px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+}
+.FichePersonnel .material-modifier .popup form .item {
+  margin: 7px 0;
+}
+.FichePersonnel .sanctions-adder {
+  z-index: 25;
+  width: 100%;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  backdrop-filter: blur(2px);
+  display: flex;
+  justify-content: center;
+  padding: 10px;
+}
+@media (min-width: 1100px) {
+  .FichePersonnel .sanctions-adder {
+    width: calc(100vw - 270px);
+  }
+}
+@media (max-width: 1100px) {
+  .FichePersonnel .sanctions-adder {
+    width: calc(100vw);
+  }
+}
+.FichePersonnel .sanctions-adder .popup {
+  margin-top: calc(50vh - (650px / 2));
+  width: 90%;
+  max-width: 550px;
+  height: 650px;
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+}
+.FichePersonnel .sanctions-adder .popup h1 {
+  text-align: center;
+}
+.FichePersonnel .sanctions-adder .popup form {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  height: 97%;
+}
+.FichePersonnel .sanctions-adder .popup form .form-content {
+  width: 80%;
+  height: 80%;
+  display: flex;
+  flex-direction: column;
+  padding-left: 10%;
+}
+.FichePersonnel .sanctions-adder .popup form .item {
+  display: flex;
+  flex-direction: column;
+}
+.FichePersonnel .sanctions-adder .popup form .border {
+  border-bottom: 1px #00FFFF solid;
+  margin-bottom: 10px;
+  padding-bottom: 10px;
+}
+.FichePersonnel .sanctions-adder .popup form .footer {
+  width: 100%;
+  height: 20%;
+  margin-top: 20px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  border-top: 1px #00FFFF solid;
+  padding-top: 20px;
+}
+.FichePersonnel .sanctions-adder .popup form .footer .btn {
+  height: 60px;
+}
+.FichePersonnel .popup {
+  background-color: #0c2646;
+  border-radius: 30px;
+  border: 1px #00FFFF solid;
+}
+
+.TestPoudre {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  width: 98%;
+  height: 100vh;
+  padding: 10px;
+  overflow-x: hidden;
+  overflow-y: hidden;
+}
+.TestPoudre .left {
+  padding: 10px;
+  height: 100vh;
+  width: 45%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+}
+.TestPoudre .left .title-contain {
+  margin-top: 0;
+}
+.TestPoudre .left .title-contain h1 {
+  text-align: center;
+}
+.TestPoudre .left .TestForm {
+  display: flex;
+  flex-direction: column;
+  margin: auto auto;
+  background-color: #0c2646;
+  border-radius: 30px;
+  width: 95%;
+}
+.TestPoudre .left .TestForm form {
+  display: flex;
+  flex-direction: column;
+}
+.TestPoudre .left .TestForm .line {
+  width: 100%;
+  height: 2px;
+  background-color: #00FFFF;
+  margin: 10px 0;
+  opacity: 50%;
+}
+.TestPoudre .left .TestForm .formtitle {
+  display: flex;
+  flex-direction: column;
+  margin: 10px auto;
+}
+.TestPoudre .left .TestForm .formtitle h1 {
+  text-align: center;
+  margin-top: 10px;
+}
+.TestPoudre .left .TestForm .pouderFormPart {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin-left: 10px;
+  width: 90%;
+}
+.TestPoudre .left .TestForm .pouderFormPart label {
+  font-size: 25px;
+  margin: auto 0;
+}
+.TestPoudre .left .TestForm .linear {
+  margin: 25px;
+  display: flex;
+  flex-direction: row !important;
+}
+.TestPoudre .left .TestForm .btn {
+  margin: 15px auto;
+}
+.TestPoudre .right {
+  padding: 10px;
+  height: 100vh;
+  width: 45%;
+  display: flex;
+}
+.TestPoudre .right .ResultListContainer {
+  background-color: #0c2646;
+  border-radius: 30px;
+  width: 100%;
+  margin: auto 15px;
+  padding: 10px;
+  height: calc(100vh - 120px);
+}
+.TestPoudre .right .ResultListContainer h1 {
+  text-align: center;
+  font-size: 50px;
+}
+.TestPoudre .right .ResultListContainer .liste {
+  margin-top: 60px;
+  overflow-y: auto;
+  height: 85%;
+  background-color: #004662;
+  border-radius: 30px;
+}
+.TestPoudre .right .ResultListContainer .liste table {
+  border-collapse: collapse;
+}
+.TestPoudre .right .ResultListContainer .liste table th {
+  position: sticky;
+  top: 0;
+  border-bottom: black 1px solid;
+  background-color: #004662;
+  z-index: 10;
+  border-left: 1px black solid;
+  border-right: 1px black solid;
+}
+.TestPoudre .right .ResultListContainer .liste table th:first-child {
+  border-left: none;
+}
+.TestPoudre .right .ResultListContainer .liste table th:last-child {
+  border-right: none;
+}
+.TestPoudre .right .ResultListContainer .liste table tr {
+  border: black 1px solid;
+  border-left: none;
+  border-right: none;
+}
+.TestPoudre .right .ResultListContainer .liste table tr:last-child {
+  border-bottom: none;
+}
+.TestPoudre .right .ResultListContainer .liste table td, .TestPoudre .right .ResultListContainer .liste table th {
+  width: 200px;
+  padding: 5px;
+  text-align: center;
+  font-family: "Baloo Thambi 2", monospace;
+  font-size: 25px;
+  color: #00FFFF;
+  border: black 1px solid;
+  border-top: none;
+  border-bottom: none;
+}
+.TestPoudre .right .ResultListContainer .liste table td:first-child, .TestPoudre .right .ResultListContainer .liste table th:first-child {
+  border-left: none;
+}
+.TestPoudre .right .ResultListContainer .liste table td:last-child, .TestPoudre .right .ResultListContainer .liste table th:last-child {
+  border-right: none;
+}
+.TestPoudre .right .ResultListContainer .liste table td .btn, .TestPoudre .right .ResultListContainer .liste table th .btn {
+  background-color: #0c2646;
+}
+
+.adminservicereq {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  width: calc(100% - 20px);
+  height: 100vh;
+  padding: 10px;
+}
+.adminservicereq .header {
+  display: flex;
+  height: 120px;
+  flex-direction: row;
+  justify-content: space-evenly;
+  overflow-x: hidden;
+}
+.adminservicereq .header .btn {
+  margin: auto 0;
+}
+.adminservicereq .content {
+  overflow-y: hidden;
+  display: flex;
+  padding: 30px;
+  height: calc(100vh - 320px);
+}
+.adminservicereq .content .table-container {
+  background-color: #0c2646;
+  border-radius: 30px;
+  overflow-y: auto;
+  margin: 0 auto;
+  height: calc(100vh - 320px);
+  width: 90%;
+}
+.adminservicereq .content .table-container table {
+  border-collapse: collapse;
+  width: 100%;
+}
+.adminservicereq .content .table-container table th {
+  position: sticky;
+  top: 0;
+  border-bottom: black 1px solid;
+  background-color: #004662;
+  z-index: 10;
+  border-left: 1px black solid;
+  border-right: 1px black solid;
+}
+.adminservicereq .content .table-container table th:first-child {
+  border-left: none;
+}
+.adminservicereq .content .table-container table th:last-child {
+  border-right: none;
+}
+.adminservicereq .content .table-container table tr {
+  border: black 1px solid;
+  height: 10px;
+  border-left: none;
+  border-right: none;
+}
+.adminservicereq .content .table-container table tr:last-child {
+  border-bottom: none;
+}
+.adminservicereq .content .table-container table tr:nth-child(even) td {
+  background: #0f2f57;
+}
+.adminservicereq .content .table-container table td, .adminservicereq .content .table-container table th {
+  width: 200px;
+  padding: 5px;
+  text-align: center;
+  font-family: "Baloo Thambi 2", monospace;
+  font-size: 25px;
+  color: #00FFFF;
+  border: black 1px solid;
+  border-top: none;
+  border-bottom: none;
+}
+.adminservicereq .content .table-container table td:first-child, .adminservicereq .content .table-container table th:first-child {
+  border-left: none;
+}
+.adminservicereq .content .table-container table td:last-child, .adminservicereq .content .table-container table th:last-child {
+  border-right: none;
+}
+.adminservicereq .content .table-container table td .btn, .adminservicereq .content .table-container table th .btn {
+  margin: 10px;
+  font-size: 20px;
 }
 
 .notification-item .bar {

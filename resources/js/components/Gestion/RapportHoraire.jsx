@@ -4,6 +4,8 @@ import axios from "axios";
 import PagesTitle from "../props/utils/PagesTitle";
 import TableBottom from "../props/utils/TableBottom";
 import PermsContext from "../context/PermsContext";
+import {Link} from "react-router-dom";
+import ModificationRequestAdmin from "./ModificationRequestAdmin";
 
 
 class RapportHoraire extends React.Component {
@@ -101,6 +103,12 @@ class RapportHoraire extends React.Component {
             return (
                 <div className={'RapportHorraire'}>
                     <section className={'header'} style={{filter: this.state.popup ? 'blur(5px)' : 'none'}}>
+                        {perm.time_modify ===1&&
+                            <button className={'btn add-perso'} onClick={()=>this.setState({popup:true})}>Modifier</button>
+                        }
+                        {perm.timeserviceupdate_request === 1 &&
+                            <button className={'btn'}><Link to={'/gestion/service-request'} >Demandes</Link></button>
+                        }
                         <PagesTitle title={'Rapport horaire'}/>
                         <div className={'semaine-select'}>
                             <form onSubmit={this.submit}>
@@ -109,10 +117,8 @@ class RapportHoraire extends React.Component {
                                 <button type={'submit'} className={'btn'}>Valider</button>
                             </form>
                         </div>
-                        <a className={'btn add-perso'} target={'_blank'} href={'/data/service/admin/exel/' + this.state.wek}>Exporter en exel</a>
-                        {perm.time_modify ===1&&
-                            <button className={'btn add-perso'} onClick={()=>this.setState({popup:true})}>Modifier le temps de service</button>
-                        }
+                        <a className={'btn add-perso'} target={'_blank'} href={'/data/service/admin/exel/' + this.state.wek}>Exporter</a>
+
                     </section>
                     <section className={'rapport-table-container'} style={{filter: this.state.popup ? 'blur(5px)' : 'none'}}>
                         <div className={'rapport-table'}>

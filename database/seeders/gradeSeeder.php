@@ -23,7 +23,7 @@ class gradeSeeder extends Seeder
             $newgrade = new Grade();
             $a = 0;
             $newgrade['name'] = $grade;
-            while ($a <= 26) {
+            while ($a <= 39) {
                 if ($a == 0) {
                     $newgrade->perm_0 = 1;
                 } else if ($newgrade['name'] === 'Développeur') {

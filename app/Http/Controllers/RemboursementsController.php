@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Events\Notify;
+use App\Http\Controllers\Service\ServiceGetterController;
 use App\Models\ObjRemboursement;
 use App\Models\RemboursementList;
 use App\Models\WeekRemboursement;
@@ -21,7 +22,7 @@ class RemboursementsController extends Controller
 
     public function getRemboursementOfUser(): \Illuminate\Http\JsonResponse
     {
-        $remboursements = RemboursementList::where('user_id', Auth::user()->id)->where('week_number', ServiceController::getWeekNumber())->orderByDesc('id')->get();
+        $remboursements = RemboursementList::where('user_id', Auth::user()->id)->where('week_number', ServiceGetterController::getWeekNumber())->orderByDesc('id')->get();
         $obs = ObjRemboursement::all();
         foreach ($remboursements as $remboursement){
             $remboursement->getItem;
