@@ -1,7 +1,7 @@
 import { defineConfig } from 'vite'
 import reactRefresh from '@vitejs/plugin-react-refresh'
 const env = 'production';
-const Global = "var process = { env: {NODE_ENV: 'production'}}"
+const Global = "var process = { env: {NODE_ENV: '" + env + "'}}"
 
 
 //production //development
@@ -24,7 +24,7 @@ export default defineConfig({
         rollupOptions: {
           output: {
               manualChunks: undefined,
-              banner: env
+              banner: Global
           },
           input:{
               'app.jsx': './resources/js/app.jsx'

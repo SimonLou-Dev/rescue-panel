@@ -134,7 +134,7 @@ class ServiceGetterController extends Controller
         return response()->json([
             'status'=>'ok',
             'week'=>$reqweek,
-            'services'=>$userserivce,
+            'services'=>$userserivces,
             'weekgraph'=>[$weeknumber, $weektotal],
             'servicegraph'=>[$usersserviceid, $userserivcetime]
         ]);
