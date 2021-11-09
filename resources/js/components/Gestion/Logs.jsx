@@ -55,6 +55,8 @@ class Logs extends React.Component {
                                 <option value={2}>Services</option>
                                 <option value={3}>Factures</option>
                                 <option value={4}>black codes</option>
+                                <option value={5}>etat de service</option>
+                                <option value={6}>modif service</option>
                             </select>
 
                     </div>
@@ -201,6 +203,60 @@ class Logs extends React.Component {
                                             <td>{data.ended?'oui': 'non'}</td>
                                             <td>{dateFormat(data.created_at, 'dd/mm/yyyy à H:MM')}</td>
                                             <td>{dateFormat(data.updated_at, 'dd/mm/yyyy à H:MM')}</td>
+                                        </tr>
+                                    )
+                                }
+                                </tbody>
+                            </table>
+                            }
+                            {this.state.type == 5 &&
+                            <table>
+                                <thead>
+                                <tr>
+                                    <th>id</th>
+                                    <th>membre</th>
+                                    <th>etat</th>
+                                    <th>créé le</th>
+                                    <th>modifier le</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {
+                                    this.state.datas.map((data)=>
+                                        <tr>
+                                            <td>{data.id}</td>
+                                            <td>{data.get_user.name}</td>
+                                            <td>{data.get_state.name}</td>
+                                            <td>{dateFormat(data.created_at, 'dd/mm/yyyy à H:MM')}</td>
+                                            <td>{dateFormat(data.updated_at, 'dd/mm/yyyy à H:MM')}</td>
+                                        </tr>
+                                    )
+                                }
+                                </tbody>
+                            </table>
+                            }
+                            {this.state.type == 6 &&
+                            <table>
+                                <thead>
+                                <tr>
+                                    <th>id</th>
+                                    <th>semaine</th>
+                                    <th>membre</th>
+                                    <th>raison</th>
+                                    <th>état</th>
+                                    <th>admin</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {
+                                    this.state.datas.map((data)=>
+                                        <tr>
+                                            <td>{data.id}</td>
+                                            <td>{data.week_number}</td>
+                                            <td>{data.get_user === undefined ? '' : data.get_user.name}</td>
+                                            <td>{data.reason}</td>
+                                            <td>{data.acceped === null ? 'en attente': (data.acceped ? 'acceptée':'refusée')}</td>
+                                            <td>{data.get_admin === undefined ? '' : (data.get_admin === null ? '' : data.get_admin.name)}</td>
                                         </tr>
                                     )
                                 }

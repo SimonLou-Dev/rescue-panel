@@ -32,6 +32,7 @@ class Account extends React.Component {
             image: null,
             errors: [],
             id: null,
+            matricule: 'null'
         }
 
         this.postInfos = this.postInfos.bind(this);
@@ -48,13 +49,14 @@ class Account extends React.Component {
         if(req.status === 200){
             this.setState({
                 data:true,
-                email: req.data.user.email,
-                name: req.data.user.name,
-                compte: req.data.user.compte,
-                tel: req.data.user.tel,
-                liveplace: req.data.user.liveplace,
-                image: req.data.user.bg_img,
-                id:req.data.user.id,
+                email: req.data.infos.email,
+                name: req.data.infos.name,
+                compte: req.data.infos.compte,
+                tel: req.data.infos.tel,
+                liveplace: req.data.infos.liveplace,
+                image: req.data.infos.bg_img,
+                id:req.data.infos.id,
+
             });
         }
     }
@@ -170,7 +172,13 @@ class Account extends React.Component {
                 }
                 {this.state.data &&
                     <section className={'bigchange'} style={{filter: this.state.popup ? 'blur(5px)' : 'none'}} >
-                    <button className={'btn'} onClick={()=>this.setState({popup:true})}>changer de mot de passe</button>
+                    <button className={'btn'} onClick={async () => {
+                        await axios({
+                            method: 'GET',
+                            url: '/data/user/reset/send',
+                        })
+                    }
+                    }>changer de mot de passe</button>
                     <div className="img">
                         <div className="rowed">
                             <h2>Arrière plan du site (Affeté à la prochainne connexion)</h2>
@@ -228,16 +236,20 @@ class MonCompte extends React.Component {
         this.state = {
             stats: false,
             account: true,
-            grade: 'chargement'
+            grade: 'chargement ',
+            matricule: 'null',
+
         }
     }
     async componentDidMount() {
         var req = await axios({
-            url: '/data/getperm',
+            url: '/data/user/infos/get',
             method: 'get',
         })
         if (req.status === 200) {
-            this.setState({grade: req.data.user.get_grade.name})
+            this.setState({
+                grade: req.data.infos.get_grade.name + ' ',
+                matricule: req.data.infos.matricule !== null ? req.data.infos.matricule : 'null'})
         }
     }
 
@@ -245,7 +257,7 @@ class MonCompte extends React.Component {
     render() {
         return (
             <div className={"moncompte"}>
-                <PagesTitle title={"Mon Compte <br> <span>"+ this.state.grade +"</span>"}/>
+                <PagesTitle title={"Mon Compte <br> <span>"+ this.state.grade + "("+ this.state.matricule + ")" + "</span>"}/>
                 <div className={'account-container'}>
                     <div className={'header'}>
                         <button onClick={()=> this.setState({stats: false, account: true})} className={this.state.account ? '' : 'unselected'}><img src={'/assets/images/settings.svg'} alt={''}/> mes informations</button>

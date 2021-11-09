@@ -1,40 +1,71 @@
 import React from 'react';
+import {useNotifications} from "./context/NotificationProvider";
+import {v4} from "uuid";
+import axios from "axios";
+import {useState} from "react";
 
-class Emailsender extends React.Component {
-    render() {
-        return (
-            <div className={'maintenance'}>
-                <div className={'card'}>
-                    <section className={'image'}>
-                        <img alt={""} src={'/assets/images/LONG_EMS_BC_2.png'}/>
-                    </section>
-                    <h1>maintenance en cours</h1>
-                    <section className={'infos'}>
-                        <div className="rowed">
-                            <h3>Début de la maintenance : </h3>
-                            <h3>00/00/0000 à 00h00 [FR]</h3>
-                        </div>
-                        <div className="rowed">
-                            <h3>Durée prévue : </h3>
-                            <h3>02h00</h3>
-                        </div>
-                        <div className="rowed">
-                            <h3>raison : </h3>
-                            <h3>mise à jour</h3>
-                        </div>
-                        <div className="rowed">
-                            <h3>dernière  vérification : </h3>
-                            <h3>00h00 [FR]</h3>
-                        </div>
-                    </section>
-                    <section className={'contact'}>
-                        <h3>Plus d'information sur discord</h3>
-                        <h4>salon #note-mdt</h4>
-                    </section>
-                </div>
+
+/*
+
+ */
+
+export function Emailsender() {
+    const dispatch = useNotifications()
+    const [email, setEmail] = useState('');
+
+
+    return (
+        <div className={'Login'}>
+            <div className={'Form'}>
+                <form method={"POST"} onSubmit={async (e) => {
+                    e.preventDefault();
+                    await axios({
+                        method: 'GET',
+                        url: '/data/user/reset/send/' + email,
+                    }).then(response => {
+                        if (response.status === 200) {
+                            dispatch({
+                                type: 'ADD_NOTIFICATION',
+                                payload: {
+                                    id: v4(),
+                                    type: 'success',
+                                    message: 'email envoyé'
+                                }
+                            });
+                        } else {
+                            dispatch({
+                                type: 'ADD_NOTIFICATION',
+                                payload: {
+                                    id: v4(),
+                                    type: 'warning',
+                                    message: 'une erreur est survenue'
+                                }
+                            });
+                        }
+                    }).catch(error => {
+                        dispatch({
+                            type: 'ADD_NOTIFICATION',
+                            payload: {
+                                id: v4(),
+                                type: 'warning',
+                                message: 'L\'email entrée n\'est pas reconnue',
+                            }
+                        });
+                    })
+                }}>
+                    <img alt={""} src={'/assets/images/LONG_EMS_BC_2.png'}/>
+                    <h1>Réinitialisation de mot de passe</h1>
+                    <label>Email : </label>
+                    <input value={email} type={'text'} name={'email'} onChange={e => {
+                        setEmail(e.target.value)
+                    }}/>
+                    <button type={'submit'} className={'btn'}>Valider</button>
+                </form>
+
             </div>
-        )
-    };
+        </div>
+    )
+
 }
 
 export default Emailsender;

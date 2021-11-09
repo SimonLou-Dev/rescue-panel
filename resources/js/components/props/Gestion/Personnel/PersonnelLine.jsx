@@ -1,11 +1,12 @@
 import React from 'react';
 import axios from "axios";
 import PermsContext from "../../../context/PermsContext";
+import {Link} from "react-router-dom";
 
 class PersonnelLine extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {id: this.props.id, name: this.props.name, grade: this.props.grade}
+        this.state = {id: this.props.id, name: this.props.name, grade: this.props.grade, discordid: this.props.discordid}
         this.isupdate = this.isupdate.bind(this);
     }
 
@@ -24,14 +25,41 @@ class PersonnelLine extends React.Component {
         return (
             <tr>
                 <td className={'id'}>{this.state.id}</td>
-                <td className={'name'}>{this.state.name}</td>
+                <td className={'name'}>
+                    {perm.view_member_sheet === 1 &&
+                    <Link to={'/gestion/Fiches?id='+ this.state.id}>{this.state.name}</Link>
+                    }
+
+                   {perm.view_member_sheet === 0 &&
+                    this.state.name
+                   }
+                    </td>
+                <td className={'matricule'}>{this.props.matricule}</td>
                 <td className={'tel'}>{this.props.tel}</td>
                 <td className={'compte'}>{this.props.compte}</td>
+                <td className={'discordId'}>
+                    <form onSubmit={async (e) => {
+                        e.preventDefault();
+                        await axios({
+                            method: 'PUT',
+                            url: '/data/users/setdiscordId/' + this.state.discordid + '/' + this.state.id,
+                        })
+                        this.props.update();
+                    }}>
+                        <input type={'number'} disabled={(perm.set_discordid === 1 ? false : true)} onChange={ async (e) => {
+                            this.setState({discordid: e.target.value})
+                        }} value={this.state.discordid}/>
+                        {perm.set_discordid === 1 &&
+                        <button type={'submit'} className={'btn'}>valider</button>
+                        }
+                    </form>
+
+                    </td>
                 <td className={'grade'}>
                     <form onSubmit={this.isupdate}>
                         <select value={this.state.grade} onChange={(e)=>{this.setState({grade: e.target.value})}}>
                             <optgroup label={'pas d\'accès'}>
-                                <option value={1}>user</option>
+                                <option value={1} disabled={true}>user</option>
                             </optgroup>
                             <optgroup label={'membre'}>
                                 <option value={2}>Probies</option>
@@ -52,8 +80,8 @@ class PersonnelLine extends React.Component {
                                 <option value={11}>Développeur</option>
                             </optgroup>
                         </select>
-                        {perm.edit_perm === 1 &&
-                            <button type={'submit'} className={'btn'}>valider</button>
+                        {perm.grade_modify === 1 &&
+                        <button type={'submit'} className={'btn'}>valider</button>
                         }
                     </form>
                 </td>

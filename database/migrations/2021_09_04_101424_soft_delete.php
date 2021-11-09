@@ -25,7 +25,7 @@ class SoftDelete extends Migration
         Schema::table('Hospitals', function (Blueprint $table) {
             $table->softDeletes();
         });
-        Schema::table('interventions', function (Blueprint $table) {
+        Schema::table('Interventions', function (Blueprint $table) {
             $table->softDeletes();
         });
         Schema::table('LieuxSurvols', function (Blueprint $table) {

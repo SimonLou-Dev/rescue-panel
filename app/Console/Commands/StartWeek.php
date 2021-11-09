@@ -40,7 +40,7 @@ class StartWeek extends Command
     public function handle()
     {
         $week =  date('W', time());
-        $users = \App\PDFExporter\Models\User::where('grade', '>', 1)->get();
+        $users = \App\Exporter\Models\User::where('grade', '>', 1)->get();
         $dayservice = WeekService::where('week', $week)->get('user_id');
         $b = 0;
         $array = array();
