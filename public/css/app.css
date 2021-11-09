@@ -1122,7 +1122,8 @@ body {
   width: 20%;
   max-width: 200px;
   min-width: 120px;
-  height: 100%;
+  height: 172px;
+  overflow-y: auto;
 }
 #Main-Page .Personnel_service .service--list .left .groupcard {
   padding-top: 5px;
