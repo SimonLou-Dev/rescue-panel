@@ -41,8 +41,10 @@ class OperatorController extends Controller
             $user->service = false;
             $user->serviceState = null;
             $user->save();
-            $logsState = LogServiceState::where('user_id', $user->id)->first();
-            $logsState->ended = true;
+            if($user->serviceState != null){
+                $logsState = LogServiceState::where('user_id', $user->id)->first();
+                $logsState->ended = true;
+            }
             $start = date_create($logsState->started_at);
             $interval = $start->diff(date_create(date('Y-m-d H:i:s', time())));
             $diff = $interval->d*24 + $interval->h;
