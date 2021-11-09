@@ -140,6 +140,7 @@ class ContentManagement extends Controller
                 break;
             case '9':
                 $data = ServiceState::all();
+                break;
             case '10':
                 $data = PrimeItem::all();
                 break;

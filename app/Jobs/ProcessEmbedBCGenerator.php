@@ -146,7 +146,7 @@ class ProcessEmbedBCGenerator implements ShouldQueue
         $b = 0;
         $msg = "";
         $max = 0;
-        if(count($patients) - $a > 20){
+        if(count($patients) - $a > 19){
             $max = 20;
         }else{
             $max = count($patients) - $a;
@@ -162,7 +162,7 @@ class ProcessEmbedBCGenerator implements ShouldQueue
             'color'=>'10368531',
             'description'=>$msg
         ];
-        return [$a+20, $embedpatient];
+        return [$a+19, $embedpatient];
     }
 
 }

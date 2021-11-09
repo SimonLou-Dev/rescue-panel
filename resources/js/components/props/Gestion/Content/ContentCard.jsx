@@ -176,7 +176,10 @@ class ContentCard extends React.Component {
                 {this.state.type !== 5&&
                 <form method={"POST"} onSubmit={this.post}>
                     <input type={"text"} value={this.state.formcontent} maxLength={"30"} onChange={(e)=>{this.setState({formcontent: e.target.value})}}/>
-                    {this.props.type === 8 || this.props.type === 10 &&
+                    {this.props.type === 8 &&
+                        <input type={'number'} value={this.state.price} onChange={(e)=>{this.setState({price:e.target.value})}} />
+                    }
+                    {this.props.type === 10 &&
                         <input type={'number'} value={this.state.price} onChange={(e)=>{this.setState({price:e.target.value})}} />
                     }
                     {this.props.type === 9 &&

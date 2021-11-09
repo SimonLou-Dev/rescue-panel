@@ -48,7 +48,7 @@ class PrimesRequestAdmin extends React.Component {
                                     <td>{req.week_number}</td>
                                     <td>${req.get_item.montant}</td>
                                     <td>{req.get_item.name}</td>
-                                    <td>{req.accepted === null ? 'en attente' : req.acceped ? 'acceptée' : 'refusée' }</td>
+                                    <td>{req.accepted === null ? 'en attente' : (req.acceped ? 'acceptée' : 'refusée') }</td>
                                     <td>{req.accepted === null &&
                                     <button className={'btn'} onClick={async () => {
                                         await axios({
