@@ -36,6 +36,7 @@ import TestPoudre from "./Patient/TestPoudre";
 import * as Sentry from "@sentry/react";
 import Error from "./Error";
 import ModificationRequestAdmin from "./Gestion/ModificationRequestAdmin";
+import PrimesRequestAdmin from "./Gestion/PrimesRequestAdmin";
 
 export const rootUrl = document.querySelector('body').getAttribute('data-root-url');
 
@@ -285,6 +286,7 @@ export function Layout(){
                         <Route path={'/gestion/utils'} component={LiensUtilesMgt}/>
                         <Route path={'/gestion/Fiches'} component={FichePersonnel}/>
                         <Route path={'/gestion/service-request'} component={ModificationRequestAdmin}/>
+                        <Route path={'/gestion/primes-request'} component={PrimesRequestAdmin}/>
                     </PermsContext.Provider>
 
                 </Sentry.ErrorBoundary>

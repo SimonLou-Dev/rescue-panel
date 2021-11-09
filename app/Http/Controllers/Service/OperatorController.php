@@ -6,6 +6,7 @@ use App\Events\Notify;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\LayoutController;
 use App\Http\Controllers\ServiceController;
+use App\Models\LogServiceState;
 use App\Models\Service;
 use App\Models\User;
 use App\Models\WeekService;
@@ -40,6 +41,16 @@ class OperatorController extends Controller
             $user->service = false;
             $user->serviceState = null;
             $user->save();
+            $logsState = LogServiceState::where('user_id', $user->id)->first();
+            $logsState->ended = true;
+            $start = date_create($logsState->started_at);
+            $interval = $start->diff(date_create(date('Y-m-d H:i:s', time())));
+            $diff = $interval->d*24 + $interval->h;
+            $formated = $diff . ':' . $interval->format('%i:%S');
+            $logsState->total = $formated;
+            $logsState->save();
+
+
             $service = Service::where('user_id', $user->id)->whereNull('Total')->first();
             $start = date_create($service->started_at);
             $interval = $start->diff(date_create(date('Y-m-d H:i:s', time())));

@@ -39,6 +39,9 @@ class ContentCard extends React.Component {
             case 9:
                 this.setState({title: 'états de service'})
                 break;
+            case 10:
+                this.setState({title: 'Primes'})
+                break;
             default:
                 break;
         }
@@ -52,7 +55,7 @@ class ContentCard extends React.Component {
     async post(e) {
         e.preventDefault();
         if (this.state.formcontent !== "") {
-            if(this.props.type === 8){
+            if(this.props.type === 8 || this.props.type === 10){
                 var req = await axios({
                     url: '/data/gestion/content/add/' + this.state.type,
                     method: 'POST',
@@ -81,7 +84,7 @@ class ContentCard extends React.Component {
             }
             if(req.status === 201){
                 this.setState({formcontent:''})
-                if(this.props.type === 8){
+                if(this.props.type === 8 || this.props.type === 10){
                     this.setState({price :0})
                 }
                 if(this.props.type === 9 ){
@@ -138,11 +141,13 @@ class ContentCard extends React.Component {
                     {this.state.data &&
                         this.state.items.map((item)=>
                             <div className={'item'} key={item.id}>
-                                {this.props.type === 8&&
+                                {this.props.type === 8  &&
                                     <p>{item.name} ${item.price}</p>
                                 }
-                                {this.props.type !== 8 &&
-                                    item.name &&
+                                {this.props.type === 10  &&
+                                <p>{item.name} ${item.montant}</p>
+                                }
+                                {this.props.type !== 8 && this.props.type !== 10 && item.name &&
                                         <p>{item.name}</p>
                                 }
                                 {this.props.type === 9 &&
@@ -155,7 +160,7 @@ class ContentCard extends React.Component {
                                 {this.props.type === 4 &&
                                     <button  style={{display: this.display(item.id)}} onClick={this.delete}><img alt={""} data={this.state.type + '_' + item.id} src={rootUrl + (item.deleted_at !== null ? 'assets/images/invisibility.svg' : 'assets/images/visibility.svg')}/></button>
                                 }
-                                {this.props.type !== 4 &&
+                                {this.props.type !== 4 && !(this.props.type === 10 && item.id === 1) &&
                                 <button  style={{display: this.display(item.id)}} onClick={this.delete}><img alt={""} data={this.state.type + '_' + item.id} src={rootUrl + 'assets/images/cancel.png'}/></button>
                                 }
                             </div>
@@ -171,7 +176,7 @@ class ContentCard extends React.Component {
                 {this.state.type !== 5&&
                 <form method={"POST"} onSubmit={this.post}>
                     <input type={"text"} value={this.state.formcontent} maxLength={"30"} onChange={(e)=>{this.setState({formcontent: e.target.value})}}/>
-                    {this.props.type === 8&&
+                    {this.props.type === 8 || this.props.type === 10 &&
                         <input type={'number'} value={this.state.price} onChange={(e)=>{this.setState({price:e.target.value})}} />
                     }
                     {this.props.type === 9 &&

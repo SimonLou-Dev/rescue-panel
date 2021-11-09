@@ -64,6 +64,9 @@ class ListPersonnel extends React.Component {
             return (
                 <div className={"PersonnelList"}>
                     <section className={'header'}>
+                        {perm.primesupdate_request === 1 &&
+                        <button className={'btn'}><Link to={'/gestion/primes-request'} >Primes</Link></button>
+                        }
                         <PagesTitle title={'Liste du personnel'}/>
                         {perm.edit_perm === 1 &&
                             <Link to={'/gestion/perm'} className={'btn'}>gérer les permissions</Link>

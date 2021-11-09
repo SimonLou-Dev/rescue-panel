@@ -6,6 +6,7 @@ namespace App\Http\Controllers\BlackCodes;
 use App\Events\Brodcaster;
 use App\Events\Notify;
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\PrimesController;
 use App\Models\BCList;
 use App\Models\BCPatient;
 use App\Models\BCPersonnel;
@@ -178,19 +179,25 @@ class BCController extends Controller
         $bc->ended = true;
         $bc->save();
         $users = User::where('bc_id', $id)->get();
-        foreach ($users as $user){
-           $user->bc_id = null;
-           $user->save();
+        $personnels = $bc->GetPersonnel;
+
+
+        foreach ($personnels as $personnel){
+            PrimesController::AddValidPrimesToUser($personnel->user_id, 1);
         }
 
         $patients = $bc->GetPatients;
-        $personnels = $bc->GetPersonnel;
+
         $start = date_create($bc->created_at);
         $end = new \DateTime();
         $interval = $start->diff($end);
         $formated = $interval->format('%H h %I min(s)');
         BcEmbedController::generateBCEndedEmbed($formated, $patients, $personnels, $bc);
         event(new Brodcaster('Fin du BC #'.$bc->id));
+        foreach ($users as $user){
+            $user->bc_id = null;
+            $user->save();
+        }
 
         return response()->json(['status'=>'OK'],201);
     }

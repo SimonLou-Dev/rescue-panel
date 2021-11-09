@@ -364,98 +364,124 @@ body{
             font-size: 50px;
             margin: 0 auto;
         }
-        .Personnel-list{
+        .service--list{
+            width: 100%;
             display: flex;
             flex-direction: row;
-            flex-wrap: wrap;
-            padding: 10px;
-            width: 100%;
-            height: 150px;
-            overflow-y: auto;
-            .Personnel-card{
-                position: relative;
-                margin: 10px;
+            justify-content: space-between;
+            .Personnel-list{
                 display: flex;
-                flex-direction: row;
-                background-color: $medium_blue;
-                border-radius: $border-radius;
-                height: min-content;
-                padding: 6px 10px;
-                h5{
-                    margin: 0;
-                    font-size: 25px;
-                }
-                .tag{
-                    height: 25px;
-                    width: 25px;
-                    content: ' ';
-                    border: 1px black solid;
-                    border-radius: 100%;
-                    margin: auto 0 auto 5px;
-                }
-                .tag-selector{
-                    overflow: hidden;
-                    position: fixed;
-                    overflow-y: scroll;
-                    width: 200px;
-                    height: 175px;
-                    background-color: $medium_blue;
-                    border: 1px $light_blue solid;
-                    display: flex;
-                    z-index: 100;
-                    flex-direction: column;
-                    button{
-                        cursor: pointer;
-                        display: flex;
-                        flex-direction: row-reverse;
-                        justify-content: space-between;
-                        width: 100%;
-                        padding: 0 15px 5px 5px;
-                        background-color: transparent;
-                        border: none;
-                        border-bottom: 1px $dark_blue solid;
-                        margin: 5px;
-                        .tag,label{
-                            cursor: pointer;
-                        }
-                    }
-                }
-            }
-
-        }
-        .bottom{
-            position: relative;
-            background-color: $medium_blue;
-            width: 100%;
-            height: 80px;
-            //padding: 10px;
-            //overflow-x: auto;
-            .groupcard{
-                padding-top: 5px;
-                height: 100%;
-                width: 100%;
-                overflow-x: scroll;
-                .contain{
+                width: 90%;
+                flex-direction: column;
+                .tags-list{
                     display: flex;
                     flex-direction: row;
-                    .tag{
-                        margin: 0 10px 0 10px;
-                        font-size: 20px;
+                    flex-wrap: wrap;
+                    padding: 10px;
+                    height: 155px;
+                    overflow-y: auto;
+                    .Personnel-card{
+                        position: relative;
+                        transition: all 0.35s;
+                        margin: 10px;
                         display: flex;
                         flex-direction: row;
-                        height: 30px;
-                        div{
-                            height: 25px !important;
-                            width: 25px !important;
+                        background-color: $medium_blue;
+                        border-radius: $border-radius;
+                        height: min-content;
+                        padding: 6px 10px;
+
+                        h5{
+                            margin: 0;
+                            font-size: 25px;
+                        }
+                        .tag{
+                            height: 25px;
+                            width: 25px;
                             content: ' ';
                             border: 1px black solid;
                             border-radius: 100%;
                             margin: auto 0 auto 5px;
                         }
+                        .tag-selector{
+                            overflow: hidden;
+                            position: fixed;
+                            overflow-y: scroll;
+                            width: 200px;
+                            height: 175px;
+                            background-color: $medium_blue;
+                            border: 1px $light_blue solid;
+                            display: flex;
+                            z-index: 100;
+                            flex-direction: column;
+                            button{
+                                cursor: pointer;
+                                display: flex;
+                                flex-direction: row-reverse;
+                                justify-content: space-between;
+                                width: 100%;
+                                padding: 0 15px 5px 5px;
+                                background-color: transparent;
+                                border: none;
+                                border-bottom: 1px $dark_blue solid;
+                                margin: 5px;
+                                .tag,label{
+                                    cursor: pointer;
+                                }
+                            }
+                        }
+                    }
+                    .selected{
+                        background-color: #002c3d;
+                    }
+                }
+                }
+            .left{
+                position: relative;
+                border-radius: $border-radius 0 0 0;
+                background-color: $medium_blue;
+                width: 20%;
+                max-width: 200px;
+                min-width: 120px;
+                height: 100%;
+                //padding: 10px;
+                //overflow-x: auto;
+                .groupcard{
+                    padding-top: 5px;
+                    height: 100%;
+                    width: 100%;
+                    overflow-y: auto;
+                    .contain{
+                        display: flex;
+                        flex-direction: column;
+                        .tag{
+                            cursor: pointer;
+                            padding: 2px 10px;
+                            margin: 0 10px 0 10px;
+                            font-size: 20px;
+                            display: flex;
+                            flex-direction: row;
+                            justify-content: space-between;
+                            height: 30px;
+                            transition: all 0.35s;
+
+                            div{
+                                height: 25px !important;
+                                width: 25px !important;
+                                content: ' ';
+                                border: 1px black solid;
+                                border-radius: 100%;
+                                margin: auto 0 auto 5px;
+                            }
+                            &:hover{
+                                background-color: #0f2f57;
+                            }
+                        }
                     }
                 }
             }
         }
+
 
     }
     .rowed{
@@ -1751,7 +1777,7 @@ body{
         }
 
     }
-    .modpopup{
+    .modpopup, .primesreq{
         position: fixed;
         width: calc(100vw - 270px);
         height: 100vh;
@@ -4666,7 +4692,7 @@ body{
             background-color: $dark_blue;
             border-radius: $border-radius;
             width: 95%;
-            height: 1050px;
+
             .line{
                 width: 100%;
                 height: 2px;
@@ -4685,11 +4711,13 @@ body{
             }
             .pouderFormPart{
                 display: flex;
-                flex-direction: column;
+                flex-direction: row;
+                justify-content: space-between;
                 margin-left: 10px;
                 width: 90%;
                 label{
                     font-size: 25px;
+                    margin: auto 0;
                 }
             }
             .linear{

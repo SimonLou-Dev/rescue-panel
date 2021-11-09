@@ -1043,17 +1043,28 @@ body {
   font-size: 50px;
   margin: 0 auto;
 }
-#Main-Page .Personnel_service .Personnel-list {
+#Main-Page .Personnel_service .service--list {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+#Main-Page .Personnel_service .service--list .Personnel-list {
+  display: flex;
+  width: 90%;
+  flex-direction: column;
+}
+#Main-Page .Personnel_service .service--list .Personnel-list .tags-list {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
   padding: 10px;
-  width: 100%;
-  height: 150px;
+  height: 155px;
   overflow-y: auto;
 }
-#Main-Page .Personnel_service .Personnel-list .Personnel-card {
+#Main-Page .Personnel_service .service--list .Personnel-list .tags-list .Personnel-card {
   position: relative;
+  transition: all 0.35s;
   margin: 10px;
   display: flex;
   flex-direction: row;
@@ -1062,11 +1073,11 @@ body {
   height: min-content;
   padding: 6px 10px;
 }
-#Main-Page .Personnel_service .Personnel-list .Personnel-card h5 {
+#Main-Page .Personnel_service .service--list .Personnel-list .tags-list .Personnel-card h5 {
   margin: 0;
   font-size: 25px;
 }
-#Main-Page .Personnel_service .Personnel-list .Personnel-card .tag {
+#Main-Page .Personnel_service .service--list .Personnel-list .tags-list .Personnel-card .tag {
   height: 25px;
   width: 25px;
   content: " ";
@@ -1074,7 +1085,7 @@ body {
   border-radius: 100%;
   margin: auto 0 auto 5px;
 }
-#Main-Page .Personnel_service .Personnel-list .Personnel-card .tag-selector {
+#Main-Page .Personnel_service .service--list .Personnel-list .tags-list .Personnel-card .tag-selector {
   overflow: hidden;
   position: fixed;
   overflow-y: scroll;
@@ -1086,7 +1097,7 @@ body {
   z-index: 100;
   flex-direction: column;
 }
-#Main-Page .Personnel_service .Personnel-list .Personnel-card .tag-selector button {
+#Main-Page .Personnel_service .service--list .Personnel-list .tags-list .Personnel-card .tag-selector button {
   cursor: pointer;
   display: flex;
   flex-direction: row-reverse;
@@ -1098,39 +1109,52 @@ body {
   border-bottom: 1px #0c2646 solid;
   margin: 5px;
 }
-#Main-Page .Personnel_service .Personnel-list .Personnel-card .tag-selector button .tag, #Main-Page .Personnel_service .Personnel-list .Personnel-card .tag-selector button label {
+#Main-Page .Personnel_service .service--list .Personnel-list .tags-list .Personnel-card .tag-selector button .tag, #Main-Page .Personnel_service .service--list .Personnel-list .tags-list .Personnel-card .tag-selector button label {
   cursor: pointer;
 }
-#Main-Page .Personnel_service .bottom {
-  position: relative;
-  background-color: #004662;
-  width: 100%;
-  height: 80px;
+#Main-Page .Personnel_service .service--list .Personnel-list .tags-list .selected {
+  background-color: #002c3d;
 }
-#Main-Page .Personnel_service .bottom .groupcard {
+#Main-Page .Personnel_service .service--list .left {
+  position: relative;
+  border-radius: 30px 0 0 0;
+  background-color: #004662;
+  width: 20%;
+  max-width: 200px;
+  min-width: 120px;
+  height: 100%;
+}
+#Main-Page .Personnel_service .service--list .left .groupcard {
   padding-top: 5px;
   height: 100%;
   width: 100%;
-  overflow-x: scroll;
+  overflow-y: auto;
 }
-#Main-Page .Personnel_service .bottom .groupcard .contain {
+#Main-Page .Personnel_service .service--list .left .groupcard .contain {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
 }
-#Main-Page .Personnel_service .bottom .groupcard .contain .tag {
+#Main-Page .Personnel_service .service--list .left .groupcard .contain .tag {
+  cursor: pointer;
+  padding: 2px 10px;
   margin: 0 10px 0 10px;
   font-size: 20px;
   display: flex;
   flex-direction: row;
+  justify-content: space-between;
   height: 30px;
+  transition: all 0.35s;
 }
-#Main-Page .Personnel_service .bottom .groupcard .contain .tag div {
+#Main-Page .Personnel_service .service--list .left .groupcard .contain .tag div {
   height: 25px !important;
   width: 25px !important;
   content: " ";
   border: 1px black solid;
   border-radius: 100%;
   margin: auto 0 auto 5px;
+}
+#Main-Page .Personnel_service .service--list .left .groupcard .contain .tag:hover {
+  background-color: #0f2f57;
 }
 #Main-Page .rowed {
   display: flex;
@@ -2407,7 +2431,7 @@ body {
 .Services .page .infos div {
   margin: 10px;
 }
-.Services .modpopup {
+.Services .modpopup, .Services .primesreq {
   position: fixed;
   width: calc(100vw - 270px);
   height: 100vh;
@@ -2415,7 +2439,7 @@ body {
   top: 0;
   display: flex;
 }
-.Services .modpopup .center {
+.Services .modpopup .center, .Services .primesreq .center {
   margin: auto;
   z-index: 3;
   background-color: #0c2646;
@@ -2426,20 +2450,20 @@ body {
   max-width: 470px;
   height: 400px;
 }
-.Services .modpopup .center h2 {
+.Services .modpopup .center h2, .Services .primesreq .center h2 {
   text-align: center;
 }
-.Services .modpopup .center .rowed {
+.Services .modpopup .center .rowed, .Services .primesreq .center .rowed {
   margin: 10px 0;
   width: 100%;
   display: flex;
   flex-direction: row;
 }
-.Services .modpopup .center .rowed label {
+.Services .modpopup .center .rowed label, .Services .primesreq .center .rowed label {
   margin: auto 0;
   width: 130px;
 }
-.Services .modpopup .center .button {
+.Services .modpopup .center .button, .Services .primesreq .center .button {
   width: 100%;
   display: flex;
   flex-direction: row;
@@ -5222,7 +5246,6 @@ body {
   background-color: #0c2646;
   border-radius: 30px;
   width: 95%;
-  height: 1050px;
 }
 .TestPoudre .left .TestForm form {
   display: flex;
@@ -5246,12 +5269,14 @@ body {
 }
 .TestPoudre .left .TestForm .pouderFormPart {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
+  justify-content: space-between;
   margin-left: 10px;
   width: 90%;
 }
 .TestPoudre .left .TestForm .pouderFormPart label {
   font-size: 25px;
+  margin: auto 0;
 }
 .TestPoudre .left .TestForm .linear {
   margin: 25px;

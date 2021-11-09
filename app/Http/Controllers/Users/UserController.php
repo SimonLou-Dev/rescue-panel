@@ -7,6 +7,7 @@ use App\Events\Notify;
 use App\Http\Controllers\Controller;
 use App\Models\Grade;
 use App\Models\Intervention;
+use App\Models\LogServiceState;
 use App\Models\User;
 use App\Exporter\ExelPrepareExporter;
 use http\Env\Response;
@@ -81,6 +82,23 @@ class UserController extends Controller
         $user = User::where('id', (int)$user_id)->first();
         $user->serviceState = ($state == 'null' ? null : $state);
         $user->save();
+        if($state != 'null'){
+            $logsState = new LogServiceState();
+            $logsState->user_id = $user_id;
+            $logsState->state_id=$state;
+
+        }else{
+            $logsState = LogServiceState::where('user_id', $user->id)->first();
+            $logsState->ended = true;
+            $start = date_create($logsState->started_at);
+            $interval = $start->diff(date_create(date('Y-m-d H:i:s', time())));
+            $diff = $interval->d*24 + $interval->h;
+            $formated = $diff . ':' . $interval->format('%i:%S');
+            $logsState->total = $formated;
+
+        }
+        $logsState->save();
+
         event(new Notify('Etat de service mis à jour', 1));
         return response()->json(['status' => 'OK'], 200);
     }

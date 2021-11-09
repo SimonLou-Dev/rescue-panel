@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Events\Notify;
+use App\Http\Controllers\Service\ModifierReqController;
 use App\Models\Annonces;
 use App\Models\BCList;
 use App\Models\BCType;
@@ -12,7 +13,10 @@ use App\Models\Facture;
 use App\Models\Hospital;
 use App\Models\Intervention;
 use App\Models\LieuxSurvol;
+use App\Models\LogServiceState;
+use App\Models\ModifyServiceReq;
 use App\Models\ObjRemboursement;
+use App\Models\PrimeItem;
 use App\Models\Rapport;
 use App\Models\Service;
 use App\Models\ServiceState;
@@ -96,6 +100,12 @@ class ContentManagement extends Controller
                 $content->color = $request->color;
                 $content->save();
                 return response()->json(['status'=>'OK', 'created'=>$content], 201);
+            case '10':
+                $content = new PrimeItem();
+                $content->name = $request->formcontent;
+                $content->montant = $request->price;
+                $content->save();
+                return response()->json(['status'=>'OK', 'created'=>$content], 201);
             default:
                 return response()->json('error', 404);
         }
@@ -130,6 +140,8 @@ class ContentManagement extends Controller
                 break;
             case '9':
                 $data = ServiceState::all();
+            case '10':
+                $data = PrimeItem::all();
                 break;
             default: break;
         }
@@ -177,6 +189,9 @@ class ContentManagement extends Controller
                 break;
             case '9':
                 ServiceState::where('id',$id)->first()->delete();
+                break;
+            case '10':
+                PrimeItem::where('id',$id)->first()->delete();
                 break;
             default: break;
         }
@@ -236,6 +251,29 @@ class ContentManagement extends Controller
                $a = 0;
                while($a < count($datas)){
                    $datas[$a]->GetUser;
+                   $a++;
+               }
+               break;
+           case "5":
+               $counter = count(LogServiceState::all());
+               $datas = LogServiceState::orderByDesc('id')->skip($range * $page)->take($range)->get();
+               $pages = intval(ceil(($counter) / $range));
+               $row = $counter;
+
+               foreach ($datas as $data){
+                   $data->GetUser;
+                   $data->GetState;
+               }
+               break;
+           case "6":
+               $counter = count(ModifyServiceReq::all());
+               $datas = ModifyServiceReq::orderByDesc('id')->skip($range * $page)->take($range)->get();
+               $pages = intval(ceil(($counter) / $range));
+               $row = $counter;
+               $a = 0;
+               while($a < count($datas)){
+                   $datas[$a]->GetUser;
+                   $datas[$a]->GetAdmin;
                    $a++;
                }
                break;

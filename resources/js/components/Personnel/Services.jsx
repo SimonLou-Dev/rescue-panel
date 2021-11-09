@@ -124,8 +124,12 @@ class Services extends React.Component {
             time: '',
             filter: false,
             servicepop: false,
+            primespop:false,
             reqs: null,
             materiallist: null,
+            primeid: 0,
+            primelist: null,
+            myprimes: null,
         }
         this.getUserReq = this.getUserReq.bind(this);
     }
@@ -144,6 +148,7 @@ class Services extends React.Component {
         })
         this.getUserReq()
         this.getmaterial()
+        this.getUserPrime()
     }
 
     async getUserReq() {
@@ -152,6 +157,16 @@ class Services extends React.Component {
             url: '/data/service/req/mylist'
         }).then(response => {
             this.setState({reqs: response.data.reqs.reverse()})
+        })
+
+    }
+
+    async getUserPrime() {
+        await axios({
+            method: 'get',
+            url: '/data/primes/getmy'
+        }).then(response => {
+            this.setState({myprimes: response.data.primes.reverse(), primelist:response.data.list})
         })
 
     }
@@ -178,7 +193,9 @@ class Services extends React.Component {
                             <button className={'btn'} onClick={ () => {
                                 this.setState({servicepop: true, filter: true})
                             }}>Temps de service</button>
-                            <button className={'btn'}>Demande de prime</button>
+                            <button className={'btn'} onClick={ () => {
+                                this.setState({primespop: true, filter: true})
+                            }}>Demande de prime</button>
                         </section>
                         <section className={'graph'}>
                             <Weeklygraph data={this.state.weekgraph}/>
@@ -252,60 +269,16 @@ class Services extends React.Component {
                                         </tr>
                                         </thead>
                                         <tbody>
-                                        <tr>
-                                            <td className={'week'}>42</td>
-                                            <td className={'price'}>$800</td>
-                                            <td className={'raison'}>participation à un event</td>
-                                            <td className={'state'}>refusée</td>
-                                        </tr>
-                                        <tr>
-                                            <td className={'week'}>42</td>
-                                            <td className={'price'}>$800</td>
-                                            <td className={'raison'}>participation à un event</td>
-                                            <td className={'state'}>en attente</td>
-                                        </tr>
-                                        <tr>
-                                            <td className={'week'}>42</td>
-                                            <td className={'price'}>$800</td>
-                                            <td className={'raison'}>participation à un BC</td>
-                                            <td className={'state'}>acceptée</td>
-                                        </tr>
-                                        <tr>
-                                            <td className={'week'}>42</td>
-                                            <td className={'price'}>$800</td>
-                                            <td className={'raison'}>participation à un event</td>
-                                            <td className={'state'}>refusée</td>
-                                        </tr>
-                                        <tr>
-                                            <td className={'week'}>42</td>
-                                            <td className={'price'}>$800</td>
-                                            <td className={'raison'}>participation à un event</td>
-                                            <td className={'state'}>en attente</td>
-                                        </tr>
-                                        <tr>
-                                            <td className={'week'}>42</td>
-                                            <td className={'price'}>$800</td>
-                                            <td className={'raison'}>participation à un BC</td>
-                                            <td className={'state'}>acceptée</td>
-                                        </tr>
-                                        <tr>
-                                            <td className={'week'}>42</td>
-                                            <td className={'price'}>$800</td>
-                                            <td className={'raison'}>participation à un event</td>
-                                            <td className={'state'}>refusée</td>
-                                        </tr>
-                                        <tr>
-                                            <td className={'week'}>42</td>
-                                            <td className={'price'}>$800</td>
-                                            <td className={'raison'}>participation à un event</td>
-                                            <td className={'state'}>en attente</td>
-                                        </tr>
-                                        <tr>
-                                            <td className={'week'}>42</td>
-                                            <td className={'price'}>$800</td>
-                                            <td className={'raison'}>participation à un BC</td>
-                                            <td className={'state'}>acceptée</td>
-                                        </tr>
+                                        {this.state.myprimes !== null && this.state.myprimes.map((prime) =>
+
+                                            <tr>
+                                                <td className={'week'}>{prime.week_number}</td>
+                                                <td className={'price'}>${prime.get_item.montant}</td>
+                                                <td className={'raison'}>{prime.get_item.name}</td>
+                                                <td className={'state'}>{prime.accepted === null ? 'en attente' : prime.accepted ? 'acceptée':'refusée'}</td>
+                                            </tr>
+
+                                        )}
                                         </tbody>
                                     </table>
                                 </div>
@@ -366,10 +339,46 @@ class Services extends React.Component {
                     </div>
                 </div>
                 }
-
-                <div className={'primes'}>
-
+                {this.state.primespop &&
+                <div className="primesreq" >
+                    <div className={'center'}>
+                        <form onSubmit={async e => {
+                            e.preventDefault();
+                            await axios({
+                                method: 'POST',
+                                url: '/data/primes/post',
+                                data: {
+                                    primeid: this.state.primeid,
+                                }
+                            }).then(response => {
+                                if (response.status === 201) {
+                                    this.getUserPrime();
+                                    this.setState({
+                                        primeid: 0,
+                                        filter: false,
+                                        primespop: false
+                                    })
+                                }
+                            })
+                        }}>
+                            <h2>Demande de primes</h2>
+                            <div className="rowed">
+                                <label>Prime</label>
+                                <select defaultValue={this.state.primeid} onChange={(e)=>this.setState({primeid:e.target.value})}>
+                                    <option value={0} disabled>choisir</option>
+                                    {this.state.primelist !== null && this.state.primelist.map((prime) =>
+                                        <option value={prime.id} key={prime.id}>{prime.name}</option>
+                                    )}
+                                </select>
+                            </div>
+                            <div className={'button'}>
+                                <button onClick={()=>this.setState({primespop: false, filter: false})} className={'btn'}>fermer</button>
+                                <button type={'submit'} className={'btn'}>valider</button>
+                            </div>
+                        </form>
+                    </div>
                 </div>
+                }
             </div>
         )
     }

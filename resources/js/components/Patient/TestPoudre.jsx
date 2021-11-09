@@ -59,7 +59,6 @@ class TestPoudre extends React.Component {
                     <PagesTitle title={'Tests de poudre'}/>
                     <div className={'TestForm'}>
                         <div className={'formtitle'}>
-                            <img src={'/assets/images/LONG_EMS_BC_2.png'} alt={''}/>
                             <h1>Test de poudre </h1>
 
                         </div>

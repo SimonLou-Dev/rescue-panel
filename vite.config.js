@@ -1,7 +1,7 @@
 import { defineConfig } from 'vite'
 import reactRefresh from '@vitejs/plugin-react-refresh'
-const env = 'development';
-const Global = "var process = { env: {NODE_ENV: 'development'}}"
+const env = 'production';
+const Global = "var process = { env: {NODE_ENV: 'production'}}"
 
 
 //production //development
@@ -20,7 +20,7 @@ export default defineConfig({
       outDir: '../public/assets',
         assetsDir: '',
         manifest: true,
-        minify: false,
+        minify: true,
         rollupOptions: {
           output: {
               manualChunks: undefined,

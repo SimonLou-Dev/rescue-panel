@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Service;
 use App\Exporter\ExelPrepareExporter;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\LayoutController;
+use App\Models\Prime;
 use App\Models\Service;
 use App\Models\User;
 use App\Models\WeekService;
@@ -40,7 +41,7 @@ class ServiceGetterController extends Controller
         }
         $users = User::where('grade_id', '>', 1)->where('grade_id', '<', 10)->orderByDesc('grade_id')->get();
 
-        $column[] = array('Membre','grade', 'n° de compte', 'Remboursements', 'dimanche', 'lundi', 'mardi', 'mercredi', 'jeudi', 'vendredi', 'samedi', 'ajustement', 'total');
+        $column[] = array('Membre','grade', 'n° de compte','primes', 'Remboursements', 'dimanche', 'lundi', 'mardi', 'mercredi', 'jeudi', 'vendredi', 'samedi', 'ajustement', 'total');
 
 
 
@@ -48,12 +49,18 @@ class ServiceGetterController extends Controller
 
             $service = $user->GetWeekServices->where('week_number', $week)->first();
             $remboursement=$user->GetRemboursement->where('week_number', $week)->first();
+            $primes = Prime::where('user_id', $user->id)->where('week_number', $week)->get();
+            $total = 0;
+            foreach ($primes as $prime){
+                $total = $total + $prime->getItem->montant;
+            }
 
             if(isset($service)){
                 $column[] = [
                     'Membre'=> $user->name,
                     'grade'=>$user->GetGrade->name,
                     'n° de compte'=>$user->compte,
+                    'primes'=>$total,
                     'Remboursements'=> isset($remboursement) ? $remboursement->total : '0',
                     'dimanche'=>$service->dimanche,
                     'lundi'=>$service->lundi,
@@ -70,6 +77,7 @@ class ServiceGetterController extends Controller
                     'Membre'=> $user->name,
                     'grade'=>$user->GetGrade->name,
                     'n° de compte'=>$user->compte,
+                    'primes'=>$total,
                     'Remboursements'=> isset($remboursement) ? $remboursement->total : '0' ,
                     'dimanche'=>'00:00:00',
                     'lundi'=>'00:00:00',
@@ -93,7 +101,9 @@ class ServiceGetterController extends Controller
     public function getUserService(): \Illuminate\Http\JsonResponse
     {
         $date = $this::getWeekNumber();
-        $weeks = WeekService::where('week_number', $date)->orderBy('id','asc')->where('user_id', Auth::id())->take(5)->get();
+        $reqweek = WeekService::where('week_number', $date)->orderBy('id','asc')->where('user_id', Auth::id())->take(5)->get();
+        $weeks = WeekService::orderBy('id','asc')->where('user_id', Auth::id())->take(5)->get();
+
         $usercount = Service::where('user_id', Auth::user()->id)->count();
         if($usercount > 10){
             $usercount = $usercount - 10;
@@ -123,7 +133,7 @@ class ServiceGetterController extends Controller
 
         return response()->json([
             'status'=>'ok',
-            'week'=>$weeks,
+            'week'=>$reqweek,
             'services'=>$userserivce,
             'weekgraph'=>[$weeknumber, $weektotal],
             'servicegraph'=>[$usersserviceid, $userserivcetime]

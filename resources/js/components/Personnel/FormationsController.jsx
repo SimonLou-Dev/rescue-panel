@@ -21,11 +21,11 @@ class LivretFormation extends React.Component {
     }
 
      componentDidMount() {
-        this.getdata()
+        this.getdata(this.state.page)
     }
-    async getdata(){
+    async getdata(page){
         let req = await axios({
-            url: '/data/formations/get/' + this.state.page + '/4',
+            url: '/data/formations/get/' + page + '/4',
             method: 'GET'
         })
         if(req.status === 200){
@@ -39,17 +39,17 @@ class LivretFormation extends React.Component {
 
     prevpage(){
         if(this.state.page > 1){
-            let page = this.state.page - 1;
-            this.setState({page,data:false})
-            this.getdata()
+            let page = this.state.page - 1
+            this.setState({page:page ,data:false})
+            this.getdata(page)
         }
     }
 
     nextpage(){
         if(this.state.page !== this.state.pages){
-            let page= this.state.page + 1;
-            this.setState({page,data:false})
-            this.getdata()
+            let page = this.state.page + 1
+            this.setState({page: page,data:false})
+            this.getdata(page)
         }
     }
 

@@ -40,7 +40,7 @@ class FormationController extends Controller
                 $formations = Formation::orderByDesc('id')->skip($page*4)->take(4)->get();
                 $formationsCount = Formation::count();
             }else{
-                $formations = Formation::where('public', true)->skip($page*4)->take(4)->orderByDesc('id')->get();
+                $formations = Formation::where('public', true)->skip($page*4)->take(4)->get();
                 $formationsCount =  Formation::where('public', true)->count();
             }
             $pages = ceil($formationsCount / 4);

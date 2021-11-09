@@ -36,6 +36,8 @@ class BigUpdate3 extends Migration
             $table->id();
             $table->integer('user_id');
             $table->integer('state_id');
+            $table->boolean('ended')->default(false);
+            $table->string('total')->nullable();
             $table->timestamps();
         });
 
@@ -59,7 +61,7 @@ class BigUpdate3 extends Migration
             $table->integer('item_id');
             $table->integer('user_id');
             $table->integer('week_number');
-            $table->boolean('accepted')->default(false);
+            $table->boolean('accepted')->nullable()->default(null);
             $table->timestamps();
         });
 
