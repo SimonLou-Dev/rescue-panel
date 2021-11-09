@@ -130,7 +130,7 @@ class UserController extends Controller
         $user = User::where('id', $user_id)->first();
         return \response()->json([
             'status'=> 'ok',
-            'note'=> (array) array_reverse(json_decode($user->note))
+            'note'=> (array) $user->note != null ? array_reverse(json_decode($user->note)) : null,
         ]);
     }
 
@@ -143,7 +143,7 @@ class UserController extends Controller
         $user = User::where('id', $user_id)->first();
         return \response()->json([
             'status'=> 'ok',
-            'sanctions'=> (array) array_reverse(json_decode($user->sanctions))
+            'sanctions'=> (array) $user->sanctions != null ? array_reverse(json_decode($user->sanctions)) : null,
         ]);
     }
 
@@ -173,7 +173,7 @@ class UserController extends Controller
     {
         if($user_id === 'null'){$user_id = Auth::user()->id;}
         $user = User::where('id', $user_id)->first();
-        $base = (array) json_decode($user->materiel);
+        $base = (array) ($user->materiel != null ? json_decode($user->materiel) : null);
 
         return \response()->json([
             'status'=> 'ok',
@@ -311,7 +311,7 @@ class UserController extends Controller
     {
 
         $user = User::where('id',  $id)->first();
-        $base = (array) json_decode($user->materiel);
+        $base = (array) is_null($user->materiel) ? json_decode($user->materiel) : null;
         $user->materiel = json_encode((array) $request->get('material'));
         $user->save();
 
@@ -403,7 +403,7 @@ class UserController extends Controller
 
         foreach ($users as $user){
 
-            $sanctions = json_decode($user->sanctions);
+            $sanctions = $user->sanctions != null ? json_decode($user->sanctions) : [];
             $column[] = [
                 'id' => $user->id,
                 'nom' => $user->name,

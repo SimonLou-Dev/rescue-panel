@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Events\Notify;
+use App\Http\Controllers\Service\OperatorController;
 use App\Http\Controllers\Service\ServiceGetterController;
 use App\Models\ObjRemboursement;
 use App\Models\RemboursementList;
@@ -34,10 +35,10 @@ class RemboursementsController extends Controller
     {
         $item = (int) $request->item;
         $item = ObjRemboursement::where('id', $item)->first();
-        $userRemboursements = WeekRemboursement::where('week_number', ServiceController::getWeekNumber())->where('user_id', Auth::user()->id)->first();
+        $userRemboursements = WeekRemboursement::where('week_number', ServiceGetterController::getWeekNumber())->where('user_id', Auth::user()->id)->first();
         if(!isset($userRemboursements)){
             $userRemboursements = new WeekRemboursement();
-            $userRemboursements->week_number = ServiceController::getWeekNumber();
+            $userRemboursements->week_number = ServiceGetterController::getWeekNumber();
             $userRemboursements->user_id = Auth::user()->id;
             $userRemboursements->total = $item->price;
         }else{
@@ -47,7 +48,7 @@ class RemboursementsController extends Controller
         $rmbsem->user_id = Auth::user()->id;
         $rmbsem->item_id = $item->id;
         $rmbsem->total = $item->price;
-        $rmbsem->week_number = ServiceController::getWeekNumber();
+        $rmbsem->week_number = ServiceGetterController::getWeekNumber();
         $rmbsem->save();
         $userRemboursements->save();
         Http::post(env('WEBHOOK_REMBOURSEMENTS'), [
@@ -80,7 +81,7 @@ class RemboursementsController extends Controller
     {
         $itemid = (int) $itemid;
         $item = RemboursementList::where('id', $itemid)->first();
-        $userRemboursement = WeekRemboursement::where('user_id', Auth::user()->id)->where('week_number', ServiceController::getWeekNumber())->first();
+        $userRemboursement = WeekRemboursement::where('user_id', Auth::user()->id)->where('week_number', ServiceGetterController::getWeekNumber())->first();
         $userRemboursement->total = (int) $userRemboursement->total -  (int) $item->getItem->price;
         $userRemboursement->save();
         Http::post(env('WEBHOOK_REMBOURSEMENTS'), [
@@ -112,7 +113,7 @@ class RemboursementsController extends Controller
     public function getRemboursementByWeek(string $weeknumber = null): \Illuminate\Http\JsonResponse
     {
         if($weeknumber == '' || $weeknumber == null){
-            $weeknumber = ServiceController::getWeekNumber();
+            $weeknumber = ServiceGetterController::getWeekNumber();
         }else{
             $weeknumber = (int) $weeknumber;
         }
@@ -123,7 +124,7 @@ class RemboursementsController extends Controller
         return response()->json([
             'status'=>'OK',
             'list'=>$list,
-            'maxweek'=>ServiceController::getWeekNumber(),
+            'maxweek'=>ServiceGetterController::getWeekNumber(),
         ]);
     }
 
