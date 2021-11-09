@@ -108,6 +108,8 @@ class ServiceGetterController extends Controller
         $usercount = Service::where('user_id', Auth::user()->id)->count();
         if($usercount > 10){
             $usercount = $usercount - 10;
+        }else{
+            $usercount = 0;
         }
         $userserivces= Service::where('user_id', Auth::user()->id)->orderBy('id','asc')->skip((int) $usercount)->take(10)->get();
         $weeknumber = array();
