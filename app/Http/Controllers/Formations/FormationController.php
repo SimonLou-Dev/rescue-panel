@@ -158,14 +158,15 @@ class FormationController extends Controller
     {
         $formation_id = (int) $formation_id;
         $formation = Formation::where('id', $formation_id)->first();
-        $response = FormationsResponse::where('user_id', Auth::user()->id)->where('formation_id', $formation_id)->first();
+        $response = FormationsResponse::where('user_id', Auth::user()->id)->where('formation_id', $formation_id)->last();
         $responses = FormationsResponse::where('formation_id', $formation_id)->where('finished', true)->get();
         $total =0;
         foreach ($responses as $respons){
             $total = $total + $respons->note;
         }
         $formation->average_note = round($total / (count($responses)+1));
-        if($formation->certify && $response->note > ($formation->max_note/3)*2){
+
+        if($formation->certify && $response->note != null && $response->note > ($formation->max_note/3)*2){
             $certif = Certification::where('user_id',Auth::user()->id)->where('formation_id', $formation_id)->first();
             if(!isset($certif)){
                 $certif = new Certification();

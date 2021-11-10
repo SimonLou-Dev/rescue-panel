@@ -161,6 +161,12 @@ class RapportController extends Controller
 
     public function updateRapport(Request $request, int $id): \Illuminate\Http\JsonResponse
     {
+        if($request->desc == '' ||$request->desc == null){
+            event(new Notify('Il n\'y a pas de description'));
+            return \response([],404);
+        }
+
+
         $rapport = Rapport::where('id', $id)->first();
         $facture = $rapport->GetFacture;
         $facture->price = (integer) $request->montant;

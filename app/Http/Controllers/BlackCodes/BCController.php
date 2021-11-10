@@ -82,7 +82,7 @@ class BCController extends Controller
        $bc = BCList::where('id',$id)->first();
        return response()->json([
            'status'=>'OK',
-           'ended'=>$bc->ended,
+           'ended'=>$bc->ended ? true : false,
        ]);
     }
 

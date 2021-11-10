@@ -8,6 +8,7 @@
 /node_modules/
 /public/.htaccess
 .env
+.env
 .env.backup
 .phpunit.result.cache
 docker-compose.override.yml

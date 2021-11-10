@@ -311,7 +311,7 @@ class UserController extends Controller
     {
 
         $user = User::where('id',  $id)->first();
-        $base = (array) is_null($user->materiel) ? json_decode($user->materiel) : null;
+        $base = (array) is_null($user->materiel) ? null : json_decode($user->materiel);
         $user->materiel = json_encode((array) $request->get('material'));
         $user->save();
 

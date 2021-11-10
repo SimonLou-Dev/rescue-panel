@@ -137,14 +137,14 @@ class AccountController extends Controller
         $user = User::where('id', Auth::user()->id)->first();
         $img = $request->get('image');
         $imgname = Auth::user()->id . '_' . time() . '.' . explode('.', $img)[1];
-        $path = "/storage/user_background/";
-        $dir = public_path($path . Auth::user()->id);
+        $path = "/public/user_background/". Auth::user()->id;
+        $dir = Storage::path($path );
         $user->bg_img = $imgname;
         $user->save();
         if(!is_dir($dir)){
             mkdir($dir);
         }
-        FileController::moveTempFile($img, $dir . '/' . $imgname);
+        Storage::move('/public/temp/'.$img, $path . '/' . $imgname);
         event(new Notify('', 1));
         return response()->json([],201);
     }
@@ -156,7 +156,7 @@ class AccountController extends Controller
     {
         $user = User::where('id', Auth::user()->id)->first();
         if($user->bg_img != null){
-            $dir = public_path('storage/user_background/' . Auth::user()->id.'/');
+            $dir = Storage::path('public/user_background/' . Auth::user()->id.'/');
             File::delete($dir.$user->bg_img);
             $user->bg_img = null;
             $user->save();

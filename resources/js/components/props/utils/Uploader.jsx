@@ -89,7 +89,7 @@ export default function Uploader(props){
                         <img className={'img'} src={props.default} alt={''}/>
                     }
                     {imgUrl !== null &&
-                        <img className={'img'} src={'/storage/temp_upload/'+imgUrl} alt={''}/>
+                        <img className={'img'} src={'/storage/temp/'+imgUrl} alt={''}/>
                     }
                     <label className={(file ===true ? 'hasFile' : '')}>{props.text ? props.text : '1920*1080 2MO'}</label>
                     <button disabled={disabled} className={'delete ' + (file ===true ? '' : 'anyFile')} onClick={deleteFile}><img src={'/assets/images/cancel.png'} alt={''}/></button>

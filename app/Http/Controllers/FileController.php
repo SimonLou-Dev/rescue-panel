@@ -8,6 +8,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Storage;
 use Intervention\Image\Facades\Image;
 use function PHPUnit\Framework\directoryExists;
 
@@ -21,7 +22,7 @@ class FileController extends Controller
 
     public function __construct()
     {
-        $this->laravelTempDir = public_path('/storage/temp_upload/');
+        $this->laravelTempDir = Storage::path('public/temp/');
     }
 
     public function uploadFile(Request $request): JsonResponse
@@ -35,7 +36,7 @@ class FileController extends Controller
         }
 
 
-        $tempFile = $this->laravelTempDir  . $request->id . '_' . explode('/', $file->getClientMimeType())[1] . '.temp';
+        $tempFile = $this->laravelTempDir.$request->id . '_' . explode('/', $file->getClientMimeType())[1] . '.temp';
 
         file_put_contents($tempFile, $file->getContent(), FILE_APPEND);
 
@@ -51,7 +52,7 @@ class FileController extends Controller
     public function endOffUpload(Request $request, string $uuid): JsonResponse
     {
         $type = explode('/',$request->type)[1];
-        $file = $this->laravelTempDir . $uuid . '_' .$type . '.temp';
+        $file = $this->laravelTempDir . $uuid . '_' . $type . '.temp';
         if(!File::exists($file)) {
             event(new Notify('Erreur lors de la mise en ligne', 4));
             return response()->json(['status' => 'PAS OK'], 500);
@@ -70,8 +71,8 @@ class FileController extends Controller
      */
     public static function moveTempFile(string $lastname, string $newSpace): bool
     {
-        if(File::exists(public_path('/storage/temp_upload/') . $lastname)){
-            File::move(public_path('/storage/temp_upload/') .$lastname, $newSpace);
+        if(File::exists($lastname)){
+            File::move($lastname, $newSpace);
             return true;
         }
         return false;
