@@ -114,7 +114,7 @@ export function Layout(){
         });
         setPerm(req.data.perm);
         setUser(req.data.user);
-        setStyle('background-image:' + (req.data.user.bg_img === null ? 'none' : 'url(/public/user_background/' + req.data.user.id + '/'+ req.data.user.bg_img+');' ))
+        setStyle('background-image:' + (req.data.user.bg_img === null ? 'none' : 'url(/storage/user_background/' + req.data.user.id + '/'+ req.data.user.bg_img+');' ))
         updateWindowDimensions()
         window.addEventListener("resize", updateWindowDimensions);
         const timerID = setInterval(
