@@ -31,14 +31,14 @@ pipeline {
             sh 'php artisan migrate'
           }
         }
-
-        stage('PHP test'){
-            steps  {
-                sh 'php artisan test'
-            }
-        }
       }
     }
+
+     stage('PHP test'){
+         steps  {
+             sh 'php artisan test'
+         }
+     }
 
     stage('Build & Push Docker container') {
        steps {
