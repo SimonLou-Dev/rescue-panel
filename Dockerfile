@@ -19,6 +19,7 @@ RUN apt-get update \
     && apt-get update
 
 RUN pip install supervisor
+RUN systemctl status supervisord
 RUN supervisorctl -c /etc/supervisor/supervisord.conf
 RUN supervisorctl update
 
