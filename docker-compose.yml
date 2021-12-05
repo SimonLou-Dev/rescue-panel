@@ -3,7 +3,7 @@ version: '3.6'
 services:
   BCFD:
     restart: always
-    image: bcfd_web
+    image: localhost:5000/bcfd_web
     container_name: 'BCFD_Website'
     volumes:
       - ./:/usr/share/nginx/html

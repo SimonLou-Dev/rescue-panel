@@ -49,7 +49,6 @@ COPY ./docker/default.conf /etc/nginx/conf.d/default.conf
 COPY ./docker/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 RUN chmod +x /usr/local/bin/start-container
 
-
 ## Setting Up Nginx & supervisor
 RUN service nginx restart
 RUN supervisorctl reread

@@ -44,6 +44,11 @@ pipeline {
         steps {
             sh "docker build -t bcfd_web ."
         }
+        steps {
+            sh "docker tag bcfd_web localhost:5000/bcfd_web"
+            sh "docker push localhost:5000/bcfd_web"
+        }
+
     }
   }
 }
