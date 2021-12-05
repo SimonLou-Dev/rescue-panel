@@ -63,6 +63,6 @@ RUN yarn install
 RUN yarn build
 RUN php artisan cache:clear
 
-EXPOSE 8888
+EXPOSE 80
 
 ENTRYPOINT ["start-container"]
