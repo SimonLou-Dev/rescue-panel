@@ -12,15 +12,10 @@ pipeline {
     stage('SetUp & scan') {
        steps {
          sh 'php --version'
-         sh 'composer install'
        }
     }
 
-     stage('PHP test'){
-         steps  {
-             sh 'php artisan test'
-         }
-     }
+
 
     stage('Build & Push Docker container') {
        steps {
