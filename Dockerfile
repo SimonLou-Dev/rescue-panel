@@ -59,7 +59,7 @@ RUN service nginx restart
 ## Setup of front and php
 RUN composer update
 RUN php artisan storage:link
-RUN yarn update
+RUN yarn install
 RUN yarn build
 RUN php artisan cache:clear
 
