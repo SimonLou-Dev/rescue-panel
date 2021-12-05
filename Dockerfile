@@ -51,9 +51,9 @@ RUN chmod +x /usr/local/bin/start-container
 
 ## Setting Up Nginx & supervisor
 RUN service nginx restart
-RUN supervisorctl reread
-RUN supervisorctl update
-RUN supervisorctl start laravel-worker:*
+#RUN supervisorctl reread
+#RUN supervisorctl update
+#RUN supervisorctl start laravel-worker:*
 
 ## Setup of front and php
 RUN composer update
