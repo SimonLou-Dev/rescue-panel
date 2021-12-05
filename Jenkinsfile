@@ -28,8 +28,8 @@ pipeline {
     stage('Prepare to launch'){
         steps{
             sh "cat docker-compose.yml | ssh root@75.119.154.204 'cat - > /infra/web/bcfd/docker-compose.yml'"
-            sh " result=$( ssh root@75.119.154.204 docker ps -q -f name=localhost:5000/bcfd_web )"
-            sh " if [[ -n "$result" ]]; then ssh root@75.119.154.204 docker-compose -f /infra/web/bcfd/docker-compose.yml down; fi"
+            sh " result=\$( ssh root@75.119.154.204 docker ps -q -f name=localhost:5000/bcfd_web )"
+            sh " if [[ -n \"\$result\" ]]; then ssh root@75.119.154.204 docker-compose -f /infra/web/bcfd/docker-compose.yml down; fi"
         }
     }
   }
