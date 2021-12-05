@@ -41,8 +41,6 @@ RUN apt-get install -y postgresql-client \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
-RUN pecl install swoole
-
 RUN setcap "cap_net_bind_service=+ep" /usr/bin/php7.4
 
 
