@@ -6,9 +6,10 @@ COPY . /usr/share/nginx/html
 
 ENV TZ=UTC
 
-COPY ./docker/supervisord.conf /etc/supervisor/supervisord.conf
+
 RUN apt-get update --fix-missing && apt-get install -y
 RUN apt-get install supervisor -y
+COPY ./docker/supervisord.conf /etc/supervisor/supervisord.conf
 RUN supervisorctl -c /etc/supervisor/supervisord.conf
 RUN supervisorctl update
 
