@@ -6,9 +6,9 @@ COPY . /usr/share/nginx/html
 
 ENV TZ=UTC
 
+EXPOSE 80
 
-RUN apt-get update --fix-missing && apt-get install -y
-RUN apt-get install supervisor -y
+RUN apt-get update && apt-get install -y --no-install-recommends --no-install-suggests supervisor
 COPY ./docker/supervisord.conf /etc/supervisor/supervisord.conf
 RUN supervisorctl -c /etc/supervisor/supervisord.conf
 RUN supervisorctl update
@@ -69,7 +69,5 @@ RUN php artisan storage:link
 RUN yarn install
 RUN yarn build
 RUN php artisan cache:clear
-
-EXPOSE 80
 
 ENTRYPOINT ["start-container"]
