@@ -19,6 +19,7 @@ RUN apt-get update \
     && apt-get update
 
 RUN pip install supervisor
+RUN supervisorctl -c /etc/supervisor/supervisord.conf
 RUN supervisorctl update
 
 RUN apt-get install -y php7.4-cli php7.4-dev \
