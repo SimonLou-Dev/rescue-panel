@@ -10,11 +10,9 @@ pipeline {
     }
 
     stage('SetUp & scan') {
-       stage('Build') {
-         steps {
-           sh 'php --version'
-           sh 'composer install'
-         }
+       steps {
+         sh 'php --version'
+         sh 'composer install'
        }
     }
 
