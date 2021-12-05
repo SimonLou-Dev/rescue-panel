@@ -6,6 +6,7 @@ COPY . /usr/share/nginx/html
 
 ENV TZ=UTC
 
+COPY ./docker/supervisord.conf /etc/supervisor/supervisord.conf
 RUN apt-get update --fix-missing && apt-get install -y
 RUN apt-get install python3 python3-pip -y
 RUN pip install supervisor
@@ -54,7 +55,6 @@ RUN update-alternatives --set php /usr/bin/php7.4
 
 COPY ./docker/start-container /usr/local/bin/start-container
 COPY ./docker/default.conf /etc/nginx/conf.d/default.conf
-COPY ./docker/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 RUN chmod +x /usr/local/bin/start-container
 
 
