@@ -32,10 +32,10 @@ pipeline {
             sh " if [[ -n \"\$result\" ]]; then ssh root@75.119.154.204 docker-compose -f /infra/web/bcfd/docker-compose.yml down; fi"
         }
     }
-  }
-  stage('Launch'){
-       steps{
-           sh "ssh root@75.119.154.204 docker-compose -f /infra/web/bcfd/docker-compose.yml up -d"
-       }
+    stage('Launch'){
+           steps{
+               sh "ssh root@75.119.154.204 docker-compose -f /infra/web/bcfd/docker-compose.yml up -d"
+           }
+      }
   }
 }
