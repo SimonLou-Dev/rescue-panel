@@ -43,6 +43,7 @@ RUN apt-get install -y postgresql-client \
 
 RUN setcap "cap_net_bind_service=+ep" /usr/bin/php7.4
 
+RUN update-alternatives --set php /usr/bin/php7.4
 
 COPY ./docker/start-container /usr/local/bin/start-container
 COPY ./docker/default.conf /etc/nginx/conf.d/default.conf
