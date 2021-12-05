@@ -16,7 +16,11 @@ RUN apt-get update \
     && apt-key adv --homedir ~/.gnupg --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys E5267A6C \
     && apt-key adv --homedir ~/.gnupg --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys C300EE8C \
     && echo "deb http://ppa.launchpad.net/ondrej/php/ubuntu focal main" > /etc/apt/sources.list.d/ppa_ondrej_php.list \
-    && apt-get update
+    && apt-get update \
+
+RUN pip install supervisor
+RUN supervisorctl update
+
 RUN apt-get install -y php7.4-cli php7.4-dev \
        php7.4-pgsql php7.4-sqlite3 php7.4-gd \
        php7.4-curl \
@@ -49,11 +53,11 @@ COPY ./docker/start-container /usr/local/bin/start-container
 COPY ./docker/default.conf /etc/nginx/conf.d/default.conf
 COPY ./docker/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 RUN chmod +x /usr/local/bin/start-container
-RUN pip install supervisor
+
 
 ## Setting Up Nginx & supervisor
 RUN service nginx restart
-RUN supervisorctl update
+
 RUN supervisorctl start laravel-worker:*
 
 ## Setup of front and php
