@@ -9,7 +9,7 @@ ENV TZ=UTC
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
 RUN apt-get update \
-    && apt-get install -y gnupg gosu curl ca-certificates zip unzip git sqlite3 libcap2-bin libpng-dev python2 python3 python3-pip \
+    && apt-get install -y gnupg gosu curl ca-certificates zip unzip git supervisor sqlite3 libcap2-bin libpng-dev python2 python3 python3-pip \
     && mkdir -p ~/.gnupg \
     && chmod 600 ~/.gnupg \
     && echo "disable-ipv6" >> ~/.gnupg/dirmngr.conf \
@@ -18,9 +18,7 @@ RUN apt-get update \
     && echo "deb http://ppa.launchpad.net/ondrej/php/ubuntu focal main" > /etc/apt/sources.list.d/ppa_ondrej_php.list \
     && apt-get update
 
-RUN pip install supervisor
-RUN systemctl status supervisord
-RUN supervisorctl -c /etc/supervisor/supervisord.conf
+RUN service supervisor restart
 RUN supervisorctl update
 
 RUN apt-get install -y php7.4-cli php7.4-dev \
