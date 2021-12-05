@@ -7,7 +7,7 @@ COPY . /usr/share/nginx/html
 ENV TZ=UTC
 
 RUN apt-get update --fix-missing && apt-get install -y
-RUN apt-get install python -y
+RUN apt-get install python3 -y
 RUN curl "https://bootstrap.pypa.io/get-pip.py" -o "get-pip.py"
 RUN python get-pip.py
 RUN pip install supervisor
@@ -16,7 +16,7 @@ RUN supervisorctl update
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
 RUN apt-get update \
-    && apt-get install -y gnupg gosu curl ca-certificates zip curl unzip git supervisor sqlite3 libcap2-bin libpng-dev python2 python3 python3-pip \
+    && apt-get install -y gnupg gosu curl ca-certificates zip curl unzip git supervisor sqlite3 libcap2-bin libpng-dev python2 python3-pip \
     && mkdir -p ~/.gnupg \
     && chmod 600 ~/.gnupg \
     && echo "disable-ipv6" >> ~/.gnupg/dirmngr.conf \
