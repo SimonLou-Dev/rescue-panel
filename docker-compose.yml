@@ -6,10 +6,10 @@ services:
     image: localhost:5000/bcfd_web
     container_name: 'BCFD_Website'
     volumes:
-      - ./:/usr/share/nginx/html
+      - /infra/storage/bcfd:/usr/share/nginx/html
     environment:
       - VIRTUAL_HOST=bcfd.simon-lou.com
-      - VIRTUAL_PORT=80
+      - VIRTUAL_PORT=8888
     expose:
       - 8888
 
