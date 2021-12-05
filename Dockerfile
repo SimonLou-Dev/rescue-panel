@@ -9,6 +9,7 @@ ENV TZ=UTC
 RUN apt-get update --fix-missing && apt-get install -y
 RUN apt-get install python3 python3-pip -y
 RUN pip install supervisor
+RUN supervisorctl -c /etc/supervisor/supervisord.conf
 RUN supervisorctl update
 
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
