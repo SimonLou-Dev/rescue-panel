@@ -2,6 +2,8 @@ FROM nginx:latest
 
 WORKDIR /usr/share/nginx/html
 
+COPY . /usr/share/nginx/html
+
 ENV TZ=UTC
 
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
