@@ -18,7 +18,7 @@ RUN apt-get update \
     && echo "deb http://ppa.launchpad.net/ondrej/php/ubuntu focal main" > /etc/apt/sources.list.d/ppa_ondrej_php.list \
     && apt-get update
 
-RUN service supervisor restart
+RUN pip install supervisor
 RUN supervisorctl update
 
 RUN apt-get install -y php7.4-cli php7.4-dev \
