@@ -32,62 +32,18 @@ pipeline {
           }
         }
 
-        stage('PHP unit test & code coverage'){
+        stage('PHP test'){
             steps  {
-                sh './vendor/bin/phpunit --coverage-clover ./reports/coverage.xml --log-junit ./reports/test.xml'
+                sh 'php artisan test'
             }
         }
+      }
+    }
 
-        stage('Scan  SonarQube') {
-          environment {
-            scannerHome = tool 'sonar'
-          }
-          steps {
-            withSonarQubeEnv(installationName: 'Serveur sonarqube', credentialsId: 'sonarqube_access_token') {
-              sh '${scannerHome}/bin/sonar-scanner'
-              echo 'coucou'
-            }
-          }
+    stage('Build & Push Docker container') {
+        steps {
+            sh "docker build -t bcfd_web ."
         }
-
-      }
     }
-
-    stage('Unit test') {
-      steps {
-        sh 'php artisan test'
-      }
-    }
-
-    stage('Reponse Sonarqube analyst') {
-      parallel {
-        stage('Reponse Sonarqube analyst') {
-          steps {
-            waitForQualityGate(credentialsId: 'sonarqube_access_token', webhookSecretId: 'sonarsecret_webhook', abortPipeline: true)
-          }
-        }
-
-        stage('modify files for prod') {
-          steps {
-            echo 'test'
-          }
-        }
-
-      }
-    }
-
-    stage('Push on prod') {
-      steps {
-        echo 'git add commit and push'
-        git(url: 'https://github.com/SimonLou-Dev/BCFD', branch: 'prod', changelog: true, credentialsId: 'github')
-      }
-    }
-
-    stage('Clean') {
-      steps {
-        echo 'test'
-      }
-    }
-
   }
 }

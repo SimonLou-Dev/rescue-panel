@@ -36,14 +36,10 @@ class UserConnexionController extends Controller
             'tel'=> 'required|digits_between:6,15|integer',
         ]);
 
-
-        $living = $request->living;
-        $tel = $request->tel;
-        $compte= $request->compte;
         $user = User::where('id', Auth::id())->first();
-        $user->liveplace= $living;
-        $user->tel = $tel;
-        $user->compte = $compte;
+        $user->liveplace= $request->living;
+        $user->tel = $request->tel;
+        $user->compte = $request->compte;
         $user->save();
         Http::post(env('WEBHOOK_INFOS'),[
             'username'=> "BCFD - MDT",
