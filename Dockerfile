@@ -6,10 +6,17 @@ COPY . /usr/share/nginx/html
 
 ENV TZ=UTC
 
+RUN apt-get update --fix-missing && apt-get install -y
+RUN apt-get install python -y
+RUN curl "https://bootstrap.pypa.io/get-pip.py" -o "get-pip.py"
+RUN python get-pip.py
+RUN pip install supervisor
+RUN supervisorctl update
+
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
 RUN apt-get update \
-    && apt-get install -y gnupg gosu curl ca-certificates zip unzip git supervisor sqlite3 libcap2-bin libpng-dev python2 python3 python3-pip \
+    && apt-get install -y gnupg gosu curl ca-certificates zip curl unzip git supervisor sqlite3 libcap2-bin libpng-dev python2 python3 python3-pip \
     && mkdir -p ~/.gnupg \
     && chmod 600 ~/.gnupg \
     && echo "disable-ipv6" >> ~/.gnupg/dirmngr.conf \
@@ -17,9 +24,6 @@ RUN apt-get update \
     && apt-key adv --homedir ~/.gnupg --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys C300EE8C \
     && echo "deb http://ppa.launchpad.net/ondrej/php/ubuntu focal main" > /etc/apt/sources.list.d/ppa_ondrej_php.list \
     && apt-get update
-
-RUN pip install supervisor
-RUN supervisorctl update
 
 RUN apt-get install -y php7.4-cli php7.4-dev \
        php7.4-pgsql php7.4-sqlite3 php7.4-gd \
@@ -57,7 +61,7 @@ RUN chmod +x /usr/local/bin/start-container
 
 ## Setting Up Nginx & supervisor
 RUN service nginx restart
-
+RUN supervisorctl update
 RUN supervisorctl start laravel-worker:*
 
 ## Setup of front and php
