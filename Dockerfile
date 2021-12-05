@@ -8,8 +8,7 @@ ENV TZ=UTC
 
 COPY ./docker/supervisord.conf /etc/supervisor/supervisord.conf
 RUN apt-get update --fix-missing && apt-get install -y
-RUN apt-get install python3 python3-pip -y
-RUN pip install supervisor
+RUN apt-get install python3 python3-pip supervisor -y
 RUN supervisorctl -c /etc/supervisor/supervisord.conf
 RUN supervisorctl update
 
