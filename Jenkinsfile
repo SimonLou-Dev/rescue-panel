@@ -38,7 +38,7 @@ pipeline {
             }
         }
       }
-    }
+   }
 
     stage('Build & Push Docker container') {
         steps {
@@ -47,5 +47,5 @@ pipeline {
             sh "docker push localhost:5000/bcfd_web"
        }
     }
-  }
 }
+
