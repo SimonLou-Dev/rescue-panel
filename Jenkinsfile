@@ -8,8 +8,8 @@ pipeline {
         sh 'php -i'
       }
     }
-  }
-   stage('SetUp & scan') {
+
+    stage('SetUp & scan') {
       parallel {
         stage('Build') {
           environment {
@@ -38,14 +38,14 @@ pipeline {
             }
         }
       }
-   }
+    }
 
     stage('Build & Push Docker container') {
-        steps {
-            sh "docker build -t bcfd_web ."
-            sh "docker tag bcfd_web localhost:5000/bcfd_web"
-            sh "docker push localhost:5000/bcfd_web"
-       }
+       steps {
+                   sh "docker build -t bcfd_web ."
+                   sh "docker tag bcfd_web localhost:5000/bcfd_web"
+                   sh "docker push localhost:5000/bcfd_web"
+      }
     }
+  }
 }
-
