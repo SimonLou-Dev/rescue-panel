@@ -7,7 +7,7 @@ COPY . /usr/share/nginx/html
 ENV TZ=UTC
 
 RUN apt-get update --fix-missing && apt-get install -y
-RUN apt-get install python3 python3-pip-y
+RUN apt-get install python3 python3-pip -y
 RUN pip install supervisor
 RUN supervisorctl update
 
