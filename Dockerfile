@@ -40,12 +40,6 @@ RUN curl -sL https://deb.nodesource.com/setup_16.x | bash - \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
-RUN setcap "cap_net_bind_service=+ep" /usr/bin/php7.4
-
-RUN apt-key adv --keyserver ha.pool.sks-keyservers.net --recv-keys 8C718D3B5072E1F5
-
-RUN echo "deb http://repo.mysql.com/apt/debian/ buster mysql-8.0" > /etc/apt/sources.list.d/mysql.list
-
 RUN apt-get update \
     && apt-get install -y mysql-community-client
        
