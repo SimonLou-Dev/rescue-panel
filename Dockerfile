@@ -6,6 +6,8 @@ COPY . /usr/share/nginx/html
 
 ENV TZ=UTC
 
+ARG WWWGROUP
+
 ENV DEBIAN_FRONTEND noninteractive
 
 EXPOSE 80
