@@ -42,11 +42,9 @@ RUN curl -sL https://deb.nodesource.com/setup_16.x | bash - \
 
 RUN setcap "cap_net_bind_service=+ep" /usr/bin/php7.4
        
-RUN apt-get install -y wget
-RUN wget https://repo.mysql.com//mysql-apt-config_0.8.18-1_all.deb
-RUN dpkg -i mysql-apt-config_0.8.18-1_all.deb
-
 RUN apt-get install -y postgresql-client \
+    
+    && apt-get install -y mysql-client \
     && apt-get -y autoremove \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
