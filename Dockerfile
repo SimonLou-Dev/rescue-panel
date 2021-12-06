@@ -54,7 +54,6 @@ RUN chmod +x /usr/local/bin/start-container
 
 
 ## Setting Up Nginx & supervisor
-RUN service nginx restart
 RUN supervisorctl update
 RUN supervisorctl start laravel-worker:*
 
