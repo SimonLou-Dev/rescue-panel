@@ -41,9 +41,6 @@ RUN curl -sL https://deb.nodesource.com/setup_16.x | bash - \
     && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 RUN setcap "cap_net_bind_service=+ep" /usr/bin/php7.4
-
-RUN groupadd --force -g $WWWGROUP sail
-RUN useradd -ms /bin/bash --no-user-group -g $WWWGROUP -u 1337 sail
        
 RUN apt-get install -y wget
 RUN wget https://repo.mysql.com//mysql-apt-config_0.8.18-1_all.deb
