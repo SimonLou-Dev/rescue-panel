@@ -24,7 +24,7 @@ class UserGradeController extends Controller
     {
         $user= User::where('id', $userid)->first();
         $requester = User::where('id', Auth::user()->id)->first();
-        if($requester->grade_id < 8){
+        if($requester->grade_id < 9){
             if($user->id == $requester->id){
                 event(new Notify('Impossible de modifier son propre grade ! ',4));
                 return \response()->json(['status'=>'OK']);
@@ -37,8 +37,8 @@ class UserGradeController extends Controller
         if($id == 1){
             $this::removegradeFromuser($userid);
         }
-        if($user->grade_id == 1 && $id != 1){
-            $users = User::whereNotNull('matricule')->where('grade_id', '>',1)->where('grade_id', '<',10)->get();
+        if($user->GetGrade->perm_1 && $id != 1){
+            $users = User::whereNotNull('matricule')->where('grade_id', '>',1)->where('grade_id', '<',12)->get();
             $matricules = array();
             foreach ($users as $usere){
                 array_push($matricules, $usere->matricule);
@@ -106,7 +106,7 @@ class UserGradeController extends Controller
             'HS_poudre_history'=>$grade->perm_36,
             'timeserviceupdate_request'=>$grade->perm_37,
             'primesupdate_request'=>$grade->perm_38,
-            'non_use #2'=>$grade->perm_39,
+            'useless'=>$grade->perm_39,
 
 
             'user_id'=>$user->id
