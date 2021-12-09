@@ -12,7 +12,7 @@ COPY . /usr/share/nginx/bcfd
 
 # Env Key & base pakadge
 RUN apt-get update \
-    && apt-get install -y gnupg gosu curl ca-certificates zip curl lsb-release unzip git sqlite3 libcap2-bin libpng-dev python2 python3-pip \
+    && apt-get install -y gnupg gosu mysql\* curl ca-certificates zip curl lsb-release unzip git sqlite3 libcap2-bin libpng-dev python2 python3-pip \
     && mkdir -p ~/.gnupg \
     && chmod 600 ~/.gnupg \
     && echo "disable-ipv6" >> ~/.gnupg/dirmngr.conf \
@@ -35,8 +35,7 @@ RUN php -r "readfile('http://getcomposer.org/installer');" | php -- --install-di
 
 #mysql-client \
 RUN apt-get install -y wget
-RUN wget https://repo.mysql.com//mysql-apt-config_0.8.18-1_all.deb
-RUN dpkg -i mysql-apt-config_0.8.18-1_all.deb
+
 
 ## yarn and node
 RUN curl -sL https://deb.nodesource.com/setup_17.x | bash - \
@@ -63,9 +62,14 @@ COPY ./docker/default.conf /etc/nginx/conf.d/default.conf
 #Install And start web dep
 RUN yarn global add pm2
 RUN pm2 start queueworker.yml
-RUN composer update
+RUN composer install
 RUN php artisan storage:link
 RUN yarn install
 RUN yarn build
 RUN php artisan cache:clear
+RUN php artisan storage:link
+
+## Permission
+RUN chown www-data -R ./*
+RUN chmod 777 -R ./*
 
