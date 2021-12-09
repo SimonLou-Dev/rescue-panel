@@ -10,8 +10,10 @@ pipeline {
     }
 
     stage('Write .env') {
-        withCredentials([file(credentialsId: 'BCFD-Infra', variable: 'envfile')]) {
-          writeFile file: '.env', text: readFile(envfile)
+        steps{
+            withCredentials([file(credentialsId: 'BCFD-Infra', variable: 'envfile')]) {
+                writeFile file: '.env', text: readFile(envfile)
+            }
         }
     }
 
