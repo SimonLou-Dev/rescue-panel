@@ -37,7 +37,7 @@ class UserGradeController extends Controller
         if($id == 1){
             $this::removegradeFromuser($userid);
         }
-        if($user->GetGrade->perm_1 && $id != 1){
+        if($user->grade_1 == 1 && $id != 1){
             $users = User::whereNotNull('matricule')->where('grade_id', '>',1)->where('grade_id', '<',12)->get();
             $matricules = array();
             foreach ($users as $usere){
