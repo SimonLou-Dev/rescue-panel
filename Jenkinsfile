@@ -20,8 +20,6 @@ pipeline {
     stage('SetUp & scan') {
        steps {
          sh 'php --version'
-         sh 'composer install'
-         sh 'yarn install'
        }
     }
 
