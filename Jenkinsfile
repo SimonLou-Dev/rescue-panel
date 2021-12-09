@@ -10,84 +10,32 @@ pipeline {
     }
 
     stage('SetUp & scan') {
-      parallel {
-        stage('Build') {
-          environment {
-            DB_HOST = credentials('DB-Host')
-            DB_USERNAME = credentials('DB_user')
-            DB_PASSWORD = credentials('DB_PASS')
-          }
-          steps {
-            sh 'php --version'
-            sh 'composer install'
-            sh 'composer --version'
-            sh 'cp .env.example .env'
-            sh 'echo DB_HOST=${DB_HOST} >> .env'
-            sh 'echo DB_USERNAME=${DB_USERNAME} >> .env'
-            sh 'echo DB_DATABASE=pre_BCFD >> .env'
-            sh 'echo DB_PASSWORD=${DB_PASSWORD} >> .env'
-            sh 'php artisan key:generate'
-            sh 'cp .env .env.testing'
-            sh 'php artisan migrate'
-          }
-        }
+       steps {
+         sh 'php --version'
+       }
+    }
 
-        stage('PHP unit test & code coverage'){
-            steps  {
-                sh './vendor/bin/phpunit --coverage-clover ./reports/coverage.xml --log-junit ./reports/test.xml'
-            }
-        }
 
-        stage('Scan  SonarQube') {
-          environment {
-            scannerHome = tool 'sonar'
-          }
-          steps {
-            withSonarQubeEnv(installationName: 'Serveur sonarqube', credentialsId: 'sonarqube_access_token') {
-              sh '${scannerHome}/bin/sonar-scanner'
-              echo 'coucou'
-            }
-          }
-        }
 
+    stage('Build & Push Docker container') {
+       steps {
+            sh "docker build -t bcfd_web ."
+            sh "docker tag bcfd_web localhost:5000/bcfd_web"
+            sh "docker push localhost:5000/bcfd_web"
       }
     }
 
-    stage('Unit test') {
-      steps {
-        sh 'php artisan test'
-      }
-    }
-
-    stage('Reponse Sonarqube analyst') {
-      parallel {
-        stage('Reponse Sonarqube analyst') {
-          steps {
-            waitForQualityGate(credentialsId: 'sonarqube_access_token', webhookSecretId: 'sonarsecret_webhook', abortPipeline: true)
-          }
+    stage('Prepare to launch'){
+        steps{
+            sh "cat docker-compose.yml | ssh root@75.119.154.204 'cat - > /infra/web/bcfd/docker-compose.yml'"
+            sh " result=\$( ssh root@75.119.154.204 docker ps -q -f name=localhost:5000/bcfd_web )"
+            sh " if [[ -n \"\$result\" ]]; then ssh root@75.119.154.204 docker-compose -f /infra/web/bcfd/docker-compose.yml down; fi"
         }
-
-        stage('modify files for prod') {
-          steps {
-            echo 'test'
-          }
-        }
-
-      }
     }
-
-    stage('Push on prod') {
-      steps {
-        echo 'git add commit and push'
-        git(url: 'https://github.com/SimonLou-Dev/BCFD', branch: 'prod', changelog: true, credentialsId: 'github')
+    stage('Launch'){
+           steps{
+               sh "ssh root@75.119.154.204 docker-compose -f /infra/web/bcfd/docker-compose.yml up -d"
+           }
       }
-    }
-
-    stage('Clean') {
-      steps {
-        echo 'test'
-      }
-    }
-
   }
 }

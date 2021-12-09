@@ -30,13 +30,31 @@ class UserControllerTest extends TestCase
 
     public function test_register()
     {
+        $pseudo = $this->faker->firstName() . ' ' . $this->faker->lastName();
         $data = [
-            'pseudo'=>  $this->faker->firstName() . ' ' . $this->faker->lastName(),
+            'pseudo'=>  $pseudo,
             'email'=>$this->faker->email(),
-            'psw'=>$this->faker->password(),
+            'psw'=> $pseudo,
         ];
 
         $req = $this->postJson('/data/register', $data);
+        $req->assertStatus(201);
+    }
+
+    public function test_postInfos(){
+        if(!\Auth::check()){
+            \Auth::login(User::orderBy('id', 'Desc')->first());
+        }
+
+        $data = [
+            'compte'=>$this->faker->numberBetween(111,9999999),
+            'tel'=>$this->faker->numberBetween(111111,9999999),
+            'living'=>'LS',
+        ];
+        $req = $this->postJson('/data/postuserinfos', $data);
+        $user = User::orderBy('id', 'Desc')->first();
+        $user->grade_id = 2;
+        $user->save();
         $req->assertStatus(201);
     }
 
@@ -47,21 +65,18 @@ class UserControllerTest extends TestCase
      * @covers \App\Http\Controllers\Rapports\UserController::login
      */
     public function test_login(){
+        $user = User::orderBy('id', 'Desc')->first();
+
         $data = [
-            'pseudo'=>  $this->faker->firstName() . ' ' . $this->faker->lastName(),
-            'email'=>$this->faker->email(),
-            'psw'=>$this->faker->password(),
+            'email'=>$user->email,
+            'psw'=>$user->name,
         ];
 
-        $createuser = new User();
-        $createuser->name = $data['pseudo'];
-        $createuser->email = $data['email'];
-        $createuser->password = Hash::make($data['psw']);
-        $createuser->grade_id = 2;
-        $createuser->save();
 
-
-        $req = $this->postJson('/data/register', $data);
+        $req = $this->postJson('/data/login', $data);
         $req->assertStatus(200);
     }
+
+
+
 }

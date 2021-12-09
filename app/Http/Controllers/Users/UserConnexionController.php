@@ -36,14 +36,10 @@ class UserConnexionController extends Controller
             'tel'=> 'required|digits_between:6,15|integer',
         ]);
 
-
-        $living = $request->living;
-        $tel = $request->tel;
-        $compte= $request->compte;
         $user = User::where('id', Auth::id())->first();
-        $user->liveplace= $living;
-        $user->tel = $tel;
-        $user->compte = $compte;
+        $user->liveplace= $request->living;
+        $user->tel = $request->tel;
+        $user->compte = $request->compte;
         $user->save();
         Http::post(env('WEBHOOK_INFOS'),[
             'username'=> "BCFD - MDT",
@@ -140,7 +136,7 @@ class UserConnexionController extends Controller
                 Auth::login($user);
                 Session::push('user_grade', $user->GetGrade);
 
-                if(($user->grade_id >= 2 && $user->grade_id < 10) && is_null($user->matricule)){
+                if(($user->grade_id >= 2 && $user->grade_id < 11) && is_null($user->matricule)){
                     $users = User::whereNotNull('matricule')->where('grade_id', '>',1)->where('grade_id', '<',10)->get();
                     $matricules = array();
                     foreach ($users as $usere){
