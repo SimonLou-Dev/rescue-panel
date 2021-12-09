@@ -4,9 +4,11 @@ RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 ENV TZ=UTC
 EXPOSE 80
 
+VOLUME /usr/share/nginx/bcfd
+
 # Copy & set WorkDir
-WORKDIR /usr/share/nginx/html
-COPY . /usr/share/nginx/html
+WORKDIR /usr/share/nginx/bcfd
+COPY . /usr/share/nginx/bcfd
 
 # Env Key & base pakadge
 RUN apt-get update \
@@ -57,7 +59,6 @@ RUN update-alternatives --set php /usr/bin/php7.4
 #Prepare app
 COPY ./docker/start-container /usr/local/bin/start-container
 COPY ./docker/default.conf /etc/nginx/conf.d/default.conf
-RUN chmod +x /usr/local/bin/start-container
 
 #Install And start web dep
 RUN yarn global add pm2
@@ -68,4 +69,3 @@ RUN yarn install
 RUN yarn build
 RUN php artisan cache:clear
 
-ENTRYPOINT ["start-container"]
