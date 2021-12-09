@@ -63,11 +63,9 @@ COPY ./docker/default.conf /etc/nginx/conf.d/default.conf
 RUN yarn global add pm2
 RUN pm2 start queueworker.yml
 RUN composer install
-RUN php artisan storage:link
 RUN yarn install
 RUN yarn build
 RUN php artisan cache:clear
-RUN php artisan storage:link
 
 ## Permission
 RUN chown www-data -R ./*
