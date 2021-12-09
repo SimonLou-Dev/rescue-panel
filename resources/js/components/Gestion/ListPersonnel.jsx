@@ -99,10 +99,10 @@ class ListPersonnel extends React.Component {
                                     </optgroup>
                                     <optgroup label={'direction'}>
                                         <option value={10}>Assistant Chief</option>
-                                        <option value={11}>Chief</option>
+                                        <option value={11}>Fire Chief</option>
                                     </optgroup>
                                     <optgroup label={'autre'}>
-                                        <option value={11}>Inspecteur</option>
+                                        <option value={11}>Staff 912</option>
                                         <option value={11}>Inspecteur</option>
                                         <option value={11}>Développeur</option>
                                     </optgroup>
