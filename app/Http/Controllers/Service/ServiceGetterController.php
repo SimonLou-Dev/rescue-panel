@@ -39,7 +39,7 @@ class ServiceGetterController extends Controller
         }else{
             $week = (int) $week;
         }
-        $users = User::where('grade_id', '>', 1)->where('grade_id', '<', 10)->orderByDesc('grade_id')->get();
+        $users = User::where('grade_id', '>', 1)->where('grade_id', '<', 12)->orderByDesc('grade_id')->get();
 
         $column[] = array('Membre','grade', 'n° de compte','primes', 'Remboursements', 'dimanche', 'lundi', 'mardi', 'mercredi', 'jeudi', 'vendredi', 'samedi', 'ajustement', 'total');
 

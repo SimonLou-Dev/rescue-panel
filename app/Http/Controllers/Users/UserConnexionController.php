@@ -136,8 +136,8 @@ class UserConnexionController extends Controller
                 Auth::login($user);
                 Session::push('user_grade', $user->GetGrade);
 
-                if(($user->grade_id >= 2 && $user->grade_id < 11) && is_null($user->matricule)){
-                    $users = User::whereNotNull('matricule')->where('grade_id', '>',1)->where('grade_id', '<',10)->get();
+                if(($user->grade_id >= 2 && $user->grade_id < 12) && is_null($user->matricule)){
+                    $users = User::whereNotNull('matricule')->where('grade_id', '>',1)->where('grade_id', '<',12)->get();
                     $matricules = array();
                     foreach ($users as $usere){
                         array_push($matricules, $usere->matricule);

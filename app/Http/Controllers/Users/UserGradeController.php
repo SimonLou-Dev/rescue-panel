@@ -24,7 +24,7 @@ class UserGradeController extends Controller
     {
         $user= User::where('id', $userid)->first();
         $requester = User::where('id', Auth::user()->id)->first();
-        if($requester->grade_id < 9){
+        if($requester->grade_id < 10){
             if($user->id == $requester->id){
                 event(new Notify('Impossible de modifier son propre grade ! ',4));
                 return \response()->json(['status'=>'OK']);
