@@ -1,8 +1,9 @@
 !.gitignore
-.jsx
-.css
-.json
-.js
-.jpg
+*.jsx
+*.css
+*.json
+*.js
+*.css
+*.jpg
 !bg/
 !images/

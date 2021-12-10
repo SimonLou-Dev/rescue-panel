@@ -71,8 +71,9 @@ class FileController extends Controller
      */
     public static function moveTempFile(string $lastname, string $newSpace): bool
     {
-        if(File::exists($lastname)){
-            File::move($lastname, $newSpace);
+        $path = storage_path('app/public/temp/'.$lastname);
+        if(File::exists($path)){
+            File::move($path, $newSpace);
             return true;
         }
         return false;
