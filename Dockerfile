@@ -42,7 +42,7 @@ RUN curl -sL https://deb.nodesource.com/setup_17.x | bash - \
   && echo "deb https://dl.yarnpkg.com/debian/ stable main" > /etc/apt/sources.list.d/yarn.list \
   && apt-get update \
   && apt-get install -y yarn \
-  && yarn install vite
+  && npm i -g vite
 
 # Postgresql CLient
 RUN apt-get install -y postgresql-client \
