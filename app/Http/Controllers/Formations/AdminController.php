@@ -299,17 +299,13 @@ class AdminController extends Controller
         $question = FormationsQuestion::where('id', $question_id)->first();
         $img = $request->get('image');
         $imgname = Auth::user()->id . '_' . time() . '.' . explode('.', $img)[1];
-        $path = "/storage/formations/question_img/".$question->GetFormation->id.'/'. $question_id;
-        $dir = public_path($path);
+        $path = storage_path("formations/question_img/".$question->GetFormation->id.'/'. $question_id);
         $question->img = $imgname;
         $question->save();
-        if(!is_dir(public_path("/storage/formations/question_img/".$question->GetFormation->id))){
-            mkdir(public_path("/storage/formations/question_img/".$question->GetFormation->id));
+        if(!is_dir($path)){
+            mkdir($path);
         }
-        if(!is_dir($dir)){
-            mkdir($dir);
-        }
-        FileController::moveTempFile($img, $dir . '/' . $imgname);
+        FileController::moveTempFile($img, $path . '/' . $imgname);
         event(new Notify('Photo ajoutée à la formations', 1));
         return response()->json([],201);
 
@@ -325,14 +321,13 @@ class AdminController extends Controller
         $formation = Formation::where('id', $formation_id)->first();
         $img = $request->get('image');
         $imgname = Auth::user()->id . '_' . time() . '.' . explode('.', $img)[1];
-        $path = "/storage/formations/front_img/".$formation_id;
-        $dir = public_path($path);
+        $path = storage_path('public/formations/front_img/'.$formation_id);
         $formation->image = $imgname;
         $formation->save();
-        if(!is_dir($dir)){
-            mkdir($dir);
+        if(!is_dir($path)){
+            mkdir($path);
         }
-        FileController::moveTempFile($img, $dir . '/' . $imgname);
+        FileController::moveTempFile($img, $path . '/' . $imgname);
         event(new Notify('Photo ajoutée à la question', 1));
         return response()->json([],201);
 
