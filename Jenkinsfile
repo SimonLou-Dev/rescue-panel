@@ -17,6 +17,23 @@ pipeline {
         }
     }
 
+    stage('PHP unit test & code coverage'){
+        steps  {
+            sh './vendor/bin/phpunit --coverage-clover ./reports/coverage.xml --log-junit ./reports/test.xml'
+            }
+    }
+
+    stage('Scan  SonarQube') {
+        environment {
+            scannerHome = tool 'sonar'
+        }
+        steps {
+            withSonarQubeEnv(installationName: 'Le miens', credentialsId: 'Sonarqube - Token') {
+                sh '${scannerHome}/bin/sonar-scanner'
+            }
+        }
+    }
+
     stage('SetUp & scan') {
        steps {
          sh 'php --version'
@@ -36,6 +53,8 @@ pipeline {
         steps{
             sh "ssh root@75.119.154.204 docker-compose -f /infra/web/bcfd/docker-compose.yml down"
             sh "ssh root@75.119.154.204 docker-compose -f /infra/web/bcfd/docker-compose.yml up -d"
+            sh "ssh root@75.119.154.204 docker exec -it bcfd php7.4-fpm start"
+            sh "ssh root@75.119.154.204 docker exec -it bcfd chmod 777 /var/run/php/php7.4-fpm.sock"
         }
     }
 

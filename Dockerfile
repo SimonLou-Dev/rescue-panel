@@ -2,11 +2,9 @@ FROM nginx:latest
 
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 ENV TZ=UTC
-EXPOSE 80
-
-VOLUME /usr/share/nginx/bcfd
 
 # Copy & set WorkDir
+VOLUME /usr/share/nginx/bcfd
 WORKDIR /usr/share/nginx/bcfd
 COPY . /usr/share/nginx/bcfd
 
@@ -56,8 +54,9 @@ RUN setcap "cap_net_bind_service=+ep" /usr/bin/php7.4
 RUN update-alternatives --set php /usr/bin/php7.4
 
 #Prepare app
-COPY ./docker/start-container /usr/local/bin/start-container
+COPY start-container /usr/local/bin/start-container
 COPY ./docker/default.conf /etc/nginx/conf.d/default.conf
+COPY start-container .
 
 #Install And start web dep
 RUN yarn global add pm2
@@ -68,6 +67,11 @@ RUN yarn build
 RUN php artisan cache:clear
 
 ## Permission
-RUN chown www-data -R ./*
-RUN chmod 777 -R ./*
+RUN chown www-data -R /usr/share/nginx/bcfd/*
+RUN chmod 777 -R /usr/share/nginx/bcfd/*
+RUN chmod +x /usr/local/bin/start-container
 
+
+EXPOSE 80
+
+CMD
