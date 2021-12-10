@@ -1,14 +1,12 @@
-FROM ubuntu:20.04
+FROM nginx:latest
 
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 ENV TZ=UTC
 
-
 # Copy & set WorkDir
-VOLUME /usr/share/nginx/bcfd
+VOLUME /usr/share/nginx/bcfd/storage
 WORKDIR /usr/share/nginx/bcfd
 COPY . /usr/share/nginx/bcfd
-
 
 # Env Key & base pakadge
 RUN apt-get update \
@@ -24,13 +22,12 @@ RUN apt-get update \
 # PHP
 RUN apt-get install -y php7.4-cli php7.4-dev \
        php7.4-pgsql php7.4-sqlite3 php7.4-gd \
-       php7.4-curl php7.4-memcached \
+       php7.4-curl php7.4-memcached\
        php7.4-imap php7.4-mysql php7.4-mbstring \
        php7.4-xml php7.4-zip php7.4-bcmath php7.4-soap php7.4-readline \
        php7.4-msgpack php7.4-igbinary php7.4-ldap php7.4-fpm \
        php7.4-redis
 
-# Composer
 RUN php -r "readfile('http://getcomposer.org/installer');" | php -- --install-dir=/usr/bin/ --filename=composer
 
 #mysql-client \
@@ -51,10 +48,6 @@ RUN apt-get install -y postgresql-client \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
-RUN apt-get -y autoremove \
-    && apt-get clean \
-    && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
-
 # Set php version
 RUN setcap "cap_net_bind_service=+ep" /usr/bin/php7.4
 RUN update-alternatives --set php /usr/bin/php7.4
@@ -64,18 +57,8 @@ COPY start-container /usr/local/bin/start-container
 COPY ./docker/default.conf /etc/nginx/conf.d/default.conf
 COPY start-container .
 
-#Install And start web dep
+#Install And pm2
 RUN yarn global add pm2
-RUN pm2 start queueworker.yml
-RUN php artisan cache:clear
-
-
-## Permission
-RUN chown www-data -R /usr/share/nginx/bcfd/*
-RUN chmod 777 -R /usr/share/nginx/bcfd/*
-RUN chmod +x /usr/local/bin/start-container
-
-
 
 EXPOSE 80
 
