@@ -17,10 +17,17 @@ pipeline {
         }
     }
 
+    stage('Setup project') {
+        steps{
+            sh "composer install"
+            sh "yarn build"
+        }
+    }
+
     stage('PHP unit test & code coverage'){
         steps  {
             sh './vendor/bin/phpunit --coverage-clover ./reports/coverage.xml --log-junit ./reports/test.xml'
-            }
+        }
     }
 
     stage('Scan  SonarQube') {
