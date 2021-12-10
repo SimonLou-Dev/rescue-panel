@@ -23,13 +23,6 @@ pipeline {
         }
     }
 
-    stage('PHP unit test & code coverage'){
-        steps  {
-            sh 'php artisan test'
-            sh './vendor/bin/phpunit --coverage-clover ./reports/coverage.xml --log-junit ./reports/test.xml'
-        }
-    }
-
     stage('Scan  SonarQube') {
         environment {
             scannerHome = tool 'sonar'
