@@ -10,7 +10,7 @@ use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Hash;
 use Tests\TestCase;
 
-class UserControllerTest extends TestCase
+class UserConnexionControllerTest extends TestCase
 {
 
     private $faker;
@@ -72,9 +72,28 @@ class UserControllerTest extends TestCase
             'psw'=>$user->name,
         ];
 
-
         $req = $this->postJson('/data/login', $data);
         $req->assertStatus(200);
+    }
+
+    public function test_connexionCheckerLogged(){
+        $user = User::orderBy('id', 'Desc')->first();
+        \Auth::login($user);
+
+        $req = $this->get('/data/check/connexion');
+        $req->assertStatus(200)->assertJson([
+            'session'=>true
+        ]);
+    }
+
+    public function test_connexionCheckerUnlogged(){
+        if(\Auth::check()){
+            \Auth::logout();
+        }
+        $req = $this->get('/data/check/connexion');
+        $req->assertStatus(200)->assertJson([
+            'session'=>false
+        ]);
     }
 
 
