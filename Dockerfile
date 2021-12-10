@@ -5,7 +5,7 @@ ENV TZ=UTC
 
 
 # Copy & set WorkDir
-VOLUME /usr/share/nginx/bcfd/storage
+VOLUME /usr/share/nginx/bcfd
 WORKDIR /usr/share/nginx/bcfd
 COPY . /usr/share/nginx/bcfd
 
