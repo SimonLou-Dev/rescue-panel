@@ -61,9 +61,6 @@ COPY start-container .
 #Install And start web dep
 RUN yarn global add pm2
 RUN pm2 start queueworker.yml
-RUN composer install
-RUN yarn install
-RUN yarn build
 RUN php artisan cache:clear
 
 ## Permission
