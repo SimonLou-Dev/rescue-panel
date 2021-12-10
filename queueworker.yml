@@ -1,0 +1,8 @@
+apps:
+  # Run php artisan queue:listen to execute queue job
+  - script    : 'artisan'
+    name      : 'artisan-queue-worker'
+    cwd       : '/usr/share/nginx/bcfd'
+    args      : 'queue:work' # or queue:work
+    interpreter : 'php'
+
