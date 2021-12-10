@@ -6,7 +6,7 @@ services:
     image: simonloudev/bcfd_web
     container_name: 'bcfd'
     volumes:
-      - bcfd_storage:/usr/share/nginx/bcfd
+      - bcfd_filestorage:/usr/share/nginx/bcfd/storage
     environment:
       - VIRTUAL_HOST=bcfd.simon-lou.com
       - VIRTUAL_PORT=80
@@ -14,7 +14,7 @@ services:
       - 80
 
 volumes:
-  bcfd_storage:
+  bcfd_filestorage:
 
 networks:
   default:

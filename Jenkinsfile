@@ -56,6 +56,7 @@ pipeline {
             sh "ssh root@75.119.154.204 docker exec -i bcfd chown www-data -R /usr/share/nginx/bcfd/"
             sh "ssh root@75.119.154.204 docker exec -i bcfd pm2 start queueworker.yml"
             sh "ssh root@75.119.154.204 docker exec -i bcfd php artisan storage:link"
+            sh "ssh root@75.119.154.204 docker cp .env bcfd:/usr/share/nginx/bcfd/.env"
         }
     }
 
