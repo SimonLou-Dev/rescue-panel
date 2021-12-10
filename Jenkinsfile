@@ -34,12 +34,6 @@ pipeline {
         }
     }
 
-    stage('SetUp & scan') {
-       steps {
-         sh 'php --version'
-       }
-    }
-
     stage('Build & Push Docker container') {
         steps {
             sh "docker build -t bcfd_web ."
