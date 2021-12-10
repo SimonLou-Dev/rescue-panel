@@ -20,6 +20,7 @@ pipeline {
     stage('Setup project') {
         steps{
             sh "composer install"
+            sh "yarn install"
             sh "yarn build"
         }
     }
