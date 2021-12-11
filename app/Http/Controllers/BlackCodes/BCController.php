@@ -76,6 +76,7 @@ class BCController extends Controller
         ]);
     }
 
+
     public function getBCState(string $id): \Illuminate\Http\JsonResponse
     {
         $id = (int) $id;

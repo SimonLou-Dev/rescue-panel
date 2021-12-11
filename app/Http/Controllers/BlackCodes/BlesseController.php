@@ -30,7 +30,6 @@ class BlesseController extends Controller
     {
         $request->validate([
             'name'=>['required', 'string','regex:/[a-zA-Z.+_]+\s[a-zA-Z.+_]/'],
-            'blessure'=>['required'],
             'carteid'=>['required'],
             'blessure'=>['required'],
             'color'=>['required'],
@@ -117,9 +116,9 @@ class BlesseController extends Controller
         return response()->json(['status'=>'OK'],201);
     }
 
-    public function removePatient(int $patient_id): \Illuminate\Http\JsonResponse
+    public function removePatient(string $patient_id): \Illuminate\Http\JsonResponse
     {
-        $bcp = BCPatient::where('id', $patient_id)->first();
+        $bcp = BCPatient::where('id', (int) $patient_id)->first();
         if (!is_null($bcp->rapport_id)){
             $rapport = Rapport::where('id', $bcp->rapport_id)->first();
             $facture = Facture::where('id', $rapport->GetFacture->id)->first();

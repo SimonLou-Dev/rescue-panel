@@ -22,7 +22,7 @@ class UserGradeControllerTest extends TestCase
     }
 
     public function test_userGradeSetterUp(){
-        $user = self::GetAllPermUserAuthed();
+        $user = TestTools::GetAllPermUserAuthed();
 
         $gradeid = $this->faker->numberBetween(2,9);
         $userid = $this->faker->numberBetween(1,$user->id);
@@ -32,36 +32,25 @@ class UserGradeControllerTest extends TestCase
     }
 
     public function test_getUserPerm(){
-        $user = self::GetAllPermUserAuthed();
+        $user = TestTools::GetAllPermUserAuthed();
         $this->get('/data/getperm')->assertStatus(200);
     }
 
     public function test_getAllGrades(){
-        $user = self::GetAllPermUserAuthed();
+        $user = TestTools::GetAllPermUserAuthed();
         $this->get('/data/admin/grades/get')->assertStatus(200);
     }
 
     public function test_changePerm()
     {
-        $user = self::GetAllPermUserAuthed();
+        $user = TestTools::GetAllPermUserAuthed();
         $gradeid = $this->faker->numberBetween(2,9);
-        $permid = $this->faker->numberBetween(4,30);
+        $permid = $this->faker->numberBetween(1,30);
 
-        $this->put('/data/admin/grades/'. $permid .'/'.$gradeid)->assertStatus(201);
+        $this->put('/data/admin/grades/perm_'. $permid .'/'.$gradeid)->assertStatus(201);
     }
 
-    static function GetAllPermUserAuthed(){
-        $user = User::orderBy('id','desc')->first();
-        $grade = Grade::orderBy('id','desc')->first();
-        if($user->grade_id == $grade->id){
-            $user->grade_id = $grade->id;
-            $user->save();
-        }
-        if(!\Auth::check()){
-            \Auth::login($user);
-        }
-        return $user;
-    }
+
 
 
 }
