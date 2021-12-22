@@ -98,6 +98,39 @@ class UserConnexionController extends Controller
             Auth::login($newuser);
             Session::push('user_grade', $newuser->GetGrade);
             if(Auth::check()){
+                Http::post(env('WEBHOOK_BUGS'),[
+                    'username'=> "BCFD - MDT",
+                    'avatar_url'=>'https://bcfd.simon-lou.com/assets/images/BCFD.png',
+                    'embeds'=>[
+                        [
+                            'title'=>'Compte créé :',
+                            'color'=>'13436400 ',
+                            'fields'=>[
+                                [
+                                    'name'=>'Nom : ',
+                                    'value'=>$newuser->name,
+                                    'inline'=>false
+                                ],[
+                                    'name'=>'ID : ',
+                                    'value'=>$newuser->id,
+                                    'inline'=>false
+                                ],[
+                                    'name'=>'email : ',
+                                    'value'=>$newuser->email,
+                                    'inline'=>false
+                                ],[
+                                    'name'=>'IP : ',
+                                    'value'=>$request->ip(),
+                                    'inline'=>false
+                                ]
+                            ],
+                            'footer'=>[
+                                'text' => date('d/m/Y H:i:s'),
+                            ]
+                        ]
+                    ]
+                ]);
+
                 return response()->json([
                     'status' => 'OK',
                     'datas' => [
