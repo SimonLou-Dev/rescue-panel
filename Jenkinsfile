@@ -1,12 +1,24 @@
 pipeline {
   agent any
+  options {
+    skipDefaultCheckout(true)
+  }
   stages {
+
+    stage('Cleaning'){
+        steps{
+            cleanWs()
+            checkout scm
+        }
+    }
+
     stage('Verification') {
       steps {
         validateDeclarativePipeline 'Jenkinsfile'
         sh 'php -v'
         sh 'php -i'
         sh "rm .env"
+        sh "ssh root@75.119.154.204 docker exec -i LSCoFD php artisan cache:clear"
       }
     }
 
@@ -59,6 +71,7 @@ pipeline {
             sh "ssh root@75.119.154.204 docker-compose -f /infra/web/lscofd/docker-compose.yml down"
             sh "ssh root@75.119.154.204 docker-compose -f /infra/web/lscofd/docker-compose.yml up -d"
             sh "ssh root@75.119.154.204 docker exec -i LSCoFD service php7.4-fpm start"
+            sh "ssh root@75.119.154.204 docker exec -i LSCoFD php artisan cache:clear"
             sh "ssh root@75.119.154.204 docker exec -i LSCoFD chmod 777 /var/run/php/php7.4-fpm.sock"
             sh "ssh root@75.119.154.204 docker exec -i LSCoFD chmod 777 -R /usr/share/nginx/lscofd/"
             sh "ssh root@75.119.154.204 docker exec -i LSCoFD chown www-data -R /usr/share/nginx/lscofd/"
@@ -69,6 +82,5 @@ pipeline {
             sh "ssh root@75.119.154.204 rm /infra/web/lscofd/.env"
         }
     }
-
   }
 }

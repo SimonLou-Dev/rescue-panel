@@ -135,34 +135,21 @@ class BlesseController extends Controller
 
         $Bcs = BCList::where('ended', true)->where('created_at', '>', $from . ' 00:00:00')->where('created_at', '<', $to . ' 00:00:00')->orderBy('id', 'desc')->get();
 
-        $idList = array();
-
-        foreach ($Bcs as $bc){
-            $patients = $bc->GetPatients;
-            foreach ($patients as $patient){
-                array_push($idList, $patient->patient_id);
-            }
-        }
-        $arrayOrdered = array_count_values($idList);
-        arsort($arrayOrdered);
-        $patientsId = array_keys($arrayOrdered);
+        $patientsId = $this::getOrderedListOfPatientIdPresent($Bcs)[0];
+        $arrayOrdered = $this::getOrderedListOfPatientIdPresent($Bcs)[1];
 
         $bcList = array();
 
         foreach ($patientsId as $pid){
             $bcList[$pid] = array();
         }
+        $bcList = $this::fillBclist($Bcs, $patientsId);
 
-        foreach ($Bcs as $bc){
-            $patients = $bc->GetPatients;
-            foreach ($patients as $patient){
-                foreach ($patientsId as $pid){
-                    if($pid == $patient->patient_id){
-                        array_push($bcList[$pid], $bc->id);
-                    }
-                }
-            }
+        foreach ($Bcs as $bc) {
+            $bc->GetPatients;
         }
+
+
         $columns[] = ['id patient','prénom nom', "nombre d’apparitions", 'liste des apparitions'];
         foreach ($patientsId as $patient_id){
             $patient = Patient::where('id', $patient_id)->first();
@@ -186,5 +173,31 @@ class BlesseController extends Controller
 
         $export = new ExelPrepareExporter($columns);
         return Excel::download((object)$export, 'listeDesPatientsDansLesBC.xlsx');
+    }
+
+    private static function getOrderedListOfPatientIdPresent(BCList $Bcs): array
+    {
+        foreach ($Bcs as $bc){
+            $patients = $bc->GetPatients;
+            foreach ($patients as $patient){
+                $idList[] = $patient->patient_id;
+            }
+        }
+        $arrayOrdered = array_count_values($idList);
+        arsort($arrayOrdered);
+        return [array_keys($arrayOrdered), $arrayOrdered];
+    }
+    private static function fillBclist(BCList $Bcs,array $patientsId){
+        foreach ($Bcs as $bc){
+            $patients = $bc->GetPatients;
+            foreach ($patients as $patient){
+                foreach ($patientsId as $pid){
+                    if($pid == $patient->patient_id){
+                        $bcList[$pid][] = $bc->id;
+                    }
+                }
+            }
+        }
+        return $bcList;
     }
 }

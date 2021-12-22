@@ -280,6 +280,7 @@ class UserController extends Controller
                 $text = "__**Type:**__ Exclusion \n __**Infos licenciement:**__ " . $array['noteLic'];
                 UserGradeController::removegradeFromuser((int) $id);
                 break;
+            default: break;
         }
         $array['raison'] = $reqinfos['raison'];
         $final = ">>> ***__Nouvelle sanction :__*** \n __**De :**__". $array['prononcedby'] . "\n __**A :**__ " . ($user->discord_id != null ? ("<@" . $user->discord_id . "> ") : "") . $user->name . " \n ". $text . "\n **__Prononcé le :__** " . $array['prononcedam'] . " \n **__Raison :__** " . $array['raison'];

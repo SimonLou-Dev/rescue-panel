@@ -30,6 +30,8 @@ use TheCodingMachine\Gotenberg\RequestException;
 class RapportController extends Controller
 {
 
+    private static string $SQLdateformat = 'Y/m/d H:i:s';
+
     public function __construct()
     {
         $this->middleware('auth');
@@ -81,8 +83,8 @@ class RapportController extends Controller
         $rapport->description = $request->desc;
         $rapport->price = (int) $request->montant;
         $rapport->user_id = Auth::user()->id;
-        $rapport->ATA_start = date('Y/m/d H:i:s', strtotime($request->startdate . ' ' . $request->starttime));
-        $rapport->ATA_end = date('Y/m/d H:i:s', strtotime($request->enddate . ' ' . $request->endtime));
+        $rapport->ATA_start = date($this::$SQLdateformat, strtotime($request->startdate . ' ' . $request->starttime));
+        $rapport->ATA_end = date($this::$SQLdateformat, strtotime($request->enddate . ' ' . $request->endtime));
         $rapport->save();
         FacturesController::addFactureMethod($Patient, $request->payed, $request->montant, Auth::user()->id, $rapport->id);
         if($rapport->ATA_start === $rapport->ATA_end){
@@ -175,8 +177,8 @@ class RapportController extends Controller
         $rapport->description = $request->desc;
         $rapport->price = (integer) $request->montant;
         if($request->starttime != '00:00'){
-            $rapport->ATA_start = date('Y/m/d H:i:s', strtotime($request->startdate . ' ' . $request->starttime));
-            $rapport->ATA_end = date('Y/m/d H:i:s', strtotime($request->enddate . ' ' . $request->endtime));
+            $rapport->ATA_start = date($this::$SQLdateformat, strtotime($request->startdate . ' ' . $request->starttime));
+            $rapport->ATA_end = date($this::$SQLdateformat, strtotime($request->enddate . ' ' . $request->endtime));
         }
         $facture->save();
         $rapport->save();

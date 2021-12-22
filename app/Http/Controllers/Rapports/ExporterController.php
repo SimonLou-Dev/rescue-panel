@@ -37,9 +37,6 @@ class ExporterController extends Controller
 
         if(!Storage::exists($path)){
             $user = $rapport->GetUser->name;
-            $rapport = $rapport;
-
-
             ob_start();
             require(base_path('/resources/PDF/RI/index.php'));
             $content = ob_get_clean();

@@ -82,7 +82,7 @@ class UserConnexionController extends Controller
         $pseudo = $request->pseudo;
         $mail = $request->email;
         $psw = $request->psw;
-        if($user = User::where('email', $mail)->count() != 0){
+        if(User::where('email', $mail)->count() != 0){
             return response()->json([
                 'status' => 'ERROR',
                 'raison'=> 'Email taken',

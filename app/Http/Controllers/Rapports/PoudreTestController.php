@@ -139,12 +139,6 @@ class PoudreTestController extends Controller
         $user = $user->name;
         $path = "public/test/poudre/pouder_". $test->id . ".pdf";
 
-
-
-
-
-
-
         if(!file_exists(Storage::path($path))){
             ob_start();
             require(base_path('resources/PDF/test/poudre.php'));
@@ -153,40 +147,9 @@ class PoudreTestController extends Controller
             $pdf->loadHTML($content);
             $this->dispatch(new ProcesTestPoudrePDFGenerator($test, $path));
             return $pdf->stream();
-        }else{
-            return response()->file(Storage::path($path));
         }
 
-
-
-
-
-
-        /*
-
-
-        $index = DocumentFactory::makeFromString('poudre.html', $content);
-        $assets = [
-            DocumentFactory::makeFromPath('LONG_EMS_BC_2.png', base_path('/resources/PDF/test/LONG_EMS_BC_2.png')),
-            DocumentFactory::makeFromPath('signature.png', base_path('/resources/PDF/test/signature.png'))
-        ];
-
-
-
-        $pdf = new HTMLRequest($index);
-
-        $pdf->setAssets($assets);
-        return dd($client->store($pdf, $path));
-        try {
-
-        } catch (ClientException | FilesystemException | RequestException | \Exception $e) {
-            Log::critical($e);
-        }
-
-        return $client->post($pdf);*/
-
-        return \response()->file($path);
-
+        return response()->file(Storage::path($path));
     }
 
     public function getAllTests(): \Illuminate\Http\JsonResponse

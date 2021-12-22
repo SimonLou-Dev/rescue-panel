@@ -35,31 +35,32 @@ class ContentManagement extends Controller
 
     public function addcontent(Request $request, string $type): \Illuminate\Http\JsonResponse
     {
+        $content = [];
         switch ($type) {
             case "1":
                 $content = new Intervention();
 
                 $content->name = $request->formcontent;
                 $content->save();
-                return response()->json(['status'=>'OK', 'created'=>$content], 201);
+                break;
             case "2":
                 $content = new Hospital();
                 /** @var string $request->formcontent  */
                 $content->name = $request->formcontent;
                 $content->save();
-                return response()->json(['status'=>'OK', 'created'=>$content], 201);
+                break;
             case "3":
                 $content = new BCType();
                 /** @var string $request->formcontent  */
                 $content->name = $request->formcontent;
                 $content->save();
-                return response()->json(['status'=>'OK', 'created'=>$content], 201);
+                break;
             case "4":
                 $content = new Blessure();
                 /** @var string $request->formcontent  */
                 $content->name = $request->formcontent;
                 $content->save();
-                return response()->json(['status'=>'OK', 'created'=>$content], 201);
+                break;
             case "5":
                 $content = new Annonces();
                 /** @var string $request->title  */
@@ -76,39 +77,40 @@ class ContentManagement extends Controller
                         ]
                     ]
                 ]);
-                return response()->json(['status'=>'OK', 'created'=>$content], 201);
+                break;
             case "6":
                 $content = new CouleurVetement();
                 /** @var string $request->formcontent  */
                 $content->name = $request->formcontent;
                 $content->save();
-                return response()->json(['status'=>'OK', 'created'=>$content], 201);
+                break;
             case "7" :
                 $content = new LieuxSurvol();
                 $content->name= $request->formcontent;
                 $content->save();
-                return response()->json(['status'=>'OK', 'created'=>$content], 201);
+                break;
             case '8':
                 $content =new ObjRemboursement();
                 $content->price = $request->price;
                 $content->name= $request->formcontent;
                 $content->save();
-                return response()->json(['status'=>'OK', 'created'=>$content], 201);
+                break;
             case '9':
                 $content = new ServiceState();
                 $content->name = $request->name;
                 $content->color = $request->color;
                 $content->save();
-                return response()->json(['status'=>'OK', 'created'=>$content], 201);
+                break;
             case '10':
                 $content = new PrimeItem();
                 $content->name = $request->formcontent;
                 $content->montant = $request->price;
                 $content->save();
-                return response()->json(['status'=>'OK', 'created'=>$content], 201);
+                break;
             default:
                 return response()->json('error', 404);
         }
+        return response()->json(['status'=>'OK', 'created'=>$content], 201);
     }
     public function getcontent(Request $request, int $type): \Illuminate\Http\JsonResponse
     {
