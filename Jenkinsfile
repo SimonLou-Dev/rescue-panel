@@ -10,13 +10,13 @@ pipeline {
       }
     }
 
-    stage('Write .env') {
-            steps{
-                withCredentials([file(credentialsId: 'lscofd-Test', variable: 'envfile')]) {
-                    writeFile file: '.env.testing', text: readFile(envfile)
-                    }
+    stage('Write .env [testing]') {
+        steps{
+            withCredentials([file(credentialsId: 'lscofd-Test', variable: 'envfile')]) {
+                writeFile file: '.env.testing', text: readFile(envfile)
                 }
-        }
+            }
+    }
     stage('Setup project') {
         steps{
             sh "composer install"
@@ -36,7 +36,7 @@ pipeline {
         }
     }
 
-    stage('Write .env') {
+    stage('Write .env [prod]') {
             steps{
                 sh "rm .env.testing"
                 withCredentials([file(credentialsId: 'lscofd-Prod', variable: 'envfile')]) {
