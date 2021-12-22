@@ -61,7 +61,7 @@
 </style>
 <div id="mail">
     <div class="center">
-        <h1>Blaine County Fire Department</h1>
+        <h1>Los Santos County Fire Department</h1>
         <div class="separator"></div>
         <h2>Réinitialisation de mot de passe</h2>
         <a class="btn" href="{{$token}}">Cliquez  ici</a>

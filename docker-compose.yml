@@ -3,18 +3,18 @@ version: '3.6'
 services:
   BCFD:
     restart: always
-    image: simonloudev/bcfd_web
-    container_name: 'bcfd'
+    image: simonloudev/lscofd_web
+    container_name: 'LSCoFD'
     volumes:
-      - bcfd_storage:/usr/share/nginx/bcfd/storage
+      - lscofd_storage:/usr/share/nginx/lscofd/storage
     environment:
-      - VIRTUAL_HOST=bcfd.simon-lou.com
+      - VIRTUAL_HOST=lscofd.simon-lou.com
       - VIRTUAL_PORT=80
     expose:
       - 80
 
 volumes:
-  bcfd_storage:
+  lscofd_storage:
 
 networks:
   default:

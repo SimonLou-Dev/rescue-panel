@@ -42,8 +42,8 @@ class UserConnexionController extends Controller
         $user->compte = $request->compte;
         $user->save();
         Http::post(env('WEBHOOK_INFOS'),[
-            'username'=> "BCFD - MDT",
-            'avatar_url'=>'https://bcfd.simon-lou.com/assets/images/BCFD.png',
+            'username'=> "LSCoFD.png - MDT",
+            'avatar_url'=>'https://bcfd.simon-lou.com/assets/images/LSCoFD.png',
             'embeds'=>[
                 [
                     'title'=>'Numéro de compte',

@@ -4,9 +4,9 @@ RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 ENV TZ=UTC
 
 # Copy & set WorkDir
-VOLUME /usr/share/nginx/bcfd/storage
-WORKDIR /usr/share/nginx/bcfd
-COPY . /usr/share/nginx/bcfd
+VOLUME /usr/share/nginx/lscofd/storage
+WORKDIR /usr/share/nginx/lscofd
+COPY . /usr/share/nginx/lscofd
 
 # Env Key & base pakadge
 RUN apt-get update \

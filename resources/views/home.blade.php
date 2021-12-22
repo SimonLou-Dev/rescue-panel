@@ -28,7 +28,7 @@
         const env = '{{env('APP_ENV')}}';
     </script>
 
-    <title>BCFD - Intranet</title>
+    <title>LSCoFD- MDT</title>
 
     <!-- META -->
     <meta charset="utf-8">

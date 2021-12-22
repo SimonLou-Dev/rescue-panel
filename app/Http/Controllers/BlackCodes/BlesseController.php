@@ -80,8 +80,8 @@ class BlesseController extends Controller
         if(!$request->correctid){
             event(new Notify('Ajout d\'une déclaration de falsification d\'identité ! ',1));
             Http::post(env('WEBHOOK_STAFF'),[
-                'username'=> "BCFD - MDT",
-                'avatar_url'=>'https://bcfd.simon-lou.com/assets/images/BCFD.png',
+                'username'=> "LSCoFD- MDT",
+                'avatar_url'=>'https://bcfd.simon-lou.com/assets/images/LSCoFD.png',
                 'embeds'=>[
                     [
                         'title'=>'Falsification d\'identité',

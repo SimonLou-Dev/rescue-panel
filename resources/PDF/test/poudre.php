@@ -146,7 +146,7 @@
             <p><span class="fixed">Signature :</span></p>
             <div class="contents">
                 <p class="signiature"> <?php echo $user  ?></p>
-                <div class="text"><?php echo '<img class="imgsignature" width="100px" alt=""src="'. public_path('assets/images/signature.png') .'" alt="">' ?></div>
+                <div class="text"><?php echo '<img class="imgsignature" width="100px" alt=""src="'. public_path('assets/images/LSCoFD.png') .'" alt="">' ?></div>
 
 
             </div>

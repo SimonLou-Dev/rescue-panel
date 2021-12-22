@@ -99,8 +99,8 @@ class RapportController extends Controller
         $user = Auth::user()->name;
 
         Http::post(env('WEBHOOK_RI'),[
-            'username'=> "BCFD - MDT",
-            'avatar_url'=>'https://bcfd.simon-lou.com/assets/images/BCFD.png',
+            'username'=> "LSCoFD - MDT",
+            'avatar_url'=>'https://bcfd.simon-lou.com/assets/images/LSCoFD.png',
             'embeds'=>[
                 [
                     'title'=>'Ajout d\'un rapport :',
