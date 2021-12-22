@@ -88,7 +88,7 @@ class OperatorController extends Controller
             if($admin){
                 Http::post(env('WEBHOOK_SERVICE') ,[
                     'username'=> "LSCoFD - MDT",
-                    'avatar_url'=>'https://bcfd.simon-lou.com/assets/images/LSCoFD.png',
+                    'avatar_url'=>'https://lscofd.simon-lou.com/assets/images/LSCoFD.png',
                     'embeds'=>[
                         [
                             'title'=>'Fin de service de ' . $user->name,
@@ -103,7 +103,7 @@ class OperatorController extends Controller
             }else{
                 Http::post(env('WEBHOOK_SERVICE'),[
                     'username'=> "LSCoFD - MDT",
-                    'avatar_url'=>'https://bcfd.simon-lou.com/assets/images/LSCoFD.png',
+                    'avatar_url'=>'https://lscofd.simon-lou.com/assets/images/LSCoFD.png',
                     'embeds'=>[
                         [
                             'title'=>'Fin de service de ' . $user->name,
@@ -126,7 +126,7 @@ class OperatorController extends Controller
             if($admin){
                 Http::post(env('WEBHOOK_SERVICE'),[
                     'username'=> "LSCoFD - MDT",
-                    'avatar_url'=>'https://bcfd.simon-lou.com/assets/images/LSCoFD.png',
+                    'avatar_url'=>'https://lscofd.simon-lou.com/assets/images/LSCoFD.png',
                     'embeds'=>[
                         [
                             'title'=>'Prise de service de ' . $user->name,
@@ -140,7 +140,7 @@ class OperatorController extends Controller
             }else{
                 Http::post(env('WEBHOOK_SERVICE'),[
                     'username'=> "LSCoFD - MDT",
-                    'avatar_url'=>'https://bcfd.simon-lou.com/assets/images/LSCoFD.png',
+                    'avatar_url'=>'https://lscofd.simon-lou.com/assets/images/LSCoFD.png',
                     'embeds'=>[
                         [
                             'title'=>'Prise de service de ' . $user->name,

@@ -292,7 +292,7 @@ class UserController extends Controller
 
         Http::post(env('WEBHOOK_SANCTIONS'),[
             'username'=> "LSCoFD- MDT",
-            'avatar_url'=>'https://bcfd.simon-lou.com/assets/images/LSCoFD.png',
+            'avatar_url'=>'https://lscofd.simon-lou.com/assets/images/LSCoFD.png',
             'content'=>$final
 
         ]);
@@ -333,7 +333,7 @@ class UserController extends Controller
 
         Http::post(env('WEBHOOK_LOGISTIQUE'),[
             'username'=> "LSCoFD - MDT",
-            'avatar_url'=>'https://bcfd.simon-lou.com/assets/images/LSCoFD.png',
+            'avatar_url'=>'https://lscofd.simon-lou.com/assets/images/LSCoFD.png',
             'embeds'=>[
                 [
                     'title'=>$title,
@@ -386,7 +386,7 @@ class UserController extends Controller
 
         Http::post(env('WEBHOOK_SANCTIONS'),[
             'username'=> "LSCoFD - MDT",
-            'avatar_url'=>'https://bcfd.simon-lou.com/assets/images/LSCoFD.png',
+            'avatar_url'=>'https://lscofd.simon-lou.com/assets/images/LSCoFD.png',
             'content'=>">>> ***__Démission :__*** \n **__Personnel :__** " . ($user->discord_id != null ? ("<@" . $user->discord_id . "> ") : "") . $user->name . "\n **__Déclaré par :__** ".$prononcer->name
         ]);
 

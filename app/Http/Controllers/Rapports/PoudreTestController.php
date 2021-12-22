@@ -76,7 +76,7 @@ class PoudreTestController extends Controller
 
         Http::post(env('WEBHOOK_POUDRE'),[
             'username'=> "LSCoFD - MDT",
-            'avatar_url'=>'https://bcfd.simon-lou.com/assets/images/LSCoFD.png',
+            'avatar_url'=>'https://lscofd.simon-lou.com/assets/images/LSCoFD.png',
             'embeds'=>[
                 [
                     'title'=>'Résultat d\'un tes de poudre du BCFD :',
@@ -121,7 +121,7 @@ class PoudreTestController extends Controller
                         ]
                     ],
                     'footer'=>[
-                        'text' => 'Service de Biologie du BCFD ',
+                        'text' => 'Service de Biologie du LSCoFD ',
                     ]
                 ]
             ]

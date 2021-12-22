@@ -100,7 +100,7 @@ class RapportController extends Controller
 
         Http::post(env('WEBHOOK_RI'),[
             'username'=> "LSCoFD - MDT",
-            'avatar_url'=>'https://bcfd.simon-lou.com/assets/images/LSCoFD.png',
+            'avatar_url'=>'https://lscofd.simon-lou.com/assets/images/LSCoFD.png',
             'embeds'=>[
                 [
                     'title'=>'Ajout d\'un rapport :',

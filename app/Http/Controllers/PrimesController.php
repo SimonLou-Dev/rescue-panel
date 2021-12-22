@@ -23,7 +23,7 @@ class PrimesController extends Controller
         $prime->save();
         Http::post(env('WEBHOOK_MONEY'),[
             'username'=> "LSCoFD - MDT",
-            'avatar_url'=>'https://bcfd.simon-lou.com/assets/images/LSCoFD.png',
+            'avatar_url'=>'https://lscofd.simon-lou.com/assets/images/LSCoFD.png',
             'embeds'=>[
                 [
                     'title'=>'Prime Validée :',
@@ -67,7 +67,7 @@ class PrimesController extends Controller
 
         Http::post(env('WEBHOOK_MONEY'),[
             'username'=> "LSCoFD - MDT",
-            'avatar_url'=>'https://bcfd.simon-lou.com/assets/images/LSCoFD.png',
+            'avatar_url'=>'https://lscofd.simon-lou.com/assets/images/LSCoFD.png',
             'embeds'=>[
                 [
                     'title'=>'Prime Validée :',

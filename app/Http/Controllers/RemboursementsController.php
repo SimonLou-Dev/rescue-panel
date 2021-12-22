@@ -53,7 +53,7 @@ class RemboursementsController extends Controller
         $userRemboursements->save();
         Http::post(env('WEBHOOK_REMBOURSEMENTS'), [
             'username'=> "LSCoFD - MDT",
-            'avatar_url'=>'https://bcfd.simon-lou.com/assets/images/LSCoFD.png',
+            'avatar_url'=>'https://lscofd.simon-lou.com/assets/images/LSCoFD.png',
             'embeds'=>[
                 [
                     'title'=>'Ajout d\'un remboursement :',
@@ -86,7 +86,7 @@ class RemboursementsController extends Controller
         $userRemboursement->save();
         Http::post(env('WEBHOOK_REMBOURSEMENTS'), [
             'username'=> "LSCoFD - MDT",
-            'avatar_url'=>'https://bcfd.simon-lou.com/assets/images/LSCoFD.png',
+            'avatar_url'=>'https://lscofd.simon-lou.com/assets/images/LSCoFD.png',
             'embeds'=>[
                 [
                     'title'=>'Suppression d\'un remboursement :',
