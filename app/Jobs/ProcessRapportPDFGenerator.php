@@ -39,6 +39,7 @@ class ProcessRapportPDFGenerator implements ShouldQueue
         $this->rapport = $rapport;
         $this->path = $path;
 
+        $this->onQueue('pdfgeneration');
     }
 
     /**

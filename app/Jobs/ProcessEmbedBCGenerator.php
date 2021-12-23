@@ -37,6 +37,8 @@ class ProcessEmbedBCGenerator implements ShouldQueue
         $this->personnels = $personnels;
         $this->bc = $bc;
         $this->endername = $endername;
+
+        $this->onQueue('discord');
     }
 
     /**

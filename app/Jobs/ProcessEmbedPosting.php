@@ -22,7 +22,10 @@ class ProcessEmbedPosting implements ShouldQueue
         private array  $webhooks,
         private array  $embedscontent,
         private ?array $messagecontent
-    ){}
+    ){
+
+        $this->onQueue('discord');
+    }
 
     /**
      * Execute the job.

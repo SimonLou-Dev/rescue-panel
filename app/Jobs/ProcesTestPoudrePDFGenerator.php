@@ -34,6 +34,8 @@ class ProcesTestPoudrePDFGenerator implements ShouldQueue
     {
         $this->test = $test;
         $this->path = $path;
+
+        $this->onQueue('pdfgeneration');
     }
 
     /**
