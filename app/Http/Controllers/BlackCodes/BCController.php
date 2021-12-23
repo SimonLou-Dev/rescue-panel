@@ -7,6 +7,7 @@ use App\Events\Brodcaster;
 use App\Events\Notify;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\PrimesController;
+use App\Jobs\ProcessEmbedPosting;
 use App\Models\BCList;
 use App\Models\BCPatient;
 use App\Models\BCPersonnel;
@@ -136,31 +137,29 @@ class BCController extends Controller
         $bc->type_id = $type;
         $bc->save();
         PersonnelController::addPersonel((string)$bc->id);
-        Http::post(env('WEBHOOK_PU'),[
-            'username'=> "LSCoFD - MDT",
-            'avatar_url'=>'https://lscofd.simon-lou.com/assets/images/LSCoFD.png',
-            'embeds'=>[
-                [
-                    'title'=>'Black Code #' . $bc->id . ' en cours :',
-                    'fields'=>[
-                      [
-                          'name'=>'type :',
-                          'value'=>$bc->GetType->name,
-                          'inline'=>true,
-                      ],
-                      [
-                          'name'=>'lieux :',
-                          'value'=>$request->place,
-                          'inline'=>true,
-                      ]
+        $embed = [
+            [
+                'title'=>'Black Code #' . $bc->id . ' en cours :',
+                'fields'=>[
+                    [
+                        'name'=>'type :',
+                        'value'=>$bc->GetType->name,
+                        'inline'=>true,
                     ],
-                    'color'=>'10368531',
-                    'footer'=> [
-                        'text' => 'Information de : ' . Auth::user()->name
+                    [
+                        'name'=>'lieux :',
+                        'value'=>$request->place,
+                        'inline'=>true,
                     ]
+                ],
+                'color'=>'10368531',
+                'footer'=> [
+                    'text' => 'Information de : ' . Auth::user()->name
                 ]
             ]
-        ]);
+        ];
+        $this->dispatch(new ProcessEmbedPosting([env('WEBHOOK_PU')], $embed,null));
+
 
         event(new Brodcaster('Début du BC #'.$bc->id . ' à ' . $bc->place));
 

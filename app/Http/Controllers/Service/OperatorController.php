@@ -6,6 +6,7 @@ use App\Events\Notify;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\LayoutController;
 use App\Http\Controllers\ServiceController;
+use App\Jobs\ProcessEmbedPosting;
 use App\Models\LogServiceState;
 use App\Models\Service;
 use App\Models\User;
@@ -86,32 +87,24 @@ class OperatorController extends Controller
             $user->save();
             $formated = explode(':', $formated);
             if($admin){
-                Http::post(env('WEBHOOK_SERVICE') ,[
-                    'username'=> "LSCoFD - MDT",
-                    'avatar_url'=>'https://lscofd.simon-lou.com/assets/images/LSCoFD.png',
-                    'embeds'=>[
-                        [
-                            'title'=>'Fin de service de ' . $user->name,
-                            'description'=> 'temps de service : ' . $formated[0]. ' h et ' . $formated[1]. ' min(s)',
-                            'color'=>'15158332',
-                            'footer'=>[
-                                'text'=>'stoppé par : ' . Auth::user()->name
-                            ]
+                $embed = [
+                    [
+                        'title'=>'Fin de service de ' . $user->name,
+                        'description'=> 'temps de service : ' . $formated[0]. ' h et ' . $formated[1]. ' min(s)',
+                        'color'=>'15158332',
+                        'footer'=>[
+                            'text'=>'stoppé par : ' . Auth::user()->name
                         ]
                     ]
-                ]);
+                ];
             }else{
-                Http::post(env('WEBHOOK_SERVICE'),[
-                    'username'=> "LSCoFD - MDT",
-                    'avatar_url'=>'https://lscofd.simon-lou.com/assets/images/LSCoFD.png',
-                    'embeds'=>[
-                        [
-                            'title'=>'Fin de service de ' . $user->name,
-                            'description'=> 'temps de service : ' . $formated[0]. ' h et ' . $formated[1] . ' min(s)',
-                            'color'=>'15158332',
-                        ]
+                $embed = [
+                    [
+                        'title'=>'Fin de service de ' . $user->name,
+                        'description'=> 'temps de service : ' . $formated[0]. ' h et ' . $formated[1] . ' min(s)',
+                        'color'=>'15158332',
                     ]
-                ]);
+                ];
             }
             return true;
 
@@ -124,31 +117,24 @@ class OperatorController extends Controller
             $user->save();
             Auth::user()->service = true;
             if($admin){
-                Http::post(env('WEBHOOK_SERVICE'),[
-                    'username'=> "LSCoFD - MDT",
-                    'avatar_url'=>'https://lscofd.simon-lou.com/assets/images/LSCoFD.png',
-                    'embeds'=>[
-                        [
-                            'title'=>'Prise de service de ' . $user->name,
-                            'color'=>'3066993',
-                            'footer'=>[
-                                'text'=>'Mis en service par : ' . Auth::user()->name
-                            ]
+                $embed = [
+                    [
+                        'title'=>'Prise de service de ' . $user->name,
+                        'color'=>'3066993',
+                        'footer'=>[
+                            'text'=>'Mis en service par : ' . Auth::user()->name
                         ]
                     ]
-                ]);
+                ];
             }else{
-                Http::post(env('WEBHOOK_SERVICE'),[
-                    'username'=> "LSCoFD - MDT",
-                    'avatar_url'=>'https://lscofd.simon-lou.com/assets/images/LSCoFD.png',
-                    'embeds'=>[
-                        [
-                            'title'=>'Prise de service de ' . $user->name,
-                            'color'=>'3066993',
-                        ]
+                $embed = [
+                    [
+                        'title'=>'Prise de service de ' . $user->name,
+                        'color'=>'3066993',
                     ]
-                ]);
+                ];
             }
+            dispatch(new ProcessEmbedPosting([env('WEBHOOK_SERVICE')], $embed, null));
             return true;
         }
     }

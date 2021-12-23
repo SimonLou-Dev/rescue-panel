@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Users;
 
 use App\Events\Notify;
 use App\Http\Controllers\Controller;
+use App\Jobs\ProcessEmbedBCGenerator;
+use App\Jobs\ProcessEmbedPosting;
 use App\Models\User;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -41,35 +43,33 @@ class UserConnexionController extends Controller
         $user->tel = $request->tel;
         $user->compte = $request->compte;
         $user->save();
-        Http::post(env('WEBHOOK_INFOS'),[
-            'username'=> "LSCoFD - MDT",
-            'avatar_url'=>'https://lscofd.simon-lou.com/assets/images/LSCoFD.png',
-            'embeds'=>[
-                [
-                    'title'=>'Numéro de compte',
-                    'color'=>'16776960',
-                    'fields'=>[
-                        [
-                            'name'=>'Prénom Nom : ',
-                            'value'=>Auth::user()->name,
-                            'inline'=>false
-                        ],[
-                            'name'=>'Numéro de téléphone : ',
-                            'value'=>$user->tel,
-                            'inline'=>false
-                        ],[
-                            'name'=>'Conté habité : ',
-                            'value'=>$user->liveplace,
-                            'inline'=>false
-                        ],[
-                            'name'=>'Numéro de compte : ',
-                            'value'=>$user->compte,
-                            'inline'=>false
-                        ]
-                    ],
-                ]
+        $embed = [
+            [
+                'title'=>'Numéro de compte',
+                'color'=>'16776960',
+                'fields'=>[
+                    [
+                        'name'=>'Prénom Nom : ',
+                        'value'=>Auth::user()->name,
+                        'inline'=>false
+                    ],[
+                        'name'=>'Numéro de téléphone : ',
+                        'value'=>$user->tel,
+                        'inline'=>false
+                    ],[
+                        'name'=>'Conté habité : ',
+                        'value'=>$user->liveplace,
+                        'inline'=>false
+                    ],[
+                        'name'=>'Numéro de compte : ',
+                        'value'=>$user->compte,
+                        'inline'=>false
+                    ]
+                ],
             ]
-        ]);
+        ];
+        $this->dispatch(new ProcessEmbedPosting([env('WEBHOOK_INFOS')],$embed,null));
+
         return \response()->json(['status'=>'OK', 'accessRight'=>$user->grade_id>1],201);
     }
 
@@ -98,38 +98,35 @@ class UserConnexionController extends Controller
             Auth::login($newuser);
             Session::push('user_grade', $newuser->GetGrade);
             if(Auth::check()){
-                Http::post(env('WEBHOOK_BUGS'),[
-                    'username'=> "lscofd - MDT | " . env('APP_ENV'),
-                    'avatar_url'=>'https://lscofd.simon-lou.com/assets/images/lscofd.png',
-                    'embeds'=>[
-                        [
-                            'title'=>'Compte créé :',
-                            'color'=>'13436400 ',
-                            'fields'=>[
-                                [
-                                    'name'=>'Nom : ',
-                                    'value'=>$newuser->name,
-                                    'inline'=>false
-                                ],[
-                                    'name'=>'ID : ',
-                                    'value'=>$newuser->id,
-                                    'inline'=>false
-                                ],[
-                                    'name'=>'email : ',
-                                    'value'=>$newuser->email,
-                                    'inline'=>false
-                                ],[
-                                    'name'=>'IP : ',
-                                    'value'=>$request->ip(),
-                                    'inline'=>false
-                                ]
-                            ],
-                            'footer'=>[
-                                'text' => date('d/m/Y H:i:s'),
+                $embed = [
+                    [
+                        'title'=>'Compte créé : (environement : ' . env('APP_ENV') . ')',
+                        'color'=>'13436400 ',
+                        'fields'=>[
+                            [
+                                'name'=>'Nom : ',
+                                'value'=>$newuser->name,
+                                'inline'=>false
+                            ],[
+                                'name'=>'ID : ',
+                                'value'=>$newuser->id,
+                                'inline'=>false
+                            ],[
+                                'name'=>'email : ',
+                                'value'=>$newuser->email,
+                                'inline'=>false
+                            ],[
+                                'name'=>'IP : ',
+                                'value'=>$request->ip(),
+                                'inline'=>false
                             ]
+                        ],
+                        'footer'=>[
+                            'text' => date('d/m/Y H:i:s'),
                         ]
                     ]
-                ]);
+                ];
+                $this->dispatch(new ProcessEmbedPosting([env('WEBHOOK_BUGS')], $embed, null));
 
                 return response()->json([
                     'status' => 'OK',

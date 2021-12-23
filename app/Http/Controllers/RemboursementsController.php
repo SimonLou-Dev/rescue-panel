@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Events\Notify;
 use App\Http\Controllers\Service\OperatorController;
 use App\Http\Controllers\Service\ServiceGetterController;
+use App\Jobs\ProcessEmbedPosting;
 use App\Models\ObjRemboursement;
 use App\Models\RemboursementList;
 use App\Models\WeekRemboursement;
@@ -51,26 +52,24 @@ class RemboursementsController extends Controller
         $rmbsem->week_number = ServiceGetterController::getWeekNumber();
         $rmbsem->save();
         $userRemboursements->save();
-        Http::post(env('WEBHOOK_REMBOURSEMENTS'), [
-            'username'=> "LSCoFD - MDT",
-            'avatar_url'=>'https://lscofd.simon-lou.com/assets/images/LSCoFD.png',
-            'embeds'=>[
-                [
-                    'title'=>'Ajout d\'un remboursement :',
-                    'color'=>'16745560 ',
-                    'fields'=>[
-                        [
-                            'name'=>'Item : ',
-                            'value'=>$item->name . '($' . $item->price . ')',
-                            'inline'=>true
-                        ]
-                    ],
-                    'footer'=>[
-                        'text' => 'Membre : ' . Auth::user()->name
+        $embed = [
+            [
+                'title'=>'Ajout d\'un remboursement :',
+                'color'=>'16745560 ',
+                'fields'=>[
+                    [
+                        'name'=>'Item : ',
+                        'value'=>$item->name . '($' . $item->price . ')',
+                        'inline'=>true
                     ]
+                ],
+                'footer'=>[
+                    'text' => 'Membre : ' . Auth::user()->name
                 ]
             ]
-        ]);
+        ];
+
+        $this->dispatch(new ProcessEmbedPosting([env('WEBHOOK_REMBOURSEMENTS')],$embed, null));
 
 
         event(new Notify('Remboursement pris en compte',1));
@@ -84,26 +83,24 @@ class RemboursementsController extends Controller
         $userRemboursement = WeekRemboursement::where('user_id', Auth::user()->id)->where('week_number', ServiceGetterController::getWeekNumber())->first();
         $userRemboursement->total = (int) $userRemboursement->total -  (int) $item->getItem->price;
         $userRemboursement->save();
-        Http::post(env('WEBHOOK_REMBOURSEMENTS'), [
-            'username'=> "LSCoFD - MDT",
-            'avatar_url'=>'https://lscofd.simon-lou.com/assets/images/LSCoFD.png',
-            'embeds'=>[
-                [
-                    'title'=>'Suppression d\'un remboursement :',
-                    'color'=>'16745560 ',
-                    'fields'=>[
-                        [
-                            'name'=>'Item : ',
-                            'value'=>$item->name . '($' . $item->price . ')',
-                            'inline'=>true
-                        ]
-                    ],
-                    'footer'=>[
-                        'text' => 'Membre : ' . Auth::user()->name
+        $embed = [
+            [
+                'title'=>'Suppression d\'un remboursement :',
+                'color'=>'16745560 ',
+                'fields'=>[
+                    [
+                        'name'=>'Item : ',
+                        'value'=>$item->name . '($' . $item->price . ')',
+                        'inline'=>true
                     ]
+                ],
+                'footer'=>[
+                    'text' => 'Membre : ' . Auth::user()->name
                 ]
             ]
-        ]);
+        ];
+
+        $this->dispatch(new ProcessEmbedPosting([env('WEBHOOK_REMBOURSEMENTS')],$embed, null));
 
         $item->delete();
         event(new Notify('Remboursement supprimé',1));

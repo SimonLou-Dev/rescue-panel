@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Events\Notify;
 use App\Http\Controllers\Service\ServiceGetterController;
+use App\Jobs\ProcessEmbedPosting;
 use App\Models\ModifyServiceReq;
 use App\Models\Prime;
 use App\Models\PrimeItem;
@@ -21,30 +22,28 @@ class PrimesController extends Controller
         $prime->item_id = $primeId;
         $prime->accepted = true;
         $prime->save();
-        Http::post(env('WEBHOOK_MONEY'),[
-            'username'=> "LSCoFD - MDT",
-            'avatar_url'=>'https://lscofd.simon-lou.com/assets/images/LSCoFD.png',
-            'embeds'=>[
-                [
-                    'title'=>'Prime Validée :',
-                    'color'=>'1285790',
-                    'fields'=>[
-                        [
-                            'name'=>'Personnel : ',
-                            'value'=>$prime->getUser->name,
-                            'inline'=>false
-                        ],[
-                            'name'=>'Prime : ',
-                            'value'=>'$' .  $prime->getItem->montant . ' ' . $prime->getItem->name,
-                            'inline'=>false
-                        ]
-                    ],
-                    'footer'=>[
-                        'text' => 'Validée par : ' . Auth::user()->name,
+
+        $embed = [
+            [
+                'title'=>'Prime Validée :',
+                'color'=>'1285790',
+                'fields'=>[
+                    [
+                        'name'=>'Personnel : ',
+                        'value'=>$prime->getUser->name,
+                        'inline'=>false
+                    ],[
+                        'name'=>'Prime : ',
+                        'value'=>'$' .  $prime->getItem->montant . ' ' . $prime->getItem->name,
+                        'inline'=>false
                     ]
+                ],
+                'footer'=>[
+                    'text' => 'Validée par : MDT',
                 ]
             ]
-        ]);
+        ];
+        dispatch(new ProcessEmbedPosting([env('WEBHOOK_MONEY')], $embed, null));
     }
 
     public function addReqPrimes(request $request){
@@ -65,30 +64,29 @@ class PrimesController extends Controller
 
         event(new Notify('Prime acceptée',1));
 
-        Http::post(env('WEBHOOK_MONEY'),[
-            'username'=> "LSCoFD - MDT",
-            'avatar_url'=>'https://lscofd.simon-lou.com/assets/images/LSCoFD.png',
-            'embeds'=>[
-                [
-                    'title'=>'Prime Validée :',
-                    'color'=>'1285790',
-                    'fields'=>[
-                        [
-                            'name'=>'Personnel : ',
-                            'value'=>$prime->getUser->name,
-                            'inline'=>false
-                        ],[
-                            'name'=>'Prime : ',
-                            'value'=>'$' .  $prime->getItem->montant . ' ' . $prime->getItem->name,
-                            'inline'=>false
-                        ]
-                    ],
-                    'footer'=>[
-                        'text' => 'Validée par : ' . Auth::user()->name,
+        $embed = [
+            [
+                'title'=>'Prime Validée :',
+                'color'=>'1285790',
+                'fields'=>[
+                    [
+                        'name'=>'Personnel : ',
+                        'value'=>$prime->getUser->name,
+                        'inline'=>false
+                    ],[
+                        'name'=>'Prime : ',
+                        'value'=>'$' .  $prime->getItem->montant . ' ' . $prime->getItem->name,
+                        'inline'=>false
                     ]
+                ],
+                'footer'=>[
+                    'text' => 'Validée par : ' . Auth::user()->name,
                 ]
             ]
-        ]);
+        ];
+
+        $this->dispatch(new ProcessEmbedPosting([env('WEBHOOK_MONEY')],$embed, null));
+
 
         return response()->json([],201);
     }

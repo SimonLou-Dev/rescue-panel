@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Users;
 use _HumbugBox15516bb2b566\Nette\Utils\DateTime;
 use App\Events\Notify;
 use App\Http\Controllers\Controller;
+use App\Jobs\ProcessEmbedPosting;
 use App\Models\Grade;
 use App\Models\Intervention;
 use App\Models\LogServiceState;
@@ -291,13 +292,7 @@ class UserController extends Controller
 
         $user->save();
 
-        Http::post(env('WEBHOOK_SANCTIONS'),[
-            'username'=> "LSCoFD- MDT",
-            'avatar_url'=>'https://lscofd.simon-lou.com/assets/images/LSCoFD.png',
-            'content'=>$final
-
-        ]);
-
+        $this->dispatch(new ProcessEmbedPosting([env('WEBHOOK_SANCTIONS')], [], $final));
 
         return \response()->json(['status'=>'ok'],201);
 
@@ -329,43 +324,35 @@ class UserController extends Controller
                 $attribute .= (empty($attribute) ? $keys[$a] : ', '.$keys[$a]);
             }
         }
-
-
-
-        Http::post(env('WEBHOOK_LOGISTIQUE'),[
-            'username'=> "LSCoFD - MDT",
-            'avatar_url'=>'https://lscofd.simon-lou.com/assets/images/LSCoFD.png',
-            'embeds'=>[
-                [
-                    'title'=>$title,
-                    'color'=>'752251',
-                    "thumbnail"=> [
-                        "url"=> "https://media.discordapp.net/attachments/772181497515737149/846364157821321256/bodyArmor-bulletproof-kevlar-vest-512.png"
-                    ],
-                    'fields'=>[
-                        [
-                            'name'=>'Matricule : ',
-                            'value'=>($user->matricule != null ? $user->matricule : 'non définie'),
-                            'inline'=>false
-                        ],[
-                            'name'=>'Prénom nom : ',
-                            'value'=>$user->name,
-                            'inline'=>false
-                        ],[
-                            'name'=>'Item attribués : ',
-                            'value'=>$attribute,
-                            'inline'=>false
-                        ],[
-                            'name'=>'email : ',
-                            'value'=>($user->discord_id != null ? '<@'.$user->discord_id.'>' : 'non définie'),
-                            'inline'=>false
-                        ]
-                    ],
-                ]
-            ],
-
-        ]);
-
+        $embed = [
+            [
+                'title'=>$title,
+                'color'=>'752251',
+                "thumbnail"=> [
+                    "url"=> "https://media.discordapp.net/attachments/772181497515737149/846364157821321256/bodyArmor-bulletproof-kevlar-vest-512.png"
+                ],
+                'fields'=>[
+                    [
+                        'name'=>'Matricule : ',
+                        'value'=>($user->matricule != null ? $user->matricule : 'non définie'),
+                        'inline'=>false
+                    ],[
+                        'name'=>'Prénom nom : ',
+                        'value'=>$user->name,
+                        'inline'=>false
+                    ],[
+                        'name'=>'Item attribués : ',
+                        'value'=>$attribute,
+                        'inline'=>false
+                    ],[
+                        'name'=>'email : ',
+                        'value'=>($user->discord_id != null ? '<@'.$user->discord_id.'>' : 'non définie'),
+                        'inline'=>false
+                    ]
+                ],
+            ]
+        ];
+        $this->dispatch(new ProcessEmbedPosting([env('WEBHOOK_LOGISTIQUE')], $embed, null));
 
         return \response()->json([
             'status'=>'ok',
@@ -385,11 +372,9 @@ class UserController extends Controller
         event(new Notify('La démission a été prise en compte',1));
         $prononcer = User::where('id', Auth::user()->id)->first();
 
-        Http::post(env('WEBHOOK_SANCTIONS'),[
-            'username'=> "LSCoFD - MDT",
-            'avatar_url'=>'https://lscofd.simon-lou.com/assets/images/LSCoFD.png',
-            'content'=>">>> ***__Démission :__*** \n **__Personnel :__** " . ($user->discord_id != null ? ("<@" . $user->discord_id . "> ") : "") . $user->name . "\n **__Déclaré par :__** ".$prononcer->name
-        ]);
+        $this->dispatch(new ProcessEmbedPosting([env('WEBHOOK_SANCTIONS')], [],
+            ">>> ***__Démission :__*** \n **__Personnel :__** " . ($user->discord_id != null ? ("<@" . $user->discord_id . "> ") : "") . $user->name . "\n **__Déclaré par :__** ".$prononcer->name
+        ));
 
     }
 

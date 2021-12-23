@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Rapports;
 
 use App\Events\Notify;
 use App\Http\Controllers\Controller;
+use App\Jobs\ProcessEmbedPosting;
 use App\Models\Facture;
 use App\Models\Patient;
 use Illuminate\Http\Request;
@@ -103,30 +104,27 @@ class FacturesController extends Controller
         $facture = Facture::where('id', $id)->first();
         $facture->payed = true;
         $facture->save();
-        Http::post(env('WEBHOOK_FACTURE'),[
-            'username'=> "LSCoFD - MDT",
-            'avatar_url'=>'https://lscofd.simon-lou.com/assets/images/LSCoFD.png',
-            'embeds'=>[
-                [
-                    'title'=>'Facture payée :',
-                    'color'=>'13436400 ',
-                    'fields'=>[
-                        [
-                            'name'=>'Patient : ',
-                            'value'=>$facture->GetPatient->vorname . ' '.$facture->GetPatient->name,
-                            'inline'=>true
-                        ],[
-                            'name'=>'Montant : ',
-                            'value'=>$facture->price .'$',
-                            'inline'=>true
-                        ]
-                    ],
-                    'footer'=>[
-                        'text' => 'Confirmation de payement : ' . Auth::user()->name
+        $embed = [
+            [
+                'title'=>'Facture payée :',
+                'color'=>'13436400 ',
+                'fields'=>[
+                    [
+                        'name'=>'Patient : ',
+                        'value'=>$facture->GetPatient->vorname . ' '.$facture->GetPatient->name,
+                        'inline'=>true
+                    ],[
+                        'name'=>'Montant : ',
+                        'value'=>$facture->price .'$',
+                        'inline'=>true
                     ]
+                ],
+                'footer'=>[
+                    'text' => 'Confirmation de payement : ' . Auth::user()->name
                 ]
             ]
-        ]);
+        ];
+        $this->dispatch(new ProcessEmbedPosting([env('WEBHOOK_FACTURE')], $embed, null));
         event(new Notify('Facture payée ! ',2));
         return response()->json(['status'=>'OK']);
     }

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 
 use App\Events\Notify;
+use App\Jobs\ProcessEmbedPosting;
 use App\Models\User;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -65,35 +66,34 @@ class AccountController extends Controller
             $changed = true;
         }
         if($changed){
-            Http::post(env('WEBHOOK_INFOS'),[
-                'username'=> "LSCoFD- MDT",
-                'avatar_url'=>'https://lscofd.simon-lou.com/assets/images/LSCoFD.png',
-                'embeds'=>[
-                    [
-                        'title'=>"Numéro de compte *(Changement d'informations)*",
-                        'color'=>'16776960',
-                        'fields'=>[
-                            [
-                                'name'=>'Prénom Nom : ',
-                                'value'=>($nameC ? '~~'.$user->name.'~~ ' : '') . $name,
-                                'inline'=>false
-                            ],[
-                                'name'=>'Numéro de téléphone : ',
-                                'value'=> ($telC ? '~~'.$user->tel.'~~ ' : '') . $tel,
-                                'inline'=>false
-                            ],[
-                                'name'=>'Conté habité : ',
-                                'value'=>($liveplaceC ? '~~'.$user->liveplace.'~~ ' : '') . $liveplace,
-                                'inline'=>false
-                            ],[
-                                'name'=>'Numéro de compte : ',
-                                'value'=> ($compteC ? '~~'.$user->compte.'~~ ' : '') . $compte,
-                                'inline'=>false
-                            ]
-                        ],
-                    ]
+            $embed = [
+                [
+                    'title'=>"Numéro de compte *(Changement d'informations)*",
+                    'color'=>'16776960',
+                    'fields'=>[
+                        [
+                            'name'=>'Prénom Nom : ',
+                            'value'=>($nameC ? '~~'.$user->name.'~~ ' : '') . $name,
+                            'inline'=>false
+                        ],[
+                            'name'=>'Numéro de téléphone : ',
+                            'value'=> ($telC ? '~~'.$user->tel.'~~ ' : '') . $tel,
+                            'inline'=>false
+                        ],[
+                            'name'=>'Conté habité : ',
+                            'value'=>($liveplaceC ? '~~'.$user->liveplace.'~~ ' : '') . $liveplace,
+                            'inline'=>false
+                        ],[
+                            'name'=>'Numéro de compte : ',
+                            'value'=> ($compteC ? '~~'.$user->compte.'~~ ' : '') . $compte,
+                            'inline'=>false
+                        ]
+                    ],
                 ]
-            ]);
+            ];
+            $this->dispatch(new ProcessEmbedPosting([env('WEBHOOK_INFOS')], $embed, null));
+
+
         }
         $user->name = $name;
         $user->compte = $compte;

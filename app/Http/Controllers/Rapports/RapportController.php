@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Rapports;
 
 use App\Events\Notify;
 use App\Http\Controllers\Controller;
+use App\Jobs\ProcessEmbedPosting;
 use App\Jobs\ProcessRapportPDFGenerator;
 use App\Models\Facture;
 use App\Models\Factures;
@@ -99,52 +100,50 @@ class RapportController extends Controller
             $fact= 'Impayée : ' . $request->montant;
         }
         $user = Auth::user()->name;
-
-        Http::post(env('WEBHOOK_RI'),[
-            'username'=> "LSCoFD - MDT",
-            'avatar_url'=>'https://lscofd.simon-lou.com/assets/images/LSCoFD.png',
-            'embeds'=>[
-                [
-                    'title'=>'Ajout d\'un rapport :',
-                    'color'=>'1285790',
-                    'fields'=>[
-                        [
-                            'name'=>'Patient : ',
-                            'value'=>$patientname[0] . ' ' .$patientname[1],
-                            'inline'=>true
-                        ],[
-                            'name'=>'Type d\'intervention : ',
-                            'value'=> Intervention::where('id', $request->type)->first()->name,
-                            'inline'=>true
-                        ],[
-                            'name'=>'Transport : ',
-                            'value'=>$rapport->GetTransport->name,
-                            'inline'=>true
-                        ],[
-                            'name'=>'ATA : ',
-                            'value'=>$ata,
-                            'inline'=>false
-                        ],[
-                            'name'=>'Facture : ',
-                            'value'=>$fact.'$',
-                            'inline'=>false
-                        ],[
-                            'name'=>"Debut de l'intervention : ",
-                            'value'=>date('d/m/y H:I', strtotime($rapport->started_at)),
-                            'inline'=>false
-                        ]
-                        ,[
-                            'name'=>'Description : ',
-                            'value'=>$rapport->description,
-                            'inline'=>false
-                        ]
-                    ],
-                    'footer'=>[
-                        'text' => 'Rapport de : ' . Auth::user()->name,
+        $embed = [
+            [
+                'title'=>'Ajout d\'un rapport :',
+                'color'=>'1285790',
+                'fields'=>[
+                    [
+                        'name'=>'Patient : ',
+                        'value'=>$patientname[0] . ' ' .$patientname[1],
+                        'inline'=>true
+                    ],[
+                        'name'=>'Type d\'intervention : ',
+                        'value'=> Intervention::where('id', $request->type)->first()->name,
+                        'inline'=>true
+                    ],[
+                        'name'=>'Transport : ',
+                        'value'=>$rapport->GetTransport->name,
+                        'inline'=>true
+                    ],[
+                        'name'=>'ATA : ',
+                        'value'=>$ata,
+                        'inline'=>false
+                    ],[
+                        'name'=>'Facture : ',
+                        'value'=>$fact.'$',
+                        'inline'=>false
+                    ],[
+                        'name'=>"Debut de l'intervention : ",
+                        'value'=>date('d/m/y H:I', strtotime($rapport->started_at)),
+                        'inline'=>false
                     ]
+                    ,[
+                        'name'=>'Description : ',
+                        'value'=>$rapport->description,
+                        'inline'=>false
+                    ]
+                ],
+                'footer'=>[
+                    'text' => 'Rapport de : ' . Auth::user()->name,
                 ]
             ]
-        ]);
+        ];
+        $this->dispatch(new ProcessEmbedPosting([env('WEBHOOK_RI')],$embed,null));
+
+
         $path = '/public/RI/'. $rapport->id . ".pdf";
         $this->dispatch(new ProcessRapportPDFGenerator($rapport, $path));
 
@@ -167,8 +166,6 @@ class RapportController extends Controller
             event(new Notify('Il n\'y a pas de description'));
             return \response([],404);
         }
-
-
         $rapport = Rapport::where('id', $id)->first();
         $facture = $rapport->GetFacture;
         $facture->price = (integer) $request->montant;

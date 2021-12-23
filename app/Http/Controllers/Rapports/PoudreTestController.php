@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Rapports;
 
 use App\Events\Notify;
 use App\Http\Controllers\Controller;
+use App\Jobs\ProcessEmbedPosting;
 use App\Jobs\ProcesTestPoudrePDFGen;
 use App\Jobs\ProcesTestPoudrePDFGenerator;
 use App\Models\Intervention;
@@ -73,59 +74,56 @@ class PoudreTestController extends Controller
         $tester = User::where('id', Auth::id())->first();
         $path = 'public/test/poudre/'. $test->id . ".pdf";
         $this->dispatch(new ProcesTestPoudrePDFGenerator($test, $path));
-
-        Http::post(env('WEBHOOK_POUDRE'),[
-            'username'=> "LSCoFD - MDT",
-            'avatar_url'=>'https://lscofd.simon-lou.com/assets/images/LSCoFD.png',
-            'embeds'=>[
-                [
-                    'title'=>'Résultat d\'un tes de poudre du BCFD :',
-                    'color'=>'1285790',
-                    'fields'=>[
-                        [
-                            'name'=>'Patient : ',
-                            'value'=>$explode[0] . ' ' .$explode[1],
-                            'inline'=>true
-                        ],[
-                            'name'=>'Contact patient : ',
-                            'value'=> $Patient->tel,
-                            'inline'=>true
-                        ],[
-                            'name'=>'Date de naissance : ',
-                            'value'=>date('d/m/Y', strtotime($request->DDN)),
-                            'inline'=>true
-                        ],[
-                            'name'=>'Lieux de résidence : ',
-                            'value'=>($request->liveplace ? 'BC':'LS'),
-                            'inline'=>false
-                        ],[
-                            'name'=>'Reaction sur la peau : ',
-                            'value'=>($request->peau ? 'Positif': 'Négatif'),
-                            'inline'=>false
-                        ],[
-                            'name'=>'Reaction sur les vetements : ',
-                            'value'=>($request->vetements ? 'Positif': 'Négatif'),
-                            'inline'=>false
-                        ],[
-                            'name'=>'Date et heure du test : ',
-                            'value'=>date('d/m/Y à H:i'),
-                            'inline'=>false
-                        ],[
-                            'name'=>'Lieux de prise en charge : ',
-                            'value'=>$request->lieux,
-                            'inline'=>true
-                        ],[
-                            'name'=>'Personnel en charge : ',
-                            'value'=>$tester->name,
-                            'inline'=>true
-                        ]
-                    ],
-                    'footer'=>[
-                        'text' => 'Service de Biologie du LSCoFD ',
+        $embed = [
+            [
+                'title'=>'Résultat d\'un tes de poudre du BCFD :',
+                'color'=>'1285790',
+                'fields'=>[
+                    [
+                        'name'=>'Patient : ',
+                        'value'=>$explode[0] . ' ' .$explode[1],
+                        'inline'=>true
+                    ],[
+                        'name'=>'Contact patient : ',
+                        'value'=> $Patient->tel,
+                        'inline'=>true
+                    ],[
+                        'name'=>'Date de naissance : ',
+                        'value'=>date('d/m/Y', strtotime($request->DDN)),
+                        'inline'=>true
+                    ],[
+                        'name'=>'Lieux de résidence : ',
+                        'value'=>($request->liveplace ? 'BC':'LS'),
+                        'inline'=>false
+                    ],[
+                        'name'=>'Reaction sur la peau : ',
+                        'value'=>($request->peau ? 'Positif': 'Négatif'),
+                        'inline'=>false
+                    ],[
+                        'name'=>'Reaction sur les vetements : ',
+                        'value'=>($request->vetements ? 'Positif': 'Négatif'),
+                        'inline'=>false
+                    ],[
+                        'name'=>'Date et heure du test : ',
+                        'value'=>date('d/m/Y à H:i'),
+                        'inline'=>false
+                    ],[
+                        'name'=>'Lieux de prise en charge : ',
+                        'value'=>$request->lieux,
+                        'inline'=>true
+                    ],[
+                        'name'=>'Personnel en charge : ',
+                        'value'=>$tester->name,
+                        'inline'=>true
                     ]
+                ],
+                'footer'=>[
+                    'text' => 'Service de Biologie du LSCoFD ',
                 ]
             ]
-        ]);
+        ];
+        $this->dispatch(new ProcessEmbedPosting([env('WEBHOOK_POUDRE')], $embed, null));
+
 
         event(new Notify('Test enregistré',1));
 
