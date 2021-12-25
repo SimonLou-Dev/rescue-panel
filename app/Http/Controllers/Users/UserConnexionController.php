@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Users;
 
 use App\Events\Notify;
+use App\Events\UserRegisterEvent;
 use App\Http\Controllers\Controller;
 use App\Jobs\ProcessEmbedBCGenerator;
 use App\Jobs\ProcessEmbedPosting;
@@ -95,6 +96,7 @@ class UserConnexionController extends Controller
             $createuser->password = Hash::make($psw);
             $createuser->save();
             $newuser = User::where('email', $mail)->first();
+            UserRegisterEvent::dispatch($createuser);
             Auth::login($newuser);
             Session::push('user_grade', $newuser->GetGrade);
             if(Auth::check()){

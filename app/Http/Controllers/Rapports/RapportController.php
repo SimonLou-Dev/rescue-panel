@@ -99,7 +99,7 @@ class RapportController extends Controller
         }else{
             $fact= 'Impayée : ' . $request->montant;
         }
-        $user = Auth::user()->name;
+        $path = '/public/RI/'. $rapport->id . ".pdf";
         $embed = [
             [
                 'title'=>'Ajout d\'un rapport :',
@@ -134,6 +134,9 @@ class RapportController extends Controller
                         'name'=>'Description : ',
                         'value'=>$rapport->description,
                         'inline'=>false
+                    ],[
+                        'name'=>'PDF',
+                        'value'=>":link: [`PDF`](".env('APP_URL').'/storage/RI/'.$rapport->id . ".pdf)"
                     ]
                 ],
                 'footer'=>[
@@ -143,8 +146,6 @@ class RapportController extends Controller
         ];
         $this->dispatch(new ProcessEmbedPosting([env('WEBHOOK_RI')],$embed,null));
 
-
-        $path = '/public/RI/'. $rapport->id . ".pdf";
         $this->dispatch(new ProcessRapportPDFGenerator($rapport, $path));
 
         event(new Notify('Rapport ajouté ! ',1));

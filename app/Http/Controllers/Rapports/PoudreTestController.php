@@ -115,6 +115,9 @@ class PoudreTestController extends Controller
                         'name'=>'Personnel en charge : ',
                         'value'=>$tester->name,
                         'inline'=>true
+                    ],[
+                        'name'=>'PDF',
+                        'value'=>":link: [`PDF`](".env('APP_URL').'/storage/test/poudre/'.$test->id . ".pdf)"
                     ]
                 ],
                 'footer'=>[
