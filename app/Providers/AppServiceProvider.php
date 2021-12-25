@@ -24,6 +24,10 @@ class AppServiceProvider extends ServiceProvider
                 $app->get('cache.store')
             );
         });
+        if($this->app->environment('local')){
+            $this->app->register(\Laravel\Telescope\TelescopeServiceProvider::class);
+            $this->app->register(TelescopeServiceProvider::class);
+        }
     }
 
     /**
