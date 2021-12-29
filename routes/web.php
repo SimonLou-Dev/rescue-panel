@@ -17,7 +17,6 @@ use App\Http\Controllers\Service\ServiceSetterController;
 use App\Http\Controllers\Users\CredentialController;
 use App\Http\Controllers\VolController;
 use App\Http\Controllers\BlackCodes\BCController;
-use App\Http\Controllers\BlackCodes\BcEmbedController;
 use App\Http\Controllers\BlackCodes\BlesseController;
 use App\Http\Controllers\BlackCodes\PersonnelController;
 use App\Http\Controllers\Formations\AdminController;
@@ -31,8 +30,6 @@ use App\Http\Controllers\Rapports\RapportController;
 use App\Http\Controllers\Users\UserConnexionController;
 use App\Http\Controllers\Users\UserController;
 use App\Http\Controllers\Users\UserGradeController;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Route;
 
 /*

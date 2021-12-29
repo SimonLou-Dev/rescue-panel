@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Events\Notify;
+use App\Jobs\ProcessEmbedPosting;
 use App\Models\LieuxSurvol;
 use App\Models\User;
 use App\Models\Vol;
@@ -79,30 +80,29 @@ class VolController extends Controller
 
         event(new Notify('Votre vol est pris en compte',1));
 
-        Http::post(env('WEBHOOK_VOLS'),[
-            'username'=> "LSCoFD - MDT",
-            'avatar_url'=>'https://lscofd.simon-lou.com/assets/images/LSCoFD.png',
-            'embeds'=>[
-                [
-                    'title'=>'hélicoptère déployé ',
-                    'color'=>'15158332',
-                    'fields'=>[
-                        [
-                            'name'=>'Secteur : ',
-                            'value'=>$lieux->name,
-                            'inline'=>true
-                        ],[
-                            'name'=>'Motif : ',
-                            'value'=>$request->raison,
-                            'inline'=>true
-                        ]
-                    ],
-                    'footer'=>[
-                        'text' => 'Pilote : ' . Auth::user()->name
+        $embeds = [
+            [
+                'title'=>'hélicoptère déployé ',
+                'color'=>'15158332',
+                'fields'=>[
+                    [
+                        'name'=>'Secteur : ',
+                        'value'=>$lieux->name,
+                        'inline'=>true
+                    ],[
+                        'name'=>'Motif : ',
+                        'value'=>$request->raison,
+                        'inline'=>true
                     ]
+                ],
+                'footer'=>[
+                    'text' => 'Pilote : ' . Auth::user()->name
                 ]
             ]
-        ]);
+        ];
+        $this->dispatch(new ProcessEmbedPosting(env('WEBHOOK_VOLS'), $embeds));
+
+
 
         return response()->json(['status'=>'OK'],201);
 

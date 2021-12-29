@@ -13,15 +13,16 @@ class ProcessEmbedPosting implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
+
     /**
-     * Create a new job instance.
-     *
-     * @return void
+     * @param array|string $webhooks
+     * @param array $embedscontent
+     * @param array|null $messagecontent
      */
     public function __construct(
-        private array  $webhooks,
+        private array|string  $webhooks,
         private array  $embedscontent,
-        private ?array $messagecontent
+        private ?array $messagecontent = null
     ){
 
         $this->onQueue('discord');
@@ -34,17 +35,22 @@ class ProcessEmbedPosting implements ShouldQueue
      */
     public function handle()
     {
-
-
-         foreach ($this->webhooks as $webhook){
-            Http::post($webhook,[
-                'username'=> "LSCoFD - MDT",
-                'avatar_url'=>'https://lscofd.simon-lou.com/assets/images/LSCoFD.png',
-                'embeds'=>$this->embedscontent,
-                'content'=>is_null($this->messagecontent) ? '' :  $this->messagecontent,
-            ]);
+        if(is_array($this->webhooks)){
+            foreach ($this->webhooks as $webhook){
+                $this->EmbedPoster($webhook);
+            }
+        }else{
+            $this->EmbedPoster($this->webhooks);
         }
-
-
     }
+
+    private function EmbedPoster(string $webhook){
+        Http::post($webhook,[
+            'username'=> "LSCoFD - MDT",
+            'avatar_url'=>'https://lscofd.simon-lou.com/assets/images/LSCoFD.png',
+            'embeds'=>$this->embedscontent,
+            'content'=>is_null($this->messagecontent) ? '' :  $this->messagecontent,
+        ]);
+    }
+
 }
