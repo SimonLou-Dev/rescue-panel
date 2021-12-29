@@ -34,6 +34,7 @@ class PrimesRequestAdmin extends React.Component {
                             <thead>
                             <tr>
                                 <th>personnel</th>
+                                <th>date</th>
                                 <th>semaine</th>
                                 <th>montant</th>
                                 <th>raison</th>
@@ -46,6 +47,7 @@ class PrimesRequestAdmin extends React.Component {
                                 <tr key={req.id}>
                                     <td>{req.get_user.name}</td>
                                     <td>{req.week_number}</td>
+                                    <td>{req.date}</td>
                                     <td>${req.get_item.montant}</td>
                                     <td>{req.get_item.name}</td>
                                     <td>{req.accepted === null ? 'en attente' : (req.accepted === 1 ? 'acceptée' : 'refusée') }</td>
@@ -57,7 +59,7 @@ class PrimesRequestAdmin extends React.Component {
                                         }).then(() => this.componentDidMount())
                                     }}>accepter</button>
                                     }
-                                        {!req.accepted === null &&
+                                        {req.accepted === null &&
                                         <button className={'btn'} onClick={async () => {
                                             await axios({
                                                 method: 'PUT',
