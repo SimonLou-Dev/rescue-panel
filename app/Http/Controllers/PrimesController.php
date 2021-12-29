@@ -109,6 +109,7 @@ class PrimesController extends Controller
             $primes = Prime::take(100)->orderBy('id','desc')->get();
         }
         foreach ($primes as $prime){
+            $prime->date = date('d/m/Y à H:i', strtotime($prime->created_at));
             $prime->getItem;
             $prime->getUser;
         }
