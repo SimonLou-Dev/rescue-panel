@@ -87,8 +87,8 @@ class OperatorController extends Controller
             $formated = explode(':', $formated);
             if($admin){
                 Http::post(env('WEBHOOK_SERVICE') ,[
-                    'username'=> "BCFD - MDT",
-                    'avatar_url'=>'https://bcfd.simon-lou.com/assets/images/BCFD.png',
+                    'username'=> "LSCoFD - MDT",
+                    'avatar_url'=>'https://lscofd.simon-lou.com/assets/images/LSCoFD.png',
                     'embeds'=>[
                         [
                             'title'=>'Fin de service de ' . $user->name,
@@ -102,8 +102,8 @@ class OperatorController extends Controller
                 ]);
             }else{
                 Http::post(env('WEBHOOK_SERVICE'),[
-                    'username'=> "BCFD - MDT",
-                    'avatar_url'=>'https://bcfd.simon-lou.com/assets/images/BCFD.png',
+                    'username'=> "LSCoFD - MDT",
+                    'avatar_url'=>'https://lscofd.simon-lou.com/assets/images/LSCoFD.png',
                     'embeds'=>[
                         [
                             'title'=>'Fin de service de ' . $user->name,
@@ -125,8 +125,8 @@ class OperatorController extends Controller
             Auth::user()->service = true;
             if($admin){
                 Http::post(env('WEBHOOK_SERVICE'),[
-                    'username'=> "BCFD - MDT",
-                    'avatar_url'=>'https://bcfd.simon-lou.com/assets/images/BCFD.png',
+                    'username'=> "LSCoFD - MDT",
+                    'avatar_url'=>'https://lscofd.simon-lou.com/assets/images/LSCoFD.png',
                     'embeds'=>[
                         [
                             'title'=>'Prise de service de ' . $user->name,
@@ -139,8 +139,8 @@ class OperatorController extends Controller
                 ]);
             }else{
                 Http::post(env('WEBHOOK_SERVICE'),[
-                    'username'=> "BCFD - MDT",
-                    'avatar_url'=>'https://bcfd.simon-lou.com/assets/images/BCFD.png',
+                    'username'=> "LSCoFD - MDT",
+                    'avatar_url'=>'https://lscofd.simon-lou.com/assets/images/LSCoFD.png',
                     'embeds'=>[
                         [
                             'title'=>'Prise de service de ' . $user->name,

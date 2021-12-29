@@ -32,6 +32,7 @@ use Psy\Util\Json;
  * @property int last_service_update
  * @method static where(string $column, string $operator = null, mixed $value = null)
  * @method static orderByDesc(string $string)
+ * @method static orderBy(string $column, string $sens)
  *
  */
 class User extends Authenticatable

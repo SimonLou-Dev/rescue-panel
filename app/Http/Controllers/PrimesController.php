@@ -22,8 +22,8 @@ class PrimesController extends Controller
         $prime->accepted = true;
         $prime->save();
         Http::post(env('WEBHOOK_MONEY'),[
-            'username'=> "BCFD - MDT",
-            'avatar_url'=>'https://bcfd.simon-lou.com/assets/images/BCFD.png',
+            'username'=> "LSCoFD - MDT",
+            'avatar_url'=>'https://lscofd.simon-lou.com/assets/images/LSCoFD.png',
             'embeds'=>[
                 [
                     'title'=>'Prime Validée :',
@@ -66,8 +66,8 @@ class PrimesController extends Controller
         event(new Notify('Prime acceptée',1));
 
         Http::post(env('WEBHOOK_MONEY'),[
-            'username'=> "BCFD - MDT",
-            'avatar_url'=>'https://bcfd.simon-lou.com/assets/images/BCFD.png',
+            'username'=> "LSCoFD - MDT",
+            'avatar_url'=>'https://lscofd.simon-lou.com/assets/images/LSCoFD.png',
             'embeds'=>[
                 [
                     'title'=>'Prime Validée :',

@@ -6,87 +6,68 @@ pipeline {
         validateDeclarativePipeline 'Jenkinsfile'
         sh 'php -v'
         sh 'php -i'
+        sh "rm .env"
       }
     }
 
-    stage('SetUp & scan') {
-      parallel {
-        stage('Build') {
-          environment {
-            DB_HOST = credentials('DB-Host')
-            DB_USERNAME = credentials('DB_user')
-            DB_PASSWORD = credentials('DB_PASS')
-          }
-          steps {
-            sh 'php --version'
-            sh 'composer install'
-            sh 'composer --version'
-            sh 'cp .env.example .env'
-            sh 'echo DB_HOST=${DB_HOST} >> .env'
-            sh 'echo DB_USERNAME=${DB_USERNAME} >> .env'
-            sh 'echo DB_DATABASE=pre_BCFD >> .env'
-            sh 'echo DB_PASSWORD=${DB_PASSWORD} >> .env'
-            sh 'php artisan key:generate'
-            sh 'cp .env .env.testing'
-            sh 'php artisan migrate'
-          }
-        }
-
-        stage('PHP unit test & code coverage'){
-            steps  {
-                sh './vendor/bin/phpunit --coverage-clover ./reports/coverage.xml --log-junit ./reports/test.xml'
+    stage('Write .env [testing]') {
+        steps{
+            withCredentials([file(credentialsId: 'lscofd-Test', variable: 'envfile')]) {
+                writeFile file: '.env.testing', text: readFile(envfile)
+                }
             }
+    }
+    stage('Setup project') {
+        steps{
+            sh "composer install"
+            sh "yarn install"
+            sh "yarn build"
         }
+    }
 
-        stage('Scan  SonarQube') {
-          environment {
+    stage('Scan  SonarQube') {
+        environment {
             scannerHome = tool 'sonar'
-          }
-          steps {
-            withSonarQubeEnv(installationName: 'Serveur sonarqube', credentialsId: 'sonarqube_access_token') {
-              sh '${scannerHome}/bin/sonar-scanner'
-              echo 'coucou'
+        }
+        steps {
+            withSonarQubeEnv(installationName: 'Le miens', credentialsId: 'Sonarqube - Token') {
+                sh '${scannerHome}/bin/sonar-scanner'
             }
-          }
+        }
+    }
+
+    stage('Write .env [prod]') {
+            steps{
+                sh "rm .env.testing"
+                withCredentials([file(credentialsId: 'lscofd-Prod', variable: 'envfile')]) {
+                    writeFile file: '.env', text: readFile(envfile)
+                }
+            }
         }
 
-      }
-    }
-
-    stage('Unit test') {
-      steps {
-        sh 'php artisan test'
-      }
-    }
-
-    stage('Reponse Sonarqube analyst') {
-      parallel {
-        stage('Reponse Sonarqube analyst') {
-          steps {
-            waitForQualityGate(credentialsId: 'sonarqube_access_token', webhookSecretId: 'sonarsecret_webhook', abortPipeline: true)
-          }
+    stage('Build & Push Docker container') {
+        steps {
+            sh "docker build -t lscofd_web ."
+            sh "docker tag lscofd_web simonloudev/lscofd_web"
+            sh "docker push simonloudev/lscofd_web"
+            sh "cat docker-compose.yml | ssh root@75.119.154.204 'cat - > /infra/web/lscofd/docker-compose.yml'"
         }
+    }
 
-        stage('modify files for prod') {
-          steps {
-            echo 'test'
-          }
+    stage('Launch'){
+        steps{
+            sh "ssh root@75.119.154.204 docker-compose -f /infra/web/lscofd/docker-compose.yml down"
+            sh "ssh root@75.119.154.204 docker-compose -f /infra/web/lscofd/docker-compose.yml up -d"
+            sh "ssh root@75.119.154.204 docker exec -i LSCoFD service php7.4-fpm start"
+            sh "ssh root@75.119.154.204 docker exec -i LSCoFD chmod 777 /var/run/php/php7.4-fpm.sock"
+            sh "ssh root@75.119.154.204 docker exec -i LSCoFD chmod 777 -R /usr/share/nginx/lscofd/"
+            sh "ssh root@75.119.154.204 docker exec -i LSCoFD chown www-data -R /usr/share/nginx/lscofd/"
+            sh "ssh root@75.119.154.204 docker exec -i LSCoFD pm2 start queueworker.yml"
+            sh "ssh root@75.119.154.204 docker exec -i LSCoFD php artisan storage:link"
+            sh "cat .env | ssh root@75.119.154.204 'cat - > /infra/web/lscofd/.env'"
+            sh "ssh root@75.119.154.204 docker cp /infra/web/lscofd/.env LSCoFD:/usr/share/nginx/lscofd/.env"
+            sh "ssh root@75.119.154.204 rm /infra/web/lscofd/.env"
         }
-
-      }
-    }
-
-    stage('Push on prod') {
-      steps {
-        echo 'git add commit and push'
-        git(url: 'https://github.com/SimonLou-Dev/BCFD', branch: 'prod', changelog: true, credentialsId: 'github')
-      }
-    }
-
-    stage('Clean') {
-      steps {
-        echo 'test'
-      }
     }
 
   }

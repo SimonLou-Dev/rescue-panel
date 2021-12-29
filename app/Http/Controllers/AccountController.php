@@ -66,8 +66,8 @@ class AccountController extends Controller
         }
         if($changed){
             Http::post(env('WEBHOOK_INFOS'),[
-                'username'=> "BCFD - MDT",
-                'avatar_url'=>'https://bcfd.simon-lou.com/assets/images/BCFD.png',
+                'username'=> "LSCoFD- MDT",
+                'avatar_url'=>'https://lscofd.simon-lou.com/assets/images/LSCoFD.png',
                 'embeds'=>[
                     [
                         'title'=>"Numéro de compte *(Changement d'informations)*",

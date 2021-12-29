@@ -76,6 +76,7 @@ class BCController extends Controller
         ]);
     }
 
+
     public function getBCState(string $id): \Illuminate\Http\JsonResponse
     {
         $id = (int) $id;
@@ -136,8 +137,8 @@ class BCController extends Controller
         $bc->save();
         PersonnelController::addPersonel((string)$bc->id);
         Http::post(env('WEBHOOK_PU'),[
-            'username'=> "BCFD - Intranet",
-            'avatar_url'=>'https://bcfd.simon-lou.com/assets/images/BCFD.png',
+            'username'=> "LSCoFD - MDT",
+            'avatar_url'=>'https://lscofd.simon-lou.com/assets/images/LSCoFD.png',
             'embeds'=>[
                 [
                     'title'=>'Black Code #' . $bc->id . ' en cours :',

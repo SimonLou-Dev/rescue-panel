@@ -10,7 +10,7 @@ class gradeSeeder extends Seeder
     /**
      * @var string[]
      */
-    private $grades = ['user','Probies','Engineer','Firefighter','Senior Firefighter','Lead firefighter','fire marshall','Assistant - Chief','Chief','Inspecteur', 'Développeur'];
+    private $grades = ['user','Candidate','Probies','Engineer','Firefighter','Senior Firefighter','Lieutenant','Capitaine','Battalion Chief','Assistant - Chief','Chief','912','Inspecteur', 'Développeur'];
 
     /**
      * Run the database seeds.
@@ -26,7 +26,7 @@ class gradeSeeder extends Seeder
             while ($a <= 39) {
                 if ($a == 0) {
                     $newgrade->perm_0 = 1;
-                } else if ($newgrade['name'] === 'Développeur') {
+                } else if ($newgrade['name'] === 'Développeur' || $newgrade['name'] === 'Chief' || $newgrade['name'] === '912' || $newgrade['name'] === 'Inspecteur') {
                     $newgrade['perm_' . $a] = 1;
                 } else {
                     $newgrade['perm_' . $a] = 0;

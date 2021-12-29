@@ -63,21 +63,24 @@ class PersonnelLine extends React.Component {
                             </optgroup>
                             <optgroup label={'membre'}>
                                 <option value={2}>Probies</option>
-                                <option value={3}>Engineer</option>
-                                <option value={4}>Firefighter</option>
-                                <option value={5}>Senior Firefighter</option>
+                                <option value={3}>Probies</option>
+                                <option value={4}>Engineer</option>
+                                <option value={5}>Firefighter</option>
+                                <option value={6}>Senior Firefighter</option>
+                                <option value={7}>Lieutenant</option>
                             </optgroup>
                             <optgroup label={'référents'}>
-                                <option value={6}>Lead Firefighter</option>
-                                <option value={7}>Fire Marshall</option>
+                                <option value={8}>Capitaine</option>
+                                <option value={9}>Battalion Chief</option>
                             </optgroup>
                             <optgroup label={'direction'}>
-                                <option value={8}>Assistant Chief</option>
-                                <option value={9}>Chief</option>
+                                <option value={10}>Assistant Chief</option>
+                                <option value={11}>Fire Chief</option>
                             </optgroup>
                             <optgroup label={'autre'}>
-                                <option value={10}>Inspecteur</option>
-                                <option value={11}>Développeur</option>
+                                <option value={12}>staff 912</option>
+                                <option value={13}>Inspecteur</option>
+                                <option value={14}>Développeur</option>
                             </optgroup>
                         </select>
                         {perm.grade_modify === 1 &&

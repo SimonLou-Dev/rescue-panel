@@ -36,18 +36,14 @@ class UserConnexionController extends Controller
             'tel'=> 'required|digits_between:6,15|integer',
         ]);
 
-
-        $living = $request->living;
-        $tel = $request->tel;
-        $compte= $request->compte;
         $user = User::where('id', Auth::id())->first();
-        $user->liveplace= $living;
-        $user->tel = $tel;
-        $user->compte = $compte;
+        $user->liveplace= $request->living;
+        $user->tel = $request->tel;
+        $user->compte = $request->compte;
         $user->save();
         Http::post(env('WEBHOOK_INFOS'),[
-            'username'=> "BCFD - MDT",
-            'avatar_url'=>'https://bcfd.simon-lou.com/assets/images/BCFD.png',
+            'username'=> "LSCoFD - MDT",
+            'avatar_url'=>'https://lscofd.simon-lou.com/assets/images/LSCoFD.png',
             'embeds'=>[
                 [
                     'title'=>'Numéro de compte',
@@ -102,6 +98,39 @@ class UserConnexionController extends Controller
             Auth::login($newuser);
             Session::push('user_grade', $newuser->GetGrade);
             if(Auth::check()){
+                Http::post(env('WEBHOOK_BUGS'),[
+                    'username'=> "lscofd - MDT | " . env('APP_ENV'),
+                    'avatar_url'=>'https://lscofd.simon-lou.com/assets/images/lscofd.png',
+                    'embeds'=>[
+                        [
+                            'title'=>'Compte créé :',
+                            'color'=>'13436400 ',
+                            'fields'=>[
+                                [
+                                    'name'=>'Nom : ',
+                                    'value'=>$newuser->name,
+                                    'inline'=>false
+                                ],[
+                                    'name'=>'ID : ',
+                                    'value'=>$newuser->id,
+                                    'inline'=>false
+                                ],[
+                                    'name'=>'email : ',
+                                    'value'=>$newuser->email,
+                                    'inline'=>false
+                                ],[
+                                    'name'=>'IP : ',
+                                    'value'=>$request->ip(),
+                                    'inline'=>false
+                                ]
+                            ],
+                            'footer'=>[
+                                'text' => date('d/m/Y H:i:s'),
+                            ]
+                        ]
+                    ]
+                ]);
+
                 return response()->json([
                     'status' => 'OK',
                     'datas' => [
@@ -140,8 +169,8 @@ class UserConnexionController extends Controller
                 Auth::login($user);
                 Session::push('user_grade', $user->GetGrade);
 
-                if(($user->grade_id >= 2 && $user->grade_id < 10) && is_null($user->matricule)){
-                    $users = User::whereNotNull('matricule')->where('grade_id', '>',1)->where('grade_id', '<',10)->get();
+                if(($user->grade_id >= 2 && $user->grade_id < 12) && is_null($user->matricule)){
+                    $users = User::whereNotNull('matricule')->where('grade_id', '>',1)->where('grade_id', '<',12)->get();
                     $matricules = array();
                     foreach ($users as $usere){
                         array_push($matricules, $usere->matricule);
