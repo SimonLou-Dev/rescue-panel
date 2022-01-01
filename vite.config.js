@@ -1,6 +1,6 @@
 import { defineConfig } from 'vite'
 import reactRefresh from '@vitejs/plugin-react-refresh'
-const env = 'production';
+const env = 'development';
 const Global = "var process = { env: {NODE_ENV: '" + env + "'}}"
 
 

@@ -1,7 +1,7 @@
 import React from 'react';
 import {Link} from "react-router-dom";
 
-class Error extends React.Component {
+class Cantaccess extends React.Component {
     render() {
         return (
             <div className={'maintenance'}>
@@ -23,4 +23,4 @@ class Error extends React.Component {
     };
 }
 
-export default Error;
+export default Cantaccess;

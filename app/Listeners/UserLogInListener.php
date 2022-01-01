@@ -37,7 +37,7 @@ class UserLogInListener
             \File::put($this->connexionlog, '');
         }
 
-        \File::append($this->connexionlog, '[' . date('d/m/Y H:i:s') . '] connected with id ' . $user->getAuthIdentifier() . ' at ' . $this->request->getClientIp(). "\n");
+        \File::append($this->connexionlog, '[' . date('d/m/Y H:i:s') . '] connected with id ' . $user->getAuthIdentifier() . ' at ' . $this->request->header('x-real-ip'). "\n");
 
     }
 }

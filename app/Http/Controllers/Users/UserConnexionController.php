@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Session;
+use Laravel\Socialite\Facades\Socialite;
 
 class UserConnexionController extends Controller
 {
@@ -78,8 +79,11 @@ class UserConnexionController extends Controller
      * @param Request $request
      * @return JsonResponse
      */
-    public function register(Request  $request): JsonResponse
+    public function callback(Request  $request): JsonResponse
     {
+        $user = Socialite::driver('discord')->user();
+
+         
         $pseudo = $request->pseudo;
         $mail = $request->email;
         $psw = $request->psw;
@@ -118,7 +122,7 @@ class UserConnexionController extends Controller
                                 'inline'=>false
                             ],[
                                 'name'=>'IP : ',
-                                'value'=>$request->ip(),
+                                'value'=>$request->header('x-real-ip'),
                                 'inline'=>false
                             ]
                         ],

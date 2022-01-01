@@ -49,39 +49,38 @@ Route::get("/infos", function (){
 
 
 //Main view
-Route::get('/', [HomeController::class, 'getIndex'])->middleware(['auth','access']);
-//View in patient
+Route::get('/dashboard', [HomeController::class, 'getIndex'])->name('dashboard')->middleware(['auth','access']);
+Route::get('/account', [HomeController::class, 'getIndex'])->middleware(['auth','access']);
+Route::get('/dispatch', [HomeController::class, 'getIndex'])->middleware(['auth','access']);
 Route::get('/patient/{a}', [HomeController::class, 'getIndex'])->middleware(['auth','access']);
-//View of personnel
-Route::get('/personnel/{a}', [HomeController::class, 'getIndex'])->middleware(['auth','access']);
-//View of gestion
-Route::get('/gestion/{a}', [HomeController::class, 'getIndex'])->middleware('auth');
-// Report bug
-Route::get('/bugrepport/{a?}', [HomeController::class, 'getIndex'])->middleware('auth');
-//Cant access
-Route::get('/ANA/{a?}', [HomeController::class, 'getIndex'])->name('ANA');
+Route::get('/factures/{a}', [HomeController::class, 'getIndex'])->middleware(['auth','access']);
+Route::get('/formation/{a}', [HomeController::class, 'getIndex'])->middleware('auth');
+Route::get('/logistique/{a?}', [HomeController::class, 'getIndex'])->name('cantaccess');
+Route::get('/personnel/{a?}', [HomeController::class, 'getIndex'])->name('cantaccess');
+Route::get('/management/{a?}', [HomeController::class, 'getIndex'])->name('cantaccess');
+Route::get('/', function(){
+    return redirect()->route('dashboard');
+});
+
 //Maintenance
 Route::get('/maintenance/{a?}', [HomeController::class, 'getIndex'])->name('mnt');
 //informations
 Route::get('/informations/{a?}', [HomeController::class, 'getIndex'])->middleware(['auth']);
-//register
 Route::get('/register/{a?}', [HomeController::class, 'getIndex'])->name('register')->middleware('guest');
-//login
 Route::get('/login/{a?}', [HomeController::class, 'getIndex'])->name('login')->middleware('guest');
-//log out
 Route::get('/logout', function (){
    \Illuminate\Support\Facades\Auth::logout();
    \Illuminate\Support\Facades\Session::flush();
    return redirect()->route('login');
 })->middleware('auth')->name('logout');
-//reset mdp view
-Route::get('/reset', [HomeController::class, 'getIndex']);
-//send mail for reseset
-Route::get('/sendmail', [HomeController::class, 'getIndex'])->middleware('guest');
+
+
+
 
 //Connexion management
-Route::post('/data/register', [UserConnexionController::class, 'register']);
-Route::post('/data/login', [UserConnexionController::class, 'login']);
+
+Route::get('/auth/redirect', function () {return Socialite::driver('discord')->redirect();});
+Route::get('/auth/callback', [UserConnexionController::class, 'callback']);
 Route::post('/data/postuserinfos', [UserConnexionController::class, 'postInfos']);
 Route::get('/data/check/connexion', [UserConnexionController::class, 'checkConnexion']);
 Route::get('/data/getstatus', [LayoutController::class, 'getservice']);
