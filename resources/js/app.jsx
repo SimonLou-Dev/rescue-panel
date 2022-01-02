@@ -39,8 +39,9 @@ class App extends React.Component{
                             <Route path='/login' component={Login}/>
                             <Route path='/register' component={Register}/>
                             <Route path='/cantaccess' component={Cantaccess}/>
-                            <Route path='/maintenance' component={Maintenance}/>
                             <Route path='/informations' component={GetInfos}/>
+
+
                             <Layout/>
                         </Switch>
                     </BrowserRouter>

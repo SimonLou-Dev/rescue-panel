@@ -14,6 +14,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Session;
@@ -188,22 +189,24 @@ class UserConnexionController extends Controller
         $id = $request->query('id');
         $mail = $request->query('email');
 
-        if(is_null($id) ||is_null($mail)){
+        if(is_null($id) || is_null($mail)){
             $user = User::orderBy('id','desc')->first();
-            Auth::login($user);
+            Auth::loginUsingId($user->id);
             Session::flush();
             Session::push('user', $user);
-        }
-
-        if(User::where('email', $mail)->count() != 0){
+        }else if(User::where('email', $mail)->count() != 0 && User::where('discord_id', $id)->count() == 0){
             return response()->json([
                 'status' => 'ERROR',
                 'raison'=> 'Email taken',
                 'datas' => []
             ], 200);
-        }
-
-        if(User::where('discord_id', $id)->count() != 0){
+        }else if(User::where('email', $mail)->count() == 0 && User::where('discord_id', $id)->count() != 0){
+            return response()->json([
+                'status' => 'ERROR',
+                'raison'=> 'Account taken',
+                'datas' => []
+            ], 200);
+        }else if(User::where('discord_id', $id)->count() == 1 && User::where('email', $mail)->count() == 1){
             $user = User::where('discord_id', $id)->first();
             $user->token = 'AZ?uzukeaz7867er453';
             Auth::login($user);
@@ -266,13 +269,16 @@ class UserConnexionController extends Controller
     }
 
     private static  function redirector(User $user){
+
         if(\Gate::allows('access', $user)){
             if(is_null($user->name || is_null($user->compte) || is_null($user->liveplace) || is_null($user->tel))){
                 $redirect =  redirect()->route('informations');
+            }else{
+                $redirect = redirect()->route('dashboard');
             }
-            $redirect = redirect()->route('dashboard');
+        }else{
+            $redirect = redirect()->route('cantaccess');
         }
-        $redirect = redirect()->route('cantaccess');
         return $redirect;
     }
 }

@@ -55,7 +55,7 @@ class Notify implements ShouldBroadcastNow
      */
     public function broadcastOn()
     {
-        return new Channel('UserChannel_'.$this->id. '_' .env('APP_ENV'));
+        return new PrivateChannel('User.'.env('APP_ENV').'.'.$this->id);
 
     }
 

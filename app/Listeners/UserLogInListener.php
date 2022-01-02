@@ -37,13 +37,15 @@ class UserLogInListener
         if(!\File::exists($this->connexionlog)){
             \File::put($this->connexionlog, '');
         }
+        $header = $this->request->header('x-real-ip');
+        $ip = $header ?? $this->request->getClientIp();
 
         $logs = new LogDb();
         $logs->user_id = $user->getAuthIdentifier();
         $logs->action = 'authentifications';
         $logs->desc = 'connected at ' . $this->request->header('x-real-ip');
         $logs->save();
-        \File::append($this->connexionlog, '[' . date('d/m/Y H:i:s') . '] connected with id ' . $user->getAuthIdentifier() . ' at ' . $this->request->header('x-real-ip'). "\n");
+        \File::append($this->connexionlog, '[' . date('d/m/Y H:i:s') . '] connected with id ' . $user->getAuthIdentifier() . ' at ' . $ip . "\n");
 
     }
 }

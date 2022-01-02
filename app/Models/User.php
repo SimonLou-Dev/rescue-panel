@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Psy\Util\Json;
 
@@ -45,9 +46,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(Rapport::class, 'user_id');
     }
-    public function GetGrade(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    public function GetGrade(): BelongsTo
     {
-        return $this->belongsTo(Grade::class, 'grade_id');
+        return $this->belongsTo(Grade::class, "grade_id");
     }
     public function GetWeekServices(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
@@ -87,10 +88,12 @@ class User extends Authenticatable
         return $this->hasMany(ModifyServiceReq::class, 'user_id');
     }
 
-    public function isAdmin(){
-        return $this->GetGrade()->isAdmin();
+    public function isAdmin()
+    {
+        return $this->GetGrade;
     }
-    public function GetGradePower(){
-        return $this->GetGrade()->power;
+    public function GetGradePower():bool
+    {
+        return $this->GetGrade->power;
     }
 }

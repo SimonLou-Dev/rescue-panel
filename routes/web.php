@@ -55,15 +55,15 @@ Route::get("/infos", function (){
 
 
 //Main view
-Route::get('/dashboard', [HomeController::class, 'getIndex'])->name('dashboard')->middleware(['auth']);
-Route::get('/account', [HomeController::class, 'getIndex'])->middleware(['auth']);
-Route::get('/dispatch', [HomeController::class, 'getIndex'])->middleware(['auth']);
-Route::get('/patient/{a}', [HomeController::class, 'getIndex'])->middleware(['auth']);
-Route::get('/factures/{a}', [HomeController::class, 'getIndex'])->middleware(['auth']);
-Route::get('/formation/{a}', [HomeController::class, 'getIndex'])->middleware('auth');
-Route::get('/logistique/{a?}', [HomeController::class, 'getIndex']);
-Route::get('/personnel/{a?}', [HomeController::class, 'getIndex']);
-Route::get('/management/{a?}', [HomeController::class, 'getIndex']);
+Route::get('/dashboard', [HomeController::class, 'getIndex'])->name('dashboard'); //->middleware(['auth']);
+Route::get('/account', [HomeController::class, 'getIndex']); //->middleware(['auth']);
+Route::get('/dispatch', [HomeController::class, 'getIndex']); //->middleware(['auth']);
+Route::get('/patient/{a}', [HomeController::class, 'getIndex']); //->middleware(['auth']);
+Route::get('/factures/{a}', [HomeController::class, 'getIndex']); //->middleware(['auth']);
+Route::get('/formation/{a}', [HomeController::class, 'getIndex']); //->middleware('auth');
+Route::get('/logistique/{a?}', [HomeController::class, 'getIndex']); //->middleware('auth');
+Route::get('/personnel/{a?}', [HomeController::class, 'getIndex']); //->middleware('auth');
+Route::get('/management/{a?}', [HomeController::class, 'getIndex']); //->middleware('auth');
 Route::get('/cantaccess', [HomeController::class, 'getIndex'])->name('cantaccess');
 Route::get('/', function(){
     return redirect()->route('dashboard');
@@ -72,12 +72,14 @@ Route::get('/', function(){
 //Maintenance
 Route::get('/maintenance/{a?}', [HomeController::class, 'getIndex'])->name('mnt');
 //informations
-Route::get('/informations/{a?}', [HomeController::class, 'getIndex'])->name('informations')->middleware(['auth']);
+Route::get('/informations/{a?}', [HomeController::class, 'getIndex'])->name('informations'); //->middleware('auth');
 Route::get('/register/{a?}', [HomeController::class, 'getIndex'])->name('register')->middleware('guest');
 Route::get('/login/{a?}', [HomeController::class, 'getIndex'])->name('login')->middleware('guest');
-Route::get('/logout', function (){
+Route::get('/logout', function (Request $request){
    \Illuminate\Support\Facades\Auth::logout();
    \Illuminate\Support\Facades\Session::flush();
+   $request->session()->invalidate();
+   $request->session()->regenerateToken();
    return redirect()->route('login');
 })->middleware('auth')->name('logout');
 
@@ -238,6 +240,14 @@ Route::put('/data/infosutils/put', [MainController::class, 'updateUtilsInfos']);
 Route::post('/data/front/errors', [ErrorsController::class, 'frontErrors']);
 Route::any('/tunnel', [ErrorsController::class, 'tunelSentry']);
 Route::post('/data/bug', [MainController::class, 'postBug']);
+
+Route::get('/test', function (){
+   event(new \App\Events\Notify('test',1));
+});
+
+Route::get('/teste', function (){
+    return dd(Auth::user(), Session::get('user'), Auth::check());
+});
 
 
 

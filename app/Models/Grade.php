@@ -18,7 +18,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Grade extends Model
 {
-    //protected $fillable = ['name'];
+    protected $fillable = ['id'];
 
     use HasFactory;
 
@@ -26,6 +26,11 @@ class Grade extends Model
 
     public function isAdmin(){
         return $this->admin;
+    }
+
+    public function getUsers(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(User::class, 'grade_id');
     }
 
 
