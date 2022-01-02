@@ -111,39 +111,25 @@ class Login extends React.Component {
         return (
             <div className={'Login'}>
                 <div className={'Form'}>
-                    <form method={"POST"} onSubmit={this.Submited}>
+                    <div className={'auth-header'}>
                         <img alt={""} src={'/assets/images/LONG_EMS_BC_2.png'}/>
+                    </div>
+                    <div className={'auth-header'}>
                         <h1>Connexion</h1>
+                        <button>
+                            Avec discord
+                            <img src={'/assets/img'} alt={''}/>
+                        </button>
+                    </div>
+
+
                         <label>adresse mail : </label>
-                        <input value={this.state.email} type={'email'} name={'email'} onChange={this.EmailChange}/>
-                        {this.state.email_empty &&
-                            <div className={'form-error'}>
-                                <p>Case vide (min 5 caractères)</p>
-                            </div>
-                        }
-                        {this.state.email_error &&
-                        <div className={'form-error'}>
-                            <p>cette email n'existe pas</p>
-                        </div>
-                        }
-                        <label>Mot de passe : </label>
-                        <input value={this.state.psw} type={'password'} name={'psw'} onChange={this.PswChange}/>
-                        {this.state.empty_psw &&
-                        <div className={'form-error'}>
-                            <p>Case vide (min 5 caractères)</p>
-                        </div>
-                        }
-                        {this.state.credential_error &&
-                        <div className={'form-error'}>
-                            <p>mot de passe incorect</p>
-                        </div>
-                        }
+
                         <div className={'btn-contain'}>
                             <NavLink className={'btn'} to={'/register'} >inscription</NavLink>
                             <NavLink className={'btn'} to={'/sendmail'} >mot de passe perdu</NavLink>
                             <button type={'submit'} className={'btn'}>Se connecter</button>
                         </div>
-                    </form>
 
                 </div>
             </div>
