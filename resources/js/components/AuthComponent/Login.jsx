@@ -128,7 +128,6 @@ class Login extends React.Component {
                         <div className={'btn-contain'}>
                             <NavLink className={'btn'} to={'/register'} >inscription</NavLink>
                             <NavLink className={'btn'} to={'/sendmail'} >mot de passe perdu</NavLink>
-                            <button type={'submit'} className={'btn'}>Se connecter</button>
                         </div>
 
                 </div>

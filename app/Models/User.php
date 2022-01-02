@@ -86,4 +86,11 @@ class User extends Authenticatable
     {
         return $this->hasMany(ModifyServiceReq::class, 'user_id');
     }
+
+    public function isAdmin(){
+        return $this->GetGrade()->isAdmin();
+    }
+    public function GetGradePower(){
+        return $this->GetGrade()->power;
+    }
 }

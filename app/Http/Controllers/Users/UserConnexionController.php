@@ -7,9 +7,11 @@ use App\Events\UserRegisterEvent;
 use App\Http\Controllers\Controller;
 use App\Jobs\ProcessEmbedBCGenerator;
 use App\Jobs\ProcessEmbedPosting;
+use App\Models\Grade;
 use App\Models\LogDb;
 use App\Models\User;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -39,10 +41,12 @@ class UserConnexionController extends Controller
         $request->validate([
             'compte'=> 'required|digits_between:3,7|integer',
             'tel'=> 'required|digits_between:6,15|integer',
+            'name'=>['required', 'string','regex:/[a-zA-Z.+_]+\s[a-zA-Z.+_]/'],
         ]);
 
         $user = User::where('id', Auth::id())->first();
         $user->liveplace= $request->living;
+        $user->name = $request->name;
         $user->tel = $request->tel;
         $user->compte = $request->compte;
         $user->save();
@@ -53,7 +57,7 @@ class UserConnexionController extends Controller
                 'fields'=>[
                     [
                         'name'=>'Prénom Nom : ',
-                        'value'=>Auth::user()->name,
+                        'value'=>$user->name,
                         'inline'=>false
                     ],[
                         'name'=>'Numéro de téléphone : ',
@@ -78,9 +82,9 @@ class UserConnexionController extends Controller
 
     /**
      * @param Request $request
-     * @return JsonResponse
+     * @return JsonResponse|RedirectResponse
      */
-    public function callback(Request  $request): JsonResponse
+    public function callback(Request $request): JsonResponse|RedirectResponse
     {
         $auth = Socialite::driver('discord')->user();
 
@@ -113,16 +117,25 @@ class UserConnexionController extends Controller
         if(User::where('discord_id', $userinfos->id)->count() != 0){
             $user = User::where('discord_id', $userinfos->id)->first();
             $user->token = $auth->token;
+            $user->getGrade();
             Auth::login($user);
+            Session::flush();
+            Session::push('user', $user);
+
             $user->save();
         }else{
             $createuser = new User();
             $createuser->token = $auth->token;
             $createuser->email =  $userinfos->email;
             $createuser->discord_id = $userinfos->id;
+            $defaultGrade = Grade::where('default',true)->first();
+            $createuser->grade_id = $defaultGrade->id;
             $createuser->id = 15;
-            Auth::login($createuser);
             $createuser->save();
+            $user = $createuser;
+            Auth::login($createuser);
+            Session::flush();
+            Session::push('user', $user);
             $logs = new LogDb();
             $logs->user_id = $createuser->id;
             $logs->action = 'register';
@@ -163,15 +176,14 @@ class UserConnexionController extends Controller
             $this->dispatch(new ProcessEmbedPosting(env('WEBHOOK_BUGS'), $embed, null));
         }
 
-        return  dd('ok',$embed);
-
+        return $this::redirector($user);
     }
 
     /**
      * @param Request $request
-     * @return JsonResponse
+     * @return JsonResponse|RedirectResponse
      */
-    public function fake(Request $request): JsonResponse
+    public function fake(Request $request): JsonResponse|RedirectResponse
     {
         $id = $request->query('id');
         $mail = $request->query('email');
@@ -179,6 +191,8 @@ class UserConnexionController extends Controller
         if(is_null($id) ||is_null($mail)){
             $user = User::orderBy('id','desc')->first();
             Auth::login($user);
+            Session::flush();
+            Session::push('user', $user);
         }
 
         if(User::where('email', $mail)->count() != 0){
@@ -194,22 +208,28 @@ class UserConnexionController extends Controller
             $user->token = 'AZ?uzukeaz7867er453';
             Auth::login($user);
             $user->save();
+            Session::flush();
+            Session::push('user', $user);
         }else{
             $createuser = new User();
             $createuser->token = 'AZ?uzukeaz7867er453';
             $createuser->email =  $mail;
             $createuser->discord_id = $id;
-            $createuser->id = 15;
-            Auth::login($createuser);
+            $defaultGrade = Grade::where('default',true)->first();
+            $createuser->grade_id = $defaultGrade->id;
             $createuser->save();
+            $user = $createuser;
+            Auth::login($createuser);
+            Session::flush();
+            Session::push('user', $user);
             $logs = new LogDb();
             $logs->user_id = $createuser->id;
             $logs->action = 'register';
-            $logs->desc = $this->request->header('x-real-ip') . ' ' . $id;
+            $logs->desc = $request->header('x-real-ip') . ' ' . $id;
             $logs->save();
             $embed = [
                 [
-                    'title'=>'Compte créé : (environement : ' . env('APP_ENV') . ')',
+                    'title'=>'Compte créé : (environement : ' . env('WEBHOOK_BUGS') . ')',
                     'color'=>'13436400 ',
                     'fields'=>[
                         [
@@ -242,8 +262,17 @@ class UserConnexionController extends Controller
             $this->dispatch(new ProcessEmbedPosting(env('WEBHOOK_BUGS'), $embed, null));
         }
 
-        return response()->json([
-            'Authed'=>true
-        ]);
+        return $this::redirector($user);
+    }
+
+    private static  function redirector(User $user){
+        if(\Gate::allows('access', $user)){
+            if(is_null($user->name || is_null($user->compte) || is_null($user->liveplace) || is_null($user->tel))){
+                $redirect =  redirect()->route('informations');
+            }
+            $redirect = redirect()->route('dashboard');
+        }
+        $redirect = redirect()->route('cantaccess');
+        return $redirect;
     }
 }

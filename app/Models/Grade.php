@@ -18,11 +18,15 @@ use Illuminate\Database\Eloquent\Model;
 
 class Grade extends Model
 {
-    protected $fillable = ['name'];
+    //protected $fillable = ['name'];
 
     use HasFactory;
 
-
     protected $table = "Grades";
+
+    public function isAdmin(){
+        return $this->admin;
+    }
+
 
 }

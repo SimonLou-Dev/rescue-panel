@@ -55,15 +55,16 @@ Route::get("/infos", function (){
 
 
 //Main view
-Route::get('/dashboard', [HomeController::class, 'getIndex'])->name('dashboard')->middleware(['auth','access']);
-Route::get('/account', [HomeController::class, 'getIndex'])->middleware(['auth','access']);
-Route::get('/dispatch', [HomeController::class, 'getIndex'])->middleware(['auth','access']);
-Route::get('/patient/{a}', [HomeController::class, 'getIndex'])->middleware(['auth','access']);
-Route::get('/factures/{a}', [HomeController::class, 'getIndex'])->middleware(['auth','access']);
+Route::get('/dashboard', [HomeController::class, 'getIndex'])->name('dashboard')->middleware(['auth']);
+Route::get('/account', [HomeController::class, 'getIndex'])->middleware(['auth']);
+Route::get('/dispatch', [HomeController::class, 'getIndex'])->middleware(['auth']);
+Route::get('/patient/{a}', [HomeController::class, 'getIndex'])->middleware(['auth']);
+Route::get('/factures/{a}', [HomeController::class, 'getIndex'])->middleware(['auth']);
 Route::get('/formation/{a}', [HomeController::class, 'getIndex'])->middleware('auth');
-Route::get('/logistique/{a?}', [HomeController::class, 'getIndex'])->name('cantaccess');
-Route::get('/personnel/{a?}', [HomeController::class, 'getIndex'])->name('cantaccess');
-Route::get('/management/{a?}', [HomeController::class, 'getIndex'])->name('cantaccess');
+Route::get('/logistique/{a?}', [HomeController::class, 'getIndex']);
+Route::get('/personnel/{a?}', [HomeController::class, 'getIndex']);
+Route::get('/management/{a?}', [HomeController::class, 'getIndex']);
+Route::get('/cantaccess', [HomeController::class, 'getIndex'])->name('cantaccess');
 Route::get('/', function(){
     return redirect()->route('dashboard');
 });
@@ -71,7 +72,7 @@ Route::get('/', function(){
 //Maintenance
 Route::get('/maintenance/{a?}', [HomeController::class, 'getIndex'])->name('mnt');
 //informations
-Route::get('/informations/{a?}', [HomeController::class, 'getIndex'])->middleware(['auth']);
+Route::get('/informations/{a?}', [HomeController::class, 'getIndex'])->name('informations')->middleware(['auth']);
 Route::get('/register/{a?}', [HomeController::class, 'getIndex'])->name('register')->middleware('guest');
 Route::get('/login/{a?}', [HomeController::class, 'getIndex'])->name('login')->middleware('guest');
 Route::get('/logout', function (){
