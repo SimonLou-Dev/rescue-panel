@@ -2,6 +2,7 @@
 
 namespace App\Listeners;
 
+use App\Models\LogDb;
 use Illuminate\Auth\Events\Login;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Http\Request;
@@ -37,6 +38,11 @@ class UserLogInListener
             \File::put($this->connexionlog, '');
         }
 
+        $logs = new LogDb();
+        $logs->user_id = $user->getAuthIdentifier();
+        $logs->action = 'authentifications';
+        $logs->desc = 'connected at ' . $this->request->header('x-real-ip');
+        $logs->save();
         \File::append($this->connexionlog, '[' . date('d/m/Y H:i:s') . '] connected with id ' . $user->getAuthIdentifier() . ' at ' . $this->request->header('x-real-ip'). "\n");
 
     }

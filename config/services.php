@@ -32,7 +32,7 @@ return [
     'discord' => [
         'client_id' => env('DISCORD_CLIENT_ID'),
         'client_secret' => env('DISCORD_CLIENT_SECRET'),
-        'redirect' => env('APP_URL').'/auth/callback',
+        'redirect' =>'http://devlscofd.simon-lou.com/auth/callback',
 
         // optional
         'allow_gif_avatars' => true,

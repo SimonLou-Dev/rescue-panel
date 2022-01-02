@@ -19,6 +19,7 @@ use App\Http\Controllers\VolController;
 use App\Http\Controllers\BlackCodes\BCController;
 use App\Http\Controllers\BlackCodes\BlesseController;
 use App\Http\Controllers\BlackCodes\PersonnelController;
+use App\Http\Controllers\Discord\DiscordApiController;
 use App\Http\Controllers\Formations\AdminController;
 use App\Http\Controllers\Formations\CertificationController;
 use App\Http\Controllers\Formations\FormationController;
@@ -30,7 +31,12 @@ use App\Http\Controllers\Rapports\RapportController;
 use App\Http\Controllers\Users\UserConnexionController;
 use App\Http\Controllers\Users\UserController;
 use App\Http\Controllers\Users\UserGradeController;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use WebSocket\Client;
+use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Http;
+use Laravel\Socialite\Facades\Socialite;
 
 /*
 |--------------------------------------------------------------------------
@@ -78,9 +84,10 @@ Route::get('/logout', function (){
 
 
 //Connexion management
-
-Route::get('/auth/redirect', function () {return Socialite::driver('discord')->redirect();});
+// scope=identify%20email%20guilds%20guilds.join%20guilds.members.read
+Route::get('/auth/redirect', function () {return Socialite::driver('discord')->scopes(['email','guilds'])->redirect();});
 Route::get('/auth/callback', [UserConnexionController::class, 'callback']);
+Route::get('/auth/fake', [UserConnexionController::class, 'fake']);
 Route::post('/data/postuserinfos', [UserConnexionController::class, 'postInfos']);
 Route::get('/data/check/connexion', [UserConnexionController::class, 'checkConnexion']);
 Route::get('/data/getstatus', [LayoutController::class, 'getservice']);
@@ -230,3 +237,33 @@ Route::put('/data/infosutils/put', [MainController::class, 'updateUtilsInfos']);
 Route::post('/data/front/errors', [ErrorsController::class, 'frontErrors']);
 Route::any('/tunnel', [ErrorsController::class, 'tunelSentry']);
 Route::post('/data/bug', [MainController::class, 'postBug']);
+
+
+
+/*
+Auth with token
+
+Http::withHeader([
+    'Authorization'=> 'Bot '.env('DISCORD_BOT_TOKEN')
+])->get('https://discord.com/api/v9/users/@me/guilds')->body();
+
+
+
+*/
+
+
+//Post message https://discord.com/api/v9/channels/{chan id}/messages => content comme les embeds
+    //=> response id (id msg), channel_id
+
+//Patch msg https://discord.com/api/v9/channels/{chan}/messages/{id} => content comme les messages
+    //=> response id (id msg), channel_id
+
+//delete msg  https://discord.com/api/v9/channels/{channel.id}/messages/{message.id}
+
+//get msg https://discord.com/api/v9/channels/923521378248974347/messages/926904661238251561
+    // si reaction reactions => en array
+
+//Post reaction https://discord.com/api/v9/channels/{channel.id}/messages/{message.id}/reactions/{emoji}/@me
+//Emoji in url encoded
+
+

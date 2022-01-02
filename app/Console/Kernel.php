@@ -25,7 +25,7 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        $schedule->command('week:start')->weeklyOn(0, '0:0')->timezone('Europe/Brussels');
+        $schedule->command('telescope:prune --hours=48')->daily();
     }
 
     /**

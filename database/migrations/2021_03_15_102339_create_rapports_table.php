@@ -24,7 +24,6 @@ class CreateRapportsTable extends Migration
             $table->dateTime('ATA_end')->nullable();
             $table->integer('patient_id');
             $table->string('started_at')->nullable();
-            $table->integer('msg_discord_id')->nullable();
             $table->timestamps();
         });
     }

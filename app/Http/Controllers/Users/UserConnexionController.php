@@ -7,6 +7,7 @@ use App\Events\UserRegisterEvent;
 use App\Http\Controllers\Controller;
 use App\Jobs\ProcessEmbedBCGenerator;
 use App\Jobs\ProcessEmbedPosting;
+use App\Models\LogDb;
 use App\Models\User;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -81,146 +82,168 @@ class UserConnexionController extends Controller
      */
     public function callback(Request  $request): JsonResponse
     {
-        $user = Socialite::driver('discord')->user();
+        $auth = Socialite::driver('discord')->user();
 
-         
-        $pseudo = $request->pseudo;
-        $mail = $request->email;
-        $psw = $request->psw;
-        if(User::where('email', $mail)->count() != 0){
+
+        $servers = Http::withToken($auth->token)->get('https://discord.com/api/v9/users/@me/guilds')->body();
+
+        $bcfd = false;
+        $glite = false;
+        foreach(json_decode($servers) as $server){
+            if($server->id == "792491489837711360"){
+                $bcfd = true;
+            }
+            if($server->id == "704129979243561040"){
+                $glite = true;
+            }
+        }
+
+
+        $userreq = Http::withToken($auth->token)->get('https://discord.com/api/v9/users/@me');
+        $userinfos = json_decode($userreq->body());
+
+        if(User::where('email', $userinfos->email)->count() != 0){
             return response()->json([
                 'status' => 'ERROR',
                 'raison'=> 'Email taken',
                 'datas' => []
             ], 200);
+        }
+
+        if(User::where('discord_id', $userinfos->id)->count() != 0){
+            $user = User::where('discord_id', $userinfos->id)->first();
+            $user->token = $auth->token;
+            Auth::login($user);
+            $user->save();
         }else{
             $createuser = new User();
-            $createuser->name = $pseudo;
-            $createuser->email = $mail;
-            $createuser->password = Hash::make($psw);
+            $createuser->token = $auth->token;
+            $createuser->email =  $userinfos->email;
+            $createuser->discord_id = $userinfos->id;
+            $createuser->id = 15;
+            Auth::login($createuser);
             $createuser->save();
-            $newuser = User::where('email', $mail)->first();
-            Auth::login($newuser);
-            Session::push('user_grade', $newuser->GetGrade);
-            if(Auth::check()){
-                $embed = [
-                    [
-                        'title'=>'Compte créé : (environement : ' . env('APP_ENV') . ')',
-                        'color'=>'13436400 ',
-                        'fields'=>[
-                            [
-                                'name'=>'Nom : ',
-                                'value'=>$newuser->name,
-                                'inline'=>false
-                            ],[
-                                'name'=>'ID : ',
-                                'value'=>$newuser->id,
-                                'inline'=>false
-                            ],[
-                                'name'=>'email : ',
-                                'value'=>$newuser->email,
-                                'inline'=>false
-                            ],[
-                                'name'=>'IP : ',
-                                'value'=>$request->header('x-real-ip'),
-                                'inline'=>false
-                            ]
-                        ],
-                        'footer'=>[
-                            'text' => date('d/m/Y H:i:s'),
+            $logs = new LogDb();
+            $logs->user_id = $createuser->id;
+            $logs->action = 'register';
+            $logs->desc = $this->request->header('x-real-ip') . ' ' . $auth->id;
+            $logs->save();
+            $embed = [
+                [
+                    'title'=>'Compte créé : (environement : ' . env('APP_ENV') . ')',
+                    'color'=>'13436400 ',
+                    'fields'=>[
+                        [
+                            'name'=>'Discord id : ',
+                            'value'=>$createuser->discord_id,
+                            'inline'=>false
+                        ],[
+                            'name'=>'ID : ',
+                            'value'=>$createuser->id,
+                            'inline'=>false
+                        ],[
+                            'name'=>'email : ',
+                            'value'=>$createuser->email,
+                            'inline'=>false
+                        ],[
+                            'name'=>'IP : ',
+                            'value'=>$request->header('x-real-ip'),
+                            'inline'=>false
+                        ],[
+                            'name'=>'Discord name : ',
+                            'value'=> $auth->nickname,
+                            'inline'=>false,
                         ]
+                    ],
+                    'footer'=>[
+                        'text' => date('d/m/Y H:i:s'),
                     ]
-                ];
-                $this->dispatch(new ProcessEmbedPosting([env('WEBHOOK_BUGS')], $embed, null));
-
-                return response()->json([
-                    'status' => 'OK',
-                    'datas' => [
-                        'user' => $newuser,
-                        'authed' => true,
-                    ]
-                ], 201);
-            }else{
-                return response()->json([
-                    'status' => 'error',
-                    'user' => null,
-                    'authed' => false,
-                    'check' => Auth::check(),
-                ], 200);
-            }
+                ]
+            ];
+            $this->dispatch(new ProcessEmbedPosting(env('WEBHOOK_BUGS'), $embed, null));
         }
+
+        return  dd('ok',$embed);
+
     }
 
     /**
      * @param Request $request
      * @return JsonResponse
      */
-    public function login(Request $request): JsonResponse
+    public function fake(Request $request): JsonResponse
     {
-        $email = $request->email;
-        $psw = $request->psw;
-        if(User::where('email', $email)->count() == 0){
-            $returned = response()->json([
-                'status'=> 'adresse mail non existante',
-                'user' => null,
-                'authed' => false,
-            ], 202);
-        }else{
-            $user= User::where('email', $email)->first();
-            if(Hash::check($psw, $user->password)){
-                Auth::login($user);
-                Session::push('user_grade', $user->GetGrade);
+        $id = $request->query('id');
+        $mail = $request->query('email');
 
-                if(($user->grade_id >= 2 && $user->grade_id < 12) && is_null($user->matricule)){
-                    $users = User::whereNotNull('matricule')->where('grade_id', '>',1)->where('grade_id', '<',12)->get();
-                    $matricules = array();
-                    foreach ($users as $usere){
-                        array_push($matricules, $usere->matricule);
-                    }
-                    $generated = null;
-                    while(is_null($generated) || array_search($generated, $matricules)){
-                        $generated = random_int(10, 99);
-                    }
-                    $user->matricule = $generated;
-                    $user->save();
-                    event(new Notify('Vous avez le matricule ' . $generated,1));
-                }
-
-
-                if($user->liveplace != null && $user->tel != null && $user->compte != null){
-                    if($user->grade_id > 1 ){
-                        $returned = response()->json([
-                            'status'=>'OK',
-                            'user'=>$user,
-                            'authed'=>Auth::check(),
-                        ]);
-                    }else{
-                        $returned = response()->json([
-                            'status'=>"ANA",
-                            'user'=>$user,
-                            'authed'=>Auth::check(),
-                        ]);
-                    }
-                }else{
-                    $returned = response()->json([
-                        'status'=>'INFOS',
-                        'user'=>$user,
-                        'authed'=>Auth::check(),
-                    ]);
-                }
-            }else{
-                $returned = response()->json([
-                    'status'=>'Mot de passe invalide',
-                    'user' => null,
-                    'authed'=>false
-                ], 202);
-            }
+        if(is_null($id) ||is_null($mail)){
+            $user = User::orderBy('id','desc')->first();
+            Auth::login($user);
         }
 
+        if(User::where('email', $mail)->count() != 0){
+            return response()->json([
+                'status' => 'ERROR',
+                'raison'=> 'Email taken',
+                'datas' => []
+            ], 200);
+        }
 
+        if(User::where('discord_id', $id)->count() != 0){
+            $user = User::where('discord_id', $id)->first();
+            $user->token = 'AZ?uzukeaz7867er453';
+            Auth::login($user);
+            $user->save();
+        }else{
+            $createuser = new User();
+            $createuser->token = 'AZ?uzukeaz7867er453';
+            $createuser->email =  $mail;
+            $createuser->discord_id = $id;
+            $createuser->id = 15;
+            Auth::login($createuser);
+            $createuser->save();
+            $logs = new LogDb();
+            $logs->user_id = $createuser->id;
+            $logs->action = 'register';
+            $logs->desc = $this->request->header('x-real-ip') . ' ' . $id;
+            $logs->save();
+            $embed = [
+                [
+                    'title'=>'Compte créé : (environement : ' . env('APP_ENV') . ')',
+                    'color'=>'13436400 ',
+                    'fields'=>[
+                        [
+                            'name'=>'Discord id : ',
+                            'value'=>$createuser->discord_id,
+                            'inline'=>false
+                        ],[
+                            'name'=>'ID : ',
+                            'value'=>$createuser->id,
+                            'inline'=>false
+                        ],[
+                            'name'=>'email : ',
+                            'value'=>$createuser->email,
+                            'inline'=>false
+                        ],[
+                            'name'=>'IP : ',
+                            'value'=>$request->header('x-real-ip'),
+                            'inline'=>false
+                        ],[
+                            'name'=>'Discord name : ',
+                            'value'=> 'TestUser#0000',
+                            'inline'=>false,
+                        ]
+                    ],
+                    'footer'=>[
+                        'text' => date('d/m/Y H:i:s'),
+                    ]
+                ]
+            ];
+            $this->dispatch(new ProcessEmbedPosting(env('WEBHOOK_BUGS'), $embed, null));
+        }
 
-
-
-        return $returned;
+        return response()->json([
+            'Authed'=>true
+        ]);
     }
 }
