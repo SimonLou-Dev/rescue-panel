@@ -28,6 +28,7 @@ class AppServiceProvider extends ServiceProvider
             $this->app->register(\Laravel\Telescope\TelescopeServiceProvider::class);
             $this->app->register(TelescopeServiceProvider::class);
         }
+        //https://laracasts.com/discuss/channels/laravel/how-to-disable-password-hasing-of-auth
     }
 
     /**

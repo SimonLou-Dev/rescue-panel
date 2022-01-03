@@ -36,7 +36,9 @@ use Illuminate\Support\Facades\Route;
 use WebSocket\Client;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Session;
 use Laravel\Socialite\Facades\Socialite;
+use Illuminate\Support\Facades\Auth;
 
 /*
 |--------------------------------------------------------------------------
@@ -245,9 +247,10 @@ Route::get('/test', function (){
    event(new \App\Events\Notify('test',1));
 });
 
-Route::get('/teste', function (){
-    return dd(Auth::user(), Session::get('user'), Auth::check());
-});
+Route::get('/teste', function (Request $request){
+
+    return dd(Auth::user(), Session::get('user'), Auth::check(), $request->user(), $request->session(), $this->guard()->all());
+})->middleware('web');
 
 
 

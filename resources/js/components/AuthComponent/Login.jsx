@@ -12,7 +12,7 @@ const Login = (props) => {
                     </div>
                     <div className={'auth-content'}>
                         <h1>Connexion</h1>
-                        <a href="/auth/redirect" className="btn --big">
+                        <a href="/auth/redirect" className="btn --big" target="_blank">
                             Avec discord
                             <img src={'/assets/images/discord.png'} alt={''}/>
                         </a>

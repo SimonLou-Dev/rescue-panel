@@ -19,9 +19,15 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Session;
 use Laravel\Socialite\Facades\Socialite;
+use Illuminate\Auth\EloquentUserProvider;
 
 class UserConnexionController extends Controller
 {
+
+        public function __construct() {
+            $this->middleware(['web']);
+        }
+
     /**
      * @return JsonResponse
      */
@@ -119,11 +125,6 @@ class UserConnexionController extends Controller
         }else if($countId == 1){
             $user = User::where('discord_id', $userinfos->id)->first();
             $user->token = $auth->token;
-            $user->getGrade();
-            Auth::login($user);
-            Session::flush();
-            Session::push('user', $user);
-
             $user->save();
         }else{
             $createuser = new User();
@@ -135,9 +136,6 @@ class UserConnexionController extends Controller
             $createuser->id = 15;
             $createuser->save();
             $user = $createuser;
-            Auth::login($createuser);
-            Session::flush();
-            Session::push('user', $user);
             $logs = new LogDb();
             $logs->user_id = $createuser->id;
             $logs->action = 'register';
@@ -177,6 +175,13 @@ class UserConnexionController extends Controller
             ];
             $this->dispatch(new ProcessEmbedPosting(env('WEBHOOK_BUGS'), $embed, null));
         }
+
+        $user->getGrade();
+        Auth::login($user);
+        Session::flush();
+        $request->session()->push('user', $user);
+
+        dd(Auth::check(), Session::all());
 
         return $this::redirector($user);
     }
