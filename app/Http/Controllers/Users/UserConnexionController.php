@@ -107,15 +107,16 @@ class UserConnexionController extends Controller
         $userreq = Http::withToken($auth->token)->get('https://discord.com/api/v9/users/@me');
         $userinfos = json_decode($userreq->body());
 
-        if(User::where('email', $userinfos->email)->count() != 0){
+        $countMail = User::where('email', $userinfos->email)->count();
+        $countId = User::where('discord_id', $userinfos->id)->count();
+
+        if($countMail != $countId){
             return response()->json([
                 'status' => 'ERROR',
-                'raison'=> 'Email taken',
+                'raison'=> 'Email or account taken',
                 'datas' => []
             ], 200);
-        }
-
-        if(User::where('discord_id', $userinfos->id)->count() != 0){
+        }else if($countId == 1){
             $user = User::where('discord_id', $userinfos->id)->first();
             $user->token = $auth->token;
             $user->getGrade();

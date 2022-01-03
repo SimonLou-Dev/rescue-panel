@@ -1,0 +1,208 @@
+//Import Fonts
+@import url('https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;800&family=Nunito:wght@200;300&display=swap');
+
+//Predeined Color
+$heavytext: #FFF;
+$lighttext: #E9E9E9;
+$bgmain: #302E38;
+$bgmaisvar: #3A3743;
+$bg2: #3D487B;
+$bg2var: #435089;
+$boom: #ED3444;
+$bg1: #1B2037;
+$bg2var: #222844;
+
+$blue: #3490dc;
+$indigo: #6574cd;
+$purple: #9561e2;
+$pink: #f66d9b;
+$red: #e3342f;
+$orange: #f6993f;
+$yellow: #ffed4a;
+$green: #38c172;
+$teal: #4dc0b5;
+$cyan: #6cb2eb;
+
+$disabled: #303030;
+$green_light: #00FF00;
+$red_light: #FF0000;
+
+//Border radius
+$border-radius: 10px;
+
+//Glow function
+@function text_glow($color){
+    @return 0 0 30px $color;
+}
+@function box_glow($color, $blur: 20px, $size: 7px){
+    @return 0 0 $blur $size $color;
+}
+
+//Test predefinition
+h1{
+    font-family: 'Baloo 2';
+}
+
+
+h1{
+    font-family: 'Baloo 2';
+    font-weight: 800;
+    font-size: 35px;
+    color: $heavytext;
+}
+h2{
+    font-family: 'Baloo 2';
+    font-weight: 700;
+    font-size: 30px;
+    color: $heavytext;
+}
+h3{
+    font-family: 'Baloo 2';
+    font-weight: 600;
+    font-size: 28px;
+    color: $heavytext;
+}
+h4{
+    font-family: 'Baloo 2';
+    font-weight: 500;
+    font-size: 26px;
+    color: $heavytext;
+}
+h5{
+    font-family: 'Baloo 2';
+    font-weight: 400;
+    font-size: 24px;
+    color: $heavytext;
+}
+h6{
+    font-family: 'Baloo 2';
+    font-weight: 300;
+    font-size: 20px;
+    color: $heavytext;
+}
+h1, h2, h3, h4, h5, h6{
+    margin: 0 0;
+}
+p{
+    font-family: 'Baloo 2';
+    font-weight: 300;
+    font-size: 20px;
+    color: $heavytext;
+}
+//Input Predefinition
+input, select, textarea {
+    color: $heavytext;
+    background-color: $bg2;
+    margin: 10px 0;
+    font-size: 20px;
+    font-family: 'Baloo 2';
+    font-weight: 500;
+    box-shadow: none;
+    border: none;
+    border-radius: $border-radius;
+    padding: 10px;
+
+    &::placeholder {
+        color: $lighttext;
+    }
+
+    &:-webkit-autofill {
+        background-color: $bg2 !important;
+        color: $lighttext !important;
+    }
+}
+a, p, label{
+    color: $heavytext;
+    font-family: "Baloo 2";
+    font-weight: normal;
+    font-size: 20px;
+}
+a{
+    text-decoration: none;
+}
+
+//Form Error
+.form-error{
+    p{
+        color: $red_light;
+        margin: 0;
+    }
+}
+
+.form-error{
+    border: $red_light 1px solid !important;
+}
+.error-list{
+    font-family: "Baloo 2";
+    font-weight: 500;
+    color: $boom;
+}
+
+//Btn component
+.btn{
+    height: fit-content;
+    width: fit-content;
+    padding: 5px 10px;
+    background-color: $bg2;
+    border-radius: $border-radius;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: none;
+    transition: 400ms cubic-bezier(0.28,-0.46, 0.33, 1.5);
+    img{
+        width:40px;
+        height: auto;
+        margin:auto 10px;
+    }
+    &:hover{
+        -webkit-transform: scale(1.2);
+    }
+    &:disabled{
+        opacity: 0.7;
+        color: $disabled !important;
+        transition: none;
+        cursor: default;
+        animation: none;
+        &:hover{
+            transform: none;
+        }
+    }
+}
+.--big{
+    color: $heavytext;
+    font-family: "Baloo 2";
+    font-weight: 600;
+    font-size: 25px;
+}
+
+.--medium{
+    color: $lighttext;
+    font-family: "Nunito";
+    font-weight: 500;
+    font-size: 18px;
+}
+
+//Animations
+@keyframes SlideLeft {
+    0% {
+        margin-left: 120%;
+    }
+
+    100% {
+        margin-left: 0;
+    }
+}
+
+
+@keyframes SlideRight {
+    0% {
+        margin-left: 0;
+    }
+
+    100% {
+        margin-left: 120%;
+    }
+}
+

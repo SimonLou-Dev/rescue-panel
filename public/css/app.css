@@ -1,3 +1,394 @@
+@import url("https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;800&family=Nunito:wght@200;300&display=swap");
+h1 {
+  font-family: "Baloo 2";
+}
 
+h1 {
+  font-family: "Baloo 2";
+  font-weight: 800;
+  font-size: 35px;
+  color: #FFF;
+}
+
+h2 {
+  font-family: "Baloo 2";
+  font-weight: 700;
+  font-size: 30px;
+  color: #FFF;
+}
+
+h3 {
+  font-family: "Baloo 2";
+  font-weight: 600;
+  font-size: 28px;
+  color: #FFF;
+}
+
+h4 {
+  font-family: "Baloo 2";
+  font-weight: 500;
+  font-size: 26px;
+  color: #FFF;
+}
+
+h5 {
+  font-family: "Baloo 2";
+  font-weight: 400;
+  font-size: 24px;
+  color: #FFF;
+}
+
+h6 {
+  font-family: "Baloo 2";
+  font-weight: 300;
+  font-size: 20px;
+  color: #FFF;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  margin: 0 0;
+}
+
+p {
+  font-family: "Baloo 2";
+  font-weight: 300;
+  font-size: 20px;
+  color: #FFF;
+}
+
+input, select, textarea {
+  color: #FFF;
+  background-color: #3D487B;
+  margin: 10px 0;
+  font-size: 20px;
+  font-family: "Baloo 2";
+  font-weight: 500;
+  box-shadow: none;
+  border: none;
+  border-radius: 10px;
+  padding: 10px;
+}
+input::placeholder, select::placeholder, textarea::placeholder {
+  color: #E9E9E9;
+}
+input:-webkit-autofill, select:-webkit-autofill, textarea:-webkit-autofill {
+  background-color: #3D487B !important;
+  color: #E9E9E9 !important;
+}
+
+a, p, label {
+  color: #FFF;
+  font-family: "Baloo 2";
+  font-weight: normal;
+  font-size: 20px;
+}
+
+a {
+  text-decoration: none;
+}
+
+.form-error p {
+  color: #FF0000;
+  margin: 0;
+}
+
+.form-error {
+  border: #FF0000 1px solid !important;
+}
+
+.error-list {
+  font-family: "Baloo 2";
+  font-weight: 500;
+  color: #ED3444;
+}
+
+.btn {
+  height: fit-content;
+  width: fit-content;
+  padding: 5px 10px;
+  background-color: #3D487B;
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: none;
+  transition: 400ms cubic-bezier(0.28, -0.46, 0.33, 1.5);
+}
+.btn img {
+  width: 40px;
+  height: auto;
+  margin: auto 10px;
+}
+.btn:hover {
+  -webkit-transform: scale(1.2);
+}
+.btn:disabled {
+  opacity: 0.7;
+  color: #303030 !important;
+  transition: none;
+  cursor: default;
+  animation: none;
+}
+.btn:disabled:hover {
+  transform: none;
+}
+
+.--big {
+  color: #FFF;
+  font-family: "Baloo 2";
+  font-weight: 600;
+  font-size: 25px;
+}
+
+.--medium {
+  color: #E9E9E9;
+  font-family: "Nunito";
+  font-weight: 500;
+  font-size: 18px;
+}
+
+@keyframes SlideLeft {
+  0% {
+    margin-left: 120%;
+  }
+  100% {
+    margin-left: 0;
+  }
+}
+@keyframes SlideRight {
+  0% {
+    margin-left: 0;
+  }
+  100% {
+    margin-left: 120%;
+  }
+}
+.notification-wrapper {
+  position: fixed;
+  height: 100vh;
+  top: 10px;
+  right: 10px;
+  width: 350px;
+  pointer-events: none;
+  z-index: 15;
+}
+.notification-wrapper .notification-item {
+  padding: 5px 10px;
+  min-height: 65px;
+  pointer-events: all;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3), 1px 3px 4px rgba(0, 0, 0, 0.2);
+  border-radius: 10px;
+  overflow: hidden;
+  margin-bottom: 20px;
+  animation: SlideLeft 0.4s;
+  animation-fill-mode: forwards;
+  width: 90%;
+  cursor: pointer;
+}
+.notification-wrapper .notification-item p {
+  color: #fff;
+  max-width: calc(100% - 15px);
+  font-family: "Baloo 2", monospace;
+  font-weight: 600;
+  font-size: 22px;
+  line-height: 100%;
+  word-wrap: break-word;
+  margin-top: 10px;
+}
+.notification-wrapper .danger {
+  background-color: #e3342f;
+  border-left: 8px solid #bd1120;
+}
+.notification-wrapper .warning {
+  background-color: #f6993f;
+  border-left: 8px solid #b06319;
+}
+.notification-wrapper .info {
+  background-color: #9561e2;
+  border-left: 8px solid #5b20b3;
+}
+.notification-wrapper .success {
+  background-color: #38c172;
+  border-left: 8px solid #118c45;
+}
+.notification-wrapper .exit {
+  animation: SlideRight 0.4s;
+  animation-fill-mode: forwards;
+}
+.notification-wrapper .undefined {
+  display: none;
+}
+
+.bar {
+  background-color: #302E38;
+  width: 100%;
+  margin-top: 10px;
+  border-radius: 20px;
+}
+.bar .bar--filler {
+  height: 10px !important;
+  background-color: #3D487B;
+  border-radius: 20px;
+}
+
+.uploader--container {
+  width: 240px;
+  height: 135px;
+  border-radius: 10px;
+  background-color: #3D487B;
+  position: absolute;
+  overflow: hidden;
+}
+.uploader--container .img {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  filter: blur(2px);
+}
+.uploader--container .Uploader {
+  width: 100%;
+  height: 100%;
+}
+.uploader--container label {
+  width: 100%;
+  top: 10%;
+  position: absolute;
+  display: block;
+  text-align: center;
+}
+.uploader--container .upload-btn {
+  position: absolute;
+  top: 40%;
+  left: calc(50% - 92px);
+  background-color: #302E38;
+  border-radius: 10px;
+  border: none;
+  color: #FFF;
+  font-family: "Baloo 2";
+  padding: 10px;
+  font-size: 20px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: 400ms cubic-bezier(0.28, -0.46, 0.33, 1.5);
+}
+.uploader--container .upload-btn:hover {
+  -webkit-transform: scale(1.2);
+}
+.uploader--container .upload-btn:disabled {
+  opacity: 0.7;
+  transition: none;
+  cursor: default;
+  animation: none;
+}
+.uploader--container .upload-btn:disabled:hover {
+  transform: none;
+}
+.uploader--container .bar {
+  position: absolute;
+  left: 10%;
+  top: 80%;
+  width: 80%;
+}
+.uploader--container .bar .bar--filler {
+  background-color: #3D487B;
+}
+.uploader--container .hasFile {
+  display: none;
+}
+.uploader--container .delete {
+  position: absolute;
+  background: transparent;
+  border: none;
+  top: 25%;
+  left: 35%;
+  cursor: pointer;
+  transition: 400ms cubic-bezier(0.28, -0.46, 0.33, 1.5);
+}
+.uploader--container .delete:hover {
+  -webkit-transform: scale(1.2);
+}
+.uploader--container .delete:disabled {
+  opacity: 0.7;
+  transition: none;
+  cursor: default;
+  animation: none;
+}
+.uploader--container .delete:disabled:hover {
+  transform: none;
+}
+.uploader--container .anyFile {
+  display: none;
+}
+
+html {
+  position: fixed;
+  padding: 0;
+  margin: 0;
+  height: 100vh;
+  width: 100vw;
+  top: 0;
+  left: 0;
+}
+
+body {
+  padding: 0;
+  margin: 0;
+  height: 100vh;
+  width: 100vw;
+}
+
+.AppContainer {
+  padding: 0;
+  margin: 0;
+  height: 100vh;
+  width: 100vw;
+}
+
+#app {
+  height: 100vh;
+  width: 100vw;
+  background-color: #302E38;
+}
+
+.Auth {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  background-image: url("/assets/bg/BG_1.jpg");
+}
+.Auth .Authentifier {
+  margin: auto;
+  width: 95%;
+  max-width: 400px;
+  background-color: #1B2037;
+  display: flex;
+  flex-direction: column;
+  border-radius: 10px;
+}
+.Auth .Authentifier .auth-header {
+  padding: 20px;
+}
+.Auth .Authentifier .auth-header img {
+  width: calc(100% - 20px);
+}
+.Auth .Authentifier .auth-content {
+  border-top: 1px #ED3444 solid;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.Auth .Authentifier .auth-content h1, .Auth .Authentifier .auth-content a {
+  margin: 10px auto 20px auto;
+}
+.Auth .Authentifier .auth-footer {
+  border-top: 1px #ED3444 solid;
+  width: 100%;
+  display: flex;
+}
+.Auth .Authentifier .auth-footer a {
+  margin: 20px auto;
+}
 
 /*# sourceMappingURL=app.css.map */
