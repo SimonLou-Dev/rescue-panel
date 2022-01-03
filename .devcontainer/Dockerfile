@@ -36,3 +36,4 @@ RUN npm install --global yarn
 
 RUN echo "xdebug.mode=coverage" >> /etc/php/8.1/cli/php.ini
 RUN echo "xdebug.mode=coverage" >> /etc/php/8.1/fpm/php.ini
+RUN update-alternatives --set php /usr/bin/php8.1
