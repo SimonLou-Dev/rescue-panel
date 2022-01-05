@@ -1,6 +1,6 @@
 <?php
 
-
+use App\Enums\DiscordChannel;
 use App\Http\Controllers\AccountController;
 use App\Http\Controllers\ContentManagement;
 use App\Http\Controllers\ErrorsController;
