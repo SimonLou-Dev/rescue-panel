@@ -4,8 +4,10 @@ namespace App\Providers;
 
 use App\Blade\ViteAssetLoader;
 use Illuminate\Foundation\Application;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
+use App\Services\LegacyUserProvider;
 
 
 class AppServiceProvider extends ServiceProvider
@@ -29,6 +31,13 @@ class AppServiceProvider extends ServiceProvider
             $this->app->register(TelescopeServiceProvider::class);
         }
         //https://laracasts.com/discuss/channels/laravel/how-to-disable-password-hasing-of-auth
+        /*
+        Auth::provider('legacy', function ($app, array $config) {
+            return new LegacyUserProvider($config['model']);
+        });*/
+        Auth::provider('legacy', function ($app, array $config) {
+            return new LegacyUserProvider($config['model']);
+        });
     }
 
     /**

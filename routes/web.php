@@ -248,8 +248,7 @@ Route::get('/test', function (){
 });
 
 Route::get('/teste', function (Request $request){
-
-    return dd(Auth::user(), Session::get('user'), Auth::check(), $request->user(), $request->session(), $this->guard()->all());
+        return dd(Auth::user(), Auth::check(), $request->user(), $request->session());
 })->middleware('web');
 
 

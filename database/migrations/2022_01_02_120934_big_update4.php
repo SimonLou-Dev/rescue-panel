@@ -16,7 +16,7 @@ class BigUpdate4 extends Migration
         Schema::table('Users', function (Blueprint $table) {
             $table->integer('grade_id')->nullable()->default(null)->change();
             $table->string('name')->nullable()->default(null)->change();
-            $table->dropColumn('password');
+            $table->longText('remember_token')->nullable()->default(null);
         });
 
         Schema::table('BCLists', function (Blueprint $table) {

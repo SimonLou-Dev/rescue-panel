@@ -10,6 +10,7 @@ use App\Jobs\ProcessEmbedPosting;
 use App\Models\Grade;
 use App\Models\LogDb;
 use App\Models\User;
+use Faker\Provider\Uuid;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -20,9 +21,12 @@ use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Session;
 use Laravel\Socialite\Facades\Socialite;
 use Illuminate\Auth\EloquentUserProvider;
+use Illuminate\Foundation\Auth\AuthenticatesUsers;
 
 class UserConnexionController extends Controller
 {
+
+    use AuthenticatesUsers;
 
         public function __construct() {
             $this->middleware(['web']);
@@ -109,6 +113,14 @@ class UserConnexionController extends Controller
             }
         }
 
+        if(!$bcfd || !$glite){
+            return response()->json([
+                'status' => 'ERROR',
+                'raison'=> 'Not on discord Servers',
+                'datas' => []
+            ], 200);
+        }
+
 
         $userreq = Http::withToken($auth->token)->get('https://discord.com/api/v9/users/@me');
         $userinfos = json_decode($userreq->body());
@@ -124,22 +136,21 @@ class UserConnexionController extends Controller
             ], 200);
         }else if($countId == 1){
             $user = User::where('discord_id', $userinfos->id)->first();
-            $user->token = $auth->token;
+            $user->password = Hash::make($auth->token);
             $user->save();
         }else{
             $createuser = new User();
-            $createuser->token = $auth->token;
+            $createuser->password = Hash::make($auth->token);
             $createuser->email =  $userinfos->email;
             $createuser->discord_id = $userinfos->id;
             $defaultGrade = Grade::where('default',true)->first();
             $createuser->grade_id = $defaultGrade->id;
-            $createuser->id = 15;
             $createuser->save();
             $user = $createuser;
             $logs = new LogDb();
             $logs->user_id = $createuser->id;
             $logs->action = 'register';
-            $logs->desc = $this->request->header('x-real-ip') . ' ' . $auth->id;
+            $logs->desc = $this->request->header('x-real-ip') . ' ' . $user->id;
             $logs->save();
             $embed = [
                 [
@@ -178,10 +189,6 @@ class UserConnexionController extends Controller
 
         $user->getGrade();
         Auth::login($user);
-        Session::flush();
-        $request->session()->push('user', $user);
-
-        dd(Auth::check(), Session::all());
 
         return $this::redirector($user);
     }
@@ -194,47 +201,34 @@ class UserConnexionController extends Controller
     {
         $id = $request->query('id');
         $mail = $request->query('email');
+        $token = 'azkgenjazehr';
 
-        if(is_null($id) || is_null($mail)){
-            $user = User::orderBy('id','desc')->first();
-            Auth::loginUsingId($user->id);
-            Session::flush();
-            Session::push('user', $user);
-        }else if(User::where('email', $mail)->count() != 0 && User::where('discord_id', $id)->count() == 0){
+        $countMail = User::where('email', $mail)->count();
+        $countId = User::where('discord_id', $id)->count();
+
+        if($countMail != $countId){
             return response()->json([
                 'status' => 'ERROR',
-                'raison'=> 'Email taken',
+                'raison'=> 'Email or account taken',
                 'datas' => []
             ], 200);
-        }else if(User::where('email', $mail)->count() == 0 && User::where('discord_id', $id)->count() != 0){
-            return response()->json([
-                'status' => 'ERROR',
-                'raison'=> 'Account taken',
-                'datas' => []
-            ], 200);
-        }else if(User::where('discord_id', $id)->count() == 1 && User::where('email', $mail)->count() == 1){
+        }else if($countId == 1){
             $user = User::where('discord_id', $id)->first();
-            $user->token = 'AZ?uzukeaz7867er453';
-            Auth::login($user);
+            $user->password = Hash::make($token);
             $user->save();
-            Session::flush();
-            Session::push('user', $user);
         }else{
             $createuser = new User();
-            $createuser->token = 'AZ?uzukeaz7867er453';
+            $createuser->password = Hash::make($token);
             $createuser->email =  $mail;
             $createuser->discord_id = $id;
             $defaultGrade = Grade::where('default',true)->first();
             $createuser->grade_id = $defaultGrade->id;
             $createuser->save();
             $user = $createuser;
-            Auth::login($createuser);
-            Session::flush();
-            Session::push('user', $user);
             $logs = new LogDb();
             $logs->user_id = $createuser->id;
             $logs->action = 'register';
-            $logs->desc = $request->header('x-real-ip') . ' ' . $id;
+            $logs->desc = $this->request->header('x-real-ip') . ' ' . $user->id;
             $logs->save();
             $embed = [
                 [
@@ -271,7 +265,11 @@ class UserConnexionController extends Controller
             $this->dispatch(new ProcessEmbedPosting(env('WEBHOOK_BUGS'), $embed, null));
         }
 
+        $user->getGrade();
+        Auth::login($user);
+
         return $this::redirector($user);
+
     }
 
     private static  function redirector(User $user){
