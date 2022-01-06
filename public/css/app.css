@@ -391,4 +391,84 @@ body {
   margin: 20px auto;
 }
 
+.layout {
+  height: 100vh;
+  width: 100vw;
+}
+.layout .layout-header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 100vw;
+  height: 60px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  background-color: #1B2037;
+}
+.layout .layout-header .header-menu {
+  width: 300px;
+  background-color: #3D487B;
+  display: flex;
+  flex-direction: row;
+  justify-content: left;
+  padding-left: 20px;
+  cursor: pointer;
+}
+.layout .layout-header .header-menu img {
+  width: auto;
+  height: 30px;
+  margin: auto 20px auto 0;
+}
+.layout .layout-header .header-menu h1 {
+  margin: auto 0;
+}
+.layout .layout-header .header-logout {
+  width: 60px;
+  background-color: #3D487B;
+  cursor: pointer;
+  display: flex;
+}
+.layout .layout-header .header-logout img {
+  width: auto;
+  height: 90%;
+  margin: auto;
+}
+.layout .menu {
+  position: fixed;
+  top: 60px;
+  left: 0px;
+  background-color: #1B2037;
+  height: 100vh;
+  width: 320px;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+.layout .menu .menu-header {
+  padding-left: 10px;
+  height: 20%;
+  display: flex;
+  flex-direction: column;
+  margin: 10px 0;
+}
+.layout .menu .menu-scrollable {
+  margin: 10px 0;
+  border-top: 1px solid #ED3444;
+  border-bottom: 1px solid #ED3444;
+  padding-left: 10px;
+  height: 55%;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+}
+.layout .menu .menu-footer {
+  margin: 10px 0;
+  padding-left: 10px;
+  height: 10%;
+  display: flex;
+  flex-direction: column;
+}
+
 /*# sourceMappingURL=app.css.map */

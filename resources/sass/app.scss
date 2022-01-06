@@ -235,3 +235,85 @@ body{
     }
 }
 
+//Layout & Headers
+.layout{
+    height: 100vh;
+    width: 100vw;
+    .layout-header{
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        width: 100vw;
+        height: 60px;
+        position: fixed;
+        top: 0;
+        left: 0;
+        background-color: $bg1;
+        .header-menu{
+            width: 300px;
+            background-color: $bg2;
+            display: flex;
+            flex-direction: row;
+            justify-content: left;
+            padding-left:20px;
+            cursor: pointer;
+            img{
+                width: auto;
+                height: 30px;
+                margin: auto 20px auto 0;
+            }
+            h1{
+                margin: auto 0;
+            }
+        }
+        .header-logout{
+            width: 60px;
+            background-color: $bg2;
+            cursor: pointer;
+            display: flex;
+            img{
+                width: auto;
+                height: 90%;
+                margin: auto;
+            }
+        }
+    }
+    .menu{
+        position : fixed;
+        top: 60px;
+        left: 0px;
+        background-color: $bg1;
+        height:100vh;
+        width: 320px;
+        display: flex;
+        flex-direction: column;
+        overflow-y: auto;
+        overflow-x: hidden;
+        .menu-header{
+            padding-left: 10px;
+            height:20%;
+            display: flex;
+            flex-direction: column;
+            margin: 10px 0;
+        }
+        .menu-scrollable{
+            margin: 10px 0;
+            border-top: 1px solid $boom;
+            border-bottom: 1px solid $boom;
+            padding-left: 10px;
+            height:55%;
+            display: flex;
+            flex-direction: column;
+            overflow-y: auto;
+        }
+        .menu-footer{
+            margin: 10px 0;
+            padding-left: 10px;
+            height:10%;
+            display: flex;
+            flex-direction: column;
+
+        }
+    }
+}
+

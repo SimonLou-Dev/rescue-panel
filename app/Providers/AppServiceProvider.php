@@ -3,6 +3,9 @@
 namespace App\Providers;
 
 use App\Blade\ViteAssetLoader;
+use App\Facade\DiscordInteractor;
+use App\Facade\TimeInteractor;
+use App\Facade\UserNotificationInteractor;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Schema;
@@ -26,6 +29,25 @@ class AppServiceProvider extends ServiceProvider
                 $app->get('cache.store')
             );
         });
+
+        $this->app->singleton( DiscordInteractor::class, function(Application $app){
+            return new DiscordInteractor(
+                $app->get('cache.store')
+            );
+        });
+
+        $this->app->singleton( TimeInteractor::class, function(Application $app){
+            return new TimeInteractor(
+
+            );
+        });
+
+        $this->app->singleton( UserNotificationInteractor::class, function(Application $app){
+            return new UserNotificationInteractor(
+
+            );
+        });
+
         if($this->app->environment('local')){
             $this->app->register(\Laravel\Telescope\TelescopeServiceProvider::class);
             $this->app->register(TelescopeServiceProvider::class);

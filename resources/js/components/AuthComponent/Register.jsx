@@ -12,7 +12,7 @@ const Register = (props) => {
                     </div>
                     <div className={'auth-content'}>
                         <h1>Inscription</h1>
-                        <a href="/auth/redirect" className="btn --big" target="_blank">
+                        <a href="/auth/redirect" className="btn --big">
                             Avec discord
                             <img src={'/assets/images/discord.png'} alt={''}/>
                         </a>

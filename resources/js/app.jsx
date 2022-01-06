@@ -40,6 +40,7 @@ class App extends React.Component{
                             <Route path='/register' component={Register}/>
                             <Route path='/cantaccess' component={Cantaccess}/>
                             <Route path='/informations' component={GetInfos}/>
+                            <Route path='/maintenance' component={Maintenance}/>
 
 
                             <Layout/>

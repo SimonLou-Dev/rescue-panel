@@ -13,8 +13,8 @@ use Illuminate\Support\Facades\Broadcast;
 |
 */
 
-Broadcast::channel('User.'.env('APP_ENV').'.{id}', function ($user, $Userid){
-   return (int) $user->id == \App\Models\User::where('id',$Userid)->id;
+Broadcast::channel('User.'.env('APP_ENV').'.{userid}', function ($user, $userid){
+   return true;
 });
 
 

@@ -236,6 +236,10 @@ return [
         'Markdown' => GrahamCampbell\Markdown\Facades\Markdown::class,
         'ViteGetAssets'=> \App\Facade\ViteFacade::class,
         'Excel' => Maatwebsite\Excel\Facades\Excel::class,
+        'UserNotify'=> \App\Facade\UserNotifyFacade::class,
+        'Discord'=> \App\Facade\DiscordFacade::class,
+        'TimeCalculate'=> \App\Facade\TimeCalculatorFacade::class,
+
     ],
 
 ];
