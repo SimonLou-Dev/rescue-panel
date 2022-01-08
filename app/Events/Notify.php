@@ -17,35 +17,19 @@ class Notify implements ShouldBroadcastNow
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
 
-    /**
-     * Create a new event instance.
-     *
-     * @return void
-     * @var string $text
-     */
-    public $text;
-    /**
-     * @var int $type
-     */
-    public $type;
 
-    /**
-     * @var string $title
-     */
-    public $title;
 
-    /**
-     * Notify constructor.
-     * @var int $id
-     */
-    public $id;
+    public function __construct(
+        public string $text,
+        public int $type,
+        public ?int $id = null
 
-    public function __construct(string $text, int $type, string $title = null)
+    )
     {
-        $this->text = $text;
-        $this->type = $type;
-        $this->id = Auth::user()->id;
-        $this->title = $title;
+        if(is_null($id)){
+            $this->id == Auth::user()->id;
+        }
+
     }
 
     /**
@@ -55,6 +39,7 @@ class Notify implements ShouldBroadcastNow
      */
     public function broadcastOn()
     {
+        //'User.'.env('APP_ENV').'.{userid}'
         return new PrivateChannel('User.'.env('APP_ENV').'.'.$this->id);
 
     }
@@ -69,7 +54,6 @@ class Notify implements ShouldBroadcastNow
         return [
             'type' => $this->type,
             'text' => $this->text,
-            'title'=> $this->title
         ];
     }
 }

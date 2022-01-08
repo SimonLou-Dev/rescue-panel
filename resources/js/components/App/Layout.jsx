@@ -4,19 +4,33 @@ import Echo from 'laravel-echo';
 import GetInfos from "../AuthComponent/GetInfos";
 import {Link, Route} from "react-router-dom";
 import Maintenance from "../Maintenance";
+const mysrcf = csrf;
 
 
 function Layout(props) {
     const [collapsed, setCollasping] = useState(false); // verif la syntax
 
     useEffect(async ()=>{
+        let userId = 1;
+
        Pusher.logToConsole = true;
         let pusher = new Pusher('fd78f74e8faecbd2405b', {
-            cluster: 'eu'
+            cluster: 'eu',
+            authEndpoint : '/broadcasting/auth',
+            auth: { headers: { "X-CSRF-Token": mysrcf } }
         });
-        let userChan = pusher.subscribe('User.'+env+'.1');
-        userChan.bind('notify', (data)=>{console.log(data)})
+        let UserChannel = pusher.subscribe('private-User.'+env+'.'+ userId);
+        UserChannel.bind('notify', (data)=>{
+            console.log(data);
+        })
 
+        let GlobalChannel = pusher.subscribe('presece-GlobalChannel');
+        GlobalChannel.bind('DispatchUpdated', (e)=>{
+            console.log(e)
+        });
+        GlobalChannel.bind('Notification', (e)=>{
+            console.log(e)
+        });
 
     }, [])
 
@@ -42,7 +56,7 @@ function Layout(props) {
                     <section className={"menu-scrollable"}>
                         <div className={"menu-item-list"}>
                             <section className={"menu-item"}>
-                                <h2>Patient</h2>
+                                <h2><span>Patient</span></h2>
                                 <ul className={"menu-nav-list"}>
                                     <li className={'menu-puce'}><Link to={'/patients/rapport'} className={'menu-link'}>rapports</Link></li>
                                     <li className={'menu-puce'}><Link to={'/patients/dossiers'} className={'menu-link'}>dossiers</Link></li>
@@ -51,26 +65,26 @@ function Layout(props) {
                                 </ul>
                             </section>
                             <section className={"menu-item"}>
-                                <h2>Factures</h2>
+                                <h2><span>Factures</span></h2>
                                 <ul className={"menu-nav-list"}>
                                     <li className={'menu-puce'}><Link to={'/factures'} className={'menu-link'}>factures</Link></li>
                                 </ul>
                             </section>
                             <section className={"menu-item"}>
-                                <h2>Formations</h2>
+                                <h2><span>Formations</span></h2>
                                 <ul className={"menu-nav-list"}>
                                     <li className={'menu-puce'}><Link to={'/formation/questionnaires'} className={'menu-link'}>questionnaires</Link></li>
                                     <li className={'menu-puce'}><Link to={'/formation/admin'} className={'menu-link'}>création</Link></li>
                                 </ul>
                             </section>
                             <section className={"menu-item"}>
-                                <h2>Logistique</h2>
+                                <h2><span>Logistique</span></h2>
                                 <ul className={"menu-nav-list"}>
                                     <li className={'menu-puce'}><Link to={'/logistique/stock'} className={'menu-link'}>gestion des stocks</Link></li>
                                 </ul>
                             </section>
                             <section className={"menu-item"}>
-                                <h2>Personnel</h2>
+                                <h2><span>Personnel</span></h2>
                                 <ul className={"menu-nav-list"}>
                                     <li className={'menu-puce'}><Link to={'/personnel/grade'} className={'menu-link'}>grade</Link></li>
                                     <li className={'menu-puce'}><Link to={'/personnel/horaire'} className={'menu-link'}>rapport horaire</Link></li>
@@ -79,7 +93,7 @@ function Layout(props) {
                                 </ul>
                             </section>
                             <section className={"menu-item"}>
-                                <h2>Gestion MDT</h2>
+                                <h2><span>Gestion MDT</span></h2>
                                 <ul className={"menu-nav-list"}>
                                     <li className={'menu-puce'}><Link to={'/mdt/discord'} className={'menu-link'}>discord</Link></li>
                                     <li className={'menu-puce'}><Link to={'/mdt/logs'} className={'menu-link'}>logs</Link></li>
@@ -91,7 +105,8 @@ function Layout(props) {
                         </div>
                     </section>
                     <section className={"menu-footer"}>
-                        <h3>NTM</h3>
+                        <h3>Design & développement
+                            Simon Lou - Copyright ©</h3>
                     </section>
                 </div>
             }

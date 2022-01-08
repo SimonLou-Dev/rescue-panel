@@ -291,27 +291,94 @@ body{
         overflow-x: hidden;
         .menu-header{
             padding-left: 10px;
-            height:20%;
+            height:150px;
             display: flex;
             flex-direction: column;
             margin: 10px 0;
+            .menu-link-big{
+                font-weight: 'Baloo 2';
+                cursor: pointer;
+                font-size: 25px;
+                color: $heavytext;
+            }
         }
         .menu-scrollable{
             margin: 10px 0;
             border-top: 1px solid $boom;
             border-bottom: 1px solid $boom;
             padding-left: 10px;
-            height:55%;
+            height: calc(100% - 350px);
             display: flex;
             flex-direction: column;
             overflow-y: auto;
+            .menu-item{
+                margin-bottom: 10px;
+                h2{
+                    position: relative;
+                    overflow: hidden;
+                    padding-right: 10px;
+                    margin-bottom: 5px;
+                    span{
+                        font-size: 27px;
+                        margin-left: 5px;
+                        padding: 0 5px 0 12px;
+                        z-index: 12;
+                        border-left: 7px $bg1var solid;
+                        border-left-color: $bg1var;
+                        width: fit-content;
+                        position: relative;
+                        top: 2px;
+                        &:after{
+                            position: absolute;
+                            width: 300px;
+                            height: 2px;
+                            top: 50%;
+                            left: calc(100% + 5px);
+                            content: " ";
+                            background-color: $bg1var;
+                            z-index: 0;
+                        }
+
+                    }
+
+                    &:before{
+                        position: absolute;
+                        width: 10px;
+                        height: 2px;
+                        top: 51%;
+                        left: 11px;
+                        background-color: $bg1var;
+                        content: " ";
+                        z-index: 0;
+                    }
+                }
+                ul{
+                    margin: 0;
+                    .menu-puce{
+                        list-style: none;
+                    }
+                }
+                .menu-link{
+                    font-weight: Nunito;
+                    cursor: pointer;
+                    font-size: 22px;
+                    color: $lighttext;
+                }
+            }
+
         }
         .menu-footer{
             margin: 10px 0;
             padding-left: 10px;
-            height:10%;
+            height: 80px;
             display: flex;
             flex-direction: column;
+            h3{
+                color: $lighttext;
+                opacity: 20%;
+                font-size: 25px;
+
+            }
 
         }
     }

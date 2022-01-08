@@ -60,12 +60,13 @@ Route::get("/infos", function (){
 Route::get('/dashboard', [HomeController::class, 'getIndex'])->name('dashboard'); //->middleware(['auth']);
 Route::get('/account', [HomeController::class, 'getIndex']); //->middleware(['auth']);
 Route::get('/dispatch', [HomeController::class, 'getIndex']); //->middleware(['auth']);
-Route::get('/patient/{a}', [HomeController::class, 'getIndex']); //->middleware(['auth']);
+Route::get('/patients/{a}', [HomeController::class, 'getIndex']); //->middleware(['auth']);
+Route::get('/blackcodes/{a}', [HomeController::class, 'getIndex']); //->middleware(['auth']);
 Route::get('/factures/{a}', [HomeController::class, 'getIndex']); //->middleware(['auth']);
-Route::get('/formation/{a}', [HomeController::class, 'getIndex']); //->middleware('auth');
+Route::get('/formation/{a}/{b?}', [HomeController::class, 'getIndex']); //->middleware('auth');
 Route::get('/logistique/{a?}', [HomeController::class, 'getIndex']); //->middleware('auth');
 Route::get('/personnel/{a?}', [HomeController::class, 'getIndex']); //->middleware('auth');
-Route::get('/management/{a?}', [HomeController::class, 'getIndex']); //->middleware('auth');
+Route::get('/mdt/{a?}', [HomeController::class, 'getIndex']); //->middleware('auth');
 Route::get('/cantaccess', [HomeController::class, 'getIndex'])->name('cantaccess');
 Route::get('/', function(){
     return redirect()->route('dashboard');
@@ -244,12 +245,16 @@ Route::any('/tunnel', [ErrorsController::class, 'tunelSentry']);
 Route::post('/data/bug', [MainController::class, 'postBug']);
 
 Route::get('/test', function (){
-   event(new \App\Events\Notify('test',1));
+
+   $test = event(new \App\Events\Notify('test',1, Auth::user()->id));
+   dd($test);
 });
 
 Route::get('/teste', function (Request $request){
         return dd(Auth::user(), Auth::check(), $request->user(), $request->session());
 })->middleware('web');
+
+
 
 
 
