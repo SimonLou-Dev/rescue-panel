@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Laravel\Scout\Searchable;
 
 /**
  *
@@ -20,7 +21,7 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Patient extends Model
 {
-    use HasFactory;
+    use HasFactory, Searchable;
     protected $table = "Patients";
     protected $fillable = ['name', 'vorname', 'tel'];
 

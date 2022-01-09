@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Laravel\Scout\Searchable;
 
 /**
  * Class Grade
@@ -20,7 +21,7 @@ class Grade extends Model
 {
     protected $fillable = ['id'];
 
-    use HasFactory;
+    use HasFactory, Searchable;
 
     protected $table = "Grades";
 

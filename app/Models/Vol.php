@@ -5,6 +5,7 @@ namespace App\Models;
 use Faker\Provider\DateTime;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Laravel\Scout\Searchable;
 
 /**
  * Class Vol
@@ -20,7 +21,7 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Vol extends Model
 {
-    use HasFactory;
+    use HasFactory, Searchable;
     protected $table = "Vols";
     protected $fillable = ['decollage', 'raison', 'pilote', 'lieux_id'];
 

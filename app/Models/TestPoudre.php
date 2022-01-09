@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Laravel\Scout\Searchable;
 
 /**
  * Class TestPoudre
@@ -17,7 +18,7 @@ use Illuminate\Database\Eloquent\Model;
  */
 class TestPoudre extends Model
 {
-    use HasFactory;
+    use HasFactory, Searchable;
     protected $table = 'PouderTests';
     protected $fillable = ['on_clothes_positivity', 'on_clothes_positivity', 'lieux_prelevement', 'patient_id', 'user_id'];
 

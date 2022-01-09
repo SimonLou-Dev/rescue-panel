@@ -5,6 +5,7 @@ namespace App\Models;
 use Faker\Provider\DateTime;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Laravel\Scout\Searchable;
 
 /**
  * Class Rapport
@@ -26,7 +27,7 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Rapport extends Model
 {
-    use HasFactory;
+    use HasFactory, Searchable;
     protected $table = "Rapports";
     protected $fillable = ['user_id', 'interType', 'transport', 'description', 'price', 'ATA_start', 'ATA_end', 'patient_id'];
 

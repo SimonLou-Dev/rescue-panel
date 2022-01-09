@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Laravel\Scout\Searchable;
 use Psy\Util\Json;
 
 /**
@@ -38,7 +39,7 @@ use Psy\Util\Json;
  */
 class User extends Authenticatable
 {
-    use HasFactory;
+    use HasFactory, Searchable;
     protected $table = "Users";
     protected $fillable = ['grade_id','last_service_update', 'name', 'email', 'password', 'token', 'service', 'liveplace', 'tel', 'pilote', 'compte', 'timezone', 'bg_img','matricule','discord_id','sanctions','materiel','note'];
 
@@ -95,5 +96,28 @@ class User extends Authenticatable
     public function GetGradePower():bool
     {
         return $this->GetGrade->power;
+    }
+
+    public function toSearchableArray()
+    {
+        return [
+            "id"=>$this->id,
+            "name"=>$this->name,
+            "discord_id"=>$this->discord_id,
+            "grade_id"=>$this->grade_id,
+            "tel"=>$this->tel,
+            "compte"=>$this->compte,
+            "matricule"=>$this->matricule
+        ];
+    }
+
+    public function getScoutKey()
+    {
+        return $this->id;
+    }
+
+    public function getScoutKeyName()
+    {
+        return 'id';
     }
 }

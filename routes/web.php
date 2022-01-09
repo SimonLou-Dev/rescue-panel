@@ -256,6 +256,10 @@ Route::get('/teste', function (Request $request){
         return dd(Auth::user(), Auth::check(), $request->user(), $request->session());
 })->middleware('web');
 
+Route::get('/serch', function (Request $request){
+    return  dd(\App\Models\User::search('1')->get());
+})->middleware('web');
+
 
 
 

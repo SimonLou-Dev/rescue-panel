@@ -5,6 +5,7 @@ namespace App\Models;
 use Faker\Provider\DateTime;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Laravel\Scout\Searchable;
 
 /**
  * Class BCList
@@ -19,6 +20,9 @@ use Illuminate\Database\Eloquent\Model;
  */
 class BCList extends Model
 {
+
+    use Searchable;
+
     protected $table = "BCLists";
 
     protected $fillable = ['starter_id', 'place', 'type_id', 'started_at', 'ended'];

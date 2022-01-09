@@ -6,6 +6,7 @@ use Carbon\Traits\Timestamp;
 use Faker\Provider\DateTime;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Laravel\Scout\Searchable;
 
 /**
  * Class Formation
@@ -38,7 +39,7 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Formation extends Model
 {
-    use HasFactory;
+    use HasFactory, Searchable;
     protected $table = "Formations";
 
     protected $fillable = [
