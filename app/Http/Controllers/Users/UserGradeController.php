@@ -64,54 +64,8 @@ class UserGradeController extends Controller
     public function GetUserPerm(Request $request): JsonResponse
     {
         $user = User::where('id', Auth::id())->first();
-        $grade = Grade::where('id', $user->grade_id)->first();
-        $perm = [
-            'acces'=>$grade->perm_0,
-            'HS_rapport'=>$grade->perm_1,
-            'HS_dossier'=>$grade->perm_2,
-            'HS_BC'=>$grade->perm_3,
-            'factures_PDF'=>$grade->perm_4,
-            'add_factures'=>$grade->perm_5,
-            'rapport_create'=>$grade->perm_6,
-            'add_BC'=>$grade->perm_7,
-            'remboursement'=>$grade->perm_8,
-            'infos_edit'=>$grade->perm_9,
-            'vol'=>$grade->perm_10,
-            'rapport_horaire'=>$grade->perm_11,
-            'service_modify'=>$grade->perm_12,
-            'time_modify'=>$grade->perm_13,
-            'perso_list'=>$grade->perm_14,
-            'set_pilot'=>$grade->perm_15,
-            'edit_perm'=>$grade->perm_16,
-            'post_annonces'=>$grade->perm_17,
-            'logs_acces'=>$grade->perm_18,
-            'validate_forma'=>$grade->perm_19,
-            'create_forma'=>$grade->perm_20,
-            'forma_publi'=>$grade->perm_21,
-            'forma_delete'=>$grade->perm_22,
-            'grade_modify'=>$grade->perm_23,
-            'HS_facture'=>$grade->perm_24,
-            'content_mgt'=>$grade->perm_25,
-
-            'view_member_sheet'=>$grade->perm_26,
-            'set_discordid'=>$grade->perm_27,
-            'sanction_MAP'=>$grade->perm_28,
-            'sanction_exclu'=>$grade->perm_29,
-            'sanction_warn'=>$grade->perm_30,
-            'sanction_degrade'=>$grade->perm_31,
-            'sanction_remove'=>$grade->perm_32,
-            'modify_material'=>$grade->perm_33,
-            'membersheet_note'=>$grade->perm_34,
-            'HS_poudre'=>$grade->perm_35,
-            'HS_poudre_history'=>$grade->perm_36,
-            'timeserviceupdate_request'=>$grade->perm_37,
-            'primesupdate_request'=>$grade->perm_38,
-            'useless'=>$grade->perm_39,
-
-
-            'user_id'=>$user->id
-        ];
-        return \response()->json(['status'=>'ok', 'perm'=>$perm, 'user'=>$user]);
+        $user->GetGrade;
+        return \response()->json(['status'=>'ok', 'user'=>$user]);
     }
 
     public function getAllGrades(): JsonResponse

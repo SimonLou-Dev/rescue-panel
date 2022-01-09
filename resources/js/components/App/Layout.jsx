@@ -4,35 +4,121 @@ import Echo from 'laravel-echo';
 import GetInfos from "../AuthComponent/GetInfos";
 import {Link, Route} from "react-router-dom";
 import Maintenance from "../Maintenance";
+import {useNotifications} from "../context/NotificationProvider";
+import UserContext from "../context/UserContext";
 const mysrcf = csrf;
+import {v4} from "uuid";
+import Rapport from "./Patient/Rapports/Rapport";
 
 
 function Layout(props) {
-    const [collapsed, setCollasping] = useState(false); // verif la syntax
+    const [collapsed, setCollasping] = useState(false);
+    const [user, setUser] = useState([]);
+    const dispatch = useNotifications();
 
     useEffect(async ()=>{
-        let userId = 1;
+        let userid = undefined
+        await axios({
+            method: 'GET',
+            url: '/data/userInfos',
+        }).then((response)=>{
+            userid = response.data.user.id;
+            setUser(response.data.user);
+        })
+        const timerID = setInterval(
+            () => tick(),
+            5*60*1000
+        );
 
-       Pusher.logToConsole = true;
+        Pusher.logToConsole = true;
+
         let pusher = new Pusher('fd78f74e8faecbd2405b', {
             cluster: 'eu',
             authEndpoint : '/broadcasting/auth',
             auth: { headers: { "X-CSRF-Token": mysrcf } }
         });
-        let UserChannel = pusher.subscribe('private-User.'+env+'.'+ userId);
-        UserChannel.bind('notify', (data)=>{
-            console.log(data);
+
+        let UserChannel = pusher.subscribe('private-User.'+env+'.'+ userid)
+        UserChannel.bind('notify', (e)=>{
+            addNotification(e)
         })
 
-        let GlobalChannel = pusher.subscribe('presece-GlobalChannel');
+        let GlobalChannel = pusher.subscribe('presece-GlobalChannel')
         GlobalChannel.bind('DispatchUpdated', (e)=>{
             console.log(e)
         });
-        GlobalChannel.bind('Notification', (e)=>{
-            console.log(e)
+        GlobalChannel.bind('Notification', (data)=>{
+            addNotification(data)
         });
 
+        return () => {
+            clearInterval(timerID);
+        }
+
     }, [])
+
+    const addNotification = (data) => {
+        if(!data.type){
+            data.type = 'warning';
+        }
+
+        let payload = {};
+        switch (data.type){
+            case 1:
+                payload= {
+                    id:v4(),
+                    type: 'success',
+                    message: data.text
+                }
+                break
+            case 2:
+                payload= {
+                    id:v4(),
+                    type: 'info',
+                    message: data.text
+                }
+                break;
+            case 3:
+                payload= {
+                    id:v4(),
+                    type: 'warning',
+                    message: data.text
+                }
+                break;
+            case 4:
+                payload= {
+                    id:v4(),
+                    type: 'danger',
+                    message: data.text
+                }
+                break;
+            default: break;
+        }
+        dispatch({
+            type: 'ADD_NOTIFICATION',
+            payload: {
+                id: payload.id,
+                type: payload.type,
+                message: payload.message
+            }
+        });
+    }
+
+    const tick =async() => {
+        let req =await axios({
+            url: '/data/check/connexion',
+            method: 'GET'
+        }).then(response => {
+            if(!response.data.session) {
+                window.location.replace('/login')
+            }
+        }).catch( error => {
+            if(error.response.status === 503){
+                window.location.replace('/maintenance')
+            }
+        })
+
+    }
 
     return (
         <div className={"layout"}>
@@ -101,7 +187,6 @@ function Layout(props) {
                                     <li className={'menu-puce'}><Link to={'/mdt/infos'} className={'menu-link'}>info / annonces</Link></li>
                                 </ul>
                             </section>
-
                         </div>
                     </section>
                     <section className={"menu-footer"}>
@@ -110,6 +195,11 @@ function Layout(props) {
                     </section>
                 </div>
             }
+            <div className={'app-page-container'}>
+                <UserContext.Provider value={user}>
+                    <Route path={'/patients/rapport'} component={Rapport}/>
+                </UserContext.Provider>
+            </div>
         </div>
     )
 }

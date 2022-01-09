@@ -94,10 +94,12 @@ Route::get('/logout', function (Request $request){
 Route::get('/auth/redirect', function () {return Socialite::driver('discord')->scopes(['email','guilds'])->redirect();});
 Route::get('/auth/callback', [UserConnexionController::class, 'callback']);
 Route::get('/auth/fake', [UserConnexionController::class, 'fake']);
+Route::get('/data/userInfos', [UserGradeController::class, 'GetUserPerm']);
+
 Route::post('/data/postuserinfos', [UserConnexionController::class, 'postInfos']);
 Route::get('/data/check/connexion', [UserConnexionController::class, 'checkConnexion']);
 Route::get('/data/getstatus', [LayoutController::class, 'getservice']);
-Route::get('/data/getperm', [UserGradeController::class, 'GetUserPerm']); //renommer la fonction
+//renommer la fonction
 Route::put('/data/setstatus', [LayoutController::class, 'setservice']);
 Route::get('/data/annonces', [MainController::class, 'getAnnonces']);
 Route::put('/data/users/setdiscordId/{discordid}/{id}', [UserController::class, 'setDiscordId']);

@@ -94,7 +94,7 @@ input, select, textarea {
     color: $heavytext;
     background-color: $bg2;
     margin: 10px 0;
-    font-size: 20px;
+    font-size: 15px;
     font-family: 'Baloo 2';
     font-weight: 500;
     box-shadow: none;
@@ -121,22 +121,7 @@ a{
     text-decoration: none;
 }
 
-//Form Error
-.form-error{
-    p{
-        color: $red_light;
-        margin: 0;
-    }
-}
 
-.form-error{
-    border: $red_light 1px solid !important;
-}
-.error-list{
-    font-family: "Baloo 2";
-    font-weight: 500;
-    color: $boom;
-}
 
 //Btn component
 .btn{
@@ -182,6 +167,72 @@ a{
     font-family: "Nunito";
     font-weight: 500;
     font-size: 18px;
+}
+
+//Form
+.form-column{
+    display: flex;
+    flex-direction: column;
+}
+.form-input{
+    height: 50px;
+}
+.form-error{
+    p{
+        color: $red_light;
+        margin: 0;
+    }
+}
+.form-healper{
+    font-weight: 400 !important;
+    font-style: italic !important;
+    font-family: Nunito !important;
+    font-size: 15px !important;
+    opacity: 25% !important;
+    color: $lighttext;
+}
+.form-item{
+    label{
+        font-size: 23px;
+        font-weight: 510;
+    }
+}
+
+.form-error{
+    border: $red_light 1px solid !important;
+}
+.errors-list{
+    li{
+        font-size: 20px;
+        font-weight: 400;
+        color: red;
+    }
+    ul{
+        margin: 0;
+    }
+    font-family: "Baloo 2";
+    font-weight: 500;
+    color: $boom;
+}
+
+//Card component
+.Card{
+    background-color: $bg1;
+    height: min-content;
+    width: 400px;
+    margin: 20px;
+    border-radius: $border-radius;
+    .card-header{
+        border-bottom: 1px $boom solid;
+        padding: 10px;
+        h3{
+            text-align: center;
+        }
+    }
+    .card-content{
+        margin-top: 5px;
+        padding: 10px;
+    }
 }
 
 //Animations

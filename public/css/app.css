@@ -60,7 +60,7 @@ input, select, textarea {
   color: #FFF;
   background-color: #3D487B;
   margin: 10px 0;
-  font-size: 20px;
+  font-size: 15px;
   font-family: "Baloo 2";
   font-weight: 500;
   box-shadow: none;
@@ -85,21 +85,6 @@ a, p, label {
 
 a {
   text-decoration: none;
-}
-
-.form-error p {
-  color: #FF0000;
-  margin: 0;
-}
-
-.form-error {
-  border: #FF0000 1px solid !important;
-}
-
-.error-list {
-  font-family: "Baloo 2";
-  font-weight: 500;
-  color: #ED3444;
 }
 
 .btn {
@@ -148,6 +133,71 @@ a {
   font-size: 18px;
 }
 
+.form-column {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-input {
+  height: 50px;
+}
+
+.form-error p {
+  color: #FF0000;
+  margin: 0;
+}
+
+.form-healper {
+  font-weight: 400 !important;
+  font-style: italic !important;
+  font-family: Nunito !important;
+  font-size: 15px !important;
+  opacity: 25% !important;
+  color: #E9E9E9;
+}
+
+.form-item label {
+  font-size: 23px;
+  font-weight: 510;
+}
+
+.form-error {
+  border: #FF0000 1px solid !important;
+}
+
+.errors-list {
+  font-family: "Baloo 2";
+  font-weight: 500;
+  color: #ED3444;
+}
+.errors-list li {
+  font-size: 20px;
+  font-weight: 400;
+  color: red;
+}
+.errors-list ul {
+  margin: 0;
+}
+
+.Card {
+  background-color: #1B2037;
+  height: min-content;
+  width: 400px;
+  margin: 20px;
+  border-radius: 10px;
+}
+.Card .card-header {
+  border-bottom: 1px #ED3444 solid;
+  padding: 10px;
+}
+.Card .card-header h3 {
+  text-align: center;
+}
+.Card .card-content {
+  margin-top: 5px;
+  padding: 10px;
+}
+
 @keyframes SlideLeft {
   0% {
     margin-left: 120%;
@@ -166,8 +216,8 @@ a {
 }
 .notification-wrapper {
   position: fixed;
-  height: 100vh;
-  top: 10px;
+  height: calc(100vh - 80px);
+  top: 80px;
   right: 10px;
   width: 350px;
   pointer-events: none;
@@ -532,6 +582,37 @@ body {
   color: #E9E9E9;
   opacity: 20%;
   font-size: 25px;
+}
+
+.app-page-container {
+  margin-top: 60px;
+}
+
+.rapports {
+  width: 100vw;
+  height: 100vh;
+  padding-bottom: 100px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  flex-wrap: wrap;
+  overflow-y: auto;
+  padding-top: 20px;
+}
+.rapports .collumn {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+}
+.rapports:last-child {
+  margin-bottom: 200px;
+}
+.rapports .card {
+  margin: min(10px, 20px);
+  overflow: hidden;
+}
+.rapports .card textarea {
+  width: 100%;
 }
 
 /*# sourceMappingURL=app.css.map */
