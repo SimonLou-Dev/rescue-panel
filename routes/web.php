@@ -11,6 +11,7 @@ use App\Http\Controllers\MainController;
 use App\Http\Controllers\PrimesController;
 use App\Http\Controllers\Rapports\PoudreTestController;
 use App\Http\Controllers\RemboursementsController;
+use App\Http\Controllers\SearchController;
 use App\Http\Controllers\Service\ModifierReqController;
 use App\Http\Controllers\Service\ServiceGetterController;
 use App\Http\Controllers\Service\ServiceSetterController;
@@ -111,7 +112,6 @@ Route::post('/data/user/reset/post',[CredentialController::class,'changepass'] )
 //Rapport management
 Route::get('/data/rapport/getforinter', [RapportController::class, 'getforinter']);
 Route::post('/data/rapport/post', [RapportController::class, 'addRapport']);
-Route::get('/data/patient/search/{text}', [PatientController::class, 'search']);
 Route::get('/data/patient/interlist/{text}', [PatientController::class, 'getPatient']);
 Route::get('/data/rapport/get/{id}', [RapportController::class, 'getRapportById']);
 Route::put('/data/rapport/update/{id}', [RapportController::class, 'updateRapport']);
@@ -160,7 +160,6 @@ Route::get('/data/service/req/waitinglist', [ModifierReqController::class,'getAl
 //User management
 Route::get('/data/users/getall', [UserController::class, 'getUser']);
 Route::post('/data/users/setgrade/{id}/{userid}', [UserGradeController::class, 'setusergrade']);
-Route::get('/data/users/search/{user}', [UserController::class, 'searchUser']);
 Route::put('/data/users/pilote/{user_id}', [UserController::class, 'changePilote']);
 Route::put('/data/user/{user_id}/changestate/{state}', [UserController::class, 'changeState']);
 Route::get('/data/usersheet/{user_id}/note', [UserController::class, 'getUserNote']);
@@ -183,7 +182,7 @@ Route::get('/data/logs/{range}/{page}/{type}', [ContentManagement::class, 'getLo
 //Carnet de vol
 Route::get('/data/vol/get/{page}/{name?}', [VolController::class, 'getVolsList']);
 Route::post('/data/vol/add', [VolController::class, 'addVol']);
-Route::get('/data/vol/searsh/{pilote?}', [VolController::class, 'seatchPilote']);
+
 
 //Formation
 Route::get('/data/certifications/admin/get', [CertificationController::class, 'getUsersCertifications']);
@@ -245,6 +244,11 @@ Route::put('/data/infosutils/put', [MainController::class, 'updateUtilsInfos']);
 Route::post('/data/front/errors', [ErrorsController::class, 'frontErrors']);
 Route::any('/tunnel', [ErrorsController::class, 'tunelSentry']);
 Route::post('/data/bug', [MainController::class, 'postBug']);
+
+//Searching
+Route::get('/data/patient/search/{text}', [SearchController::class, 'searchPatient']);
+Route::get('/data/vol/searsh/{pilote?}', [VolController::class, 'seatchPilote']);
+Route::get('/data/users/search/{user}', [SearchController::class, 'searchUser']);
 
 Route::get('/test', function (){
 

@@ -36,7 +36,28 @@ class Patient extends Model
 
     public function getTestsPoudre(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
-
         return $this->hasMany(TestPoudre::class, 'patient_id');
+    }
+
+    public function toSearchableArray()
+    {
+        return [
+            "id"=>$this->id,
+            "name"=>$this->name,
+            "vorname"=>$this->vorname,
+            "tel"=>$this->tel,
+            "naissance"=>$this->naissance,
+            "living_place"=>$this->living_place,
+        ];
+    }
+
+    public function getScoutKey()
+    {
+        return $this->id;
+    }
+
+    public function getScoutKeyName()
+    {
+        return 'id';
     }
 }
