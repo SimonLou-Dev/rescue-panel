@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Rapports;
 
 use App\Events\Notify;
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\LogsController;
 use App\Jobs\ProcessEmbedPosting;
 use App\Jobs\ProcessRapportPDFGenerator;
 use App\Models\Facture;
@@ -53,7 +54,7 @@ class RapportController extends Controller
          * name: name,
                 startinter: interdate + ' '  + interhour,
                 tel: tel,
-        ddn: ddn,
+                ddn: ddn,
                 liveplace: liveplace,
                 lieux: lieux,
                 type: intertype,
@@ -70,7 +71,6 @@ class RapportController extends Controller
             'type'=>['required'],
             'transport'=>['required'],
             'desc'=>['required'],
-            'montant'=>['required'],
             'payed'=>['required'],
             'montant'=>['required','integer'],
         ]);
@@ -87,9 +87,18 @@ class RapportController extends Controller
             $Patient = new Patient();
             $Patient->name = $patientname[1];
             $Patient->vorname = $patientname[0];
-            $Patient->tel = $request->tel;
-            $Patient->save();
         }
+        if(isset($request->tel)){
+            $Patient->tel = $request->tel;
+        }
+        if(isset($request->ddn)){
+            $Patient->naissance  = $request->ddn;
+        }
+        if(isset($request->liveplace)){
+            $Patient->living_place = $request->liveplace;
+        }
+
+        $Patient->save();
         $patient_id = $Patient->id;
         $rapport = new Rapport();
         $rapport->patient_id = $patient_id;
@@ -162,6 +171,9 @@ class RapportController extends Controller
         $this->dispatch(new ProcessEmbedPosting([env('WEBHOOK_RI')],$embed,null));
 
         $this->dispatch(new ProcessRapportPDFGenerator($rapport, $path));
+
+        $logs = new LogsController();
+        $logs->RapportLogging('create', $rapport->id, Auth::user()->id);
 
         event(new Notify('Rapport ajouté ! ',1));
 

@@ -47,7 +47,20 @@ function Rapport(props) {
                 url: '/data/patient/search/'+search,
             }).then((response)=>{
                 setsearching(response.data.patients);
-                //TODO : mettre les infos quand il renster plus que 1 *(si on trouve pas l'event du select)*
+                if (response.data.patients.length === 1) {
+                    let patient = response.data.patients[0];
+                    setName(patient.vorname + ' ' + patient.name);
+                    setDDn(patient.naissance);
+                    setTel(patient.tel);
+                    setLiveplace(patient.living_place);
+                }
+                if (response.data.patients.length === 0) {
+                    setName('');
+                    setDDn('');
+                    setTel('');
+                    setLiveplace('');
+                }
+
             })
         }
     }
