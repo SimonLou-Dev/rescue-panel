@@ -413,4 +413,10 @@ body{
             width: 100%;
         }
     }
+    .form-line{
+        justify-content: space-between;
+        .onoffswitch{
+            margin-right: 50px;
+        }
+    }
 }

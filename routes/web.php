@@ -111,6 +111,7 @@ Route::post('/data/user/reset/post',[CredentialController::class,'changepass'] )
 
 //Rapport management
 Route::get('/data/rapport/getforinter', [RapportController::class, 'getforinter']);
+
 Route::post('/data/rapport/post', [RapportController::class, 'addRapport']);
 Route::get('/data/patient/interlist/{text}', [PatientController::class, 'getPatient']);
 Route::get('/data/rapport/get/{id}', [RapportController::class, 'getRapportById']);

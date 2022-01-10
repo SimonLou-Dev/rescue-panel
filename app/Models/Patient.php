@@ -43,8 +43,7 @@ class Patient extends Model
     {
         return [
             "id"=>$this->id,
-            "name"=>$this->name,
-            "vorname"=>$this->vorname,
+            "name"=>$this->vorname . ' ' .$this->name,
             "tel"=>$this->tel,
             "naissance"=>$this->naissance,
             "living_place"=>$this->living_place,

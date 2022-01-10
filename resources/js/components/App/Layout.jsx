@@ -1,6 +1,5 @@
 import React, {useEffect, useState} from 'react';
 import axios from "axios";
-import Echo from 'laravel-echo';
 import GetInfos from "../AuthComponent/GetInfos";
 import {Link, Route} from "react-router-dom";
 import Maintenance from "../Maintenance";
@@ -12,7 +11,7 @@ import Rapport from "./Patient/Rapports/Rapport";
 
 
 function Layout(props) {
-    const [collapsed, setCollasping] = useState(false);
+    const [collapsed, setCollasping] = useState(true);
     const [user, setUser] = useState([]);
     const dispatch = useNotifications();
 

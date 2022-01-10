@@ -4,9 +4,9 @@ import axios from "axios";
 
 function Button(props) {
     return (
-        <Button className={"btn"} onClick={props.callback}>
+        <button className={"btn"} onClick={props.callback}>
             {props.value}
-        </Button>
+        </button>
     )
 }
 

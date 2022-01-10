@@ -35,8 +35,8 @@ class RapportController extends Controller
 
     public function __construct()
     {
-        $this->middleware('auth');
-        $this->middleware('access');
+       // $this->middleware('auth');
+       // $this->middleware('access');
     }
 
     public function getforinter(Request $request): \Illuminate\Http\JsonResponse
@@ -48,6 +48,21 @@ class RapportController extends Controller
 
     public function addRapport(Request $request): \Illuminate\Http\JsonResponse
     {
+
+        /*
+         * name: name,
+                startinter: interdate + ' '  + interhour,
+                tel: tel,
+        ddn: ddn,
+                liveplace: liveplace,
+                lieux: lieux,
+                type: intertype,
+                transport: transport,
+                desc: desc,
+                montant: montant,
+                payed: payed,
+                ata: ata,
+         */
 
         $request->validate([
             'name'=>['required', 'string','regex:/[a-zA-Z.+_]+\s[a-zA-Z.+_]/'],
