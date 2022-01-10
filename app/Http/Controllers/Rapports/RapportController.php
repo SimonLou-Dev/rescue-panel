@@ -15,6 +15,7 @@ use App\Models\InterType;
 use App\Models\Intervention;
 use App\Models\Patient;
 use App\Models\Rapport;
+use App\Facades\Discord;
 use Hoa\File\File;
 use http\Env\Response;
 use Illuminate\Http\Request;
@@ -168,14 +169,14 @@ class RapportController extends Controller
                 ]
             ]
         ];
-        $this->dispatch(new ProcessEmbedPosting([env('WEBHOOK_RI')],$embed,null));
+        $this->dispatch(new ProcessEmbedPosting(['923521332531048469'],$embed));
 
         $this->dispatch(new ProcessRapportPDFGenerator($rapport, $path));
 
         $logs = new LogsController();
         $logs->RapportLogging('create', $rapport->id, Auth::user()->id);
 
-        event(new Notify('Rapport ajouté ! ',1));
+        event(new Notify('Rapport ajouté ! ',1, Auth::user()->id));
 
         return response()->json([],201);
     }
@@ -191,7 +192,7 @@ class RapportController extends Controller
     public function updateRapport(Request $request, int $id): \Illuminate\Http\JsonResponse
     {
         if($request->desc == '' ||$request->desc == null){
-            event(new Notify('Il n\'y a pas de description'));
+            event(new Notify('Il n\'y a pas de description',1,Auth::user()->id));
             return \response([],404);
         }
         $rapport = Rapport::where('id', $id)->first();
@@ -214,6 +215,9 @@ class RapportController extends Controller
         }
 
         $this->dispatch(new ProcessRapportPDFGenerator($rapport, $path));
+
+        $logs = new LogsController();
+        $logs->RapportLogging('update', $rapport->id, Auth::user()->id);
 
         event(new Notify('Rapport mis à jour',1));
         return response()->json(['status'=>'OK'],201);

@@ -10,6 +10,7 @@ use App\Models\Patient;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
+use App\Http\Controllers\LogsController;
 
 class FacturesController extends Controller
 {
@@ -35,31 +36,33 @@ class FacturesController extends Controller
             $fact= 'Impayée : ' . $facture->price .'$';
         }
 
-        Http::post(env('WEBHOOK_FACTURE'),[
-            'username'=> "LSCoFD - MDT",
-            'avatar_url'=>'https://lscofd.simon-lou.com/assets/images/LSCoFD.png',
-            'embeds'=>[
-                [
-                    'title'=>'Nouvelle facture :',
-                    'color'=>'13436400 ',
-                    'fields'=>[
-                        [
-                            'name'=>'Patient : ',
-                            'value'=>$patient->vorname. ' ' . $patient->name,
-                            'inline'=>true
-                        ],[
-                            'name'=>'Facture : ',
-                            'value'=>$fact,
-                            'inline'=>true
-                        ]
-                    ],
-                    'footer'=>[
-                        'text' => 'Ajoutée par : ' . Auth::user()->name
+        $embed = [
+            [
+                'title'=>'Nouvelle facture :',
+                'color'=>'13436400 ',
+                'fields'=>[
+                    [
+                        'name'=>'Patient : ',
+                        'value'=>$patient->vorname. ' ' . $patient->name,
+                        'inline'=>true
+                    ],[
+                        'name'=>'Facture : ',
+                        'value'=>$fact,
+                        'inline'=>true
                     ]
+                ],
+                'footer'=>[
+                    'text' => 'Ajoutée par : ' . Auth::user()->name
                 ]
             ]
-        ]);
-        event(new Notify('Facture de $'. $price .' ajoutée ! ',1));
+        ];
+
+        dispatch(new ProcessEmbedPosting([env('WEBHOOK_FACTURE')],$embed,null));
+
+
+        $logs = new LogsController();
+        $logs->FactureLogging('create', $facture->id, Auth::user()->id);
+        event(new Notify('Facture de $'. $price .' ajoutée ! ',1, Auth::user()->id));
     }
 
     public function addFacture(Request $request): \Illuminate\Http\JsonResponse
@@ -125,6 +128,8 @@ class FacturesController extends Controller
             ]
         ];
         $this->dispatch(new ProcessEmbedPosting([env('WEBHOOK_FACTURE')], $embed, null));
+        $logs = new LogsController();
+        $logs->FactureLogging('paye', $facture->id, Auth::user()->id);
         event(new Notify('Facture payée ! ',2));
         return response()->json(['status'=>'OK']);
     }
