@@ -80,8 +80,8 @@ class VolController extends Controller
         event(new Notify('Votre vol est pris en compte',1));
 
         Http::post(env('WEBHOOK_VOLS'),[
-            'username'=> "LSCoFD - MDT",
-            'avatar_url'=>'https://bcfd.simon-lou.com/assets/images/LSCoFD.png',
+            'username'=> env('service') . " - MDT",
+            'avatar_url'=>'https://bcfd.simon-lou.com/assets/images/'. env('service') . '.png',
             'embeds'=>[
                 [
                     'title'=>'hélicoptère déployé ',

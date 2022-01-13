@@ -56,6 +56,9 @@ class ModifierReqController extends Controller
 
         if($week->count() == 1){
             $week = $week->first();
+            if($week->ajustement == ''){
+                $week->ajustement = '00:00:00';
+            }
             $ajustement = OperatorController::ajustementCalculator($week->ajustement, $time, $reqst->adder);
             if($reqst->adder){
                 $total = OperatorController::addTime($week->total, $time);

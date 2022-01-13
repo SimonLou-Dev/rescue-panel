@@ -15,7 +15,8 @@ class ListPersonnel extends React.Component {
             select:0,
             orderby:'id',
             oderdir:'asc',
-            number: '?'
+            number: '?',
+            grades: [],
         }
         this.getdata = this.getdata.bind(this)
         this.only = this.only.bind(this)
@@ -37,7 +38,8 @@ class ListPersonnel extends React.Component {
         this.setState({
             userlist: req.data.users,
             number: req.data.number,
-            data: true
+            data: true,
+            grades: req.data.grades
         })
     }
     only(e){
@@ -82,30 +84,9 @@ class ListPersonnel extends React.Component {
                                 <label>Afficher uniquement : </label>
                                 <select value={this.state.select} onChange={(e)=>{this.setState({select: e.target.value})}}>
                                     <option value={0}>Tout le monde</option>
-                                    <optgroup label={'pas d\'accès'}>
-                                        <option value={1}>user</option>
-                                    </optgroup>
-                                    <optgroup label={'membre'}>
-                                        <option value={2}>Candidate</option>
-                                        <option value={3}>Probies</option>
-                                        <option value={4}>Engineer</option>
-                                        <option value={5}>Firefighter</option>
-                                        <option value={6}>Senior Firefighter</option>
-                                        <option value={7}>Lieutenant</option>
-                                    </optgroup>
-                                    <optgroup label={'référents'}>
-                                        <option value={8}>Capitaine</option>
-                                        <option value={9}>Battalion Chief</option>
-                                    </optgroup>
-                                    <optgroup label={'direction'}>
-                                        <option value={10}>Assistant Chief</option>
-                                        <option value={11}>Fire Chief</option>
-                                    </optgroup>
-                                    <optgroup label={'autre'}>
-                                        <option value={11}>Staff 912</option>
-                                        <option value={11}>Inspecteur</option>
-                                        <option value={11}>Développeur</option>
-                                    </optgroup>
+                                    {this.states.grade && this.state.grades.map((grade) =>
+                                        <option value={grade.id} key={grade.id}>{grade.name}</option>
+                                    )}
                                 </select>
                                 <button Type={'submit'} className={'btn'}>Trier</button>
                             </form>
@@ -135,7 +116,7 @@ class ListPersonnel extends React.Component {
                             </thead>
                             <tbody>
                             {this.state.userlist && this.state.userlist.map((user)=>
-                                <PersonnelLine id={user.id} key={user.id} discordid={user.discord_id} pilote={user.pilote} matricule={user.matricule} name={user.name} compte={user.compte} tel={user.tel} grade={user.grade_id} update={this.getdata}/>
+                                <PersonnelLine id={user.id} key={user.id} discordid={user.discord_id} pilote={user.pilote} matricule={user.matricule} name={user.name} compte={user.compte} tel={user.tel} grade={user.grade_id} update={this.getdata} grades={this.state.grades}/>
                             )}
                             </tbody>
                         </table>

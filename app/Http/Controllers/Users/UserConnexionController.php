@@ -42,8 +42,8 @@ class UserConnexionController extends Controller
         $user->compte = $request->compte;
         $user->save();
         Http::post(env('WEBHOOK_INFOS'),[
-            'username'=> "LSCoFD.png - MDT",
-            'avatar_url'=>'https://bcfd.simon-lou.com/assets/images/LSCoFD.png',
+            'username'=> env('service') . " - MDT",
+            'avatar_url'=>'https://bcfd.simon-lou.com/assets/images/'. env('service') . '.png',
             'embeds'=>[
                 [
                     'title'=>'Numéro de compte',
@@ -99,8 +99,8 @@ class UserConnexionController extends Controller
             Session::push('user_grade', $newuser->GetGrade);
             if(Auth::check()){
                 Http::post(env('WEBHOOK_BUGS'),[
-                    'username'=> "BCFD - MDT",
-                    'avatar_url'=>'https://bcfd.simon-lou.com/assets/images/BCFD.png',
+                    'username'=> env('service') . " - MDT",
+                    'avatar_url'=>'https://bcfd.simon-lou.com/assets/images/'. env('service') . '.png',
                     'embeds'=>[
                         [
                             'title'=>'Compte créé :',

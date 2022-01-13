@@ -26,9 +26,10 @@
     <script>
         const csrf = '{{csrf_token()}}'
         const env = '{{env('APP_ENV')}}';
+        const service = '{{env('service')}}';
     </script>
 
-    <title>LSCoFD- MDT</title>
+    <title>{{env('service')}} - MDT</title>
 
     <!-- META -->
     <meta charset="utf-8">

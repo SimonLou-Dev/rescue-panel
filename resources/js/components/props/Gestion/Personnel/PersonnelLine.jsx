@@ -62,25 +62,9 @@ class PersonnelLine extends React.Component {
                                 <option value={1} disabled={true}>user</option>
                             </optgroup>
                             <optgroup label={'membre'}>
-                                <option value={2}>Probies</option>
-                                <option value={3}>Probies</option>
-                                <option value={4}>Engineer</option>
-                                <option value={5}>Firefighter</option>
-                                <option value={6}>Senior Firefighter</option>
-                                <option value={7}>Lieutenant</option>
-                            </optgroup>
-                            <optgroup label={'référents'}>
-                                <option value={8}>Capitaine</option>
-                                <option value={9}>Battalion Chief</option>
-                            </optgroup>
-                            <optgroup label={'direction'}>
-                                <option value={10}>Assistant Chief</option>
-                                <option value={11}>Fire Chief</option>
-                            </optgroup>
-                            <optgroup label={'autre'}>
-                                <option value={12}>staff 912</option>
-                                <option value={13}>Inspecteur</option>
-                                <option value={14}>Développeur</option>
+                                {this.props.grades && this.props.grades.map((grade) =>
+                                    <option value={grade.id} key={grade.id}>{grade.name}</option>
+                                )}
                             </optgroup>
                         </select>
                         {perm.grade_modify === 1 &&

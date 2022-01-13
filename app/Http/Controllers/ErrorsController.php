@@ -14,8 +14,8 @@ class ErrorsController extends Controller
 
 
         Http::post(env('WEBHOOK_ERRORS'),[
-            'username'=> "BCFD - MDT",
-            'avatar_url'=>'https://bcfd.simon-lou.com/assets/images/BCFD.png',
+            'username'=> env('service') . " - MDT",
+            'avatar_url'=>'https://bcfd.simon-lou.com/assets/images/'. env('service') . '.png',
             'embeds'=>[
                 'title'=>'Erreur de front',
                 'color'=>'10368531',
