@@ -6,7 +6,6 @@ pipeline {
         validateDeclarativePipeline 'Jenkinsfile'
         sh 'php -v'
         sh 'php -i'
-        sh "rm .env"
       }
     }
 
