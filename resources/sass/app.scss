@@ -235,6 +235,67 @@ body{
     }
 }
 
+//Service Selector
+.ServiceNav{
+    height: 100vh;
+    width: 100vw;
+    top: 0;
+    display: flex;
+    justify-content: center;
+    .ServiceSelector{
+        margin: auto auto;
+        img{
+            width: 100px;
+        }
+        ul{
+            //position: relative;
+            li{
+                position: absolute;
+                list-style: none;
+                transform-origin: 100% 100%;
+                left: 50%;
+                top: 50%;
+                background-color: red;
+                width: 200px;
+                height: 200px;
+                div{
+                    //position: relative;
+                    bottom: -7.25em;
+                    right: -7.25em;
+                    display: block;
+                    transform: skew(-45deg);
+                }
+
+                &:nth-child(1){
+                    transform: rotate(0deg) skew(45deg);
+
+                }
+
+                &:nth-child(2){
+                    transform: rotate(45deg) skew(45deg);
+                    div{
+                      //  transform: rotate(0deg);
+                    }
+                }
+                &:nth-child(3){
+                    transform: rotate(90deg) skew(45deg);
+                    div{
+                        //transform: rotate(-67.5deg) skew(-45deg);
+                    }
+                }
+                &:nth-child(4){
+                    transform: rotate(135deg) skew(45deg);
+                    div{
+                        //transform: rotate(-67.5deg) skew(-45deg);
+                    }
+                }//*/
+            }
+
+
+        }
+    }
+}
+
 //Layout & Headers
 .layout{
     height: 100vh;
@@ -246,9 +307,11 @@ body{
         width: 100vw;
         height: 60px;
         position: fixed;
+        z-index: 14;
         top: 0;
         left: 0;
         background-color: $bg1;
+        border-bottom: rgba(233, 233, 233,0.4) 1px solid;
         .header-menu{
             width: 300px;
             background-color: $bg2;
@@ -264,6 +327,12 @@ body{
             }
             h1{
                 margin: auto 0;
+            }
+            .service-name{
+                margin-right: 20px !important;
+                margin-left: auto;
+                height: 45px;
+                width: auto;
             }
         }
         .header-logout{
@@ -291,7 +360,7 @@ body{
         overflow-x: hidden;
         .menu-header{
             padding-left: 10px;
-            height:150px;
+            height:190px;
             display: flex;
             flex-direction: column;
             margin: 10px 0;
@@ -307,7 +376,7 @@ body{
             border-top: 1px solid $boom;
             border-bottom: 1px solid $boom;
             padding-left: 10px;
-            height: calc(100% - 350px);
+            height: calc(100% - 390px);
             display: flex;
             flex-direction: column;
             overflow-y: auto;
@@ -417,6 +486,46 @@ body{
         justify-content: space-between;
         .onoffswitch{
             margin-right: 50px;
+        }
+    }
+}
+
+.dossiers{
+    width: 100vw;
+    height: calc(100vh - 70px);
+    display: flex;
+    overflow-y: auto;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+    .table{
+        display: flex;
+        flex-direction: column;
+        .table-header{
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            .PageNavigator{
+                margin: auto 10px;
+            }
+        }
+        .table-content{
+            background-color: $bg1;
+            border-radius: $border-radius;
+            table{
+                width: 100%;
+            }
+        }
+
+    }
+    .patient-form{
+        margin: 20px 10px;
+        display: flex;
+        .Card{
+            margin: auto 0;
+            .btn{
+                margin: 20px auto 0 auto;
+            }
         }
     }
 }

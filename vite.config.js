@@ -20,7 +20,7 @@ export default defineConfig({
       outDir: '../public/assets',
         assetsDir: '',
         manifest: true,
-        minify: true,
+        minify: false,
         rollupOptions: {
           output: {
               manualChunks: undefined,

@@ -12,8 +12,8 @@ class PatientController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth');
-        $this->middleware('access');
+        //$this->middleware('auth');
+        //$this->middleware('access');
     }
 
     public function search(Request $request, string $text): \Illuminate\Http\JsonResponse
@@ -63,5 +63,16 @@ class PatientController extends Controller
         $patient->save();
         event(new Notify('Information mises à jour ! ',1));
         return response()->json(['status'=>'OK'],201);
+    }
+
+    public function getAllPatientsSearcher(Request $request){
+        if(!isset($request->search)){
+            $request->search = '';
+        }
+        $patients = Patient::search($request->search)->paginate();
+        return response()->json([
+            'patients'=>$patients
+        ]);
+
     }
 }

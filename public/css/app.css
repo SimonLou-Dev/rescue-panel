@@ -107,6 +107,8 @@ a {
   background-color: #3D487B;
   border-radius: 10px;
   border: none;
+  color: #E9E9E9;
+  font-size: 20px;
   cursor: pointer;
   display: flex;
   flex-direction: row;
@@ -319,6 +321,46 @@ a {
   right: -5px;
 }
 
+.searcher {
+  margin: 20px 0;
+  background-color: #1B2037;
+  display: flex;
+  flex-direction: row;
+  height: 50px;
+  width: 400px;
+  border-radius: 10px;
+}
+.searcher .searcher-input {
+  border-radius: 0 10px 10px 0;
+  margin: 0;
+  width: 100%;
+  background-color: #1B2037;
+}
+.searcher .searcher-icon {
+  padding: 5px;
+  width: 40px;
+  height: 40px;
+  border-radius: 10px 0 0 10px;
+  background-color: #435089;
+}
+
+.PageNavigator button {
+  background-color: #1B2037;
+  border: none;
+  border-radius: 10px;
+  padding: 5px;
+  margin: 0 3px;
+  transition: all 300ms;
+  cursor: pointer;
+}
+.PageNavigator button img {
+  width: 40px;
+  height: 40px;
+}
+.PageNavigator button:hover {
+  background-color: #435089;
+}
+
 @keyframes SlideLeft {
   0% {
     margin-left: 120%;
@@ -335,6 +377,60 @@ a {
     margin-left: 120%;
   }
 }
+table {
+  border-collapse: collapse;
+}
+table th {
+  position: sticky;
+  top: 0;
+  background-color: #3D487B;
+  z-index: 10;
+}
+table th:last-child {
+  border-radius: 0 10px 0 0;
+}
+table th:first-child {
+  border-radius: 10px 0 0 0;
+}
+table tr {
+  border: #ED3444 1px solid;
+  height: 10px;
+  border-left: none;
+  border-right: none;
+}
+table tr:last-child {
+  border-bottom: none !important;
+}
+table tr:first-child {
+  border-top: none !important;
+}
+table td, table th {
+  padding: 5px 20px;
+  text-align: center;
+  border: #ED3444 1px solid;
+  border-top: none;
+  border-bottom: none;
+}
+table td:first-child, table th:first-child {
+  border-left: none;
+}
+table td:last-child, table th:last-child {
+  border-right: none;
+}
+table td .btn, table th .btn {
+  background-color: #1B2037;
+}
+table th {
+  font-family: "Baloo 2";
+  font-size: 25px;
+  color: #FFF;
+}
+table td {
+  color: #E9E9E9;
+  font-family: "Nunito";
+  font-size: 22px;
+}
+
 .notification-wrapper {
   position: fixed;
   height: calc(100vh - 80px);
@@ -562,6 +658,47 @@ body {
   margin: 20px auto;
 }
 
+.ServiceNav {
+  height: 100vh;
+  width: 100vw;
+  top: 0;
+  display: flex;
+  justify-content: center;
+}
+.ServiceNav .ServiceSelector {
+  margin: auto auto;
+}
+.ServiceNav .ServiceSelector img {
+  width: 100px;
+}
+.ServiceNav .ServiceSelector ul li {
+  position: absolute;
+  list-style: none;
+  transform-origin: 100% 100%;
+  left: 50%;
+  top: 50%;
+  background-color: red;
+  width: 200px;
+  height: 200px;
+}
+.ServiceNav .ServiceSelector ul li div {
+  bottom: -7.25em;
+  right: -7.25em;
+  display: block;
+  transform: skew(-45deg);
+}
+.ServiceNav .ServiceSelector ul li:nth-child(1) {
+  transform: rotate(0deg) skew(45deg);
+}
+.ServiceNav .ServiceSelector ul li:nth-child(2) {
+  transform: rotate(45deg) skew(45deg);
+}
+.ServiceNav .ServiceSelector ul li:nth-child(3) {
+  transform: rotate(90deg) skew(45deg);
+}
+.ServiceNav .ServiceSelector ul li:nth-child(4) {
+  transform: rotate(135deg) skew(45deg);
+}
 .layout {
   height: 100vh;
   width: 100vw;
@@ -573,9 +710,11 @@ body {
   width: 100vw;
   height: 60px;
   position: fixed;
+  z-index: 14;
   top: 0;
   left: 0;
   background-color: #1B2037;
+  border-bottom: rgba(233, 233, 233, 0.4) 1px solid;
 }
 .layout .layout-header .header-menu {
   width: 300px;
@@ -593,6 +732,12 @@ body {
 }
 .layout .layout-header .header-menu h1 {
   margin: auto 0;
+}
+.layout .layout-header .header-menu .service-name {
+  margin-right: 20px !important;
+  margin-left: auto;
+  height: 45px;
+  width: auto;
 }
 .layout .layout-header .header-logout {
   width: 60px;
@@ -619,7 +764,7 @@ body {
 }
 .layout .menu .menu-header {
   padding-left: 10px;
-  height: 150px;
+  height: 190px;
   display: flex;
   flex-direction: column;
   margin: 10px 0;
@@ -635,7 +780,7 @@ body {
   border-top: 1px solid #ED3444;
   border-bottom: 1px solid #ED3444;
   padding-left: 10px;
-  height: calc(100% - 350px);
+  height: calc(100% - 390px);
   display: flex;
   flex-direction: column;
   overflow-y: auto;
@@ -740,6 +885,45 @@ body {
 }
 .rapports .form-line .onoffswitch {
   margin-right: 50px;
+}
+
+.dossiers {
+  width: 100vw;
+  height: calc(100vh - 70px);
+  display: flex;
+  overflow-y: auto;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+}
+.dossiers .table {
+  display: flex;
+  flex-direction: column;
+}
+.dossiers .table .table-header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+.dossiers .table .table-header .PageNavigator {
+  margin: auto 10px;
+}
+.dossiers .table .table-content {
+  background-color: #1B2037;
+  border-radius: 10px;
+}
+.dossiers .table .table-content table {
+  width: 100%;
+}
+.dossiers .patient-form {
+  margin: 20px 10px;
+  display: flex;
+}
+.dossiers .patient-form .Card {
+  margin: auto 0;
+}
+.dossiers .patient-form .Card .btn {
+  margin: 20px auto 0 auto;
 }
 
 /*# sourceMappingURL=app.css.map */

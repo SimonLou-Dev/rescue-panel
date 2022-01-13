@@ -19,9 +19,12 @@ function Rapport(props) {
     const [montant, setmontant] = useState();
     const [payed, setpayed] = useState(false);
     const [desc, setdesc] = useState();
+    const [impaye, setimpaye] = useState();
+    const [bloodgroup, setbloodgroup] = useState();
 
     const [transportlist, settransportlist] = useState();
     const [intertypeslist ,setintertypeslist] = useState();
+
 
     const [erros, seterros] = useState();
     const [searching, setsearching] = useState();
@@ -77,6 +80,7 @@ function Rapport(props) {
                 ddn: ddn,
                 liveplace: liveplace,
                 lieux: lieux,
+                bloodgroup: bloodgroup,
                 type: intertype,
                 transport: transport,
                 desc: desc,
@@ -98,6 +102,7 @@ function Rapport(props) {
             setmontant('');
             setpayed(false)
             setata('')
+            setbloodgroup('')
 
         }).catch(error => {
             if(error.response.status === 422){
@@ -152,6 +157,15 @@ function Rapport(props) {
                     <div className={'form-item form-column'}>
                         <label>Lieux de vie</label>
                         <input type={'text'} className={'form-input'} value={liveplace} onChange={(e)=>{setLiveplace(e.target.value)}}/>
+                        <div className={'errors-list'}>
+                            <ul>
+                                <li>test</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div className={'form-item form-column'}>
+                        <label>Groupe saunguin</label>
+                        <input type={'text'} className={'form-input'} value={bloodgroup} onChange={(e)=>{setbloodgroup(e.target.value)}}/>
                         <div className={'errors-list'}>
                             <ul>
                                 <li>test</li>

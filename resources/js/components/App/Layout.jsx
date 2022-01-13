@@ -8,6 +8,9 @@ import UserContext from "../context/UserContext";
 const mysrcf = csrf;
 import {v4} from "uuid";
 import Rapport from "./Patient/Rapports/Rapport";
+import DossiersPatient from "./Patient/Dossiers/DossiersPatient";
+import RapportReview from "./Patient/Dossiers/RapportReview";
+import Psycology from "./Patient/Dossiers/Psycology";
 
 
 function Layout(props) {
@@ -125,6 +128,7 @@ function Layout(props) {
                 <div className={"header-menu"} onClick={()=>{setCollasping(!collapsed)}}>
                     <img src={'/assets/images/menu.png'} alt={""}/>
                     <h1>menu</h1>
+                    <img src={'/assets/images/LSCoFD.png'} alt={""} className={'service-name'}/>
                 </div>
                 <div className={"header-logout"}>
                     <img src={'/assets/images/logout.png'} alt={""}/>
@@ -136,6 +140,7 @@ function Layout(props) {
                         <Link className={"menu-link-big"} to="/dashboard">tableau de bord</Link>
                         <Link className={"menu-link-big"} to="/account">mon compte</Link>
                         <Link className={"menu-link-big"} to="/dispatch">dispatch</Link>
+                        <Link className={"menu-link-big"} to="/servicenav">changer de service</Link>
                         <h4 className={"menu-link-big"}>service : <label for="service-state">on</label></h4>
                     </section>
                     <section className={"menu-scrollable"}>
@@ -197,6 +202,9 @@ function Layout(props) {
             <div className={'app-page-container'}>
                 <UserContext.Provider value={user}>
                     <Route path={'/patients/rapport'} component={Rapport}/>
+                    <Route path={'/patients/dossiers'} component={DossiersPatient}/>
+                    <Route path={'/patients/:patientId/view'} component={RapportReview}/>
+                    <Route path={'/patients/:patientId/psy'} component={Psycology}/>
                 </UserContext.Provider>
             </div>
         </div>

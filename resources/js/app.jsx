@@ -23,6 +23,7 @@ import Maintenance from "./components/Maintenance";
 import GetInfos from "./components/AuthComponent/GetInfos";
 import Cantaccess from "./components/AuthComponent/Cantaccess";
 import Layout from "./components/App/Layout";
+import ServiceNav from "./components/AuthComponent/ServiceNav";
 
 class App extends React.Component{
     constructor(props) {
@@ -41,7 +42,7 @@ class App extends React.Component{
                             <Route path='/cantaccess' component={Cantaccess}/>
                             <Route path='/informations' component={GetInfos}/>
                             <Route path='/maintenance' component={Maintenance}/>
-
+                            <Route path='/servicenav' component={ServiceNav}/>
 
                             <Layout/>
                         </Switch>

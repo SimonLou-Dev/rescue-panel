@@ -69,6 +69,7 @@ Route::get('/logistique/{a?}', [HomeController::class, 'getIndex']); //->middlew
 Route::get('/personnel/{a?}', [HomeController::class, 'getIndex']); //->middleware('auth');
 Route::get('/mdt/{a?}', [HomeController::class, 'getIndex']); //->middleware('auth');
 Route::get('/cantaccess', [HomeController::class, 'getIndex'])->name('cantaccess');
+Route::get('/servicenav', [HomeController::class, 'getIndex'])->name('cantaccess');
 Route::get('/', function(){
     return redirect()->route('dashboard');
 });
@@ -118,6 +119,8 @@ Route::get('/data/rapport/get/{id}', [RapportController::class, 'getRapportById'
 Route::put('/data/rapport/update/{id}', [RapportController::class, 'updateRapport']);
 Route::post('/data/patient/{id}/update', [RapportController::class, 'updatePatientInfos']);
 Route::get('/pdf/rapport/{id}', [ExporterController::class, 'makeRapportPdf']);
+
+Route::get('/data/patient/getAll/', [PatientController::class, 'getAllPatientsSearcher']);
 //Tests de poudre
 
 Route::post('/data/poudre/add', [PoudreTestController::class, 'postTest']);
