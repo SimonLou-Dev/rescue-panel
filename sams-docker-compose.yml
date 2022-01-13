@@ -14,7 +14,7 @@ services:
       - 80
 
 volumes:
-  lscofd_storage:
+  sams_storage:
 
 networks:
   default:

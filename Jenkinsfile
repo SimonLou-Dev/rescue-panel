@@ -80,7 +80,7 @@ pipeline {
                 sh "ssh root@75.119.154.204 docker exec -i SAMS pm2 start queueworker.yml"
                 sh "ssh root@75.119.154.204 docker exec -i SAMS php artisan storage:link"
                 sh "cat .env | ssh root@75.119.154.204 'cat - > /infra/web/sams/.env'"
-                sh "ssh root@75.119.154.204 docker cp /infra/web/sams/.env LSCoFD:/usr/share/nginx/lscofd/.env"
+                sh "ssh root@75.119.154.204 docker cp /infra/web/sams/.env SAMS:/usr/share/nginx/lscofd/.env"
                 sh "ssh root@75.119.154.204 rm /infra/web/sams/.env"
             }
         }

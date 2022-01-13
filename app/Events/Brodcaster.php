@@ -39,7 +39,7 @@ class Brodcaster implements ShouldBroadcastNow
      */
     public function broadcastOn()
     {
-        return new Channel('Broadcater_'.env('APP_ENV'));
+        return new Channel('Broadcater_'.env('APP_ENV').'_'.env('service'));
 
     }
 
