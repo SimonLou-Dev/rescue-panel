@@ -84,7 +84,7 @@ class ListPersonnel extends React.Component {
                                 <label>Afficher uniquement : </label>
                                 <select value={this.state.select} onChange={(e)=>{this.setState({select: e.target.value})}}>
                                     <option value={0}>Tout le monde</option>
-                                    {this.states.grade && this.state.grades.map((grade) =>
+                                    {this.state.grades && this.state.grades.map((grade) =>
                                         <option value={grade.id} key={grade.id}>{grade.name}</option>
                                     )}
                                 </select>

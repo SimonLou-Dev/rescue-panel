@@ -138,7 +138,8 @@ class BCController extends Controller
         PersonnelController::addPersonel((string)$bc->id);
         Http::post(env('WEBHOOK_PU'),[
             'username'=> env('service') . " - MDT",
-            'avatar_url'=>'https://bcfd.simon-lou.com/assets/images/'.env('service').'.png',
+            'avatar_url'=>'https://lscofd.simon-lou.com/assets/images/'.env('service').'.png',
+
             'embeds'=>[
                 [
                     'title'=>'Black Code #' . $bc->id . ' en cours :',

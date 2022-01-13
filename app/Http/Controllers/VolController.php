@@ -81,7 +81,8 @@ class VolController extends Controller
 
         Http::post(env('WEBHOOK_VOLS'),[
             'username'=> env('service') . " - MDT",
-            'avatar_url'=>'https://bcfd.simon-lou.com/assets/images/'. env('service') . '.png',
+            'avatar_url'=>'https://lscofd.simon-lou.com/assets/images/'. env('service') . '.png',
+
             'embeds'=>[
                 [
                     'title'=>'hélicoptère déployé ',

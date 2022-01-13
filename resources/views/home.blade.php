@@ -26,7 +26,7 @@
     <script>
         const csrf = '{{csrf_token()}}'
         const env = '{{env('APP_ENV')}}';
-        const service = '{{env('service')}}';
+        const servicename = '{{env('service')}}';
     </script>
 
     <title>{{env('service')}} - MDT</title>

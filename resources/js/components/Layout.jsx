@@ -234,7 +234,7 @@ export function Layout(){
                         }}>fermer</button>
                     </div>
                     <div id="Logo">
-                        <NavLink to={'/'}><img src={'/assets/images/LSCoFD.png'} alt={''}/></NavLink>
+                        <NavLink to={'/'}><img src={'/assets/images/'+servicename+'.png'} alt={''}/></NavLink>
                     </div>
                     <div className="Menusepartor"/>
                     <Service serviceUpade={async (state) => {

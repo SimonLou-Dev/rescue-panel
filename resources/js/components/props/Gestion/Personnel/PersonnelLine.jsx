@@ -63,7 +63,9 @@ class PersonnelLine extends React.Component {
                             </optgroup>
                             <optgroup label={'membre'}>
                                 {this.props.grades && this.props.grades.map((grade) =>
-                                    <option value={grade.id} key={grade.id}>{grade.name}</option>
+                                    grade.name !== 'user' &&
+                                        <option value={grade.id} key={grade.id}>{grade.name}</option>
+
                                 )}
                             </optgroup>
                         </select>

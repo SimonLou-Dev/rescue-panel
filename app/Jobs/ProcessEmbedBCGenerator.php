@@ -118,8 +118,13 @@ class ProcessEmbedBCGenerator implements ShouldQueue
         ]);
 
         Http::post(env('WEBHOOK_PU'),[
+<<<<<<< HEAD
             'username'=> env('service') ." - MDT",
             'avatar_url'=>'https://bcfd.simon-lou.com/assets/images/'. env('service') .'.png',
+=======
+            'username'=> "LSCoFD - MDT",
+            'avatar_url'=>'https://lscofd.simon-lou.com/assets/images/LSCoFD.png',
+>>>>>>> prod
             'embeds'=>$finalembedslist,
         ]);
     }

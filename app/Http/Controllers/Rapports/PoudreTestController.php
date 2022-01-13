@@ -75,8 +75,10 @@ class PoudreTestController extends Controller
         $this->dispatch(new ProcesTestPoudrePDFGenerator($test, $path));
 
         Http::post(env('WEBHOOK_POUDRE'),[
+
             'username'=> env('service') . " - MDT",
-            'avatar_url'=>'https://bcfd.simon-lou.com/assets/images/'. env('service'). '.png',
+            'avatar_url'=>'https://lscofd.simon-lou.com/assets/images/'. env('service'). '.png',
+
             'embeds'=>[
                 [
                     'title'=>'Résultat d\'un tes de poudre du BCFD :',
@@ -121,7 +123,7 @@ class PoudreTestController extends Controller
                         ]
                     ],
                     'footer'=>[
-                        'text' => 'Service de Biologie du BCFD ',
+                        'text' => 'Service de Biologie du LSCoFD ',
                     ]
                 ]
             ]
@@ -138,11 +140,6 @@ class PoudreTestController extends Controller
         $user = $test->GetPersonnel;
         $user = $user->name;
         $path = "public/test/poudre/pouder_". $test->id . ".pdf";
-
-
-
-
-
 
 
         if(!file_exists(Storage::path($path))){

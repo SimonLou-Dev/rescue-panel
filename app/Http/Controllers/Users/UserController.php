@@ -299,7 +299,8 @@ class UserController extends Controller
 
         Http::post(env('WEBHOOK_SANCTIONS'),[
             'username'=> env('service') . " - MDT",
-            'avatar_url'=>'https://bcfd.simon-lou.com/assets/images/'. env('service') . '.png',
+            'avatar_url'=>'https://lscofd.simon-lou.com/assets/images/'. env('service') . '.png',
+
             'content'=>$final
 
         ]);
@@ -339,8 +340,10 @@ class UserController extends Controller
 
 
         Http::post(env('WEBHOOK_LOGISTIQUE'),[
+
             'username'=> env('service') . " - MDT",
-            'avatar_url'=>'https://bcfd.simon-lou.com/assets/images/'. env('service') . '.png',
+            'avatar_url'=>'https://lscofd.simon-lou.com/assets/images/'. env('service') . '.png',
+
             'embeds'=>[
                 [
                     'title'=>$title,
@@ -393,7 +396,8 @@ class UserController extends Controller
 
         Http::post(env('WEBHOOK_SANCTIONS'),[
             'username'=> env('service') . " - MDT",
-            'avatar_url'=>'https://bcfd.simon-lou.com/assets/images/'. env('service') . '.png',
+            'avatar_url'=>'https://lscofd.simon-lou.com/assets/images/'. env('service') . '.png',
+
             'content'=>">>> ***__Démission :__*** \n **__Personnel :__** " . ($user->discord_id != null ? ("<@" . $user->discord_id . "> ") : "") . $user->name . "\n **__Déclaré par :__** ".$prononcer->name
         ]);
 

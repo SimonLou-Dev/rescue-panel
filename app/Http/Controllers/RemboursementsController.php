@@ -53,7 +53,8 @@ class RemboursementsController extends Controller
         $userRemboursements->save();
         Http::post(env('WEBHOOK_REMBOURSEMENTS'), [
             'username'=> env('service') . " - MDT",
-            'avatar_url'=>'https://bcfd.simon-lou.com/assets/images/'. env('service') . '.png',
+            'avatar_url'=>'https://lscofd.simon-lou.com/assets/images/'. env('service') . '.png',
+
             'embeds'=>[
                 [
                     'title'=>'Ajout d\'un remboursement :',
@@ -85,8 +86,10 @@ class RemboursementsController extends Controller
         $userRemboursement->total = (int) $userRemboursement->total -  (int) $item->getItem->price;
         $userRemboursement->save();
         Http::post(env('WEBHOOK_REMBOURSEMENTS'), [
+
             'username'=> env('service') . " - MDT",
-            'avatar_url'=>'https://bcfd.simon-lou.com/assets/images/'. env('service') . '.png',
+            'avatar_url'=>'https://lscofd.simon-lou.com/assets/images/'. env('service') . '.png',
+
             'embeds'=>[
                 [
                     'title'=>'Suppression d\'un remboursement :',

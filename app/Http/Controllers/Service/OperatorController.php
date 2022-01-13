@@ -87,8 +87,10 @@ class OperatorController extends Controller
             $formated = explode(':', $formated);
             if($admin){
                 Http::post(env('WEBHOOK_SERVICE') ,[
+
                     'username'=> env('service') . " - MDT",
-                    'avatar_url'=>'https://bcfd.simon-lou.com/assets/images/'. env('service') .'.png',
+                    'avatar_url'=>'https://lscofd.simon-lou.com/assets/images/'. env('service') .'.png',
+
                     'embeds'=>[
                         [
                             'title'=>'Fin de service de ' . $user->name,
@@ -103,7 +105,8 @@ class OperatorController extends Controller
             }else{
                 Http::post(env('WEBHOOK_SERVICE'),[
                     'username'=> env('service') . " - MDT",
-                    'avatar_url'=>'https://bcfd.simon-lou.com/assets/images/'.env('service').'.png',
+                    'avatar_url'=>'https://lscofd.simon-lou.com/assets/images/'.env('service').'.png',
+
                     'embeds'=>[
                         [
                             'title'=>'Fin de service de ' . $user->name,
@@ -126,7 +129,8 @@ class OperatorController extends Controller
             if($admin){
                 Http::post(env('WEBHOOK_SERVICE'),[
                     'username'=> env('service') . " - MDT",
-                    'avatar_url'=>'https://bcfd.simon-lou.com/assets/images/'. env('service') . '.png',
+                    'avatar_url'=>'https://lscofd.simon-lou.com/assets/images/'. env('service') . '.png',
+
                     'embeds'=>[
                         [
                             'title'=>'Prise de service de ' . $user->name,
@@ -140,7 +144,8 @@ class OperatorController extends Controller
             }else{
                 Http::post(env('WEBHOOK_SERVICE'),[
                     'username'=> env('service') . " - MDT",
-                    'avatar_url'=>'https://bcfd.simon-lou.com/assets/images/'. env('service') . '.png',
+                    'avatar_url'=>'https://lscofd.simon-lou.com/assets/images/'. env('service') . '.png',
+
                     'embeds'=>[
                         [
                             'title'=>'Prise de service de ' . $user->name,

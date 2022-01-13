@@ -36,8 +36,10 @@ class FacturesController extends Controller
 
 
         Http::post(env('WEBHOOK_FACTURE'),[
+
             'username'=> env('service') . "- MDT",
-            'avatar_url'=>'https://bcfd.simon-lou.com/assets/images/'. env('service') .'.png',
+            'avatar_url'=>'https://lscofd.simon-lou.com/assets/images/'. env('service') .'.png',
+
             'embeds'=>[
                 [
                     'title'=>'Nouvelle facture :',
@@ -106,7 +108,8 @@ class FacturesController extends Controller
         $facture->save();
         Http::post(env('WEBHOOK_FACTURE'),[
             'username'=>  env('service') . " - MDT",
-            'avatar_url'=>'https://bcfd.simon-lou.com/assets/images/'. env('service') .'.png',
+            'avatar_url'=>'https://lscofd.simon-lou.com/assets/images/'. env('service') .'.png',
+
             'embeds'=>[
                 [
                     'title'=>'Facture payée :',

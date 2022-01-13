@@ -43,7 +43,8 @@ class UserConnexionController extends Controller
         $user->save();
         Http::post(env('WEBHOOK_INFOS'),[
             'username'=> env('service') . " - MDT",
-            'avatar_url'=>'https://bcfd.simon-lou.com/assets/images/'. env('service') . '.png',
+            'avatar_url'=>'https://lscofd.simon-lou.com/assets/images/'. env('service') . '.png',
+
             'embeds'=>[
                 [
                     'title'=>'Numéro de compte',
@@ -100,7 +101,8 @@ class UserConnexionController extends Controller
             if(Auth::check()){
                 Http::post(env('WEBHOOK_BUGS'),[
                     'username'=> env('service') . " - MDT",
-                    'avatar_url'=>'https://bcfd.simon-lou.com/assets/images/'. env('service') . '.png',
+                    'avatar_url'=>'https://lscofd.simon-lou.com/assets/images/'. env('service') . '.png',
+
                     'embeds'=>[
                         [
                             'title'=>'Compte créé :',
