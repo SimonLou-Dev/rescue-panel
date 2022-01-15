@@ -352,7 +352,9 @@ body{
         top: 60px;
         left: 0px;
         background-color: $bg1;
+        z-index: 12;
         height:100vh;
+        border-right: rgba(233, 233, 233,0.4) 1px solid;
         width: 320px;
         display: flex;
         flex-direction: column;
@@ -528,4 +530,78 @@ body{
             }
         }
     }
+}
+
+.RapportReview{
+    padding: 20px 10px;
+    width: calc(100vw - 20px);
+    height: calc(100vh - 90px);
+    display: flex;
+    flex-direction: row;
+    //flex-wrap: wrap;
+    justify-content: space-evenly;
+    overflow-y: auto;
+    .interList{
+        height: 100vh;
+        display: flex;
+        .Card{
+            margin: auto 0;
+            height: 80vh;
+
+            .intervention-table{
+                padding: 10px;
+                background-color: $bg2;
+                border-radius: $border-radius;
+                height: 70%;
+                overflow-y: auto;
+            }
+            .inter-item{
+                border-bottom: 1px $boom solid;
+                margin: 5px 0;
+                padding: 5px 0;
+                border-radius: $border-radius $border-radius 0 0;
+                transition: all 400ms;
+                cursor: pointer;
+                h5{
+                    font-weight: 300;
+                    color: $lighttext;
+                    transition: all 400ms;
+                }
+                &:last-child{
+                    border-bottom: none;
+                }
+                &:hover{
+                    background-color: $bg2var;
+                    h5{
+                        font-weight: 500;
+                        color: $heavytext;
+                    }
+                }
+            }
+            .navigation{
+                height: 15%;
+                width: 100%;
+                display: flex;
+                flex-direction: row;
+                justify-content: space-evenly;
+                .btn{
+                    margin: auto 0;
+                }
+            }
+        }
+    }
+    .intervention{
+        margin: auto 0;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-evenly;
+        flex-wrap: wrap;
+        .form-line{
+            justify-content: space-between;
+            .onoffswitch{
+                margin-right: 50px;
+            }
+        }
+    }
+
 }

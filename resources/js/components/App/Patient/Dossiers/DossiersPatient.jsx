@@ -5,10 +5,7 @@ import PageNavigator from "../../../props/PageNavigator";
 import CardComponent from "../../../props/CardComponent";
 /*
 
-  faireRedirection() {
-    let url = "maNouvelleURL",
-    this.props.history.push(url),
-  }
+
 
  */
 
@@ -32,6 +29,10 @@ function DossiersPatient(props) {
     const setSelected = (a) => {
         setSelected(a);
         //TODO : request qui vérifie les impaye
+    }
+
+    const Redirection = (url) => {
+       props.history.push(url)
     }
 
     const searcher = async () => {
@@ -65,7 +66,7 @@ function DossiersPatient(props) {
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
+                        <tr onClick={()=>{Redirection('/patients/1/view')}}>
                             <td>1</td>
                             <td>Jean claude</td>
                             <td>5557894</td>

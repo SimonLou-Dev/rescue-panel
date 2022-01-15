@@ -2,6 +2,7 @@ import React from 'react';
 
 function PageNavigator(props) {
 
+    //Param Only pagination req
     return (
         <div className={'PageNavigator'}>
             <button onClick={props.prev} disabled={props.prevDisabled}>
