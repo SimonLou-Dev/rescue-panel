@@ -532,13 +532,24 @@ body{
     }
 }
 
+@media  (max-width: 900px) {
+    .RapportReview{
+        flex-wrap: wrap;
+    }
+}
+@media all and (min-width: 900px) {
+    .RapportReview{
+        flex-wrap: nowrap;
+    }
+}
+
 .RapportReview{
+    transition: all 400ms;
     padding: 20px 10px;
     width: calc(100vw - 20px);
     height: calc(100vh - 90px);
     display: flex;
     flex-direction: row;
-    //flex-wrap: wrap;
     justify-content: space-evenly;
     overflow-y: auto;
     .interList{

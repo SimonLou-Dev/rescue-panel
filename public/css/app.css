@@ -431,6 +431,10 @@ table td {
   font-size: 22px;
 }
 
+.exporter {
+  background-color: #1B2037;
+}
+
 .notification-wrapper {
   position: fixed;
   height: calc(100vh - 80px);
@@ -928,7 +932,18 @@ body {
   margin: 20px auto 0 auto;
 }
 
+@media (max-width: 900px) {
+  .RapportReview {
+    flex-wrap: wrap;
+  }
+}
+@media all and (min-width: 900px) {
+  .RapportReview {
+    flex-wrap: nowrap;
+  }
+}
 .RapportReview {
+  transition: all 400ms;
   padding: 20px 10px;
   width: calc(100vw - 20px);
   height: calc(100vh - 90px);

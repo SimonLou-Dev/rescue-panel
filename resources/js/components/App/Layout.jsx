@@ -11,6 +11,7 @@ import Rapport from "./Patient/Rapports/Rapport";
 import DossiersPatient from "./Patient/Dossiers/DossiersPatient";
 import RapportReview from "./Patient/Dossiers/RapportReview";
 import Psycology from "./Patient/Dossiers/Psycology";
+import TestPoudre from "./Patient/TestPoudre/TestPoudre";
 
 
 function Layout(props) {
@@ -205,6 +206,7 @@ function Layout(props) {
                     <Route path={'/patients/dossiers'} component={DossiersPatient}/>
                     <Route path={'/patients/:patientId/view'} component={RapportReview}/>
                     <Route path={'/patients/:patientId/psy'} component={Psycology}/>
+                    <Route path={'/patients/poudre'} component={TestPoudre}/>
                 </UserContext.Provider>
             </div>
         </div>

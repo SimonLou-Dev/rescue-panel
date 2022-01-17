@@ -43,6 +43,9 @@ function RapportReview(props) {
                 <div className={'navigation'}>
                     <button className={'btn'} onClick={()=>{Redirection('/patients/rapport?patientId=1')}}>nouveau</button>
                     <button className={'btn'} onClick={()=>{Redirection('/patients/dossiers')}}>retour</button>
+                    <a href={''} target={'_blank'} className={'btn exporter'}>
+                        <img src={'/assets/images/pdf.png'} alt={''}/>
+                    </a>
                 </div>
 
             </CardComponent>
