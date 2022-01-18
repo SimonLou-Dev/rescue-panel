@@ -112,7 +112,7 @@ a {
   cursor: pointer;
   display: flex;
   flex-direction: row;
-  flex-wrap: none;
+  flex-wrap: nowrap;
   transition: 400ms cubic-bezier(0.28, -0.46, 0.33, 1.5);
 }
 .btn img {
@@ -377,6 +377,15 @@ a {
     margin-left: 120%;
   }
 }
+.table-header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+.table-header .PageNavigator {
+  margin: auto 0;
+}
+
 table {
   border-collapse: collapse;
 }
@@ -411,6 +420,10 @@ table td, table th {
   border-top: none;
   border-bottom: none;
 }
+table td img, table th img {
+  width: 25px;
+  height: auto;
+}
 table td:first-child, table th:first-child {
   border-left: none;
 }
@@ -419,6 +432,10 @@ table td:last-child, table th:last-child {
 }
 table td .btn, table th .btn {
   background-color: #1B2037;
+}
+table td .btn img, table th .btn img {
+  width: 25px;
+  height: auto;
 }
 table th {
   font-family: "Baloo 2";
@@ -1012,6 +1029,271 @@ body {
 }
 .RapportReview .intervention .form-line .onoffswitch {
   margin-right: 50px;
+}
+
+@media (max-width: 1350px) {
+  .testPoudre {
+    flex-wrap: wrap;
+  }
+}
+@media all and (min-width: 1350px) {
+  .testPoudre {
+    flex-wrap: nowrap;
+  }
+  .testPoudre section {
+    border-left: none;
+  }
+}
+@media (max-width: 650px) {
+  .test-component {
+    flex-wrap: wrap;
+  }
+  .test-component section {
+    width: 100%;
+  }
+}
+@media all and (min-width: 650px) {
+  .test-component {
+    flex-wrap: nowrap;
+  }
+  .test-component section {
+    width: 50%;
+  }
+  .test-component section:last-child {
+    border-left: 1px solid #ED3444;
+  }
+}
+.testPoudre {
+  transition: all 400ms;
+  padding: 20px 10px;
+  width: calc(100vw - 20px);
+  height: calc(100vh - 90px);
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  overflow-y: auto;
+}
+.testPoudre .makeTest {
+  display: flex;
+  margin: auto 0;
+}
+.testPoudre .makeTest .Card {
+  display: flex;
+  flex-direction: column;
+  width: 90%;
+  max-width: 600px;
+}
+.testPoudre .makeTest .test-component {
+  display: flex;
+  flex-direction: row;
+}
+.testPoudre .makeTest .test-component section {
+  padding: 20px;
+}
+.testPoudre .makeTest .test-component .poudre {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.testPoudre .makeTest .test-component .poudre .poudre-presence {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+.testPoudre .makeTest .footer {
+  border-top: 1px solid #ED3444;
+  padding: 10px 0;
+  display: flex;
+}
+.testPoudre .makeTest .footer .btn {
+  margin: 0 auto;
+}
+.testPoudre .test-table {
+  display: flex;
+  flex-direction: column;
+}
+.testPoudre .test-table .table-content {
+  background-color: #1B2037;
+  border-radius: 10px;
+}
+
+.BC-View {
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+  width: calc(100vw - 20px);
+  height: calc(100vh - 80px);
+  overflow-y: auto;
+}
+.BC-View .form-title {
+  padding: 0 20px;
+  justify-content: space-between;
+}
+.BC-View .form-title label {
+  font-size: 25px;
+  font-weight: 700;
+  font-family: "Baloo 2";
+}
+.BC-View .BC-Header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+}
+.BC-View .BC-Header .BC-Place, .BC-View .BC-Header .BC-Starter {
+  display: flex;
+  flex-direction: row;
+  background-color: #1B2037;
+  border-radius: 10px;
+  padding: 10px 5px;
+}
+.BC-View .BC-Header .BC-Place h5, .BC-View .BC-Header .BC-Starter h5 {
+  font-size: 30px;
+  font-weight: 700;
+  font-family: "Baloo 2";
+  margin: auto 0;
+}
+.BC-View .BC-Header .BC-Place img, .BC-View .BC-Header .BC-Starter img {
+  margin: auto 0 auto 10px;
+  width: 35px;
+  height: 35px;
+}
+.BC-View .BC-Header .BC-Commands {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+.BC-View .BC-Header .BC-Commands button {
+  background-color: #1B2037;
+  font-size: 25px;
+  margin: auto 10px;
+}
+.BC-View .BC-Content {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  height: 100%;
+}
+.BC-View .BC-Content .BC-infos {
+  display: flex;
+  flex-direction: column;
+  width: 30%;
+  height: 100%;
+  min-width: 300px;
+  max-width: 500px;
+  justify-content: space-evenly;
+}
+.BC-View .BC-Content .BC-infos .form-title button {
+  background-color: #1B2037;
+}
+.BC-View .BC-Content .BC-infos .BC-infosForm {
+  background-color: #1B2037;
+  border-radius: 10px;
+  padding: 10px;
+}
+.BC-View .BC-Content .BC-infos .BC-personnel {
+  background-color: #1B2037;
+  border-radius: 10px;
+  padding: 10px;
+  margin-top: 10px;
+}
+.BC-View .BC-Content .BC-infos .BC-personnel .form-line {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+.BC-View .BC-Content .BC-infos .BC-personnel .form-line .btn {
+  margin: auto 0;
+}
+.BC-View .BC-Content .BC-infos .BC-personnel .Personnel-list {
+  border: rgba(233, 233, 233, 0.4) 1px solid;
+  max-height: 250px;
+  height: calc(90% - 20px);
+  overflow-y: auto;
+  background-color: #3D487B;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  padding: 5px;
+}
+.BC-View .BC-Content .BC-infos .BC-personnel .Personnel-list .personnel-tag {
+  margin: 5px;
+  display: flex;
+  flex-direction: row;
+  padding: 5px 7px;
+  list-style: none;
+  background-color: #1B2037;
+  border-radius: 10px;
+}
+.BC-View .BC-Content .BC-infos .BC-personnel .Personnel-list .personnel-tag img {
+  margin: auto 0 auto 5px;
+  width: 30px;
+  height: auto;
+}
+.BC-View .BC-Content .BC-infos .BC-personnel .Personnel-list .personnel-tag h6 {
+  margin: auto 0;
+}
+.BC-View .BC-Content .BC-Patient {
+  width: 30%;
+  min-width: 275px;
+  max-width: 450px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+}
+.BC-View .BC-Content .BC-Patient .BC-PatientAdder {
+  background-color: #1B2037;
+  border-radius: 10px;
+  padding: 15px;
+}
+.BC-View .BC-Content .BC-Patient .BC-PatientAdder .form-title {
+  justify-content: space-evenly !important;
+}
+.BC-View .BC-Content .BC-Patient .BC-PatientAdder .form-line {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 100%;
+}
+.BC-View .BC-Content .BC-Patient .BC-PatientAdder .form-line:last-child {
+  margin-top: 20px;
+}
+.BC-View .BC-Content .BC-Patient .BC-InetDetails {
+  background-color: #1B2037;
+  border-radius: 10px;
+  padding: 5px;
+}
+.BC-View .BC-Content .BC-Patient .BC-InetDetails .form-title button {
+  background-color: #1B2037;
+}
+.BC-View .BC-Content .BC-Patient .BC-InetDetails textarea {
+  width: 100%;
+  height: 100px;
+  overflow-y: auto;
+}
+.BC-View .BC-Content .PatientList {
+  width: 45%;
+  min-width: 275px;
+  max-width: 500px;
+  height: 100%;
+}
+
+.PatientList .card {
+  height: 80vh;
+  width: 100%;
+}
+.PatientList .card .patient-listing {
+  height: calc(80vh - 90px);
+  background-color: #3D487B;
+  border-radius: 10px;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+.PatientList .card .patient-listing table {
+  width: 100%;
 }
 
 /*# sourceMappingURL=app.css.map */

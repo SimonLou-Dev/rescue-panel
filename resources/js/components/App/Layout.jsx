@@ -12,11 +12,14 @@ import DossiersPatient from "./Patient/Dossiers/DossiersPatient";
 import RapportReview from "./Patient/Dossiers/RapportReview";
 import Psycology from "./Patient/Dossiers/Psycology";
 import TestPoudre from "./Patient/TestPoudre/TestPoudre";
+import FactureList from "./Patient/Factures/FactureList";
+import FireBC from "./Patient/BlackCode/FireBC";
 
 
 function Layout(props) {
     const [collapsed, setCollasping] = useState(true);
     const [user, setUser] = useState([]);
+    const [service, setService] = useState('LSCoFD');
     const dispatch = useNotifications();
 
     useEffect(async ()=>{
@@ -129,7 +132,7 @@ function Layout(props) {
                 <div className={"header-menu"} onClick={()=>{setCollasping(!collapsed)}}>
                     <img src={'/assets/images/menu.png'} alt={""}/>
                     <h1>menu</h1>
-                    <img src={'/assets/images/LSCoFD.png'} alt={""} className={'service-name'}/>
+                    <img src={'/assets/images/'+service+ '.png'} alt={""} className={'service-name'}/>
                 </div>
                 <div className={"header-logout"}>
                     <img src={'/assets/images/logout.png'} alt={""}/>
@@ -140,7 +143,7 @@ function Layout(props) {
                     <section className={"menu-header"}>
                         <Link className={"menu-link-big"} to="/dashboard">tableau de bord</Link>
                         <Link className={"menu-link-big"} to="/account">mon compte</Link>
-                        <Link className={"menu-link-big"} to="/dispatch">dispatch</Link>
+                        <Link className={"menu-link-big"} to={"/dispatch/"+service} >dispatch</Link>
                         <Link className={"menu-link-big"} to="/servicenav">changer de service</Link>
                         <h4 className={"menu-link-big"}>service : <label for="service-state">on</label></h4>
                     </section>
@@ -158,7 +161,7 @@ function Layout(props) {
                             <section className={"menu-item"}>
                                 <h2><span>Factures</span></h2>
                                 <ul className={"menu-nav-list"}>
-                                    <li className={'menu-puce'}><Link to={'/factures'} className={'menu-link'}>factures</Link></li>
+                                    <li className={'menu-puce'}><Link to={'/'+service+ '/factures'} className={'menu-link'}>factures</Link></li>
                                 </ul>
                             </section>
                             <section className={"menu-item"}>
@@ -171,25 +174,25 @@ function Layout(props) {
                             <section className={"menu-item"}>
                                 <h2><span>Logistique</span></h2>
                                 <ul className={"menu-nav-list"}>
-                                    <li className={'menu-puce'}><Link to={'/logistique/stock'} className={'menu-link'}>gestion des stocks</Link></li>
+                                    <li className={'menu-puce'}><Link to={'/'+service+ '/logistique/stock'} className={'menu-link'}>gestion des stocks</Link></li>
                                 </ul>
                             </section>
                             <section className={"menu-item"}>
                                 <h2><span>Personnel</span></h2>
                                 <ul className={"menu-nav-list"}>
-                                    <li className={'menu-puce'}><Link to={'/personnel/grade'} className={'menu-link'}>grade</Link></li>
-                                    <li className={'menu-puce'}><Link to={'/personnel/horaire'} className={'menu-link'}>rapport horaire</Link></li>
-                                    <li className={'menu-puce'}><Link to={'/personnel/personnel'} className={'menu-link'}>liste du personnel</Link></li>
-                                    <li className={'menu-puce'}><Link to={'/personnel/demandes'} className={'menu-link'}>demandes</Link></li>
+                                    <li className={'menu-puce'}><Link to={'/'+service+ '/personnel/grade'} className={'menu-link'}>grade</Link></li>
+                                    <li className={'menu-puce'}><Link to={'/'+service+ '/personnel/horaire'} className={'menu-link'}>rapport horaire</Link></li>
+                                    <li className={'menu-puce'}><Link to={'/'+service+ '/personnel/personnel'} className={'menu-link'}>liste du personnel</Link></li>
+                                    <li className={'menu-puce'}><Link to={'/'+service+ '/personnel/demandes'} className={'menu-link'}>demandes</Link></li>
                                 </ul>
                             </section>
                             <section className={"menu-item"}>
                                 <h2><span>Gestion MDT</span></h2>
                                 <ul className={"menu-nav-list"}>
-                                    <li className={'menu-puce'}><Link to={'/mdt/discord'} className={'menu-link'}>discord</Link></li>
-                                    <li className={'menu-puce'}><Link to={'/mdt/logs'} className={'menu-link'}>logs</Link></li>
-                                    <li className={'menu-puce'}><Link to={'/mdt/content'} className={'menu-link'}>gestion de contenues</Link></li>
-                                    <li className={'menu-puce'}><Link to={'/mdt/infos'} className={'menu-link'}>info / annonces</Link></li>
+                                    <li className={'menu-puce'}><Link to={'/'+service+ '/mdt/discord'} className={'menu-link'}>discord</Link></li>
+                                    <li className={'menu-puce'}><Link to={'/'+service+ '/mdt/logs'} className={'menu-link'}>logs</Link></li>
+                                    <li className={'menu-puce'}><Link to={'/'+service+ '/mdt/content'} className={'menu-link'}>gestion de contenues</Link></li>
+                                    <li className={'menu-puce'}><Link to={'/'+service+ '/mdt/infos'} className={'menu-link'}>info / annonces</Link></li>
                                 </ul>
                             </section>
                         </div>
@@ -207,6 +210,10 @@ function Layout(props) {
                     <Route path={'/patients/:patientId/view'} component={RapportReview}/>
                     <Route path={'/patients/:patientId/psy'} component={Psycology}/>
                     <Route path={'/patients/poudre'} component={TestPoudre}/>
+                    <Route path={'/:service/factures/'} component={FactureList}/>
+
+                    <Route path={'/blackcodes/:bcID'} component={FireBC}/>
+
                 </UserContext.Provider>
             </div>
         </div>

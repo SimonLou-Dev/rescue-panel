@@ -616,3 +616,281 @@ body{
     }
 
 }
+
+@media  (max-width: 1350px) {
+    .testPoudre{
+        flex-wrap: wrap;
+    }
+}
+@media all and (min-width: 1350px) {
+    .testPoudre{
+        flex-wrap: nowrap;
+        section {
+            border-left: none
+        }
+    }
+}
+
+@media  (max-width: 650px) {
+    .test-component{
+        flex-wrap: wrap;
+        section{
+            width: 100%;
+        }
+    }
+}
+@media all and (min-width: 650px) {
+    .test-component{
+        flex-wrap: nowrap;
+
+        section{
+            width: 50%;
+            &:last-child{
+                border-left: 1px solid $boom;
+            }
+        }
+    }
+}
+
+.testPoudre{
+    transition: all 400ms;
+    padding: 20px 10px;
+    width: calc(100vw - 20px);
+    height: calc(100vh - 90px);
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    overflow-y: auto;
+    .makeTest{
+        display: flex;
+        margin: auto 0;
+        .Card{
+            display: flex;
+            flex-direction: column;
+            width: 90%;
+            max-width: 600px;
+        }
+        .test-component{
+            display: flex;
+            flex-direction: row;
+            section{
+                padding: 20px;
+
+            }
+            .poudre{
+                display: flex;
+                flex-direction: column;
+                justify-content: space-between;
+                .poudre-presence{
+                    display: flex;
+                    flex-direction: row;
+                    justify-content: space-between;
+                    flex-wrap: wrap;
+                }
+            }
+        }
+        .footer{
+            border-top: 1px solid $boom;
+            padding: 10px 0;
+            display: flex;
+            .btn{
+                margin: 0 auto;
+            }
+        }
+    }
+    .test-table{
+        display: flex;
+        flex-direction: column;
+        .table-content{
+            background-color: $bg1;
+            border-radius: $border-radius;
+        }
+    }
+}
+
+.BC-View{
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+    width: calc(100vw - 20px);
+    height: calc(100vh - 80px);
+    overflow-y: auto;
+    .form-title{
+        padding: 0 20px;
+        justify-content: space-between;
+        label{
+            font-size: 25px;
+            font-weight: 700;
+            font-family: "Baloo 2";
+        }
+
+    }
+    .BC-Header{
+        display: flex;
+        flex-direction: row;
+        justify-content: space-evenly;
+        .BC-Place, .BC-Starter,{
+            display: flex;
+            flex-direction: row;
+            background-color: $bg1;
+            border-radius: $border-radius;
+            padding: 10px 5px;
+            h5{
+              font-size: 30px;
+              font-weight: 700;
+              font-family: "Baloo 2";
+              margin: auto 0;
+            }
+            img{
+                margin: auto 0 auto 10px;
+                width: 35px;
+                height: 35px;
+            }
+        }
+        .BC-Commands{
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            button{
+                background-color: $bg1;
+                font-size: 25px;
+                margin: auto 10px;
+            }
+        }
+    }
+    .BC-Content{
+        display: flex;
+        flex-direction: row;
+        justify-content: space-evenly;
+        height: 100%;
+        .BC-infos{
+            .form-title{
+                button{
+                    background-color: $bg1;
+                }
+            }
+            display: flex;
+            flex-direction: column;
+            width: 30%;
+            height: 100%;
+            min-width: 300px;
+            max-width: 500px;
+            justify-content: space-evenly;
+            .BC-infosForm{
+                background-color: $bg1;
+                border-radius: $border-radius;
+                padding: 10px;
+            }
+            .BC-personnel{
+                background-color: $bg1;
+                border-radius: $border-radius;
+                padding: 10px;
+                margin-top: 10px;
+                .form-line{
+                    width: 100%;
+                    display: flex;
+                    flex-direction: row;
+                    justify-content: space-between;
+                    .btn{
+                        margin: auto 0;
+                    }
+                }
+                .Personnel-list{
+                    border: rgba(233, 233, 233,0.4) 1px solid;
+                    max-height: 250px;
+                    height: calc(90% - 20px);
+                    overflow-y: auto;
+                    background-color: $bg2;
+                    border-radius: $border-radius;
+                    display: flex;
+                    flex-direction: row;
+                    flex-wrap: wrap;
+                    padding: 5px;
+                    .personnel-tag{
+                        margin: 5px;
+                        display: flex;
+                        flex-direction: row;
+                        padding: 5px 7px;
+                        list-style: none;
+                        background-color: $bg1;
+                        border-radius: $border-radius;
+                        img{
+                            margin: auto 0 auto 5px;
+                            width: 30px;
+                            height: auto;
+                        }
+                        h6{
+                            margin: auto 0;
+                        }
+                    }
+                }
+            }
+        }
+        .BC-Patient{
+            width: 30%;
+            min-width: 275px;
+            max-width: 450px;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-evenly;
+            .BC-PatientAdder{
+                .form-title{
+                    justify-content: space-evenly !important;
+                }
+                background-color: $bg1;
+                border-radius: $border-radius;
+
+                padding: 15px;
+                .form-line{
+                    display: flex;
+                    flex-direction: row;
+                    justify-content: space-between;
+                    width: 100%;
+                    &:last-child{
+                        margin-top: 20px;
+                    }
+                }
+
+            }
+            .BC-InetDetails{
+                .form-title{
+                    button{
+                        background-color: $bg1;
+                    }
+                }
+                background-color: $bg1;
+                border-radius: $border-radius;
+                padding: 5px;
+                textarea{
+                    width: 100%;
+                    height: 100px;
+                    overflow-y: auto;
+                }
+            }
+        }
+        .PatientList{
+            width: 45%;
+            min-width: 275px;
+            max-width: 500px;
+            height: 100%;
+        }
+    }
+
+}
+.PatientList{
+    .card{
+        height: 80vh;
+        width: 100%;
+        .patient-listing{
+            height: calc(80vh - 90px);
+            background-color: $bg2;
+            border-radius: $border-radius;
+            overflow-y: auto;
+            overflow-x: hidden;
+            table{
+                width: 100%;
+            }
+        }
+    }
+}
