@@ -16,6 +16,8 @@ import FactureList from "./Patient/Factures/FactureList";
 import FireBC from "./Patient/BlackCode/FireBC";
 import MedicBC from "./Patient/BlackCode/MedicBC";
 import GlobalView from "./Patient/BlackCode/GlobalView";
+import GestionStocks from "./logistique/GestionStocks";
+import StockSettings from "./logistique/StockSettings";
 
 
 function Layout(props) {
@@ -176,7 +178,7 @@ function Layout(props) {
                             <section className={"menu-item"}>
                                 <h2><span>Logistique</span></h2>
                                 <ul className={"menu-nav-list"}>
-                                    <li className={'menu-puce'}><Link to={'/'+service+ '/logistique/stock'} className={'menu-link'}>gestion des stocks</Link></li>
+                                    <li className={'menu-puce'}><Link to={'/'+service+ '/logistique/stock/view'} className={'menu-link'}>gestion des stocks</Link></li>
                                 </ul>
                             </section>
                             <section className={"menu-item"}>
@@ -215,9 +217,12 @@ function Layout(props) {
                     <Route path={'/:service/factures/'} component={FactureList}/>
 
                     <Route path={'/blackcodes/all'} component={GlobalView}/>
-
                     <Route path={'/blackcodes/medic/:bcID'} component={MedicBC}/>
                     <Route path={'/blackcodes/fire/:bcID'} component={FireBC}/>
+                    <Route path={'/blackcodes/fire/:bcID'} component={FireBC}/>
+
+                    <Route path={'/:service/logistique/stock/view'} component={GestionStocks}/>
+                    <Route path={'/:service/logistique/stock/settings'} component={StockSettings}/>
 
                 </UserContext.Provider>
             </div>

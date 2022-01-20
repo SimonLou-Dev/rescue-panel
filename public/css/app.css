@@ -349,7 +349,7 @@ a {
   border: none;
   border-radius: 10px;
   padding: 5px;
-  margin: 0 3px;
+  margin: 0 7px;
   transition: all 300ms;
   cursor: pointer;
 }
@@ -1378,6 +1378,104 @@ body {
 }
 .BC-GlobalView section .Card .BCtable .table-item:hover h5 {
   font-weight: 700;
+}
+
+.Factures {
+  width: 100vw;
+  height: calc(100vh - 70px);
+  display: flex;
+  flex-direction: row;
+}
+.Factures .FactureCenter {
+  margin: 40px auto 0 auto;
+  width: 80%;
+  max-height: 80%;
+  overflow-y: hidden;
+  border-radius: 10px;
+}
+.Factures .FactureCenter .table-header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+}
+.Factures .FactureCenter .table-header .btn {
+  font-size: 28px;
+  margin: auto 0;
+}
+.Factures .FactureCenter .table-header .exporter {
+  margin: auto 0;
+  display: flex;
+  flex-direction: row;
+  background-color: #222844;
+  height: 50px;
+  border-radius: 10px;
+  padding: 5px;
+}
+.Factures .FactureCenter .table-header .exporter input {
+  height: 40px;
+  margin: auto 6px;
+}
+.Factures .FactureCenter .table-header .exporter a, .Factures .FactureCenter .table-header .exporter label, .Factures .FactureCenter .table-header .exporter .exporter-part {
+  margin: auto 0;
+}
+.Factures .FactureCenter .table-header .exporter img {
+  width: 40px;
+  height: 40px;
+}
+.Factures .FactureCenter .table-container {
+  width: 100%;
+  background-color: #1B2037;
+  border-radius: 10px;
+}
+.Factures .FactureCenter .table-container .link {
+  font-weight: 700;
+  cursor: pointer;
+}
+.Factures .FactureCenter .table-container table {
+  width: 100%;
+}
+.Factures .FactureCenter .table-container table button {
+  margin: 0 auto;
+  background-color: #3D487B;
+}
+
+.StockManager {
+  width: 100vw;
+  height: calc(100vh - 70px);
+  display: flex;
+  flex-direction: row;
+}
+.StockManager .StockManagerCenter {
+  margin: 40px auto 0 auto;
+  width: 80%;
+  max-height: 80%;
+  overflow-y: hidden;
+  border-radius: 10px;
+}
+.StockManager .StockManagerCenter .table-header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+}
+.StockManager .StockManagerCenter .table-header .btn {
+  font-size: 28px;
+  margin: auto 0;
+}
+.StockManager .StockManagerCenter .table-container {
+  width: 100%;
+  background-color: #1B2037;
+  border-radius: 10px;
+}
+.StockManager .StockManagerCenter .table-container .link {
+  font-weight: 700;
+  cursor: pointer;
+}
+.StockManager .StockManagerCenter .table-container table {
+  width: 100%;
+}
+.StockManager .StockManagerCenter .table-container table button {
+  margin: 0 auto;
+  background-color: #3D487B;
 }
 
 /*# sourceMappingURL=app.css.map */
