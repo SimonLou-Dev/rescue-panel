@@ -4,7 +4,14 @@ import CardComponent from "../../props/CardComponent";
 
 function StockSettings(props) {
 
+    const Redirection = (url) => {
+        props.history.push(url)
+    }
+
     return (<div className={'StockSettings'}>
+        <button className={'btn retour'} onClick={()=>{Redirection('/LSCoFD/logistique/stock/view')}}>
+            retour
+        </button>
         <CardComponent title={'item'}>
             <div className={'table-header'}>
                 <Searcher/>

@@ -1087,6 +1087,12 @@ body{
     flex-direction: row;
     justify-content: space-evenly;
     flex-wrap: wrap;
+    .retour{
+        position: fixed;
+        font-size: 25px;
+        top: 80px;
+        right: 15px;
+    }
     .table-header{
         .searcher, input{
             background-color: $bg1var;

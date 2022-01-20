@@ -1486,6 +1486,12 @@ body {
   justify-content: space-evenly;
   flex-wrap: wrap;
 }
+.StockSettings .retour {
+  position: fixed;
+  font-size: 25px;
+  top: 80px;
+  right: 15px;
+}
 .StockSettings .table-header .searcher, .StockSettings .table-header input {
   background-color: #222844;
 }
