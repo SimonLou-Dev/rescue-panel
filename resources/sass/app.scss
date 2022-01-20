@@ -894,3 +894,88 @@ body{
         }
     }
 }
+
+.BC-GlobalView{
+    width: 100vw;
+    height: calc(100vh - 70px);
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
+    section{
+        width: 50%;
+        min-width: 300px;
+        max-width: 640px;
+        display: flex;
+        flex-direction: column;
+        .Card{
+            margin: auto 0;
+            width: 95%;
+            max-height: 60vh;
+            overflow: hidden;
+            .card-header, .card-content{
+                width: calc(100% - 20px);
+            }
+            .header{
+                display: flex;
+                flex-direction: row;
+                justify-content: space-between;
+                width: 100%;
+                margin-bottom: 10px;
+                button{
+                    margin: auto 0;
+                    background-color: $bg1var;
+                    &:last-child{
+                        margin-left: 5px;
+                    }
+                }
+                .PageNavigator{
+                    margin: auto 0;
+                }
+                .searcher{
+                    max-width: 300px;
+                    min-width: 175px;
+                    height: 45px;
+                    background-color: $bg1var;
+                    .searcher-icon{
+                        height: 35px;
+                    }
+                    .searcher-input{
+                        background-color: $bg1var;
+                    }
+                }
+            }
+            .BCtable{
+                height: calc(60vh - 300px);
+                background-color: $bg2;
+                overflow-y: scroll;
+                padding: 10px 0;
+                border-radius: $border-radius;
+                .table-item{
+                    img{
+                        width: 40px;
+                        height: 40px;
+                        margin-right: 10px;
+                    }
+                    display: flex;
+                    padding: 5px 10px;
+                    border-bottom: 1px $boom solid;
+                    flex-direction: row;
+                    transition: all 400ms;
+                    cursor: pointer;
+                    &:last-child{
+                        border-bottom: none;
+                    }
+                    &:hover{
+                        background-color: $bg2var;
+                        border-radius: $border-radius  $border-radius 0 0 ;
+                        h5{
+                            font-weight: 700;
+                        }
+                    }
+
+                }
+            }
+        }
+    }
+}

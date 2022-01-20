@@ -14,6 +14,8 @@ import Psycology from "./Patient/Dossiers/Psycology";
 import TestPoudre from "./Patient/TestPoudre/TestPoudre";
 import FactureList from "./Patient/Factures/FactureList";
 import FireBC from "./Patient/BlackCode/FireBC";
+import MedicBC from "./Patient/BlackCode/MedicBC";
+import GlobalView from "./Patient/BlackCode/GlobalView";
 
 
 function Layout(props) {
@@ -212,7 +214,10 @@ function Layout(props) {
                     <Route path={'/patients/poudre'} component={TestPoudre}/>
                     <Route path={'/:service/factures/'} component={FactureList}/>
 
-                    <Route path={'/blackcodes/:bcID'} component={FireBC}/>
+                    <Route path={'/blackcodes/all'} component={GlobalView}/>
+
+                    <Route path={'/blackcodes/medic/:bcID'} component={MedicBC}/>
+                    <Route path={'/blackcodes/fire/:bcID'} component={FireBC}/>
 
                 </UserContext.Provider>
             </div>

@@ -9,6 +9,10 @@ function FireBC(props) {
     const [payed, setPayed] = useState(false);
     const [id, setId] = useState(false);
 
+    const Redirection = (url) => {
+        props.history.push(url)
+    }
+
 
     return (<div className={'BC-View'}>
         <section className={'BC-Header'}>
@@ -19,7 +23,8 @@ function FireBC(props) {
                 <h5>Seamus Valentine</h5><img alt={''} src={'/assets/images/LSCoFD.png'}/>
             </div>
             <div className={'BC-Commands'}>
-                <button  className={'btn'}>retour</button>
+                <button  className={'btn'} onClick={()=>{Redirection('/blackcodes/all')}}>retour</button>
+                <button  className={'btn'}>terminer</button>
                 <button  className={'btn'}><img alt={''} src={'/assets/images/pdf.png'}/></button>
             </div>
         </section>
@@ -44,6 +49,10 @@ function FireBC(props) {
                             <input type={'date'}/>
                             <input type={'time'}/>
                         </div>
+                    </div>
+                    <div className={'form-group form-column'}>
+                        <label>Caserne envoyé</label>
+                        <input type={'text'}/>
                     </div>
                 </div>
                 <div className={'BC-personnel'}>

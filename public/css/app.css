@@ -1296,4 +1296,88 @@ body {
   width: 100%;
 }
 
+.BC-GlobalView {
+  width: 100vw;
+  height: calc(100vh - 70px);
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  flex-wrap: wrap;
+}
+.BC-GlobalView section {
+  width: 50%;
+  min-width: 300px;
+  max-width: 640px;
+  display: flex;
+  flex-direction: column;
+}
+.BC-GlobalView section .Card {
+  margin: auto 0;
+  width: 95%;
+  max-height: 60vh;
+  overflow: hidden;
+}
+.BC-GlobalView section .Card .card-header, .BC-GlobalView section .Card .card-content {
+  width: calc(100% - 20px);
+}
+.BC-GlobalView section .Card .header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 100%;
+  margin-bottom: 10px;
+}
+.BC-GlobalView section .Card .header button {
+  margin: auto 0;
+  background-color: #222844;
+}
+.BC-GlobalView section .Card .header button:last-child {
+  margin-left: 5px;
+}
+.BC-GlobalView section .Card .header .PageNavigator {
+  margin: auto 0;
+}
+.BC-GlobalView section .Card .header .searcher {
+  max-width: 300px;
+  min-width: 175px;
+  height: 45px;
+  background-color: #222844;
+}
+.BC-GlobalView section .Card .header .searcher .searcher-icon {
+  height: 35px;
+}
+.BC-GlobalView section .Card .header .searcher .searcher-input {
+  background-color: #222844;
+}
+.BC-GlobalView section .Card .BCtable {
+  height: calc(60vh - 300px);
+  background-color: #3D487B;
+  overflow-y: scroll;
+  padding: 10px 0;
+  border-radius: 10px;
+}
+.BC-GlobalView section .Card .BCtable .table-item {
+  display: flex;
+  padding: 5px 10px;
+  border-bottom: 1px #ED3444 solid;
+  flex-direction: row;
+  transition: all 400ms;
+  cursor: pointer;
+}
+.BC-GlobalView section .Card .BCtable .table-item img {
+  width: 40px;
+  height: 40px;
+  margin-right: 10px;
+}
+.BC-GlobalView section .Card .BCtable .table-item:last-child {
+  border-bottom: none;
+}
+.BC-GlobalView section .Card .BCtable .table-item:hover {
+  background-color: #435089;
+  border-radius: 10px 10px 0 0;
+}
+.BC-GlobalView section .Card .BCtable .table-item:hover h5 {
+  font-weight: 700;
+}
+
 /*# sourceMappingURL=app.css.map */
