@@ -18,6 +18,15 @@ import MedicBC from "./Patient/BlackCode/MedicBC";
 import GlobalView from "./Patient/BlackCode/GlobalView";
 import GestionStocks from "./logistique/GestionStocks";
 import StockSettings from "./logistique/StockSettings";
+import Grade from "./Personnel/grade";
+import RapportHoraire from "./Personnel/RapportHoraire";
+import ListPersonnel from "./Personnel/ListPersonnel";
+import Demandes from "./Personnel/Demandes";
+import FichePersonnel from "./Personnel/FichePersonnel";
+import DiscordBots from "./Manager/DiscordBots";
+import Logs from "./Manager/Logs";
+import ContentManager from "./Manager/ContentManager";
+import AnnoncesInfos from "./Manager/AnnoncesInfos";
 
 
 function Layout(props) {
@@ -193,7 +202,7 @@ function Layout(props) {
                             <section className={"menu-item"}>
                                 <h2><span>Gestion MDT</span></h2>
                                 <ul className={"menu-nav-list"}>
-                                    <li className={'menu-puce'}><Link to={'/'+service+ '/mdt/discord'} className={'menu-link'}>discord</Link></li>
+                                    <li className={'menu-puce'}><Link to={'/global/mdt/discord'} className={'menu-link'}>discord</Link></li>
                                     <li className={'menu-puce'}><Link to={'/'+service+ '/mdt/logs'} className={'menu-link'}>logs</Link></li>
                                     <li className={'menu-puce'}><Link to={'/'+service+ '/mdt/content'} className={'menu-link'}>gestion de contenues</Link></li>
                                     <li className={'menu-puce'}><Link to={'/'+service+ '/mdt/infos'} className={'menu-link'}>info / annonces</Link></li>
@@ -223,6 +232,17 @@ function Layout(props) {
 
                     <Route path={'/:service/logistique/stock/view'} component={GestionStocks}/>
                     <Route path={'/:service/logistique/stock/settings'} component={StockSettings}/>
+
+                    <Route path={'/:service/personnel/grade'} component={Grade}/>
+                    <Route path={'/:service/personnel/horaire'} component={RapportHoraire}/>
+                    <Route path={'/:service/personnel/personnel'} component={ListPersonnel}/>
+                    <Route path={'/:service/personnel/demandes'} component={Demandes}/>
+                    <Route path={'/:service/:userId/fiche'} component={FichePersonnel}/>
+
+                    <Route path={'/global/mdt/discord'} component={DiscordBots}/>
+                    <Route path={'/:service/mdt/logs'} component={Logs}/>
+                    <Route path={'/:service/mdt/content'} component={ContentManager}/>
+                    <Route path={'/:service/mdt/infos'} component={AnnoncesInfos}/>
 
                 </UserContext.Provider>
             </div>

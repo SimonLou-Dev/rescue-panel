@@ -1478,4 +1478,56 @@ body {
   background-color: #3D487B;
 }
 
+.StockSettings {
+  width: 100vw;
+  height: calc(100vh - 70px);
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  flex-wrap: wrap;
+}
+.StockSettings .table-header .searcher, .StockSettings .table-header input {
+  background-color: #222844;
+}
+.StockSettings .table-content {
+  width: 100%;
+  background-color: #3D487B;
+  border-radius: 10px;
+  max-height: 400px;
+  overflow-y: auto;
+}
+.StockSettings .table-content table {
+  width: 100%;
+}
+.StockSettings .table-content table td {
+  padding: 10px;
+  border-left: none;
+  border-right: none;
+}
+.StockSettings .table-content table td img {
+  cursor: pointer;
+  transition: all 400ms;
+}
+.StockSettings .table-content table td img:hover {
+  transform: rotate(380deg);
+}
+.StockSettings .table-content table tr {
+  cursor: default;
+  transition: all 400ms;
+  border-radius: 10px 10px 0 0;
+}
+.StockSettings .table-content table tr:hover {
+  background-color: #435089;
+}
+.StockSettings .table-footer {
+  width: 100%;
+}
+.StockSettings .table-footer .form-line {
+  width: 100%;
+  justify-content: space-between;
+}
+.StockSettings .table-footer .btn {
+  margin: auto 0;
+}
+
 /*# sourceMappingURL=app.css.map */
