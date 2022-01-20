@@ -237,7 +237,7 @@ function Layout(props) {
                     <Route path={'/:service/personnel/horaire'} component={RapportHoraire}/>
                     <Route path={'/:service/personnel/personnel'} component={ListPersonnel}/>
                     <Route path={'/:service/personnel/demandes'} component={Demandes}/>
-                    <Route path={'/:service/:userId/fiche'} component={FichePersonnel}/>
+                    <Route path={'/personnel/fiche/:userId'} component={FichePersonnel}/>
 
                     <Route path={'/global/mdt/discord'} component={DiscordBots}/>
                     <Route path={'/:service/mdt/logs'} component={Logs}/>
