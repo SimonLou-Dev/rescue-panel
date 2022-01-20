@@ -14,6 +14,10 @@ use Laravel\Scout\Searchable;
  * @property string place
  * @property int type_id
  * @property bool ended
+ * @property string description
+ * @property string caserne
+ * @property string service
+ *
  * @method static where(string $column, string $operator = null, mixed $value = null)
  * @method static orderByDesc(string $string)
  *
@@ -21,12 +25,17 @@ use Laravel\Scout\Searchable;
 class BCList extends Model
 {
 
-    use Searchable;
+    use Searchable, HasFactory;
 
     protected $table = "BCLists";
 
-    protected $fillable = ['starter_id', 'place', 'type_id', 'started_at', 'ended'];
-    use HasFactory;
+    protected $casts = [
+        'ended'=>'boolean',
+        'created_at'=>'datetime:d/m/Y H:i'
+    ];
+
+    protected $fillable = ['starter_id', 'place', 'type_id', 'started_at', 'ended', 'description', 'caserne', 'service'];
+
     public function GetUser(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(User::class, 'starter_id');
@@ -46,5 +55,24 @@ class BCList extends Model
         return $this->hasMany(BCPersonnel::class, 'BC_id');
     }
 
+    public function getScoutKey()
+    {
+        return $this->id;
+    }
+
+    public function getScoutKeyName()
+    {
+        return 'id';
+    }
+
+   public function toSearchableArray()
+   {
+       return [
+           'id'=>$this->id,
+           'place'=>$this->place,
+           'type'=>$this->GetType->name,
+           'service'=>$this->service,
+       ];
+   }
 
 }

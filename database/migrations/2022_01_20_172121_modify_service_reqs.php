@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateRemboursementListsTable extends Migration
+class ModifyServiceReqs extends Migration
 {
     /**
      * Run the migrations.
@@ -13,15 +13,15 @@ class CreateRemboursementListsTable extends Migration
      */
     public function up()
     {
-        Schema::create('RemboursementLists', function (Blueprint $table) {
+        Schema::create('ModifyServiceReqs', function (Blueprint $table) {
             $table->id();
             $table->integer('user_id');
-            $table->boolean('accepted')->nullable()->default(null);
-            $table->integer('admin_id')->nullable()->default(null);
-            $table->integer('item_id');
             $table->integer('week_number');
-            $table->integer('total');
-            $table->string('service');
+            $table->string('reason');
+            $table->boolean('adder'); //true add time / false remove time
+            $table->bigInteger('time_quantity'); // in Sec
+            $table->boolean('accepted')->nullable()->default(null); //null : non traitré
+            $table->integer('admin_id')->nullable()->default(null);
             $table->timestamps();
         });
     }
@@ -33,6 +33,6 @@ class CreateRemboursementListsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('RemboursementLists');
+        Schema::dropIfExists('ModifyServiceReqs');
     }
 }

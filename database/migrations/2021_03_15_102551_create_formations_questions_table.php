@@ -34,6 +34,6 @@ class CreateFormationsQuestionsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('formations_questions');
+        Schema::dropIfExists('FormationsQuestions');
     }
 }

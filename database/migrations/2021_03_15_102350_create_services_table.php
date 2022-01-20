@@ -19,6 +19,7 @@ class CreateServicesTable extends Migration
             $table->string('started_at');
             $table->string('ended_at')->nullable();
             $table->string('total')->nullable();
+            $table->string('service');
             $table->timestamps();
         });
     }
@@ -30,6 +31,6 @@ class CreateServicesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('services');
+        Schema::dropIfExists('Services');
     }
 }

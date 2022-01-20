@@ -16,6 +16,8 @@ class CreateBlessuresTable extends Migration
         Schema::create('Blessures', function (Blueprint $table) {
             $table->id();
             $table->string('name');
+            $table->string('service');
+            $table->softDeletes();
             $table->timestamps();
         });
     }
@@ -27,6 +29,6 @@ class CreateBlessuresTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('blessures');
+        Schema::dropIfExists('Blessures');
     }
 }

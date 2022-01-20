@@ -16,8 +16,10 @@ class CreatePatientsTable extends Migration
         Schema::create('Patients', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('vorname');
             $table->string('tel')->nullable();
+            $table->date('naissance')->nullable();
+            $table->string('living_place')->nullable();
+            $table->string('blood_group')->nullable();
             $table->timestamps();
         });
     }
@@ -29,6 +31,6 @@ class CreatePatientsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('patients');
+        Schema::dropIfExists('Patients');
     }
 }

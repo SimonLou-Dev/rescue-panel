@@ -16,6 +16,7 @@ class CreateBCTypesTable extends Migration
         Schema::create('BCTypes', function (Blueprint $table) {
             $table->id();
             $table->string('name');
+            $table->softDeletes();
             $table->timestamps();
         });
     }
@@ -27,6 +28,6 @@ class CreateBCTypesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('b_c__types');
+        Schema::dropIfExists('BCTypes');
     }
 }

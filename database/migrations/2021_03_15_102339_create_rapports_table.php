@@ -17,13 +17,15 @@ class CreateRapportsTable extends Migration
             $table->id();
             $table->integer('user_id');
             $table->integer('interType');
+            $table->integer('patient_id');
             $table->integer('transport');
             $table->longText('description');
             $table->integer('price');
-            $table->dateTime('ATA_start')->nullable();
-            $table->dateTime('ATA_end')->nullable();
-            $table->integer('patient_id');
+            $table->bigInteger('ata')->nullable();
+            $table->integer('pathology_id')->nullable();
             $table->string('started_at')->nullable();
+            $table->string('service');
+            $table->integer('discord_msg_id')->nullable()->default(null);
             $table->timestamps();
         });
     }
@@ -35,6 +37,6 @@ class CreateRapportsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('rapports');
+        Schema::dropIfExists('Rapports');
     }
 }

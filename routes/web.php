@@ -265,7 +265,9 @@ Route::get('/teste', function (Request $request){
 })->middleware('web');
 
 Route::get('/serch', function (Request $request){
-    return  dd(\App\Models\User::search('1')->get());
+    return response()->json([
+        'users'=>\App\Models\User::all(),
+    ]);
 })->middleware('web');
 
 

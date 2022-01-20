@@ -16,6 +16,8 @@ class CreateCouleurVetementsTable extends Migration
         Schema::create('CouleurVetements', function (Blueprint $table) {
             $table->id();
             $table->string('name');
+            $table->string('service');
+            $table->softDeletes();
             $table->timestamps();
         });
     }
@@ -27,6 +29,6 @@ class CreateCouleurVetementsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('couleur_vetements');
+        Schema::dropIfExists('CouleurVetements');
     }
 }

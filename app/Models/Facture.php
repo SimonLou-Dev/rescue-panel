@@ -16,6 +16,7 @@ use Laravel\Scout\Searchable;
  * @property int price
  * @property int payement_confirm_id
  * @property int discord_msg_id
+ * @property string service
  * @method static where(string $column, string $operator = null, mixed $value = null)
  * @method static orderByDesc(string $string)
  *
@@ -28,9 +29,9 @@ class Facture extends Model
     use HasFactory;
     protected $table = "Factures";
 
-    protected $fillable = ['patient_id', 'rapport_id', 'payed', 'price', 'payement_confirm_id'];
+    protected $fillable = ['patient_id', 'rapport_id', 'payed', 'price', 'payement_confirm_id', 'service'];
 
-    public function GetCofirmUser(): \Illuminate\Database\Eloquent\Relations\HasOne
+    public function GetConfirmUser(): \Illuminate\Database\Eloquent\Relations\HasOne
     {
         return $this->hasOne(User::class, 'id', 'payement_confirm_id');
     }

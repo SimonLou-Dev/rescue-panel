@@ -16,6 +16,8 @@ class CreateHospitalsTable extends Migration
         Schema::create('Hospitals', function (Blueprint $table) {
             $table->id();
             $table->string('name');
+            $table->string('service');
+            $table->softDeletes();
             $table->timestamps();
         });
     }
@@ -27,6 +29,6 @@ class CreateHospitalsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('hospitals');
+        Schema::dropIfExists('Hospitals');
     }
 }

@@ -13,25 +13,32 @@ use Psy\Util\Json;
  * Class User
  * @package App\Models
  * @property int id
- * @property int grade_id
- * @property string name
+ * @property int matricule
+ * @property int discord_id
+ * @property string $name
  * @property string email
  * @property string password
- * @property string token
- * @property bool service
+ * @property int fire_grade_id
+ * @property int medic_grade_id
+ * @property int token
+ * @property boolean OnService
+ * @property int bc_id
  * @property string liveplace
- * @property int tel
- * @property bool pilote
+ * @property string tel
+ * @property boolean pilote
  * @property int compte
- * @property string timezone
  * @property string bg_img
- * @property int serviceState
- * @property integer matricule
- * @property integer discord_id
- * @property json sanctions
- * @property json materiel
- * @property json note
- * @property int last_service_update
+ * @property array sanctions
+ * @property array materiel
+ * @property array note
+ * @property array notification_preference
+ * @property mixed last_service_update
+ * @property boolean moderator
+ * @property boolean dev
+ * @property boolean medic
+ * @property boolean fire
+ * @property boolean crossService
+ * @property string service
  * @method static where(string $column, string $operator = null, mixed $value = null)
  * @method static orderByDesc(string $string)
  * @method static orderBy(string $column, string $sens)
@@ -40,6 +47,21 @@ use Psy\Util\Json;
 class User extends Authenticatable
 {
     use HasFactory, Searchable;
+
+    protected $casts = [
+        'moderator'=>'boolean',
+        'dev'=>'boolean',
+        'medic'=>'boolean',
+        'fire'=>'boolean',
+        'crossService'=>'boolean',
+        'pilote'=>'boolean',
+        'OnService'=>'boolean',
+        'sanctions'=>'array',
+        'materiel'=>'array',
+        'note'=>'array',
+        'notification_preference'=>'array'
+    ];
+
     protected $table = "Users";
     protected $fillable = ['grade_id','last_service_update', 'name', 'email', 'password', 'token', 'service', 'liveplace', 'tel', 'pilote', 'compte', 'timezone', 'bg_img','matricule','discord_id','sanctions','materiel','note'];
 
@@ -107,7 +129,9 @@ class User extends Authenticatable
             "grade_id"=>$this->grade_id,
             "tel"=>$this->tel,
             "compte"=>$this->compte,
-            "matricule"=>$this->matricule
+            "matricule"=>$this->matricule,
+            "OnService"=>$this->OnService,
+            'service'=>$this->service,
         ];
     }
 

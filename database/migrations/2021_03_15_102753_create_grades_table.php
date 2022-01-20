@@ -14,9 +14,9 @@ class CreateGradesTable extends Migration
     public function up()
     {
 
-        Schema::dropIfExists('Grades');
         Schema::create('Grades', function (Blueprint $table) {
             $table->id();
+            $table->string('service');
             $table->string('name');
             $table->boolean('admin')->default(false);
             $table->boolean('default')->default(false);
@@ -43,13 +43,15 @@ class CreateGradesTable extends Migration
             $table->boolean('rapport_modify')->default(false);
 
             //BC
-            $table->boolean('BC_view')->default(false);
             $table->boolean('BC_HS')->default(false);
             $table->boolean('BC_open')->default(false);
             $table->boolean('BC_add_patient')->default(false);
             $table->boolean('BC_sauveteur')->default(false);
             $table->boolean('BC_apprarition')->default(false);
             $table->boolean('BC_notify')->default(false);
+            $table->boolean('BC_medic_view')->default(false);
+            $table->boolean('BC_fire_view')->default(false);
+            $table->boolean('BC_fire_edit')->default(false);
 
             //facture
             $table->boolean('facture_HS')->default(false);

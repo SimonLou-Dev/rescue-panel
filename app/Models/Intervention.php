@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @package App\Models
  * @property int id
  * @property string name
+ * @property string service
  * @method static where(string $column, string $operator = null, mixed $value = null)
  * @method static orderByDesc(string $string)
  *
@@ -19,5 +20,5 @@ class Intervention extends Model
 {
     use HasFactory, SoftDeletes;
     protected $table = "Interventions";
-    protected $fillable = ['name'];
+    protected $fillable = ['name', 'service'];
 }

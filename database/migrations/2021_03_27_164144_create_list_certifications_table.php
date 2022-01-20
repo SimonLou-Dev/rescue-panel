@@ -13,7 +13,7 @@ class CreateListCertificationsTable extends Migration
      */
     public function up()
     {
-        Schema::create('list_certifications', function (Blueprint $table) {
+        Schema::create('ListCertifications', function (Blueprint $table) {
             $table->id();
             $table->string('name');
             $table->timestamps();
@@ -27,6 +27,6 @@ class CreateListCertificationsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('list_certifications');
+        Schema::dropIfExists('ListCertifications');
     }
 }

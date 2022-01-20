@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateFacturesTable extends Migration
+class TestPoudre extends Migration
 {
     /**
      * Run the migrations.
@@ -13,14 +13,13 @@ class CreateFacturesTable extends Migration
      */
     public function up()
     {
-        Schema::create('Factures', function (Blueprint $table) {
+        Schema::create('PouderTests', function (Blueprint $table) {
             $table->id();
+            $table->integer('user_id');
             $table->integer('patient_id');
-            $table->integer('rapport_id')->nullable();
-            $table->boolean('payed')->default(false);
-            $table->integer('price');
-            $table->integer('payement_confirm_id')->nullable();
-            $table->integer('discord_msg_id')->nullable()->default(null);
+            $table->string('lieux_prelevement');
+            $table->boolean('on_skin_positivity')->default(false);
+            $table->boolean('on_clothes_positivity')->default(false);
             $table->string('service');
             $table->timestamps();
         });
@@ -33,6 +32,6 @@ class CreateFacturesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('Factures');
+        Schema::dropIfExists('PouderTests');
     }
 }

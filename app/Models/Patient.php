@@ -11,10 +11,10 @@ use Laravel\Scout\Searchable;
  *
  * @property int id
  * @property string name
- * @property string vorname
  * @property string tel
  * @property mixed naissance
  * @property string living_place
+ * @property string blood_group
  * @method static where(string $column, string $operator = null, mixed $value = null)
  * @method static orderByDesc(string $string)
  *
@@ -23,7 +23,7 @@ class Patient extends Model
 {
     use HasFactory, Searchable;
     protected $table = "Patients";
-    protected $fillable = ['name', 'vorname', 'tel'];
+    protected $fillable = ['name', 'naissance', 'tel','living_place','blood_group'];
 
     public function GetRapports(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
@@ -43,10 +43,11 @@ class Patient extends Model
     {
         return [
             "id"=>$this->id,
-            "name"=>$this->vorname . ' ' .$this->name,
+            "name"=>$this->name,
             "tel"=>$this->tel,
             "naissance"=>$this->naissance,
             "living_place"=>$this->living_place,
+            "blood_group"=>$this->blood_group
         ];
     }
 

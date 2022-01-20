@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateAnnoncesTable extends Migration
+class CreateStockItemsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,10 @@ class CreateAnnoncesTable extends Migration
      */
     public function up()
     {
-        Schema::create('Annonces', function (Blueprint $table) {
+        Schema::create('StockItem', function (Blueprint $table) {
             $table->id();
-            $table->string('title');
-            $table->longText('content');
+            $table->string('name');
             $table->string('service');
-            $table->integer('discord_msg_id')->nullable()->default(null);
             $table->timestamps();
         });
     }
@@ -30,6 +28,6 @@ class CreateAnnoncesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('Annonces');
+        Schema::dropIfExists('StockItem');
     }
 }

@@ -13,7 +13,7 @@ class CreateParamsTable extends Migration
      */
     public function up()
     {
-        Schema::create('params', function (Blueprint $table) {
+        Schema::create('SiteParameters', function (Blueprint $table) {
             $table->id();
             $table->string('type');
             $table->longText('value');
@@ -28,6 +28,6 @@ class CreateParamsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('params');
+        Schema::dropIfExists('SiteParameters');
     }
 }

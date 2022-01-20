@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateServiceStatesTable extends Migration
+class PrimesItem extends Migration
 {
     /**
      * Run the migrations.
@@ -13,22 +13,15 @@ class CreateServiceStatesTable extends Migration
      */
     public function up()
     {
-        Schema::create('ServiceStates', function (Blueprint $table) {
+
+        Schema::create('PrimeItems', function (Blueprint $table) {
             $table->id();
+            $table->integer('montant');
             $table->string('name');
-            $table->string('color');
+            $table->softDeletes();
             $table->timestamps();
         });
-
-
     }
-
-    /**
-     *
-     * User creation
-     *
-     */
-
 
     /**
      * Reverse the migrations.
@@ -37,6 +30,6 @@ class CreateServiceStatesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('service_states');
+        Schema::dropIfExists('PrimeItems');
     }
 }

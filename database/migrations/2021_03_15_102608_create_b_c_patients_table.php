@@ -18,8 +18,8 @@ class CreateBCPatientsTable extends Migration
             $table->boolean('idcard')->default(false);
             $table->integer('patient_id');
             $table->integer('rapport_id');
-            $table->integer('blessure_type');
-            $table->integer('couleur');
+            $table->integer('blessure_type')->nullable();
+            $table->integer('couleur')->nullable();
             $table->integer('BC_id');
             $table->string('name');
             $table->timestamps();
@@ -33,6 +33,6 @@ class CreateBCPatientsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('b_c_patients');
+        Schema::dropIfExists('BCPatients');
     }
 }
