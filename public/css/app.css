@@ -689,13 +689,39 @@ body {
 .Auth .Authentifier .auth-content h1, .Auth .Authentifier .auth-content a {
   margin: 10px auto 20px auto;
 }
+.Auth .Authentifier .auth-content h1, .Auth .Authentifier .auth-content h3, .Auth .Authentifier .auth-content h4 {
+  text-align: center;
+}
+.Auth .Authentifier .auth-content .form-part {
+  width: calc(100% - 20px);
+  padding: 0 10px;
+}
+.Auth .Authentifier .auth-content .form-part input[type=number] {
+  -moz-appearance: textfield;
+}
+.Auth .Authentifier .auth-content .form-part input[type=number]::-webkit-outer-spin-button, .Auth .Authentifier .auth-content .form-part input[type=number]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+}
+.Auth .Authentifier .auth-content .form-line {
+  width: calc(100% - 20px);
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+.Auth .Authentifier .auth-content .form-line label {
+  margin: auto 0;
+}
+.Auth .Authentifier .auth-content .form-line select {
+  margin-left: 20px;
+  width: 100%;
+}
 .Auth .Authentifier .auth-footer {
   border-top: 1px #ED3444 solid;
   width: 100%;
   display: flex;
 }
-.Auth .Authentifier .auth-footer a {
-  margin: 20px auto;
+.Auth .Authentifier .auth-footer a, .Auth .Authentifier .auth-footer button {
+  margin: 20px auto 10px auto;
 }
 
 .ServiceNav {
@@ -906,6 +932,14 @@ body {
   flex-wrap: wrap;
   overflow-y: auto;
   padding-top: 20px;
+}
+.rapports .cool {
+  text-align: center;
+  color: #00FF00;
+}
+.rapports .pascool {
+  text-align: center;
+  color: #FF0000;
 }
 .rapports .collumn {
   display: flex;

@@ -20,6 +20,7 @@ class CreateServicesTable extends Migration
             $table->string('ended_at')->nullable();
             $table->string('total')->nullable();
             $table->string('service');
+            $table->bigInteger('discord_msg_id')->nullable()->default(null);
             $table->timestamps();
         });
     }

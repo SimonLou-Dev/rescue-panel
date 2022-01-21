@@ -22,7 +22,7 @@ class CreateBCListsTable extends Migration
             $table->string('caserne')->nullable();
             $table->mediumText('description')->nullable();
             $table->boolean('ended')->default(false);
-            $table->string('service');
+            $table->bigInteger('discord_msg_id')->nullable()->default(null);
             $table->softDeletes();
             $table->timestamps();
         });

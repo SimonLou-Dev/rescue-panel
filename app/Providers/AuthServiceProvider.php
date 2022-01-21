@@ -29,12 +29,12 @@ class AuthServiceProvider extends ServiceProvider
         $this->registerPolicies();
 
         Gate::define('access', function (User $user){
-
-            return $user->isAdmin() ? true : $user->GetGrade->access();
+            if(is_null($user->GetFireGrade) ||  is_null($user->GetMedicGrade)) return false;
+            return $user->isAdmin() || $user->GetFireGrade->access || $user->GetMedicGrade->access;
         });
 
         Gate::define('having_matricule', function (User $user){
-            return $user->GetGrade()->first()->having_matricule;
+            return ($user->GetFireGrade->having_matricule || $user->GetMedicGrade->having_matricule);
         });
 
     }

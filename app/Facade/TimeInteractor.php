@@ -7,24 +7,44 @@ namespace App\Facade;
 class TimeInteractor
 {
 
-    public function add(){
+    public function add(string|int $base, string|int $operator):string
+    {
+        if(is_string($base)){
+            $base = $this->dateToSec($base);
+        }
+        if(is_string($operator)){
+            $operator = $this->dateToSec($operator);
+        }
 
+        return  '';
     }
 
-    public function remove(){
+    public function remove(string|int $base, string|int $operator):string
+    {
+        if(is_string($base)){
+            $base = $this->dateToSec($base);
+        }
+        if(is_string($operator)){
+            $operator = $this->dateToSec($operator);
+        }
 
+        return  '';
     }
 
-    public function dateToSec(){
-
+    public function dateToSec(string $base):int
+    {
+        return  0;
     }
 
-    public function secToDate(){
+    public function secToDate(int $base):string
+    {
 
+        return  '';
     }
 
 
-    public function stringToSec(string $enter){
+    public function stringToSec(string $enter):int
+    {
         $explode = explode(' ', $enter);
         $final = 0;
         foreach ($explode as $part){

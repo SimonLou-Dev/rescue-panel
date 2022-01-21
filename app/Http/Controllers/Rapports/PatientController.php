@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Rapports;
 
 use App\Events\Notify;
 use App\Http\Controllers\Controller;
+use App\Models\Facture;
 use App\Models\Patient;
 use App\Models\Rapport;
 use Illuminate\Http\Request;
@@ -14,6 +15,24 @@ class PatientController extends Controller
     {
         //$this->middleware('auth');
         //$this->middleware('access');
+    }
+
+    public function getImpaye(string $patientId){
+        $patient = Patient::where('id', $patientId)->first();
+        $req = Facture::where('payed', false)->where('patient_id', $patient->id)->where('service', \Session::get('service'));
+        $count = $req->count();
+        $montant = 0;
+        if($count != 0){
+            $factures = $req->get();
+            foreach ($factures as $facture){
+                $montant += $facture->price;
+            }
+        }
+        return response()->json([
+            'status'=>'OK',
+            'number'=>$count,
+            'montant'=>$montant
+        ]);
     }
 
     public function search(Request $request, string $text): \Illuminate\Http\JsonResponse
@@ -46,8 +65,8 @@ class PatientController extends Controller
         return response()->json(['status'=>'erreur pas de patient']);
     }
 
-    public static function PatientExist(string $name, string $vorname): ?Patient{
-        $patient = Patient::where('name', 'LIKE', $name)->where('vorname','LIKE', $vorname);
+    public static function PatientExist(string $name): ?Patient{
+        $patient = Patient::where('name', 'LIKE', $name);
         if($patient->count() == 1){
             return $patient->first();
         }

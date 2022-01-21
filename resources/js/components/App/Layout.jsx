@@ -32,7 +32,7 @@ import AnnoncesInfos from "./Manager/AnnoncesInfos";
 function Layout(props) {
     const [collapsed, setCollasping] = useState(true);
     const [user, setUser] = useState([]);
-    const [service, setService] = useState('LSCoFD');
+    const [service, setService] = useState('');
     const dispatch = useNotifications();
 
     useEffect(async ()=>{
@@ -43,6 +43,7 @@ function Layout(props) {
         }).then((response)=>{
             userid = response.data.user.id;
             setUser(response.data.user);
+            setService(response.data.user.service);
         })
         const timerID = setInterval(
             () => tick(),
@@ -124,7 +125,7 @@ function Layout(props) {
     }
 
     const tick =async() => {
-        let req =await axios({
+        await axios({
             url: '/data/check/connexion',
             method: 'GET'
         }).then(response => {

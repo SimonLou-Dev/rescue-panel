@@ -20,6 +20,7 @@ class TestPoudre extends Migration
             $table->string('lieux_prelevement');
             $table->boolean('on_skin_positivity')->default(false);
             $table->boolean('on_clothes_positivity')->default(false);
+            $table->bigInteger('discord_msg_id')->nullable()->default(null);
             $table->string('service');
             $table->timestamps();
         });

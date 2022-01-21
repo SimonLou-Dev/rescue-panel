@@ -4,14 +4,16 @@
 namespace App\Facade;
 
 
+use App\Models\User;
+
 class UserNotificationInteractor
 {
 
-    public function all(){
+    public function all(int $type, string $text, ?string $service = 'all'){
 
     }
 
-    public function add(){
+    public function one(User $user, int $type, string $text){
 
     }
 

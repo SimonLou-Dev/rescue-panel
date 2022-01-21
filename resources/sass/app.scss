@@ -237,13 +237,39 @@ body{
             h1, a{
                 margin: 10px auto 20px auto;
             }
+            h1, h3,h4{
+                text-align: center;
+            }
+            .form-part{
+                width: calc(100% - 20px);
+                padding: 0 10px;
+                input[type='number']{
+                    -moz-appearance: textfield;
+                    &::-webkit-outer-spin-button, &::-webkit-inner-spin-button{
+                        -webkit-appearance: none;
+                    }
+                }
+            }
+            .form-line{
+                width: calc(100% - 20px);
+                display: flex;
+                flex-direction: row;
+                justify-content: space-between;
+                label{
+                    margin: auto 0;
+                }
+                select{
+                    margin-left: 20px;
+                    width: 100%;
+                }
+            }
         }
         .auth-footer{
             border-top: 1px $boom solid;
             width: 100%;
             display: flex;
-            a{
-                margin: 20px auto;
+            a, button{
+                margin: 20px auto 10px auto;
             }
         }
 
@@ -484,6 +510,14 @@ body{
     flex-wrap: wrap;
     overflow-y: auto;
     padding-top: 20px;
+    .cool{
+        text-align: center;
+        color: $green_light;
+    }
+    .pascool{
+        text-align: center;
+        color: $red_light;
+    }
     .collumn{
         display: flex;
         flex-direction: column;

@@ -18,6 +18,7 @@ class VerifyCsrfToken extends Middleware
         'http://dev-bcfd.simon-lou.com/tunnel',
         'https://dev-bcfd.simon-lou.com/tunnel',
         'http://bcfd.simon-lou.com/tunnel',
-        'https://bcfd.simon-lou.com/tunnel'
+        'https://bcfd.simon-lou.com/tunnel',
+        '/data/postuserinfos',
     ];
 }

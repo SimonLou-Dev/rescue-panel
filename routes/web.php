@@ -69,7 +69,7 @@ Route::get('/logistique/{a?}', [HomeController::class, 'getIndex']); //->middlew
 Route::get('/personnel/{a?}', [HomeController::class, 'getIndex']); //->middleware('auth');
 Route::get('/mdt/{a?}', [HomeController::class, 'getIndex']); //->middleware('auth');
 Route::get('/cantaccess', [HomeController::class, 'getIndex'])->name('cantaccess');
-Route::get('/servicenav', [HomeController::class, 'getIndex'])->name('cantaccess');
+Route::get('/servicenav', [HomeController::class, 'getIndex'])->name('servicenav');
 Route::get('/', function(){
     return redirect()->route('dashboard');
 });
@@ -81,10 +81,12 @@ Route::get('/informations/{a?}', [HomeController::class, 'getIndex'])->name('inf
 Route::get('/register/{a?}', [HomeController::class, 'getIndex'])->name('register')->middleware('guest');
 Route::get('/login/{a?}', [HomeController::class, 'getIndex'])->name('login')->middleware('guest');
 Route::get('/logout', function (Request $request){
-   \Illuminate\Support\Facades\Auth::logout();
-   \Illuminate\Support\Facades\Session::flush();
-   $request->session()->invalidate();
-   $request->session()->regenerateToken();
+   Session::forget('service');
+   Session::forget('user');
+    \Illuminate\Support\Facades\Auth::logout();
+    \Illuminate\Support\Facades\Session::flush();
+    Session::invalidate();
+    Session::regenerateToken();
    return redirect()->route('login');
 })->middleware('auth')->name('logout');
 
@@ -110,9 +112,9 @@ Route::get('/data/user/reset/send/{mail?}',  [CredentialController::class, 'send
 Route::get('/pass/reset/token/{uuid}',[CredentialController::class,'tokenVerify']);
 Route::post('/data/user/reset/post',[CredentialController::class,'changepass'] );
 
+Route::get('/data/patient/{patientId}/impaye', [PatientController::class, 'getImpaye']);
 //Rapport management
 Route::get('/data/rapport/getforinter', [RapportController::class, 'getforinter']);
-
 Route::post('/data/rapport/post', [RapportController::class, 'addRapport']);
 Route::get('/data/patient/interlist/{text}', [PatientController::class, 'getPatient']);
 Route::get('/data/rapport/get/{id}', [RapportController::class, 'getRapportById']);
@@ -261,13 +263,13 @@ Route::get('/test', function (){
 });
 
 Route::get('/teste', function (Request $request){
-        return dd(Auth::user(), Auth::check(), $request->user(), $request->session());
+        return dd(Auth::user(), Session::all(), Auth::check());
 })->middleware('web');
 
 Route::get('/serch', function (Request $request){
-    return response()->json([
-        'users'=>\App\Models\User::all(),
-    ]);
+    Discord::chanUpdate(DiscordChannel::RI, 933706570552999946);
+    Discord::chanUpdate(DiscordChannel::MedicFacture, 923521332531048469);
+    Discord::chanUpdate(DiscordChannel::FireFacture, 934029889122762773);
 })->middleware('web');
 
 

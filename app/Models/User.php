@@ -69,9 +69,13 @@ class User extends Authenticatable
     {
         return $this->hasMany(Rapport::class, 'user_id');
     }
-    public function GetGrade(): BelongsTo
+    public function GetMedicGrade(): BelongsTo
     {
-        return $this->belongsTo(Grade::class, "grade_id");
+        return $this->belongsTo(Grade::class, "medic_grade_id");
+    }
+    public function GetFireGrade(): BelongsTo
+    {
+        return $this->belongsTo(Grade::class, "fire_grade_id");
     }
     public function GetWeekServices(): \Illuminate\Database\Eloquent\Relations\HasMany
     {

@@ -11,7 +11,8 @@ class LogsController extends Controller
 
     private $fileList = [
         'rapports'=>'storage/logs/rapports.log',
-        'facture'=>'storage/logs/facture.log'
+        'facture'=>'storage/logs/facture.log',
+        'accountCreated'=>'storage/logs/accountCreated.log'
     ];
 
     public function __construct(){
@@ -30,6 +31,15 @@ class LogsController extends Controller
         $logs->desc = 'rapports n°' . $rapportid . ' ' . $action;
         $logs->save();
         File::append(base_path($this->fileList['rapports']), '[' . date('d/m/Y H:i:s') . '] user ' . $userid . ' ' . $action . ' ' . ' rapports n° ' . $rapportid . "\n");
+    }
+
+    public function accountCreated(int $userid){
+        $logs = new LogDb();
+        $logs->user_id = $userid;
+        $logs->action = 'accountCreated';
+        $logs->desc = 'user n°' . $userid;
+        $logs->save();
+        File::append(base_path($this->fileList['accountCreated']), '[' . date('d/m/Y H:i:s') . '] registered user n°'. $userid . "\n");
     }
 
     public function FactureLogging(string $action, int $factureid, int $userid){

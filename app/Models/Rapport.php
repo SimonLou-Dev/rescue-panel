@@ -49,8 +49,6 @@ class Rapport extends Model
         );
     }
 
-    protected $dateFormat = 'U';
-
     protected function serializeDate(DateTimeInterface $date): string
     {
         return $date->format('d/m/Y H:i');
@@ -80,10 +78,12 @@ class Rapport extends Model
     {
         return $this->hasOne(Facture::class, 'rapport_id');
     }
+
     public function GetPathology(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(Pathology::class, 'pathology_id');
     }
+
 
     public function getScoutKey(): int
     {

@@ -11,18 +11,24 @@ use BenSampo\Enum\Enum;
  */
 final class DiscordChannel extends Enum
 {
-    const errors =   "errors";
-    const bugs =   "bugs";
-    const service = "service";
-    const annonce = "annonce";
+    const Errors =   "errors";
+    const Bugs =   "bugs";
+    const Service = "service";
+    const MedicAnnonce = "MedicAnnonce";
+    const FireAnnonce = "FireAnnonce";
     const BC = "BC";
     const RI = "RI";
-    const facture = "facture";
-    const vols = "vols";
-    const infos = "infos";
-    const remboursement = "remboursement";
-    const staff = "staff";
-    const logistique = "logistique";
-    const sanctions = "sanctions";
-    const poudre = "poudre";
+    const MedicFacture = "MedicFacture";
+    const FireFacture = "FireFacture";
+    const Vols = "vols";
+    const MedicInfos = "MedicInfos";
+    const FireInfos = "FireInfos";
+    const MedicRemboursement = "MedicRemboursement";
+    const FireRemboursement = "FireRemboursement";
+    const Staff = "staff";
+    const MedicLogistique = "MedicLogistique";
+    const FireLogistique = "FireLogistique";
+    const MedicSanctions = "MedicSanctions";
+    const FireSanctions = "FireSanctions";
+    const Poudre = "poudre";
 }

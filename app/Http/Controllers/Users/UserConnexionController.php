@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers\Users;
 
+use App\Enums\DiscordChannel;
 use App\Events\Notify;
 use App\Events\UserRegisterEvent;
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\LogsController;
 use App\Jobs\ProcessEmbedBCGenerator;
 use App\Jobs\ProcessEmbedPosting;
 use App\Models\Grade;
@@ -29,7 +31,7 @@ class UserConnexionController extends Controller
     use AuthenticatesUsers;
 
         public function __construct() {
-            $this->middleware(['web']);
+           // $this->middleware(['web']);
         }
 
     /**
@@ -50,9 +52,11 @@ class UserConnexionController extends Controller
     public function postInfos(Request $request): JsonResponse
     {
         $request->validate([
-            'compte'=> 'required|digits_between:3,7|integer',
-            'tel'=> 'required|digits_between:6,15|integer',
+            'compte'=> 'required|digits_between:2,8|integer',
+            'tel'=> 'required|regex:/555-\d\d/',
             'name'=>['required', 'string','regex:/[a-zA-Z.+_]+\s[a-zA-Z.+_]/'],
+            'staff'=>['boolean'],
+            'service'=>['string']
         ]);
 
         $user = User::where('id', Auth::id())->first();
@@ -60,6 +64,30 @@ class UserConnexionController extends Controller
         $user->name = $request->name;
         $user->tel = $request->tel;
         $user->compte = $request->compte;
+        $user->moderator = $request->staff;
+        if($request->service === 'LSCoFD' || $request->service === 'OMC') $user->service = $request->service;
+        $service = '';
+        if($request->service === 'LSCoFD'){
+            $service = 'Fire';
+            $user->fire = true;
+            $defaultGrade = Grade::where('default',true)->where('service', 'all')->first();
+            $user->fire_grade_id = $defaultGrade->id;
+            $user->medic_grade_id = 0;
+        }
+        if($request->service === 'OMC'){
+            $service = 'Medic';
+            $user->medic = true;
+            $defaultGrade = Grade::where('default',true)->where('service', 'all')->first();
+            $user->medic_grade_id = $defaultGrade->id;
+            $user->fire_grade_id = 0;
+        }
+
+        if($user->moderator){
+            $user->fire_grade_id = 0;
+            $user->medic_grade_id = 0;
+        }
+
+
         $user->save();
         $embed = [
             [
@@ -68,7 +96,7 @@ class UserConnexionController extends Controller
                 'fields'=>[
                     [
                         'name'=>'Prénom Nom : ',
-                        'value'=>$user->name,
+                        'value'=>$user->name .' (' . (!is_null($user->service) ? $user->service : ($user->moderator ? 'staff' : 'idk')) . ')',
                         'inline'=>false
                     ],[
                         'name'=>'Numéro de téléphone : ',
@@ -86,9 +114,24 @@ class UserConnexionController extends Controller
                 ],
             ]
         ];
-        $this->dispatch(new ProcessEmbedPosting([env('WEBHOOK_INFOS')],$embed,null));
+        if(!is_null($user->service)){
+            \Discord::postMessage($service.'Infos',$embed, null);
+        }else{
+            \Discord::postMessage(DiscordChannel::Bugs,$embed, null);
+        }
 
-        return \response()->json(['status'=>'OK', 'accessRight'=>$user->grade_id>1],201);
+        $access = Gate::allows('access', $user);
+
+        Auth::logout();
+        Session::flush();
+        Auth::login($user);
+        Session::push('user', $user);
+        Session::push('service', $user->service);
+
+        return \response()->json([
+            'status'=>'OK',
+            'accessRight'=>$access
+        ],201);
     }
 
     /**
@@ -143,8 +186,6 @@ class UserConnexionController extends Controller
             $createuser->password = Hash::make($auth->token);
             $createuser->email =  $userinfos->email;
             $createuser->discord_id = $userinfos->id;
-            $defaultGrade = Grade::where('default',true)->first();
-            $createuser->grade_id = $defaultGrade->id;
             $createuser->save();
             $user = $createuser;
             $logs = new LogDb();
@@ -187,8 +228,11 @@ class UserConnexionController extends Controller
             $this->dispatch(new ProcessEmbedPosting(env('WEBHOOK_BUGS'), $embed, null));
         }
 
-        $user->getGrade();
+        $user->GetMedicGrade;
+        $user->GetFireGrade;
         Auth::login($user);
+        Session::push('user', $user);
+        Session::push('service', $user->service);
 
         return $this::redirector($user);
     }
@@ -221,18 +265,15 @@ class UserConnexionController extends Controller
             $createuser->password = Hash::make($token);
             $createuser->email =  $mail;
             $createuser->discord_id = $id;
-            $defaultGrade = Grade::where('default',true)->first();
-            $createuser->grade_id = $defaultGrade->id;
             $createuser->save();
             $user = $createuser;
-            $logs = new LogDb();
-            $logs->user_id = $createuser->id;
-            $logs->action = 'register';
-            $logs->desc = $this->request->header('x-real-ip') . ' ' . $user->id;
-            $logs->save();
+            $logs = new LogsController();
+            $logs->accountCreated($createuser->id);
+            $header = $request->header('x-real-ip');
+            $ip = $header ?? $request->getClientIp();
             $embed = [
                 [
-                    'title'=>'Compte créé : (environement : ' . env('WEBHOOK_BUGS') . ')',
+                    'title'=>'Compte créé : (environement : ' . env('APP_ENV') . ')',
                     'color'=>'13436400 ',
                     'fields'=>[
                         [
@@ -249,7 +290,7 @@ class UserConnexionController extends Controller
                             'inline'=>false
                         ],[
                             'name'=>'IP : ',
-                            'value'=>$request->header('x-real-ip'),
+                            'value'=>$ip,
                             'inline'=>false
                         ],[
                             'name'=>'Discord name : ',
@@ -262,25 +303,31 @@ class UserConnexionController extends Controller
                     ]
                 ]
             ];
-            $this->dispatch(new ProcessEmbedPosting(env('WEBHOOK_BUGS'), $embed, null));
+            \Discord::postMessage(DiscordChannel::Bugs, $embed, null);
         }
 
-        $user->getGrade();
+        $user->GetFireGrade;
+        $user->GetMedicGrade;
         Auth::login($user);
-
+        Session::push('user', $user);
+        if(!is_null($user->service)){
+            Session::push('service', $user->service);
+        }
         return $this::redirector($user);
 
     }
 
     private static  function redirector(User $user){
 
+        if(is_null($user->name) || is_null($user->compte) || is_null($user->liveplace) || is_null($user->tel)){
+            return redirect()->route('informations');
+        }
+
         if(\Gate::allows('access', $user)){
-            if(is_null($user->name || is_null($user->compte) || is_null($user->liveplace) || is_null($user->tel))){
-                $redirect =  redirect()->route('informations');
-            }else{
-                $redirect = redirect()->route('dashboard');
-            }
-        }else{
+            $redirect = redirect()->route('dashboard');
+        }
+
+        else{
             $redirect = redirect()->route('cantaccess');
         }
         return $redirect;

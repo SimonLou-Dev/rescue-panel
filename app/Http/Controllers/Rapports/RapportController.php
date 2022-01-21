@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Rapports;
 
+use App\Enums\DiscordChannel;
 use App\Events\Notify;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\LogsController;
@@ -13,6 +14,7 @@ use App\Models\Hospital;
 use App\Models\HospitalList;
 use App\Models\InterType;
 use App\Models\Intervention;
+use App\Models\Pathology;
 use App\Models\Patient;
 use App\Models\Rapport;
 use App\Facades\Discord;
@@ -22,6 +24,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Storage;
 use TheCodingMachine\Gotenberg\Client;
 use TheCodingMachine\Gotenberg\ClientException;
@@ -43,9 +46,13 @@ class RapportController extends Controller
 
     public function getforinter(Request $request): \Illuminate\Http\JsonResponse
     {
-        $intertype = Intervention::all();
-        $broum = Hospital::all();
-        return response()->json(['status'=>'OK', 'intertype'=>$intertype, 'transport'=>$broum]);
+        $intertype = Intervention::where('service', Session::get('service'))->get();
+        $broum = Hospital::where('service', Session::get('service'))->get();
+        $patho = null;
+        if(Session::get('service')[0] == 'OMC'){
+            $patho = Pathology::all();
+        }
+        return response()->json(['status'=>'OK', 'intertype'=>$intertype, 'transport'=>$broum, 'pathology'=>$patho]);
     }
 
     public function addRapport(Request $request): \Illuminate\Http\JsonResponse
@@ -68,26 +75,28 @@ class RapportController extends Controller
 
         $request->validate([
             'name'=>['required', 'string','regex:/[a-zA-Z.+_]+\s[a-zA-Z.+_]/'],
-            'startinter'=>['required'],
-            'type'=>['required'],
-            'transport'=>['required'],
+            'startinter'=>['required', 'different:0'],
+            'tel'=>['tel'=> 'required','regex:/5{3}-\d\d/'],
+            'bloodgroup'=>['regex:/(A|B|AB|O)[+-]/'],
+            'type'=>['required', 'different:0'],
+            'transport'=>['required', 'different:0'],
             'desc'=>['required'],
-            'payed'=>['required'],
+            'payed'=>['required', 'boolean'],
             'montant'=>['required','integer'],
+            'ata'=>['string']
         ]);
 
-        if(isset($request->tel)){
+        if(Session::get('service')[0] === 'OMC'){
+
             $request->validate([
-                'tel'=>['numeric']
+                'pathology'=>['different:0', 'integer']
             ]);
         }
 
-        $patientname = explode(' ', $request->name);
-        $Patient = PatientController::PatientExist($patientname[1], $patientname[0]);
+        $Patient = PatientController::PatientExist($request->name);
         if(is_null($Patient)) {
             $Patient = new Patient();
-            $Patient->name = $patientname[1];
-            $Patient->vorname = $patientname[0];
+            $Patient->name = $request->name;
         }
         if(isset($request->tel)){
             $Patient->tel = $request->tel;
@@ -95,9 +104,14 @@ class RapportController extends Controller
         if(isset($request->ddn)){
             $Patient->naissance  = $request->ddn;
         }
+        if(isset($request->bloodgroup)){
+            $Patient->blood_group  = $request->bloodgroup;
+        }
         if(isset($request->liveplace)){
             $Patient->living_place = $request->liveplace;
         }
+
+
 
         $Patient->save();
         $patient_id = $Patient->id;
@@ -109,68 +123,76 @@ class RapportController extends Controller
         $rapport->description = $request->desc;
         $rapport->price = (int) $request->montant;
         $rapport->user_id = Auth::user()->id;
-        $rapport->ATA_start = date($this::$SQLdateformat, strtotime($request->startdate . ' ' . $request->starttime));
-        $rapport->ATA_end = date($this::$SQLdateformat, strtotime($request->enddate . ' ' . $request->endtime));
+        $rapport->ata = \TimeCalculate::stringToSec($request->ata);
+        $rapport->service = Session::get('service')[0];
+        if(isset($request->pathology)){
+            $rapport->pathology_id = $request->pathology;
+        }
         $rapport->save();
         FacturesController::addFactureMethod($Patient, $request->payed, $request->montant, Auth::user()->id, $rapport->id);
-        if($rapport->ATA_start === $rapport->ATA_end){
-            $ata = 'non ';
-        }else{
-            $ata = 'Du ' . date('Y/m/d H:i', strtotime($rapport->ATA_start)) . ' au ' . date('Y/m/d H:i', strtotime($rapport->ATA_end));
-        }
+        $ata = $request->ata === '' ? 'non' : $request->ata;
 
         if($request->payed){
             $fact= 'Payée : ' . $request->montant;
         }else{
             $fact= 'Impayée : ' . $request->montant;
         }
-        $path = '/public/RI/'. $rapport->id . ".pdf";
+        $service = Session::get('service')[0];
+        $path =  "/public/RI/{$rapport->id}.pdf";
+        $fields = [
+            [
+                'name'=>'Patient : ',
+                'value'=>$Patient->name,
+                'inline'=>true
+            ],[
+                'name'=>'Type d\'intervention : ',
+                'value'=> Intervention::where('id', $request->type)->first()->name,
+                'inline'=>true
+            ],[
+                'name'=>'Transport : ',
+                'value'=>$rapport->GetTransport->name,
+                'inline'=>true
+            ],[
+                'name'=>'ATA : ',
+                'value'=>$ata,
+                'inline'=>false
+            ],[
+                'name'=>'Facture : ',
+                'value'=>$fact.'$',
+                'inline'=>false
+            ],[
+                'name'=>"Debut de l'intervention : ",
+                'value'=>date('d/m/y H:I', strtotime($rapport->started_at)),
+                'inline'=>false
+            ],
+        ];//pathologie
+        if($service == 'OMC'){
+            array_push($fields, [
+                'name'=>'pathologie : ',
+                'value'=>$rapport->GetPathology->name,
+                'inline'=>true
+            ]);
+        }
+        array_push($fields, [
+            'name'=>'Description : ',
+            'value'=>$rapport->description,
+            'inline'=>false
+        ],[
+            'name'=>'PDF',
+            'value'=>":link: [`PDF`](".env('APP_URL').'/storage/RI/'.$rapport->id . ".pdf)"
+        ]);
+
         $embed = [
             [
                 'title'=>'Ajout d\'un rapport :',
                 'color'=>'1285790',
-                'fields'=>[
-                    [
-                        'name'=>'Patient : ',
-                        'value'=>$patientname[0] . ' ' .$patientname[1],
-                        'inline'=>true
-                    ],[
-                        'name'=>'Type d\'intervention : ',
-                        'value'=> Intervention::where('id', $request->type)->first()->name,
-                        'inline'=>true
-                    ],[
-                        'name'=>'Transport : ',
-                        'value'=>$rapport->GetTransport->name,
-                        'inline'=>true
-                    ],[
-                        'name'=>'ATA : ',
-                        'value'=>$ata,
-                        'inline'=>false
-                    ],[
-                        'name'=>'Facture : ',
-                        'value'=>$fact.'$',
-                        'inline'=>false
-                    ],[
-                        'name'=>"Debut de l'intervention : ",
-                        'value'=>date('d/m/y H:I', strtotime($rapport->started_at)),
-                        'inline'=>false
-                    ]
-                    ,[
-                        'name'=>'Description : ',
-                        'value'=>$rapport->description,
-                        'inline'=>false
-                    ],[
-                        'name'=>'PDF',
-                        'value'=>":link: [`PDF`](".env('APP_URL').'/storage/RI/'.$rapport->id . ".pdf)"
-                    ]
-                ],
+                'fields'=>$fields,
                 'footer'=>[
-                    'text' => 'Rapport de : ' . Auth::user()->name,
+                    'text' => 'Rapport de : ' . Auth::user()->name . " ({$service})",
                 ]
             ]
         ];
-        $this->dispatch(new ProcessEmbedPosting(['923521332531048469'],$embed));
-
+        \Discord::postMessage(DiscordChannel::RI, $embed, $rapport);
         $this->dispatch(new ProcessRapportPDFGenerator($rapport, $path));
 
         $logs = new LogsController();

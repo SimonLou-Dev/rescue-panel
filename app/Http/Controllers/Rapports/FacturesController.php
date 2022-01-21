@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Rapports;
 
+use App\Enums\DiscordChannel;
 use App\Events\Notify;
 use App\Http\Controllers\Controller;
 use App\Jobs\ProcessEmbedPosting;
@@ -25,6 +26,7 @@ class FacturesController extends Controller
         $facture->patient_id = $patient->id;
         $facture->payed = $payed;
         $facture->price = $price;
+        $facture->service = \Session::get('service')[0];
         if($payed){
             $facture->payement_confirm_id = $cofirm_id;
         }
@@ -35,7 +37,7 @@ class FacturesController extends Controller
         }else{
             $fact= 'Impayée : ' . $facture->price .'$';
         }
-
+        $service = \Session::get('service')[0];
         $embed = [
             [
                 'title'=>'Nouvelle facture :',
@@ -52,13 +54,16 @@ class FacturesController extends Controller
                     ]
                 ],
                 'footer'=>[
-                    'text' => 'Ajoutée par : ' . Auth::user()->name
+                    'text' => 'Ajoutée par : ' . Auth::user()->name ." ({$service})"
                 ]
             ]
         ];
 
-        dispatch(new ProcessEmbedPosting([env('WEBHOOK_FACTURE')],$embed,null));
-
+        if($service === 'OMC'){
+            \Discord::postMessage(DiscordChannel::MedicFacture,  $embed, $facture);
+        }else{
+            \Discord::postMessage(DiscordChannel::FireFacture,  $embed, $facture);
+        }
 
         $logs = new LogsController();
         $logs->FactureLogging('create', $facture->id, Auth::user()->id);

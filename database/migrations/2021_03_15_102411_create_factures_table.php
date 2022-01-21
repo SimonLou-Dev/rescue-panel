@@ -20,7 +20,7 @@ class CreateFacturesTable extends Migration
             $table->boolean('payed')->default(false);
             $table->integer('price');
             $table->integer('payement_confirm_id')->nullable();
-            $table->integer('discord_msg_id')->nullable()->default(null);
+            $table->bigInteger('discord_msg_id')->nullable()->default(null);
             $table->string('service');
             $table->timestamps();
         });

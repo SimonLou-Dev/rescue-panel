@@ -64,7 +64,8 @@ class UserGradeController extends Controller
     public function GetUserPerm(Request $request): JsonResponse
     {
         $user = User::where('id', Auth::id())->first();
-        $user->GetGrade;
+        $user->GetMedicGrade;
+        $user->GetFireGrade;
         return \response()->json(['status'=>'ok', 'user'=>$user]);
     }
 

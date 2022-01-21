@@ -4,6 +4,7 @@ namespace App\Jobs;
 
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
@@ -16,12 +17,13 @@ class ProcessEmbedPosting implements ShouldQueue
 
 
     /**
-     * @param array|string $webhooks
+     * @param mixed $webhook
      * @param array $embedscontent
+     * @param mixed $model
      * @param array|null $messagecontent
      */
     public function __construct(
-        private array|string|int $webhooks,
+        private mixed $webhook,
         private array  $embedscontent,
         private mixed $model = null,
         private ?array $messagecontent = null
@@ -37,27 +39,20 @@ class ProcessEmbedPosting implements ShouldQueue
      */
     public function handle()
     {
-
-        if(is_array($this->webhooks)){
-            foreach ($this->webhooks as $webhook){
-                $this->EmbedPoster((string) $webhook, true);
-            }
-        }else{
-            $this->EmbedPoster((string) $this->webhooks, false);
-        }
+        $this->EmbedPoster($this->webhook);
     }
 
-    private function EmbedPoster(string $webhook, bool $multiple = false){
+    private function EmbedPoster(mixed $webhook){
         if(is_numeric($webhook)){
-            $this::PostApi((int) $webhook, $this->embedscontent, $this->messagecontent, $multiple ? null : $this->model);
+            $this::PostApi((int) $webhook, $this->embedscontent, $this->messagecontent, $this->model);
         }else{
             $this::PostWebhook((string) $webhook, $this->embedscontent, $this->messagecontent);
         }
     }
 
-    private static function PostApi(int $channel, array $embed = null, array $content = null, mixed $model){
-        //Post message https://discord.com/api/v9/channels/{chan id}/messages => content comme les embeds
-        //=> response id (id msg), channel_id
+
+
+    private static function PostApi(int $channel, ?array $embed = null, ?array $content = null, mixed $model){
         $req = Http::withHeaders([
             'Authorization'=> 'Bot '.env('DISCORD_BOT_TOKEN')
         ])->post("https://discord.com/api/v9/channels/".$channel."/messages",
@@ -67,7 +62,7 @@ class ProcessEmbedPosting implements ShouldQueue
         ]
         );
 
-
+        Log::critical($model);
         if(!is_null($model)){
             $req = $req->json();
             $model->discord_msg_id = $req['id'];

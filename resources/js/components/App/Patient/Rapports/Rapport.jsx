@@ -1,8 +1,9 @@
-import React, {useEffect, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import axios from "axios";
 import CardComponent from "../../../props/CardComponent";
 import SwitchBtn from "../../../props/SwitchBtn";
 import Button from "../../../props/Button";
+import UserContext from "../../../context/UserContext";
 
 
 function Rapport(props) {
@@ -13,22 +14,27 @@ function Rapport(props) {
     const [interdate, setinterdate] = useState();
     const [interhour, setinterhour]= useState();
     const [lieux, setlieux] = useState();
-    const [intertype, setintertypes] = useState();
-    const [transport, settransport] = useState();
+    const [intertype, setintertypes] = useState(0);
+    const [transport, settransport] = useState(0);
     const [ata, setata] = useState();
     const [montant, setmontant] = useState();
     const [payed, setpayed] = useState(false);
     const [desc, setdesc] = useState();
-    const [impaye, setimpaye] = useState();
-    const [bloodgroup, setbloodgroup] = useState();
 
+    const [impaye, setImpaye] = useState(null);
+    const [impayePhrase, setImpayePhrase] = useState(null);
+
+    const [bloodgroup, setbloodgroup] = useState();
+    const [pathology, setpathology] = useState(0);
+
+    const [pathologysList, setpathologysList] = useState();
     const [transportlist, settransportlist] = useState();
     const [intertypeslist ,setintertypeslist] = useState();
 
-
-    const [erros, seterros] = useState();
+    const [erros, seterros] = useState([]);
     const [searching, setsearching] = useState();
     const [patient, setpatient] = useState();
+    const user = useContext(UserContext);
 
 
     useEffect(async ()=>{
@@ -38,9 +44,26 @@ function Rapport(props) {
         }).then((resp)=>{
             settransportlist(resp.data.transport);
             setintertypeslist(resp.data.intertype);
+            setpathologysList(resp.data.pathology)
         })
 
     }, [])
+
+    const getImpaye = async (patientId)=>{
+        await  axios({
+            method: 'GET',
+            url: '/data/patient/'+ patientId + '/impaye'
+        }).then((r)=>{
+            if(r.data.number === 0){
+                setImpaye(false);
+                setImpayePhrase('aucun impayé auprès de l\'OMC ');
+            }else{
+                setImpaye(true);
+                setImpayePhrase(r.data.number +  " factures à payer ($" + r.data.montant + ")");
+            }
+        })
+
+    }
 
 
     const searchPatient = async (search) => {
@@ -50,20 +73,15 @@ function Rapport(props) {
                 url: '/data/patient/search/'+search,
             }).then((response)=>{
                 setsearching(response.data.patients);
-                if (response.data.patients.length === 1) {
+                if (response.data.patients.length === 1 && response.data.patients[0].name === search) {
                     let patient = response.data.patients[0];
-                    setName(patient.vorname + ' ' + patient.name);
+                    setName(patient.name);
                     setDDn(patient.naissance);
                     setTel(patient.tel);
                     setLiveplace(patient.living_place);
+                    setbloodgroup(patient.blood_group);
+                    getImpaye(patient.id)
                 }
-                if (response.data.patients.length === 0) {
-                    setName('');
-                    setDDn('');
-                    setTel('');
-                    setLiveplace('');
-                }
-
             })
         }
     }
@@ -87,6 +105,7 @@ function Rapport(props) {
                 montant: montant,
                 payed: payed,
                 ata: ata,
+                pathology: pathology,
             }
         }).then(response => {
             setName('');
@@ -95,8 +114,9 @@ function Rapport(props) {
             setTel('')
             setLiveplace('')
             setlieux('')
-            setintertypes('')
-            settransport('')
+            setintertypes(0)
+            settransport(0)
+            setpathology(0)
             setdesc('')
             setDDn('');
             setmontant('');
@@ -124,54 +144,78 @@ function Rapport(props) {
                         <label>prénom nom</label>
                         <input type={'text'} className={'form-input'} list={'autocomplete'} value={name} onChange={(e)=>{setName(e.target.value), searchPatient(e.target.value)}}/>
                         {searching &&
-                            <datalist id={'autocomplete'}>
+                            <datalist id={'autocomplete'} >
                                 {searching.map((item)=>
-                                    <option key={item.id}>{item.vorname} {item.name}</option>
+                                    <option key={item.id}>{item.name}</option>
                                 )}
                             </datalist>
                         }
-                        <div className={'errors-list'}>
-                            <ul>
-                                <li>test</li>
-                            </ul>
-                        </div>
+                        {erros.name &&
+                            <div className={'errors-list'}>
+                                <ul>
+                                    {erros.name.map((error) =>
+                                        <li>{error}</li>
+                                    )}
+                                </ul>
+                            </div>
+                        }
+
                     </div>
                     <div className={'form-item form-column'}>
                         <label>date de naissance</label>
                         <input type={'date'} className={'form-input'} value={ddn} onChange={(e)=>{setDDn(e.target.value)}}/>
-                        <div className={'errors-list'}>
-                            <ul>
-                                <li>test</li>
-                            </ul>
-                        </div>
+                        {erros.ddn &&
+                            <div className={'errors-list'}>
+                                <ul>
+                                    {erros.ddn.map((error) =>
+                                        <li>{error}</li>
+                                    )}
+                                </ul>
+                            </div>
+                        }
                     </div>
                     <div className={'form-item form-column'}>
                         <label>téléphone</label>
                         <input type={'text'} className={'form-input'} value={tel} onChange={(e)=>{setTel(e.target.value)}}/>
-                        <div className={'errors-list'}>
-                            <ul>
-                                <li>test</li>
-                            </ul>
-                        </div>
+                        {erros.tel &&
+                            <div className={'errors-list'}>
+                                <ul>
+                                    {erros.tel.map((error) =>
+                                        <li>{error}</li>
+                                    )}
+                                </ul>
+                            </div>
+                        }
                     </div>
                     <div className={'form-item form-column'}>
                         <label>Lieux de vie</label>
                         <input type={'text'} className={'form-input'} value={liveplace} onChange={(e)=>{setLiveplace(e.target.value)}}/>
-                        <div className={'errors-list'}>
-                            <ul>
-                                <li>test</li>
-                            </ul>
-                        </div>
+                        {erros.liveplace &&
+                            <div className={'errors-list'}>
+                                <ul>
+                                    {erros.liveplace.map((error) =>
+                                        <li>{error}</li>
+                                    )}
+                                </ul>
+                            </div>
+                        }
                     </div>
                     <div className={'form-item form-column'}>
                         <label>Groupe saunguin</label>
                         <input type={'text'} className={'form-input'} value={bloodgroup} onChange={(e)=>{setbloodgroup(e.target.value)}}/>
-                        <div className={'errors-list'}>
-                            <ul>
-                                <li>test</li>
-                            </ul>
-                        </div>
+                        {erros.bloodgroup &&
+                            <div className={'errors-list'}>
+                                <ul>
+                                    {erros.bloodgroup.map((error) =>
+                                        <li>{error}</li>
+                                    )}
+                                </ul>
+                            </div>
+                        }
                     </div>
+                    {impaye != null &&
+                        <h5 className={!impaye ? 'cool' : 'pascool'}>{impayePhrase}</h5>
+                    }
                 </CardComponent>
             </div>
             <div className={'collumn'}>
@@ -180,28 +224,46 @@ function Rapport(props) {
                         <label>Date et heure</label>
                         <input type={'date'} className={'form-input'} value={interdate} onChange={(e)=>{setinterdate(e.target.value)}}/>
                         <input type={'time'} className={'form-input'} value={interhour} onChange={(e)=>{setinterhour(e.target.value)}}/>
-                        <div className={'errors-list'}>
-                            <ul>
-                                <li>test</li>
-                            </ul>
-                        </div>
+                        {erros.startinter &&
+                            <div className={'errors-list'}>
+                                <ul>
+                                    {erros.startinter.map((error) =>
+                                        <li>{error}</li>
+                                    )}
+                                </ul>
+                            </div>
+                        }
                     </div>
                     <div className={'form-item form-column'}>
                         <label>Lieux</label>
                         <input type={'text'} className={'form-input'} value={lieux} onChange={(e)=>{setlieux(e.target.value)}}/>
-                        <div className={'errors-list'}>
-                            <ul>
-                                <li>test</li>
-                            </ul>
-                        </div>
+                        {erros.lieux &&
+                            <div className={'errors-list'}>
+                                <ul>
+                                    {erros.lieux.map((error) =>
+                                        <li>{error}</li>
+                                    )}
+                                </ul>
+                            </div>
+                        }
                     </div>
                     <div className={'form-item form-column'}>
                         <label>Type d'intervention</label>
                         <select value={intertype} onChange={(e)=>{setintertypes(e.target.value)}}>
+                            <option key={0} value={0} disabled={true}>choisir</option>
                             {intertypeslist && intertypeslist.map((broum)=>
                                 <option key={broum.id} value={broum.id}>{broum.name}</option>
                             )}
                         </select>
+                        {erros.intertype &&
+                            <div className={'errors-list'}>
+                                <ul>
+                                    {erros.intertype.map((error) =>
+                                        <li>{error}</li>
+                                    )}
+                                </ul>
+                            </div>
+                        }
                     </div>
                 </CardComponent>
             </div>
@@ -211,22 +273,30 @@ function Rapport(props) {
                         <label>ATA</label>
                         <input type={'text'} className={'form-input'} value={ata} onChange={(e)=>{setata(e.target.value)}}/>
                         <label className={'form-healper'}>ex: 13h 3m</label>
-                        <div className={'errors-list'}>
-                            <ul>
-                                <li>test</li>
-                            </ul>
-                        </div>
+                        {erros.ata &&
+                            <div className={'errors-list'}>
+                                <ul>
+                                    {erros.ata.map((error) =>
+                                        <li>{error}</li>
+                                    )}
+                                </ul>
+                            </div>
+                        }
                     </div>
                 </CardComponent>
                 <CardComponent title={'Facturation'}>
                     <div className={'form-item form-column'}>
                         <label>Montant (en $)</label>
                         <input type={'number'} className={'form-input'} value={montant} onChange={(e)=>{setmontant(e.target.value)}}/>
-                        <div className={'errors-list'}>
-                            <ul>
-                                <li>test</li>
-                            </ul>
-                        </div>
+                        {erros.montant &&
+                            <div className={'errors-list'}>
+                                <ul>
+                                    {erros.montant.map((error) =>
+                                        <li>{error}</li>
+                                    )}
+                                </ul>
+                            </div>
+                        }
                     </div>
                     <div className={'form-item form-line'}>
                         <label>Payé</label>
@@ -239,25 +309,67 @@ function Rapport(props) {
                     <div className={'form-item form-column'}>
                         <label>Transport</label>
                         <select value={transport} onChange={(e)=>{settransport(e.target.value)}}>
+                            <option key={0} value={0} disabled={true}>choisir</option>
                             {transportlist && transportlist.map((broum)=>
                                 <option key={broum.id} value={broum.id}> transport : {broum.name}</option>
                             )}
                         </select>
-                        <div className={'errors-list'}>
-                            <ul>
-                                <li>test</li>
-                            </ul>
-                        </div>
+                        {erros.transport &&
+                            <div className={'errors-list'}>
+                                <ul>
+                                    {erros.transport.map((error) =>
+                                        <li>{error}</li>
+                                    )}
+                                </ul>
+                            </div>
+                        }
                     </div>
                 </CardComponent>
+                {user.service === 'OMC' &&
+                    <CardComponent title={'Pathologie'}>
+                        <div className={'form-item form-column'}>
+                            <select value={pathology} onChange={(e) => {
+                                setpathology(e.target.value)
+                                let place;
+                                for( let i = 0; i < pathologysList.length;  i++){
+                                    if(""+pathologysList[i].id  === e.target.value){
+                                        place = i;
+                                    }
+                                }
+                                if(place !== undefined){
+                                    setdesc(pathologysList[place].desc)
+                                }
+
+                            }}>
+                                <option key={0} value={0} disabled={true}>choisir</option>
+                                {pathologysList && pathologysList.map((broum) =>
+                                    <option key={broum.id} value={broum.id}>{broum.name}</option>
+                                )}
+                            </select>
+                            {erros.transport &&
+                                <div className={'errors-list'}>
+                                    <ul>
+                                        {erros.transport.map((error) =>
+                                            <li>{error}</li>
+                                        )}
+                                    </ul>
+                                </div>
+                            }
+                        </div>
+                    </CardComponent>
+                }
                 <CardComponent title={'Description'}>
                     <div className={'form-item form-column'}>
                         <textarea className={'form-input'} rows={10} value={desc} onChange={(e)=>{setdesc(e.target.value)}}/>
-                        <div className={'errors-list'}>
-                            <ul>
-                                <li>test</li>
-                            </ul>
-                        </div>
+                        {erros.desc &&
+                            <div className={'errors-list'}>
+                                <ul>
+                                    {erros.desc.map((error) =>
+                                        <li>{error}</li>
+                                    )}
+                                </ul>
+                            </div>
+                        }
                     </div>
                 </CardComponent>
             </div>

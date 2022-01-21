@@ -30,10 +30,10 @@ class CreateUsersTable extends Migration
             $table->boolean('pilote')->default(false);
             $table->integer('compte')->nullable();
             $table->string('bg_img')->nullable();
-            $table->json('sanctions')->nullable()->default(json_encode([]));
-            $table->json('materiel')->nullable()->default(json_encode([]));
-            $table->json('note')->nullable()->default(json_encode([]));
-            $table->json('notification_preference')->nullable()->default(json_encode([]));
+            $table->json('sanctions')->nullable();
+            $table->json('materiel')->nullable();
+            $table->json('note')->nullable();
+            $table->json('notification_preference')->nullable();
             $table->bigInteger('last_service_update')->nullable();
             //Mutualisation MDT
             $table->boolean('moderator')->default(false);
