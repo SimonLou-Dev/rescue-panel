@@ -20,8 +20,8 @@ class CreateUsersTable extends Migration
             $table->string('name')->nullable()->default(null);
             $table->string('email')->nullable();
             $table->string('password')->nullable();
-            $table->integer('fire_grade_id')->nullable()->default(null);
-            $table->integer('medic_grade_id')->nullable()->default(null);
+            $table->integer('fire_grade_id')->default(1);
+            $table->integer('medic_grade_id')->default(1);
             $table->string('token')->nullable();
             $table->boolean('OnService')->default(false);
             $table->integer('bc_id')->nullable()->default(null);

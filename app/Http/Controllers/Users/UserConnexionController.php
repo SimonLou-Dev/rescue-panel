@@ -72,19 +72,19 @@ class UserConnexionController extends Controller
             $user->fire = true;
             $defaultGrade = Grade::where('default',true)->where('service', 'all')->first();
             $user->fire_grade_id = $defaultGrade->id;
-            $user->medic_grade_id = 0;
+            $user->medic_grade_id = 1;
         }
         if($request->service === 'OMC'){
             $service = 'Medic';
             $user->medic = true;
             $defaultGrade = Grade::where('default',true)->where('service', 'all')->first();
             $user->medic_grade_id = $defaultGrade->id;
-            $user->fire_grade_id = 0;
+            $user->fire_grade_id = 1;
         }
 
         if($user->moderator){
-            $user->fire_grade_id = 0;
-            $user->medic_grade_id = 0;
+            $user->fire_grade_id = 1;
+            $user->medic_grade_id = 1;
         }
 
 

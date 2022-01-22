@@ -67,6 +67,8 @@ class CreateGradesTable extends Migration
             //Service
 
             //Management
+
+            $table->timestamps();
         });
     }
 
