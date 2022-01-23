@@ -9,5 +9,5 @@ use Laravel\Scout\Searchable;
 class LogDb extends Model
 {
     use HasFactory, Searchable;
-    protected $table = 'logs';
+    protected $table = 'Logs';
 }
