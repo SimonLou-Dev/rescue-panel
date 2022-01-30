@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import CardComponent from "../../../props/CardComponent";
 import axios from "axios";
 import SwitchBtn from "../../../props/SwitchBtn";
@@ -12,10 +12,13 @@ function TestPoudre(props) {
     const [liveplace, setLiveplace] = useState();
     const [prevPlace, setPrevPlace] = useState();
     const [searching, setsearching] = useState();
-    const [patient, setpatient] = useState();
     const [skinPresence, setSkinPresence] = useState(false);
     const [clothPresence, setClothPresence] = useState(false);
     const [search, setSearch] = useState();
+    const [errors, setErrors] = useState([]);
+    const [page, setPage] = useState(0);
+    const [paginate, setPaginate] = useState([]);
+    const [tests, setTest] = useState([]);
 
     const searchPatient = async (search) => {
         if(search.length > 0){
@@ -24,22 +27,61 @@ function TestPoudre(props) {
                 url: '/data/patient/search/'+search,
             }).then((response)=>{
                 setsearching(response.data.patients);
-                if (response.data.patients.length === 1) {
+                if (response.data.patients.length === 1 && response.data.patients[0].name === search) {
                     let patient = response.data.patients[0];
-                    setName(patient.vorname + ' ' + patient.name);
+                    setName(patient.name);
                     setDDn(patient.naissance);
                     setTel(patient.tel);
                     setLiveplace(patient.living_place);
                 }
-                if (response.data.patients.length === 0) {
-                    setName('');
-                    setDDn('');
-                    setTel('');
-                    setLiveplace('');
-                }
-
             })
         }
+    }
+
+    const patientList = async (search) => {
+        setSearch(search)
+        await axios({
+            url : '/data/poudre/get?query='+search+'&page='+page,
+            method: 'GET'
+        }).then(r => {
+            setTest(r.data.tests.data)
+            setPaginate(r.data.tests)
+        })
+
+    }
+
+    useEffect(()=>{
+        patientList('')
+    }, [])
+
+    const postForm = async () => {
+        await  axios({
+            url:'/data/poudre/add',
+            method: 'POST',
+            data: {
+                name: name,
+                ddn: ddn,
+                tel: tel,
+                liveplace: liveplace,
+                skinPresence: skinPresence,
+                clothPresence: clothPresence,
+                place: prevPlace,
+            }
+        }).then((r)=> {
+            if(r.status === 201){
+                setName('')
+                setTel('')
+                setDDn('')
+                setLiveplace('')
+                setSkinPresence(false)
+                setClothPresence(false)
+                setPrevPlace('')
+                searchPatient('')
+            }
+            if(error.response.status === 422){
+                setErrors(error.response.data.errors)
+            }
+        })
     }
 
     return (<div className={'testPoudre'}>
@@ -51,44 +93,61 @@ function TestPoudre(props) {
                             <label>prénom nom</label>
                             <input type={'text'} className={'form-input'} list={'autocomplete'} value={name} onChange={(e)=>{setName(e.target.value), searchPatient(e.target.value)}}/>
                             {searching &&
-                                <datalist id={'autocomplete'}>
+                                <datalist id={'autocomplete'} >
                                     {searching.map((item)=>
-                                        <option key={item.id}>{item.vorname} {item.name}</option>
+                                        <option key={item.id}>{item.name}</option>
                                     )}
                                 </datalist>
                             }
-                            <div className={'errors-list'}>
-                                <ul>
-                                    <li>test</li>
-                                </ul>
-                            </div>
+                            {errors.name &&
+                                <div className={'errors-list'}>
+                                    <ul>
+                                        {errors.name.map((error) =>
+                                            <li>{error}</li>
+                                        )}
+                                    </ul>
+                                </div>
+                            }
+
                         </div>
                         <div className={'form-item form-column'}>
                             <label>date de naissance</label>
                             <input type={'date'} className={'form-input'} value={ddn} onChange={(e)=>{setDDn(e.target.value)}}/>
-                            <div className={'errors-list'}>
-                                <ul>
-                                    <li>test</li>
-                                </ul>
-                            </div>
+                            {errors.ddn &&
+                                <div className={'errors-list'}>
+                                    <ul>
+                                        {errors.ddn.map((error) =>
+                                            <li>{error}</li>
+                                        )}
+                                    </ul>
+                                </div>
+                            }
                         </div>
                         <div className={'form-item form-column'}>
                             <label>téléphone</label>
                             <input type={'text'} className={'form-input'} value={tel} onChange={(e)=>{setTel(e.target.value)}}/>
-                            <div className={'errors-list'}>
-                                <ul>
-                                    <li>test</li>
-                                </ul>
-                            </div>
+                            {errors.tel &&
+                                <div className={'errors-list'}>
+                                    <ul>
+                                        {errors.tel.map((error) =>
+                                            <li>{error}</li>
+                                        )}
+                                    </ul>
+                                </div>
+                            }
                         </div>
                         <div className={'form-item form-column'}>
                             <label>Lieux de vie</label>
                             <input type={'text'} className={'form-input'} value={liveplace} onChange={(e)=>{setLiveplace(e.target.value)}}/>
-                            <div className={'errors-list'}>
-                                <ul>
-                                    <li>test</li>
-                                </ul>
-                            </div>
+                            {errors.liveplace &&
+                                <div className={'errors-list'}>
+                                    <ul>
+                                        {errors.liveplace.map((error) =>
+                                            <li>{error}</li>
+                                        )}
+                                    </ul>
+                                </div>
+                            }
                         </div>
 
 
@@ -97,11 +156,15 @@ function TestPoudre(props) {
                         <div className={'form-item form-column'}>
                             <label>Lieux de prélèvement</label>
                             <input type={'text'} className={'form-input'} value={prevPlace} onChange={(e)=>{setPrevPlace(e.target.value)}}/>
-                            <div className={'errors-list'}>
-                                <ul>
-                                    <li>test</li>
-                                </ul>
-                            </div>
+                            {errors.place &&
+                                <div className={'errors-list'}>
+                                    <ul>
+                                        {errors.place.map((item)=>
+                                                <li>test</li>
+                                        )}
+                                    </ul>
+                                </div>
+                            }
                         </div>
                         <h2>Présence de poudre</h2>
                         <div className={'poudre-presence'}>
@@ -110,20 +173,20 @@ function TestPoudre(props) {
                         </div>
                         <div className={'poudre-presence'}>
                             <label>Sur les vètements</label>
-                            <SwitchBtn number={'A0'} checked={clothPresence} callback={()=>{setClothPresence(!clothPresence)}}/>
+                            <SwitchBtn number={'A1'} checked={clothPresence} callback={()=>{setClothPresence(!clothPresence)}}/>
                         </div>
                     </section>
                 </section>
                 <section className={'footer'}>
-                    <button className={'btn'}>valdier</button>
+                    <button className={'btn'} onClick={postForm}>valdier</button>
                 </section>
             </CardComponent>
 
         </section>
         <section className={'test-table'}>
             <div className={'table-header'}>
-                <Searcher value={search} callback={(v) => {setSearch(v)}}/>
-                <PageNavigator/>
+                <Searcher value={search} callback={(v) => {patientList(v)}}/>
+                <PageNavigator prev={()=> {setPage(page-1)}} next={()=> {setPage(page+1)}} prevDisabled={(paginate.prev_page_url === null)} nextDisabled={(paginate.next_page_url === null)}/>
             </div>
             <div className={'table-content'}>
                 <table>
@@ -138,22 +201,16 @@ function TestPoudre(props) {
                     </tr>
                     </thead>
                     <tbody>
-                    <tr>
-                        <td>1</td>
-                        <td>Jean claude</td>
-                        <td><img src={'/assets/images/accept.png'} alt={''}/></td>
-                        <td><img src={'/assets/images/decline.png'} alt={''}/></td>
-                        <td><button className={'btn'}><img src={'/assets/images/pdf.png'} alt={''}/></button> </td>
-                        <td>14/01 13h20</td>
-                    </tr>
-                    <tr>
-                        <td>1</td>
-                        <td>Jean claude</td>
-                        <td><img src={'/assets/images/decline.png'} alt={''}/></td>
-                        <td><img src={'/assets/images/decline.png'} alt={''}/></td>
-                        <td><img src={'/assets/images/pdf.png'} alt={''}/></td>
-                        <td>14/01 13h20</td>
-                    </tr>
+                    {tests && tests.map((test)=>
+                        <tr key={test.id}>
+                            <td>{test.id}</td>
+                            <td>{test.get_patient.name}</td>
+                            <td><img src={(test.on_skin_positivity ? '/assets/images/accept.png' : '/assets/images/decline.png')} alt={''}/></td>
+                            <td><img src={(test.on_clothes_positivity ? '/assets/images/accept.png' : '/assets/images/decline.png')} alt={''}/></td>
+                            <td><a href={'/data/poudre/PDF/'+test.id} className={'btn'}><img src={'/assets/images/pdf.png'} alt={''}/></a> </td>
+                            <td>{test.created_at}</td>
+                        </tr>
+                    )}
                     </tbody>
                 </table>
             </div>

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Rapports;
 
+use App\Enums\DiscordChannel;
 use App\Events\Notify;
 use App\Http\Controllers\Controller;
 use App\Jobs\ProcessEmbedPosting;
@@ -30,58 +31,59 @@ class PoudreTestController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
-        $this->middleware('access');
     }
 
     public function postTest(request $request){
         $request->validate([
-            'patient'=>['required', 'string','regex:/[a-zA-Z.+_]+\s[a-zA-Z.+_]/'],
-            'DDN'=>['required'],
-            'tel'=>['required','numeric'],
-            'lieux'=>['required', 'string'],
+            'name'=>['required','regex:/[a-zA-Z.+_]+\s[a-zA-Z.+_]/'],
+            'ddn'=>['required'],
+            'tel'=>['tel'=> 'required','regex:/5{3}-\d\d/'],
+            'liveplace'=>['required', 'string'],
+            'place'=>["required", 'string'],
+            'clothPresence'=>['boolean'],
+            'skinPresence'=>['boolean'],
         ]);
 
 
         $test = new TestPoudre();
-        $explode = explode(' ', $request->patient);
-        $Patient = PatientController::PatientExist($explode[1], $explode[0]);
+        $Patient = PatientController::PatientExist($request->name);
         if(is_null($Patient)) {
             $Patient = new Patient();
-            $Patient->name = $explode[1];
-            $Patient->vorname = $explode[0];
+            $Patient->name = $request->name;
             $Patient->tel = $request->tel;
-            $Patient->naissance = $request->DDN;
-            $Patient->living_place = $request->lieux;
+            $Patient->naissance = $request->ddn;
+            $Patient->living_place = $request->liveplace;
             $Patient->save();
             event(new Notify('Nouveau patient créé',1));
         }else {
          $Patient->tel = $request->tel;
-         $Patient->naissance = $request->DDN;
-         $Patient->living_place = $request->lieux;
+         $Patient->naissance = $request->ddn;
+         $Patient->living_place = $request->liveplace;
          $Patient->save();
         }
 
 
-
-
         $test->patient_id = $Patient->id;
         $test->user_id = Auth::id();
-        $test->lieux_prelevement = $request->lieux;
-        $test->on_skin_positivity = $request->peau;
-        $test->on_clothes_positivity = $request->vetements;
+        $test->lieux_prelevement = $request->place;
+        $test->on_skin_positivity = $request->skinPresence;
+        $test->on_clothes_positivity = $request->clothPresence;
+        $service = \Session::get('service')[0];
+        $test->service = $service;
         $test->save();
 
         $tester = User::where('id', Auth::id())->first();
         $path = 'public/test/poudre/'. $test->id . ".pdf";
         $this->dispatch(new ProcesTestPoudrePDFGenerator($test, $path));
+
         $embed = [
             [
-                'title'=>'Résultat d\'un tes de poudre du BCFD :',
+                'title'=>"Résultat d\'un tes de poudre {$service} :",
                 'color'=>'1285790',
                 'fields'=>[
                     [
                         'name'=>'Patient : ',
-                        'value'=>$explode[0] . ' ' .$explode[1],
+                        'value'=>$Patient->name,
                         'inline'=>true
                     ],[
                         'name'=>'Contact patient : ',
@@ -93,15 +95,15 @@ class PoudreTestController extends Controller
                         'inline'=>true
                     ],[
                         'name'=>'Lieux de résidence : ',
-                        'value'=>($request->liveplace ? 'BC':'LS'),
+                        'value'=>($Patient->living_place),
                         'inline'=>false
                     ],[
                         'name'=>'Reaction sur la peau : ',
-                        'value'=>($request->peau ? 'Positif': 'Négatif'),
+                        'value'=>($request->peau ? 'Positif :white_check_mark: ': 'Négatif :x:'),
                         'inline'=>false
                     ],[
                         'name'=>'Reaction sur les vetements : ',
-                        'value'=>($request->vetements ? 'Positif': 'Négatif'),
+                        'value'=>($request->vetements ? 'Positif :white_check_mark: ' : 'Négatif :x:'),
                         'inline'=>false
                     ],[
                         'name'=>'Date et heure du test : ',
@@ -109,7 +111,7 @@ class PoudreTestController extends Controller
                         'inline'=>false
                     ],[
                         'name'=>'Lieux de prise en charge : ',
-                        'value'=>$request->lieux,
+                        'value'=>$request->place,
                         'inline'=>true
                     ],[
                         'name'=>'Personnel en charge : ',
@@ -121,11 +123,11 @@ class PoudreTestController extends Controller
                     ]
                 ],
                 'footer'=>[
-                    'text' => 'Service de Biologie du LSCoFD ',
+                    'text' => "Service de Biologie ({$service})",
                 ]
             ]
         ];
-        $this->dispatch(new ProcessEmbedPosting([env('WEBHOOK_POUDRE')], $embed, null));
+        \Discord::postMessage(DiscordChannel::Poudre, $embed, $test, null);
 
 
         event(new Notify('Test enregistré',1));
@@ -153,14 +155,10 @@ class PoudreTestController extends Controller
         return response()->file(Storage::path($path));
     }
 
-    public function getAllTests(): \Illuminate\Http\JsonResponse
+    public function getAllTests(Request $request): \Illuminate\Http\JsonResponse
     {
-        $tests = TestPoudre::all()->take(100);
-        $a = 0;
-        while ($a < count($tests)){
-            $tests[$a]->GetPatient;
-            $a++;
-        }
+        $tests = TestPoudre::search($request->query('query'))->paginate();
+        foreach ($tests as $test) $test->GetPatient;
         return response()->json(['status'=>'OK', 'tests'=>$tests]);
     }
 }

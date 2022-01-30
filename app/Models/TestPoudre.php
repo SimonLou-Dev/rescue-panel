@@ -23,6 +23,7 @@ class TestPoudre extends Model
     protected $casts = [
         'on_clothes_positivity'=>'boolean',
         'on_skin_positivity'=>'boolean',
+        'created_at'=>"datetime:d/m/Y H\hi"
     ];
     protected $table = 'PouderTests';
     protected $fillable = ['on_clothes_positivity', 'on_skin_positivity', 'lieux_prelevement', 'patient_id', 'user_id', 'service'];
@@ -51,7 +52,7 @@ class TestPoudre extends Model
           'id'=>$this->id,
           'on_clothes_positivity'=>$this->on_clothes_positivity,
           'on_skin_positivity'=>$this->on_skin_positivity,
-          'patient_id'=>$this->GetPatient->name,
+          'patient_name'=>$this->GetPatient->name,
         ];
     }
 }
