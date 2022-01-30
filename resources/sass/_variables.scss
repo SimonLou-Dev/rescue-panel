@@ -56,6 +56,10 @@ h1{
     font-family: 'Baloo 2';
 }
 
+.clickable{
+    font-weight: 600;
+    cursor: pointer;
+}
 
 h1{
     font-family: 'Baloo 2';
@@ -384,6 +388,13 @@ a{
         }
         &:hover{
             background-color: $bg2var;
+        }
+        &:disabled{
+            opacity: 60%;
+            cursor: not-allowed;
+            &:hover{
+                background-color: $bg1;
+            }
         }
     }
 }

@@ -43,8 +43,13 @@ class TimeInteractor
     }
 
 
-    public function stringToSec(string $enter):int
+    public function stringToSec(string|null $enter):int
     {
+        if(is_null($enter)){
+            return 0;
+        }
+        $enter = (string) $enter;
+
         $explode = explode(' ', $enter);
         $final = 0;
         foreach ($explode as $part){
@@ -66,8 +71,13 @@ class TimeInteractor
         return $final;
     }
 
-    public function secToString(int $enter): string
+    public function secToString(int|null $enter): string
     {
+        if(is_null($enter)){
+            return '';
+        }
+        $enter = (int) $enter;
+
         $calculate['jR'] = $enter % (3600*24);
         $calculate['j'] = (int) floor($enter / (3600*24));
         $calculate['hR'] = $calculate['jR'] % (3600);

@@ -3,7 +3,9 @@
 namespace App\Providers;
 
 use App\Models\Grade;
+use App\Models\Rapport;
 use App\Models\User;
+use App\Policies\RapportsPolicy;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Gate;
 use function React\Promise\Stream\first;
@@ -16,7 +18,7 @@ class AuthServiceProvider extends ServiceProvider
      * @var array
      */
     protected $policies = [
-        // 'App\Models\Model' => 'App\Policies\ModelPolicy',
+        Rapport::class => RapportsPolicy::class,
     ];
 
     /**
@@ -35,6 +37,11 @@ class AuthServiceProvider extends ServiceProvider
 
         Gate::define('having_matricule', function (User $user){
             return ($user->GetFireGrade->having_matricule || $user->GetMedicGrade->having_matricule);
+        });
+
+        Gate::define('patient-edit', function (User $user){
+            $grade = $user->getUserGradeInService();
+           return ($user->isAdmin() || $grade->patient_edit) ;
         });
 
     }

@@ -16,6 +16,11 @@ h1 {
   font-family: "Baloo 2";
 }
 
+.clickable {
+  font-weight: 600;
+  cursor: pointer;
+}
+
 h1 {
   font-family: "Baloo 2";
   font-weight: 800;
@@ -359,6 +364,13 @@ a {
 }
 .PageNavigator button:hover {
   background-color: #435089;
+}
+.PageNavigator button:disabled {
+  opacity: 60%;
+  cursor: not-allowed;
+}
+.PageNavigator button:disabled:hover {
+  background-color: #1B2037;
 }
 
 @keyframes SlideLeft {
@@ -994,6 +1006,14 @@ body {
 .dossiers .patient-form {
   margin: 20px 10px;
   display: flex;
+}
+.dossiers .patient-form .cool {
+  text-align: center;
+  color: #00FF00;
+}
+.dossiers .patient-form .pascool {
+  text-align: center;
+  color: #FF0000;
 }
 .dossiers .patient-form .Card {
   margin: auto 0;

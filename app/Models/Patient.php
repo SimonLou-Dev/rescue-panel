@@ -25,6 +25,7 @@ class Patient extends Model
     protected $table = "Patients";
     protected $fillable = ['name', 'naissance', 'tel','living_place','blood_group'];
 
+
     public function GetRapports(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
         return $this->hasMany(Rapport::class, 'patient_id');

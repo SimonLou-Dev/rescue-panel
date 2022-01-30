@@ -18,6 +18,7 @@ class CreatePathologiesTable extends Migration
             $table->string('name');
             $table->mediumText('desc');
             $table->json('stock_item');
+            $table->softDeletes();
             $table->timestamps();
         });
     }

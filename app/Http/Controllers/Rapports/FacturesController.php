@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 use App\Jobs\ProcessEmbedPosting;
 use App\Models\Facture;
 use App\Models\Patient;
+use App\Models\Rapport;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
@@ -41,7 +42,7 @@ class FacturesController extends Controller
         $embed = [
             [
                 'title'=>'Nouvelle facture :',
-                'color'=>'13436400 ',
+                'color'=>$facture->payed ? '65361' : '16711684',
                 'fields'=>[
                     [
                         'name'=>'Patient : ',
@@ -68,6 +69,66 @@ class FacturesController extends Controller
         $logs = new LogsController();
         $logs->FactureLogging('create', $facture->id, Auth::user()->id);
         event(new Notify('Facture de $'. $price .' ajoutée ! ',1, Auth::user()->id));
+    }
+
+    public static function updateFactureMethod(Patient $patient, Rapport $rapport, bool $payed, int $price){
+        $facture = $rapport->GetFacture;
+        $facture->patient_id = $patient->id;
+        $facture->payed = $payed;
+        $facture->price = $price;
+        $facture->service = \Session::get('service')[0];
+        if($payed){
+            $facture->payement_confirm_id = Auth::user()->id;
+        }else{
+            $facture->payement_confirm_id = null;
+        }
+        $facture->rapport_id = $rapport->id;
+        $facture->save();
+        if($facture->payed){
+            $fact= 'Payée : ' . $facture->price .'$';
+        }else{
+            $fact= 'Impayée : ' . $facture->price .'$';
+        }
+        $service = \Session::get('service')[0];
+        $embed = [
+            [
+                'title'=>'Nouvelle facture :',
+                'color'=>$facture->payed ? '65361' : '16711684',
+                'fields'=>[
+                    [
+                        'name'=>'Patient : ',
+                        'value'=>$patient->vorname. ' ' . $patient->name,
+                        'inline'=>true
+                    ],[
+                        'name'=>'Facture : ',
+                        'value'=>$fact,
+                        'inline'=>true
+                    ]
+                ],
+                'footer'=>[
+                    'text' => 'Ajoutée par : ' . Auth::user()->name ." ({$service})"
+                ]
+            ]
+        ];
+        if($facture->discord_msg_id){
+
+            if($service === 'OMC'){
+                \Discord::updateMessage(DiscordChannel::MedicFacture, $facture->discord_msg_id, $embed, null);
+            }else{
+                \Discord::updateMessage(DiscordChannel::FireFacture,  $facture->discord_msg_id, $embed, null);
+            }
+        }else{
+            if($service === 'OMC'){
+                \Discord::postMessage(DiscordChannel::MedicFacture, $embed, $facture);
+            }else{
+                \Discord::postMessage(DiscordChannel::FireFacture, $embed, $facture);
+            }
+        }
+
+
+        $logs = new LogsController();
+        $logs->FactureLogging('update', $facture->id, Auth::user()->id);
+        event(new Notify('Facture N°'. $facture->id .' mise à jour ! ',2, Auth::user()->id));
     }
 
     public function addFacture(Request $request): \Illuminate\Http\JsonResponse

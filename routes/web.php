@@ -61,7 +61,7 @@ Route::get("/infos", function (){
 Route::get('/dashboard', [HomeController::class, 'getIndex'])->name('dashboard'); //->middleware(['auth']);
 Route::get('/account', [HomeController::class, 'getIndex']); //->middleware(['auth']);
 Route::get('/dispatch', [HomeController::class, 'getIndex']); //->middleware(['auth']);
-Route::get('/patients/{a}', [HomeController::class, 'getIndex']); //->middleware(['auth']);
+Route::get('/patients/{a}/{b?}', [HomeController::class, 'getIndex']); //->middleware(['auth']);
 Route::get('/blackcodes/{a}', [HomeController::class, 'getIndex']); //->middleware(['auth']);
 Route::get('/factures/{a}', [HomeController::class, 'getIndex']); //->middleware(['auth']);
 Route::get('/formation/{a}/{b?}', [HomeController::class, 'getIndex']); //->middleware('auth');
@@ -116,13 +116,13 @@ Route::get('/data/patient/{patientId}/impaye', [PatientController::class, 'getIm
 //Rapport management
 Route::get('/data/rapport/getforinter', [RapportController::class, 'getforinter']);
 Route::post('/data/rapport/post', [RapportController::class, 'addRapport']);
-Route::get('/data/patient/interlist/{text}', [PatientController::class, 'getPatient']);
-Route::get('/data/rapport/get/{id}', [RapportController::class, 'getRapportById']);
+Route::get('/data/patient/get/{id}', [PatientController::class, 'getPatient']);
+Route::get('/data/rapport/get/{patientId}', [RapportController::class, 'getPatientInter']);
 Route::put('/data/rapport/update/{id}', [RapportController::class, 'updateRapport']);
-Route::post('/data/patient/{id}/update', [RapportController::class, 'updatePatientInfos']);
+Route::put('/data/patient/update/{id}', [PatientController::class, 'updatePatientInfos']);
 Route::get('/pdf/rapport/{id}', [ExporterController::class, 'makeRapportPdf']);
 
-Route::get('/data/patient/getAll/', [PatientController::class, 'getAllPatientsSearcher']);
+Route::get('/data/patient/getAll', [PatientController::class, 'getAllPatientsSearcher']);
 //Tests de poudre
 
 Route::post('/data/poudre/add', [PoudreTestController::class, 'postTest']);

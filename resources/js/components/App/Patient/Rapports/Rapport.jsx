@@ -108,21 +108,23 @@ function Rapport(props) {
                 pathology: pathology,
             }
         }).then(response => {
-            setName('');
-            setinterdate('')
-            setinterhour('')
-            setTel('')
-            setLiveplace('')
-            setlieux('')
-            setintertypes(0)
-            settransport(0)
-            setpathology(0)
-            setdesc('')
-            setDDn('');
-            setmontant('');
-            setpayed(false)
-            setata('')
-            setbloodgroup('')
+            if(response.status === 201){
+                setName('');
+                setinterdate('')
+                setinterhour('')
+                setTel('')
+                setLiveplace('')
+                setlieux('')
+                setintertypes(0)
+                settransport(0)
+                setpathology(0)
+                setdesc('')
+                setDDn('');
+                setmontant('');
+                setpayed(false)
+                setata('')
+                setbloodgroup('')
+            }
 
         }).catch(error => {
             if(error.response.status === 422){

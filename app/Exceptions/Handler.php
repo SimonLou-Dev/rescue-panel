@@ -2,6 +2,7 @@
 
 namespace App\Exceptions;
 
+use App\Events\Notify;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Illuminate\Support\Facades\Log;
 use Throwable;
@@ -30,6 +31,10 @@ class Handler extends ExceptionHandler
 
     public function report(Throwable $exception)
     {
+        if($exception->getMessage() == "This action is unauthorized."){
+            event(new Notify("Vous n'avez pas la permission",4, \Auth::user()->id));
+        }
+
         if (app()->bound('sentry') && $this->shouldReport($exception)) {
             app('sentry')->captureException($exception);
         }

@@ -30,6 +30,7 @@ class CreateGradesTable extends Migration
             $table->boolean('rapport_create')->default(false);
             $table->boolean('rapport_view')->default(false);
             $table->boolean('rapport_HS')->default(false);
+            $table->boolean('rapport_modify')->default(false);
 
             //test de poudre
             $table->boolean('poudretest_create')->default(false);
@@ -40,7 +41,6 @@ class CreateGradesTable extends Migration
             $table->boolean('dossier_view')->default(false);
             $table->boolean('dosssier_HS')->default(false);
             $table->boolean('patient_edit')->default(false);
-            $table->boolean('rapport_modify')->default(false);
 
             //BC
             $table->boolean('BC_HS')->default(false);

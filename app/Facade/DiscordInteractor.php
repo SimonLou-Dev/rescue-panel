@@ -51,7 +51,7 @@ class DiscordInteractor
 
     public function postMessage(string $channel, array $embed = null, mixed $model =null, ?array $msg = null){
         $channel = $this->chanGet($channel);
-        DiscordApiController::CallJobs($channel,$embed,$model,$msg);
+        DiscordApiController::CallPostJobs($channel,$embed,$model,$msg);
     }
 
     public function getReaction(string $channel, Integer $msgid){
@@ -62,11 +62,12 @@ class DiscordInteractor
 
     }
 
-    public function updateMessage(array|string|Integer $channels, Integer $msgid, Model $model, array $embed = null, ?array $msg = null){
-
+    public function updateMessage(string $channel, int $msgid, array $embed = null, ?array $msg = null){
+        $channel = (int) $this->chanGet($channel);
+        DiscordApiController::CallUpdateJobs($channel, $msgid,$embed,$msg);
     }
 
-    public function deleteMessage(string $channel, Integer $msgid, Model $model){
+    public function deleteMessage(string $channel, Integer $msgid, mixed $model){
 
     }
 

@@ -28,8 +28,11 @@ class Facture extends Model
 
     use HasFactory;
     protected $table = "Factures";
+    protected $casts = [
+        'payed'=>'boolean'
+    ];
 
-    protected $fillable = ['patient_id', 'rapport_id', 'payed', 'price', 'payement_confirm_id', 'service'];
+    protected $fillable = ['patient_id', 'rapport_id', 'payed', 'price', 'payement_confirm_id', 'service','discord_msg_id'];
 
     public function GetConfirmUser(): \Illuminate\Database\Eloquent\Relations\HasOne
     {

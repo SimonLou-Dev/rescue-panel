@@ -22,6 +22,7 @@ use Hoa\File\File;
 use http\Env\Response;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Session;
@@ -57,21 +58,7 @@ class RapportController extends Controller
 
     public function addRapport(Request $request): \Illuminate\Http\JsonResponse
     {
-
-        /*
-         * name: name,
-                startinter: interdate + ' '  + interhour,
-                tel: tel,
-                ddn: ddn,
-                liveplace: liveplace,
-                lieux: lieux,
-                type: intertype,
-                transport: transport,
-                desc: desc,
-                montant: montant,
-                payed: payed,
-                ata: ata,
-         */
+        $this->authorize("create", Rapport::class);
 
         $request->validate([
             'name'=>['required', 'string','regex:/[a-zA-Z.+_]+\s[a-zA-Z.+_]/'],
@@ -123,30 +110,139 @@ class RapportController extends Controller
         $rapport->description = $request->desc;
         $rapport->price = (int) $request->montant;
         $rapport->user_id = Auth::user()->id;
-        $rapport->ata = \TimeCalculate::stringToSec($request->ata);
+        if(isset($request->ata)){
+            $rapport->ata = \TimeCalculate::stringToSec($request->ata);
+        }
         $rapport->service = Session::get('service')[0];
         if(isset($request->pathology)){
             $rapport->pathology_id = $request->pathology;
         }
         $rapport->save();
         FacturesController::addFactureMethod($Patient, $request->payed, $request->montant, Auth::user()->id, $rapport->id);
-        $ata = $request->ata === '' ? 'non' : $request->ata;
 
-        if($request->payed){
-            $fact= 'Payée : ' . $request->montant;
+        $path =  "/public/RI/{$rapport->id}.pdf";
+        $embed = $this::rapportEmbed($rapport);
+        \Discord::postMessage(DiscordChannel::RI, $embed, $rapport);
+        $this->dispatch(new ProcessRapportPDFGenerator($rapport, $path));
+
+        $logs = new LogsController();
+        $logs->RapportLogging('create', $rapport->id, Auth::user()->id);
+        event(new Notify('Rapport ajouté ! ',1, Auth::user()->id));
+
+        return response()->json([],201);
+    }
+
+    public function getInter(Request $request, int $id): \Illuminate\Http\JsonResponse
+    {
+        $inter  = Rapport::where('id', $id)->first();
+        $types = Intervention::withTrashed()->get();
+        $broum = Hospital::withTrashed()->get();
+        return response()->json(['status'=>'OK', 'rapport'=>$inter, 'types'=>$types,'broum'=>$broum]);
+    }
+
+    /**
+     * @throws \Illuminate\Auth\Access\AuthorizationException
+     */
+    public function updateRapport(Request $request, int $id): \Illuminate\Http\JsonResponse
+    {
+        $request->validate([
+            'startinter'=>['required', 'different:0'],
+            'type'=>['required', 'different:0'],
+            'transport'=>['required', 'different:0'],
+            'desc'=>['required'],
+            'payed'=>['required', 'boolean'],
+            'montant'=>['required','integer'],
+            'ata'=>['string', 'nullable']
+        ]);
+
+
+        if(Session::get('service')[0] === 'OMC'){
+
+            $request->validate([
+                'pathology'=>['different:0', 'integer']
+            ]);
+        }
+
+        $rapport = Rapport::where('id', $id)->first();
+        $this->authorize("update", $rapport);
+        $rapport->started_at = $request->startinter;
+        $rapport->interType= (int) $request->type;
+        $rapport->transport= (int) $request->transport;
+        $rapport->description = $request->desc;
+        $rapport->price = (int) $request->montant;
+        $rapport->user_id = Auth::user()->id;
+        if(isset($request->ata)){
+            $rapport->ata = $request->ata;
+        }
+        $rapport->service = Session::get('service')[0];
+        if(isset($request->pathology)){
+            $rapport->pathology_id = $request->pathology;
+        }
+        $rapport->save();
+        FacturesController::updateFactureMethod($rapport->GetPatient, $rapport, $request->payed, $request->montant);
+
+        $path = '/public/RI/'. $rapport->id . ".pdf";
+
+        if(Storage::exists($path)){
+            Storage::delete($path);
+        }
+        $this->dispatch(new ProcessRapportPDFGenerator($rapport, $path));
+
+        $embed = $this::rapportEmbed($rapport);
+
+        \Discord::updateMessage(DiscordChannel::RI, $rapport->discord_msg_id, $embed, null);
+        $logs = new LogsController();
+        $logs->RapportLogging('update', $rapport->id, Auth::user()->id);
+
+        event(new Notify('Rapport mis à jour',1));
+        return response()->json(['status'=>'OK'],201);
+    }
+
+    public function getPatientInter(string $patientId): \Illuminate\Http\JsonResponse
+    {
+        $patient = Patient::where('id',$patientId)->first();
+        $rapports = $patient->GetRapports;
+        $rapportsList = array();
+        foreach ($rapports as $rapport){
+            if ($this->authorize('view', $rapport)){
+                $rapport->GetType;
+                $rapport->GetFacture;
+                $rapport->GetTransport;
+                $rapportsList[$rapport->id] = $rapport;
+            }
+        }
+        $rapportsList = collect($rapportsList);
+        $transport = Hospital::withTrashed()->get();
+        $types = Intervention::withTrashed()->get();
+        $pathology = Pathology::withTrashed()->get();
+
+        return response()->json(['status'=>'ok',
+            'pathologys'=>$pathology,
+            'patient'=>$patient,
+            'rapportlist'=> $rapportsList,
+            'broum'=>$transport,
+            'types'=>$types]);
+    }
+
+
+    private static function rapportEmbed(Rapport $rapport):array
+    {
+        $ata = ($rapport->ata == '' ? 'non' : $rapport->ata );
+
+        if($rapport->GetFacture->payed){
+            $fact= 'Payée : ' . $rapport->GetFacture->price;
         }else{
-            $fact= 'Impayée : ' . $request->montant;
+            $fact= 'Impayée : ' . $rapport->GetFacture->price;
         }
         $service = Session::get('service')[0];
-        $path =  "/public/RI/{$rapport->id}.pdf";
         $fields = [
             [
                 'name'=>'Patient : ',
-                'value'=>$Patient->name,
+                'value'=>$rapport->GetPatient->name,
                 'inline'=>true
             ],[
                 'name'=>'Type d\'intervention : ',
-                'value'=> Intervention::where('id', $request->type)->first()->name,
+                'value'=> $rapport->GetType->name,
                 'inline'=>true
             ],[
                 'name'=>'Transport : ',
@@ -182,7 +278,7 @@ class RapportController extends Controller
             'value'=>":link: [`PDF`](".env('APP_URL').'/storage/RI/'.$rapport->id . ".pdf)"
         ]);
 
-        $embed = [
+        return $embed = [
             [
                 'title'=>'Ajout d\'un rapport :',
                 'color'=>'1285790',
@@ -192,69 +288,5 @@ class RapportController extends Controller
                 ]
             ]
         ];
-        \Discord::postMessage(DiscordChannel::RI, $embed, $rapport);
-        $this->dispatch(new ProcessRapportPDFGenerator($rapport, $path));
-
-        $logs = new LogsController();
-        $logs->RapportLogging('create', $rapport->id, Auth::user()->id);
-
-        event(new Notify('Rapport ajouté ! ',1, Auth::user()->id));
-
-        return response()->json([],201);
-    }
-
-    public function getInter(Request $request, int $id): \Illuminate\Http\JsonResponse
-    {
-        $inter  = Rapport::where('id', $id)->first();
-        $types = Intervention::withTrashed()->get();
-        $broum = Hospital::withTrashed()->get();
-        return response()->json(['status'=>'OK', 'rapport'=>$inter, 'types'=>$types,'broum'=>$broum]);
-    }
-
-    public function updateRapport(Request $request, int $id): \Illuminate\Http\JsonResponse
-    {
-        if($request->desc == '' ||$request->desc == null){
-            event(new Notify('Il n\'y a pas de description',1,Auth::user()->id));
-            return \response([],404);
-        }
-        $rapport = Rapport::where('id', $id)->first();
-        $facture = $rapport->GetFacture;
-        $facture->price = (integer) $request->montant;
-        $rapport->InterType= (integer) $request->type;
-        $rapport->transport= (integer) $request->transport;
-        $rapport->description = $request->desc;
-        $rapport->price = (integer) $request->montant;
-        if($request->starttime != '00:00'){
-            $rapport->ATA_start = date($this::$SQLdateformat, strtotime($request->startdate . ' ' . $request->starttime));
-            $rapport->ATA_end = date($this::$SQLdateformat, strtotime($request->enddate . ' ' . $request->endtime));
-        }
-        $facture->save();
-        $rapport->save();
-        $path = '/public/RI/'. $rapport->id . ".pdf";
-
-        if(Storage::exists($path)){
-            Storage::delete($path);
-        }
-
-        $this->dispatch(new ProcessRapportPDFGenerator($rapport, $path));
-
-        $logs = new LogsController();
-        $logs->RapportLogging('update', $rapport->id, Auth::user()->id);
-
-        event(new Notify('Rapport mis à jour',1));
-        return response()->json(['status'=>'OK'],201);
-    }
-
-    public function getRapportById(string $id): \Illuminate\Http\JsonResponse
-    {
-        $id = (int) $id;
-        $rapport = Rapport::where('id', $id)->first();
-        $rapport->GetType;
-        $rapport->GetTransport;
-        $patient = $rapport->GetPatient;
-        $transport = Hospital::withTrashed()->get();
-        $types = Intervention::withTrashed()->get();
-        $raportlist = Rapport::where('patient_id', $patient->id)->get();
-        return response()->json(['status'=>'ok', 'rapport'=>$rapport, 'patient'=>$patient, 'rapportlist'=>$raportlist, 'broum'=>$transport, 'types'=>$types]);
     }
 }

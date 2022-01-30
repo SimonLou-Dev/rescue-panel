@@ -115,13 +115,23 @@ class User extends Authenticatable
         return $this->hasMany(ModifyServiceReq::class, 'user_id');
     }
 
-    public function isAdmin()
+    public function isAdmin(): bool
     {
-        return $this->GetGrade;
+        if($this->service === "OMC"){
+            return $this->GetMedicGrade->isAdmin();
+        }else if($this->service === "LSCoFD"){
+            return $this->GetFireGrade->isAdmin();
+        }
+        return false;
     }
-    public function GetGradePower():bool
+    public function GetGradePower():int
     {
-        return $this->GetGrade->power;
+        if($this->service === "OMC"){
+            return $this->GetMedicGrade->power;
+        }else if($this->service === "LSCoFD"){
+            return $this->GetFireGrade->power;
+        }
+        return 0;
     }
 
     public function toSearchableArray()
@@ -147,5 +157,15 @@ class User extends Authenticatable
     public function getScoutKeyName()
     {
         return 'id';
+    }
+
+    public function getUserGradeInService() : mixed
+    {
+        if($this->service === "OMC"){
+            return $this->GetMedicGrade;
+        }else if($this->service === "LSCoFD"){
+            return $this->GetFireGrade;
+        }
+        return null;
     }
 }

@@ -570,6 +570,14 @@ body{
 
     }
     .patient-form{
+        .cool{
+            text-align: center;
+            color: $green_light;
+        }
+        .pascool{
+            text-align: center;
+            color: $red_light;
+        }
         margin: 20px 10px;
         display: flex;
         .Card{

@@ -34,7 +34,8 @@ class Grade extends Model
 
     protected $table = "Grades";
 
-    public function isAdmin(){
+    public function isAdmin():bool
+    {
         return $this->admin;
     }
 
