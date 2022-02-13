@@ -27,7 +27,6 @@ class FacturesController extends Controller
         $facture->patient_id = $patient->id;
         $facture->payed = $payed;
         $facture->price = $price;
-        $facture->service = \Session::get('service')[0];
         if($payed){
             $facture->payement_confirm_id = $cofirm_id;
         }
@@ -35,12 +34,8 @@ class FacturesController extends Controller
         $facture->save();
         $service = \Session::get('service')[0];
         $embed = FacturesController::EmbedFactureCreator($facture);
+        \Discord::postMessage(DiscordChannel::Facture,  $embed, $facture);
 
-        if($service === 'OMC'){
-            \Discord::postMessage(DiscordChannel::MedicFacture,  $embed, $facture);
-        }else{
-            \Discord::postMessage(DiscordChannel::FireFacture,  $embed, $facture);
-        }
 
         $logs = new LogsController();
         $logs->FactureLogging('create', $facture->id, Auth::user()->id);
@@ -52,7 +47,6 @@ class FacturesController extends Controller
         $facture->patient_id = $patient->id;
         $facture->payed = $payed;
         $facture->price = $price;
-        $facture->service = \Session::get('service')[0];
         if($payed){
             $facture->payement_confirm_id = Auth::user()->id;
         }else{
@@ -65,17 +59,9 @@ class FacturesController extends Controller
 
         if($facture->discord_msg_id){
 
-            if($service === 'OMC'){
-                \Discord::updateMessage(DiscordChannel::MedicFacture, $facture->discord_msg_id, $embed, null);
-            }else{
-                \Discord::updateMessage(DiscordChannel::FireFacture,  $facture->discord_msg_id, $embed, null);
-            }
+            \Discord::updateMessage(DiscordChannel::Facture, $facture->discord_msg_id, $embed, null);
         }else{
-            if($service === 'OMC'){
-                \Discord::postMessage(DiscordChannel::MedicFacture, $embed, $facture);
-            }else{
-                \Discord::postMessage(DiscordChannel::FireFacture, $embed, $facture);
-            }
+            \Discord::postMessage(DiscordChannel::Facture, $embed, $facture);
         }
 
 

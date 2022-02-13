@@ -18,8 +18,7 @@ final class DiscordChannel extends Enum
     const FireAnnonce = "FireAnnonce";
     const BC = "BC";
     const RI = "RI";
-    const MedicFacture = "MedicFacture";
-    const FireFacture = "FireFacture";
+    const Facture = "Facture";
     const Vols = "vols";
     const MedicInfos = "MedicInfos";
     const FireInfos = "FireInfos";

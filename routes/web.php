@@ -270,8 +270,7 @@ Route::get('/teste', function (Request $request){
 
 Route::get('/serch', function (Request $request){
     Discord::chanUpdate(DiscordChannel::RI, 933706570552999946);
-    Discord::chanUpdate(DiscordChannel::MedicFacture, 923521332531048469);
-    Discord::chanUpdate(DiscordChannel::FireFacture, 934029889122762773);
+    Discord::chanUpdate(DiscordChannel::Facture, 933706570552999946);
     Discord::chanUpdate(DiscordChannel::BC, 933706570552999946);
 })->middleware('web');
 

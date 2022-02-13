@@ -74,7 +74,7 @@ class BlesseController extends Controller
         if (!is_null($bcp->rapport_id)){
             $rapport = Rapport::where('id', $bcp->rapport_id)->first();
             $facture = Facture::where('id', $rapport->GetFacture->id)->first();
-            \Discord::deleteMessage(DiscordChannel::FireFacture, $facture->discord_msg_id);
+            \Discord::deleteMessage(DiscordChannel::Facture, $facture->discord_msg_id);
             $facture->delete();
             $rapport->delete();
         }

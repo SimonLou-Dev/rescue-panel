@@ -21,7 +21,6 @@ class CreateFacturesTable extends Migration
             $table->integer('price');
             $table->integer('payement_confirm_id')->nullable();
             $table->bigInteger('discord_msg_id')->nullable()->default(null);
-            $table->string('service');
             $table->timestamps();
         });
     }
