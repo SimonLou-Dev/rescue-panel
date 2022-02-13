@@ -48,15 +48,6 @@ class AppServiceProvider extends ServiceProvider
             );
         });
 
-        if($this->app->environment('local')){
-            $this->app->register(\Laravel\Telescope\TelescopeServiceProvider::class);
-            $this->app->register(TelescopeServiceProvider::class);
-        }
-        //https://laracasts.com/discuss/channels/laravel/how-to-disable-password-hasing-of-auth
-        /*
-        Auth::provider('legacy', function ($app, array $config) {
-            return new LegacyUserProvider($config['model']);
-        });*/
         Auth::provider('legacy', function ($app, array $config) {
             return new LegacyUserProvider($config['model']);
         });
