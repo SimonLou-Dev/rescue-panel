@@ -3,8 +3,12 @@
 namespace App\Http\Controllers\BlackCodes;
 
 
+use App\Enums\DiscordChannel;
+use App\Events\BlackCodeListEdited;
+use App\Events\BlackCodeUpdated;
 use App\Events\Brodcaster;
 use App\Events\Notify;
+use App\Events\NotifyForAll;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\PrimesController;
 use App\Jobs\ProcessEmbedPosting;
@@ -29,51 +33,66 @@ use function GuzzleHttp\json_encode;
 
 class BCController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('auth');
-        $this->middleware('access');
-    }
 
-    public function getUserInfos(): \Illuminate\Http\JsonResponse
+    public function getMainPage(Request $request): \Illuminate\Http\JsonResponse
     {
+        $returned = null;
         $user = User::where('id', Auth::user()->id)->first();
-        return response()->json([
-            'status'=>'OK',
-            'bc'=>$user->bc_id
-        ]);
-    }
+        if(!is_null($user->bc_id)){
+            $bc = BCList::where('id', $user->bc_id)->first();
+            $returned = [
+              'bc_id' => $bc->id,
+              'service' => ($bc->service === 'LSCoFD' ? 'Fire' : 'Medic')
+            ];
+        }
 
-    public function getMainPage(): \Illuminate\Http\JsonResponse
-    {
-        $ActiveBc = BCList::where('ended', false)->orderByDesc('id')->get();
-        $a = 0;
-        while ($a < count($ActiveBc)){
-            $ActiveBc[$a]->GetUser;
-            $ActiveBc[$a]->GetType;
-            $ActiveBc[$a]->GetPatients;
-            $ActiveBc[$a]->GetPersonnel;
-            $ActiveBc[$a]->patients = count($ActiveBc[$a]->GetPatients);
-            $ActiveBc[$a]->secouristes = count($ActiveBc[$a]->GetPersonnel);
-            $a++;
+        //Pagination for searh ended BC and forget
+        $ActiveBcs = BCList::where('ended', false)->orderByDesc('id')->get();
+        foreach ($ActiveBcs as $activeBc){
+            $activeBc->GetType;
         }
-        $EndedBC = BCList::where('ended', true)->orderByDesc('id')->take(15)->get();
-        $a = 0;
-        while ($a < count($EndedBC)){
-            $EndedBC[$a]->GetUser;
-            $EndedBC[$a]->GetType;
-            $EndedBC[$a]->GetPatients;
-            $EndedBC[$a]->GetPersonnel;
-            $EndedBC[$a]->patients = count($EndedBC[$a]->GetPatients);
-            $EndedBC[$a]->secouristes = count($EndedBC[$a]->GetPersonnel);
-            $a++;
+
+        $queryPage = (int) $request->query('page');
+        $readedPage = ($queryPage ?? 1) ;
+
+        $searchedList = BCList::search($request->query('query'))->get();
+        $forgetable = [];
+
+        for($a = 0; $a < BCList::search($request->query('query'))->get()->count(); $a++){
+            $searchedItem = $searchedList[$a];
+            if(!$searchedItem->ended){
+                array_push($forgetable, $a);
+            }
         }
-        $puTypes = BCType::all();
+        foreach ($forgetable as $forget){
+            $searchedList->forget($forget);
+        }
+        foreach ($searchedList as $item) $item->GetType;
+
+        $finalList = $searchedList->skip(($readedPage-1)*5)->take(5);
+
+        $url = $request->url() . '?query='.urlencode($request->query('query')).'&page=';
+        $totalItem = $searchedList->count();
+        $valueRounded = ceil($totalItem / 5);
+        $maxPage = (int) ($valueRounded == 0 ? 1 : $valueRounded);
+         //Creation of Paginate Searchable result
+        $array = [
+            'current_page'=>$readedPage,
+            'last_page'=>$maxPage,
+            'data'=> $finalList,
+            'next_page_url' => ($readedPage === $maxPage ? null : $url.($readedPage+1)),
+            'prev_page_url' => ($readedPage === 1 ? null : $url.($readedPage-1)),
+            'total' => $totalItem,
+        ];
+        //End Pagination
+
+        $types = BCType::all();
         return response()->json([
             "status"=>'OK',
-            'active'=>$ActiveBc,
-            'ended'=>$EndedBC,
-            'types'=>$puTypes,
+            'active'=>$ActiveBcs,
+            'ended'=>$array,
+            'types'=>$types,
+            'userBC'=>$returned,
         ]);
     }
 
@@ -90,11 +109,6 @@ class BCController extends Controller
 
     public function getBCByid(string $id): \Illuminate\Http\JsonResponse
     {
-        if($id == "undefined"){
-            $id = User::where('id', Auth::user()->id)->first()->bc_id;
-        }else{
-            $id = (int) $id;
-        }
         $bc = BCList::where('id', $id)->first();
         $bc->GetType;
         $bc->GetUser;
@@ -126,17 +140,22 @@ class BCController extends Controller
     {
         $request->validate([
             'type'=>['required'],
-            'place'=>['required'],
+            'place'=>['required', 'string'],
         ]);
+        $place = $request->place;
+        $fire = str_contains($place, 'fire') || str_contains($place, 'feux');
 
         $type = $request->type;
-        $place = $request->place;
+
         $bc = new BCList();
         $bc->starter_id = Auth::user()->id;
         $bc->place = $place;
         $bc->type_id = $type;
+        $bc->service = ($fire ? 'LSCoFD' : 'SAMS');
         $bc->save();
-        PersonnelController::addPersonel((string)$bc->id);
+
+        PersonnelController::addPersonel($bc->id, Auth::user()->id);
+
         $embed = [
             [
                 'title'=>'Black Code #' . $bc->id . ' en cours :',
@@ -152,20 +171,19 @@ class BCController extends Controller
                         'inline'=>true,
                     ]
                 ],
-                'color'=>'10368531',
+                'color'=>'16775936',
                 'footer'=> [
                     'text' => 'Information de : ' . Auth::user()->name
                 ]
             ]
         ];
-        $this->dispatch(new ProcessEmbedPosting([env('WEBHOOK_PU')], $embed,null));
-
-
-        event(new Brodcaster('Début du BC #'.$bc->id . ' à ' . $bc->place));
+        \Discord::postMessage(DiscordChannel::BC, $embed, $bc);
+        BlackCodeListEdited::dispatch();
+        NotifyForAll::broadcast('Début du BC #'.$bc->id . ' à ' . $bc->place, 1);
 
         return response()->json([
             'status'=>'OK',
-            'bc_id'=>$bc->id,
+            'endUrl'=>($fire ? 'fire' : 'medic')."/".$bc->id,
         ],201);
     }
 
@@ -193,13 +211,15 @@ class BCController extends Controller
         $interval = $start->diff($end);
         $formated = $interval->format('%H h %I min(s)');
         BcEmbedController::generateBCEndedEmbed($formated, $patients, $personnels, $bc);
-        event(new Brodcaster('Fin du BC #'.$bc->id));
+        BlackCodeListEdited::dispatch();
+        BlackCodeUpdated::dispatch($bc->id);
+        NotifyForAll::broadcast('Fin du BC #'.$bc->id . ' à ' . $bc->place, 1);
         foreach ($users as $user){
             $user->bc_id = null;
             $user->save();
         }
 
-        return response()->json(['status'=>'OK'],201);
+        return response()->json(['status'=>'OK'],202);
     }
 
     /**
@@ -220,5 +240,31 @@ class BCController extends Controller
 
         $export = new ExelPrepareExporter($columns);
         return Excel::download((object)$export, 'ListePatientsBc'. $id .'.xlsx');
+    }
+
+    public function casernePatcher (Request $request, string $id){
+        $bc = BCList::where('id', $id)->first();
+        $bc->caserne = $request->caserne;
+        $bc->save();
+
+        Notify::dispatch('Mise à jour effectuée',1,Auth::user()->id);
+        BlackCodeUpdated::dispatch($bc->id);
+
+        return response()->json([
+            'status'=>'OK'
+        ], 204);
+    }
+
+    public function descPatcher (Request $request, string $id){
+        $bc = BCList::where('id', $id)->first();
+        $bc->description = $request->description;
+        $bc->save();
+
+        Notify::dispatch('Mise à jour effectuée',1,Auth::user()->id);
+        BlackCodeUpdated::dispatch($bc->id);
+
+        return response()->json([
+            'status'=>'OK'
+        ], 204);
     }
 }

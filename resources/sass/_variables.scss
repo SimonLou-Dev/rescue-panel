@@ -497,3 +497,26 @@ table{
 }
 
 
+.popupBg{
+    filter: blur(5px);
+}
+
+.popup{
+    position: fixed;
+    width: 100vw;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    .Card{
+        max-width: 450px;
+        margin: auto auto !important;
+        .form-line{
+            margin-top: 10px;
+            display: flex;
+            justify-content: space-evenly;
+            width: 100%;
+        }
+    }
+}
+
+

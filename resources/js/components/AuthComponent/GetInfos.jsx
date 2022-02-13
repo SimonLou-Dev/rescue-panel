@@ -103,7 +103,7 @@ const GetInfos = (props) => {
                             <select value={service} onChange={(e)=>{setService(e.target.value)}}>
                                 <option>aucun</option>
                                 <option>LSCoFD</option>
-                                <option>OMC</option>
+                                <option>SAMS</option>
                             </select>
                             <ul className={'error-list'}>
                                 {errors.compte && errors.compte.map((item)=>

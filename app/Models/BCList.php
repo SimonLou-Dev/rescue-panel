@@ -72,6 +72,7 @@ class BCList extends Model
            'place'=>$this->place,
            'type'=>$this->GetType->name,
            'service'=>$this->service,
+           'ended'=>$this->ended,
        ];
    }
 

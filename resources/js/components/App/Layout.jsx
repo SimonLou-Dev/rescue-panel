@@ -58,21 +58,23 @@ function Layout(props) {
             auth: { headers: { "X-CSRF-Token": mysrcf } }
         });
 
-        let UserChannel = pusher.subscribe('private-User.'+env+'.'+ userid)
-        UserChannel.bind('notify', (e)=>{
+        window.UserChannel = pusher.subscribe('private-User.'+env+'.'+ userid)
+        window.UserChannel.bind('notify', (e)=>{
             addNotification(e)
         })
 
-        let GlobalChannel = pusher.subscribe('presece-GlobalChannel')
-        GlobalChannel.bind('DispatchUpdated', (e)=>{
-            console.log(e)
-        });
-        GlobalChannel.bind('Notification', (data)=>{
-            addNotification(data)
-        });
+        let GlobalChannel = pusher.subscribe('presence-GlobalChannel.'+env)
+        window.GlobalChannel = GlobalChannel;
+
+        GlobalChannel.bind('notify', (e)=>{
+            addNotification(e)
+        })
+
 
         return () => {
             clearInterval(timerID);
+            pusher.unsubscribe('presece-GlobalChannel.'+env);
+            pusher.unsubscribe('private-User.'+env+'.'+ userid);
         }
 
     }, [])
@@ -175,7 +177,7 @@ function Layout(props) {
                             <section className={"menu-item"}>
                                 <h2><span>Factures</span></h2>
                                 <ul className={"menu-nav-list"}>
-                                    <li className={'menu-puce'}><Link to={'/'+service+ '/factures'} className={'menu-link'}>factures</Link></li>
+                                    <li className={'menu-puce'}><Link to={'/factures'} className={'menu-link'}>factures</Link></li>
                                 </ul>
                             </section>
                             <section className={"menu-item"}>
@@ -224,11 +226,10 @@ function Layout(props) {
                     <Route path={'/patients/:patientId/view'} component={RapportReview}/>
                     <Route path={'/patients/:patientId/psy'} component={Psycology}/>
                     <Route path={'/patients/poudre'} component={TestPoudre}/>
-                    <Route path={'/:service/factures/'} component={FactureList}/>
+                    <Route path={'/factures/'} component={FactureList}/>
 
                     <Route path={'/blackcodes/all'} component={GlobalView}/>
                     <Route path={'/blackcodes/medic/:bcID'} component={MedicBC}/>
-                    <Route path={'/blackcodes/fire/:bcID'} component={FireBC}/>
                     <Route path={'/blackcodes/fire/:bcID'} component={FireBC}/>
 
                     <Route path={'/:service/logistique/stock/view'} component={GestionStocks}/>

@@ -27,12 +27,15 @@ class BCPatient extends Model
 {
     use HasFactory;
     protected $table = "BCPatients";
+    protected $casts = [
+        'created_at'=>'datetime:H:i'
+    ];
 
     protected $fillable = ['BC_id', 'idcard', 'rapport_id', 'patient_id', 'added_at', 'blessure_type', 'couleur', 'name'];
 
     public function GetBC(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
-        return $this->belongsTo(BCList::class, 'BC_ID');
+        return $this->belongsTo(BCList::class, 'BC_id');
     }
     public function GetRapport(): \Illuminate\Database\Eloquent\Relations\HasOne
     {

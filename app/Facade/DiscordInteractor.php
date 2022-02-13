@@ -67,8 +67,13 @@ class DiscordInteractor
         DiscordApiController::CallUpdateJobs($channel, $msgid,$embed,$msg);
     }
 
-    public function deleteMessage(string $channel, Integer $msgid, mixed $model){
-
+    public function deleteMessage(string $channel, int $msgid, mixed $model = null){
+        $channel = (int) $this->chanGet($channel);
+        if(!is_null($model)){
+            $model->discord_msg_id = null;
+            $model->save();
+        }
+        DiscordApiController::CallDeleteJobs($channel, $msgid);
     }
 
     public function reactOnMessage(string $channel, string $react, Integer $msgid){

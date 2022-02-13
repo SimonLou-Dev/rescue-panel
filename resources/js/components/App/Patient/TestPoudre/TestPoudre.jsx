@@ -84,6 +84,10 @@ function TestPoudre(props) {
         })
     }
 
+    const Redirection = (url) => {
+        props.history.push(url)
+    }
+
     return (<div className={'testPoudre'}>
         <section className={'makeTest'}>
             <CardComponent title={'test de poudre'}>
@@ -204,10 +208,10 @@ function TestPoudre(props) {
                     {tests && tests.map((test)=>
                         <tr key={test.id}>
                             <td>{test.id}</td>
-                            <td>{test.get_patient.name}</td>
+                            <td className={'clickable'} onClick={()=>{Redirection('/patients/'+test.get_patient.id+'/view')}}>{test.get_patient.name}</td>
                             <td><img src={(test.on_skin_positivity ? '/assets/images/accept.png' : '/assets/images/decline.png')} alt={''}/></td>
                             <td><img src={(test.on_clothes_positivity ? '/assets/images/accept.png' : '/assets/images/decline.png')} alt={''}/></td>
-                            <td><a href={'/data/poudre/PDF/'+test.id} className={'btn'}><img src={'/assets/images/pdf.png'} alt={''}/></a> </td>
+                            <td><a href={'/data/poudre/PDF/'+test.id} target={"_blank"} className={'btn'}><img src={'/assets/images/pdf.png'} alt={''}/></a> </td>
                             <td>{test.created_at}</td>
                         </tr>
                     )}

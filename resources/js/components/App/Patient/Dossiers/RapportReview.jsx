@@ -1,7 +1,7 @@
 import React, {useContext, useEffect, useState} from 'react';
 import CardComponent from "../../../props/CardComponent";
 import SwitchBtn from "../../../props/SwitchBtn";
-import {useParams} from "react-router-dom";
+import {useLocation, useParams} from "react-router-dom";
 import axios from "axios";
 import UserContext from "../../../context/UserContext";
 import dateFormat from "dateformat";
@@ -25,6 +25,8 @@ function RapportReview(props) {
     const [errors, setErrors] = useState([])
     const user = useContext(UserContext);
     const [interList, setInterList] = useState([]);
+    const search = useLocation().search;
+    const rappportId = new URLSearchParams(search).get('id');
 
     const [interSelected, selectInter] = useState(null)
 
@@ -33,8 +35,10 @@ function RapportReview(props) {
     }
 
     useEffect(()=>{
-        findData()
+        findData();
     }, [])
+
+
 
     const findData = async () => {
         await  axios({
@@ -50,11 +54,20 @@ function RapportReview(props) {
             setintertypeslist(r.data.types)
             settransportlist(r.data.broum)
             setInterList(final)
+            if(rappportId){
+                selectrapport(rappportId, final);
+            }
         })
     }
 
-    const selectrapport = (id) => {
-        let rapport = interList[id];
+    const selectrapport = (id, rapportlist) => {
+        let rapport = undefined;
+        if(interList[id] === undefined && rapportlist[id] !== undefined){
+            rapport = rapportlist[id]
+        }else{
+            rapport = interList[id];
+        }
+
         let separatedDate = rapport.started_at.split(' ');
         setinterhour(separatedDate[1])
         setinterdate(separatedDate[0])
@@ -122,9 +135,12 @@ function RapportReview(props) {
                 <div className={'navigation'}>
                     <button className={'btn'} onClick={()=>{Redirection('/patients/rapport?patientId='+patientId)}}>nouveau</button>
                     <button className={'btn'} onClick={()=>{Redirection('/patients/dossiers')}}>retour</button>
-                    <a href={''} target={'_blank'} className={'btn exporter'}>
-                        <img src={'/assets/images/pdf.png'} alt={''}/>
-                    </a>
+                    {interSelected != null &&
+                        <a href={'/pdf/rapport/'+interSelected} target={'_blank'} className={'btn exporter'}>
+                            <img src={'/assets/images/pdf.png'} alt={''}/>
+                        </a>
+                    }
+
                 </div>
 
             </CardComponent>

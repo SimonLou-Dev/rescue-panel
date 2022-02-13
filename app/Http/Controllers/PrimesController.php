@@ -21,8 +21,10 @@ class PrimesController extends Controller
         $prime->user_id = $userId;
         $prime->item_id = $primeId;
         $prime->accepted = true;
+        $user = User::where('id',$userId)->first();
+        $prime->service = ($user->medic ? 'SAMS' : 'LSCoFD');
         $prime->save();
-
+/*
         $embed = [
             [
                 'title'=>'Prime Validée :',
@@ -43,7 +45,7 @@ class PrimesController extends Controller
                 ]
             ]
         ];
-        dispatch(new ProcessEmbedPosting([env('WEBHOOK_MONEY')], $embed, null));
+        dispatch(new ProcessEmbedPosting([env('WEBHOOK_MONEY')], $embed, null));*/
     }
 
     public function addReqPrimes(request $request){

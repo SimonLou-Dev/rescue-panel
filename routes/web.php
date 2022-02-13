@@ -1,6 +1,7 @@
 <?php
 
 use App\Enums\DiscordChannel;
+use App\Events\NotifyForAll;
 use App\Http\Controllers\AccountController;
 use App\Http\Controllers\ContentManagement;
 use App\Http\Controllers\ErrorsController;
@@ -62,8 +63,8 @@ Route::get('/dashboard', [HomeController::class, 'getIndex'])->name('dashboard')
 Route::get('/account', [HomeController::class, 'getIndex']); //->middleware(['auth']);
 Route::get('/dispatch', [HomeController::class, 'getIndex']); //->middleware(['auth']);
 Route::get('/patients/{a}/{b?}', [HomeController::class, 'getIndex']); //->middleware(['auth']);
-Route::get('/blackcodes/{a}', [HomeController::class, 'getIndex']); //->middleware(['auth']);
-Route::get('/factures/{a}', [HomeController::class, 'getIndex']); //->middleware(['auth']);
+Route::get('/blackcodes/{a}/{b?}', [HomeController::class, 'getIndex']); //->middleware(['auth']);
+Route::get('/factures', [HomeController::class, 'getIndex']); //->middleware(['auth']);
 Route::get('/formation/{a}/{b?}', [HomeController::class, 'getIndex']); //->middleware('auth');
 Route::get('/logistique/{a?}', [HomeController::class, 'getIndex']); //->middleware('auth');
 Route::get('/personnel/{a?}', [HomeController::class, 'getIndex']); //->middleware('auth');
@@ -113,6 +114,7 @@ Route::get('/pass/reset/token/{uuid}',[CredentialController::class,'tokenVerify'
 Route::post('/data/user/reset/post',[CredentialController::class,'changepass'] );
 
 Route::get('/data/patient/{patientId}/impaye', [PatientController::class, 'getImpaye']);
+
 //Rapport management
 Route::get('/data/rapport/getforinter', [RapportController::class, 'getforinter']);
 Route::post('/data/rapport/post', [RapportController::class, 'addRapport']);
@@ -121,7 +123,6 @@ Route::get('/data/rapport/get/{patientId}', [RapportController::class, 'getPatie
 Route::put('/data/rapport/update/{id}', [RapportController::class, 'updateRapport']);
 Route::put('/data/patient/update/{id}', [PatientController::class, 'updatePatientInfos']);
 Route::get('/pdf/rapport/{id}', [ExporterController::class, 'makeRapportPdf']);
-
 Route::get('/data/patient/getAll', [PatientController::class, 'getAllPatientsSearcher']);
 //Tests de poudre
 
@@ -131,7 +132,6 @@ Route::get('/data/poudre/PDF/{id}', [PoudreTestController::class, 'exportTest'])
 
 //LES BC
 Route::get('/data/blackcode/load', [BCController::class, 'getMainPage']);
-Route::get('/data/blackcode/mystatus', [BCController::class, 'getUserInfos']);
 Route::get('/data/blackcode/{id}/infos', [BCController::class, 'getBCByid']);
 Route::get('/data/blackcode/{id}/status', [BCController::class, 'getBCState']);
 Route::post('/data/blackcode/{id}/add/patient', [BlesseController::class, 'addPatient']);
@@ -142,6 +142,8 @@ Route::delete('/data/blackcode/delete/patient/{patient_id}', [BlesseController::
 Route::delete('/data/blackcode/{id}/delete/personnel', [PersonnelController::class, 'removePersonnel']);
 Route::get('/exel/allPList/{from}/{to}', [BlesseController::class, 'generateListWithAllPatients']);
 Route::get('/data/bc/rapport/{id}', [BCController::class, 'generateRapport']);
+Route::patch('/data/blackcode/{id}/caserne', [BCController::class, 'casernePatcher']);
+Route::patch('/data/blackcode/{id}/desc', [BCController::class, 'descPatcher']);
 
 //Les factures
 Route::get('/data/facture/list', [FacturesController::class, 'getAllimpaye']);
@@ -263,13 +265,14 @@ Route::get('/test', function (){
 });
 
 Route::get('/teste', function (Request $request){
-        return dd(Auth::user(), Session::all(), Auth::check());
+    NotifyForAll::broadcast('Début du BC # à ', 3);
 })->middleware('web');
 
 Route::get('/serch', function (Request $request){
     Discord::chanUpdate(DiscordChannel::RI, 933706570552999946);
     Discord::chanUpdate(DiscordChannel::MedicFacture, 923521332531048469);
     Discord::chanUpdate(DiscordChannel::FireFacture, 934029889122762773);
+    Discord::chanUpdate(DiscordChannel::BC, 933706570552999946);
 })->middleware('web');
 
 

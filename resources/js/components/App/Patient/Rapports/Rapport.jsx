@@ -327,7 +327,7 @@ function Rapport(props) {
                         }
                     </div>
                 </CardComponent>
-                {user.service === 'OMC' &&
+                {user.service === 'SAMS' &&
                     <CardComponent title={'Pathologie'}>
                         <div className={'form-item form-column'}>
                             <select value={pathology} onChange={(e) => {

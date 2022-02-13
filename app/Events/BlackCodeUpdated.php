@@ -11,55 +11,39 @@ use Illuminate\Contracts\Broadcasting\ShouldBroadcastNow;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class Brodcaster implements ShouldBroadcastNow
+class BlackCodeUpdated implements ShouldBroadcastNow
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-
-    /**
-     * @var string $message
-     */
-    public $message;
     /**
      * Create a new event instance.
      *
-     * @param string $message
+     * @return void
      */
-    public function __construct(string $message)
-    {
-        $this->message= $message;
-
-
-    }
+    public function __construct(
+        public int $id,
+    )
+    {}
 
     /**
      * Get the channels the event should broadcast on.
      *
-     * @return Channel|array
+     * @return \Illuminate\Broadcasting\Channel|array
      */
     public function broadcastOn()
     {
-        return new Channel('Broadcater_'.env('APP_ENV'));
-
-    }
-
-    public function broadcastQueue (): string
-    {
-        return 'broadcastable';
+        return new PresenceChannel('GlobalChannel.'.env('APP_ENV'));
     }
 
     public function broadcastAs(): string
     {
-        //return 'Notification';
+        return 'BlackCodeUpdated';
     }
 
     public function broadcastWith(): array
     {
         return [
-            'type' => 3,
-            'text' => $this->message,
+            'id' => $this->id,
         ];
     }
-
-
 }

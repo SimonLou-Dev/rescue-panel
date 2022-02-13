@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers\BlackCodes;
 
+use App\Enums\DiscordChannel;
+use App\Events\BlackCodeUpdated;
 use App\Events\Notify;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\Rapports\FacturesController;
+use App\Http\Controllers\Rapports\PatientController;
 use App\Models\BCList;
 use App\Models\BCPatient;
 use App\Models\Blessure;
@@ -20,11 +23,6 @@ use Maatwebsite\Excel\Facades\Excel;
 
 class BlesseController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('auth');
-        $this->middleware('access');
-    }
 
     public function addPatient(Request $request, int $id): \Illuminate\Http\JsonResponse
     {
@@ -37,81 +35,35 @@ class BlesseController extends Controller
         ]);
 
 
-        $name = explode(" ", $request->name);
+        $Patient = PatientController::PatientExist($request->name);
         $bc = BCList::where('id', $id)->first();
-        $Patient = \App\Http\Controllers\Rapports\PatientController::PatientExist($name[1], $name[0]);
         if(is_null($Patient)) {
             $Patient = new Patient();
-            $Patient->name = $name[1];
-            $Patient->vorname = $name[0];
-            $Patient->tel = 0;
+            $Patient->name = $request->name;
             $Patient->save();
         }
-        /*
-         * name: this.state.name,
-                    vorname: this.state.vorname,
-                    color: this.state.color,
-                    blessure: this.state.blessure,
-                    payed: this.state.payed,
-                    carteid: this.state.carteid,
-         */
         $rapport = new Rapport();
         $rapport->patient_id = $Patient->id;
         $rapport->interType = 1;
         $rapport->transport = 1;
         $rapport->user_id = Auth::user()->id;
+        $rapport->service = 'SAMS';
         $desc = Blessure::where('id', $request->blessure)->first();
         $rapport->description = $desc->name;
         $rapport->price = 700;
         $rapport->save();
         $BcP = new BCPatient();
+        $BcP->name = $Patient->name;
         $BcP->idcard = (bool) $request->carteid;
         $BcP->patient_id = $Patient->id;
         $BcP->rapport_id = $rapport->id;
         $BcP->blessure_type = $request->blessure;
         $BcP->couleur = $request->color;
         $BcP->BC_id = $bc->id;
-        $BcP->name = $Patient->vorname . ' ' .$Patient->name;
         $BcP->save();
-        $color = CouleurVetement::where('id', $request->color)->first();
         FacturesController::addFactureMethod($Patient, $request->payed, 700, Auth::user()->id,$rapport->id);
-        event(new Notify('Patient ajouté ! ',1));
-
-        if(!$request->correctid){
-            event(new Notify('Ajout d\'une déclaration de falsification d\'identité ! ',1));
-            Http::post(env('WEBHOOK_STAFF'),[
-                'username'=> "LSCoFD- MDT",
-                'avatar_url'=>'https://lscofd.simon-lou.com/assets/images/LSCoFD.png',
-                'embeds'=>[
-                    [
-                        'title'=>'Falsification d\'identité',
-                        'color'=>'10368531',
-                        'fields'=>[
-                            [
-                                'name'=>'nom donné au médecin :',
-                                'value'=>$Patient->name,
-                                'inline'=>true,
-                            ],[
-                                'name'=>'présentation d\'une id card :',
-                                'value'=>($BcP->idcard ? 'oui' : 'non'),
-                                'inline'=>true,
-                            ],[
-                                'name'=>'nom réel du personnage :',
-                                'value'=>$request->realname,
-                                'inline'=>false,
-                            ],[
-                                'name'=>'Couleur/groupe :',
-                                'value'=>$color->name,
-                                'inline'=>true,
-                            ]
-                        ],
-                        'footer'=>[
-                            'text'=>'Information de  : ' . Auth::user()->name
-                        ]
-                    ]
-                ],
-            ]);
-        }
+        Notify::broadcast('Patient ajouté',2 ,Auth::user()->id);
+        BlackCodeUpdated::dispatch($bc->id);
 
         return response()->json(['status'=>'OK'],201);
     }
@@ -122,11 +74,14 @@ class BlesseController extends Controller
         if (!is_null($bcp->rapport_id)){
             $rapport = Rapport::where('id', $bcp->rapport_id)->first();
             $facture = Facture::where('id', $rapport->GetFacture->id)->first();
+            \Discord::deleteMessage(DiscordChannel::FireFacture, $facture->discord_msg_id);
             $facture->delete();
             $rapport->delete();
         }
+        $id = $bcp->GetBC->id;
         $bcp->delete();
-        event(new Notify('Patient retiré (la page va se mettre à jour)! ',1));
+        Notify::dispatch('Patient supprimé ',1);
+        BlackCodeUpdated::dispatch($id);
         return response()->json(['status'=>'OK']);
     }
 

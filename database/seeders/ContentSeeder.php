@@ -18,7 +18,7 @@ class ContentSeeder extends Seeder
         $this->faker = Factory::create('fr_FR');
     }
 
-    private array $services = ['LSCoFD','OMC'];
+    private array $services = ['LSCoFD','SAMS'];
 
     /**
      * Run the database seeds.

@@ -8,8 +8,9 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\Http;
 
-class ProcessEmbedDelete implements ShouldQueue
+class ProcessMessageDelete implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
@@ -18,9 +19,12 @@ class ProcessEmbedDelete implements ShouldQueue
      *
      * @return void
      */
-    public function __construct()
+    public function __construct(
+        private int $chanId,
+        private int $msgId,
+    )
     {
-        //
+        $this->onQueue('discord');
     }
 
     /**
@@ -30,6 +34,8 @@ class ProcessEmbedDelete implements ShouldQueue
      */
     public function handle()
     {
-        //
+        Http::withHeaders([
+            'Authorization'=> 'Bot '.env('DISCORD_BOT_TOKEN')
+        ])->delete("https://discord.com/api/v9/channels/".$this->chanId."/messages/".$this->msgId);
     }
 }

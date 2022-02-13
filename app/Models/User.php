@@ -117,7 +117,7 @@ class User extends Authenticatable
 
     public function isAdmin(): bool
     {
-        if($this->service === "OMC"){
+        if($this->service === "SAMS"){
             return $this->GetMedicGrade->isAdmin();
         }else if($this->service === "LSCoFD"){
             return $this->GetFireGrade->isAdmin();
@@ -126,7 +126,7 @@ class User extends Authenticatable
     }
     public function GetGradePower():int
     {
-        if($this->service === "OMC"){
+        if($this->service === "SAMS"){
             return $this->GetMedicGrade->power;
         }else if($this->service === "LSCoFD"){
             return $this->GetFireGrade->power;
@@ -161,7 +161,7 @@ class User extends Authenticatable
 
     public function getUserGradeInService() : mixed
     {
-        if($this->service === "OMC"){
+        if($this->service === "SAMS"){
             return $this->GetMedicGrade;
         }else if($this->service === "LSCoFD"){
             return $this->GetFireGrade;

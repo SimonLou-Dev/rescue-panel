@@ -464,6 +464,28 @@ table td {
   background-color: #1B2037;
 }
 
+.popupBg {
+  filter: blur(5px);
+}
+
+.popup {
+  position: fixed;
+  width: 100vw;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+}
+.popup .Card {
+  max-width: 450px;
+  margin: auto auto !important;
+}
+.popup .Card .form-line {
+  margin-top: 10px;
+  display: flex;
+  justify-content: space-evenly;
+  width: 100%;
+}
+
 /* width */
 *::-webkit-scrollbar {
   width: 5px;

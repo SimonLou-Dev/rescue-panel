@@ -17,7 +17,8 @@ Broadcast::channel('User.'.env('APP_ENV').'.{userid}', function ($user, $userid)
    return $user->id == $userid;
 });
 
-Broadcast::channel('GlobalChannel', function ($user){
+
+Broadcast::channel('GlobalChannel.'.env('APP_ENV'), function ($user){
    return ['id'=>$user->id, 'name'=>$user->name];
 });
 
