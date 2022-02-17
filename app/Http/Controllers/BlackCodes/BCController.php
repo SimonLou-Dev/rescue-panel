@@ -36,6 +36,7 @@ class BCController extends Controller
 
     public function getMainPage(Request $request): \Illuminate\Http\JsonResponse
     {
+        $this->authorize('viewAny', BCList::class);
         $returned = null;
         $user = User::where('id', Auth::user()->id)->first();
         if(!is_null($user->bc_id)){
@@ -61,6 +62,9 @@ class BCController extends Controller
         for($a = 0; $a < BCList::search($request->query('query'))->get()->count(); $a++){
             $searchedItem = $searchedList[$a];
             if(!$searchedItem->ended){
+                array_push($forgetable, $a);
+            }
+            if(!$this->authorize('view', $searchedItem)){
                 array_push($forgetable, $a);
             }
         }
@@ -143,6 +147,8 @@ class BCController extends Controller
      */
     public function addBc(Request $request): \Illuminate\Http\JsonResponse
     {
+        $this->authorize('create', BCList::class);
+
         $request->validate([
             'type'=>['required'],
             'place'=>['required', 'string'],
@@ -201,6 +207,8 @@ class BCController extends Controller
      */
     public function endBc(int $id=9): \Illuminate\Http\JsonResponse
     {
+        $this->authorize('close', BCList::class);
+
         $bc = BCList::where('id', $id)->firstOrFail();
         $bc->ended = true;
         $bc->save();
@@ -251,6 +259,7 @@ class BCController extends Controller
     }
 
     public function casernePatcher (Request $request, string $id){
+        $this->authorize('update', BCList::class);
         $bc = BCList::where('id', $id)->first();
         $bc->caserne = $request->caserne;
         $bc->save();
@@ -264,6 +273,7 @@ class BCController extends Controller
     }
 
     public function descPatcher (Request $request, string $id){
+        $this->authorize('update', BCList::class);
         $bc = BCList::where('id', $id)->first();
         $bc->description = $request->description;
         $bc->save();
@@ -277,6 +287,7 @@ class BCController extends Controller
     }
 
     public function infosPatcher(Request $request, string $id){
+        $this->authorize('update', BCList::class);
         $bc = BCList::where('id', $id)->first();
         $bc->caserne = $request->caserne;
         $bc->place = $request->place;

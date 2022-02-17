@@ -26,6 +26,7 @@ class BlesseController extends Controller
 
     public function addPatient(Request $request, int $id): \Illuminate\Http\JsonResponse
     {
+        $this->authorize('ModifyPatient', BCList::class);
         $request->validate([
             'name'=>['required', 'string','regex:/[a-zA-Z.+_]+\s[a-zA-Z.+_]/'],
             'blessure'=>['required'],
@@ -82,6 +83,7 @@ class BlesseController extends Controller
 
     public function removePatient(string $patient_id): \Illuminate\Http\JsonResponse
     {
+        $this->authorize('ModifyPatient', BCList::class);
         $bcp = BCPatient::where('id', (int) $patient_id)->first();
         if (!is_null($bcp->rapport_id)){
             $rapport = Rapport::where('id', $bcp->rapport_id)->first();

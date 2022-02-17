@@ -34,6 +34,7 @@ class PoudreTestController extends Controller
     }
 
     public function postTest(request $request){
+        $this->authorize('create', TestPoudre::class);
         $request->validate([
             'name'=>['required','regex:/[a-zA-Z.+_]+\s[a-zA-Z.+_]/'],
             'ddn'=>['required'],
@@ -157,6 +158,7 @@ class PoudreTestController extends Controller
 
     public function getAllTests(Request $request): \Illuminate\Http\JsonResponse
     {
+        $this->authorize('viewAny', TestPoudre::class);
         $tests = TestPoudre::search($request->query('query'))->paginate();
         foreach ($tests as $test) $test->GetPatient;
         return response()->json(['status'=>'OK', 'tests'=>$tests]);

@@ -45,13 +45,12 @@ class CreateGradesTable extends Migration
             //BC
             $table->boolean('BC_HS')->default(false);
             $table->boolean('BC_open')->default(false);
-            $table->boolean('BC_add_patient')->default(false);
-            $table->boolean('BC_sauveteur')->default(false);
-            $table->boolean('BC_apprarition')->default(false);
-            $table->boolean('BC_notify')->default(false);
+            $table->boolean('BC_modify_patient')->default(false);
+            $table->boolean('BC_fire_personnel_add')->default(false);
+            $table->boolean('BC_close')->default(false);
             $table->boolean('BC_medic_view')->default(false);
             $table->boolean('BC_fire_view')->default(false);
-            $table->boolean('BC_fire_edit')->default(false);
+            $table->boolean('BC_edit')->default(false);
 
             //facture
             $table->boolean('facture_HS')->default(false);

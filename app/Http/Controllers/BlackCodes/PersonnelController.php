@@ -15,8 +15,9 @@ class PersonnelController extends Controller
 
     public static function addPersonel(string $BCId, string $userId): \Illuminate\Http\JsonResponse
     {
-        $BCId = (int) $BCId;
 
+        \Gate:: authorize('ModifyPatient', BCList::class);
+        $BCId = (int) $BCId;
         if(is_numeric($userId)){
             $userId = (int) $userId;
             $user = User::where('id', $userId)->first();
