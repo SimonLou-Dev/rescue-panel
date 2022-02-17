@@ -10,7 +10,6 @@ function MedicBC(props) {
 
     const [bc , setBC] = useState([]);
     const [colors, setColors] = useState([]);
-    const location = useLocation().search;
     const {bcID} = useParams();
     const [blessures, setBlessures] = useState([]);
     const [caserne, setCaserne] = useState("");

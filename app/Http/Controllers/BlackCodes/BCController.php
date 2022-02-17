@@ -42,7 +42,7 @@ class BCController extends Controller
             $bc = BCList::where('id', $user->bc_id)->first();
             $returned = [
               'bc_id' => $bc->id,
-              'service' => ($bc->service === 'LSCoFD' ? 'Fire' : 'Medic')
+              'service' => ($bc->service === 'LSCoFD' ? 'fire' : 'medic')
             ];
         }
 
@@ -109,11 +109,16 @@ class BCController extends Controller
 
     public function getBCByid(string $id): \Illuminate\Http\JsonResponse
     {
+
+
         $bc = BCList::where('id', $id)->first();
         $bc->GetType;
         $bc->GetUser;
         $bc->GetPersonnel;
         $bc->GetPatients;
+        if($bc->service === 'SAMS' && !$bc->ended){
+            PersonnelController::addPersonel($bc, Auth::user()->id);
+        }
         foreach ($bc->GetPatients as $patient){
             $patient->GetColor;
         }
@@ -143,9 +148,12 @@ class BCController extends Controller
             'place'=>['required', 'string'],
         ]);
         $place = $request->place;
-        $fire = str_contains($place, 'fire') || str_contains($place, 'feux');
-
         $type = $request->type;
+        $typeModel = BCType::where('id',$type)->first()->name;
+        $fire = false;
+        if(str_contains($typeModel, 'fire') || str_contains($typeModel, 'feux') || str_contains($typeModel, 'incendie')){
+            $fire = true;
+        }
 
         $bc = new BCList();
         $bc->starter_id = Auth::user()->id;
@@ -258,6 +266,20 @@ class BCController extends Controller
     public function descPatcher (Request $request, string $id){
         $bc = BCList::where('id', $id)->first();
         $bc->description = $request->description;
+        $bc->save();
+
+        Notify::dispatch('Mise à jour effectuée',1,Auth::user()->id);
+        BlackCodeUpdated::dispatch($bc->id);
+
+        return response()->json([
+            'status'=>'OK'
+        ], 204);
+    }
+
+    public function infosPatcher(Request $request, string $id){
+        $bc = BCList::where('id', $id)->first();
+        $bc->caserne = $request->caserne;
+        $bc->place = $request->place;
         $bc->save();
 
         Notify::dispatch('Mise à jour effectuée',1,Auth::user()->id);

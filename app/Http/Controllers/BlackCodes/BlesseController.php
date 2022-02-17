@@ -28,22 +28,29 @@ class BlesseController extends Controller
     {
         $request->validate([
             'name'=>['required', 'string','regex:/[a-zA-Z.+_]+\s[a-zA-Z.+_]/'],
-            'carteid'=>['required'],
             'blessure'=>['required'],
-            'color'=>['required'],
             'payed'=>['required']
         ]);
 
 
         $Patient = PatientController::PatientExist($request->name);
         $bc = BCList::where('id', $id)->first();
+
+
+
+
         if(is_null($Patient)) {
             $Patient = new Patient();
             $Patient->name = $request->name;
             $Patient->save();
         }
+        if(BCPatient::where('BC_id',$bc->id)->where('patient_id', $Patient->id)->count() != 0){
+            Notify::dispatch('Patient déja ajouté ',1,Auth::user()->id);
+            return response()->json(['status'=>'OK'],201);
+        }
         $rapport = new Rapport();
         $rapport->patient_id = $Patient->id;
+        $rapport->started_at = $bc->created_at;
         $rapport->interType = 1;
         $rapport->transport = 1;
         $rapport->user_id = Auth::user()->id;
@@ -54,11 +61,16 @@ class BlesseController extends Controller
         $rapport->save();
         $BcP = new BCPatient();
         $BcP->name = $Patient->name;
-        $BcP->idcard = (bool) $request->carteid;
+
         $BcP->patient_id = $Patient->id;
         $BcP->rapport_id = $rapport->id;
         $BcP->blessure_type = $request->blessure;
-        $BcP->couleur = $request->color;
+        if(isset($request->color)){
+            $BcP->couleur = $request->color;
+        }
+        if(isset($request->carteid)){
+            $BcP->idcard = (bool) $request->carteid;
+        }
         $BcP->BC_id = $bc->id;
         $BcP->save();
         FacturesController::addFactureMethod($Patient, $request->payed, 700, Auth::user()->id,$rapport->id);
@@ -80,7 +92,7 @@ class BlesseController extends Controller
         }
         $id = $bcp->GetBC->id;
         $bcp->delete();
-        Notify::dispatch('Patient supprimé ',1);
+        Notify::dispatch('Patient supprimé ',1,Auth::user()->id);
         BlackCodeUpdated::dispatch($id);
         return response()->json(['status'=>'OK']);
     }

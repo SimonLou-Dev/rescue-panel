@@ -135,7 +135,7 @@ Route::get('/data/blackcode/load', [BCController::class, 'getMainPage']);
 Route::get('/data/blackcode/{id}/infos', [BCController::class, 'getBCByid']);
 Route::get('/data/blackcode/{id}/status', [BCController::class, 'getBCState']);
 Route::post('/data/blackcode/{id}/add/patient', [BlesseController::class, 'addPatient']);
-Route::post('/data/blackcode/{id}/add/personnel', [PersonnelController::class, 'addPersonel']);
+Route::post('/data/blackcode/{BCId}/add/personnel/{userId}', [PersonnelController::class, 'addPersonel']);
 Route::post('/data/blackcode/create', [BCController::class, 'addBc']);
 Route::put('/data/blackcode/{id}/close', [BCController::class, 'endBc']);
 Route::delete('/data/blackcode/delete/patient/{patient_id}', [BlesseController::class, 'removePatient']);
@@ -144,6 +144,7 @@ Route::get('/exel/allPList/{from}/{to}', [BlesseController::class, 'generateList
 Route::get('/data/bc/rapport/{id}', [BCController::class, 'generateRapport']);
 Route::patch('/data/blackcode/{id}/caserne', [BCController::class, 'casernePatcher']);
 Route::patch('/data/blackcode/{id}/desc', [BCController::class, 'descPatcher']);
+Route::patch('/data/blackcode/{id}/infos', [BCController::class, 'infosPatcher']);
 
 //Les factures
 Route::get('/data/facture/list', [FacturesController::class, 'getAllimpaye']);

@@ -12,17 +12,23 @@ use Illuminate\Support\Facades\Auth;
 
 class PersonnelController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('auth');
-        $this->middleware('access');
-    }
 
-    public static function addPersonel(int $BCId, int $userId): \Illuminate\Http\JsonResponse
+    public static function addPersonel(string $BCId, string $userId): \Illuminate\Http\JsonResponse
     {
+        $BCId = (int) $BCId;
+
+        if(is_numeric($userId)){
+            $userId = (int) $userId;
+            $user = User::where('id', $userId)->first();
+        }else{
+            $user = User::where('name', $userId)->first();
+            $userId = (int) $user->id;
+        }
         $bc = BCList::where('id', $BCId)->firstOrFail();
-        $user = User::where('id', $userId)->first();
-        $personnel = BCPersonnel::where('BC_id', $BCId)->where('user_id', Auth::user()->id)->get()->count();
+        $userId = (int) $userId;
+
+
+        $personnel = BCPersonnel::where('BC_id', $BCId)->where('user_id', $userId)->get()->count();
         if($personnel == 0){
             $personnel = new BCPersonnel();
             $personnel->user_id = $user->id;
@@ -40,10 +46,5 @@ class PersonnelController extends Controller
         Notify::broadcast('Vous avez été affecté au BC #' . $bc->id,1, $user->id);
         return response()->json(['status'=>'OK'],201);
     }
-
-    public function addPersonnlByName(Request $request){
-
-    }
-
 
 }
