@@ -34,17 +34,69 @@ class UserController extends Controller
      */
     public function getUser(Request $request): JsonResponse
     {
+        $this->authorize('viewPersonnelList', User::class);
         $me = User::where('id', Auth::user()->id)->first();
-        if (!is_null($request->query('orderBy')) && is_null($request->query('grade'))) {
-            $users = User::where('grade_id', '<=', $me->grade_id)->orderBy($request->query('orderBy'), $request->query('oderdir'))->get();
-        } else {
-            $users = User::where('grade_id', '<=', $me->grade_id)->orderBy($request->query('orderBy'), $request->query('oderdir'))->where('grade_id', $request->query('grade'))->get();
+        $meService = Session::get('service')[0];
+        $users = User::search($request->query('query'))->get()->reverse();
+        $queryPage = (int) $request->query('page');
+        $readedPage = ($queryPage ?? 1) ;
+        $readedPage = (max($readedPage, 1));
+        $forgetable = array();
+        for($a = 0; $a < $users->count(); $a++){
+            if(!$me->dev){
+                $user = $users[$a];
+                if($meService === "SAMS"){
+                    if(!($user->medic || ($user->fire && $user->crossService))){
+                        array_push($forgetable, $a);
+                    }
+                }else if($meService === "LSCoFD"){
+                    if(!($user->fire || ($user->medic && $user->crossService))){
+                        array_push($forgetable, $a);
+                    }
+                }
+            }
         }
+
+        foreach ($forgetable as $it){
+            $users->forget($it);
+        }
+
+
+        $users = $users->filter(function ($item){
+            return \Gate::allows('view', $item);
+        });
+
+
+        $finalList = $users->skip(($readedPage-1)*20)->take(20);
+
+        foreach ($finalList as $user){
+            if($meService === 'SAMS'){
+                $user->grade = $user->GetMedicGrade;
+            }if($meService === 'LSCoFD'){
+                $user->grade =$this->GetFireGrade;
+            }
+
+        }
+
+        $url = $request->url() . '?query='.urlencode($request->query('query')).'&page=';
+        $totalItem = $users->count();
+        $valueRounded = ceil($totalItem / 5);
+        $maxPage = (int) ($valueRounded == 0 ? 1 : $valueRounded);
+        //Creation of Paginate Searchable result
+        $array = [
+            'current_page'=>$readedPage,
+            'last_page'=>$maxPage,
+            'data'=> $finalList,
+            'next_page_url' => ($readedPage === $maxPage ? null : $url.($readedPage+1)),
+            'prev_page_url' => ($readedPage === 1 ? null : $url.($readedPage-1)),
+            'total' => $totalItem,
+        ];
+
 
         return response()->json([
             'status' => 'OK',
-            'users' => $users,
-            'number' => count($users)
+            'users' => $array,
+            'serviceGrade'=>Grade::where('service', $meService)->get(),
         ]);
     }
 
@@ -67,6 +119,7 @@ class UserController extends Controller
     {
         $user_id = (int)$user_id;
         $user = User::where('id', $user_id)->first();
+        $this->authorize('setPilote', $user);
         $user->pilote = !$user->pilote;
         $user->save();
         return \response()->json(['status' => 'OK'], 201);

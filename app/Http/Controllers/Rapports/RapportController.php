@@ -50,7 +50,7 @@ class RapportController extends Controller
         $intertype = Intervention::where('service', Session::get('service'))->get();
         $broum = Hospital::where('service', Session::get('service'))->get();
         $patho = null;
-        if(Session::get('service')[0] == 'OMC'){
+        if(Session::get('service')[0] == 'SAMS'){
             $patho = Pathology::all();
         }
         return response()->json(['status'=>'OK', 'intertype'=>$intertype, 'transport'=>$broum, 'pathology'=>$patho]);

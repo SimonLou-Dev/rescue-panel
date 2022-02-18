@@ -7,7 +7,22 @@ namespace App\Facade;
 class TimeInteractor
 {
 
-    public function add(string|int $base, string|int $operator):string
+    public function HoursAdd(string|int $base, string|int $operator):string
+    {
+
+        if(is_string($base)){
+            $base = $this->hoursToSec($base);
+        }
+        if(is_string($operator)){
+            $operator = $this->hoursToSec($operator);
+        }
+
+
+
+        return  $this->secToHours($base + $operator);
+    }
+
+    public function HoursRemove(string|int $base, string|int $operator):string
     {
         if(is_string($base)){
             $base = $this->dateToSec($base);
@@ -19,20 +34,10 @@ class TimeInteractor
         return  '';
     }
 
-    public function remove(string|int $base, string|int $operator):string
+    public function dateToSec(string|null $base):int
     {
-        if(is_string($base)){
-            $base = $this->dateToSec($base);
-        }
-        if(is_string($operator)){
-            $operator = $this->dateToSec($operator);
-        }
+        if(is_null($base)) return 0;
 
-        return  '';
-    }
-
-    public function dateToSec(string $base):int
-    {
         return  0;
     }
 
@@ -40,6 +45,42 @@ class TimeInteractor
     {
 
         return  '';
+    }
+
+    public function hoursToSec(string|null $base):int
+    {
+        if(is_null($base)) return 0;
+        $symbole = substr($base, 0, 1-(strlen($base)));
+        $base = str_replace(['+','-'], '', $base);
+        $exploded = explode(':',$base);
+        $final = 0;
+        $final += (int) $exploded[0]*3600;
+        $final += (int) $exploded[1]*60;
+        $final +=  (int) $exploded[2];
+        if($symbole === '-'){
+            $final =+  -2*$final;
+        }
+
+        return $final;
+
+    }
+
+    public function secToHours(string|null $base):string
+    {
+
+        if(is_null($base)) return 0;
+        $symbole = substr($base, 0, 1-(strlen($base)));
+        $base = str_replace(['+','-'], '', $base);
+        $hours = (string) floor($base / 3600);
+        $hours = ($hours < 10 ? '0' . $hours : $hours);
+        $hoursR = $base % 3600;
+        $min = (string) floor($hoursR / 60);
+        $min = ($min < 10 ? '0' . $min : $min);
+        $sec = $hoursR % 60;
+        $sec = ($sec < 10 ? '0' . $sec : $sec);
+
+
+         return ($symbole === '-' ? '-' :'') . $hours. ':' . $min . ':' . $sec;
     }
 
 

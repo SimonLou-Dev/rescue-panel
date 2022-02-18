@@ -1,8 +1,40 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import PageNavigator from "../../props/PageNavigator";
 import Searcher from "../../props/Searcher";
+import axios from "axios";
+import SwitchBtn from "../../props/SwitchBtn";
 
 function ListPersonnel(props) {
+
+    const [paginate, setPagination]= useState([]);
+    const [page, setPage] = useState(1);
+    const [search, setSearch] = useState("");
+    const [users, setUsers]= useState([]);
+    const [gradeList, setGradesList] = useState([]);
+
+
+    useEffect(()=>{
+        UserList();
+    }, [])
+
+    const UserList = async (a = search , c = page) => {
+        if(c !== page){
+            setPage(c);
+        }
+        if(a !== search){
+            setSearch(a);
+        }
+        await axios({
+            url : '/data/users/getall' +'?query='+a+'&page='+c,
+            method: 'GET'
+        }).then(r => {
+            setUsers(r.data.users.data);
+            setPagination(r.data.users);
+            setGradesList(r.data.serviceGrade);
+
+        })
+
+    }
 
     const Redirection = (url) => {
         props.history.push(url)
@@ -11,8 +43,8 @@ function ListPersonnel(props) {
     return (<div className={'TablePage'}>
         <div className={'PageCenter'}>
             <div className={'table-header'}>
-                <PageNavigator/>
-                <Searcher/>
+                <PageNavigator prev={()=> {UserList(search,page-1)}} next={()=> {UserList(search,page-1)}} prevDisabled={(paginate.prev_page_url === null)} nextDisabled={(paginate.next_page_url === null)}/>
+                <Searcher value={search} callback={(v) => {UserList(v)}}/>
                 <a href={''} target={'_blank'} className={'btn exporter'}><img alt={''} src={'/assets/images/xls.png'}/></a>
             </div>
             <div className={'table-container'}>
@@ -25,37 +57,39 @@ function ListPersonnel(props) {
                         <th>tel</th>
                         <th>discord id</th>
                         <th>grade</th>
-                        <th>spétialité</th>
+                        <th>pilote</th>
                         <th>service</th>
                     </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>1</td>
-                            <td onClick={()=>{Redirection('/personnel/fiche/2')}} className={'link'}>Jean Claude</td>
-                            <td>12</td>
-                            <td>555-7846</td>
-                            <td>805512471339204618</td>
-                            <td><select>
-                                <option>User</option>
-                                <option>Test</option>
+                    {users && users.map((u)=>
+                        <tr key={u.id}>
+                            <td>{u.id}</td>
+                            <td onClick={()=>{Redirection('/personnel/fiche/'+u.id)}} className={'link'}>{u.name}</td>
+                            <td>{u.matricule}</td>
+                            <td>{u.tel}</td>
+                            <td>{u.discord_id}</td>
+                            <td><select value={u.grade.id}>
+                                {gradeList && gradeList.map((g)=>
+                                    <option key={g.id+'.'+u.id} value={g.id}>{g.name}</option>
+                                )}
                             </select></td>
-                            <td>805512471339204618</td>
-                            <td><button className={'btn'}><img alt={''} src={'/assets/images/decline.png'}/></button></td>
+                            <SwitchBtn checked={u.pilote} number={'A'+u.id} callback={async () => {
+                                await axios({
+                                    method: 'PUT',
+                                    url: '/data/users/pilote/' + u.id
+                                }).then(r=>{UserList()})
+                            }}/>
+                            <td><button className={'btn'}><img alt={''} src={'/assets/images/' + (u.OnService ? 'accept' : 'decline') +'.png'}
+                            onClick={async () => {
+                                await axios({
+                                    method: 'PUT',
+                                    url: '/data/service/setbyadmin/' + u.id
+                                }).then(r=>{UserList()})
+                            }}
+                            /></button></td>
                         </tr>
-                        <tr>
-                            <td>1</td>
-                            <td onClick={()=>{Redirection('/personnel/fiche/2')}}  className={'link'}>Jean Claude</td>
-                            <td>12</td>
-                            <td>555-7846</td>
-                            <td>805512471339204618</td>
-                            <td><select>
-                                <option>Fire Engininer Chief</option>
-                                <option>User</option>
-                            </select></td>
-                            <td>805512471339204618</td>
-                            <td><button className={'btn'}><img alt={''} src={'/assets/images/accept.png'}/></button></td>
-                        </tr>
+                    )}
                     </tbody>
                 </table>
             </div>

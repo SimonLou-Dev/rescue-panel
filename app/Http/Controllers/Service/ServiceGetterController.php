@@ -5,21 +5,20 @@ namespace App\Http\Controllers\Service;
 use App\Exporter\ExelPrepareExporter;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\LayoutController;
+use App\Models\Pathology;
 use App\Models\Prime;
 use App\Models\Service;
 use App\Models\User;
+use App\Models\WeekRemboursement;
 use App\Models\WeekService;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
 use Maatwebsite\Excel\Facades\Excel;
 
 class ServiceGetterController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('auth');
-        $this->middleware('access');
-    }
 
     public static function getWeekNumber(): int
     {
@@ -39,10 +38,12 @@ class ServiceGetterController extends Controller
         }else{
             $week = (int) $week;
         }
-        $users = User::where('grade_id', '>', 1)->where('grade_id', '<', 12)->orderByDesc('grade_id')->get();
+        $users = User::where('medic', true)->orWhere('fire', true)->get();
+        $users = $users->filter(function ($item, $key){
+            return \Gate::allows('view', $item);
+        });
 
         $column[] = array('Membre','grade', 'n° de compte','primes', 'Remboursements', 'dimanche', 'lundi', 'mardi', 'mercredi', 'jeudi', 'vendredi', 'samedi', 'ajustement', 'total');
-
 
 
         foreach ($users as $user){
@@ -54,11 +55,16 @@ class ServiceGetterController extends Controller
             foreach ($primes as $prime){
                 $total = $total + $prime->getItem->montant;
             }
+            if(Session::get('service')[0] == 'SAMS'){
+                $grade = $user->GetMedicGrade;
+            }else if(Session::get('service')[0] == 'LSCoFD'){
+                $grade = $user->GetFireGrade;
+            }
 
             if(isset($service)){
                 $column[] = [
                     'Membre'=> $user->name,
-                    'grade'=>$user->GetGrade->name,
+                    'grade'=>$grade->name,
                     'n° de compte'=>$user->compte,
                     'primes'=>$total,
                     'Remboursements'=> isset($remboursement) ? $remboursement->total : '0',
@@ -75,7 +81,7 @@ class ServiceGetterController extends Controller
             }else{
                 $column[] = [
                     'Membre'=> $user->name,
-                    'grade'=>$user->GetGrade->name,
+                    'grade'=>$grade->name,
                     'n° de compte'=>$user->compte,
                     'primes'=>$total,
                     'Remboursements'=> isset($remboursement) ? $remboursement->total : '0' ,
@@ -94,8 +100,6 @@ class ServiceGetterController extends Controller
         $export = new ExelPrepareExporter($column);
 
         return Excel::download((object)$export, 'RemboursementsServicesSemaine'. $week .'.xlsx');
-
-
     }
 
     public function getUserService(): \Illuminate\Http\JsonResponse
@@ -144,22 +148,77 @@ class ServiceGetterController extends Controller
 
     }
 
-    public function getAllservice(int $semaine = NULL): \Illuminate\Http\JsonResponse
+    public function getAllservice(Request $request, int $semaine = NULL): \Illuminate\Http\JsonResponse
     {
+        $this->authorize('viewRapportHoraire', User::class);
+
         $max = $this::getWeekNumber();
-        if($semaine){
+        if(isset($semaine)){
             $date= (int) $semaine;
         }else{
             $date = $this::getWeekNumber();
         }
-        $service = WeekService::where('week_number', $date)->orderBy('id','asc')->get();
-        $a= 0;
-        while($a < count($service)){
-            $service[$a]->GetUser->GetGrade;
-            $a++;
+
+        $service = WeekService::search($request->query('query'))->get()->reverse();
+        $queryPage = (int) $request->query('page');
+        $readedPage = ($queryPage ?? 1) ;
+        $readedPage = (max($readedPage, 1));
+        $user = User::where('id', Auth::user()->id)->first();
+
+        $forgetable = [];
+
+        for($a = 0; $a < $service->count(); $a++){
+            $searchedItem = $service[$a];
+            if($searchedItem->service !== $user->service){
+                array_push($forgetable, $a);
+            }
+
+            if($searchedItem->week_number !== $date){
+                array_push($forgetable, $a);
+            }
+            if(!\Gate::allows('view', $searchedItem->GetUser)){
+                array_push($forgetable, $a);
+            }
         }
+
+        foreach ($forgetable as $forget){
+            $service->forget($forget);
+        }
+        foreach ($service as $item){
+            $user = $item->GetUser;
+            $item->remboursement = 0;
+            $item->prime = 0;
+
+            $remboursements = WeekRemboursement::where('week_number', $date)->where('user_id', $user->id);
+            if($remboursements->count() === 1){
+                $item->remboursement =  $remboursements->first()->total;
+            }
+            $primes = Prime::where('week_number', $date)->where('user_id', $user->id)->get();
+            if($primes->count() > 0){
+                foreach ($primes as $prime){
+                    $item->prime += $prime->getItem->montant;
+                }
+            }
+        }
+
+        $finalList = $service->skip(($readedPage-1)*20)->take(20);
+
+        $url = $request->url() . '?query='.urlencode($request->query('query')).'&page=';
+        $totalItem = $service->count();
+        $valueRounded = ceil($totalItem / 5);
+        $maxPage = (int) ($valueRounded == 0 ? 1 : $valueRounded);
+        //Creation of Paginate Searchable result
+        $array = [
+            'current_page'=>$readedPage,
+            'last_page'=>$maxPage,
+            'data'=> $finalList,
+            'next_page_url' => ($readedPage === $maxPage ? null : $url.($readedPage+1)),
+            'prev_page_url' => ($readedPage === 1 ? null : $url.($readedPage-1)),
+            'total' => $totalItem,
+        ];
+
         return response()->json([
-            'service'=>$service,
+            'service'=>$array,
             'maxweek'=>$max,
         ]);
     }

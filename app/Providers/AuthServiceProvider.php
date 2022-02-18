@@ -12,6 +12,7 @@ use App\Policies\BlackCodePolicy;
 use App\Policies\FacturesPolicy;
 use App\Policies\PouderTestPolicy;
 use App\Policies\RapportsPolicy;
+use App\Policies\UserPolicy;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Gate;
 use function React\Promise\Stream\first;
@@ -28,6 +29,7 @@ class AuthServiceProvider extends ServiceProvider
         BCList::class => BlackCodePolicy::class,
         TestPoudre::class => PouderTestPolicy::class,
         Facture::class => FacturesPolicy::class,
+        User::class => UserPolicy::class,
     ];
 
     /**

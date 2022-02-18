@@ -64,7 +64,7 @@ class BCController extends Controller
             if(!$searchedItem->ended){
                 array_push($forgetable, $a);
             }
-            if(!$this->authorize('view', $searchedItem)){
+            if(!\Gate::allows('view',$searchedItem)){
                 array_push($forgetable, $a);
             }
         }

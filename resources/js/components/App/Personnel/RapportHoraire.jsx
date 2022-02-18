@@ -1,22 +1,55 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import PageNavigator from "../../props/PageNavigator";
 import Searcher from "../../props/Searcher";
+import axios from "axios";
+
 
 function RapportHoraire(props) {
+    const [paginate, setPagination]= useState([]);
+    const [page, setPage] = useState(1);
+    const [search, setSearch] = useState("");
+    const [users, setUsers]= useState([]);
+    const [maxWeek, setMaxWeek] = useState(undefined);
+    const [currentWeek, setCurrentWeek] = useState(undefined);
 
     const Redirection = (url) => {
         props.history.push(url)
     }
 
+    useEffect(()=>{
+        UserList().then(()=>{
+            setCurrentWeek(maxWeek);
+        });
+    }, [])
+
+    const UserList = async (a = search , c = page) => {
+        if(c !== page){
+            setPage(c);
+        }
+        if(a !== search){
+            setSearch(a);
+        }
+        await axios({
+            url : '/data/service/alluser/'+ (currentWeek ?? '')  +'?query='+a+'&page='+c,
+            method: 'GET'
+        }).then(r => {
+            setUsers(r.data.service.data);
+            setPagination(r.data.service);
+            setMaxWeek(r.data.maxweek);
+
+        })
+
+    }
+
     return (<div className={'TablePage'}>
         <div className={'PageCenter'}>
             <div className={'table-header'}>
-                <PageNavigator/>
-                <Searcher/>
-                <a href={''} target={'_blank'} className={'btn exporter'}><img alt={''} src={'/assets/images/xls.png'}/></a>
+                <PageNavigator prev={()=> {UserList(search,page-1)}} next={()=> {UserList(search,page-1)}} prevDisabled={(paginate.prev_page_url === null)} nextDisabled={(paginate.next_page_url === null)}/>
+                <Searcher value={search} callback={(v) => {UserList(v)}}/>
+                <a href={'/data/service/admin/exel/'+currentWeek} target={'_blank'} className={'btn exporter'}><img alt={''} src={'/assets/images/xls.png'}/></a>
                 <div className={'selector'}>
-                    <input type={'number'} placeholder={'semaine n°'}/>
-                    <button><img alt={''} src={'/assets/images/search.png'}/></button>
+                    <input type={'number'} placeholder={'semaine n°'} max={maxWeek} value={currentWeek} onChange={(e)=>{setCurrentWeek(e.target.value)}}/>
+                    <button onClick={()=>{UserList()}}><img alt={''} src={'/assets/images/search.png'}/></button>
                 </div>
             </div>
             <div className={'table-container'}>
@@ -31,20 +64,15 @@ function RapportHoraire(props) {
                     </tr>
                     </thead>
                     <tbody>
-                    <tr>
-                        <td onClick={()=>{Redirection('/personnel/fiche/2')}} className={'link'}>Jean Claude</td>
-                        <td>$124</td>
-                        <td>$0</td>
-                        <td>-15h20</td>
-                        <td>187h27</td>
-                    </tr>
-                    <tr>
-                        <td onClick={()=>{Redirection('/personnel/fiche/3')}} className={'link'}>Jean Claude</td>
-                        <td>$17.846</td>
-                        <td>$784</td>
-                        <td>+05h20</td>
-                        <td>06h27</td>
-                    </tr>
+                    {users && users.map((u)=>
+                        <tr key={u.id}>
+                            <td onClick={()=>{Redirection('/personnel/fiche/'+u.get_user.id)}} className={'clickable'}>{u.get_user.name}</td>
+                            <td>${u.remboursement}</td>
+                            <td>${u.prime}</td>
+                            <td>{u.ajustement}</td>
+                            <td>{u.total}</td>
+                        </tr>
+                    )}
                     </tbody>
                 </table>
             </div>

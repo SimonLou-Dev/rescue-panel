@@ -13,7 +13,7 @@ function FactureList(props) {
     const [paginate, setPagination]= useState([]);
     const [page, setPage] = useState(1);
 
-    const[payed, setPayed] = useState(false);
+    const [payed, setPayed] = useState(false);
     const [montant, setMontant] = useState('');
     const [name, setName] = useState("");
     const [patientDataList, setPatientDataList] = useState([]);

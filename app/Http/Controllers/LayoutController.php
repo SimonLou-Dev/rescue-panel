@@ -17,22 +17,7 @@ class LayoutController extends Controller
         $this->middleware('access');
     }
 
-    public function setservice(Request $request): \Illuminate\Http\JsonResponse
-    {
-        $user = User::where('id', Auth::id())->first();
-        OperatorController::setService($user, false);
-        $text = "";
-        if($user->service){
-            $text = 'Vous êtes en service !';
-        }else{
-            $text = 'Vous n\'êtes plus en service';
-        }
-        event(new Notify($text,2));
-        return response()->json([
-            'status'=>'OK',
-            'user'=>$user,
-        ]);
-    }
+
 
     public function getservice(Request $request): \Illuminate\Http\JsonResponse
     {

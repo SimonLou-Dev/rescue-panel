@@ -105,7 +105,6 @@ Route::post('/data/postuserinfos', [UserConnexionController::class, 'postInfos']
 Route::get('/data/check/connexion', [UserConnexionController::class, 'checkConnexion']);
 Route::get('/data/getstatus', [LayoutController::class, 'getservice']);
 //renommer la fonction
-Route::put('/data/setstatus', [LayoutController::class, 'setservice']);
 Route::get('/data/annonces', [MainController::class, 'getAnnonces']);
 Route::put('/data/users/setdiscordId/{discordid}/{id}', [UserController::class, 'setDiscordId']);
 //Route::post('/data/check/maintenance')
@@ -153,6 +152,7 @@ Route::post('/data/facture/add', [FacturesController::class, 'addFacture']);
 Route::get('/PDF/facture/{from}/{to}', [ExporterController::class, 'makeImpayPdf']);
 
 //Service management
+Route::patch('/data/service/user', [ServiceSetterController::class, 'setservice']);
 Route::get('/data/service/user', [ServiceGetterController::class, 'getUserService']);
 Route::get('/data/service/alluser/{semaine?}', [ServiceGetterController::class, 'getAllservice']);
 Route::get('/data/service/addwors', [ServiceSetterController::class, 'addRows']);
@@ -160,6 +160,7 @@ Route::get('/data/AllInService', [MainController::class, 'getInServices']);
 Route::put('/data/service/setbyadmin/{userid}', [ServiceSetterController::class, 'setServiceByAdmin']);
 Route::put('/data/service/admin/modify', [ServiceSetterController::class, 'modifyTimeService']);
 Route::get('/data/service/admin/exel/{week?}', [ServiceGetterController::class, 'getWeekServiceExel']);
+
 Route::get('/data/service/req/mylist', [ModifierReqController::class,'getMyModifyTimeServiceRequest']);
 Route::post('/data/service/req/post', [ModifierReqController::class, 'postModifyTimeServiceRequest']);
 Route::put('/data/service/req/accept/{id}', [ModifierReqController::class,'acceptModifyTimeServiceRequest']);
@@ -273,6 +274,7 @@ Route::get('/serch', function (Request $request){
     Discord::chanUpdate(DiscordChannel::RI, 933706570552999946);
     Discord::chanUpdate(DiscordChannel::Facture, 933706570552999946);
     Discord::chanUpdate(DiscordChannel::BC, 933706570552999946);
+    Discord::chanUpdate(DiscordChannel::Service, 933706570552999946);
 })->middleware('web');
 
 
