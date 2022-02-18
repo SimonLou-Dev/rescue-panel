@@ -21,11 +21,6 @@ use TheCodingMachine\Gotenberg\RequestException;
 
 class ExporterController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('auth');
-        $this->middleware('access');
-    }
 
     public function makeRapportPdf(Request $request, int $id){
 
@@ -50,7 +45,7 @@ class ExporterController extends Controller
     }
 
     public function makeImpayPdf(Request $request, string $from , string $to){
-        //2021-01-05
+        $this->authorize("export", Facture::class);
         $impaye = Facture::where('payed', 0)->where('created_at', '>=', $from)->where('created_at', '<=', $to)->orderBy('id', 'desc')->get();
 
         $infos = ['from'=>date('d/m/Y', strtotime($from)),'to'=>date('d/m/Y', strtotime($to))];

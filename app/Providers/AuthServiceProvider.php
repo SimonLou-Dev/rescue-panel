@@ -3,11 +3,13 @@
 namespace App\Providers;
 
 use App\Models\BCList;
+use App\Models\Facture;
 use App\Models\Grade;
 use App\Models\Rapport;
 use App\Models\TestPoudre;
 use App\Models\User;
 use App\Policies\BlackCodePolicy;
+use App\Policies\FacturesPolicy;
 use App\Policies\PouderTestPolicy;
 use App\Policies\RapportsPolicy;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
@@ -25,6 +27,7 @@ class AuthServiceProvider extends ServiceProvider
         Rapport::class => RapportsPolicy::class,
         BCList::class => BlackCodePolicy::class,
         TestPoudre::class => PouderTestPolicy::class,
+        Facture::class => FacturesPolicy::class,
     ];
 
     /**

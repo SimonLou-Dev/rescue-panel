@@ -20,8 +20,8 @@ class BlackCodePolicy
     {
         $grade = $user->getUserGradeInService();
         if($user->isAdmin()) return true;
-        if($user->service) return true;
-        if(!$user->service && $grade->BC_HS) return true;
+        if($user->OnService) return true;
+        if(!$user->OnService && $grade->BC_HS) return true;
         return false;
     }
 

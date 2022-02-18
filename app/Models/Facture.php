@@ -28,7 +28,8 @@ class Facture extends Model
     use HasFactory;
     protected $table = "Factures";
     protected $casts = [
-        'payed'=>'boolean'
+        'payed'=>'boolean',
+        'created_at'=>'datetime:d/m/Y H:i'
     ];
 
     protected $fillable = ['patient_id', 'rapport_id', 'payed', 'price', 'payement_confirm_id', 'service','discord_msg_id'];
@@ -44,5 +45,29 @@ class Facture extends Model
     public function GetRapport(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(Rapport::class, 'rapport_id');
+    }
+
+    public function getScoutKey()
+    {
+        return $this->id;
+    }
+
+    public function getScoutKeyName()
+    {
+        return 'id';
+    }
+
+    public function toSearchableArray()
+    {
+        if(!$this->payed){
+            return [
+                'id'=>$this->id,
+                'patient'=>$this->GetPatient->name,
+                'price'=>$this->price,
+                'created_at'=>$this->created_at
+            ];
+        }else{
+            return [];
+        }
     }
 }

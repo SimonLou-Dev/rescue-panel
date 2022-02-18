@@ -56,10 +56,10 @@ class BCController extends Controller
         $queryPage = (int) $request->query('page');
         $readedPage = ($queryPage ?? 1) ;
 
-        $searchedList = BCList::search($request->query('query'))->get();
+        $searchedList = BCList::search($request->query('query'))->get()->reverse();
         $forgetable = [];
 
-        for($a = 0; $a < BCList::search($request->query('query'))->get()->count(); $a++){
+        for($a = 0; $a < $searchedList->count(); $a++){
             $searchedItem = $searchedList[$a];
             if(!$searchedItem->ended){
                 array_push($forgetable, $a);

@@ -16,11 +16,6 @@ use App\Http\Controllers\LogsController;
 
 class FacturesController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('auth');
-        $this->middleware('access');
-    }
 
     public static function addFactureMethod(object $patient, bool $payed, int $price, int $cofirm_id=null, int $rapport_id=null){
         $facture = new Facture();
@@ -72,35 +67,16 @@ class FacturesController extends Controller
 
     public function paye(Request $request, int $id): \Illuminate\Http\JsonResponse
     {
-
-
+        $this->authorize("paye", Facture::class);
         $facture = Facture::where('id', $id)->first();
         $facture->payed = true;
+        $facture->payement_confirm_id = Auth::user()->id;
         $facture->save();
-        $embed = [
-            [
-                'title'=>'Facture payée :',
-                'color'=>'13436400 ',
-                'fields'=>[
-                    [
-                        'name'=>'Patient : ',
-                        'value'=>$facture->GetPatient->vorname . ' '.$facture->GetPatient->name,
-                        'inline'=>true
-                    ],[
-                        'name'=>'Montant : ',
-                        'value'=>$facture->price .'$',
-                        'inline'=>true
-                    ]
-                ],
-                'footer'=>[
-                    'text' => 'Confirmation de payement : ' . Auth::user()->name
-                ]
-            ]
-        ];
-        $this->dispatch(new ProcessEmbedPosting([env('WEBHOOK_FACTURE')], $embed, null));
+        $embed = self::EmbedFactureCreator($facture);
+        \Discord::updateMessage(DiscordChannel::Facture, $facture->discord_msg_id, $embed);
         $logs = new LogsController();
         $logs->FactureLogging('paye', $facture->id, Auth::user()->id);
-        event(new Notify('Facture payée ! ',2));
+        event(new Notify('Facture payée ! ',2, Auth::user()->id));
         return response()->json(['status'=>'OK']);
     }
 
@@ -149,37 +125,30 @@ class FacturesController extends Controller
 
     public function addFacture(Request $request): \Illuminate\Http\JsonResponse
     {
+        $this->authorize("create", Facture::class);
         $request->validate([
             'name'=>['required', 'string','regex:/[a-zA-Z.+_]+\s[a-zA-Z.+_]/'],
-            'payed'=>['required'],
+            'payed'=>['required', 'boolean'],
             'montant'=>['required','integer']
         ]);
 
-        $name = explode(" ", $request->name);
-
-        $Patient = PatientController::PatientExist($name[1], $name[0]);
+        $Patient = PatientController::PatientExist($request->name);
         if(is_null($Patient)) {
             $Patient = new Patient();
-            $Patient->name = $name[1];
-            $Patient->vorname = $name[0];
-            $Patient->tel = $request->tel;
+            $Patient->name = $request->name;
             $Patient->save();
         }
-        $this->addFactureMethod((object) $Patient,(bool) $request->payed, (int) $request->montant, (int) Auth::user()->id, null);
+        $this->addFactureMethod($Patient,(bool) $request->payed, $request->montant, Auth::user()->id, null);
         return response()->json(['status'=>'OK'],201);
     }
 
     public function getAllimpaye(Request $request): \Illuminate\Http\JsonResponse
     {
-        $impaye = Facture::where('payed', false)->orderBy('id', 'desc')->take(100)->get();
-        $size = count($impaye);
-        $a = 0;
-        while ($a < $size){
-            $impaye[$a]->GetPatient;
+        $this->authorize('viewAny', Facture::class);
+        $facture = Facture::search($request->query('query'))->paginate(25);
+        foreach ($facture as $fact) $fact->Getpatient;
 
-            $a++;
-        }
-        return response()->json(['status'=>'OK', 'impaye'=>$impaye]);
+        return response()->json(['status'=>'OK', 'impaye'=>$facture]);
     }
 
 

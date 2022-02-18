@@ -20,8 +20,8 @@ class PouderTestPolicy
     {
         $grade = $user->getUserGradeInService();
         if($user->isAdmin()) return true;
-        if($user->service && $grade->poudretest_view) return true;
-        if(!$user->service && $grade->poudretest_HS) return true;
+        if($user->OnService && $grade->poudretest_view) return true;
+        if(!$user->OnService && $grade->poudretest_HS) return true;
         return false;
     }
 

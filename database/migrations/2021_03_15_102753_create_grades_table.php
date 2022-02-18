@@ -56,7 +56,7 @@ class CreateGradesTable extends Migration
             $table->boolean('facture_HS')->default(false);
             $table->boolean('facture_create')->default(false);
             $table->boolean('facture_view')->default(false);
-            $table->boolean('facture_add')->default(false);
+            $table->boolean('facture_add')->default(false);//delete
             $table->boolean('facture_export')->default(false);
             $table->boolean('facture_paye')->default(false);
             //Personnel
