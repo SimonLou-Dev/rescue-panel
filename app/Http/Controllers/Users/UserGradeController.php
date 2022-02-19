@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Users;
 
 use App\Events\Notify;
+use App\Events\UserUpdated;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\Service\OperatorController;
 use App\Http\Controllers\ServiceController;
@@ -53,6 +54,7 @@ class UserGradeController extends Controller
         }
         $user->grade_id = $id;
         $user->save();
+        UserUpdated::broadcast($user);
         event(new Notify('Le grade a été bien changé ! ',1));
         return \response()->json(['status'=>'OK']);
     }
@@ -64,8 +66,11 @@ class UserGradeController extends Controller
     public function GetUserPerm(Request $request): JsonResponse
     {
         $user = User::where('id', Auth::id())->first();
-        $user->GetMedicGrade;
-        $user->GetFireGrade;
+        if($user->service === "SAMS"){
+            $user->grade = $user->GetMedicGrade;
+        }else if($user->service === "LSCoFD"){
+            $user->grade = $user->GetFireGrade;
+        }
         return \response()->json(['status'=>'ok', 'user'=>$user]);
     }
 
@@ -95,6 +100,7 @@ class UserGradeController extends Controller
             OperatorController::setService($user, true);
         }
         $user->save();
+        UserUpdated::broadcast($user);
 
         // mettre un embed de réinit du matériel
 

@@ -52,23 +52,18 @@ use Illuminate\Support\Facades\Auth;
 | contains the "web" middleware group. Now create something great!
 |
 */
-Route::get("/infos", function (){
-    return phpinfo();
-});
-
-
 
 //Main view
-Route::get('/dashboard', [HomeController::class, 'getIndex'])->name('dashboard'); //->middleware(['auth']);
-Route::get('/account', [HomeController::class, 'getIndex']); //->middleware(['auth']);
-Route::get('/dispatch', [HomeController::class, 'getIndex']); //->middleware(['auth']);
-Route::get('/patients/{a}/{b?}', [HomeController::class, 'getIndex']); //->middleware(['auth']);
-Route::get('/blackcodes/{a}/{b?}', [HomeController::class, 'getIndex']); //->middleware(['auth']);
-Route::get('/factures', [HomeController::class, 'getIndex']); //->middleware(['auth']);
-Route::get('/formation/{a}/{b?}', [HomeController::class, 'getIndex']); //->middleware('auth');
-Route::get('/logistique/{a?}', [HomeController::class, 'getIndex']); //->middleware('auth');
-Route::get('/personnel/{a?}', [HomeController::class, 'getIndex']); //->middleware('auth');
-Route::get('/mdt/{a?}', [HomeController::class, 'getIndex']); //->middleware('auth');
+Route::get('/dashboard', [HomeController::class, 'getIndex'])->name('dashboard')->middleware(['auth']);
+Route::get('/account', [HomeController::class, 'getIndex'])->middleware(['auth']);
+Route::get('/dispatch', [HomeController::class, 'getIndex'])->middleware(['auth']);
+Route::get('/patients/{a}/{b?}', function (){return redirect()->route('dashboard');});
+Route::get('/blackcodes/{a}/{b?}', function (){return redirect()->route('dashboard');});
+Route::get('/factures', function (){return redirect()->route('dashboard');});
+Route::get('/formation/{a}/{b?}', function (){return redirect()->route('dashboard');});
+Route::get('/logistique/{a?}', function (){return redirect()->route('dashboard');});
+Route::get('/personnel/{a?}', function (){return redirect()->route('dashboard');});
+Route::get('/mdt/{a?}', function (){return redirect()->route('dashboard');});
 Route::get('/cantaccess', [HomeController::class, 'getIndex'])->name('cantaccess');
 Route::get('/servicenav', [HomeController::class, 'getIndex'])->name('servicenav');
 Route::get('/', function(){
@@ -267,7 +262,7 @@ Route::get('/test', function (){
 });
 
 Route::get('/teste', function (Request $request){
-    NotifyForAll::broadcast('Début du BC # à ', 3);
+
 })->middleware('web');
 
 Route::get('/serch', function (Request $request){

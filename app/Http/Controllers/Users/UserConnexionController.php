@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Users;
 use App\Enums\DiscordChannel;
 use App\Events\Notify;
 use App\Events\UserRegisterEvent;
+use App\Events\UserUpdated;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\LogsController;
 use App\Jobs\ProcessEmbedBCGenerator;
@@ -127,6 +128,7 @@ class UserConnexionController extends Controller
         Auth::login($user);
         Session::push('user', $user);
         Session::push('service', $user->service);
+        UserUpdated::broadcast($user);
 
         return \response()->json([
             'status'=>'OK',

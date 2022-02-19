@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Users;
 
 use _HumbugBox15516bb2b566\Nette\Utils\DateTime;
 use App\Events\Notify;
+use App\Events\UserUpdated;
 use App\Http\Controllers\Controller;
 use App\Jobs\ProcessEmbedPosting;
 use App\Models\Grade;
@@ -122,6 +123,7 @@ class UserController extends Controller
         $this->authorize('setPilote', $user);
         $user->pilote = !$user->pilote;
         $user->save();
+        UserUpdated::broadcast($user);
         return \response()->json(['status' => 'OK'], 201);
     }
 
@@ -284,6 +286,7 @@ class UserController extends Controller
         }else{
             event(new Notify('Une erreur est survenue',4));
         }
+        UserUpdated::broadcast($user);
         return \response()->json([]);
 
     }
@@ -344,6 +347,7 @@ class UserController extends Controller
         $user->sanctions = json_encode($sanctionsinfos);
 
         $user->save();
+        UserUpdated::broadcast($user);
 
         $this->dispatch(new ProcessEmbedPosting([env('WEBHOOK_SANCTIONS')], [], $final));
 
@@ -406,7 +410,7 @@ class UserController extends Controller
             ]
         ];
         $this->dispatch(new ProcessEmbedPosting([env('WEBHOOK_LOGISTIQUE')], $embed, null));
-
+        UserUpdated::broadcast($user);
         return \response()->json([
             'status'=>'ok',
         ]);
@@ -424,6 +428,7 @@ class UserController extends Controller
 
         event(new Notify('La démission a été prise en compte',1));
         $prononcer = User::where('id', Auth::user()->id)->first();
+        UserUpdated::broadcast($user);
 
         $this->dispatch(new ProcessEmbedPosting([env('WEBHOOK_SANCTIONS')], [],
             ">>> ***__Démission :__*** \n **__Personnel :__** " . ($user->discord_id != null ? ("<@" . $user->discord_id . "> ") : "") . $user->name . "\n **__Déclaré par :__** ".$prononcer->name

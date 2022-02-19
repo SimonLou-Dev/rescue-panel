@@ -63,6 +63,11 @@ function Layout(props) {
             addNotification(e)
         })
 
+        window.UserChannel.bind('UserUpdated', (e)=>{
+            setUser(e.userInfos);
+            setService(e.userInfos.service);
+        })
+
         let GlobalChannel = pusher.subscribe('presence-GlobalChannel.'+env)
         window.GlobalChannel = GlobalChannel;
 
@@ -151,7 +156,7 @@ function Layout(props) {
                     <img src={'/assets/images/'+service+ '.png'} alt={""} className={'service-name'}/>
                 </div>
                 <div className={"header-logout"}>
-                    <img src={'/assets/images/logout.png'} alt={""}/>
+                    <a href={'/logout'}><img src={'/assets/images/logout.png'} alt={""}/></a>
                 </div>
             </header>
             {!collapsed &&
@@ -161,7 +166,13 @@ function Layout(props) {
                         <Link className={"menu-link-big"} to="/account">mon compte</Link>
                         <Link className={"menu-link-big"} to={"/dispatch/"+service} >dispatch</Link>
                         <Link className={"menu-link-big"} to="/servicenav">changer de service</Link>
-                        <h4 className={"menu-link-big"}>service : <label for="service-state">on</label></h4>
+                        <h4 className={"menu-link-big"} onClick={async () => {
+                            await axios({
+                                method: 'PATCH',
+                                url: '/data/service/user'
+                            })
+                        }
+                        }>service : <label for="service-state">{user.OnService ? 'on' : 'off'}</label></h4>
                     </section>
                     <section className={"menu-scrollable"}>
                         <div className={"menu-item-list"}>

@@ -20,7 +20,7 @@ class gradeSeeder extends Seeder
         ],[
             'name'=>'MedicUser',
             'power'=>1,
-            'service'=>'OMC',
+            'service'=>'SAMS',
             'admin'=>false,
             'default'=>true,
         ],[
@@ -38,7 +38,7 @@ class gradeSeeder extends Seeder
         ],[
             'name'=>'MedicChief',
             'power'=>20,
-            'service'=>'OMC',
+            'service'=>'SAMS',
             'admin'=>true,
             'default'=>false,
         ],[

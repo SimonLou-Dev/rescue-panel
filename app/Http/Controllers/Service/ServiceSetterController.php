@@ -18,7 +18,6 @@ class ServiceSetterController extends Controller
         $user = User::where('id', $userid)->first();
         $this->authorize('setOtherService', $user);
         OperatorController::setService($user, true);
-
         return response()->json(['status'=>'OK']);
     }
 

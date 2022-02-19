@@ -111,7 +111,7 @@ function DossiersPatient(props) {
                         {patients && patients.map((patient)=>
                             <tr key={patient.id} >
                                 <td>{patient.id}</td>
-                                <td className={'clickable'} onClick={()=>{Redirection('/patients/'+ patient.id +'/view')}}>{patient.name}</td>
+                                <td className={'clickable'} style={{color: patient.colorOfName}} onClick={()=>{Redirection('/patients/'+ patient.id +'/view')}}>{patient.name}</td>
                                 <td>{patient.tel}</td>
                                 <td>{dateFormat(patient.naissance, 'dd/mm/yyyy')}</td>
                                 <td>{patient.blood_group}</td>

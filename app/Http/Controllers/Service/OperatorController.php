@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Service;
 
 use App\Enums\DiscordChannel;
 use App\Events\Notify;
+use App\Events\UserUpdated;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\LayoutController;
 use App\Http\Controllers\ServiceController;
@@ -100,6 +101,8 @@ class OperatorController extends Controller
                 ]
             ];
         }
+
+        UserUpdated::broadcast($user);
 
         Notify::dispatch($text, 1, $user->id);
         if($user->OnService){
