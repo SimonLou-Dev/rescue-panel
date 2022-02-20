@@ -34,6 +34,9 @@ class Prime extends Model
         return $this->belongsTo(User::class, 'user_id');
     }
 
+
+
+
     public function GetAdmin(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(User::class, 'admin_id');

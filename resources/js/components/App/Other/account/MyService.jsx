@@ -62,7 +62,6 @@ const Weeklygraph = (props) => {
 const Servicegraph = (props) => {
 
     let nddata = null;
-    console.log(typeof props.data)
     if(props.data.graphic !== undefined){
         nddata = {
             labels: props.data.graphic[0],
@@ -138,7 +137,7 @@ function MyService(props) {
             url: '/data/service/req/post',
             data:{
                 'reason': modifierReason,
-                'montant': modifierAction,
+                'action': modifierAction,
                 'time_quantity': modifierTime,
             }
         }).then(r => {

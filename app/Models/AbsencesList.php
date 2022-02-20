@@ -23,7 +23,8 @@ class AbsencesList extends Model
     protected $casts = [
         'accepted'=>'boolean',
         'end_at'=>'date:d/m/Y',
-        'start_at'=>'date:d/m/Y'
+        'start_at'=>'date:d/m/Y',
+        'created_at'=>'datetime:d/m/Y'
     ];
 
     public function GetAdmin(): \Illuminate\Database\Eloquent\Relations\BelongsTo

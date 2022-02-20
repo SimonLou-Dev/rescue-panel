@@ -25,10 +25,11 @@ class LayoutController extends Controller
         return response()->json(['service'=>$user->service]);
     }
 
-    public static function getdaystring(): string
+    public static function getdaystring(int $a = null): string
     {
+        if(is_null($a))$a = time();
         $string = null;
-        switch (date('D', time())){
+        switch (date('D', $a)){
             case "Mon":
                 $string = 'lundi';
                 break;

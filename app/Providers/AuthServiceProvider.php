@@ -2,16 +2,22 @@
 
 namespace App\Providers;
 
+use App\Models\AbsencesList;
 use App\Models\BCList;
 use App\Models\Facture;
 use App\Models\Grade;
+use App\Models\ModifyServiceReq;
+use App\Models\Prime;
 use App\Models\Rapport;
 use App\Models\TestPoudre;
 use App\Models\User;
+use App\Policies\AbsencesPolicy;
 use App\Policies\BlackCodePolicy;
 use App\Policies\FacturesPolicy;
 use App\Policies\PouderTestPolicy;
+use App\Policies\PrimePolicy;
 use App\Policies\RapportsPolicy;
+use App\Policies\ServiceReqPolicy;
 use App\Policies\UserPolicy;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Gate;
@@ -30,6 +36,9 @@ class AuthServiceProvider extends ServiceProvider
         TestPoudre::class => PouderTestPolicy::class,
         Facture::class => FacturesPolicy::class,
         User::class => UserPolicy::class,
+        AbsencesList::class, AbsencesPolicy::class,
+        Prime::class, PrimePolicy::class,
+        ModifyServiceReq::class, ServiceReqPolicy::class,
     ];
 
     /**

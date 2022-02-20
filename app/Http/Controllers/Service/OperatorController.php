@@ -24,6 +24,24 @@ class OperatorController extends Controller
 
     public static function setService(User $user, bool $admin): bool
     {
+        if(!$user->OnService){
+            $thisWeek = WeekService::where('week_number', ServiceGetterController::getWeekNumber())
+                ->where('user_id', $user->id)
+                ->where('service',$user->service);
+
+            if($thisWeek->count() > 0 ){
+                $thisWeek = $thisWeek->first();
+                if($thisWeek[LayoutController::getdaystring()] === 'absent(e)'){
+                    if($user->id === Auth::user()->id){
+                        Notify::dispatch('Impossible vous êtes absent(e)', 3, $user->id);
+                    }else{
+                        Notify::dispatch( 'Impossible ' . $user->name .  ' est absent(e)', 3, Auth::user()->id);
+                    }
+                    return false;
+                }
+            }
+        }
+
 
         if($user->OnService){
             $user->OnService = false;
@@ -40,11 +58,14 @@ class OperatorController extends Controller
             $service->total = $formated;
             $service->save();
 
-            $WeekService = WeekService::where('week_number', $week)->where('user_id', $user->id);
+            $WeekService = WeekService::where('week_number', $week)->where('user_id', $user->id)->where('service',$user->service);
             if($WeekService->count() == 1){
                 $WeekService = $WeekService->first();
                 $total = $WeekService->total;
                 $day = $WeekService[LayoutController::getdaystring()];
+                if($day === 'absent(e)'){
+                    $day = '00:00:00';
+                }
                 $WeekService->total = TimeCalculate::HoursAdd($total, $formated);
                 $WeekService[LayoutController::getdaystring()] = TimeCalculate::HoursAdd($day, $formated);
                 $WeekService->save();

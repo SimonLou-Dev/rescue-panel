@@ -20,10 +20,11 @@ use Maatwebsite\Excel\Facades\Excel;
 class ServiceGetterController extends Controller
 {
 
-    public static function getWeekNumber(): int
+    public static function getWeekNumber(int $a = null): int
     {
-        $day = LayoutController::getdaystring();
-        $date = (int) date('W', time());
+        if(is_null($a))$a = time();
+        $day = LayoutController::getdaystring($a);
+        $date = (int) date('W', $a);
         if($day == 'dimanche'){
             return $date +1;
         }else{
@@ -53,7 +54,7 @@ class ServiceGetterController extends Controller
             $primes = Prime::where('user_id', $user->id)->where('week_number', $week)->get();
             $total = 0;
             foreach ($primes as $prime){
-                $total = $total + $prime->getItem->montant;
+                $total = $total + $prime->montant;
             }
             if(Session::get('service')[0] == 'SAMS'){
                 $grade = $user->GetMedicGrade;
@@ -117,6 +118,7 @@ class ServiceGetterController extends Controller
                 $splited = explode(':',$week->total);
                 $week->total = $splited[0] + ($splited[1] > 30 ? 1 : 0);
             }
+
             array_push($weektotal, $week->total);
         }
         $thisWeek = WeekService::where('user_id', Auth::id())->where('service', Session::get('service')[0])->where('week_number',$date);
@@ -137,7 +139,7 @@ class ServiceGetterController extends Controller
 
             $graphicY = array(null, null,null,null,null,null,null);
             for ($a =0; $a < $dayNbr; $a++){
-                if($graphicYdata != '00:00:00'){
+                if($graphicYdata != '00:00:00' && $graphicYdata != 'absent(e)'){
                     $splited = explode(':',$graphicYdata[$a]);
                     $graphicY[$a] = $splited[0] + ($splited[1] > 30 ? 1 : 0);
                 }
@@ -211,7 +213,7 @@ class ServiceGetterController extends Controller
             $primes = Prime::where('week_number', $date)->where('user_id', $user->id)->get();
             if($primes->count() > 0){
                 foreach ($primes as $prime){
-                    $item->prime += $prime->getItem->montant;
+                    $item->prime += $prime->montant;
                 }
             }
         }

@@ -20,37 +20,46 @@ class PrimesController extends Controller
     public static function AddValidPrimesToUser(int $userId, int $primeId){
         $prime = new Prime();
         $prime->week_number = ServiceGetterController::getWeekNumber();
-        $prime->user_id = $userId;
+        $prime->user_id = 0;
         $prime->item_id = $primeId;
         $prime->accepted = true;
         $user = User::where('id',$userId)->first();
         $prime->service = ($user->medic ? 'SAMS' : 'LSCoFD');
         $prime->save();
-/*
         $embed = [
             [
-                'title'=>'Prime Validée :',
-                'color'=>'1285790',
+                'title'=>'Prime validée :',
+                'color'=>'65361',
                 'fields'=>[
                     [
                         'name'=>'Personnel : ',
-                        'value'=>$prime->getUser->name,
+                        'value'=>$prime->getUser->name  . ' (' . Session::get('service')[0] . ')',
                         'inline'=>false
                     ],[
-                        'name'=>'Prime : ',
-                        'value'=>'$' .  $prime->getItem->montant . ' ' . $prime->getItem->name,
-                        'inline'=>false
+                        'name'=>'Montant : ',
+                        'value'=>'$' .  $prime->montant,
+                        'inline'=>true
+                    ],[
+                        'name'=>'Raison : ',
+                        'value'=>$prime->reason,
+                        'inline'=>true
                     ]
                 ],
                 'footer'=>[
-                    'text' => 'Validée par : MDT',
+                    'text' => 'Validée par : MDT'
                 ]
             ]
         ];
-        dispatch(new ProcessEmbedPosting([env('WEBHOOK_MONEY')], $embed, null));*/
+        if(Session::get('service')[0]=== 'LSCoFD'){
+            \Discord::postMessage(DiscordChannel::FireRemboursement, $embed, $prime);
+        }else{
+            \Discord::postMessage(DiscordChannel::MedicRemboursement, $embed, $prime);
+        }
     }
 
     public function addReqPrimes(request $request){
+
+        $this->authorize('create', Prime::class);
 
         $request->validate([
             'reason'=>['string'],
@@ -66,7 +75,7 @@ class PrimesController extends Controller
         $prime->save();
         $embed = [
             [
-                'title'=>'Demande de Prime :',
+                'title'=>'demande de prime :',
                 'color'=>'1285790',
                 'fields'=>[
                     [
@@ -96,25 +105,32 @@ class PrimesController extends Controller
     }
 
     public function acceptReqPrimes(request $request, int $primesId){
+        $this->authorize('update', Prime::class);
+
         $prime = Prime::where('id', $primesId)->first();
         $prime->accepted = true;
+        $prime->admin_id = Auth::user()->id;
         $prime->save();
 
-        event(new Notify('Prime acceptée',1));
+        Notify::broadcast('Prime acceptée',1, Auth::user()->id);
 
         $embed = [
             [
-                'title'=>'Prime Validée :',
-                'color'=>'1285790',
+                'title'=>'Prime validée :',
+                'color'=>'65361',
                 'fields'=>[
                     [
                         'name'=>'Personnel : ',
-                        'value'=>$prime->getUser->name,
+                        'value'=>$prime->getUser->name  . ' (' . Session::get('service')[0] . ')',
                         'inline'=>false
                     ],[
-                        'name'=>'Prime : ',
-                        'value'=>'$' .  $prime->getItem->montant . ' ' . $prime->getItem->name,
-                        'inline'=>false
+                        'name'=>'Montant : ',
+                        'value'=>'$' .  $prime->montant,
+                        'inline'=>true
+                    ],[
+                        'name'=>'Raison : ',
+                        'value'=>$prime->reason,
+                        'inline'=>true
                     ]
                 ],
                 'footer'=>[
@@ -123,42 +139,101 @@ class PrimesController extends Controller
             ]
         ];
 
-        $this->dispatch(new ProcessEmbedPosting([env('WEBHOOK_MONEY')],$embed, null));
+        if($prime->discord_msg_id){
+            if(Session::get('service')[0]=== 'LSCoFD'){
+                \Discord::updateMessage(DiscordChannel::FireRemboursement, $prime->discord_msg_id, $embed);
+            }else{
+                \Discord::updateMessage(DiscordChannel::MedicRemboursement, $prime->discord_msg_id, $embed);
+            }
+        }else{
+            if(Session::get('service')[0]=== 'LSCoFD'){
+                \Discord::postMessage(DiscordChannel::FireRemboursement, $embed, $prime);
+            }else{
+                \Discord::postMessage(DiscordChannel::MedicRemboursement, $embed, $prime);
+            }
+        }
 
 
         return response()->json([],201);
     }
 
     public function refuseReqPrimes(request $request, int $primesId){
+        $this->authorize('update', Prime::class);
         $prime = Prime::where('id', $primesId)->first();
         $prime->accepted = false;
+        $prime->admin_id = Auth::user()->id;
         $prime->save();
 
-        event(new Notify('Prime refusée',1));
+        Notify::broadcast('Prime refusée',1, Auth::user()->id);
+
+        $embed = [
+            [
+                'title'=>'Prime refusée :',
+                'color'=>'16711684',
+                'fields'=>[
+                    [
+                        'name'=>'Personnel : ',
+                        'value'=>$prime->getUser->name  . ' (' . Session::get('service')[0] . ')',
+                        'inline'=>false
+                    ],[
+                        'name'=>'Montant : ',
+                        'value'=>'$' .  $prime->montant,
+                        'inline'=>true
+                    ],[
+                        'name'=>'Raison : ',
+                        'value'=>$prime->reason,
+                        'inline'=>true
+                    ]
+                ],
+                'footer'=>[
+                    'text' => 'Refusée par : ' . Auth::user()->name,
+                ]
+            ]
+        ];
+
+        if($prime->discord_msg_id){
+            if(Session::get('service')[0]=== 'LSCoFD'){
+                \Discord::updateMessage(DiscordChannel::FireRemboursement, $prime->discord_msg_id, $embed);
+            }else{
+                \Discord::updateMessage(DiscordChannel::MedicRemboursement, $prime->discord_msg_id, $embed);
+            }
+        }else{
+            if(Session::get('service')[0]=== 'LSCoFD'){
+                \Discord::postMessage(DiscordChannel::FireRemboursement, $embed, $prime);
+            }else{
+                \Discord::postMessage(DiscordChannel::MedicRemboursement, $embed, $prime);
+            }
+        }
 
         return response()->json([],201);
     }
 
     public function gelAllReqPrimes(){
-        $primes = Prime::where('service', Session::get('service')[0])->where('accepted', null)->orderBy('id','desc')->take(100)->get();
-        if(count($primes) < 20){
-            $primes = Prime::where('service', Session::get('service')[0])->take(100)->orderBy('id','desc')->get();
+        $this->authorize('viewAny', Prime::class);
+        $primes = Prime::where('accepted', null)->where('service', Session::get('service')[0]);
+        if($primes->count() < 10){
+            $primes = Prime::where('service', Session::get('service')[0])->get()->take(15);
+        }else{
+            $primes = $primes->get();
         }
+
         foreach ($primes as $prime){
             $prime->getUser;
+            if($prime->admin_id >= 0){
+
+                if($prime->admin_id!== 0){
+                    $prime->GetAdmin;
+                }
+            }
         }
         return response()->json(['primes'=>$primes]);
     }
 
     public function getMyReqPrimes(){
-        $primes = Prime::where('user_id', Auth::user()->id)->get();
-        foreach ($primes as $prime){
-            $prime->getItem;
-        }
-        $list = PrimeItem::where('id','!=','1')->get();
+        $this->authorize('viewMy', Prime::class);
+        $primes = Prime::where('user_id', Auth::user()->id)->where('service', Session::get('service')[0])->get();
         return response()->json([
             'primes'=>$primes,
-            'list'=>$list,
         ]);
 
     }

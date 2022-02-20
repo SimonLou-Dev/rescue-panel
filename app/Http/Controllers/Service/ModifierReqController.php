@@ -17,6 +17,8 @@ class ModifierReqController extends Controller
 
     public function postModifyTimeServiceRequest(request $request)
     {
+        $this->authorize('create', ModifyServiceReq::class);
+
         $request->validate([
             'reason'=>'required',
             'action'=>'digits_between:1,2',
@@ -43,22 +45,18 @@ class ModifierReqController extends Controller
 
     public function acceptModifyTimeServiceRequest(string $id)
     {
+        $this->authorize('update', ModifyServiceReq::class);
         $reqst = ModifyServiceReq::where('id',$id)->first();
-        $reqst->acceped = true;
+        $reqst->accepted = true;
         $reqst->admin_id = Auth::user()->id;
         $user = $reqst->GetUser;
-        $week = WeekService::where('user_id',$user->id)->where('week_number',$reqst->week_number);
-        $time = OperatorController::secondToTimeConvert($reqst->time_quantity).':00';
-
+        $week = WeekService::where('user_id',$user->id)->where('week_number',$reqst->week_number)->where('service', Session::get('service')[0]);
+        $time = ($reqst->adder ? '':'-') . $reqst->time_quantity.':00';
 
         if($week->count() == 1){
             $week = $week->first();
-            $ajustement = OperatorController::ajustementCalculator($week->ajustement, $time, $reqst->adder);
-            if($reqst->adder){
-                $total = OperatorController::addTime($week->total, $time);
-            }else{
-                $total = OperatorController::removeTime($week->total, $time);
-            }
+            $ajustement = \TimeCalculate::HoursAdd($week->ajustement, $time);
+            $total = \TimeCalculate::HoursAdd($week->total,$time);
             $week->total = $total;
             $week->ajustement = $ajustement;
 
@@ -71,26 +69,29 @@ class ModifierReqController extends Controller
         }
         $week->save();
         $reqst->save();
-        event(new Notify('Le temps a été modifié',1));
+        Notify::broadcast('Le temps a été modifié',1, Auth::user()->id);
         return response()->json([]);
     }
 
     public function refuseModifyTimeServiceRequest(string $id)
     {
-
+        $this->authorize('update', ModifyServiceReq::class);
         $reqst = ModifyServiceReq::where('id',$id)->first();
-        $reqst->acceped = false;
+        $reqst->accepted = false;
         $reqst->admin_id = Auth::user()->id;
         $reqst->save();
-        event(new Notify('La demande a été réfusée',1));
+        Notify::broadcast('La demande a été réfusée',1, Auth::user()->id);
         return response()->json([]);
     }
 
     public function getAllModifyTimeServiceRequest(): \Illuminate\Http\JsonResponse
     {
-        $reqs = ModifyServiceReq::where('acceped', null)->orderBy('id','desc')->take(100)->get();
-        if(count($reqs) < 20){
-            $reqs = ModifyServiceReq::take(100)->orderBy('id','desc')->get();
+        $this->authorize('viewAny', ModifyServiceReq::class);
+        $reqs = ModifyServiceReq::where('accepted', null)->where('service', Session::get('service')[0]);
+        if($reqs->count() < 10){
+            $reqs = ModifyServiceReq::where('service', Session::get('service')[0])->get()->take(15);
+        }else{
+            $reqs = $reqs->get();
         }
 
         foreach ($reqs as $req){
@@ -98,7 +99,6 @@ class ModifierReqController extends Controller
                 $req->GetAdmin;
             }
             $req->GetUser;
-            $req->time_quantity = OperatorController::secondToTimeConvert($req->time_quantity);
         }
 
 
@@ -109,6 +109,7 @@ class ModifierReqController extends Controller
 
     public function getMyModifyTimeServiceRequest(): \Illuminate\Http\JsonResponse
     {
+        $this->authorize('viewMy', ModifyServiceReq::class);
         $user = User::where('id', Auth::id())->first();
 
         $reqs = ModifyServiceReq::where('user_id', $user->id)->where('service',Session::get('service')[0])->orderBy('id','desc')->take(10)->get();

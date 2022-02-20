@@ -77,15 +77,18 @@ class CreateGradesTable extends Migration
             //Demandes
             $table->boolean('post_service_req')->default(false);
             $table->boolean('view_service_req')->default(false);
+            $table->boolean('viewAll_service_req')->default(false);//New
             $table->boolean('modify_service_req')->default(false);
 
             $table->boolean('post_prime_req')->default(false);
             $table->boolean('view_prime_req')->default(false);
+            $table->boolean('viewAll_prime_req')->default(false);//New
             $table->boolean('modify_prime_req')->default(false);
 
-            $table->boolean('post_remboursement_req')->default(false);
-            $table->boolean('view_remboursement_req')->default(false);
-            $table->boolean('modify_remboursement_req')->default(false);
+            $table->boolean('post_absences_req')->default(false);//replace to ABS
+            $table->boolean('view_absences_req')->default(false);//replace to ABS
+            $table->boolean('viewAll_absences_req')->default(false);//replace to ABS
+            $table->boolean('modify_absences_req')->default(false);//replace to ABS
 
             //Service
             $table->boolean('view_rappportHoraire')->default(false);

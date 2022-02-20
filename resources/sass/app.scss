@@ -1487,3 +1487,51 @@ body{
         }
     }
 }
+
+.demandes{
+    width: 100%;
+    height: 100%;
+    overflow-y: scroll;
+    .header{
+        width: 100%;
+        margin-top: 1px;
+        display: flex;
+        padding: 10px;
+        justify-content: space-evenly;
+        position: fixed;
+        flex-direction: row;
+        height: 40px;
+        z-index: 10;
+        background-color: $bgmain;
+    }
+    .page-container{
+        padding-top: 50px;
+        overflow-y: auto;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        height: calc(100vh - 121px);
+        overflow-y: auto;
+        .request-container{
+            margin: 10px auto;
+            h1{
+                text-align: center;
+            }
+            .table-container{
+                background-color: $bg1;
+                border-radius: $border-radius;
+                th{
+                    position: unset;
+                }
+            }
+            th,td{
+                font-size: 18px;
+            }
+            .btn-container{
+                display: flex;
+                flex-direction: row;
+                flex-wrap: wrap;
+            }
+        }
+    }
+}

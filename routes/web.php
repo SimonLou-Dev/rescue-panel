@@ -170,6 +170,17 @@ Route::get('/data/service/req/waitinglist', [ModifierReqController::class,'getAl
 //Absence req
 Route::get('/data/absence', [AbsencesController::class, 'getMyAbsences']);
 Route::post('/data/absence', [AbsencesController::class, 'postMyReqAbsence']);
+Route::put('/data/absence/accept/{id}', [AbsencesController::class, 'acceptReqAbsence']);
+Route::put('/data/absence/refuse/{id}', [AbsencesController::class, 'refuseReqAbsence']);
+Route::get('/data/admin/absence', [AbsencesController::class, 'getAbsences']);
+
+// Primes Req
+Route::get('/data/primes/getall', [PrimesController::class, 'gelAllReqPrimes']);
+Route::get('/data/primes/getmy', [PrimesController::class, 'getMyReqPrimes']);
+Route::post('/data/primes/post', [PrimesController::class, 'addReqPrimes']);
+Route::put('/data/primes/accept/{id}',[PrimesController::class, 'acceptReqPrimes']);
+Route::put('/data/primes/refuse/{id}', [PrimesController::class, 'refuseReqPrimes']);
+
 
 //User management
 Route::get('/data/users/getall', [UserController::class, 'getUser']);
@@ -237,12 +248,7 @@ Route::delete('/data/user/bg/delete', [AccountController::class, 'deleteBgImg'])
 Route::get('/data/admin/grades/get', [UserGradeController::class, 'getAllGrades']);
 Route::put('/data/admin/grades/{perm}/{grade_id}', [UserGradeController::class, 'changePerm']);
 
-// Primes
-Route::get('/data/primes/getall', [PrimesController::class, 'gelAllReqPrimes']);
-Route::get('/data/primes/getmy', [PrimesController::class, 'getMyReqPrimes']);
-Route::post('/data/primes/post', [PrimesController::class, 'addReqPrimes']);
-Route::put('/data/primes/accept/{id}',[PrimesController::class, 'acceptReqPrimes']);
-Route::put('/data/primes/refuse/{id}', [PrimesController::class, 'refuseReqPrimes']);
+
 
 
 //Temp upload

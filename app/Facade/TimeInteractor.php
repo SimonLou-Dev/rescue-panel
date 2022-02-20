@@ -18,7 +18,6 @@ class TimeInteractor
         }
 
 
-
         return  $this->secToHours($base + $operator);
     }
 
@@ -30,6 +29,8 @@ class TimeInteractor
         if(is_string($operator)){
             $operator = $this->dateToSec($operator);
         }
+
+
 
         return  '';
     }
@@ -61,7 +62,7 @@ class TimeInteractor
         }
 
         if($symbole === '-'){
-            $final =+  -2*$final;
+            $final = -1*$final;
         }
 
         return $final;

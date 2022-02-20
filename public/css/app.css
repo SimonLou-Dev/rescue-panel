@@ -1911,4 +1911,52 @@ body {
   background-color: #435089;
 }
 
+.demandes {
+  width: 100%;
+  height: 100%;
+  overflow-y: scroll;
+}
+.demandes .header {
+  width: 100%;
+  margin-top: 1px;
+  display: flex;
+  padding: 10px;
+  justify-content: space-evenly;
+  position: fixed;
+  flex-direction: row;
+  height: 40px;
+  z-index: 10;
+  background-color: #302E38;
+}
+.demandes .page-container {
+  padding-top: 50px;
+  overflow-y: auto;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  height: calc(100vh - 121px);
+  overflow-y: auto;
+}
+.demandes .page-container .request-container {
+  margin: 10px auto;
+}
+.demandes .page-container .request-container h1 {
+  text-align: center;
+}
+.demandes .page-container .request-container .table-container {
+  background-color: #1B2037;
+  border-radius: 10px;
+}
+.demandes .page-container .request-container .table-container th {
+  position: unset;
+}
+.demandes .page-container .request-container th, .demandes .page-container .request-container td {
+  font-size: 18px;
+}
+.demandes .page-container .request-container .btn-container {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
 /*# sourceMappingURL=app.css.map */

@@ -26,6 +26,7 @@ class ModifyServiceReq extends Model
     protected $casts = [
         'adder'=>'boolean',
         'accepted'=>'boolean',
+        'created_at'=>'datetime:d/m/Y'
     ];
 
     protected function timeQuantity():Attribute

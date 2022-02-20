@@ -31,7 +31,12 @@ function RapportHoraire(props) {
             url : '/data/service/alluser/'+ (currentWeek ?? '')  +'?query='+a+'&page='+c,
             method: 'GET'
         }).then(r => {
-            setUsers(r.data.service.data);
+            let final = [];
+            let keys = Object.keys(r.data.service.data);
+            keys.forEach((key) => {
+                final[key] = r.data.service.data[key];
+            });
+            setUsers(final);
             setPagination(r.data.service);
             setMaxWeek(r.data.maxweek);
             if(loading){
