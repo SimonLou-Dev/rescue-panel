@@ -105,17 +105,10 @@ class ServiceGetterController extends Controller
     public function getUserService(): \Illuminate\Http\JsonResponse
     {
         $date = $this::getWeekNumber();
-        $reqweek = WeekService::where('week_number', $date)->orderBy('id','asc')->where('user_id', Auth::id())->take(5)->get();
-        $weekcount = WeekService::where('user_id', Auth::id())->count();
-        $weeks = WeekService::where('user_id', Auth::id())->skip(($weekcount -5))->take(5)->get();
+        $weekcount = WeekService::where('user_id', Auth::id())->where('service', Session::get('service')[0])->count();
+        $weeks = WeekService::where('user_id', Auth::id())->skip(($weekcount -5))->where('service', Session::get('service')[0])->take(5)->get();
 
-        $usercount = Service::where('user_id', Auth::user()->id)->count();
-        if($usercount > 10){
-            $usercount = $usercount - 10;
-        }else{
-            $usercount = 0;
-        }
-        $userserivces= Service::where('user_id', Auth::user()->id)->orderBy('id','asc')->skip((int) $usercount)->take(10)->get();
+
         $weeknumber = array();
         $weektotal = array();
         foreach ($weeks as $week){
@@ -126,24 +119,46 @@ class ServiceGetterController extends Controller
             }
             array_push($weektotal, $week->total);
         }
-        $usersserviceid = array();
-        $userserivcetime = array();
-        foreach ($userserivces as $userserivce){
-            array_push($usersserviceid, $userserivce->id);
-            if(!is_null($userserivce->total)){
-                $splited = explode(':',$userserivce->total);
-                $userserivce->total = $splited[0] + ($splited[1] > 30 ? 1 : 0);
+        $thisWeek = WeekService::where('user_id', Auth::id())->where('service', Session::get('service')[0])->where('week_number',$date);
+        $thisExist = $thisWeek->count() > 0;
+
+        $graphicX = array('dimanche','lundi','mardi','mercredi','jeudi','vendredi','samedi');
+        if($thisExist){
+            $thisWeek = $thisWeek->first();
+            $graphicYdata = array($thisWeek->dimanche, $thisWeek->lundi, $thisWeek->mardi,$thisWeek->mercredi,$thisWeek->jeudi,$thisWeek->vendredi,$thisWeek->samedi);
+            $dayNbr = 0;
+            if(LayoutController::getdaystring() === 'dimanche') $dayNbr = 1;
+            if(LayoutController::getdaystring() === 'lundi') $dayNbr = 2;
+            if(LayoutController::getdaystring() === 'mardi') $dayNbr = 3;
+            if(LayoutController::getdaystring() === 'mercredi') $dayNbr = 4;
+            if(LayoutController::getdaystring() === 'jeudi') $dayNbr = 5;
+            if(LayoutController::getdaystring() === 'vendredi') $dayNbr = 6;
+            if(LayoutController::getdaystring() === 'samedi') $dayNbr = 7;
+
+            $graphicY = array(null, null,null,null,null,null,null);
+            for ($a =0; $a < $dayNbr; $a++){
+                if($graphicYdata != '00:00:00'){
+                    $splited = explode(':',$graphicYdata[$a]);
+                    $graphicY[$a] = $splited[0] + ($splited[1] > 30 ? 1 : 0);
+                }
+
             }
-            array_push($userserivcetime, $userserivce->total);
+
+
+        }else{
+            $graphicY = array(null, null,null,null,null,null,null);
         }
+
 
 
         return response()->json([
             'status'=>'ok',
-            'week'=>$reqweek,
-            'services'=>$userserivces,
             'weekgraph'=>[$weeknumber, $weektotal],
-            'servicegraph'=>[$usersserviceid, $userserivcetime]
+            'thisWeek'=>[
+                'total'=>$thisExist ? $thisWeek->total : '00:00:00',
+                'ajustement'=>$thisExist ? $thisWeek->ajustement : '00:00:00',
+                'graphic'=>[$graphicX, $graphicY]
+            ]
         ]);
 
     }

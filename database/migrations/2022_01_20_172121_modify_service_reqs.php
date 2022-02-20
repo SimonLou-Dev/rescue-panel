@@ -17,6 +17,7 @@ class ModifyServiceReqs extends Migration
             $table->id();
             $table->integer('user_id');
             $table->integer('week_number');
+            $table->string('service');
             $table->string('reason');
             $table->boolean('adder'); //true add time / false remove time
             $table->bigInteger('time_quantity'); // in Sec

@@ -14,13 +14,7 @@ class PrimesItem extends Migration
     public function up()
     {
 
-        Schema::create('PrimeItems', function (Blueprint $table) {
-            $table->id();
-            $table->integer('montant');
-            $table->string('name');
-            $table->softDeletes();
-            $table->timestamps();
-        });
+        Schema::dropIfExists('PrimeItems');
     }
 
     /**

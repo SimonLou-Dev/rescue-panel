@@ -441,9 +441,44 @@ class UserController extends Controller
      */
     public function exportListPersonnelExel(): \Symfony\Component\HttpFoundation\BinaryFileResponse
     {
-        $users = User::where('grade_id', '>', 1)->where('grade_id', '<', 10)->orderByDesc('grade_id')->get();
+        $this->authorize('viewPersonnelList', User::class);
+        $me = User::where('id', Auth::user()->id)->first();
+        $meService = Session::get('service')[0];
+        $users = User::all();
+        $forgetable = array();
+        for($a = 0; $a < $users->count(); $a++){
+            if(!$me->dev){
+                $user = $users[$a];
+                if($meService === "SAMS"){
+                    if(!($user->medic || ($user->fire && $user->crossService))){
+                        array_push($forgetable, $a);
+                    }
+                }else if($meService === "LSCoFD"){
+                    if(!($user->fire || ($user->medic && $user->crossService))){
+                        array_push($forgetable, $a);
+                    }
+                }
+            }
+        }
 
-        $column[] = array('id','nom', 'matricule', 'grade', 'discordid', 'tel', 'compte', 'pilote', 'nombre de sanctions');
+        foreach ($forgetable as $it){
+            $users->forget($it);
+        }
+        foreach ($users as $user){
+            if($meService === 'SAMS'){
+                $user->grade = $user->GetMedicGrade;
+            }if($meService === 'LSCoFD'){
+                $user->grade =$this->GetFireGrade;
+            }
+
+        }
+
+
+        $users = $users->filter(function ($item){
+            return \Gate::allows('view', $item);
+        });
+
+        $column[] = array('id','nom', 'matricule', 'grade', 'discordid', 'tel', 'compte', 'pilote','service d\'arrivée','cross service', 'nombre de sanctions');
 
         foreach ($users as $user){
 
@@ -452,18 +487,20 @@ class UserController extends Controller
                 'id' => $user->id,
                 'nom' => $user->name,
                 'matricule' => $user->matricule ? $user->matricule : '',
-                'grade' => $user->GetGrade->name,
+                'grade' => $user->grade->name,
                 'discordid' => $user->discord_id ? $user->discord_id : '',
                 'tel' => $user->tel,
                 'compte' => $user->compte,
                 'pilote' => $user->pilote ? 'oui' : 'non',
+                "service d'arrivée"=>$user->medic ? 'SAMS' : 'LSCoFD',
+                'cross service'=>$user->crossService ? 'oui' : 'non',
                 'nombre de sanctions' => count($sanctions),
             ];
 
         }
         $export = new ExelPrepareExporter($column);
 
-        return Excel::download((object)$export, 'BCFD_UserExport_'. now()->timestamp .'.xlsx');
+        return Excel::download((object)$export, $meService.'_UserExport_'. now()->timestamp .'.xlsx');
     }
 
 }

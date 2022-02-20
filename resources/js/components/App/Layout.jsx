@@ -27,6 +27,7 @@ import DiscordBots from "./Manager/DiscordBots";
 import Logs from "./Manager/Logs";
 import ContentManager from "./Manager/ContentManager";
 import AnnoncesInfos from "./Manager/AnnoncesInfos";
+import MyAccount from "./Other/account/MyAccount";
 
 
 function Layout(props) {
@@ -232,6 +233,9 @@ function Layout(props) {
             }
             <div className={'app-page-container'}>
                 <UserContext.Provider value={user}>
+                    <Route path={'/account'} component={MyAccount}/>
+
+
                     <Route path={'/patients/rapport'} component={Rapport}/>
                     <Route path={'/patients/dossiers'} component={DossiersPatient}/>
                     <Route path={'/patients/:patientId/view'} component={RapportReview}/>

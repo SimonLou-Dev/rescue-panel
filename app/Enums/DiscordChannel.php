@@ -30,4 +30,5 @@ final class DiscordChannel extends Enum
     const MedicSanctions = "MedicSanctions";
     const FireSanctions = "FireSanctions";
     const Poudre = "poudre";
+    const Absences = 'Absences';
 }

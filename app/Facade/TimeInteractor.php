@@ -47,7 +47,7 @@ class TimeInteractor
         return  '';
     }
 
-    public function hoursToSec(string|null $base):int
+    public function hoursToSec(string|null $base, bool $displaySec = true):int
     {
         if(is_null($base)) return 0;
         $symbole = substr($base, 0, 1-(strlen($base)));
@@ -56,7 +56,10 @@ class TimeInteractor
         $final = 0;
         $final += (int) $exploded[0]*3600;
         $final += (int) $exploded[1]*60;
-        $final +=  (int) $exploded[2];
+        if($displaySec){
+            $final +=  (int) $exploded[2];
+        }
+
         if($symbole === '-'){
             $final =+  -2*$final;
         }
@@ -65,7 +68,7 @@ class TimeInteractor
 
     }
 
-    public function secToHours(string|null $base):string
+    public function secToHours(string|null $base, bool $displaySec = true):string
     {
 
         if(is_null($base)) return 0;
@@ -79,8 +82,12 @@ class TimeInteractor
         $sec = $hoursR % 60;
         $sec = ($sec < 10 ? '0' . $sec : $sec);
 
+        if($displaySec) {
+            return ($symbole === '-' ? '-' :'') . $hours. ':' . $min . ':' . $sec;
+        }else{
+            return ($symbole === '-' ? '-' :'') . $hours. ':' . $min;
+        }
 
-         return ($symbole === '-' ? '-' :'') . $hours. ':' . $min . ':' . $sec;
     }
 
 

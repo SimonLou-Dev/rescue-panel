@@ -27,6 +27,8 @@ class UserUpdated implements ShouldBroadcastNow
         }else if($this->user->service === "LSCoFD"){
             $this->user->grade = $this->user->GetFireGrade;
         }
+        $this->user->GetMedicGrade;
+        $this->user->GetFireGrade;
     }
 
     /**

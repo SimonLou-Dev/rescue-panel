@@ -45,7 +45,7 @@ function ListPersonnel(props) {
             <div className={'table-header'}>
                 <PageNavigator prev={()=> {UserList(search,page-1)}} next={()=> {UserList(search,page-1)}} prevDisabled={(paginate.prev_page_url === null)} nextDisabled={(paginate.next_page_url === null)}/>
                 <Searcher value={search} callback={(v) => {UserList(v)}}/>
-                <a href={''} target={'_blank'} className={'btn exporter'}><img alt={''} src={'/assets/images/xls.png'}/></a>
+                <a href={'/data/users/export'} target={'_blank'} className={'btn exporter'}><img alt={''} src={'/assets/images/xls.png'}/></a>
             </div>
             <div className={'table-container'}>
                 <table>
@@ -58,6 +58,8 @@ function ListPersonnel(props) {
                         <th>discord id</th>
                         <th>grade</th>
                         <th>pilote</th>
+                        <th>crossService</th>
+                        <th>service actuel</th>
                         <th>service</th>
                     </tr>
                     </thead>
@@ -74,12 +76,23 @@ function ListPersonnel(props) {
                                     <option key={g.id+'.'+u.id} value={g.id}>{g.name}</option>
                                 )}
                             </select></td>
-                            <SwitchBtn checked={u.pilote} number={'A'+u.id} callback={async () => {
-                                await axios({
-                                    method: 'PUT',
-                                    url: '/data/users/pilote/' + u.id
-                                }).then(r=>{UserList()})
-                            }}/>
+                            <td>
+                                <SwitchBtn checked={u.pilote} number={'A'+u.id} callback={async () => {
+                                    await axios({
+                                        method: 'PUT',
+                                        url: '/data/users/pilote/' + u.id
+                                    }).then(r=>{UserList()})
+                                }}/>
+                            </td>
+                            <td>
+                                <SwitchBtn checked={u.crossService} number={'A'+u.id} callback={async () => {
+                                    await axios({
+                                        method: 'PUT',
+                                        url: '/data/users/pilote/' + u.id
+                                    }).then(r=>{UserList()})
+                                }}/>
+                            </td>
+                            <td>{u.service}</td>
                             <td><button className={'btn'}><img alt={''} src={'/assets/images/' + (u.OnService ? 'accept' : 'decline') +'.png'}
                             onClick={async () => {
                                 await axios({

@@ -17,12 +17,10 @@ function RapportHoraire(props) {
     }
 
     useEffect(()=>{
-        UserList().then(()=>{
-            setCurrentWeek(maxWeek);
-        });
+        UserList(search, page, true)
     }, [])
 
-    const UserList = async (a = search , c = page) => {
+    const UserList = async (a = search , c = page, loading = false) => {
         if(c !== page){
             setPage(c);
         }
@@ -36,7 +34,9 @@ function RapportHoraire(props) {
             setUsers(r.data.service.data);
             setPagination(r.data.service);
             setMaxWeek(r.data.maxweek);
-
+            if(loading){
+             setCurrentWeek(r.data.maxweek);
+            }
         })
 
     }

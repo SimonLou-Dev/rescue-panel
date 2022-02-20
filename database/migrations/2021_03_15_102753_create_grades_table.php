@@ -61,6 +61,7 @@ class CreateGradesTable extends Migration
 
             //Personnel
             $table->boolean('view_PersonnelList')->default(false);
+            $table->boolean('set_crossService')->default(false);
             $table->boolean('set_grade')->default(false);
             $table->boolean('set_pilote')->default(false);
             $table->boolean('view_personnelSheet')->default(false);

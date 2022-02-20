@@ -1639,7 +1639,7 @@ body {
 }
 .TablePage .PageCenter {
   margin: 40px auto 0 auto;
-  width: 80%;
+  width: 85%;
   max-height: 80%;
   overflow-y: hidden;
   border-radius: 10px;
@@ -1696,6 +1696,219 @@ body {
 .TablePage .PageCenter .table-container table button {
   margin: 0 auto;
   background-color: #3D487B;
+}
+
+.MyAccount {
+  width: 100vw;
+  height: calc(100vh - 70px);
+  display: flex;
+}
+.MyAccount .center {
+  width: 85%;
+  min-width: 300px;
+  margin: auto;
+  height: 80%;
+}
+.MyAccount .center .pageSelector {
+  display: flex;
+  flex-direction: row;
+  height: 40px;
+}
+.MyAccount .center .pageSelector button {
+  padding: 0 10px;
+  border: none;
+  margin: 0 2px;
+  font-size: 100%;
+  font-weight: 600;
+  border-radius: 10px 10px 0 0;
+  cursor: pointer;
+  transition: all 400ms;
+  background-color: #3D487B;
+  color: #FFF;
+}
+.MyAccount .center .pageSelector button:hover {
+  background-color: #222844;
+  color: #E9E9E9;
+}
+.MyAccount .center .pageSelector button:first-child {
+  margin: 0 2px 0 0;
+}
+.MyAccount .center .pageSelector .selected {
+  background-color: #1B2037;
+  cursor: default;
+  color: #FFF;
+}
+.MyAccount .center .pageSelector .selected:hover {
+  background-color: #1B2037 !important;
+  color: #FFF !important;
+}
+.MyAccount .center .PageDisplayed {
+  background-color: #1B2037;
+  width: 100%;
+  height: calc(100% - 40px);
+  border-radius: 0 10px 10px 10px;
+}
+.MyAccount .center .Infos {
+  display: flex;
+  flex-direction: row;
+}
+.MyAccount .center .Infos .modifier {
+  width: 40%;
+  margin: auto 0;
+  padding: 10px 15px;
+  height: 90%;
+  overflow-y: scroll;
+  border-right: 1px #ED3444 solid;
+}
+.MyAccount .center .Infos .other {
+  width: 59%;
+  padding: 10px 15px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+}
+.MyAccount .center .Infos .other .sanctions h1 {
+  text-align: center;
+}
+.MyAccount .center .Infos .other .sanctions ul {
+  height: 200px;
+  border-radius: 10px;
+  width: 80%;
+  margin: 0 auto;
+  background-color: #3D487B;
+  overflow-y: scroll;
+  padding: 0 10px;
+}
+.MyAccount .center .Infos .other .sanctions ul .sanctionTag {
+  margin: 5px 0;
+  color: #E9E9E9;
+  list-style: none;
+  font-size: 17px;
+  font-family: Nunito;
+}
+.MyAccount .center .Infos .other .materiel h1 {
+  text-align: center;
+}
+.MyAccount .center .Infos .other .materiel ul {
+  height: 200px;
+  border-radius: 10px;
+  width: 80%;
+  margin: 0 auto;
+  background-color: #3D487B;
+  overflow-y: scroll;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  flex-wrap: wrap;
+  padding: 10px;
+}
+.MyAccount .center .Infos .other .materiel ul .materialTag {
+  display: flex;
+  flex-direction: row;
+  list-style: none;
+  background-color: #222844;
+  width: min-content;
+  height: 40px;
+  padding: 5px 7px;
+  border-radius: 10px;
+  margin: 5px;
+}
+.MyAccount .center .Infos .other .materiel ul .materialTag p {
+  margin: auto 0;
+  color: #E9E9E9;
+}
+.MyAccount .center .Infos .other .materiel ul .materialTag img {
+  width: 40px;
+  height: 40px;
+}
+.MyAccount .center .MyService {
+  display: flex;
+  flex-direction: row;
+}
+.MyAccount .center .MyService .request {
+  width: 55%;
+  border-right: 1px #ED3444 solid;
+}
+.MyAccount .center .MyService .request .form {
+  padding-top: 10px;
+  width: 100%;
+  height: 280px;
+}
+.MyAccount .center .MyService .request .form label {
+  margin: auto 0;
+}
+.MyAccount .center .MyService .request .form .form-inline {
+  padding: 0 20px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: calc(100% - 40px);
+}
+.MyAccount .center .MyService .request .list {
+  border-radius: 10px;
+  margin: auto auto;
+  width: 90%;
+  height: calc(100% - 320px);
+  background-color: #3D487B;
+  overflow-y: auto;
+}
+.MyAccount .center .MyService .request .list table {
+  width: 100%;
+}
+.MyAccount .center .MyService .request .list table th {
+  background-color: #435089;
+}
+.MyAccount .center .MyService .review {
+  display: flex;
+  width: 45%;
+}
+.MyAccount .center .MyService .review .graphic {
+  margin: auto;
+}
+.MyAccount .center .MyPrimes, .MyAccount .center .MyRemboursements, .MyAccount .center .MyAbs {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  width: 100%;
+  height: 100%;
+}
+.MyAccount .center .MyPrimes section, .MyAccount .center .MyRemboursements section, .MyAccount .center .MyAbs section {
+  padding: 10px;
+}
+.MyAccount .center .MyPrimes .Form, .MyAccount .center .MyRemboursements .Form, .MyAccount .center .MyAbs .Form {
+  padding-right: 30px;
+  display: flex;
+  flex-direction: column;
+  width: 30%;
+  border-right: 1px #ED3444 solid;
+}
+.MyAccount .center .MyPrimes .Form .form-part, .MyAccount .center .MyRemboursements .Form .form-part, .MyAccount .center .MyAbs .Form .form-part {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+.MyAccount .center .MyPrimes .Form .form-part label, .MyAccount .center .MyRemboursements .Form .form-part label, .MyAccount .center .MyAbs .Form .form-part label {
+  margin: auto 0;
+}
+.MyAccount .center .MyPrimes .table, .MyAccount .center .MyRemboursements .table, .MyAccount .center .MyAbs .table {
+  width: 62%;
+  margin: 0 auto;
+  display: flex;
+}
+.MyAccount .center .MyPrimes .table .table-scroller, .MyAccount .center .MyRemboursements .table .table-scroller, .MyAccount .center .MyAbs .table .table-scroller {
+  border-radius: 10px;
+  margin: auto auto;
+  width: 100%;
+  background-color: #3D487B;
+  overflow-y: auto;
+  padding: 0px;
+  height: 90%;
+}
+.MyAccount .center .MyPrimes .table .table-scroller table, .MyAccount .center .MyRemboursements .table .table-scroller table, .MyAccount .center .MyAbs .table .table-scroller table {
+  width: 100%;
+}
+.MyAccount .center .MyPrimes .table .table-scroller table th, .MyAccount .center .MyRemboursements .table .table-scroller table th, .MyAccount .center .MyAbs .table .table-scroller table th {
+  background-color: #435089;
 }
 
 /*# sourceMappingURL=app.css.map */

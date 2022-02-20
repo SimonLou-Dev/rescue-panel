@@ -3,7 +3,10 @@
 namespace App\Http\Controllers;
 
 
+use App\Enums\DiscordChannel;
 use App\Events\Notify;
+use App\Events\UserUpdated;
+use App\Http\Controllers\Users\UserGradeController;
 use App\Jobs\ProcessEmbedPosting;
 use App\Models\User;
 use Illuminate\Http\JsonResponse;
@@ -18,11 +21,6 @@ use function PHPUnit\Framework\directoryExists;
 
 class AccountController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('auth');
-        $this->middleware('access');
-    }
 
     /**
      * @return JsonResponse
@@ -40,18 +38,20 @@ class AccountController extends Controller
     public function updateInfos(Request $request): JsonResponse
     {
         $request->validate([
-            'name'=> 'required|max:255',
-            'compte'=> 'required|digits_between:3,7|integer',
-            'tel'=> 'required|digits_between:6,15|integer',
-            'liveplace'=> 'required',
-            'email'=>'required|email'
+            'compte'=> 'required|digits_between:2,8|integer',
+            'tel'=> 'required|regex:/555-\d\d/',
+            'name'=>['required', 'string','regex:/[a-zA-Z.+_]+\s[a-zA-Z.+_]/'],
+            'liveplace'=> ['required'],
+            'matricule'=>['unique:App\Models\User,matricule','nullable']
         ]);
 
-        $name= (string) $request->name;
-        $compte = (int) $request->compte;
-        $tel = (int) $request->tel;
-        $liveplace= (string) $request->liveplace;
-        $email =(string) $request->email;
+        $name= $request->name;
+        $compte = $request->compte;
+        $tel = $request->tel;
+        $liveplace=  $request->liveplace;
+
+
+
 
         $user= User::where('id', Auth::user()->id)->first();
 
@@ -60,9 +60,10 @@ class AccountController extends Controller
         $compteC = $compte != $user->compte;
         $telC = $tel != $user->tel;
         $liveplaceC = $liveplace != $user->liveplace;
+        $matriculeC = $request->matricule != $user->matricule;
 
 
-        if($nameC || $compteC || $telC || $liveplaceC){
+        if($nameC || $compteC || $telC || $liveplaceC || $matriculeC){
             $changed = true;
         }
         if($changed){
@@ -87,22 +88,34 @@ class AccountController extends Controller
                             'name'=>'Numéro de compte : ',
                             'value'=> ($compteC ? '~~'.$user->compte.'~~ ' : '') . $compte,
                             'inline'=>false
+                        ],[
+                            'name'=>'Matricule : ',
+                            'value'=> ($matriculeC ? '~~'.$user->matricule.'~~ ' : '') . $request->matricule,
+                            'inline'=>false
                         ]
                     ],
                 ]
             ];
-            $this->dispatch(new ProcessEmbedPosting([env('WEBHOOK_INFOS')], $embed, null));
-
-
+            if($user->fire){
+                \Discord::postMessage(DiscordChannel::FireInfos, $embed);
+            }else{
+                \Discord::postMessage(DiscordChannel::MedicInfos, $embed);
+            }
         }
         $user->name = $name;
         $user->compte = $compte;
         $user->tel = $tel;
-        $user->email = $email;
+        if(isset($request->matricule)){
+                $user->matricule = $request->matricule;
+        }
         $user->liveplace = $liveplace;
         $user->save();
+        UserUpdated::broadcast($user);
         event(new Notify('Vos informations on été enregistrées', 1));
-        return response()->json(['status'=>'OK'],201);
+        $grade = new UserGradeController();
+       // return $grade->GetUserPerm($request);
+
+        return response()->json([],201);
 
     }
 

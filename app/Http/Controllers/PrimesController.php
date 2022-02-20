@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\DiscordChannel;
 use App\Events\Notify;
 use App\Http\Controllers\Service\ServiceGetterController;
 use App\Jobs\ProcessEmbedPosting;
@@ -12,6 +13,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Session;
 
 class PrimesController extends Controller
 {
@@ -50,12 +52,46 @@ class PrimesController extends Controller
 
     public function addReqPrimes(request $request){
 
+        $request->validate([
+            'reason'=>['string'],
+            'montant'=>['integer']
+        ]);
+
         $prime = new Prime();
         $prime->week_number = ServiceGetterController::getWeekNumber();
         $prime->user_id = Auth::user()->id;
-        $prime->item_id = $request->primeid;
+        $prime->reason = $request->reason;
+        $prime->montant = $request->montant;
+        $prime->service =  Session::get('service')[0];
         $prime->save();
-        event(new Notify('Demande ajoutée',1));
+        $embed = [
+            [
+                'title'=>'Demande de Prime :',
+                'color'=>'1285790',
+                'fields'=>[
+                    [
+                        'name'=>'Personnel : ',
+                        'value'=>$prime->getUser->name  . ' (' . Session::get('service')[0] . ')',
+                        'inline'=>false
+                    ],[
+                        'name'=>'Montant : ',
+                        'value'=>'$' .  $prime->montant,
+                        'inline'=>true
+                    ],[
+                        'name'=>'Raison : ',
+                        'value'=>$prime->reason,
+                        'inline'=>true
+                    ]
+                ],
+            ]
+        ];
+
+        if(Session::get('service')[0]=== 'LSCoFD'){
+            \Discord::postMessage(DiscordChannel::FireRemboursement, $embed, $prime);
+        }else{
+            \Discord::postMessage(DiscordChannel::MedicRemboursement, $embed, $prime);
+        }
+        Notify::broadcast('Demande ajoutée',1, Auth::user()->id);
         return response()->json([],201);
     }
 
@@ -104,13 +140,11 @@ class PrimesController extends Controller
     }
 
     public function gelAllReqPrimes(){
-        $primes = Prime::where('accepted', null)->orderBy('id','desc')->take(100)->get();
+        $primes = Prime::where('service', Session::get('service')[0])->where('accepted', null)->orderBy('id','desc')->take(100)->get();
         if(count($primes) < 20){
-            $primes = Prime::take(100)->orderBy('id','desc')->get();
+            $primes = Prime::where('service', Session::get('service')[0])->take(100)->orderBy('id','desc')->get();
         }
         foreach ($primes as $prime){
-            $prime->date = date('d/m/Y à H:i', strtotime($prime->created_at));
-            $prime->getItem;
             $prime->getUser;
         }
         return response()->json(['primes'=>$primes]);

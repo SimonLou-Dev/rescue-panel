@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\DiscordChannel;
 use App\Events\Notify;
 use App\Http\Controllers\Service\OperatorController;
 use App\Http\Controllers\Service\ServiceGetterController;
@@ -12,20 +13,15 @@ use App\Models\WeekRemboursement;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Session;
 
 class RemboursementsController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('auth');
-        $this->middleware('access');
-    }
-
 
     public function getRemboursementOfUser(): \Illuminate\Http\JsonResponse
     {
-        $remboursements = RemboursementList::where('user_id', Auth::user()->id)->where('week_number', ServiceGetterController::getWeekNumber())->orderByDesc('id')->get();
-        $obs = ObjRemboursement::all();
+        $remboursements = RemboursementList::where('service', Session::get('service')[0])->where('user_id', Auth::user()->id)->where('week_number', ServiceGetterController::getWeekNumber())->orderByDesc('id')->get();
+        $obs = ObjRemboursement::where('service', Session::get('service')[0])->get();
         foreach ($remboursements as $remboursement){
             $remboursement->getItem;
         }
@@ -36,12 +32,13 @@ class RemboursementsController extends Controller
     {
         $item = (int) $request->item;
         $item = ObjRemboursement::where('id', $item)->first();
-        $userRemboursements = WeekRemboursement::where('week_number', ServiceGetterController::getWeekNumber())->where('user_id', Auth::user()->id)->first();
+        $userRemboursements = WeekRemboursement::where('service', Session::get('service')[0])->where('week_number', ServiceGetterController::getWeekNumber())->where('user_id', Auth::user()->id)->first();
         if(!isset($userRemboursements)){
             $userRemboursements = new WeekRemboursement();
             $userRemboursements->week_number = ServiceGetterController::getWeekNumber();
             $userRemboursements->user_id = Auth::user()->id;
             $userRemboursements->total = $item->price;
+            $userRemboursements->service = Session::get('service')[0];
         }else{
             $userRemboursements->total = (int) $userRemboursements->total + (int) $item->price;
         }
@@ -50,29 +47,34 @@ class RemboursementsController extends Controller
         $rmbsem->item_id = $item->id;
         $rmbsem->total = $item->price;
         $rmbsem->week_number = ServiceGetterController::getWeekNumber();
+        $rmbsem->service = Session::get('service')[0];
         $rmbsem->save();
         $userRemboursements->save();
         $embed = [
             [
                 'title'=>'Ajout d\'un remboursement :',
-                'color'=>'16745560 ',
+                'color'=>'16745560',
                 'fields'=>[
                     [
                         'name'=>'Item : ',
-                        'value'=>$item->name . '($' . $item->price . ')',
+                        'value'=>$item->name . ' ($' . $item->price . ')',
                         'inline'=>true
                     ]
                 ],
                 'footer'=>[
-                    'text' => 'Membre : ' . Auth::user()->name
+                    'text' => 'Membre : ' . Auth::user()->name . ' (' . Session::get('service')[0] . ')'
                 ]
             ]
         ];
 
-        $this->dispatch(new ProcessEmbedPosting([env('WEBHOOK_REMBOURSEMENTS')],$embed, null));
+        if(Session::get('service')[0] === 'SAMS'){
+            \Discord::postMessage(DiscordChannel::MedicRemboursement, $embed);
+        }else{
+            \Discord::postMessage(DiscordChannel::FireRemboursement, $embed);
+        }
 
 
-        event(new Notify('Remboursement pris en compte',1));
+        Notify::broadcast('Remboursement pris en compte',1, Auth::user()->id);
         return response()->json(['stauts'=>'OK'],201);
     }
 

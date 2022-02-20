@@ -1204,7 +1204,7 @@ body{
     flex-direction: row;
     .PageCenter{
         margin: 40px auto 0 auto;
-        width: 80%;
+        width: 85%;
         max-height: 80%;
         overflow-y: hidden;
         border-radius: $border-radius;
@@ -1259,6 +1259,229 @@ body{
                 button{
                     margin: 0 auto;
                     background-color: $bg2;
+                }
+            }
+        }
+    }
+}
+
+.MyAccount{
+    width: 100vw;
+    height: calc(100vh - 70px);
+    display: flex;
+    .center{
+        width: 85%;
+        min-width: 300px;
+        margin: auto;
+        //background-color: red;
+        height: 80%;
+        .pageSelector{
+            display: flex;
+            flex-direction: row;
+            height: 40px;
+            button{
+                padding: 0 10px;
+                border: none;
+                margin: 0 2px;
+                font-size: 100%;
+                font-weight: 600;
+                border-radius: 10px 10px 0 0;
+                cursor: pointer;
+                transition: all 400ms;
+                background-color: $bg2;
+                color: $heavytext;
+                &:hover{
+                    background-color: $bg1var;
+                    color: $lighttext;
+                }
+                &:first-child{
+                    margin: 0 2px 0 0;
+                }
+
+
+            }
+            .selected{
+                background-color: $bg1;
+                cursor: default;
+                color: $heavytext;
+                &:hover{
+                    background-color: $bg1 !important;
+                    color: $heavytext !important;
+                }
+            }
+        }
+
+        .PageDisplayed{
+            background-color: $bg1;
+            width: 100%;
+            height: calc(100% - 40px);
+            border-radius: 0 10px 10px 10px;
+        }
+        .Infos{
+            display: flex;
+            flex-direction: row;
+            .modifier{
+                width: 40%;
+                margin: auto 0;
+                padding: 10px 15px;
+                height: 90%;
+                overflow-y: scroll;
+                border-right:  1px $boom solid;
+            }
+            .other{
+                width: 59%;
+                padding: 10px 15px;
+                display: flex;
+                flex-direction: column;
+                justify-content: space-evenly;
+                .sanctions{
+                    h1{
+                        text-align: center;
+                    }
+                    ul{
+                        height: 200px;
+                        border-radius: $border-radius;
+                        width: 80%;
+                        margin: 0 auto;
+                        background-color: $bg2;
+                        overflow-y: scroll;
+                        padding: 0 10px;
+                        .sanctionTag{
+                            margin: 5px 0;
+                            color: $lighttext;
+                            list-style: none;
+                            font-size: 17px;
+                            font-family: Nunito;
+
+                        }
+                    }
+                }
+                .materiel{
+                    h1{
+                        text-align: center;
+                    }
+                    ul{
+                        height: 200px;
+                        border-radius: $border-radius;
+                        width: 80%;
+                        margin: 0 auto;
+                        background-color: $bg2;
+                        overflow-y: scroll;
+                        display: flex;
+                        flex-direction: row;
+                        justify-content: space-evenly;
+                        flex-wrap: wrap;
+                        padding: 10px;
+                        .materialTag{
+                            display: flex;
+                            flex-direction: row;
+                            list-style: none;
+                            background-color: $bg1var;
+                            width: min-content;
+                            height: 40px;
+                            padding: 5px 7px;
+                            border-radius: $border-radius;
+                            margin: 5px;
+                            p{
+                                margin: auto 0;
+                                color: $lighttext;
+                            }
+                            img{
+                                width: 40px;
+                                height: 40px;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        .MyService{
+            display: flex;
+            flex-direction: row;
+            .request{
+                width: 55%;
+                border-right: 1px $boom solid;
+                .form{
+                    padding-top: 10px;
+                    width: 100%;
+                    height: 280px;
+                    label{
+                        margin: auto 0;
+                    }
+                    .form-inline{
+                        padding: 0 20px;
+                        display: flex;
+                        flex-direction: row;
+                        justify-content: space-between;
+                        width: calc(100% - 40px);
+                    }
+                }
+                .list{
+                    border-radius: $border-radius;
+                    margin: auto auto;
+                    width: 90%;
+                    height: calc(100% - 320px);
+                    background-color: $bg2;
+                    overflow-y: auto;
+                    table{
+                        width: 100%;
+                        th{
+                            background-color: $bg2var;
+                        }
+                    }
+                }
+            }
+            .review{
+                display: flex;
+                width: 45%;
+                .graphic{
+                    margin: auto;
+                }
+            }
+        }
+        .MyPrimes, .MyRemboursements, .MyAbs{
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            width: 100%;
+            height: 100%;
+            section{
+                padding: 10px;
+            }
+            .Form{
+                padding-right: 30px;
+                display: flex;
+                flex-direction: column;
+                width: 30%;
+                border-right: 1px $boom solid;
+                .form-part{
+                    width: 100%;
+                    display: flex;
+                    justify-content: space-between;
+                    label{
+                        margin: auto 0;
+                    }
+
+                }
+            }
+            .table{
+                width: 62%;
+                margin: 0 auto;
+                display: flex;
+                .table-scroller{
+                    border-radius: $border-radius;
+                    margin: auto auto;
+                    width: 100%;
+                    background-color: $bg2;
+                    overflow-y: auto;
+                    padding: 0px;
+                    height: 90%;
+                    table{
+                        width: 100%;
+                        th{
+                            background-color: $bg2var;
+                        }
+                    }
                 }
             }
         }

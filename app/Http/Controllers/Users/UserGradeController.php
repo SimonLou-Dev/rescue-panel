@@ -71,6 +71,8 @@ class UserGradeController extends Controller
         }else if($user->service === "LSCoFD"){
             $user->grade = $user->GetFireGrade;
         }
+        $user->GetMedicGrade;
+        $user->GetFireGrade;
         return \response()->json(['status'=>'ok', 'user'=>$user]);
     }
 

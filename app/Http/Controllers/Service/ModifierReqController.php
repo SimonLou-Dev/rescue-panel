@@ -9,36 +9,33 @@ use App\Models\User;
 use App\Models\WeekService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
 
 class ModifierReqController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('auth');
-        $this->middleware('access');
-    }
+
 
     public function postModifyTimeServiceRequest(request $request)
     {
         $request->validate([
-            'com'=>'required',
+            'reason'=>'required',
             'action'=>'digits_between:1,2',
             'time_quantity'=>'regex:/[0-60]+:+[0-59]/'
         ]);
         $req = new ModifyServiceReq();
         $req->user_id = Auth::user()->id;
         $req->week_number = ServiceGetterController::getWeekNumber();
-        $req->reason = $request->com;
+        $req->reason = $request->reason;
+        $req->service = Session::get('service')[0];
         if($request->action == 2){
             $req->adder = 0;
         }
         if($request->action == 1){
             $req->adder = 1;
         }
-        $exploded = explode(':', $request->temps);
-        $req->time_quantity = $exploded[0] * 3600 + $exploded[1] *60;
+        $req->time_quantity = $request->time_quantity;
         $req->save();
-        event(new Notify('Votre demande a été enregistrée',1));
+        Notify::broadcast('Votre demande a été enregistrée',1,Auth::user()->id);
         return response()->json(['status'=>'OK'],201);
 
 
@@ -113,14 +110,8 @@ class ModifierReqController extends Controller
     public function getMyModifyTimeServiceRequest(): \Illuminate\Http\JsonResponse
     {
         $user = User::where('id', Auth::id())->first();
-        $reqs = $user->getRequests;
 
-
-        foreach ($reqs as $req){
-            $req->time_quantity = OperatorController::secondToTimeConvert($req->time_quantity);
-        }
-
-
+        $reqs = ModifyServiceReq::where('user_id', $user->id)->where('service',Session::get('service')[0])->orderBy('id','desc')->take(10)->get();
 
         return response()->json([
             'status'=>'OK',

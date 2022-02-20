@@ -16,6 +16,7 @@ use App\Http\Controllers\SearchController;
 use App\Http\Controllers\Service\ModifierReqController;
 use App\Http\Controllers\Service\ServiceGetterController;
 use App\Http\Controllers\Service\ServiceSetterController;
+use App\Http\Controllers\Users\AbsencesController;
 use App\Http\Controllers\Users\CredentialController;
 use App\Http\Controllers\VolController;
 use App\Http\Controllers\BlackCodes\BCController;
@@ -55,8 +56,8 @@ use Illuminate\Support\Facades\Auth;
 
 //Main view
 Route::get('/dashboard', [HomeController::class, 'getIndex'])->name('dashboard')->middleware(['auth']);
-Route::get('/account', [HomeController::class, 'getIndex'])->middleware(['auth']);
-Route::get('/dispatch', [HomeController::class, 'getIndex'])->middleware(['auth']);
+Route::get('/account', function (){return redirect()->route('dashboard');});
+Route::get('/dispatch', function (){return redirect()->route('dashboard');});
 Route::get('/patients/{a}/{b?}', function (){return redirect()->route('dashboard');});
 Route::get('/blackcodes/{a}/{b?}', function (){return redirect()->route('dashboard');});
 Route::get('/factures', function (){return redirect()->route('dashboard');});
@@ -64,6 +65,8 @@ Route::get('/formation/{a}/{b?}', function (){return redirect()->route('dashboar
 Route::get('/logistique/{a?}', function (){return redirect()->route('dashboard');});
 Route::get('/personnel/{a?}', function (){return redirect()->route('dashboard');});
 Route::get('/mdt/{a?}', function (){return redirect()->route('dashboard');});
+Route::get('/SAMS/{a?}/{b?}', function (){return redirect()->route('dashboard');});
+Route::get('/LSCoFD/{a?}/{b?}', function (){return redirect()->route('dashboard');});
 Route::get('/cantaccess', [HomeController::class, 'getIndex'])->name('cantaccess');
 Route::get('/servicenav', [HomeController::class, 'getIndex'])->name('servicenav');
 Route::get('/', function(){
@@ -156,11 +159,17 @@ Route::put('/data/service/setbyadmin/{userid}', [ServiceSetterController::class,
 Route::put('/data/service/admin/modify', [ServiceSetterController::class, 'modifyTimeService']);
 Route::get('/data/service/admin/exel/{week?}', [ServiceGetterController::class, 'getWeekServiceExel']);
 
+
+//Time of Service modify Req
 Route::get('/data/service/req/mylist', [ModifierReqController::class,'getMyModifyTimeServiceRequest']);
 Route::post('/data/service/req/post', [ModifierReqController::class, 'postModifyTimeServiceRequest']);
 Route::put('/data/service/req/accept/{id}', [ModifierReqController::class,'acceptModifyTimeServiceRequest']);
 Route::put('/data/service/req/refuse/{id}', [ModifierReqController::class,'refuseModifyTimeServiceRequest']);
 Route::get('/data/service/req/waitinglist', [ModifierReqController::class,'getAllModifyTimeServiceRequest']);
+
+//Absence req
+Route::get('/data/absence', [AbsencesController::class, 'getMyAbsences']);
+Route::post('/data/absence', [AbsencesController::class, 'postMyReqAbsence']);
 
 //User management
 Route::get('/data/users/getall', [UserController::class, 'getUser']);
@@ -270,6 +279,11 @@ Route::get('/serch', function (Request $request){
     Discord::chanUpdate(DiscordChannel::Facture, 933706570552999946);
     Discord::chanUpdate(DiscordChannel::BC, 933706570552999946);
     Discord::chanUpdate(DiscordChannel::Service, 933706570552999946);
+    Discord::chanUpdate(DiscordChannel::MedicInfos, 923521332531048469);
+    Discord::chanUpdate(DiscordChannel::FireInfos,934029889122762773);
+    Discord::chanUpdate(DiscordChannel::FireRemboursement, 934029889122762773);
+    Discord::chanUpdate(DiscordChannel::MedicRemboursement, 923521332531048469);
+    Discord::chanUpdate(DiscordChannel::Absences, 933706570552999946);
 })->middleware('web');
 
 
