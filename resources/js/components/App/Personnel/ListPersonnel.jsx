@@ -71,16 +71,21 @@ function ListPersonnel(props) {
                             <td>{u.matricule}</td>
                             <td>{u.tel}</td>
                             <td>{u.discord_id}</td>
-                            <td><select value={u.grade.id}>
+                            <td><select value={u.grade.id} onChange={async (e)=>{
+                                await axios({
+                                    method: 'POST',
+                                    url: '/data/users/setgrade/'+ e.target.value +'/'+u.id
+                                }).then(r=>{UserList()})
+                            }}>
                                 {gradeList && gradeList.map((g)=>
-                                    <option key={g.id+'.'+u.id} value={g.id}>{g.name}</option>
+                                    <option key={g.id+'.'+u.id} value={g.id} disabled={(g.name === 'default')}>{g.name}</option>
                                 )}
                             </select></td>
                             <td>
                                 <SwitchBtn checked={u.pilote} number={'A'+u.id} callback={async () => {
                                     await axios({
                                         method: 'PUT',
-                                        url: '/data/users/pilote/' + u.id
+                                        url: '/data/users/setCrossService/' + u.id
                                     }).then(r=>{UserList()})
                                 }}/>
                             </td>
@@ -88,7 +93,7 @@ function ListPersonnel(props) {
                                 <SwitchBtn checked={u.crossService} number={'A'+u.id} callback={async () => {
                                     await axios({
                                         method: 'PUT',
-                                        url: '/data/users/pilote/' + u.id
+                                        url: '/data/users/setCrossService' + u.id
                                     }).then(r=>{UserList()})
                                 }}/>
                             </td>

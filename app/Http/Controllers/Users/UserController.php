@@ -38,7 +38,7 @@ class UserController extends Controller
         $this->authorize('viewPersonnelList', User::class);
         $me = User::where('id', Auth::user()->id)->first();
         $meService = Session::get('service')[0];
-        $users = User::search($request->query('query'))->get()->reverse();
+        $users = User::search($request->query('query'))->get();
         $queryPage = (int) $request->query('page');
         $readedPage = ($queryPage ?? 1) ;
         $readedPage = (max($readedPage, 1));
@@ -64,7 +64,7 @@ class UserController extends Controller
 
 
         $users = $users->filter(function ($item){
-            return \Gate::allows('view', $item);
+            return \Gate::allows('view', $item) && ($item->grade->name !== 'default');
         });
 
 
@@ -92,6 +92,8 @@ class UserController extends Controller
             'prev_page_url' => ($readedPage === 1 ? null : $url.($readedPage-1)),
             'total' => $totalItem,
         ];
+
+        //TODO : filter les grades pour que l'on puisse voir seul ceux que l'on peut assigner
 
 
         return response()->json([
@@ -165,15 +167,12 @@ class UserController extends Controller
      * @param string $id
      * @return JsonResponse
      */
-    public function setDiscordId(Request $request, string $discordid, string $id): JsonResponse
+    public function setCrossService(Request $request, string $id): JsonResponse
     {
         $user = User::where('id', $id)->first();
-        if ($discordid == null) {
-            $user->discord_id = null;
-        } else {
-            $user->discord_id = $discordid;
-        }
-        $user->save();
+        $user->crossService=!$usr->crossService;
+        $user->save;
+        Notify::broadcast('Modification enregistrée',1, Auth::user()->id);
         return response()->json(['status' => 'OK'], 200);
     }
 

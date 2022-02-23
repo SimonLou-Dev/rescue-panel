@@ -71,21 +71,10 @@ class UserConnexionController extends Controller
         if($request->service === 'LSCoFD'){
             $service = 'Fire';
             $user->fire = true;
-            $defaultGrade = Grade::where('default',true)->where('service', 'LSCoFD')->first();
-            $user->fire_grade_id = $defaultGrade->id;
-            $user->medic_grade_id = 1;
         }
         if($request->service === 'OMC'){
             $service = 'Medic';
             $user->medic = true;
-            $defaultGrade = Grade::where('default',true)->where('service', 'OMC')->first();
-            $user->medic_grade_id = $defaultGrade->id;
-            $user->fire_grade_id = 1;
-        }
-
-        if($user->moderator){
-            $user->fire_grade_id = 1;
-            $user->medic_grade_id = 1;
         }
 
 
@@ -146,25 +135,6 @@ class UserConnexionController extends Controller
 
 
         $servers = Http::withToken($auth->token)->get('https://discord.com/api/v9/users/@me/guilds')->body();
-
-        $bcfd = false;
-        $glite = false;
-        foreach(json_decode($servers) as $server){
-            if($server->id == "792491489837711360"){
-                $bcfd = true;
-            }
-            if($server->id == "704129979243561040"){
-                $glite = true;
-            }
-        }
-
-        if(!$bcfd || !$glite){
-            return response()->json([
-                'status' => 'ERROR',
-                'raison'=> 'Not on discord Servers',
-                'datas' => []
-            ], 200);
-        }
 
 
         $userreq = Http::withToken($auth->token)->get('https://discord.com/api/v9/users/@me');

@@ -104,7 +104,7 @@ Route::get('/data/check/connexion', [UserConnexionController::class, 'checkConne
 Route::get('/data/getstatus', [LayoutController::class, 'getservice']);
 //renommer la fonction
 Route::get('/data/annonces', [MainController::class, 'getAnnonces']);
-Route::put('/data/users/setdiscordId/{discordid}/{id}', [UserController::class, 'setDiscordId']);
+Route::put('/data/users/setCrossService/{id}', [UserController::class, 'setCrossService']);
 //Route::post('/data/check/maintenance')
 Route::get('/data/user/reset/send/{mail?}',  [CredentialController::class, 'sendResetMail']);
 Route::get('/pass/reset/token/{uuid}',[CredentialController::class,'tokenVerify']);
@@ -186,7 +186,7 @@ Route::put('/data/primes/refuse/{id}', [PrimesController::class, 'refuseReqPrime
 Route::get('/data/users/getall', [UserController::class, 'getUser']);
 Route::post('/data/users/setgrade/{id}/{userid}', [UserGradeController::class, 'setusergrade']);
 Route::put('/data/users/pilote/{user_id}', [UserController::class, 'changePilote']);
-Route::put('/data/user/{user_id}/changestate/{state}', [UserController::class, 'changeState']);
+Route::put('/data/user/{user_id}/changestate/{state}', [UserController::class, 'changeState']);//to delete
 Route::get('/data/usersheet/{user_id}/note', [UserController::class, 'getUserNote']);
 Route::get('/data/usersheet/{user_id}/sanctions', [UserController::class, 'getUserSanctions']);
 Route::get('/data/usersheet/{user_id}/infos', [UserController::class, 'getUserInfos']);

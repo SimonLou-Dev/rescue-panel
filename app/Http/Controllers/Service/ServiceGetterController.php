@@ -41,7 +41,7 @@ class ServiceGetterController extends Controller
         }
         $users = User::where('medic', true)->orWhere('fire', true)->get();
         $users = $users->filter(function ($item, $key){
-            return \Gate::allows('view', $item);
+            return \Gate::allows('view', $item) && ($item->grade->name !== 'default');
         });
 
         $column[] = array('Membre','grade', 'n° de compte','primes', 'Remboursements', 'dimanche', 'lundi', 'mardi', 'mercredi', 'jeudi', 'vendredi', 'samedi', 'ajustement', 'total');
