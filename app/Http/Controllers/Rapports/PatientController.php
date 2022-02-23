@@ -20,7 +20,7 @@ class PatientController extends Controller
 
     public function getImpaye(string $patientId){
         $patient = Patient::where('id', $patientId)->first();
-        $req = Facture::where('payed', false)->where('patient_id', $patient->id)->where('service', \Session::get('service'));
+        $req = Facture::where('payed', false)->where('patient_id', $patient->id);
         $count = $req->count();
         $montant = 0;
         if($count != 0){
@@ -52,7 +52,7 @@ class PatientController extends Controller
     public function getPatient(Request $request, string $id): \Illuminate\Http\JsonResponse
     {
         $patient = Patient::where('id',$id)->first();
-        $req = Facture::where('payed', false)->where('patient_id', $patient->id)->where('service', \Session::get('service'));
+        $req = Facture::where('payed', false)->where('patient_id', $patient->id);
         $count = $req->count();
         $montant = 0;
         if($count != 0){
