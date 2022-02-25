@@ -490,6 +490,15 @@ table td {
   justify-content: space-evenly;
   width: 100%;
 }
+.popup .Card .form-inline {
+  margin-top: 10px;
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+.popup .Card .form-inline input, .popup .Card .form-inline button {
+  margin: auto 0;
+}
 
 /* width */
 *::-webkit-scrollbar {
@@ -1962,6 +1971,141 @@ body {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
+}
+
+.FichePersonnel {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  width: 100vw;
+  height: calc(100vh - 70px);
+}
+.FichePersonnel .left-part {
+  margin-top: 0;
+  height: calc(100vh - 70px);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  width: 30%;
+}
+.FichePersonnel .left-part .btn-container {
+  width: 100%;
+  height: 60px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+}
+.FichePersonnel .left-part .btn-container .btn {
+  margin: auto 0;
+}
+.FichePersonnel .left-part .btn-container img {
+  width: 20px;
+}
+.FichePersonnel .left-part .PersoCard {
+  background-color: #1B2037;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+}
+.FichePersonnel .left-part .material {
+  background-color: #1B2037;
+  border-radius: 10px;
+  display: flex;
+  width: 100%;
+  height: 250px;
+}
+.FichePersonnel .left-part .material .material-list {
+  margin: auto auto;
+  height: 85%;
+  overflow-y: auto;
+  width: 90%;
+  background-color: #3D487B;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+  padding: 10px;
+  border-radius: 10px;
+}
+.FichePersonnel .left-part .material .material-list .material-item {
+  padding: 10px 15px;
+  margin: 10px;
+  background-color: #1B2037;
+  display: flex;
+  flex-direction: row;
+  height: min-content;
+  border-radius: 10px;
+}
+.FichePersonnel .left-part .material .material-list .material-item img {
+  width: 40px;
+  height: 40px;
+}
+.FichePersonnel .left-part .material .material-list .material-item p {
+  margin: auto 10px auto 0;
+}
+.FichePersonnel .center-part .sanctions-list {
+  height: calc(100vh - 200px);
+  display: flex;
+  background-color: #3D487B;
+  flex-direction: column;
+  border-radius: 10px;
+  overflow-y: auto;
+  padding: 2px 5px;
+}
+.FichePersonnel .center-part .sanctions-list .sanctions-item {
+  border-bottom: 1px #ED3444 solid;
+  padding-bottom: 5px;
+  margin-bottom: 5px;
+}
+.FichePersonnel .center-part .sanctions-list .sanctions-item label {
+  font-size: 18px;
+  font-weight: 700;
+}
+.FichePersonnel .center-part .sanctions-list .sanctions-item p {
+  font-size: 18px;
+  margin: 0px;
+}
+.FichePersonnel .center-part .sanctions-list .sanctions-item:last-child {
+  border-bottom: none;
+}
+.FichePersonnel .right-part .notes-list {
+  height: calc(100vh - 350px);
+  display: flex;
+  background-color: #3D487B;
+  flex-direction: column;
+  border-radius: 10px;
+  overflow-y: auto;
+  padding: 2px 5px;
+}
+.FichePersonnel .right-part .notes-list .note-item {
+  border-bottom: 1px #ED3444 solid;
+  padding-bottom: 5px;
+  margin-bottom: 5px;
+}
+.FichePersonnel .right-part .notes-list .note-item label {
+  font-size: 18px;
+  font-weight: 700;
+}
+.FichePersonnel .right-part .notes-list .note-item p {
+  font-size: 18px;
+  margin: 0px;
+}
+.FichePersonnel .right-part .notes-list .note-item:last-child {
+  border-bottom: none;
+}
+.FichePersonnel .right-part .notes-form {
+  display: flex;
+  flex-direction: column;
+}
+.FichePersonnel .right-part .notes-form .form-inline {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+.FichePersonnel .right-part .notes-form .form-inline p, .FichePersonnel .right-part .notes-form .form-inline button {
+  margin: auto 0;
 }
 
 /*# sourceMappingURL=app.css.map */

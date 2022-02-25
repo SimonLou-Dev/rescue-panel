@@ -1535,3 +1535,145 @@ body{
         }
     }
 }
+
+.FichePersonnel{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    width: 100vw;
+    height: calc(100vh - 70px);
+    .left-part{
+        margin-top: 0;
+        height: calc(100vh - 70px);
+        display: flex;
+        flex-direction: column;
+        justify-content: space-evenly;
+        width: 30%;
+        .btn-container{
+            width: 100%;
+            height: 60px;
+            display: flex;
+            flex-direction: row;
+            justify-content: space-evenly;
+            .btn{
+                margin: auto 0;
+            } img {
+                width: 20px;
+            }
+        }
+
+        .PersoCard{
+            background-color: $bg1;
+            border-radius: $border-radius;
+            display: flex;
+            flex-direction: row;
+            justify-content: space-evenly;
+
+        }
+        .material{
+            background-color: $bg1;
+            border-radius: $border-radius;
+            display: flex;
+            width: 100%;
+            height: 250px;
+            .material-list{
+                margin: auto auto;
+                height: 85%;
+                overflow-y: auto;
+                width: 90%;
+                background-color: $bg2;
+                display: flex;
+                flex-direction: row;
+                flex-wrap: wrap;
+                justify-content: space-evenly;
+                padding: 10px;
+                border-radius: $border-radius;
+                .material-item{
+                    padding: 10px 15px;
+                    margin: 10px;
+                    background-color: $bg1;
+                    display: flex;
+                    flex-direction: row;
+                    height: min-content;
+                    border-radius: $border-radius;
+                    img{
+                        width: 40px;
+                        height: 40px;
+                    }
+                    p{
+                        margin: auto 10px auto 0;
+                    }
+                }
+
+            }
+        }
+    }
+    .center-part{
+        .sanctions-list{
+            height: calc(100vh - 200px);
+            display: flex;
+            background-color: $bg2;
+            flex-direction: column;
+            border-radius: $border-radius;
+            overflow-y: auto;
+            padding: 2px 5px;
+            .sanctions-item{
+                border-bottom: 1px $boom solid;
+                padding-bottom: 5px;
+                margin-bottom: 5px;
+                label{
+                    font-size: 18px;
+                    font-weight: 700;
+                }
+                p{
+                    font-size: 18px;
+                    margin: 0px;
+                }
+                &:last-child{
+                    border-bottom: none;
+                }
+            }
+        }
+    }
+    .right-part {
+        .notes-list{
+            height: calc(100vh - 350px);
+            display: flex;
+            background-color: $bg2;
+            flex-direction: column;
+            border-radius: $border-radius;
+            overflow-y: auto;
+            padding: 2px 5px;
+            .note-item{
+                border-bottom: 1px $boom solid;
+                padding-bottom: 5px;
+                margin-bottom: 5px;
+                label{
+                    font-size: 18px;
+                    font-weight: 700;
+                }
+                p{
+                    font-size: 18px;
+                    margin: 0px;
+                }
+                &:last-child{
+                    border-bottom: none;
+                }
+            }
+        }
+        .notes-form{
+            display: flex;
+            flex-direction: column;
+            .form-inline{
+                display: flex;
+                flex-direction: row;
+                justify-content: space-between;
+                p, button{
+                    margin: auto 0;
+                }
+            }
+        }
+    }
+
+}

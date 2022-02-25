@@ -49,7 +49,7 @@ class DiscordInteractor
 
     }
 
-    public function postMessage(string $channel, array $embed = null, mixed $model =null, ?array $msg = null){
+    public function postMessage(string $channel, array $embed = null, mixed $model =null, ?string $msg = null){
         $channel = $this->chanGet($channel);
         DiscordApiController::CallPostJobs($channel,$embed,$model,$msg);
     }

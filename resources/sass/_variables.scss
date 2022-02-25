@@ -521,6 +521,15 @@ table{
             justify-content: space-evenly;
             width: 100%;
         }
+        .form-inline{
+            margin-top: 10px;
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+            input, button{
+                margin: auto 0;
+            }
+        }
     }
 }
 

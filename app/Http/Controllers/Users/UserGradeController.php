@@ -102,7 +102,11 @@ class UserGradeController extends Controller
         $user = User::where('id', $id)->first();
         $user->materiel = null;
         $user->matricule = null;
-        $user->grade_id = 1;
+        $user->medic_grade_id = 1;
+        $user->fire_grade_id = 1;
+        $user->fire=false;
+        $user->medic=false;
+        $user->crossService= false;
         $user->bc_id = null;
         if($user->service){
             OperatorController::setService($user, true);

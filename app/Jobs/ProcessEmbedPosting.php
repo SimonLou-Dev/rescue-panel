@@ -20,13 +20,13 @@ class ProcessEmbedPosting implements ShouldQueue
      * @param mixed $webhook
      * @param array $embedscontent
      * @param mixed $model
-     * @param array|null $messagecontent
+     * @param string|null $messagecontent
      */
     public function __construct(
         private mixed $webhook,
         private array  $embedscontent,
         private mixed $model = null,
-        private ?array $messagecontent = null
+        private ?string $messagecontent = null
     ){
 
         $this->onQueue('discord');
@@ -52,7 +52,7 @@ class ProcessEmbedPosting implements ShouldQueue
 
 
 
-    private static function PostApi(int $channel, ?array $embed = null, ?array $content = null, mixed $model){
+    private static function PostApi(int $channel, array $embed = null, string $content = null, mixed $model){
         $req = Http::withHeaders([
             'Authorization'=> 'Bot '.env('DISCORD_BOT_TOKEN')
         ])->post("https://discord.com/api/v9/channels/".$channel."/messages",
@@ -70,7 +70,7 @@ class ProcessEmbedPosting implements ShouldQueue
 
     }
 
-    private static function PostWebhook(string $webhook, ?array $embed = null, ?array $content = null){
+    private static function PostWebhook(string $webhook, ?array $embed = null, ?string $content = null){
         Http::post($webhook,[
             'username'=> "LSCoFD - MDT",
             'avatar_url'=>'https://lscofd.simon-lou.com/assets/images/LSCoFD.png',

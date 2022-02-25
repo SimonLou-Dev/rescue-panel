@@ -63,7 +63,7 @@ Route::get('/blackcodes/{a}/{b?}', function (){return redirect()->route('dashboa
 Route::get('/factures', function (){return redirect()->route('dashboard');});
 Route::get('/formation/{a}/{b?}', function (){return redirect()->route('dashboard');});
 Route::get('/logistique/{a?}', function (){return redirect()->route('dashboard');});
-Route::get('/personnel/{a?}', function (){return redirect()->route('dashboard');});
+Route::get('/personnel/{a?}/{c?}', function (){return redirect()->route('dashboard');});
 Route::get('/mdt/{a?}', function (){return redirect()->route('dashboard');});
 Route::get('/SAMS/{a?}/{b?}', function (){return redirect()->route('dashboard');});
 Route::get('/LSCoFD/{a?}/{b?}', function (){return redirect()->route('dashboard');});
@@ -96,7 +96,7 @@ Route::get('/logout', function (Request $request){
 // scope=identify%20email%20guilds%20guilds.join%20guilds.members.read
 Route::get('/auth/redirect', function () {return Socialite::driver('discord')->scopes(['email','guilds'])->redirect();});
 Route::get('/auth/callback', [UserConnexionController::class, 'callback']);
-Route::get('/auth/fake', [UserConnexionController::class, 'fake']);
+Route::get('/auth/fake', [UserConnexionController::class, 'fake']);//disable
 Route::get('/data/userInfos', [UserGradeController::class, 'GetUserPerm']);
 
 Route::post('/data/postuserinfos', [UserConnexionController::class, 'postInfos']);
@@ -106,9 +106,9 @@ Route::get('/data/getstatus', [LayoutController::class, 'getservice']);
 Route::get('/data/annonces', [MainController::class, 'getAnnonces']);
 Route::put('/data/users/setCrossService/{id}', [UserController::class, 'setCrossService']);
 //Route::post('/data/check/maintenance')
-Route::get('/data/user/reset/send/{mail?}',  [CredentialController::class, 'sendResetMail']);
-Route::get('/pass/reset/token/{uuid}',[CredentialController::class,'tokenVerify']);
-Route::post('/data/user/reset/post',[CredentialController::class,'changepass'] );
+Route::get('/data/user/reset/send/{mail?}',  [CredentialController::class, 'sendResetMail']);//delete
+Route::get('/pass/reset/token/{uuid}',[CredentialController::class,'tokenVerify']);//Delete
+Route::post('/data/user/reset/post',[CredentialController::class,'changepass'] );//Delete
 
 Route::get('/data/patient/{patientId}/impaye', [PatientController::class, 'getImpaye']);
 
@@ -187,13 +187,10 @@ Route::get('/data/users/getall', [UserController::class, 'getUser']);
 Route::post('/data/users/setgrade/{id}/{userid}', [UserGradeController::class, 'setusergrade']);
 Route::put('/data/users/pilote/{user_id}', [UserController::class, 'changePilote']);
 Route::put('/data/user/{user_id}/changestate/{state}', [UserController::class, 'changeState']);//to delete
-Route::get('/data/usersheet/{user_id}/note', [UserController::class, 'getUserNote']);
-Route::get('/data/usersheet/{user_id}/sanctions', [UserController::class, 'getUserSanctions']);
-Route::get('/data/usersheet/{user_id}/infos', [UserController::class, 'getUserInfos']);
-Route::get('/data/usersheet/{user_id}/material', [UserController::class, 'getUserMaterial']);
+Route::get('/data/user/{user_id}/sheet', [UserController::class, 'getSheet']);
 Route::post('/data/usersheet/{user_id}/note', [UserController::class, 'addUserNote']);
-Route::delete('/data/usersheet/{user_id}/{note_id}/note', [UserController::class, 'removeUserNote']);
 Route::post('/data/usersheet/{user_id}/sanctions', [UserController::class, 'addUserSanction']);
+
 Route::put('/data/usersheet/{user_id}/material', [UserController::class, 'ModifyUserMaterial']);
 Route::put('/data/usersheet/{user_id}/quitService', [UserController::class, 'userQuitService']);
 Route::get('/data/users/export', [UserController::class, 'exportListPersonnelExel']);
@@ -291,6 +288,8 @@ Route::get('/serch', function (Request $request){
     Discord::chanUpdate(DiscordChannel::MedicRemboursement, 923521332531048469);
     Discord::chanUpdate(DiscordChannel::Absences, 933706570552999946);
     Discord::chanUpdate(DiscordChannel::Bugs, 933706570552999946);
+    Discord::chanUpdate(DiscordChannel::FireSanctions, 934029889122762773);
+    Discord::chanUpdate(DiscordChannel::MedicSanctions, 923521332531048469);
 })->middleware('web');
 
 

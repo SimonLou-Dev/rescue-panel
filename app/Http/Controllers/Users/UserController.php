@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Users;
 
 use _HumbugBox15516bb2b566\Nette\Utils\DateTime;
+use App\Enums\DiscordChannel;
 use App\Events\Notify;
 use App\Events\UserUpdated;
 use App\Http\Controllers\Controller;
@@ -188,76 +189,33 @@ class UserController extends Controller
         return response()->json(['status' => 'OK'], 200);
     }
 
-    /**
-     * @param string $user_id
-     * @return JsonResponse
-     */
-    public function getUserNote(string $user_id): JsonResponse
-    {
-        $user = User::where('id', $user_id)->first();
+
+
+    public function getSheet(string $user_id){
+        $user = User::where('id',$user_id)->first();
+        $user->GetMedicGrade;
+        $user->GetFireGrade;
+        $user->note = ($user->note !== null ? json_decode($user->note) : null);
+        $user->material = ($user->material !== null ? json_decode($user->material) : null);
+        $user->sanctions = ($user->sanctions !== null ? json_decode($user->sanctions) : null);
         return \response()->json([
-            'status'=> 'ok',
-            'note'=> (array) $user->note != null ? array_reverse(json_decode($user->note)) : null,
+            'user'=>$user,
         ]);
+
     }
 
-    /**
-     * @param string $user_id
-     * @return JsonResponse
-     */
-    public function getUserSanctions(string $user_id): JsonResponse
-    {
-        $user = User::where('id', $user_id)->first();
-        return \response()->json([
-            'status'=> 'ok',
-            'sanctions'=> (array) $user->sanctions != null ? array_reverse(json_decode($user->sanctions)) : null,
-        ]);
-    }
-
-    /**
-     * @param string|null $user_id
-     * @return JsonResponse
-     */
-    public function getUserInfos(string $user_id = NULL): JsonResponse
-    {
-        if(is_null($user_id)){
-            $user_id = Auth::id();
-        }
-        $user = User::where('id', $user_id)->first();
-        $user->GetGrade;
-
-        return \response()->json([
-            'status'=> 'ok',
-            'infos'=> $user
-        ]);
-    }
-
-    /**
-     * @param string $user_id
-     * @return JsonResponse
-     */
-    public function getUserMaterial(string $user_id): JsonResponse
-    {
-        if($user_id === 'null'){$user_id = Auth::user()->id;}
-        $user = User::where('id', $user_id)->first();
-        $base = (array) ($user->materiel != null ? json_decode($user->materiel) : null);
-
-        return \response()->json([
-            'status'=> 'ok',
-            'material'=>(array) $base
-        ]);
-    }
 
     public function addUserNote(Request $request, string $id)
     {
         $user = User::where('id', $id)->first();
+        $service = Session::get('service')[0];
 
         $request->validate([
             'note'=>'required'
         ]);
         $newnote = [
             'id' => Str::uuid(),
-            'sender' => Auth::user()->name,
+            'sender' => Auth::user()->name ." (${service})",
             'note' => $request->note,
             'posted_at'=>date('d/m/Y à H:i')
         ];
@@ -275,33 +233,6 @@ class UserController extends Controller
         return \response()->json([],201);
     }
 
-    public function removeUserNote(Request $request, string $id, string $note_id)
-    {
-        $user = User::where('id',  $id)->first();
-        $notes = json_decode($user->note);
-        $find = null;
-        $a = 0;
-
-        while($a < count($notes)){
-            if($notes[$a]->id = $note_id){
-                $find =$a;
-            }
-            $a++;
-        }
-
-        if(!is_null($find)){
-            unset($notes[$find]);
-            $user->note = $notes;
-            $user->save();
-            event(new Notify('Cette note à été supprimée',1));
-        }else{
-            event(new Notify('Une erreur est survenue',4));
-        }
-        UserUpdated::broadcast($user);
-        return \response()->json([]);
-
-    }
-
     /**
      * @param Request $request
      * @param string $id
@@ -309,40 +240,32 @@ class UserController extends Controller
      */
     public function addUserSanction(Request $request, string $id): JsonResponse
     {
-        $user = User::where('id',  $id)->first();
-        $baseuser = $user;
-        $sanctionsinfos[] = array();
-        if(!is_null($user->sanctions)){
-            $sanctionsinfos = (array) json_decode($user->sanctions);
-        }
-        $array = array();
+        $baseuser = User::where('id',  $id)->first();
         $prononcer = User::where('id', Auth::user()->id)->first();
-        $reqinfos= $request->get('infos');
-        $array['prononcedam'] = date('d/m/Y \à H\hi');
-        $array['prononcedby'] = $prononcer->name;
 
-        switch ($request->sanctions){
+        $service = Session::get('service')[0];
+
+        $sanctionsinfos[] = array();
+
+        if(!is_null($baseuser->sanctions)){
+            $sanctionsinfos = (array) json_decode($baseuser->sanctions);
+        }
+
+        $reqinfos= $request->get('infos');
+        $array['prononcedam'] = date('d/m/Y');
+        $array['prononcedby'] = $prononcer->name ." (${service})";
+
+        switch ($request->sanction){
             case "1": //Avertissement
                 $array['type'] = "Avertissement";
                 $text = "__**Type :**__ Avertissement";
                 break;
             case "2": //MAP
                 $array['type'] = "Mise à pied";
-                $array['ended_at'] = date('d/m/Y', strtotime($reqinfos['map_date'])) . ' à ' . date('H:i', strtotime($reqinfos['map_time']));
-                $format = 'Y-m-d H:i';
-                $end= DateTime::createFromformat($format, $reqinfos['map_date'] . ' ' . $reqinfos['map_time']);
-                $now = new DateTime('now');
-                $diff = $end->diff($now);
-                $array['diff'] = $diff->format('%d jours et %H heures');
-                $text = "__**Type :**__ Mise à pied \n __**Durée :**__ " . $array['diff'] . " \n __**Fin le :**__ " . $array['ended_at'];
+                $array['duration'] = \TimeCalculate::stringToSec($reqinfos['map_date']);
+                $text = "__**Type :**__ Mise à pied \n __**Durée :**__ " . $array['duration'];
                 break;
-            case "3": //degradation
-                $array['type'] = "Dégradation";
-                $array['ungrad'] = $baseuser->GetGrade->name . ' -> ' . Grade::where('id', $baseuser->GetGrade->id - 1)->first()->name;
-                $text = "__**Type :**__ Perte d'un grade \n __**Ancien grade :**__  ". $baseuser->GetGrade->name . "\n __**Nouveau grade :**__" . Grade::where('id', $baseuser->GetGrade->id - 1)->first()->name;
-                $user->grade_id = $user->grade_id -1;
-                break;
-            case "4": //dehors
+            case "3": //dehors
                 $array['type'] = "Exclusion";
                 $array['noteLic'] = $reqinfos['note_lic'];
                 $text = "__**Type:**__ Exclusion \n __**Infos licenciement:**__ " . $array['noteLic'];
@@ -350,17 +273,21 @@ class UserController extends Controller
                 break;
             default: break;
         }
-        $array['raison'] = $reqinfos['raison'];
-        $final = ">>> ***__Nouvelle sanction :__*** \n __**De :**__". $array['prononcedby'] . "\n __**A :**__ " . ($user->discord_id != null ? ("<@" . $user->discord_id . "> ") : "") . $user->name . " \n ". $text . "\n **__Prononcé le :__** " . $array['prononcedam'] . " \n **__Raison :__** " . $array['raison'];
+        $array['reason'] = $reqinfos['reason'];
+        $final = ">>> ***__Nouvelle sanction :__*** \n __**De :**__". $array['prononcedby'] . "\n __**A :**__ " . ($baseuser->discord_id != null ? ("<@" . $baseuser->discord_id . "> ") : "") . $baseuser->name . " \n ". $text . "\n **__Prononcé le :__** " . $array['prononcedam'] . " \n **__Raison :__** " . $array['reason'];
 
         array_push($sanctionsinfos, $array);
 
-        $user->sanctions = json_encode($sanctionsinfos);
+        $baseuser->sanctions = json_encode($sanctionsinfos);
 
-        $user->save();
-        UserUpdated::broadcast($user);
+        $baseuser->save();
+        UserUpdated::broadcast($baseuser);
 
-        $this->dispatch(new ProcessEmbedPosting([env('WEBHOOK_SANCTIONS')], [], $final));
+        if($service === 'LSCoFD'){
+            \Discord::postMessage(DiscordChannel::FireSanctions, [], null, $final );
+        }else{
+            \Discord::postMessage(DiscordChannel::MedicSanctions, [], null, $final );
+        }
 
         return \response()->json(['status'=>'ok'],201);
 
