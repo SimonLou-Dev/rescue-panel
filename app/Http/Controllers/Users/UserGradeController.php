@@ -12,6 +12,7 @@ use App\Models\User;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
 
 class UserGradeController extends Controller
 {
@@ -25,8 +26,9 @@ class UserGradeController extends Controller
     {
         $user= User::where('id', $userid)->first();
         $requester = User::where('id', Auth::user()->id)->first();
-        //Set un système de perm qui empèche de modif son propre grade sauf si DEV et ou ne peut pas changer un grade égal ou séprieur au siens
+        //TODO : Set un système de perm qui empèche de modif son propre grade sauf si DEV et ou ne peut pas changer un grade égal ou séprieur au siens
 
+        /*
         if(true){
             if($user->id == $requester->id){
                 event(new Notify('Impossible de modifier son propre grade ! ',4));
@@ -36,9 +38,9 @@ class UserGradeController extends Controller
                 event(new Notify('Impossible de mettre un grade plus haut que le siens ! ',4));
                 return \response()->json(['status'=>'OK']);
             }
-        }
-        if($user->grade_id == 1 && $id != 1){
-            $users = User::whereNotNull('matricule')->where('grade_id', '>',1)->where('grade_id', '<',12)->get();
+        }*/
+        if(($user->medic_grade_id == 1  || $user->fire_grade_id == 1) && $id != 1){
+            $users = User::whereNotNull('matricule')->get();
             $matricules = array();
             foreach ($users as $usere){
                 array_push($matricules, $usere->matricule);
@@ -51,7 +53,12 @@ class UserGradeController extends Controller
             $user->save();
             event(new Notify($user->name . ' a le matricule ' . $generated,1));
         }
-        $user->grade_id = $id;
+        if(Session::get('service')[0] === 'LSCoFD'){
+            $user->fire_grade_id = $id;
+        }
+        if(Session::get('service')[0] === 'SAMS'){
+            $user->medic_grade_id = $id;
+        }
         $user->save();
         UserUpdated::broadcast($user);
         event(new Notify('Le grade a été bien changé ! ',1));

@@ -73,7 +73,8 @@ class AbsencesController extends Controller
     }
 
     public function getAbsences(){
-        $this->authorize('viewAny', AbsencesList::class);
+
+        \Gate::authorize('viewAny', AbsencesList::class);
         $abs = AbsencesList::where('accepted', null);
         if($abs->count() < 10){
             $abs = AbsencesList::all()->take(15);

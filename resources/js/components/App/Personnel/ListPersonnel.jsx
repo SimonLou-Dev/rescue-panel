@@ -77,6 +77,7 @@ function ListPersonnel(props) {
                                     url: '/data/users/setgrade/'+ e.target.value +'/'+u.id
                                 }).then(r=>{UserList()})
                             }}>
+                                <option value={1} disabled={true}>sans grade</option>
                                 {gradeList && gradeList.map((g)=>
                                     <option key={g.id+'.'+u.id} value={g.id} disabled={(g.name === 'default')}>{g.name}</option>
                                 )}

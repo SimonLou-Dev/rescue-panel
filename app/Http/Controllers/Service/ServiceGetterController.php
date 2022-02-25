@@ -105,6 +105,20 @@ class ServiceGetterController extends Controller
 
     public function getUserService(): \Illuminate\Http\JsonResponse
     {
+        /**
+         *
+         * $users = $users->filter(function ($item){
+        $medic = false;
+        $fire = false;
+        if($item->isInFireUnit() && $item->GetFireGrade->name !== 'default') $fire = true;
+        if($item->isInMedicUnit() && $item->GetMedicGrade->name !== 'default') $medic = true;
+
+        return \Gate::allows('view', $item) && ( $fire || $medic);
+        });
+         */
+
+
+
         $date = $this::getWeekNumber();
         $weekcount = WeekService::where('user_id', Auth::id())->where('service', Session::get('service')[0])->count();
         $weeks = WeekService::where('user_id', Auth::id())->skip(($weekcount -5))->where('service', Session::get('service')[0])->take(5)->get();

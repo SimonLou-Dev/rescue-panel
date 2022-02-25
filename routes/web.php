@@ -290,6 +290,7 @@ Route::get('/serch', function (Request $request){
     Discord::chanUpdate(DiscordChannel::FireRemboursement, 934029889122762773);
     Discord::chanUpdate(DiscordChannel::MedicRemboursement, 923521332531048469);
     Discord::chanUpdate(DiscordChannel::Absences, 933706570552999946);
+    Discord::chanUpdate(DiscordChannel::Bugs, 933706570552999946);
 })->middleware('web');
 
 

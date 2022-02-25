@@ -165,7 +165,7 @@ function Layout(props) {
                     <section className={"menu-header"}>
                         <Link className={"menu-link-big"} to="/dashboard">tableau de bord</Link>
                         <Link className={"menu-link-big"} to="/account">mon compte</Link>
-                        <Link className={"menu-link-big"} to={"/dispatch/"+service} >dispatch</Link>
+                        <Link className={"menu-link-big hidden"} to={"/dispatch/"+service} >dispatch</Link>
                         <Link className={"menu-link-big"} to="/servicenav">changer de service</Link>
                         <h4 className={"menu-link-big"} onClick={async () => {
                             await axios({
@@ -192,7 +192,7 @@ function Layout(props) {
                                     <li className={'menu-puce'}><Link to={'/factures'} className={'menu-link'}>factures</Link></li>
                                 </ul>
                             </section>
-                            <section className={"menu-item"}>
+                            <section className={"menu-item hidden"}>
                                 <h2><span>Formations</span></h2>
                                 <ul className={"menu-nav-list"}>
                                     <li className={'menu-puce'}><Link to={'/formation/questionnaires'} className={'menu-link'}>questionnaires</Link></li>

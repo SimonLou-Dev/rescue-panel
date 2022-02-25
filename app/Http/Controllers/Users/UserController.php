@@ -38,6 +38,7 @@ class UserController extends Controller
         $this->authorize('viewPersonnelList', User::class);
         $me = User::where('id', Auth::user()->id)->first();
         $meService = Session::get('service')[0];
+        if($meService === null || $meService === '') $meService = $me->service;
         $users = User::search($request->query('query'))->get();
         $queryPage = (int) $request->query('page');
         $readedPage = ($queryPage ?? 1) ;
@@ -47,11 +48,11 @@ class UserController extends Controller
             if(!$me->dev){
                 $user = $users[$a];
                 if($meService === "SAMS"){
-                    if(!($user->medic || ($user->fire && $user->crossService))){
+                    if(!$user->isInMedicUnit()){
                         array_push($forgetable, $a);
                     }
                 }else if($meService === "LSCoFD"){
-                    if(!($user->fire || ($user->medic && $user->crossService))){
+                    if(!$user->isInFireUnit()){
                         array_push($forgetable, $a);
                     }
                 }
@@ -64,7 +65,7 @@ class UserController extends Controller
 
 
         $users = $users->filter(function ($item){
-            return \Gate::allows('view', $item) && ($item->grade->name !== 'default');
+            return \Gate::allows('view', $item);
         });
 
 
@@ -93,13 +94,16 @@ class UserController extends Controller
             'total' => $totalItem,
         ];
 
-        //TODO : filter les grades pour que l'on puisse voir seul ceux que l'on peut assigner
+        $grades = Grade::where('service', $meService)->get();
+        $grades = $grades->filter(function ($item){
+            return \Gate::allows('view', $item);
+        });
 
 
         return response()->json([
             'status' => 'OK',
             'users' => $array,
-            'serviceGrade'=>Grade::where('service', $meService)->get(),
+            'serviceGrade'=>$grades,
         ]);
     }
 
@@ -169,9 +173,17 @@ class UserController extends Controller
      */
     public function setCrossService(Request $request, string $id): JsonResponse
     {
+
         $user = User::where('id', $id)->first();
-        $user->crossService=!$usr->crossService;
-        $user->save;
+        if($user->crossService){
+            if($user->fire)$user->medic_grade_id = 1;
+            if($user->medic)$user->fire_grade_id = 1;
+            Notify::broadcast('Grade retiré',1, Auth::user()->id);
+        }
+
+        $user->crossService=!$user->crossService;
+        $user->save();
+
         Notify::broadcast('Modification enregistrée',1, Auth::user()->id);
         return response()->json(['status' => 'OK'], 200);
     }
@@ -446,14 +458,18 @@ class UserController extends Controller
         $users = User::all();
         $forgetable = array();
         for($a = 0; $a < $users->count(); $a++){
+
+
+
+
             if(!$me->dev){
                 $user = $users[$a];
                 if($meService === "SAMS"){
-                    if(!($user->medic || ($user->fire && $user->crossService))){
+                    if(!($user->isInMedicUnit())){
                         array_push($forgetable, $a);
                     }
                 }else if($meService === "LSCoFD"){
-                    if(!($user->fire || ($user->medic && $user->crossService))){
+                    if(!($user->isInFireUnit())){
                         array_push($forgetable, $a);
                     }
                 }
@@ -474,7 +490,12 @@ class UserController extends Controller
 
 
         $users = $users->filter(function ($item){
-            return \Gate::allows('view', $item);
+            $medic = false;
+            $fire = false;
+            if($item->isInFireUnit() && $item->GetFireGrade->name !== 'default') $fire = true;
+            if($item->isInMedicUnit() && $item->GetMedicGrade->name !== 'default') $medic = true;
+
+            return \Gate::allows('view', $item) && ( $fire || $medic);
         });
 
         $column[] = array('id','nom', 'matricule', 'grade', 'discordid', 'tel', 'compte', 'pilote','service d\'arrivée','cross service', 'nombre de sanctions');

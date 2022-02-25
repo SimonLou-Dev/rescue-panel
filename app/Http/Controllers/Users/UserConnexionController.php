@@ -71,10 +71,12 @@ class UserConnexionController extends Controller
         if($request->service === 'LSCoFD'){
             $service = 'Fire';
             $user->fire = true;
+            $user->service = 'LSCoFD';
         }
-        if($request->service === 'OMC'){
+        if($request->service === 'SAMS'){
             $service = 'Medic';
             $user->medic = true;
+            $user->service = 'SAMS';
         }
 
 
@@ -86,7 +88,7 @@ class UserConnexionController extends Controller
                 'fields'=>[
                     [
                         'name'=>'Prénom Nom : ',
-                        'value'=>$user->name .' (' . (!is_null($user->service) ? $user->service : ($user->moderator ? 'staff' : 'idk')) . ')',
+                        'value'=>$user->name .' (' . (!is_null($user->service) ? $user->service : ($user->moderator ? 'staff' : '')) . ')',
                         'inline'=>false
                     ],[
                         'name'=>'Numéro de téléphone : ',
@@ -104,10 +106,11 @@ class UserConnexionController extends Controller
                 ],
             ]
         ];
-        if(!is_null($user->service)){
-            \Discord::postMessage($service.'Infos',$embed, null);
+
+        if($user->service === 'LSCoFD'){
+            \Discord::postMessage(DiscordChannel::FireInfos, $embed);
         }else{
-            \Discord::postMessage(DiscordChannel::Bugs,$embed, null);
+            \Discord::postMessage(DiscordChannel::MedicInfos, $embed);
         }
 
         $access = Gate::allows('access', $user);
@@ -183,10 +186,6 @@ class UserConnexionController extends Controller
                             'value'=>$createuser->email,
                             'inline'=>false
                         ],[
-                            'name'=>'IP : ',
-                            'value'=>$request->header('x-real-ip'),
-                            'inline'=>false
-                        ],[
                             'name'=>'Discord name : ',
                             'value'=> $auth->nickname,
                             'inline'=>false,
@@ -197,7 +196,8 @@ class UserConnexionController extends Controller
                     ]
                 ]
             ];
-            $this->dispatch(new ProcessEmbedPosting(env('WEBHOOK_BUGS'), $embed, null));
+
+            \Discord::postMessage(DiscordChannel::Bugs, $embed);
         }
 
         $user->GetMedicGrade;
@@ -261,10 +261,6 @@ class UserConnexionController extends Controller
                             'value'=>$createuser->email,
                             'inline'=>false
                         ],[
-                            'name'=>'IP : ',
-                            'value'=>$ip,
-                            'inline'=>false
-                        ],[
                             'name'=>'Discord name : ',
                             'value'=> 'TestUser#0000',
                             'inline'=>false,
@@ -291,8 +287,22 @@ class UserConnexionController extends Controller
 
     private static  function redirector(User $user){
 
+
         if(is_null($user->name) || is_null($user->compte) || is_null($user->liveplace) || is_null($user->tel)){
             return redirect()->route('informations');
+        }
+        if($user->service === null || $user->service === ''){
+
+            if($user->fire){
+                $user->service = 'LSCoFD';
+                Session::push('service', $user->service);
+            }
+            if($user->medic){
+                $user->service = 'SAMS';
+
+                Session::push('service', $user->service);
+            }
+            $user->save();
         }
 
         if(\Gate::allows('access', $user)){

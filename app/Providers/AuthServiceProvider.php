@@ -14,6 +14,7 @@ use App\Models\User;
 use App\Policies\AbsencesPolicy;
 use App\Policies\BlackCodePolicy;
 use App\Policies\FacturesPolicy;
+use App\Policies\GradePolicy;
 use App\Policies\PouderTestPolicy;
 use App\Policies\PrimePolicy;
 use App\Policies\RapportsPolicy;
@@ -36,9 +37,10 @@ class AuthServiceProvider extends ServiceProvider
         TestPoudre::class => PouderTestPolicy::class,
         Facture::class => FacturesPolicy::class,
         User::class => UserPolicy::class,
-        AbsencesList::class, AbsencesPolicy::class,
-        Prime::class, PrimePolicy::class,
-        ModifyServiceReq::class, ServiceReqPolicy::class,
+        Prime::class=> PrimePolicy::class,
+        Grade::class=> GradePolicy::class,
+        AbsencesList::class => AbsencesPolicy::class,
+        ModifyServiceReq::class=> ServiceReqPolicy::class,
     ];
 
     /**
@@ -51,6 +53,7 @@ class AuthServiceProvider extends ServiceProvider
         $this->registerPolicies();
 
         Gate::define('access', function (User $user){
+            if($user->isAdmin()) return true;
             if(is_null($user->GetFireGrade) ||  is_null($user->GetMedicGrade)) return false;
             return $user->isAdmin() || $user->GetFireGrade->access || $user->GetMedicGrade->access;
         });

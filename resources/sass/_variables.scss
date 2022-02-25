@@ -38,6 +38,11 @@ $border-radius: 10px;
     @return 0 0 $blur $size $color;
 }
 
+.hidden{
+    display: none;
+    visibility: hidden;
+}
+
 .fixed-top-right{
     position: fixed;
     top: 70px;

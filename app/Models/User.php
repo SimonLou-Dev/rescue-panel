@@ -118,9 +118,9 @@ class User extends Authenticatable
     public function isAdmin(): bool
     {
         if($this->service === "SAMS"){
-            return $this->GetMedicGrade->isAdmin();
+            return $this->GetMedicGrade->admin;
         }else if($this->service === "LSCoFD"){
-            return $this->GetFireGrade->isAdmin();
+            return $this->GetFireGrade->admin;
         }
         return false;
     }
@@ -167,5 +167,16 @@ class User extends Authenticatable
             return $this->GetFireGrade;
         }
         return null;
+    }
+
+    public function isInFireUnit():bool
+    {
+        return  $this->fire || ($this->medic && $this->crossService);
+    }
+
+    public function isInMedicUnit():bool
+    {
+        return  $this->medic || ($this->fire && $this->crossService);
+
     }
 }
