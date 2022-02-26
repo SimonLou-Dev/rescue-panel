@@ -108,7 +108,7 @@ class UserGradeController extends Controller
         $user->medic=false;
         $user->crossService= false;
         $user->bc_id = null;
-        if($user->service){
+        if($user->onService){
             OperatorController::setService($user, true);
         }
         $user->save();
@@ -116,6 +116,6 @@ class UserGradeController extends Controller
 
         // mettre un embed de réinit du matériel
 
-        event(new Notify($user->name .' ne fait plus partie du service',1));
+        Notify::dispatch($user->name .' ne fait plus partie du service',1, Auth::user()->id);
     }
 }

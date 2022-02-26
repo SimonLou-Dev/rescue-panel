@@ -18,6 +18,7 @@ class Primes extends Migration
             $table->string('reason');
             $table->integer('user_id');
             $table->integer('week_number');
+            $table->integer('montant');
             $table->boolean('accepted')->nullable()->default(null);
             $table->integer('admin_id')->nullable()->default(null);
             $table->string('service');

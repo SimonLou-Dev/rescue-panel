@@ -196,7 +196,7 @@ class UserController extends Controller
         $user->GetMedicGrade;
         $user->GetFireGrade;
         $user->note = ($user->note !== null ? json_decode($user->note) : null);
-        $user->material = ($user->material !== null ? json_decode($user->material) : null);
+        $user->materiel = ($user->materiel !== null ? json_decode($user->materiel) : null);
         $user->sanctions = ($user->sanctions !== null ? json_decode($user->sanctions) : null);
         return \response()->json([
             'user'=>$user,
@@ -262,7 +262,7 @@ class UserController extends Controller
                 break;
             case "2": //MAP
                 $array['type'] = "Mise à pied";
-                $array['duration'] = \TimeCalculate::stringToSec($reqinfos['map_date']);
+                $array['duration'] = $reqinfos['map_date'];
                 $text = "__**Type :**__ Mise à pied \n __**Durée :**__ " . $array['duration'];
                 break;
             case "3": //dehors
@@ -283,10 +283,12 @@ class UserController extends Controller
         $baseuser->save();
         UserUpdated::broadcast($baseuser);
 
-        if($service === 'LSCoFD'){
-            \Discord::postMessage(DiscordChannel::FireSanctions, [], null, $final );
-        }else{
-            \Discord::postMessage(DiscordChannel::MedicSanctions, [], null, $final );
+        if($baseuser->isInFireUnit()){
+            \Discord::postMessage(DiscordChannel::FireSanctions, [], null, $final);
+        }
+
+        if($baseuser->isInMedicUnit()){
+            \Discord::postMessage(DiscordChannel::MedicSanctions, [], null, $final);
         }
 
         return \response()->json(['status'=>'ok'],201);
@@ -347,7 +349,15 @@ class UserController extends Controller
                 ],
             ]
         ];
-        $this->dispatch(new ProcessEmbedPosting([env('WEBHOOK_LOGISTIQUE')], $embed, null));
+
+        if($user->isInFireUnit()){
+            \Discord::postMessage(DiscordChannel::FireLogistique, $embed);
+        }
+
+        if($user->isInMedicUnit()){
+            \Discord::postMessage(DiscordChannel::MedicLogistique, $embed);
+        }
+
         UserUpdated::broadcast($user);
         return \response()->json([
             'status'=>'ok',
@@ -367,10 +377,16 @@ class UserController extends Controller
         event(new Notify('La démission a été prise en compte',1));
         $prononcer = User::where('id', Auth::user()->id)->first();
         UserUpdated::broadcast($user);
+        $msg =   ">>> ***__Démission :__*** \n **__Personnel :__** " . ($user->discord_id != null ? ("<@" . $user->discord_id . "> ") : "") . $user->name . "\n **__Déclaré par :__** ".$prononcer->name;
 
-        $this->dispatch(new ProcessEmbedPosting([env('WEBHOOK_SANCTIONS')], [],
-            ">>> ***__Démission :__*** \n **__Personnel :__** " . ($user->discord_id != null ? ("<@" . $user->discord_id . "> ") : "") . $user->name . "\n **__Déclaré par :__** ".$prononcer->name
-        ));
+        if($user->isInFireUnit()){
+            \Discord::postMessage(DiscordChannel::FireSanctions, [], null, $msg);
+        }
+
+        if($user->isInMedicUnit()){
+            \Discord::postMessage(DiscordChannel::MedicSanctions, [], null, $msg);
+        }
+
 
     }
 

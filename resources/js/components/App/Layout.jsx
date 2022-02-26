@@ -199,7 +199,7 @@ function Layout(props) {
                                     <li className={'menu-puce'}><Link to={'/formation/admin'} className={'menu-link'}>création</Link></li>
                                 </ul>
                             </section>
-                            <section className={"menu-item"}>
+                            <section className={"menu-item hidden"}>
                                 <h2><span>Logistique</span></h2>
                                 <ul className={"menu-nav-list"}>
                                     <li className={'menu-puce'}><Link to={'/'+service+ '/logistique/stock/view'} className={'menu-link'}>gestion des stocks</Link></li>

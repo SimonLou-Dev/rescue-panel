@@ -13,6 +13,8 @@ function FichePersonnel(props) {
     const [reason, setReason] = useState('');
     const [note, setNote] = useState('');
 
+    const [material, setMaterial] = useState(null);
+
     const me = useContext(UserContext);
     const {userId} = useParams();
 
@@ -30,15 +32,33 @@ function FichePersonnel(props) {
             method: 'GET',
             url: '/data/user/' + userId + '/sheet'
         }).then(r => {
+            if(r.data.user.materiel === null){
+                r.data.user.materiel = {
+                    'extincteur':false,
+                    'flashlight':false,
+                    'flare':false,
+                    'kevlar':false,
+                    'flaregun':false
+                };
+            }
             setUser(r.data.user);
+            setMaterial(r.data.user.materiel);
         })
     }
 
     return (<div className={'FichePersonnel'}>
         <section className={'left-part ' + (sanctionPopup ? 'popupBg':'') + (materialPopup ? 'popupBg':'') }>
             <section className={'btn-container'}>
-                <button className={'btn --medium'}>
+                <button className={'btn --medium'} onClick={async () => {
+                    await axios({
+                        method:'PUT',
+                        url:'/data/usersheet/'+ userId +'/quitService'
+                    }).then(()=>{props.history.goBack()})
+                }}>
                     démissions
+                </button>
+                <button className={'btn --medium'} onClick={()=>{props.history.push('/'+ me.service +'/personnel/personnel')}}>
+                    retour
                 </button>
                 <button className={'btn --medium'} onClick={()=>{setMaterialPopup(true)}}>
                     <img src={'/assets/images/edit.png'} alt={''}/> matériel
@@ -118,32 +138,17 @@ function FichePersonnel(props) {
         <section className={'center-part ' + (sanctionPopup ? 'popupBg':'') + (materialPopup ? 'popupBg':'') }>
             <CardComponent title={'sanctions'}>
                 <div className={'sanctions-list'}>
-                    <div className={'sanctions-item'}>
-                        <p><label>type : </label> mise à pied</p>
-                        <p><label>date : </label> 14/21/2121</p>
-                        <p><label>durée : </label> 1j 2h</p>
-                        <p><label>raison : </label> Fortis cresceres, tanquam flavum torus.</p>
-                        <p><label>personnel : </label> Simon Lou (SAMS)</p>
-                    </div>
-                    <div className={'sanctions-item'}>
-                        <p><label>type : </label> avertissement</p>
-                        <p><label>date : </label> 14/21/2121</p>
-                        <p><label>raison : </label> Fortis cresceres, tanquam flavum torus.</p>
-                        <p><label>personnel : </label> Simon Lou (SAMS)</p>
-                    </div>
-                    <div className={'sanctions-item'}>
-                        <p><label>type : </label> exclusion</p>
-                        <p><label>date : </label> 14/21/2121</p>
-                        <p><label>raison : </label> Fortis cresceres, tanquam flavum torus.</p>
-                        <p><label>personnel : </label> Simon Lou (SAMS)</p>
-                    </div>
-                    <div className={'sanctions-item'}>
-                        <p><label>type : </label> degrade</p>
-                        <p><label>date : </label> 14/21/2121</p>
-                        <p><label>grade : </label> fireUser -> Grosse Merde</p>
-                        <p><label>raison : </label> Fortis cresceres, tanquam flavum torus.</p>
-                        <p><label>personnel : </label> Simon Lou (SAMS)</p>
-                    </div>
+                    {user && user.sanctions !== null && user.sanctions.map((e)=>
+                        <div className={'sanctions-item'}>
+                            <p><label>type : </label> {e.type}</p>
+                            <p><label>date : </label> {e.prononcedam}</p>
+                            {e.type === 'mise à pied' &&
+                                <p><label>durée : </label>{e.duration}</p>
+                            }
+                            <p><label>raison : </label> {e.reason}</p>
+                            <p><label>personnel : </label> {e.prononcedby}</p>
+                        </div>
+                    )}
                 </div>
             </CardComponent>
         </section>
@@ -163,7 +168,7 @@ function FichePersonnel(props) {
                 <div className={'notes-form'}>
                     <textarea placeholder={'écrire une note'} value={note} onChange={(e)=>setNote(e.target.value)}/>
                     <div className={'form-part form-inline'}>
-                        <p>SAMS</p> <button className={'btn'} onClick={ async () => {
+                        <p>{me ? me.service : '?'}</p> <button className={'btn'} onClick={ async () => {
                             await axios({
                                 method: 'POST',
                                 url: '/data/usersheet/' + userId + '/note',
@@ -244,7 +249,6 @@ function FichePersonnel(props) {
                         < /button>
                     </div>
 
-
                 </CardComponent>
             </section>
         }
@@ -254,30 +258,85 @@ function FichePersonnel(props) {
                 <CardComponent title={'ajouter une sanction'}>
                     <div className={'form-part form-inline'}>
                         <input type={'text'} disabled={true} value={'extincteur'}/>
-                        <button className={'btn'}><img src={'/assets/images/accept.png'} alt={''}/></button>
+                        <button className={'btn'} onClick={()=>{
+                            let FinalMatList = {
+                                'extincteur':!material.extincteur,
+                                'flashlight':material.flashlight,
+                                'flare':material.flare,
+                                'kevlar':material.kevlar,
+                                'flaregun':material.flaregun,
+                            }
+                            setMaterial(FinalMatList);
+                        }}><img src={'/assets/images/'+ (material ?( material.extincteur ? 'accept' : 'decline' ) : 'decline') +'.png'} alt={''}/></button>
                     </div>
                     <div className={'form-part form-inline'}>
-                        <input type={'text'} disabled={true} value={'extincteur'}/>
-                        <button className={'btn'}><img src={'/assets/images/accept.png'} alt={''}/></button>
+                        <input type={'text'} disabled={true} value={'flashlight'}/>
+                        <button className={'btn'} onClick={()=>{
+                            let FinalMatList = {
+                                'extincteur':material.extincteur,
+                                'flashlight':!material.flashlight,
+                                'flare':material.flare,
+                                'kevlar':material.kevlar,
+                                'flaregun':material.flaregun,
+                            }
+                            setMaterial(FinalMatList);
+                        }}><img src={'/assets/images/'+ (material ?( material.flashlight ? 'accept' : 'decline' ) : 'decline') +'.png'} alt={''}/></button>
                     </div>
                     <div className={'form-part form-inline'}>
-                        <input type={'text'} disabled={true} value={'extincteur'}/>
-                        <button className={'btn'}><img src={'/assets/images/accept.png'} alt={''}/></button>
+                        <input type={'text'} disabled={true} value={'flare'}/>
+                        <button className={'btn'} onClick={()=>{
+                            let FinalMatList = {
+                                'extincteur':material.extincteur,
+                                'flashlight':material.flashlight,
+                                'flare':!material.flare,
+                                'kevlar':material.kevlar,
+                                'flaregun':material.flaregun,
+                            }
+                            setMaterial(FinalMatList);
+                        }}><img src={'/assets/images/'+ (material ?( material.flare ? 'accept' : 'decline' ) : 'decline') +'.png'} alt={''}/></button>
                     </div>
                     <div className={'form-part form-inline'}>
-                        <input type={'text'} disabled={true} value={'extincteur'}/>
-                        <button className={'btn'}><img src={'/assets/images/accept.png'} alt={''}/></button>
+                        <input type={'text'} disabled={true} value={'kevlar'}/>
+                        <button className={'btn'} onClick={()=>{
+                            let FinalMatList = {
+                                'extincteur':material.extincteur,
+                                'flashlight':material.flashlight,
+                                'flare':material.flare,
+                                'kevlar':!material.kevlar,
+                                'flaregun':material.flaregun,
+                            }
+                            setMaterial(FinalMatList);
+                        }}><img src={'/assets/images/'+ (material ?( material.kevlar ? 'accept' : 'decline' ) : 'decline') +'.png'} alt={''}/></button>
                     </div>
                     <div className={'form-part form-inline'}>
-                        <input type={'text'} disabled={true} value={'extincteur'}/>
-                        <button className={'btn'}><img src={'/assets/images/accept.png'} alt={''}/></button>
+                        <input type={'text'} disabled={true} value={'flaregun'}/>
+                        <button className={'btn'} onClick={()=>{
+                            let FinalMatList = {
+                                'extincteur':material.extincteur,
+                                'flashlight':material.flashlight,
+                                'flare':material.flare,
+                                'kevlar':material.kevlar,
+                                'flaregun':!material.flaregun,
+                            }
+                            setMaterial(FinalMatList);
+                        }}><img src={'/assets/images/'+ (material ?( material.flaregun ? 'accept' : 'decline' ) : 'decline') +'.png'} alt={''}/></button>
                     </div>
 
                     <div className={'form-part form-line'}>
                         <button className={'btn'} onClick={()=>{setMaterialPopup(false)}}>fermer</button>
-                        <button className={'btn'}>envoyer</button>
+                        <button className={'btn'} onClick={async () => {
+                            await axios({
+                                method: 'PUT',
+                                url: '/data/usersheet/'+ userId +'/material',
+                                data:{
+                                    material
+                                }
+                            }).then(r=>{
+                                setMaterialPopup(false)
+                            })
+                        }
+                        }>envoyer</button>
                     </div>
-
 
                 </CardComponent>
             </section>
