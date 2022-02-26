@@ -112,7 +112,11 @@ function FireBC(props) {
                 <h5>{bc.place ? bc.get_user.name : 'chargement'}</h5><img alt={''} src={'/assets/images/'+ (bc.place ?  bc.get_user.service : '') + '.png'}/>
             </div>
             <div className={'BC-Commands'}>
-                <button  className={'btn'} onClick={()=>{Redirection('/blackcodes/all')}}>retour</button>
+                <button  className={'btn'} onClick={async () => {
+                    await axios({method: 'PATCH', url: '/data/blackcode/quit'}).then(() => {
+                        Redirection('/blackcodes/all')
+                    })
+                }}>retour</button>
                 <button  className={'btn'} onClick={async () => {
                     await axios({
                         method: 'PUT',

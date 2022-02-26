@@ -138,9 +138,11 @@ Route::delete('/data/blackcode/delete/patient/{patient_id}', [BlesseController::
 Route::delete('/data/blackcode/{id}/delete/personnel', [PersonnelController::class, 'removePersonnel'])->middleware(['auth']);
 Route::get('/exel/allPList/{from}/{to}', [BlesseController::class, 'generateListWithAllPatients'])->middleware(['auth']);
 Route::get('/data/bc/rapport/{id}', [BCController::class, 'generateRapport'])->middleware(['auth']);
+
 Route::patch('/data/blackcode/{id}/caserne', [BCController::class, 'casernePatcher'])->middleware(['auth']);
 Route::patch('/data/blackcode/{id}/desc', [BCController::class, 'descPatcher'])->middleware(['auth']);
 Route::patch('/data/blackcode/{id}/infos', [BCController::class, 'infosPatcher'])->middleware(['auth']);
+Route::patch('/data/blackcode/quit', [BCController::class, 'quitBc'])->middleware(['auth']);
 
 //Les factures
 Route::get('/data/facture/list', [FacturesController::class, 'getAllimpaye'])->middleware(['auth']);

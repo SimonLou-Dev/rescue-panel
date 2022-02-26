@@ -89,7 +89,7 @@ class BlackCodePolicy
      * @param  \App\Models\BCList  $bCList
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function ModifyPatient(User $user, BCList $bCList)
+    public function ModifyPatient(User $user)
     {
         $grade = $user->getUserGradeInService();
         if($user->isAdmin() || $grade->BC_modify_patient) return true;

@@ -101,6 +101,15 @@ class BCController extends Controller
     }
 
 
+    public function quitBc(Request $request){
+        $user = User::where('id', Auth::user()->id)->first();
+        $user->bc_id = null;
+        $user->save();
+
+
+        return response()->json([],201);
+    }
+
     public function getBCState(string $id): \Illuminate\Http\JsonResponse
     {
         $id = (int) $id;
