@@ -244,6 +244,9 @@ Route::put('/data/user/infos/put', [AccountController::class, 'updateInfos'])->m
 Route::get('/data/admin/grades/get', [UserGradeController::class, 'getAllGrades'])->middleware(['auth']);
 Route::put('/data/admin/grades/{perm}/{grade_id}', [UserGradeController::class, 'changePerm'])->middleware(['auth']);
 
+//Change service
+Route::patch('/data/user/service/{service}', [UserController::class, 'setService'])->middleware(['auth']);
+
 
 //Temp upload DISABLED
 /*

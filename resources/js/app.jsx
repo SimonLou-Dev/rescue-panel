@@ -42,7 +42,7 @@ class App extends React.Component{
                             <Route path='/cantaccess' component={Cantaccess}/>
                             <Route path='/informations' component={GetInfos}/>
                             <Route path='/maintenance' component={Maintenance}/>
-                            <Route path='/servicenav' component={ServiceNav}/>
+
 
                             <Layout/>
                         </Switch>

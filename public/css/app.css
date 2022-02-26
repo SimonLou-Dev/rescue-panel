@@ -773,6 +773,7 @@ body {
 }
 
 .ServiceNav {
+  background-image: url("assets/bg/BG_2.jpg");
   height: 100vh;
   width: 100vw;
   top: 0;
@@ -785,34 +786,37 @@ body {
 .ServiceNav .ServiceSelector img {
   width: 100px;
 }
+.ServiceNav .ServiceSelector ul {
+  background-color: rgba(220, 220, 220, 0.2);
+  padding: 0;
+  overflow: hidden;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  border-radius: 10px;
+}
 .ServiceNav .ServiceSelector ul li {
-  position: absolute;
+  margin: 1%;
+  border-radius: 10px;
+  transition: all 500ms;
+  display: flex;
+  background-color: #1B2037;
   list-style: none;
-  transform-origin: 100% 100%;
-  left: 50%;
-  top: 50%;
-  background-color: red;
-  width: 200px;
-  height: 200px;
+  height: 175px;
+  width: 175px;
+  cursor: pointer;
 }
 .ServiceNav .ServiceSelector ul li div {
-  bottom: -7.25em;
-  right: -7.25em;
-  display: block;
-  transform: skew(-45deg);
+  margin: auto auto;
 }
-.ServiceNav .ServiceSelector ul li:nth-child(1) {
-  transform: rotate(0deg) skew(45deg);
+.ServiceNav .ServiceSelector ul li div h2 {
+  text-align: center;
 }
-.ServiceNav .ServiceSelector ul li:nth-child(2) {
-  transform: rotate(45deg) skew(45deg);
+.ServiceNav .ServiceSelector ul li:hover {
+  background-color: #222844;
 }
-.ServiceNav .ServiceSelector ul li:nth-child(3) {
-  transform: rotate(90deg) skew(45deg);
-}
-.ServiceNav .ServiceSelector ul li:nth-child(4) {
-  transform: rotate(135deg) skew(45deg);
-}
+
 .layout {
   height: 100vh;
   width: 100vw;
@@ -2106,6 +2110,91 @@ body {
 }
 .FichePersonnel .right-part .notes-form .form-inline p, .FichePersonnel .right-part .notes-form .form-inline button {
   margin: auto 0;
+}
+
+.GradeList {
+  width: 100vw;
+  height: 100%;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+.GradeList .grades-selector {
+  width: 20%;
+  min-width: 200px;
+  height: 100%;
+  display: flex;
+}
+.GradeList .grades-selector .grade-list {
+  margin: auto auto;
+  background-color: #1B2037;
+  border-radius: 10px;
+  height: 60%;
+  overflow-y: auto;
+  width: 90%;
+}
+.GradeList .grades-selector .grade-list table {
+  width: 100%;
+}
+.GradeList .grades-selector .grade-list table .grade {
+  width: 90%;
+}
+.GradeList .grades-selector .grade-list table .power {
+  width: 10%;
+}
+.GradeList .bigpart {
+  width: 80%;
+  min-width: 900px;
+  height: 100%;
+  display: flex;
+}
+.GradeList .bigpart .bigbordel {
+  margin: auto auto;
+  background-color: #1B2037;
+  border-radius: 10px;
+  height: 80%;
+  overflow: auto;
+  width: 90%;
+  display: flex;
+  flex-direction: column;
+}
+.GradeList .bigpart .header {
+  position: sticky;
+  top: 0;
+  left: 0;
+  z-index: 14;
+  border-bottom: 1px #E9E9E9 solid;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  height: 80px;
+  background-color: #3D487B;
+}
+.GradeList .bigpart .header input, .GradeList .bigpart .header .btn {
+  background-color: #1B2037;
+  margin: 10px 0;
+}
+.GradeList .bigpart .header .btn {
+  margin: auto 0;
+}
+.GradeList .bigpart .perm-editor {
+  margin-top: 70px;
+  display: flex;
+  flex-direction: column;
+}
+.GradeList .bigpart .perm-editor .perm-line {
+  display: flex;
+  flex-direction: column;
+  margin: 40px 0;
+  border-top: 1px #ED3444 solid;
+}
+.GradeList .bigpart .perm-editor .perm-line h4 {
+  text-align: center;
+  margin-bottom: 10px;
+}
+.GradeList .bigpart .perm-editor .perm-line:first-child {
+  border-top: none;
+  margin-top: 0px;
 }
 
 /*# sourceMappingURL=app.css.map */

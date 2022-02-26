@@ -77,18 +77,18 @@ class CreateGradesTable extends Migration
             //Demandes
             $table->boolean('post_service_req')->default(false);
             $table->boolean('view_service_req')->default(false);
-            $table->boolean('viewAll_service_req')->default(false);//New
+            $table->boolean('viewAll_service_req')->default(false);
             $table->boolean('modify_service_req')->default(false);
 
             $table->boolean('post_prime_req')->default(false);
             $table->boolean('view_prime_req')->default(false);
-            $table->boolean('viewAll_prime_req')->default(false);//New
+            $table->boolean('viewAll_prime_req')->default(false);
             $table->boolean('modify_prime_req')->default(false);
 
-            $table->boolean('post_absences_req')->default(false);//replace to ABS
-            $table->boolean('view_absences_req')->default(false);//replace to ABS
-            $table->boolean('viewAll_absences_req')->default(false);//replace to ABS
-            $table->boolean('modify_absences_req')->default(false);//replace to ABS
+            $table->boolean('post_absences_req')->default(false);
+            $table->boolean('view_absences_req')->default(false);
+            $table->boolean('viewAll_absences_req')->default(false);
+            $table->boolean('modify_absences_req')->default(false);
 
             //Service
             $table->boolean('view_rappportHoraire')->default(false);
@@ -96,6 +96,14 @@ class CreateGradesTable extends Migration
             $table->boolean('set_other_service')->default(false);
 
             //Management
+            $table->boolean('view_grade_list')->default(false);
+            $table->boolean('modify_grade')->default(false);
+            $table->boolean('modify_gestionContent')->default(false);
+            $table->boolean('modify_discordChann')->default(false);
+            $table->boolean('view_logs')->default(false);
+            $table->boolean('post_annonces')->default(false);
+            $table->boolean('post_actualities')->default(false);
+            $table->boolean('edit_infos_utils')->default(false);
 
             $table->timestamps();
         });

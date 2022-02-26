@@ -134,6 +134,13 @@ class UserController extends Controller
         return \response()->json(['status' => 'OK'], 201);
     }
 
+    public function setService(Request $request, string $service){
+        $user = User::where('id',Auth::user()->id)->first();
+        $user->service = $service;
+        $user->save();
+        return \response()->json([],202);
+    }
+
     /**
      * @param Request $request
      * @param string $user_id

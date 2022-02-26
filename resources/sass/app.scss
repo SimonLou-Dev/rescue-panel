@@ -278,6 +278,7 @@ body{
 
 //Service Selector
 .ServiceNav{
+    background-image: url("assets/bg/BG_2.jpg");
     height: 100vh;
     width: 100vw;
     top: 0;
@@ -289,47 +290,34 @@ body{
             width: 100px;
         }
         ul{
-            //position: relative;
+            background-color: rgba(220,220,220,0.2);
+            padding: 0;
+
+            overflow: hidden;
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            justify-content: center;
+            border-radius: $border-radius;
             li{
-                position: absolute;
+                margin: 1%;
+                border-radius: $border-radius;
+                transition: all 500ms;
+                display: flex;
+                background-color: $bg1;
                 list-style: none;
-                transform-origin: 100% 100%;
-                left: 50%;
-                top: 50%;
-                background-color: red;
-                width: 200px;
-                height: 200px;
+                height: 175px;
+                width: 175px;
+                cursor: pointer;
                 div{
-                    //position: relative;
-                    bottom: -7.25em;
-                    right: -7.25em;
-                    display: block;
-                    transform: skew(-45deg);
-                }
-
-                &:nth-child(1){
-                    transform: rotate(0deg) skew(45deg);
-
-                }
-
-                &:nth-child(2){
-                    transform: rotate(45deg) skew(45deg);
-                    div{
-                      //  transform: rotate(0deg);
+                    margin: auto auto;
+                    h2{
+                        text-align: center;
                     }
                 }
-                &:nth-child(3){
-                    transform: rotate(90deg) skew(45deg);
-                    div{
-                        //transform: rotate(-67.5deg) skew(-45deg);
-                    }
+                &:hover{
+                    background-color: $bg1var;
                 }
-                &:nth-child(4){
-                    transform: rotate(135deg) skew(45deg);
-                    div{
-                        //transform: rotate(-67.5deg) skew(-45deg);
-                    }
-                }//*/
             }
 
 
@@ -1676,4 +1664,90 @@ body{
         }
     }
 
+}
+
+.GradeList{
+    width: 100vw;
+    height: 100%;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    .grades-selector{
+        width: 20%;
+        min-width: 200px;
+        height: 100%;
+        display: flex;
+        .grade-list{
+            margin: auto auto;
+            background-color: $bg1;
+            border-radius: $border-radius;
+            height: 60%;
+            overflow-y: auto;
+            width: 90%;
+            table{
+                width: 100%;
+                .grade{
+                    width: 90%;
+                }
+                .power{
+                    width: 10%;
+                }
+            }
+
+        }
+    }
+    .bigpart{
+        width: 80%;
+        min-width: 900px;
+        height: 100%;
+        display: flex;
+        .bigbordel{
+            margin: auto auto;
+            background-color: $bg1;
+            border-radius: $border-radius;
+            height: 80%;
+            overflow: auto;
+            width: 90%;
+            display: flex;
+            flex-direction: column;
+        }
+        .header{
+            position: sticky;
+            top: 0;
+            left: 0;
+            z-index: 14;
+            border-bottom: 1px $lighttext solid;
+            display: flex;
+            flex-direction: row;
+            justify-content: space-evenly;
+            height: 80px;
+            background-color: $bg2;
+            input, .btn{
+                background-color: $bg1;
+                margin: 10px 0;
+            }
+            .btn{
+                margin: auto 0;
+            }
+        }
+        .perm-editor{
+            margin-top: 70px;
+            display: flex;
+            flex-direction: column;
+            .perm-line{
+                display: flex;
+                flex-direction: column;
+                margin: 40px 0;
+                border-top: 1px $boom solid;
+                h4{
+                    text-align: center;
+                    margin-bottom: 10px;
+                }
+                &:first-child{
+                    border-top: none;
+                    margin-top: 0px;
+                }
+            }
+        }
+    }
 }

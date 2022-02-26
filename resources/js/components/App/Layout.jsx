@@ -28,6 +28,7 @@ import Logs from "./Manager/Logs";
 import ContentManager from "./Manager/ContentManager";
 import AnnoncesInfos from "./Manager/AnnoncesInfos";
 import MyAccount from "./Other/account/MyAccount";
+import ServiceNav from "../AuthComponent/ServiceNav";
 
 
 function Layout(props) {
@@ -260,6 +261,9 @@ function Layout(props) {
                     <Route path={'/:service/mdt/logs'} component={Logs}/>
                     <Route path={'/:service/mdt/content'} component={ContentManager}/>
                     <Route path={'/:service/mdt/infos'} component={AnnoncesInfos}/>
+
+
+                    <Route path='/servicenav' component={ServiceNav}/>
 
                 </UserContext.Provider>
             </div>
