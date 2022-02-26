@@ -95,118 +95,117 @@ Route::get('/logout', function (Request $request){
 //Connexion management
 // scope=identify%20email%20guilds%20guilds.join%20guilds.members.read
 Route::get('/auth/redirect', function () {return Socialite::driver('discord')->scopes(['email','guilds'])->redirect();});
-Route::get('/auth/callback', [UserConnexionController::class, 'callback']);
-Route::get('/auth/fake', [UserConnexionController::class, 'fake']);//disable
-Route::get('/data/userInfos', [UserGradeController::class, 'GetUserPerm']);
+Route::get('/auth/callback', [UserConnexionController::class, 'callback'])->middleware('guest');
+Route::get('/auth/fake', [UserConnexionController::class, 'fake'])->middleware('quest');//disable
+Route::get('/data/userInfos', [UserGradeController::class, 'GetUserPerm'])->middleware(['auth']);
 
-Route::post('/data/postuserinfos', [UserConnexionController::class, 'postInfos']);
+Route::post('/data/postuserinfos', [UserConnexionController::class, 'postInfos'])->middleware(['auth']);
 Route::get('/data/check/connexion', [UserConnexionController::class, 'checkConnexion']);
-Route::get('/data/getstatus', [LayoutController::class, 'getservice']);
+Route::get('/data/getstatus', [LayoutController::class, 'getservice'])->middleware(['auth']);
 //renommer la fonction
-Route::get('/data/annonces', [MainController::class, 'getAnnonces']);
-Route::put('/data/users/setCrossService/{id}', [UserController::class, 'setCrossService']);
+Route::get('/data/annonces', [MainController::class, 'getAnnonces']);//delete
+Route::put('/data/users/setCrossService/{id}', [UserController::class, 'setCrossService'])->middleware(['auth']);
 //Route::post('/data/check/maintenance')
 Route::get('/data/user/reset/send/{mail?}',  [CredentialController::class, 'sendResetMail']);//delete
 Route::get('/pass/reset/token/{uuid}',[CredentialController::class,'tokenVerify']);//Delete
 Route::post('/data/user/reset/post',[CredentialController::class,'changepass'] );//Delete
 
-Route::get('/data/patient/{patientId}/impaye', [PatientController::class, 'getImpaye']);
+Route::get('/data/patient/{patientId}/impaye', [PatientController::class, 'getImpaye'])->middleware(['auth']);
 
 //Rapport management
-Route::get('/data/rapport/getforinter', [RapportController::class, 'getforinter']);
-Route::post('/data/rapport/post', [RapportController::class, 'addRapport']);
-Route::get('/data/patient/get/{id}', [PatientController::class, 'getPatient']);
-Route::get('/data/rapport/get/{patientId}', [RapportController::class, 'getPatientInter']);
-Route::put('/data/rapport/update/{id}', [RapportController::class, 'updateRapport']);
-Route::put('/data/patient/update/{id}', [PatientController::class, 'updatePatientInfos']);
-Route::get('/pdf/rapport/{id}', [ExporterController::class, 'makeRapportPdf']);
-Route::get('/data/patient/getAll', [PatientController::class, 'getAllPatientsSearcher']);
+Route::get('/data/rapport/getforinter', [RapportController::class, 'getforinter'])->middleware(['auth']);
+Route::post('/data/rapport/post', [RapportController::class, 'addRapport'])->middleware(['auth']);
+Route::get('/data/patient/get/{id}', [PatientController::class, 'getPatient'])->middleware(['auth']);
+Route::get('/data/rapport/get/{patientId}', [RapportController::class, 'getPatientInter'])->middleware(['auth']);
+Route::put('/data/rapport/update/{id}', [RapportController::class, 'updateRapport'])->middleware(['auth']);
+Route::put('/data/patient/update/{id}', [PatientController::class, 'updatePatientInfos'])->middleware(['auth']);
+Route::get('/pdf/rapport/{id}', [ExporterController::class, 'makeRapportPdf'])->middleware(['auth']);
+Route::get('/data/patient/getAll', [PatientController::class, 'getAllPatientsSearcher'])->middleware(['auth']);
 //Tests de poudre
 
-Route::post('/data/poudre/add', [PoudreTestController::class, 'postTest']);
-Route::get('/data/poudre/get', [PoudreTestController::class, 'getAllTests']);
-Route::get('/data/poudre/PDF/{id}', [PoudreTestController::class, 'exportTest']);
+Route::post('/data/poudre/add', [PoudreTestController::class, 'postTest'])->middleware(['auth']);
+Route::get('/data/poudre/get', [PoudreTestController::class, 'getAllTests'])->middleware(['auth']);
+Route::get('/data/poudre/PDF/{id}', [PoudreTestController::class, 'exportTest'])->middleware(['auth']);
 
 //LES BC
-Route::get('/data/blackcode/load', [BCController::class, 'getMainPage']);
-Route::get('/data/blackcode/{id}/infos', [BCController::class, 'getBCByid']);
-Route::get('/data/blackcode/{id}/status', [BCController::class, 'getBCState']);
-Route::post('/data/blackcode/{id}/add/patient', [BlesseController::class, 'addPatient']);
-Route::post('/data/blackcode/{BCId}/add/personnel/{userId}', [PersonnelController::class, 'addPersonel']);
-Route::post('/data/blackcode/create', [BCController::class, 'addBc']);
-Route::put('/data/blackcode/{id}/close', [BCController::class, 'endBc']);
-Route::delete('/data/blackcode/delete/patient/{patient_id}', [BlesseController::class, 'removePatient']);
-Route::delete('/data/blackcode/{id}/delete/personnel', [PersonnelController::class, 'removePersonnel']);
-Route::get('/exel/allPList/{from}/{to}', [BlesseController::class, 'generateListWithAllPatients']);
-Route::get('/data/bc/rapport/{id}', [BCController::class, 'generateRapport']);
-Route::patch('/data/blackcode/{id}/caserne', [BCController::class, 'casernePatcher']);
-Route::patch('/data/blackcode/{id}/desc', [BCController::class, 'descPatcher']);
-Route::patch('/data/blackcode/{id}/infos', [BCController::class, 'infosPatcher']);
+Route::get('/data/blackcode/load', [BCController::class, 'getMainPage'])->middleware(['auth']);
+Route::get('/data/blackcode/{id}/infos', [BCController::class, 'getBCByid'])->middleware(['auth']);
+Route::post('/data/blackcode/{id}/add/patient', [BlesseController::class, 'addPatient'])->middleware(['auth']);
+Route::post('/data/blackcode/{BCId}/add/personnel/{userId}', [PersonnelController::class, 'addPersonel'])->middleware(['auth']);
+Route::post('/data/blackcode/create', [BCController::class, 'addBc'])->middleware(['auth']);
+Route::put('/data/blackcode/{id}/close', [BCController::class, 'endBc'])->middleware(['auth']);
+Route::delete('/data/blackcode/delete/patient/{patient_id}', [BlesseController::class, 'removePatient'])->middleware(['auth']);
+Route::delete('/data/blackcode/{id}/delete/personnel', [PersonnelController::class, 'removePersonnel'])->middleware(['auth']);
+Route::get('/exel/allPList/{from}/{to}', [BlesseController::class, 'generateListWithAllPatients'])->middleware(['auth']);
+Route::get('/data/bc/rapport/{id}', [BCController::class, 'generateRapport'])->middleware(['auth']);
+Route::patch('/data/blackcode/{id}/caserne', [BCController::class, 'casernePatcher'])->middleware(['auth']);
+Route::patch('/data/blackcode/{id}/desc', [BCController::class, 'descPatcher'])->middleware(['auth']);
+Route::patch('/data/blackcode/{id}/infos', [BCController::class, 'infosPatcher'])->middleware(['auth']);
 
 //Les factures
-Route::get('/data/facture/list', [FacturesController::class, 'getAllimpaye']);
-Route::put('/data/facture/{id}/paye', [FacturesController::class, 'paye']);
-Route::post('/data/facture/add', [FacturesController::class, 'addFacture']);
-Route::get('/PDF/facture/{from}/{to}', [ExporterController::class, 'makeImpayPdf']);
+Route::get('/data/facture/list', [FacturesController::class, 'getAllimpaye'])->middleware(['auth']);
+Route::put('/data/facture/{id}/paye', [FacturesController::class, 'paye'])->middleware(['auth']);
+Route::post('/data/facture/add', [FacturesController::class, 'addFacture'])->middleware(['auth']);
+Route::get('/PDF/facture/{from}/{to}', [ExporterController::class, 'makeImpayPdf'])->middleware(['auth']);
 
 //Service management
-Route::patch('/data/service/user', [ServiceSetterController::class, 'setservice']);
-Route::get('/data/service/user', [ServiceGetterController::class, 'getUserService']);
-Route::get('/data/service/alluser/{semaine?}', [ServiceGetterController::class, 'getAllservice']);
-Route::get('/data/service/addwors', [ServiceSetterController::class, 'addRows']);
-Route::get('/data/AllInService', [MainController::class, 'getInServices']);
-Route::put('/data/service/setbyadmin/{userid}', [ServiceSetterController::class, 'setServiceByAdmin']);
-Route::put('/data/service/admin/modify', [ServiceSetterController::class, 'modifyTimeService']);
-Route::get('/data/service/admin/exel/{week?}', [ServiceGetterController::class, 'getWeekServiceExel']);
+Route::patch('/data/service/user', [ServiceSetterController::class, 'setservice'])->middleware(['auth']);
+Route::get('/data/service/user', [ServiceGetterController::class, 'getUserService'])->middleware(['auth']);
+Route::get('/data/service/alluser/{semaine?}', [ServiceGetterController::class, 'getAllservice'])->middleware(['auth']);
+Route::get('/data/service/addwors', [ServiceSetterController::class, 'addRows'])->middleware(['auth']);
+Route::get('/data/AllInService', [MainController::class, 'getInServices'])->middleware(['auth']);
+Route::put('/data/service/setbyadmin/{userid}', [ServiceSetterController::class, 'setServiceByAdmin'])->middleware(['auth']);
+Route::put('/data/service/admin/modify', [ServiceSetterController::class, 'modifyTimeService'])->middleware(['auth']);
+Route::get('/data/service/admin/exel/{week?}', [ServiceGetterController::class, 'getWeekServiceExel'])->middleware(['auth']);
 
 
 //Time of Service modify Req
-Route::get('/data/service/req/mylist', [ModifierReqController::class,'getMyModifyTimeServiceRequest']);
-Route::post('/data/service/req/post', [ModifierReqController::class, 'postModifyTimeServiceRequest']);
-Route::put('/data/service/req/accept/{id}', [ModifierReqController::class,'acceptModifyTimeServiceRequest']);
-Route::put('/data/service/req/refuse/{id}', [ModifierReqController::class,'refuseModifyTimeServiceRequest']);
-Route::get('/data/service/req/waitinglist', [ModifierReqController::class,'getAllModifyTimeServiceRequest']);
+Route::get('/data/service/req/mylist', [ModifierReqController::class,'getMyModifyTimeServiceRequest'])->middleware(['auth']);
+Route::post('/data/service/req/post', [ModifierReqController::class, 'postModifyTimeServiceRequest'])->middleware(['auth']);
+Route::put('/data/service/req/accept/{id}', [ModifierReqController::class,'acceptModifyTimeServiceRequest'])->middleware(['auth']);
+Route::put('/data/service/req/refuse/{id}', [ModifierReqController::class,'refuseModifyTimeServiceRequest'])->middleware(['auth']);
+Route::get('/data/service/req/waitinglist', [ModifierReqController::class,'getAllModifyTimeServiceRequest'])->middleware(['auth']);
 
 //Absence req
-Route::get('/data/absence', [AbsencesController::class, 'getMyAbsences']);
-Route::post('/data/absence', [AbsencesController::class, 'postMyReqAbsence']);
-Route::put('/data/absence/accept/{id}', [AbsencesController::class, 'acceptReqAbsence']);
-Route::put('/data/absence/refuse/{id}', [AbsencesController::class, 'refuseReqAbsence']);
-Route::get('/data/admin/absence', [AbsencesController::class, 'getAbsences']);
+Route::get('/data/absence', [AbsencesController::class, 'getMyAbsences'])->middleware(['auth']);
+Route::post('/data/absence', [AbsencesController::class, 'postMyReqAbsence'])->middleware(['auth']);
+Route::put('/data/absence/accept/{id}', [AbsencesController::class, 'acceptReqAbsence'])->middleware(['auth']);
+Route::put('/data/absence/refuse/{id}', [AbsencesController::class, 'refuseReqAbsence'])->middleware(['auth']);
+Route::get('/data/admin/absence', [AbsencesController::class, 'getAbsences'])->middleware(['auth']);
 
 // Primes Req
-Route::get('/data/primes/getall', [PrimesController::class, 'gelAllReqPrimes']);
-Route::get('/data/primes/getmy', [PrimesController::class, 'getMyReqPrimes']);
-Route::post('/data/primes/post', [PrimesController::class, 'addReqPrimes']);
-Route::put('/data/primes/accept/{id}',[PrimesController::class, 'acceptReqPrimes']);
-Route::put('/data/primes/refuse/{id}', [PrimesController::class, 'refuseReqPrimes']);
+Route::get('/data/primes/getall', [PrimesController::class, 'gelAllReqPrimes'])->middleware(['auth']);
+Route::get('/data/primes/getmy', [PrimesController::class, 'getMyReqPrimes'])->middleware(['auth']);
+Route::post('/data/primes/post', [PrimesController::class, 'addReqPrimes'])->middleware(['auth']);
+Route::put('/data/primes/accept/{id}',[PrimesController::class, 'acceptReqPrimes'])->middleware(['auth']);
+Route::put('/data/primes/refuse/{id}', [PrimesController::class, 'refuseReqPrimes'])->middleware(['auth']);
 
 
 //User management
-Route::get('/data/users/getall', [UserController::class, 'getUser']);
-Route::post('/data/users/setgrade/{id}/{userid}', [UserGradeController::class, 'setusergrade']);
-Route::put('/data/users/pilote/{user_id}', [UserController::class, 'changePilote']);
-Route::put('/data/user/{user_id}/changestate/{state}', [UserController::class, 'changeState']);//to delete
-Route::get('/data/user/{user_id}/sheet', [UserController::class, 'getSheet']);
-Route::post('/data/usersheet/{user_id}/note', [UserController::class, 'addUserNote']);
-Route::post('/data/usersheet/{user_id}/sanctions', [UserController::class, 'addUserSanction']);
+Route::get('/data/users/getall', [UserController::class, 'getUser'])->middleware(['auth']);
+Route::post('/data/users/setgrade/{id}/{userid}', [UserGradeController::class, 'setusergrade'])->middleware(['auth']);
+Route::put('/data/users/pilote/{user_id}', [UserController::class, 'changePilote'])->middleware(['auth']);
+Route::get('/data/user/{user_id}/sheet', [UserController::class, 'getSheet'])->middleware(['auth']);
+Route::post('/data/usersheet/{user_id}/note', [UserController::class, 'addUserNote'])->middleware(['auth']);
+Route::post('/data/usersheet/{user_id}/sanctions', [UserController::class, 'addUserSanction'])->middleware(['auth']);
 
-Route::put('/data/usersheet/{user_id}/material', [UserController::class, 'ModifyUserMaterial']);
-Route::put('/data/usersheet/{user_id}/quitService', [UserController::class, 'userQuitService']);
-Route::get('/data/users/export', [UserController::class, 'exportListPersonnelExel']);
+Route::put('/data/usersheet/{user_id}/material', [UserController::class, 'ModifyUserMaterial'])->middleware(['auth']);
+Route::put('/data/usersheet/{user_id}/quitService', [UserController::class, 'userQuitService'])->middleware(['auth']);
+Route::get('/data/users/export', [UserController::class, 'exportListPersonnelExel'])->middleware(['auth']);
 
 //Content management
-Route::post('/data/gestion/content/add/{type}', [ContentManagement::class, 'addcontent']);
-Route::get('/data/gestion/content/get/{type}', [ContentManagement::class, 'getcontent']);
-Route::delete('/data/gestion/content/delete/{type}/{id}', [ContentManagement::class, 'deletecontent']);
-Route::get('/data/logs/{range}/{page}/{type}', [ContentManagement::class, 'getLogs']);
+Route::post('/data/gestion/content/add/{type}', [ContentManagement::class, 'addcontent'])->middleware(['auth']);
+Route::get('/data/gestion/content/get/{type}', [ContentManagement::class, 'getcontent'])->middleware(['auth']);
+Route::delete('/data/gestion/content/delete/{type}/{id}', [ContentManagement::class, 'deletecontent'])->middleware(['auth']);
+Route::get('/data/logs/{range}/{page}/{type}', [ContentManagement::class, 'getLogs'])->middleware(['auth']);
 
 //Carnet de vol
-Route::get('/data/vol/get/{page}/{name?}', [VolController::class, 'getVolsList']);
-Route::post('/data/vol/add', [VolController::class, 'addVol']);
+Route::get('/data/vol/get/{page}/{name?}', [VolController::class, 'getVolsList'])->middleware(['auth']);
+Route::post('/data/vol/add', [VolController::class, 'addVol'])->middleware(['auth']);
 
 
-//Formation
+//Formation DISABLED
+/*
 Route::get('/data/certifications/admin/get', [CertificationController::class, 'getUsersCertifications']);
 Route::put('/data/certifications/admin/{forma_id}/change/{user_id}', [CertificationController::class, 'changeUserCertification']);
 Route::get('/data/formations/admin/{formation_id}/get', [AdminController::class, 'getFormationByIdAdmin']);
@@ -227,55 +226,44 @@ Route::post('/data/formations/question/{question_id}/image', [AdminController::c
 Route::post('/data/formations/{formation_id}/image', [AdminController::class, 'postFormationsImage']);
 Route::get('/data/formations/{formation_id}/responses', [ResponseController::class, 'getReponseOffFormations']);
 Route::delete('/data/formations/responses/{response_id}/delete', [AdminController::class, 'deleteResponseByID']);
+*/
 
 //Recap
-Route::get('/data/remboursements/get', [RemboursementsController::class, 'getRemboursementOfUser']);
-Route::get('/data/remboursements/get/admin/{weeknumber?}', [RemboursementsController::class, 'getRemboursementByWeek']);
-Route::post('/data/remboursements/post', [RemboursementsController::class, 'addRemboursement']);
-Route::delete('/data/remboursements/delete/{itemid}', [RemboursementsController::class, 'deleteRemboursement']);
+Route::get('/data/remboursements/get', [RemboursementsController::class, 'getRemboursementOfUser'])->middleware(['auth']);
+Route::get('/data/remboursements/get/admin/{weeknumber?}', [RemboursementsController::class, 'getRemboursementByWeek'])->middleware(['auth']);
+Route::post('/data/remboursements/post', [RemboursementsController::class, 'addRemboursement'])->middleware(['auth']);
+Route::delete('/data/remboursements/delete/{itemid}', [RemboursementsController::class, 'deleteRemboursement'])->middleware(['auth']);
 
 //Acount infos
-Route::get('/data/user/infos/get', [UserController::class, 'getUserInfos']);
-Route::put('/data/user/infos/put', [AccountController::class, 'updateInfos']);
-Route::put('/data/user/mdp/put', [AccountController::class, 'changeMdp']);
-Route::post('/data/user/bg/post', [AccountController::class, 'addBgImg']);
-Route::delete('/data/user/bg/delete', [AccountController::class, 'deleteBgImg']);
+Route::get('/data/user/infos/get', [UserController::class, 'getUserInfos'])->middleware(['auth']);
+Route::put('/data/user/infos/put', [AccountController::class, 'updateInfos'])->middleware(['auth']);
 
 //Pems management
-Route::get('/data/admin/grades/get', [UserGradeController::class, 'getAllGrades']);
-Route::put('/data/admin/grades/{perm}/{grade_id}', [UserGradeController::class, 'changePerm']);
+Route::get('/data/admin/grades/get', [UserGradeController::class, 'getAllGrades'])->middleware(['auth']);
+Route::put('/data/admin/grades/{perm}/{grade_id}', [UserGradeController::class, 'changePerm'])->middleware(['auth']);
 
 
-
-
-//Temp upload
+//Temp upload DISABLED
+/*
 Route::post('/data/tempupload', [FileController::class, 'uploadFile'])->middleware('auth');
 Route::put('/data/finish/tempupload/{uuid}', [FileController::class, 'endOffUpload'])->middleware('auth');
 Route::delete('/data/delete/tempupload', [FileController::class, 'deleteTempFile'])->middleware('auth');
+*/
 
 //Infos utils
-Route::get('/data/infosutils/get', [MainController::class, 'getUtilsInfos']);
-Route::put('/data/infosutils/put', [MainController::class, 'updateUtilsInfos']);
+Route::get('/data/infosutils/get', [MainController::class, 'getUtilsInfos'])->middleware(['auth']);
+Route::put('/data/infosutils/put', [MainController::class, 'updateUtilsInfos'])->middleware(['auth']);
 
-//Errors & bug reporter
+//Errors & bug reporter DISABLED
+/*
 Route::post('/data/front/errors', [ErrorsController::class, 'frontErrors']);
 Route::any('/tunnel', [ErrorsController::class, 'tunelSentry']);
 Route::post('/data/bug', [MainController::class, 'postBug']);
-
+*/
 //Searching
-Route::get('/data/patient/search/{text}', [SearchController::class, 'searchPatient']);
-Route::get('/data/vol/searsh/{pilote?}', [VolController::class, 'seatchPilote']);
-Route::get('/data/users/search/{user}', [SearchController::class, 'searchUser']);
-
-Route::get('/test', function (){
-
-   $test = event(new \App\Events\Notify('test',1, Auth::user()->id));
-   dd($test);
-});
-
-Route::get('/teste', function (Request $request){
-
-})->middleware('web');
+Route::get('/data/patient/search/{text}', [SearchController::class, 'searchPatient'])->middleware(['auth']);
+Route::get('/data/vol/searsh/{pilote?}', [VolController::class, 'seatchPilote'])->middleware(['auth']);
+Route::get('/data/users/search/{user}', [SearchController::class, 'searchUser'])->middleware(['auth']);
 
 Route::get('/serch', function (Request $request){
     Discord::chanUpdate(DiscordChannel::RI, 933706570552999946);
