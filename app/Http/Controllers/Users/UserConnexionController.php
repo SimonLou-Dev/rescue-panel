@@ -163,11 +163,6 @@ class UserConnexionController extends Controller
             $createuser->discord_id = $userinfos->id;
             $createuser->save();
             $user = $createuser;
-            $logs = new LogDb();
-            $logs->user_id = $createuser->id;
-            $logs->action = 'register';
-            $logs->desc = $this->request->header('x-real-ip') . ' ' . $user->id;
-            $logs->save();
             $embed = [
                 [
                     'title'=>'Compte créé : (environement : ' . env('APP_ENV') . ')',
@@ -241,7 +236,6 @@ class UserConnexionController extends Controller
             $user = $createuser;
             $logs = new LogsController();
             $logs->accountCreated($createuser->id);
-            $header = $request->header('x-real-ip');
             $ip = $header ?? $request->getClientIp();
             $embed = [
                 [

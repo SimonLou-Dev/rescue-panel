@@ -43,7 +43,7 @@ class UserLogInListener
         $logs = new LogDb();
         $logs->user_id = $user->getAuthIdentifier();
         $logs->action = 'authentifications';
-        $logs->desc = 'connected at ' . $this->request->header('x-real-ip');
+        $logs->desc = 'connected at ' . $ip;
         $logs->save();
         \File::append($this->connexionlog, '[' . date('d/m/Y H:i:s') . '] connected with id ' . $user->getAuthIdentifier() . ' at ' . $ip . "\n");
 
