@@ -136,6 +136,7 @@ class UserController extends Controller
 
     public function setService(Request $request, string $service){
         $user = User::where('id',Auth::user()->id)->first();
+        Session::push('service', $service);
         $user->service = $service;
         $user->save();
         return \response()->json([],202);

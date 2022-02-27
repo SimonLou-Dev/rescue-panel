@@ -5,8 +5,6 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-
-
 /**
  * @property int id
  * @property int discord_msg_id
@@ -16,10 +14,9 @@ use Illuminate\Database\Eloquent\Model;
  * @method static orderByDesc(string $string)
  *
  */
-class Annonces extends Model
+class Actualities extends Model
 {
-
-    protected $table = 'Annonces';
+    protected $table = 'Actualities';
     protected $casts = [
         'created_at'=>'datetime:d/m/Y'
     ];

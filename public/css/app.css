@@ -2324,4 +2324,36 @@ body {
   width: 80%;
 }
 
+.InfosAnnonces {
+  width: 100%;
+  height: calc(100vh - 120px);
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  flex-wrap: wrap;
+  overflow-y: scroll;
+}
+.InfosAnnonces .Card {
+  height: 70vh;
+  overflow-y: auto;
+  width: 35%;
+  min-width: 300px;
+  max-width: 700px;
+}
+.InfosAnnonces .Card .card-header {
+  background-color: #1B2037;
+  z-index: 14;
+  position: sticky;
+  top: 0;
+}
+.InfosAnnonces .Card .helper {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin: auto 0;
+}
+.InfosAnnonces .Card .helper label {
+  margin: 16px 0;
+}
+
 /*# sourceMappingURL=app.css.map */

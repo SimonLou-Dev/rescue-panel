@@ -77,5 +77,20 @@ class AuthServiceProvider extends ServiceProvider
             return ($user->isAdmin() || $grade->modify_discordChann) ;
         });
 
+        Gate::define('post_annonces', function (User $user){
+            $grade = $user->getUserGradeInService();
+            return ($user->isAdmin() || $grade->post_annonces) ;
+        });
+
+        Gate::define('post_actualities', function (User $user){
+            $grade = $user->getUserGradeInService();
+            return ($user->isAdmin() || $grade->post_actualities) ;
+        });
+
+        Gate::define('edit_infos_utils', function (User $user){
+            $grade = $user->getUserGradeInService();
+            return ($user->isAdmin() || $grade->edit_infos_utils) ;
+        });
+
     }
 }

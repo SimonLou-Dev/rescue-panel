@@ -104,7 +104,6 @@ Route::post('/data/postuserinfos', [UserConnexionController::class, 'postInfos']
 Route::get('/data/check/connexion', [UserConnexionController::class, 'checkConnexion']);
 Route::get('/data/getstatus', [LayoutController::class, 'getservice'])->middleware(['auth']);
 //renommer la fonction
-Route::get('/data/annonces', [MainController::class, 'getAnnonces']);//delete
 Route::put('/data/users/setCrossService/{id}', [UserController::class, 'setCrossService'])->middleware(['auth']);
 //Route::post('/data/check/maintenance')
 Route::get('/data/user/reset/send/{mail?}',  [CredentialController::class, 'sendResetMail']);//delete
@@ -112,6 +111,14 @@ Route::get('/pass/reset/token/{uuid}',[CredentialController::class,'tokenVerify'
 Route::post('/data/user/reset/post',[CredentialController::class,'changepass'] );//Delete
 
 Route::get('/data/patient/{patientId}/impaye', [PatientController::class, 'getImpaye'])->middleware(['auth']);
+
+//Annonces & Utils & Actus
+Route::get('/data/dashboard', [MainController::class, 'getDashboard']);
+Route::post('/data/mgt/annonce', [MainController::class, 'createAnnonce']);
+Route::post('/data/mgt/actu', [MainController::class, 'createActu']);
+Route::put('/data/mgt/utils', [MainController::class, 'updateUtilsInfos']);
+Route::get('/data/mgt/utils',[MainController::class, 'getUtilsInfos']);
+
 
 //Rapport management
 Route::get('/data/rapport/getforinter', [RapportController::class, 'getforinter'])->middleware(['auth']);
@@ -156,7 +163,6 @@ Route::patch('/data/service/user', [ServiceSetterController::class, 'setservice'
 Route::get('/data/service/user', [ServiceGetterController::class, 'getUserService'])->middleware(['auth']);
 Route::get('/data/service/alluser/{semaine?}', [ServiceGetterController::class, 'getAllservice'])->middleware(['auth']);
 Route::get('/data/service/addwors', [ServiceSetterController::class, 'addRows'])->middleware(['auth']);
-Route::get('/data/AllInService', [MainController::class, 'getInServices'])->middleware(['auth']);
 Route::put('/data/service/setbyadmin/{userid}', [ServiceSetterController::class, 'setServiceByAdmin'])->middleware(['auth']);
 Route::put('/data/service/admin/modify', [ServiceSetterController::class, 'modifyTimeService'])->middleware(['auth']);
 Route::get('/data/service/admin/exel/{week?}', [ServiceGetterController::class, 'getWeekServiceExel'])->middleware(['auth']);

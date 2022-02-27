@@ -1885,3 +1885,35 @@ body{
         }
     }
 }
+
+.InfosAnnonces{
+    width: 100%;
+    height: calc(100vh - 120px);
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
+    overflow-y: scroll;
+    .Card{
+        height: 70vh;
+        overflow-y: auto;
+        width: 35%;
+        min-width: 300px;
+        max-width: 700px;
+        .card-header{
+            background-color: $bg1;
+            z-index: 14;
+            position: sticky;
+            top: 0;
+        }
+        .helper{
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            margin: auto 0;
+            label{
+                margin: 16px 0;
+            }
+        }
+    }
+}
