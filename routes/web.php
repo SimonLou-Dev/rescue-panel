@@ -259,6 +259,9 @@ Route::put('/data/management/discord', [DiscordChannelController::class, 'postCh
 //Change service
 Route::patch('/data/user/service/{service}', [UserController::class, 'setService'])->middleware(['auth']);
 
+//Logs getting
+Route::get('/data/user/logs',[HomeController::class, 'getLogs'])->middleware(['auth']);
+
 
 //Temp upload DISABLED
 /*

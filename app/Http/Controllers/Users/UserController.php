@@ -7,6 +7,7 @@ use App\Enums\DiscordChannel;
 use App\Events\Notify;
 use App\Events\UserUpdated;
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\LogsController;
 use App\Jobs\ProcessEmbedPosting;
 use App\Models\Grade;
 use App\Models\Intervention;
@@ -142,37 +143,6 @@ class UserController extends Controller
         return \response()->json([],202);
     }
 
-    /**
-     * @param Request $request
-     * @param string $user_id
-     * @param string $state
-     * @return JsonResponse
-     */
-    public function changeState(Request $request, string $user_id, string $state): JsonResponse
-    {
-        $user = User::where('id', (int)$user_id)->first();
-        $user->serviceState = ($state == 'null' ? null : $state);
-        $user->save();
-        if($state != 'null'){
-            $logsState = new LogServiceState();
-            $logsState->user_id = $user_id;
-            $logsState->state_id=$state;
-
-        }else{
-            $logsState = LogServiceState::where('user_id', $user->id)->first();
-            $logsState->ended = true;
-            $start = date_create($logsState->started_at);
-            $interval = $start->diff(date_create(date('Y-m-d H:i:s', time())));
-            $diff = $interval->d*24 + $interval->h;
-            $formated = $diff . ':' . $interval->format('%i:%S');
-            $logsState->total = $formated;
-
-        }
-        $logsState->save();
-
-        event(new Notify('Etat de service mis à jour', 1));
-        return response()->json(['status' => 'OK'], 200);
-    }
 
     /**
      * @param Request $request
@@ -298,6 +268,9 @@ class UserController extends Controller
         if($baseuser->isInMedicUnit()){
             \Discord::postMessage(DiscordChannel::MedicSanctions, [], null, $final);
         }
+
+        $logs = new LogsController();
+        $logs->SanctionsLogging($array['type'], $baseuser->id, $prononcer->id);
 
         return \response()->json(['status'=>'ok'],201);
 

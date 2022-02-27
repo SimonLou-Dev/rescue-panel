@@ -4,6 +4,7 @@ namespace App\Http\Controllers\BlackCodes;
 
 use App\Events\Notify;
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\LogsController;
 use App\Models\BCList;
 use App\Models\BCPersonnel;
 use App\Models\User;
@@ -16,7 +17,7 @@ class PersonnelController extends Controller
     public static function addPersonel(string $BCId, string $userId): \Illuminate\Http\JsonResponse
     {
 
-        \Gate:: authorize('ModifyPatient', BCList::class);
+        \Gate::authorize('ModifyPatient', BCList::class);
         $BCId = (int) $BCId;
         if(is_numeric($userId)){
             $userId = (int) $userId;
@@ -44,6 +45,8 @@ class PersonnelController extends Controller
         if($user->id != Auth::user()->id){
             Notify::broadcast('Vous avez affecté ' . $user->name,1, Auth::user()->id);
         }
+        $logs = new LogsController();
+        $logs->BCLogging('join', $bc->id, Auth::user()->id);
         Notify::broadcast('Vous avez été affecté au BC #' . $bc->id,1, $user->id);
         return response()->json(['status'=>'OK'],201);
     }

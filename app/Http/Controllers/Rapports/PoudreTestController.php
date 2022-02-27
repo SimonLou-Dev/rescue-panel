@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Rapports;
 use App\Enums\DiscordChannel;
 use App\Events\Notify;
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\LogsController;
 use App\Jobs\ProcessEmbedPosting;
 use App\Jobs\ProcesTestPoudrePDFGen;
 use App\Jobs\ProcesTestPoudrePDFGenerator;
@@ -130,6 +131,8 @@ class PoudreTestController extends Controller
         ];
         \Discord::postMessage(DiscordChannel::Poudre, $embed, $test, null);
 
+        $logs = new LogsController();
+        $logs->TestDePoudreLogging($test->id, $tester->id);
 
         event(new Notify('Test enregistré',1));
 

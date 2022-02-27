@@ -49,7 +49,7 @@ function RapportHoraire(props) {
     return (<div className={'TablePage'}>
         <div className={'PageCenter'}>
             <div className={'table-header'}>
-                <PageNavigator prev={()=> {UserList(search,page-1)}} next={()=> {UserList(search,page-1)}} prevDisabled={(paginate.prev_page_url === null)} nextDisabled={(paginate.next_page_url === null)}/>
+                <PageNavigator prev={()=> {UserList(search,page-1)}} next={()=> {UserList(search,page+1)}} prevDisabled={(paginate.prev_page_url === null)} nextDisabled={(paginate.next_page_url === null)}/>
                 <Searcher value={search} callback={(v) => {UserList(v)}}/>
                 <a href={'/data/service/admin/exel/'+currentWeek} target={'_blank'} className={'btn exporter'}><img alt={''} src={'/assets/images/xls.png'}/></a>
                 <div className={'selector'}>

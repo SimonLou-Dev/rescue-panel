@@ -6,6 +6,7 @@ use App\Enums\DiscordChannel;
 use App\Events\BlackCodeUpdated;
 use App\Events\Notify;
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\LogsController;
 use App\Http\Controllers\Rapports\FacturesController;
 use App\Http\Controllers\Rapports\PatientController;
 use App\Models\BCList;
@@ -32,6 +33,7 @@ class BlesseController extends Controller
             'blessure'=>['required'],
             'payed'=>['required']
         ]);
+
 
 
         $Patient = PatientController::PatientExist($request->name);
@@ -78,6 +80,9 @@ class BlesseController extends Controller
         Notify::broadcast('Patient ajouté',2 ,Auth::user()->id);
         BlackCodeUpdated::dispatch($bc->id);
 
+        $logs = new LogsController();
+        $logs->BCLogging('add Patient n° ' . $Patient->id, $bc->id, Auth::user()->id);
+
         return response()->json(['status'=>'OK'],201);
     }
 
@@ -92,8 +97,12 @@ class BlesseController extends Controller
             $facture->delete();
             $rapport->delete();
         }
+
+
         $id = $bcp->GetBC->id;
         $bcp->delete();
+        $logs = new LogsController();
+        $logs->BCLogging('remove patient', $id, Auth::user()->id);
         Notify::dispatch('Patient supprimé ',1,Auth::user()->id);
         BlackCodeUpdated::dispatch($id);
         return response()->json(['status'=>'OK']);

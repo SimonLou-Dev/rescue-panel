@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Service;
 
 use App\Events\Notify;
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\LogsController;
 use App\Models\User;
 use App\Models\WeekService;
 use Illuminate\Http\Request;
@@ -17,6 +18,8 @@ class ServiceSetterController extends Controller
 
         $user = User::where('id', $userid)->first();
         $this->authorize('setOtherService', $user);
+        $logs = new LogsController();
+        $logs->ServiceLogging("service of user n°".$userid .  " was changed", Auth::user()->name);
         OperatorController::setService($user, true);
         return response()->json(['status'=>'OK']);
     }
@@ -70,6 +73,8 @@ class ServiceSetterController extends Controller
     {
         $user = User::where('id', Auth::id())->first();
         OperatorController::setService($user, false);
+        $logs = new LogsController();
+        $logs->ServiceLogging("service was changed", Auth::user()->name);
         return response()->json([
             'status'=>'OK',
             'user'=>$user,

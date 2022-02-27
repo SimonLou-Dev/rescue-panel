@@ -10,6 +10,7 @@ use App\Events\Brodcaster;
 use App\Events\Notify;
 use App\Events\NotifyForAll;
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\LogsController;
 use App\Http\Controllers\PrimesController;
 use App\Jobs\ProcessEmbedPosting;
 use App\Models\BCList;
@@ -103,8 +104,12 @@ class BCController extends Controller
 
     public function quitBc(Request $request){
         $user = User::where('id', Auth::user()->id)->first();
+        $logs = new LogsController();
+        $logs->BCLogging('quit', $user->bc_id, $user->id);
         $user->bc_id = null;
         $user->save();
+
+
 
 
         return response()->json([],201);
@@ -177,6 +182,9 @@ class BCController extends Controller
         $bc->service = ($fire ? 'LSCoFD' : 'SAMS');
         $bc->save();
 
+        $logs = new LogsController();
+        $logs->BCLogging('create', $bc->id, Auth::user()->id);
+
         PersonnelController::addPersonel($bc->id, Auth::user()->id);
 
         $embed = [
@@ -244,6 +252,9 @@ class BCController extends Controller
             $user->save();
         }
 
+        $logs = new LogsController();
+        $logs->BCLogging('close', $bc->id, Auth::user()->id);
+
         return response()->json(['status'=>'OK'],202);
     }
 
@@ -273,6 +284,9 @@ class BCController extends Controller
         $bc->caserne = $request->caserne;
         $bc->save();
 
+        $logs = new LogsController();
+        $logs->BCLogging('update caserne', $bc->id, Auth::user()->id);
+
         Notify::dispatch('Mise à jour effectuée',1,Auth::user()->id);
         BlackCodeUpdated::dispatch($bc->id);
 
@@ -286,6 +300,9 @@ class BCController extends Controller
         $bc = BCList::where('id', $id)->first();
         $bc->description = $request->description;
         $bc->save();
+
+        $logs = new LogsController();
+        $logs->BCLogging('update desc', $bc->id, Auth::user()->id);
 
         Notify::dispatch('Mise à jour effectuée',1,Auth::user()->id);
         BlackCodeUpdated::dispatch($bc->id);
@@ -301,6 +318,9 @@ class BCController extends Controller
         $bc->caserne = $request->caserne;
         $bc->place = $request->place;
         $bc->save();
+
+        $logs = new LogsController();
+        $logs->BCLogging('update infos', $bc->id, Auth::user()->id);
 
         Notify::dispatch('Mise à jour effectuée',1,Auth::user()->id);
         BlackCodeUpdated::dispatch($bc->id);

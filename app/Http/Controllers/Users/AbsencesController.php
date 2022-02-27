@@ -6,6 +6,7 @@ use App\Enums\DiscordChannel;
 use App\Events\Notify;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\LayoutController;
+use App\Http\Controllers\LogsController;
 use App\Http\Controllers\Service\ServiceGetterController;
 use App\Models\AbsencesList;
 use App\Models\WeekService;
@@ -63,6 +64,9 @@ class AbsencesController extends Controller
         ];
 
         \Discord::postMessage(DiscordChannel::Absences, $embed, $abs);
+
+        $logs = new LogsController();
+        $logs->DemandesLogging('creating', 'absencess', $abs->id, Auth::user()->id);
 
 
 
@@ -161,6 +165,9 @@ class AbsencesController extends Controller
             ]
         ];
 
+        $logs = new LogsController();
+        $logs->DemandesLogging('accept req of user n°'.$abs->user_id, 'absence', $abs->id, Auth::user()->id);
+
         if($abs->discord_msg_id){
             \Discord::updateMessage(DiscordChannel::Absences, $abs->discord_msg_id, $embed);
         }else{
@@ -219,6 +226,9 @@ class AbsencesController extends Controller
                 ]
             ]
         ];
+
+        $logs = new LogsController();
+        $logs->DemandesLogging('refuse req of user n°'.$abs->user_id, 'absence', $abs->id, Auth::user()->id);
 
         if($abs->discord_msg_id){
             \Discord::updateMessage(DiscordChannel::Absences, $abs->discord_msg_id, $embed);

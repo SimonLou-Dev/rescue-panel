@@ -55,6 +55,9 @@ class PrimesController extends Controller
         }else{
             \Discord::postMessage(DiscordChannel::MedicRemboursement, $embed, $prime);
         }
+
+        $logs = new LogsController();
+        $logs->DemandesLogging('addind accepted Prime ', 'prime', $primeId, Auth::user()->id);
     }
 
     public function addReqPrimes(request $request){
@@ -100,6 +103,8 @@ class PrimesController extends Controller
         }else{
             \Discord::postMessage(DiscordChannel::MedicRemboursement, $embed, $prime);
         }
+        $logs = new LogsController();
+        $logs->DemandesLogging('creating prime req', 'prime', $prime->id, Auth::user()->id);
         Notify::broadcast('Demande ajoutée',1, Auth::user()->id);
         return response()->json([],201);
     }
@@ -152,6 +157,8 @@ class PrimesController extends Controller
                 \Discord::postMessage(DiscordChannel::MedicRemboursement, $embed, $prime);
             }
         }
+        $logs = new LogsController();
+        $logs->DemandesLogging('accepting prime of user n°'.$prime->user_id , 'prime', $prime->id, Auth::user()->id);
 
 
         return response()->json([],201);
@@ -204,6 +211,9 @@ class PrimesController extends Controller
                 \Discord::postMessage(DiscordChannel::MedicRemboursement, $embed, $prime);
             }
         }
+
+        $logs = new LogsController();
+        $logs->DemandesLogging('refuse prime of user n°'.$prime->user_id , 'prime', $prime->id, Auth::user()->id);
 
         return response()->json([],201);
     }

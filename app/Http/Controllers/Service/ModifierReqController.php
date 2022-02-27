@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Service;
 
 use App\Events\Notify;
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\LogsController;
 use App\Models\ModifyServiceReq;
 use App\Models\User;
 use App\Models\WeekService;
@@ -37,6 +38,10 @@ class ModifierReqController extends Controller
         }
         $req->time_quantity = $request->time_quantity;
         $req->save();
+
+        $logs = new LogsController();
+        $logs->DemandesLogging('created', 'service', $req->id, $req->user_id);
+
         Notify::broadcast('Votre demande a été enregistrée',1,Auth::user()->id);
         return response()->json(['status'=>'OK'],201);
 
@@ -52,6 +57,7 @@ class ModifierReqController extends Controller
         $user = $reqst->GetUser;
         $week = WeekService::where('user_id',$user->id)->where('week_number',$reqst->week_number)->where('service', Session::get('service')[0]);
         $time = ($reqst->adder ? '':'-') . $reqst->time_quantity.':00';
+
 
         if($week->count() == 1){
             $week = $week->first();
@@ -69,6 +75,8 @@ class ModifierReqController extends Controller
         }
         $week->save();
         $reqst->save();
+        $logs = new LogsController();
+        $logs->DemandesLogging('accept req of user n°'.$reqst->user_id, 'service', $reqst->id, Auth::user()->id);
         Notify::broadcast('Le temps a été modifié',1, Auth::user()->id);
         return response()->json([]);
     }
@@ -80,6 +88,8 @@ class ModifierReqController extends Controller
         $reqst->accepted = false;
         $reqst->admin_id = Auth::user()->id;
         $reqst->save();
+        $logs = new LogsController();
+        $logs->DemandesLogging('refuse req of user n°'.$reqst->user_id, 'service', $reqst->id, Auth::user()->id);
         Notify::broadcast('La demande a été réfusée',1, Auth::user()->id);
         return response()->json([]);
     }

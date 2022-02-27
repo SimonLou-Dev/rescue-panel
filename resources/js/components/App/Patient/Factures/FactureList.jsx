@@ -82,7 +82,7 @@ function FactureList(props) {
     return (<div className={'Factures'}>
         <div className={'FactureCenter ' + (popupDisplayed ? 'popupBg':'')}>
             <div className={'table-header'}>
-                <PageNavigator prev={()=> {patientList(search,page-1)}} next={()=> {patientList(search,page-1)}} prevDisabled={(paginate.prev_page_url === null)} nextDisabled={(paginate.next_page_url === null)}/>
+                <PageNavigator prev={()=> {patientList(search,page-1)}} next={()=> {patientList(search,page+1)}} prevDisabled={(paginate.prev_page_url === null)} nextDisabled={(paginate.next_page_url === null)}/>
                 <Searcher value={search} callback={(v) => {patientList(v)}}/>
                 <div className={'exporter'}>
                     <div className={'exporter-part'}>
