@@ -1,9 +1,10 @@
-import React, {useEffect, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import CardComponent from "../../../props/CardComponent";
 import PageNavigator from "../../../props/PageNavigator";
 import Searcher from "../../../props/Searcher";
 import axios from "axios";
 import searcher from "../../../props/Searcher";
+import UserContext from "../../../context/UserContext";
 
 function GlobalView(props) {
     const [types, setTypes] = useState([]);
@@ -16,6 +17,7 @@ function GlobalView(props) {
     const [type, setType] = useState(0);
     const [place, setPlace] = useState('');
     const [errors, setErrors] = useState([]);
+    const user = useContext(UserContext);
 
 
 
@@ -87,7 +89,7 @@ function GlobalView(props) {
         <section className={'new ' + (popupOpened ? 'popupBg':'')}>
             <CardComponent title={'en cours'}>
                 <div className={'header'}>
-                    <button className={'btn'} onClick={()=>{setpopupOpening(!popupOpened)}}>ajouter</button>
+                    <button className={'btn'} onClick={()=>{setpopupOpening(!popupOpened)}} disabled={!(user.grade.admin || user.BC_open)}>ajouter</button>
                 </div>
                 <div className={'BCtable'}>
                     {runnings && runnings.map((running) =>

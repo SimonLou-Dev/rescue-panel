@@ -1,9 +1,10 @@
-import React, {useEffect, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import axios from "axios";
 import Searcher from "../../../props/Searcher";
 import PageNavigator from "../../../props/PageNavigator";
 import CardComponent from "../../../props/CardComponent";
 import dateFormat from "dateformat";
+import UserContext from "../../../context/UserContext";
 
 function DossiersPatient(props) {
     const [patients, setPatients] = useState([]);
@@ -19,6 +20,7 @@ function DossiersPatient(props) {
     const [impaye, setImpaye] = useState(null);
     const [impayePhrase, setImpayePhrase] = useState(null);
     const [errors, setErrors]= useState([])
+    const user = useContext(UserContext);
 
     useEffect(()=> {
         searcher('');
@@ -123,80 +125,83 @@ function DossiersPatient(props) {
                 </table>
             </div>
         </section>
-        <section className={'patient-form'}>
-            <CardComponent title={'Informations'}>
-                <div className={'form-item form-column'}>
-                    <label>prénom nom</label>
-                    <input type={'text'} className={'form-input'} value={name} onChange={(e)=>{setName(e.target.value), searchPatient(e.target.value)}}/>
-                    {errors.name &&
-                        <div className={'errors-list'}>
-                            <ul>
-                                {errors.name.map((error) =>
-                                    <li>{error}</li>
-                                )}
-                            </ul>
-                        </div>
-                    }
+        {(user.grade.admin || user.grade.patient_edit) &&
+            <section className={'patient-form'}>
+                <CardComponent title={'Informations'}>
+                    <div className={'form-item form-column'}>
+                        <label>prénom nom</label>
+                        <input type={'text'} className={'form-input'} value={name} onChange={(e)=>{setName(e.target.value), searchPatient(e.target.value)}}/>
+                        {errors.name &&
+                            <div className={'errors-list'}>
+                                <ul>
+                                    {errors.name.map((error) =>
+                                        <li>{error}</li>
+                                    )}
+                                </ul>
+                            </div>
+                        }
 
-                </div>
-                <div className={'form-item form-column'}>
-                    <label>date de naissance</label>
-                    <input type={'date'} pattern={"[0-9]{2}/[0-9]{2}/[0-9]{4}"} className={'form-input'} value={ddn} onChange={(e)=>{setDDn(e.target.value)}}/>
-                    {errors.ddn &&
-                        <div className={'errors-list'}>
-                            <ul>
-                                {errors.ddn.map((error) =>
-                                    <li>{error}</li>
-                                )}
-                            </ul>
-                        </div>
+                    </div>
+                    <div className={'form-item form-column'}>
+                        <label>date de naissance</label>
+                        <input type={'date'} pattern={"[0-9]{2}/[0-9]{2}/[0-9]{4}"} className={'form-input'} value={ddn} onChange={(e)=>{setDDn(e.target.value)}}/>
+                        {errors.ddn &&
+                            <div className={'errors-list'}>
+                                <ul>
+                                    {errors.ddn.map((error) =>
+                                        <li>{error}</li>
+                                    )}
+                                </ul>
+                            </div>
+                        }
+                    </div>
+                    <div className={'form-item form-column'}>
+                        <label>téléphone</label>
+                        <input type={'text'} className={'form-input'} value={tel} onChange={(e)=>{setTel(e.target.value)}}/>
+                        {errors.tel &&
+                            <div className={'errors-list'}>
+                                <ul>
+                                    {errors.tel.map((error) =>
+                                        <li>{error}</li>
+                                    )}
+                                </ul>
+                            </div>
+                        }
+                    </div>
+                    <div className={'form-item form-column'}>
+                        <label>Lieux de vie</label>
+                        <input type={'text'} className={'form-input'} value={liveplace} onChange={(e)=>{setLiveplace(e.target.value)}}/>
+                        {errors.liveplace &&
+                            <div className={'errors-list'}>
+                                <ul>
+                                    {errors.liveplace.map((error) =>
+                                        <li>{error}</li>
+                                    )}
+                                </ul>
+                            </div>
+                        }
+                    </div>
+                    <div className={'form-item form-column'}>
+                        <label>Groupe saunguin</label>
+                        <input type={'text'} className={'form-input'} value={bloodgroup} onChange={(e)=>{setbloodgroup(e.target.value)}}/>
+                        {errors.bloodgroup &&
+                            <div className={'errors-list'}>
+                                <ul>
+                                    {errors.bloodgroup.map((error) =>
+                                        <li>{error}</li>
+                                    )}
+                                </ul>
+                            </div>
+                        }
+                    </div>
+                    {impaye != null &&
+                        <h5 className={!impaye ? 'cool' : 'pascool'}>{impayePhrase}</h5>
                     }
-                </div>
-                <div className={'form-item form-column'}>
-                    <label>téléphone</label>
-                    <input type={'text'} className={'form-input'} value={tel} onChange={(e)=>{setTel(e.target.value)}}/>
-                    {errors.tel &&
-                        <div className={'errors-list'}>
-                            <ul>
-                                {errors.tel.map((error) =>
-                                    <li>{error}</li>
-                                )}
-                            </ul>
-                        </div>
-                    }
-                </div>
-                <div className={'form-item form-column'}>
-                    <label>Lieux de vie</label>
-                    <input type={'text'} className={'form-input'} value={liveplace} onChange={(e)=>{setLiveplace(e.target.value)}}/>
-                    {errors.liveplace &&
-                        <div className={'errors-list'}>
-                            <ul>
-                                {errors.liveplace.map((error) =>
-                                    <li>{error}</li>
-                                )}
-                            </ul>
-                        </div>
-                    }
-                </div>
-                <div className={'form-item form-column'}>
-                    <label>Groupe saunguin</label>
-                    <input type={'text'} className={'form-input'} value={bloodgroup} onChange={(e)=>{setbloodgroup(e.target.value)}}/>
-                    {errors.bloodgroup &&
-                        <div className={'errors-list'}>
-                            <ul>
-                                {errors.bloodgroup.map((error) =>
-                                    <li>{error}</li>
-                                )}
-                            </ul>
-                        </div>
-                    }
-                </div>
-                {impaye != null &&
-                    <h5 className={!impaye ? 'cool' : 'pascool'}>{impayePhrase}</h5>
-                }
-                <button className={'btn'} onClick={PostUpdate}>Valider</button>
-            </CardComponent>
-        </section>
+                    <button className={'btn'} onClick={PostUpdate}>Valider</button>
+                </CardComponent>
+            </section>
+        }
+
 
 
 

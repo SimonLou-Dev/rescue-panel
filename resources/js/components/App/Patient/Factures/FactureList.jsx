@@ -93,9 +93,12 @@ function FactureList(props) {
                         <label>au</label>
                         <input type={'date'} value={to} onChange={(e)=>{setTo(e.target.value)}}/>
                     </div>
-                    <a href={'/PDF/facture/' + from  +'/'+to} target={'_blank'} className={'bnt'}><img alt={''} src={'/assets/images/xls.png'}/></a>
+                    {(user.grade.admin || user.facture_export) &&
+                        <a href={'/PDF/facture/' + from  +'/'+to}  target={'_blank'} className={'bnt'}><img alt={''} src={'/assets/images/xls.png'}/></a>
+                    }
+
                 </div>
-                <button className={'btn'} onClick={()=>{displayPopup(true)}}>ajouter</button>
+                <button className={'btn'} disabled={!(user.grade.admin || user.facture_create)} onClick={()=>{displayPopup(true)}}>ajouter</button>
             </div>
             <div className={'table-container'}>
                 <table>
@@ -115,7 +118,7 @@ function FactureList(props) {
                             <td className={'clickable'}><Link to={'/patients/' + item.getpatient.id +'/view'}>{item.getpatient.name}</Link></td>
                             <td>{item.created_at}</td>
                             <td>${item.price}</td>
-                            <td><button className={'btn'} onClick={async () => {
+                            <td><button className={'btn'} disabled={!(user.grade.admin || user.facture_paye)} onClick={async () => {
                                 await axios({
                                     method: 'PUT',
                                     url: '/data/facture/' + item.id + '/paye'

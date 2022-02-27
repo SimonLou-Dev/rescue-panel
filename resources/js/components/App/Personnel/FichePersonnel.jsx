@@ -21,6 +21,9 @@ function FichePersonnel(props) {
     const [user, setUser] = useState(null);
 
     useEffect(async () => {
+        if(!(me.grade.admin || me.grade.view_personnelSheet)){
+            props.history.back();
+        }
         update();
 
 
@@ -60,10 +63,10 @@ function FichePersonnel(props) {
                 <button className={'btn --medium'} onClick={()=>{props.history.push('/'+ me.service +'/personnel/personnel')}}>
                     retour
                 </button>
-                <button className={'btn --medium'} onClick={()=>{setMaterialPopup(true)}}>
+                <button className={'btn --medium'} disabled={!(me.grade.admin || me.grade.modify_material)} onClick={()=>{setMaterialPopup(true)}}>
                     <img src={'/assets/images/edit.png'} alt={''}/> matériel
                 </button>
-                <button className={'btn --medium'} onClick={()=>{setSanctionPopup(true)}}>
+                <button className={'btn --medium'} disabled={!(me.grade.admin || me.grade.add_warn_sanction|| me.grade.add_MAP_sanction || me.grade.add_exlude_sanction)} onClick={()=>{setSanctionPopup(true)}}>
                     + sanction
                 </button>
             </section>
@@ -168,7 +171,7 @@ function FichePersonnel(props) {
                 <div className={'notes-form'}>
                     <textarea placeholder={'écrire une note'} value={note} onChange={(e)=>setNote(e.target.value)}/>
                     <div className={'form-part form-inline'}>
-                        <p>{me ? me.service : '?'}</p> <button className={'btn'} onClick={ async () => {
+                        <p>{me ? me.service : '?'}</p> <button className={'btn'} disabled={!(me.grade.admin || me.grade.add_note)} onClick={ async () => {
                             await axios({
                                 method: 'POST',
                                 url: '/data/usersheet/' + userId + '/note',
@@ -190,10 +193,9 @@ function FichePersonnel(props) {
                             setSanction(e.target.value)
                         }} value={sanction}>
                             <option value={0} disabled={true}>choisir</option>
-                            <option value={1}>Avertissement</option>
-                            <option value={2}>Mise à pied</option>
-                            <option value={3}>Dégrader</option>
-                            <option value={4}>Exclure</option>
+                            <option value={1} disabled={!(me.grade.admin || me.grade.add_warn_sanction)} >Avertissement</option>
+                            <option value={2} disabled={!(me.grade.admin || me.grade.add_MAP_sanction)}>Mise à pied</option>
+                            <option value={4} disabled={!(me.grade.admin || me.grade.add_exlude_sanction)} >Exclure</option>
                         </select>
                     </div>
                     {sanction === "4" &&

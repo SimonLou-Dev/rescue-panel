@@ -1,9 +1,10 @@
-import React, {useState} from 'react';
+import React, {useContext, useState} from 'react';
 import MyInfo from "./MyInfo";
 import MyService from "./MyService";
 import MyPrimes from "./MyPrimes";
 import MyRemboursements from "./MyRemboursements";
 import MyAbs from "./MyAbs";
+import UserContext from "../../../context/UserContext";
 
 function MyAccount(props) {
     const [infos, setInfos] = useState(true);
@@ -11,6 +12,7 @@ function MyAccount(props) {
     const [Primes, setPrimes] = useState(false);
     const [Remboursement, setRemboursement] = useState(false);
     const [absences, setAbsences] = useState(false);
+    const user = useContext(UserContext);
 
     return (<div className={'MyAccount'}>
         <div className={'center'}>
@@ -22,14 +24,14 @@ function MyAccount(props) {
                     setRemboursement(false)
                     setAbsences(false)
                 }}> Mes infos</button>
-                <button className={(Service ? 'selected' : '')}onClick={()=>{
+                <button className={(Service ? 'selected' : '')} disabled={!(user.grade.admin || user.view_service_req)} onClick={()=>{
                     setInfos(false)
                     setService(true)
                     setPrimes(false)
                     setRemboursement(false)
                     setAbsences(false)
                 }}>Service</button>
-                <button className={(Primes ? 'selected' : '')} onClick={()=>{
+                <button className={(Primes ? 'selected' : '')} disabled={!(user.grade.admin || user.view_prime_req)} onClick={()=>{
                     setInfos(false)
                     setService(false)
                     setPrimes(true)
@@ -43,7 +45,7 @@ function MyAccount(props) {
                     setRemboursement(true)
                     setAbsences(false)
                 }}>Remboursement</button>
-                <button className={(absences ? 'selected' : '')} onClick={()=>{
+                <button className={(absences ? 'selected' : '')} disabled={!(user.grade.admin || user.view_absences_req)} onClick={()=>{
                     setInfos(false)
                     setService(false)
                     setPrimes(false)

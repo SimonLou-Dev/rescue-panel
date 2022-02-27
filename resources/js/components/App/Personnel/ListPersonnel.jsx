@@ -1,8 +1,9 @@
-import React, {useEffect, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import PageNavigator from "../../props/PageNavigator";
 import Searcher from "../../props/Searcher";
 import axios from "axios";
 import SwitchBtn from "../../props/SwitchBtn";
+import UserContext from "../../context/UserContext";
 
 function ListPersonnel(props) {
 
@@ -11,6 +12,7 @@ function ListPersonnel(props) {
     const [search, setSearch] = useState("");
     const [users, setUsers]= useState([]);
     const [gradeList, setGradesList] = useState([]);
+    const gle = useContext(UserContext)
 
 
     useEffect(()=>{
@@ -71,7 +73,7 @@ function ListPersonnel(props) {
                             <td>{u.matricule}</td>
                             <td>{u.tel}</td>
                             <td>{u.discord_id}</td>
-                            <td><select value={u.grade.id} onChange={async (e)=>{
+                            <td><select value={u.grade.id} disabled={!(gle.grade.admin || gle.grade.set_grade)} onChange={async (e)=>{
                                 await axios({
                                     method: 'POST',
                                     url: '/data/users/setgrade/'+ e.target.value +'/'+u.id
@@ -83,15 +85,15 @@ function ListPersonnel(props) {
                                 )}
                             </select></td>
                             <td>
-                                <SwitchBtn checked={u.pilote} number={'A'+u.id} callback={async () => {
+                                <SwitchBtn checked={u.pilote} disabled={!(gle.grade.admin || gle.grade.set_pilote)} number={'A'+u.id} callback={async () => {
                                     await axios({
                                         method: 'PUT',
-                                        url: '/data/users/setCrossService/' + u.id
+                                        url: '/data/users/pilote/' + u.id
                                     }).then(r=>{UserList()})
                                 }}/>
                             </td>
                             <td>
-                                <SwitchBtn checked={u.crossService} number={'A'+u.id} callback={async () => {
+                                <SwitchBtn checked={u.crossService} disabled={!(gle.grade.admin || gle.grade.set_crossService)} number={'B'+u.id} callback={async () => {
                                     await axios({
                                         method: 'PUT',
                                         url: '/data/users/setCrossService' + u.id
@@ -99,14 +101,13 @@ function ListPersonnel(props) {
                                 }}/>
                             </td>
                             <td>{u.service}</td>
-                            <td><button className={'btn'}><img alt={''} src={'/assets/images/' + (u.OnService ? 'accept' : 'decline') +'.png'}
-                            onClick={async () => {
+                            <td><button className={'btn'} disabled={!(gle.grade.admin || gle.grade.set_other_service)}  onClick={async () => {
                                 await axios({
                                     method: 'PUT',
                                     url: '/data/service/setbyadmin/' + u.id
                                 }).then(r=>{UserList()})
-                            }}
-                            /></button></td>
+                            }}>
+                                <img alt={''} src={'/assets/images/' + (u.OnService ? 'accept' : 'decline') +'.png'}/></button></td>
                         </tr>
                     )}
                     </tbody>

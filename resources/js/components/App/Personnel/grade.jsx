@@ -1,12 +1,14 @@
-import React, {useEffect, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import PageNavigator from "../../props/PageNavigator";
 import CardComponent from "../../props/CardComponent";
 import SwitchBtn from "../../props/SwitchBtn";
 import axios from "axios";
+import UserContext from "../../context/UserContext";
 
 function grade(props) {
     const [gradeList, setGradeList] = useState([]);
     const [gradeSelected, selectGrade] = useState(null);
+    const me = useContext(UserContext);
 
     useEffect(()=>{
         LoadPage();
@@ -76,7 +78,7 @@ function grade(props) {
                             <input type={'number'} value={gradeSelected.power}
                                    onChange={(e)=>{updateGrade('power', e.target.value)}}/>
                         </div>
-                        <button className={'btn'} onClick={async () => {
+                        <button className={'btn'} disabled={!(me.grade.admin || me.grade.modify_grade)} onClick={async () => {
                         await axios({
                             method: 'put',
                             url:'/data/admin/grades',

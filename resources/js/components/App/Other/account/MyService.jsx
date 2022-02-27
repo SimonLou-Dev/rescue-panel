@@ -204,7 +204,7 @@ function MyService(props) {
                         </ul>
                     </div>
                     <div className={'form-part form-inline'}>
-                        <button className={'btn'} onClick={postReq}>envoyer</button>
+                        <button className={'btn'} disabled={!(user.grade.admin || user.post_service_req)} onClick={postReq}>envoyer</button>
                     </div>
                 </section>
                 <section className={'list'}>

@@ -182,16 +182,25 @@ function Layout(props) {
                             <section className={"menu-item"}>
                                 <h2><span>Patient</span></h2>
                                 <ul className={"menu-nav-list"}>
-                                    <li className={'menu-puce'}><Link to={'/patients/rapport'} className={'menu-link'}>rapports</Link></li>
-                                    <li className={'menu-puce'}><Link to={'/patients/dossiers'} className={'menu-link'}>dossiers</Link></li>
-                                    <li className={'menu-puce'}><Link to={'/patients/poudre'} className={'menu-link'}>tests de poudre</Link></li>
+                                    {(user.grade.admin ||(user.onService && user.grade.rapport_view) || user.grade.rapport_HS) &&
+                                        <li className={'menu-puce'}><Link to={'/patients/rapport'} className={'menu-link'}>rapports</Link></li>
+                                    }
+                                    {(user.grade.admin ||(user.onService && user.grade.dossier_view) || user.grade.dossier_HS) &&
+                                        <li className={'menu-puce'}><Link to={'/patients/dossiers'} className={'menu-link'}>dossiers</Link></li>
+                                    }
+                                    {(user.grade.admin ||(user.onService && user.grade.poudretest_view) || user.grade.poudretest_HS) &&
+                                        <li className={'menu-puce'}><Link to={'/patients/poudre'} className={'menu-link'}>tests de poudre</Link></li>
+                                    }
                                     <li className={'menu-puce'}><Link to={'/blackcodes/all'} className={'menu-link'}>BC - Incendies</Link></li>
                                 </ul>
                             </section>
                             <section className={"menu-item"}>
                                 <h2><span>Factures</span></h2>
                                 <ul className={"menu-nav-list"}>
-                                    <li className={'menu-puce'}><Link to={'/factures'} className={'menu-link'}>factures</Link></li>
+                                    {(user.grade.admin ||(user.onService && user.grade.facture_view) || user.grade.facture_HS) &&
+                                        <li className={'menu-puce'}><Link to={'/factures'} className={'menu-link'}>factures</Link></li>
+                                    }
+
                                 </ul>
                             </section>
                             <section className={"menu-item hidden"}>
@@ -210,19 +219,35 @@ function Layout(props) {
                             <section className={"menu-item"}>
                                 <h2><span>Personnel</span></h2>
                                 <ul className={"menu-nav-list"}>
-                                    <li className={'menu-puce'}><Link to={'/'+service+ '/personnel/grade'} className={'menu-link'}>grade</Link></li>
-                                    <li className={'menu-puce'}><Link to={'/'+service+ '/personnel/horaire'} className={'menu-link'}>rapport horaire</Link></li>
-                                    <li className={'menu-puce'}><Link to={'/'+service+ '/personnel/personnel'} className={'menu-link'}>liste du personnel</Link></li>
-                                    <li className={'menu-puce'}><Link to={'/'+service+ '/personnel/demandes'} className={'menu-link'}>demandes</Link></li>
+                                    {(user.grade.admin || user.grade.view_grade_list) &&
+                                        <li className={'menu-puce'}><Link to={'/'+service+ '/personnel/grade'} className={'menu-link'}>grade</Link></li>
+                                    }
+                                    {(user.grade.admin || user.grade.view_rappportHoraire) &&
+                                        <li className={'menu-puce'}><Link to={'/'+service+ '/personnel/horaire'} className={'menu-link'}>rapport horaire</Link></li>
+                                    }
+                                    {(user.grade.admin || user.grade.view_PersonnelList) &&
+                                        <li className={'menu-puce'}><Link to={'/'+service+ '/personnel/personnel'} className={'menu-link'}>liste du personnel</Link></li>
+                                    }
+                                    {(user.grade.admin || user.grade.viewAll_service_req || user.grade.viewAll_prime_req || user.grade.viewAll_absences_req) &&
+                                        <li className={'menu-puce'}><Link to={'/'+service+ '/personnel/demandes'} className={'menu-link'}>demandes</Link></li>
+                                    }
                                 </ul>
                             </section>
                             <section className={"menu-item"}>
                                 <h2><span>Gestion MDT</span></h2>
                                 <ul className={"menu-nav-list"}>
-                                    <li className={'menu-puce'}><Link to={'/global/mdt/discord'} className={'menu-link'}>discord</Link></li>
-                                    <li className={'menu-puce'}><Link to={'/'+service+ '/mdt/logs'} className={'menu-link'}>logs</Link></li>
-                                    <li className={'menu-puce'}><Link to={'/'+service+ '/mdt/content'} className={'menu-link'}>gestion de contenues</Link></li>
-                                    <li className={'menu-puce'}><Link to={'/'+service+ '/mdt/infos'} className={'menu-link'}>info / annonces</Link></li>
+                                    {(user.grade.admin || user.grade.modify_discordChann) &&
+                                        <li className={'menu-puce'}><Link to={'/global/mdt/discord'} className={'menu-link'}>discord</Link></li>
+                                    }
+                                    {(user.grade.admin || user.grade.view_logs) &&
+                                        <li className={'menu-puce'}><Link to={'/'+service+ '/mdt/logs'} className={'menu-link'}>logs</Link></li>
+                                    }
+                                    {(user.grade.admin || user.grade.modify_gestionContent) &&
+                                        <li className={'menu-puce'}><Link to={'/'+service+ '/mdt/content'} className={'menu-link'}>gestion des contenus</Link></li>
+                                    }
+                                    {(user.grade.admin || user.grade.post_annonces || user.grade.post_actualities || user.grade.edit_infos_utils) &&
+                                        <li className={'menu-puce'}><Link to={'/'+service+ '/mdt/infos'} className={'menu-link'}>info / annonces</Link></li>
+                                    }
                                 </ul>
                             </section>
                         </div>

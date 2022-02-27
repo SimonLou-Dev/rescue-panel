@@ -2368,7 +2368,7 @@ body {
   background-color: #3D487B;
   position: sticky;
   top: 0;
-  z-index: 14;
+  z-index: 9;
   border-radius: 10px 10px 0 0;
 }
 .dashboard .annonces {

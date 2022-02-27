@@ -1,14 +1,16 @@
-import React, {useEffect, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import PatientList from "./PatientList";
 import SwitchBtn from "../../../props/SwitchBtn";
 import {set} from "lodash/object";
 import CardComponent from "../../../props/CardComponent";
 import {useParams} from "react-router-dom";
 import axios from "axios";
+import UserContext from "../../../context/UserContext";
 
 function FireBC(props) {
     const [bc , setBC] = useState([]);
     const {bcID} = useParams();
+    const user = useContext(UserContext)
     const [blessures, setBlessures] = useState([]);
     const [caserne, setCaserne] = useState("");
     const [place, setPlace] = useState("");
@@ -117,7 +119,7 @@ function FireBC(props) {
                         Redirection('/blackcodes/all')
                     })
                 }}>retour</button>
-                <button  className={'btn'} onClick={async () => {
+                <button  className={'btn'} disabled={!(user.grade.admin || user.BC_close)} onClick={async () => {
                     await axios({
                         method: 'PUT',
                         url: '/data/blackcode/' + bcID + '/close'
@@ -135,7 +137,7 @@ function FireBC(props) {
                 <div className={'BC-infosForm'}>
                     <div className={'form-group form-line form-title'}>
                         <label>Information</label>
-                        <button className={'btn img'}><img src={'/assets/images/save.png'} alt={''} onClick={async () => {
+                        <button className={'btn img'} disabled={!(user.grade.admin || user.BC_edit)} onClick={async () => {
                             await axios({
                                 method: 'PATCH',
                                 url :'/data/blackcode/'+ bcID +'/infos',
@@ -143,8 +145,7 @@ function FireBC(props) {
                                     caserne,
                                     place
                                 }
-                            })
-                        }}/></button>
+                            })}}><img src={'/assets/images/save.png'} alt={''}/></button>
                     </div>
 
                     <div className={'form-group form-column'}>
@@ -176,7 +177,7 @@ function FireBC(props) {
                                 )}
                             </datalist>
                         }
-                        <button className={'btn'} onClick={async () => {
+                        <button className={'btn'} disabled={!(user.grade.admin || user.BC_fire_personnel_add)} onClick={async () => {
                             await axios({
                                 method: 'POST',
                                 url: '/data/blackcode/' + bcID + '/add/personnel/'+searchPersonnel,
@@ -196,7 +197,7 @@ function FireBC(props) {
                 <div className={'BC-PatientAdder'}>
                     <div className={'form-group form-line form-title'}>
                         <label>Ajouter un patient</label>
-                        <button className={'btn'} onClick={postPatient}>ajouter</button>
+                        <button className={'btn'} onClick={postPatient} disabled={!(user.grade.admin || user.BC_modify_patient)}>ajouter</button>
                         <button className={'btn'} onClick={()=>{
                             setPName("")
                             setblessure(0)
@@ -250,7 +251,7 @@ function FireBC(props) {
                 <div className={'BC-InetDetails'}>
                     <div className={'form-group form-line form-title'}>
                         <label>Détails de l'intervetion</label>
-                        <button className={'btn img'}><img src={'/assets/images/save.png'} onClick={async () => {
+                        <button className={'btn img'} disabled={!(user.grade.admin || user.BC_edit)} onClick={async () => {
                             await axios({
                                 method: 'PATCH',
                                 url : '/data/blackcode/' + bcID + '/desc',
@@ -258,7 +259,7 @@ function FireBC(props) {
                                     description,
                                 }
                             })
-                        }}alt={''}/></button>
+                        }}><img src={'/assets/images/save.png'} alt={''}/></button>
                     </div>
                     <textarea value={description} onChange={(e)=>{setDescription(e.target.value)}}/>
                 </div>

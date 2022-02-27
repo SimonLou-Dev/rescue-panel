@@ -1,9 +1,10 @@
-import React, {useEffect, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import SwitchBtn from "../../../props/SwitchBtn";
 import {useLocation, useParams} from "react-router-dom";
 import CardComponent from "../../../props/CardComponent";
 import PatientList from "./PatientList";
 import axios from "axios";
+import UserContext from "../../../context/UserContext";
 
 function MedicBC(props) {
 
@@ -13,6 +14,7 @@ function MedicBC(props) {
     const {bcID} = useParams();
     const [blessures, setBlessures] = useState([]);
     const [caserne, setCaserne] = useState("");
+    const user = useContext(UserContext);
 
     const [payed, setPayed] = useState(false);
     const [pName, setPName] = useState("");
@@ -108,7 +110,7 @@ function MedicBC(props) {
                     await axios({method: 'PATCH', url: '/data/blackcode/quit'}).then(() => {
                         Redirection('/blackcodes/all')
                     })}}>retour</button>
-                <button  className={'btn'} onClick={async () => {
+                <button  className={'btn'} disabled={!(user.grade.admin || user.BC_close)}  onClick={async () => {
                     await axios({
                         method: 'PUT',
                         url: '/data/blackcode/' + bcID + '/close'
@@ -126,8 +128,7 @@ function MedicBC(props) {
                 <div className={'BC-infosForm'}>
                     <div className={'form-group form-line form-title'}>
                         <label>Information</label>
-                        <button className={'btn img'}><img src={'/assets/images/save.png'} alt={''}
-                        onClick={async () => {
+                        <button className={'btn img'} disabled={!(user.grade.admin || user.BC_edit)} onClick={async () => {
                             await axios({
                                 method: 'PATCH',
                                 url : '/data/blackcode/' + bcID + '/caserne',
@@ -135,8 +136,7 @@ function MedicBC(props) {
                                     caserne,
                                 }
                             })
-                        }}
-                        /></button>
+                        }}><img src={'/assets/images/save.png'} alt={''}/></button>
                     </div>
                     <div className={'form-group form-column'}>
                         <label>Type de Black Code</label>
@@ -161,7 +161,7 @@ function MedicBC(props) {
                 <div className={'BC-PatientAdder'}>
                     <div className={'form-group form-line form-title'}>
                         <label>Ajouter un patient</label>
-                        <button className={'btn'} onClick={postPatient}>ajouter</button>
+                        <button className={'btn'} onClick={postPatient} disabled={!(user.grade.admin || user.BC_modify_patient)}>ajouter</button>
                         <button className={'btn'} onClick={()=>{
                             setPName("")
                             setblessure(0)
@@ -239,7 +239,7 @@ function MedicBC(props) {
                 <div className={'BC-InetDetails'}>
                     <div className={'form-group form-line form-title'}>
                         <label>Détails de l'intervetion</label>
-                        <button className={'btn img'}><img src={'/assets/images/save.png'} onClick={async () => {
+                        <button className={'btn img'} disabled={!(user.grade.admin || user.BC_edit)} onClick={async () => {
                             await axios({
                                 method: 'PATCH',
                                 url : '/data/blackcode/' + bcID + '/desc',
@@ -247,7 +247,7 @@ function MedicBC(props) {
                                     description,
                                 }
                             })
-                        }}alt={''}/></button>
+                        }}><img src={'/assets/images/save.png'} alt={''}/></button>
                     </div>
                     <textarea value={description} onChange={(e)=>{setDescription(e.target.value)}}/>
                 </div>

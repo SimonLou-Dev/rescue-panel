@@ -1,13 +1,15 @@
-import React, {useEffect, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import ReactQuill from "react-quill";
 import 'react-quill/dist/quill.snow.css';
 import axios from "axios";
 import CardComponent from "../../props/CardComponent";
+import userContext from "../../context/UserContext";
 
 function AnnoncesInfos(props) {
     const [annonces, setAnnonces] = useState('');
     const [actus, setActus] = useState('');
     const [utils, setUtils] = useState('');
+    const user= useContext(userContext);
 
 
     useEffect(async () => {
@@ -21,7 +23,7 @@ function AnnoncesInfos(props) {
         <CardComponent title={'Annonces'}>
             <div className={'helper'}>
                 <label>pas de liens ici </label>
-                <button className={'btn'}><img alt={''} src={'/assets/images/save.png'} onClick={async () => {
+                <button className={'btn'} disabled={!(user.grade.admin || user.post_annonces)}><img alt={''} src={'/assets/images/save.png'} onClick={async () => {
                     await axios({
                         method: 'POST',
                         url: '/data/mgt/annonce',
@@ -39,7 +41,7 @@ function AnnoncesInfos(props) {
         <CardComponent title={'Actualitées'}>
             <div className={'helper'}>
                 <label>Les actus apparaissent que sur le site</label>
-                <button className={'btn'} onClick={async () => {
+                <button className={'btn'} disabled={!(user.grade.admin || user.post_actualities)} onClick={async () => {
                     await axios({
                         method: 'POST',
                         url: '/data/mgt/actu',
@@ -58,7 +60,7 @@ function AnnoncesInfos(props) {
 
             <div className={'helper'}>
                 <label>	&nbsp;</label>
-                <button className={'btn'} onClick={async () => {
+                <button className={'btn'} disabled={!(user.grade.admin || user.edit_infos_utils)} onClick={async () => {
                     await axios({
                         method: 'PUT',
                         url: '/data/mgt/utils',

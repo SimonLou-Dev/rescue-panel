@@ -120,7 +120,7 @@ function RapportReview(props) {
 
     return (<div className={"RapportReview"}>
         <div className={'fixed-top-right'}>
-            <Button value={'envoyer'} callback={postRapport}/>
+            <Button value={'envoyer'} callback={postRapport} disabled={!(user.grade.admin || user.rapport_modify)}/>
         </div>
         <section className={'interList'}>
             <CardComponent title={'Interventions'}>

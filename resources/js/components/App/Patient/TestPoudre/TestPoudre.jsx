@@ -1,9 +1,10 @@
-import React, {useEffect, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import CardComponent from "../../../props/CardComponent";
 import axios from "axios";
 import SwitchBtn from "../../../props/SwitchBtn";
 import Searcher from "../../../props/Searcher";
 import PageNavigator from "../../../props/PageNavigator";
+import UserContext from "../../../context/UserContext";
 
 function TestPoudre(props) {
     const [name, setName] = useState();
@@ -19,6 +20,7 @@ function TestPoudre(props) {
     const [page, setPage] = useState(0);
     const [paginate, setPaginate] = useState([]);
     const [tests, setTest] = useState([]);
+    const user = useContext(UserContext);
 
     const searchPatient = async (search) => {
         if(search.length > 0){
@@ -182,7 +184,7 @@ function TestPoudre(props) {
                     </section>
                 </section>
                 <section className={'footer'}>
-                    <button className={'btn'} onClick={postForm}>valdier</button>
+                    <button className={'btn'} onClick={postForm} disabled={!(user.grade.admin || user.poudretest_create)}>valdier</button>
                 </section>
             </CardComponent>
 

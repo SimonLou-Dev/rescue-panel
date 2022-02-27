@@ -87,7 +87,7 @@ function MyAbs(props) {
                 </ul>
 
                 <div className={'form-part form-inline'}>
-                    <button className={'btn'} onClick={postReq}>envoyer</button>
+                    <button className={'btn'} disabled={!(user.grade.admin || user.post_absences_req)} onClick={postReq}>envoyer</button>
                 </div>
             </section>
             <section className={'table'}>
