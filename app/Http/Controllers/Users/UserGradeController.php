@@ -82,12 +82,44 @@ class UserGradeController extends Controller
         return \response()->json(['status'=>'ok', 'user'=>$user]);
     }
 
-    public function getAllGrades(): JsonResponse
+    public function getGrade(): JsonResponse
     {
-        $user = User::where('id', Auth::user()->id)->first();
-        $grades = Grade::where('id', '<=', $user->grade_id)->get();
+        $grades = Grade::where('service', Session::get('service')[0])->orderBy('power','desc')->get();
+        $grades->filter(function ($item){
+            return \Gate::allows('view', $item);
+        });
         return \response()->json(['status'=>'OK','grades'=>$grades]);
     }
+
+    public function createGrade(Request $request): JsonResponse
+    {
+        $grade = new Grade();
+        $grade->name = 'nouveau grade';
+        $grade->power = 0;
+        $grade->service = Session::get('service')[0];
+        $grade->save();
+
+        return $this::getGrade();
+    }
+
+    public function updateGrade(Request $request){
+        //TODO : PERM pour update + verif que le mec est admin si il set admin + verif la power du grade
+        $grade = Grade::where('id', $request->grade['id'])->first();
+        $exept = ['id', 'service', 'created_at','updated_at'];
+        $updater = collect($request->grade)->except($exept);
+
+        foreach ($updater  as $key => $value){
+            $grade[$key] = $value;
+        }
+        $grade->save();
+        Notify::dispatch('Mise à jour enregistrée',1,Auth::user()->id);
+        return $this::getGrade();
+    }
+
+    public function postGrade(Request $request){
+
+    }
+
 
     public function changePerm(string $perm, string $grade_id): JsonResponse
     {

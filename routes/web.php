@@ -96,7 +96,7 @@ Route::get('/logout', function (Request $request){
 // scope=identify%20email%20guilds%20guilds.join%20guilds.members.read
 Route::get('/auth/redirect', function () {return Socialite::driver('discord')->scopes(['email','guilds'])->redirect();});
 Route::get('/auth/callback', [UserConnexionController::class, 'callback'])->middleware('guest');
-Route::get('/auth/fake', [UserConnexionController::class, 'fake'])->middleware('quest');//disable
+Route::get('/auth/fake', [UserConnexionController::class, 'fake'])->middleware('guest');//disable
 Route::get('/data/userInfos', [UserGradeController::class, 'GetUserPerm'])->middleware(['auth']);
 
 Route::post('/data/postuserinfos', [UserConnexionController::class, 'postInfos'])->middleware(['auth']);
@@ -241,8 +241,10 @@ Route::get('/data/user/infos/get', [UserController::class, 'getUserInfos'])->mid
 Route::put('/data/user/infos/put', [AccountController::class, 'updateInfos'])->middleware(['auth']);
 
 //Pems management
-Route::get('/data/admin/grades/get', [UserGradeController::class, 'getAllGrades'])->middleware(['auth']);
-Route::put('/data/admin/grades/{perm}/{grade_id}', [UserGradeController::class, 'changePerm'])->middleware(['auth']);
+Route::get('/data/admin/grades', [UserGradeController::class, 'getGrade'])->middleware(['auth']);
+Route::post('/data/admin/grades', [UserGradeController::class, 'createGrade'])->middleware(['auth']);
+Route::put('/data/admin/grades', [UserGradeController::class, 'updateGrade'])->middleware(['auth']);
+Route::delete('/data/admin/grades', [UserGradeController::class, 'deleteGrade'])->middleware(['auth']);
 
 //Change service
 Route::patch('/data/user/service/{service}', [UserController::class, 'setService'])->middleware(['auth']);

@@ -710,7 +710,8 @@ body {
   width: 100vw;
   height: 100vh;
   display: flex;
-  background-image: url("/assets/bg/BG_1.jpg");
+  overflow-y: auto;
+  background-image: url("assets/bg/BG_1.jpg");
 }
 .Auth .Authentifier {
   margin: auto;
@@ -2136,6 +2137,13 @@ body {
 .GradeList .grades-selector .grade-list table {
   width: 100%;
 }
+.GradeList .grades-selector .grade-list table tr {
+  cursor: pointer;
+  transition: all 500ms;
+}
+.GradeList .grades-selector .grade-list table tr:hover {
+  background-color: #222844;
+}
 .GradeList .grades-selector .grade-list table .grade {
   width: 90%;
 }
@@ -2191,6 +2199,9 @@ body {
 .GradeList .bigpart .perm-editor .perm-line h4 {
   text-align: center;
   margin-bottom: 10px;
+}
+.GradeList .bigpart .perm-editor .perm-line th {
+  font-size: 18px;
 }
 .GradeList .bigpart .perm-editor .perm-line:first-child {
   border-top: none;
