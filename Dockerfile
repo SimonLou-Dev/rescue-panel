@@ -17,6 +17,9 @@ RUN apt-get update && apt-get install -y \
     libpng-dev \
     libonig-dev \
     libxml2-dev \
+    lua-zlib-dev \
+    libmemcached-dev \
+    nginx \
     zip \
     unzip
 
@@ -66,6 +69,10 @@ RUN composer remove fidelopper/proxy
 RUN composer install --optimize-autoloader --no-dev
 RUN yarn install
 RUN chmod +x /var/www/run.sh
+
+#nginx config
+RUN cp ./docker/nginx.conf /etc/nginx/sites-enabled/default
+
 
 EXPOSE 80
 ENTRYPOINT ["/var/www/run.sh"]
