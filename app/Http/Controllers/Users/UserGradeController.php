@@ -84,6 +84,7 @@ class UserGradeController extends Controller
 
     public function getGrade(): JsonResponse
     {
+        \Gate::authorize('viewAny',Grade::class);
         $grades = Grade::where('service', Session::get('service')[0])->orderBy('power','desc')->get();
         $grades->filter(function ($item){
             return \Gate::allows('view', $item);
@@ -93,6 +94,7 @@ class UserGradeController extends Controller
 
     public function createGrade(Request $request): JsonResponse
     {
+        \Gate::authorize('create',Grade::class);
         $grade = new Grade();
         $grade->name = 'nouveau grade';
         $grade->power = 0;
@@ -103,7 +105,6 @@ class UserGradeController extends Controller
     }
 
     public function updateGrade(Request $request){
-        //TODO : PERM pour update + verif que le mec est admin si il set admin + verif la power du grade
         $grade = Grade::where('id', $request->grade['id'])->first();
         $exept = ['id', 'service', 'created_at','updated_at'];
         $updater = collect($request->grade)->except($exept);
@@ -111,13 +112,22 @@ class UserGradeController extends Controller
         foreach ($updater  as $key => $value){
             $grade[$key] = $value;
         }
+        $this->authorize('update', $grade);
         $grade->save();
         Notify::dispatch('Mise à jour enregistrée',1,Auth::user()->id);
         return $this::getGrade();
     }
 
-    public function postGrade(Request $request){
-
+    public function deleteGrade(Request $request){
+        \Gate::authorize('delete',Grade::class);
+        $grade = Grade::where('id', $request->grade_id);
+        if($grade->default){
+            Notify::dispatch('Ce grade ne peut pas être supprimé',3, Auth::user()->id);
+            return $this->getGrade();
+        }
+        $grade->delete();
+        Notify::dispatch('Grade supprimé',1, Auth::user()->id);
+        return $this->getGrade();
     }
 
 

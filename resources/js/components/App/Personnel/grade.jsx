@@ -87,7 +87,19 @@ function grade(props) {
                             setGradeList(r.data.grades)
                         });
                         }}><img alt={''} src={'/assets/images/save.png'}/></button>
-                        <button className={'btn'}>supprimer</button>
+                        <button className={'btn'}  onClick={async () => {
+                            await axios({
+                                method: 'DELETE',
+                                url:'/data/admin/grades',
+                                data:{
+                                    'grade_id':gradeSelected.id,
+                                }
+
+                            }).then(r => {
+                                setGradeList(r.data.grades)
+                                selectGrade(null)
+                            });
+                        }}>supprimer</button>
                     </div>
                     <div className={'perm-editor'}>
                         <div className={'perm-line'}>

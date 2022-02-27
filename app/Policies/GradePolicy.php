@@ -18,7 +18,10 @@ class GradePolicy
      */
     public function viewAny(User $user)
     {
-        //
+        $grade = $user->getUserGradeInService();
+        if($user->isAdmin()) return true;
+        if($grade->view_grade_list) return true;
+        return false;
     }
 
     /**
@@ -44,7 +47,10 @@ class GradePolicy
      */
     public function create(User $user)
     {
-        //
+        $grade = $user->getUserGradeInService();
+        if($user->isAdmin()) return true;
+        if($grade->modify_grade && $this->viewAny($user))return  true;
+        return false;
     }
 
     /**
@@ -54,44 +60,26 @@ class GradePolicy
      * @param  \App\Models\Grade  $grade
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function update(User $user, Grade $grade)
+    public function update(User $user, Grade $newGrade)
     {
-        //
+        $grade = $user->getUserGradeInService();
+        if($user->isAdmin()) return true;
+        if($grade->modify_grade && $this->view($user, $newGrade) && !$newGrade->admin)return  true;
+        return false;
     }
 
     /**
      * Determine whether the user can delete the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\Grade  $grade
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function delete(User $user, Grade $grade)
+    public function delete(User $user)
     {
-        //
+        $grade = $user->getUserGradeInService();
+        if($user->isAdmin()) return true;
+        if($grade->modify_grade && $this->viewAny($user))return  true;
+        return false;
     }
 
-    /**
-     * Determine whether the user can restore the model.
-     *
-     * @param  \App\Models\User  $user
-     * @param  \App\Models\Grade  $grade
-     * @return \Illuminate\Auth\Access\Response|bool
-     */
-    public function restore(User $user, Grade $grade)
-    {
-        //
-    }
-
-    /**
-     * Determine whether the user can permanently delete the model.
-     *
-     * @param  \App\Models\User  $user
-     * @param  \App\Models\Grade  $grade
-     * @return \Illuminate\Auth\Access\Response|bool
-     */
-    public function forceDelete(User $user, Grade $grade)
-    {
-        //
-    }
 }
