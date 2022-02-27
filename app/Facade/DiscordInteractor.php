@@ -32,6 +32,20 @@ class DiscordInteractor
             $db->value = $path;
             $db->save();
         }
+        $embed= [
+            [
+                'title'=>'Mise à jour des channel',
+                'color'=>'752251',
+                'fields'=>[
+                    [
+                        'name'=>'Choisi pour : ',
+                        'value'=> $channel,
+                        'inline'=>false
+                    ]
+                ],
+            ]
+        ];
+        self::postMessage($channel,$embed);
     }
 
     public function chanGet(string $channel):string|Integer

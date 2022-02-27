@@ -2208,4 +2208,48 @@ body {
   margin-top: 0px;
 }
 
+.TablePage {
+  width: 100vw;
+  height: 100%;
+  display: flex;
+}
+.TablePage .page-center {
+  margin: auto auto;
+  display: flex;
+  flex-direction: column;
+  height: 70vh;
+  width: 70%;
+  overflow: auto;
+  background-color: #1B2037;
+  border-radius: 10px;
+}
+.TablePage .page-center .header {
+  background-color: #3D487B;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  height: 125px;
+  top: 0;
+  position: sticky;
+}
+.TablePage .page-center .header h4 {
+  margin: 15px 5px;
+}
+.TablePage .page-center .header button {
+  margin: auto 10px;
+  background-color: #1B2037;
+}
+.TablePage .page-center .header button img {
+  width: 40px;
+  height: 40px;
+}
+.TablePage .page-center .container {
+  padding: 10px;
+}
+.TablePage .page-center .container .chann-item {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
 /*# sourceMappingURL=app.css.map */

@@ -4,6 +4,7 @@ use App\Enums\DiscordChannel;
 use App\Events\NotifyForAll;
 use App\Http\Controllers\AccountController;
 use App\Http\Controllers\ContentManagement;
+use App\Http\Controllers\DiscordChannelController;
 use App\Http\Controllers\ErrorsController;
 use App\Http\Controllers\FileController;
 use App\Http\Controllers\HomeController;
@@ -245,6 +246,10 @@ Route::get('/data/admin/grades', [UserGradeController::class, 'getGrade'])->midd
 Route::post('/data/admin/grades', [UserGradeController::class, 'createGrade'])->middleware(['auth']);
 Route::put('/data/admin/grades', [UserGradeController::class, 'updateGrade'])->middleware(['auth']);
 Route::delete('/data/admin/grades', [UserGradeController::class, 'deleteGrade'])->middleware(['auth']);
+
+//Pems management
+Route::get('/data/management/discord', [DiscordChannelController::class, 'getChannel'])->middleware(['auth']);
+Route::put('/data/management/discord', [DiscordChannelController::class, 'postChannel'])->middleware(['auth']);
 
 //Change service
 Route::patch('/data/user/service/{service}', [UserController::class, 'setService'])->middleware(['auth']);
