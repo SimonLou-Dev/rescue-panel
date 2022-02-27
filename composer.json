@@ -14,7 +14,6 @@
         "barryvdh/laravel-dompdf": "^1.0.0",
         "bensampo/laravel-enum": "^v5.1.0",
         "doctrine/dbal": "^3.2",
-        "fideloper/proxy": "^4.4",
         "fruitcake/laravel-cors": "^2.0",
         "graham-campbell/markdown": "*",
         "guzzlehttp/guzzle": "^7.0.1",
