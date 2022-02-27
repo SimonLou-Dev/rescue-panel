@@ -150,9 +150,11 @@ function Layout(props) {
 
     }
 
-    if(user === null) return (<div className={'layout'}/>)
+    if(user === null) return (<div className={'layout'}>
+
+    </div> )
     else{
-        <div className={"layout"}>
+        return(<div className={"layout"}>
             <header className={"layout-header"}>
                 <div className={"header-menu"} onClick={() => {
                     setCollasping(!collapsed)
@@ -319,7 +321,7 @@ function Layout(props) {
 
                 </UserContext.Provider>
             </div>
-        </div>
+        </div>)
     }
 }
 
