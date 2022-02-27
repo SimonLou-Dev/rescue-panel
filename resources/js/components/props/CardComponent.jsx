@@ -4,7 +4,7 @@ import axios from "axios";
 
 function CardComponent(props) {
     return (
-        <div className={"Card"}>
+        <div className={"Card " + props.className}>
             <section className={"card-header"}>
                 <h3>{props.title}</h3>
             </section>

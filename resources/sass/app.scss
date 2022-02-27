@@ -1917,3 +1917,103 @@ body{
         }
     }
 }
+
+.dashboard{
+    width: 100%;
+    height: calc(100vh - 120px);
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
+    .card-header{
+        background-color: $bg2;
+        position: sticky;
+        top: 0;
+        z-index: 14;
+        border-radius: $border-radius $border-radius 0 0;
+    }
+    .annonces{
+        height: 100%;
+        overflow-y: auto;
+        width: 400px;
+    }
+    .card-content{
+        display: flex;
+        flex-direction: column;
+    }
+    .rect-item{
+        width: 90%;
+        height: 200px;
+        background-color: $bg2;
+        margin: 5px auto;
+        border-radius: $border-radius;
+        overflow-y: auto;
+        h4{
+            text-align: center;
+        }
+        .infos_content{
+            border-top: 1px $boom solid;
+            padding: 4px;
+        }
+    }
+    .middle{
+        padding-top: 10px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-evenly;
+        .infos{
+            padding: 10px;
+            background-color: rgba(27,32,55,0.7);
+            display: flex;
+            flex-direction: row;
+            border-radius: $border-radius;
+            img{
+                width: 40%;
+            }
+            h1{
+                text-align: right;
+                margin: auto 0;
+            }
+        }
+        width: 40%;
+        .Card{
+            width: 80%;
+            margin: auto auto;
+            height: 55%;
+            overflow-y: auto;
+        }
+    }
+    .actus .card-content{
+        display: flex;
+        flex-direction: row;
+        justify-content: space-evenly;
+        flex-wrap: wrap;
+        .rect-item{
+            margin: 5px;
+            width: 45%;
+        }
+    }
+    .left{
+        width: 400px;
+        padding-top: 10px;
+        display: flex;
+        flex-direction: column;
+        .me{
+            padding: 10px;
+            background-color: rgba(27,32,55,0.7);
+            display: flex;
+            flex-direction: row;
+            border-radius: $border-radius;
+            width: 100%;
+            height: 40px;
+            h4{
+                margin: auto auto;
+            }
+        }
+        .utils{
+            height: calc(100% - 70px);
+            overflow-y: auto;
+            width: 100%;
+        }
+    }
+}

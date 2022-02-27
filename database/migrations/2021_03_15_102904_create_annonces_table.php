@@ -17,7 +17,6 @@ class CreateAnnoncesTable extends Migration
             $table->id();
             $table->string('service');
             $table->longText('content');
-            $table->string('service');
             $table->bigInteger('discord_msg_id')->nullable()->default(null);
             $table->timestamps();
         });

@@ -41,11 +41,13 @@ class MainController extends Controller
 
     public function getDashboard(Request $request): \Illuminate\Http\JsonResponse
     {
-        $annonces = Annonces::orderByDesc('id')->get();
-        foreach ($annonces as $annonce){
-            $annonce->content = Markdown::convertToHtml($annonce->content);
-        }
-        return response()->json(['status'=>'OK', 'annonces'=>$annonces]);
+        $service = Session::get('service')[0];
+
+        $annonces = Annonces::orderByDesc('id')->where('service', $service)->get();
+        $actus = Actualities::orderByDesc('id')->where('service', $service)->get();
+        $infosUtils = Params::where('type', 'utilsInfos'.Session::get('service')[0])->first();
+
+        return response()->json(['status'=>'OK', 'annonces'=>$annonces, 'actus'=>$actus, 'infos'=>$infosUtils]);
     }
 
     public function createAnnonce(Request $request){

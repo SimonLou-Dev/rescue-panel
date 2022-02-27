@@ -29,6 +29,7 @@ import ContentManager from "./Manager/ContentManager";
 import AnnoncesInfos from "./Manager/AnnoncesInfos";
 import MyAccount from "./Other/account/MyAccount";
 import ServiceNav from "../AuthComponent/ServiceNav";
+import Dashboard from "./Other/Dashboard";
 
 
 function Layout(props) {
@@ -235,6 +236,7 @@ function Layout(props) {
             <div className={'app-page-container'}>
                 <UserContext.Provider value={user}>
                     <Route path={'/account'} component={MyAccount}/>
+                    <Route path={'/dashboard'} component={Dashboard}/>
 
 
                     <Route path={'/patients/rapport'} component={Rapport}/>
