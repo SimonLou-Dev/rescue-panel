@@ -14,7 +14,7 @@ yarn build
 
 echo 'start worker & nginx... '
 pm2 start ./queueworker.yml
-nginx -t && nginx -s reload
+nginx -t && service nginx restart
 
 echo 'launch '
 /usr/local/sbin/php-fpm -R
