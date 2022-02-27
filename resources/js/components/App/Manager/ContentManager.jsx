@@ -33,6 +33,14 @@ function ContentManager(props) {
             }
         }).then(r => {
             setData(r.data)
+            setintervalue('')
+            sethospvalue('')
+            settypevalue('')
+            setBlessuresvalue('')
+            setcolorvalue('')
+            setSurvolvalue('')
+            setpathovalue('')
+            setpathoDesc('')
         })
     }
 
