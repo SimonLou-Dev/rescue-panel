@@ -58,10 +58,9 @@ class BlackCodePolicy
      * Determine whether the user can update the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\BCList  $bCList
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function update(User $user, BCList $bCList)
+    public function update(User $user)
     {
         $grade = $user->getUserGradeInService();
         if($user->isAdmin() || $grade->BC_edit) return true;

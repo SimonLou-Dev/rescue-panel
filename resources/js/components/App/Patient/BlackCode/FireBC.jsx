@@ -266,7 +266,7 @@ function FireBC(props) {
 
             </section>
             <div className={'patientList'}>
-                <CardComponent title={'Liste de patient (1)'}>
+                <CardComponent title={'Liste de patient ('+bc.get_patients.length+')'}>
                     <div className={'patient-listing'}>
                         <table>
                             <tbody>

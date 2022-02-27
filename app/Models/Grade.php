@@ -27,7 +27,7 @@ class Grade extends Model
 
     protected $casts = [
       'admin'=>'boolean',
-      'default'=>'boolean'
+      'default'=>'boolean',
     ];
 
     use HasFactory, Searchable;

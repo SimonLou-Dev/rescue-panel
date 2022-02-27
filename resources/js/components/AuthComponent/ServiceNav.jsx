@@ -36,7 +36,7 @@ function ServiceNav(props) {
                         </div>
                     </li>
                 }
-                {(user.moderator) &&
+                {(user.moderator && false) &&
                     <li onClick={async () => {
                         await axios({
                             method: 'PATCH',

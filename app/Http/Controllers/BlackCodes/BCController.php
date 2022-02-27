@@ -132,21 +132,26 @@ class BCController extends Controller
         $bc = BCList::where('id', $id)->first();
         $bc->GetType;
         $bc->GetUser;
+
         $bc->GetPersonnel;
+
         $bc->GetPatients;
-        if($bc->service === 'SAMS' && !$bc->ended){
-            PersonnelController::addPersonel($bc, Auth::user()->id);
+        $user = User::where('id', Auth::user()->id)->first();
+        if($bc->service === 'SAMS' && !$bc->ended && $user->bc_id != $bc->id){
+            PersonnelController::addPersonel($bc->id, Auth::user()->id);
         }
         foreach ($bc->GetPatients as $patient){
             $patient->GetColor;
         }
+
         if($bc->ended){
-            $blessures = Blessure::withTrashed()->get();
-            $color= CouleurVetement::withTrashed()->get();
+            $blessures = Blessure::where('service', \Session::get('service')[0])->withTrashed()->get();
+            $color= CouleurVetement::where('service', \Session::get('service')[0])->withTrashed()->get();
         }else{
-            $blessures = Blessure::all();
-            $color = CouleurVetement::all();
+            $blessures = Blessure::where('service', \Session::get('service')[0])->get();
+            $color = CouleurVetement::where('service', \Session::get('service')[0])->get();
         }
+
         return response()->json([
             'status'=>'OK',
             'bc'=>$bc,

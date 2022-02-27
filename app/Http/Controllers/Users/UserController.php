@@ -140,6 +140,7 @@ class UserController extends Controller
         Session::push('service', $service);
         $user->service = $service;
         $user->save();
+        UserUpdated::dispatch($user);
         return \response()->json([],202);
     }
 

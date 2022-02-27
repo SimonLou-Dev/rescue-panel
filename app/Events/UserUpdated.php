@@ -22,13 +22,16 @@ class UserUpdated implements ShouldBroadcastNow
 
     )
     {
-        if($this->user->service === "SAMS"){
-            $this->user->grade = $this->user->GetMedicGrade;
-        }else if($this->user->service === "LSCoFD"){
-            $this->user->grade = $this->user->GetFireGrade;
-        }
+        $this->user->grade = $this->user->getUserGradeInService();
         $this->user->GetMedicGrade;
         $this->user->GetFireGrade;
+
+        $collect = collect($this->user->grade->getAttributes());
+        $collect = $collect->except(['service','name','power','discord_role_id','id']);
+        foreach ($collect as $key => $item){
+            $b = $this->user->grade->getAttributeValue($key);
+            $this->user->grade[$key] = ($b === "1" || $b === true || $b === 1 );
+        }
     }
 
     /**
