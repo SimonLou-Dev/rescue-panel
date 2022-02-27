@@ -16,192 +16,112 @@ use App\Models\LieuxSurvol;
 use App\Models\LogServiceState;
 use App\Models\ModifyServiceReq;
 use App\Models\ObjRemboursement;
+use App\Models\Pathology;
 use App\Models\PrimeItem;
 use App\Models\Rapport;
 use App\Models\Service;
 use App\Models\ServiceState;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Session;
 
 
 class ContentManagement extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('auth');
-        $this->middleware('access');
-    }
 
     public function addcontent(Request $request, string $type): \Illuminate\Http\JsonResponse
     {
-        $content = [];
+        $this->authorize('modify_content_mgt',User::class);
         switch ($type) {
             case "1":
                 $content = new Intervention();
-
-                $content->name = $request->formcontent;
+                $content->name = $request->name;
+                $content->service = Session::get('service')[0];
                 $content->save();
                 break;
             case "2":
                 $content = new Hospital();
-                /** @var string $request->formcontent  */
-                $content->name = $request->formcontent;
+                $content->name = $request->name;
+                $content->service = Session::get('service')[0];
                 $content->save();
                 break;
             case "3":
                 $content = new BCType();
-                /** @var string $request->formcontent  */
-                $content->name = $request->formcontent;
+                $content->name = $request->name;
                 $content->save();
                 break;
             case "4":
                 $content = new Blessure();
-                /** @var string $request->formcontent  */
-                $content->name = $request->formcontent;
+                $content->name = $request->name;
+                $content->service = Session::get('service')[0];
                 $content->save();
                 break;
             case "5":
-                $content = new Annonces();
-                /** @var string $request->title  */
-                $content->title = $request->title;
-                /** @var string $request->formcontent  */
-                $content->content = $request->formcontent;
-                $content->save();
-                Http::post(env('WEBHOOK_ANNONCE'),[
-                    'embeds'=>[
-                        [
-                            'title'=>'Nouvelle annonce : ' . $content->title,
-                            'color'=>'10359636',
-                            'description'=> $content->content,
-                        ]
-                    ]
-                ]);
-                break;
-            case "6":
                 $content = new CouleurVetement();
-                /** @var string $request->formcontent  */
-                $content->name = $request->formcontent;
-                $content->save();
-                break;
-            case "7" :
-                $content = new LieuxSurvol();
-                $content->name= $request->formcontent;
-                $content->save();
-                break;
-            case '8':
-                $content =new ObjRemboursement();
-                $content->price = $request->price;
-                $content->name= $request->formcontent;
-                $content->save();
-                break;
-            case '9':
-                $content = new ServiceState();
                 $content->name = $request->name;
-                $content->color = $request->color;
+                $content->service = Session::get('service')[0];
                 $content->save();
                 break;
-            case '10':
-                $content = new PrimeItem();
-                $content->name = $request->formcontent;
-                $content->montant = $request->price;
+            case "6" :
+                $content = new LieuxSurvol();
+                $content->name= $request->name;
+                $content->save();
+                break;
+            case '7':
+                $content =new Pathology();
+                $content->desc = $request->desc;
+                $content->name= $request->name;
+                $content->stock_item= json_encode([]);
                 $content->save();
                 break;
             default:
                 return response()->json('error', 404);
         }
-        return response()->json(['status'=>'OK', 'created'=>$content], 201);
+        return self::getcontent($request);
     }
-    public function getcontent(Request $request, int $type): \Illuminate\Http\JsonResponse
+    public function getcontent(Request $request): \Illuminate\Http\JsonResponse
     {
-        $data= array();
-        switch ($type){
-            case "1":
-                $data = Intervention::all();
-                break;
-            case "2":
-                $data = Hospital::all();
-                break;
-            case "3":
-                $data = BCType::all();
-                break;
-            case "4":
-                $data = Blessure::withTrashed()->get();
-                break;
-            case "5":
-                $data = Annonces::all();
-                break;
-            case "6":
-                $data = CouleurVetement::all();
-                break;
-            case "7":
-                $data = LieuxSurvol::all();
-                break;
-            case "8":
-                $data = ObjRemboursement::all();
-                break;
-            case '9':
-                $data = ServiceState::all();
-                break;
-            case '10':
-                $data = PrimeItem::all();
-                break;
-            default: break;
-        }
-        return response()->json(['status'=>'OK', 'data'=>$data]);
+        $this->authorize('modify_content_mgt',User::class);
+        return response()->json([
+            'interventions'=> Intervention::where('service', Session::get('service')[0])->get(),
+            'hospital'=>Hospital::where('service', Session::get('service')[0])->get(),
+            'BCTypes'=>BCType::all(),
+            'Blessures'=>Blessure::where('service', Session::get('service')[0])->get(),
+            'Color'=>CouleurVetement::where('service', Session::get('service')[0])->get(),
+            'LieuxSurvol'=>LieuxSurvol::all(),
+            'Pathologies'=>Pathology::all(),
+        ]);
+
     }
     public function deletecontent(Request $request, int $type, int $id): \Illuminate\Http\JsonResponse
     {
-        $data = null;
+        $this->authorize('modify_content_mgt',User::class);
         switch ($type){
-            case "1":
-                $data = Intervention::where('id', $id)->first();
-                $data->delete();
+            case "1":Intervention::where('id', $id)->first()->delete();
                 break;
             case "2":
-                $data = Hospital::where('id', $id)->first();
-                $data->delete();
+                Hospital::where('id', $id)->first()->delete();
                 break;
             case "3":
-                $data = BCType::where('id', $id)->first();
-                $data->delete();
+                BCType::where('id', $id)->first()->delete();
                 break;
-            case "4";
-                $data = Blessure::withTrashed()->where('id', $id)->first();
-                if(is_null($data->deleted_at)){
-                    $data->delete();
-                    event(new Notify('Cet item est invisible', 1));
-                }else{
-                    $data->restore();
-                    event(new Notify('Cet item est maintenant visible', 1));
-                }
+            case "4";Blessure::where('id', $id)->first()->delete();
                 break;
             case "5";
-                $data = Annonces::where('id', $id)->first();
-                $data->delete();
+                CouleurVetement::where('id', $id)->first()->delete();
                 break;
             case "6";
-                $data = CouleurVetement::where('id', $id)->first();
-                $data->delete();
+                LieuxSurvol::where('id', $id)->first()->delete();
                 break;
             case '7':
-                LieuxSurvol::where('id',$id)->first()->delete();
-                break;
-            case '8':
-                ObjRemboursement::where('id',$id)->first()->delete();
-                break;
-            case '9':
-                ServiceState::where('id',$id)->first()->delete();
-                break;
-            case '10':
-                PrimeItem::where('id',$id)->first()->delete();
+                Pathology::where('id',$id)->first()->delete();
                 break;
             default: break;
         }
-        if($type != '4'){
-            event(new Notify('Suppression réussie', 1));
-        }
-        return response()->json(['status'=>'OK'], 204);
+        Notify::broadcast('Supprésion réussie', 1, Auth::user()->id);
+        return self::getcontent($request);
     }
 
     public function getLogs(string $range,string $page, string $type): \Illuminate\Http\JsonResponse

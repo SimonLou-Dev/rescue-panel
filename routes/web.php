@@ -197,10 +197,9 @@ Route::put('/data/usersheet/{user_id}/quitService', [UserController::class, 'use
 Route::get('/data/users/export', [UserController::class, 'exportListPersonnelExel'])->middleware(['auth']);
 
 //Content management
-Route::post('/data/gestion/content/add/{type}', [ContentManagement::class, 'addcontent'])->middleware(['auth']);
-Route::get('/data/gestion/content/get/{type}', [ContentManagement::class, 'getcontent'])->middleware(['auth']);
-Route::delete('/data/gestion/content/delete/{type}/{id}', [ContentManagement::class, 'deletecontent'])->middleware(['auth']);
-Route::get('/data/logs/{range}/{page}/{type}', [ContentManagement::class, 'getLogs'])->middleware(['auth']);
+Route::post('/data/gestion/content/{type}', [ContentManagement::class, 'addcontent'])->middleware(['auth']);
+Route::get('/data/gestion/content', [ContentManagement::class, 'getcontent'])->middleware(['auth']);
+Route::delete('/data/gestion/content/{type}/{id}', [ContentManagement::class, 'deletecontent'])->middleware(['auth']);
 
 //Carnet de vol
 Route::get('/data/vol/get/{page}/{name?}', [VolController::class, 'getVolsList'])->middleware(['auth']);

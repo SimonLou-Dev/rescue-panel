@@ -2252,4 +2252,76 @@ body {
   width: 100%;
 }
 
+.ContentManager {
+  width: 100vw;
+  height: calc(100vh - 70px);
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  flex-wrap: wrap;
+  padding: 20px;
+  overflow-y: auto;
+}
+.ContentManager .list {
+  background-color: #3D487B;
+  border-radius: 10px;
+  height: 200px;
+  overflow-y: auto;
+}
+.ContentManager .list table {
+  width: 100%;
+  border-radius: 10px;
+}
+.ContentManager .list table td {
+  border: none;
+  border-bottom: 1px #ED3444 solid;
+}
+.ContentManager .list table td img {
+  cursor: pointer;
+}
+.ContentManager .list table tr:last-child td {
+  border: none;
+}
+.ContentManager .list table .name {
+  width: 90%;
+}
+.ContentManager .form {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+}
+.ContentManager .form button {
+  margin: auto 10px;
+}
+.ContentManager .form button img {
+  height: 35px;
+  width: 35px;
+}
+.ContentManager .form input {
+  width: 80%;
+}
+.ContentManager .form-diviser {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+.ContentManager .form-diviser .form-divider {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+}
+.ContentManager .form-diviser .form-divider textarea {
+  width: 100%;
+}
+.ContentManager .form-diviser .form-divider button {
+  margin: auto 10px;
+}
+.ContentManager .form-diviser .form-divider button img {
+  height: 35px;
+  width: 35px;
+}
+.ContentManager .form-diviser .form-divider input {
+  width: 80%;
+}
+
 /*# sourceMappingURL=app.css.map */

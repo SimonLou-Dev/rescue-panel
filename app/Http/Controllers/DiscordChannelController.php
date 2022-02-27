@@ -3,21 +3,21 @@
 namespace App\Http\Controllers;
 
 use App\Enums\DiscordChannel;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class DiscordChannelController extends Controller
 {
 
     public function getChannel(){
-
-
-
+        $this->authorize('modify_discord',User::class);
        return response()->json([
             'channels'=>$this->getCachedChannel(),
         ]);
     }
 
     public function postChannel(Request $request){
+        $this->authorize('modify_discord',User::class);
         $newChannels = $request->channel;
         $lastChannel = $this->getCachedChannel();
         $channelsList = array();

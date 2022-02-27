@@ -67,5 +67,15 @@ class AuthServiceProvider extends ServiceProvider
            return ($user->isAdmin() || $grade->patient_edit) ;
         });
 
+        Gate::define('modify_content_mgt', function (User $user){
+            $grade = $user->getUserGradeInService();
+            return ($user->isAdmin() || $grade->modify_gestionContent) ;
+        });
+
+        Gate::define('modify_discord', function (User $user){
+            $grade = $user->getUserGradeInService();
+            return ($user->isAdmin() || $grade->modify_discordChann) ;
+        });
+
     }
 }
