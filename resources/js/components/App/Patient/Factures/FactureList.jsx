@@ -1,10 +1,11 @@
-import React, {useEffect, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import Searcher from "../../../props/Searcher";
 import PageNavigator from "../../../props/PageNavigator";
 import {Link} from "react-router-dom";
 import axios from "axios";
 import CardComponent from "../../../props/CardComponent";
 import SwitchBtn from "../../../props/SwitchBtn";
+import UserContext from "../../../context/UserContext";
 
 function FactureList(props) {
     const [popupDisplayed, displayPopup] = useState(false);
@@ -21,6 +22,8 @@ function FactureList(props) {
 
     const [from, setFrom] = useState("");
     const [to, setTo] = useState("");
+
+    const user = useContext(UserContext);
 
     const searchPatient = async (search) => {
         setName(search)

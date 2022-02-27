@@ -52,22 +52,6 @@ function Dashboard(props) {
                             <div className={'infos_content'} dangerouslySetInnerHTML={{__html:a.content}} />
                         </div>
                     )}
-                <div className={'rect-item'}>
-                    <h4>22/22/2222</h4>
-                    <div className={'infos_content'}/>
-                </div>
-                <div className={'rect-item'}>
-                    <h4>22/22/2222</h4>
-                    <div className={'infos_content'}/>
-                </div>
-                <div className={'rect-item'}>
-                    <h4>22/22/2222</h4>
-                    <div className={'infos_content'}/>
-                </div>
-                <div className={'rect-item'}>
-                    <h4>22/22/2222</h4>
-                    <div className={'infos_content'}/>
-                </div>
             </CardComponent>
         </section>
         <section className={'left'}>
@@ -75,7 +59,7 @@ function Dashboard(props) {
                 <h4>Bienvenue {user.name} {(user.matricule ? ' - ' +user.matricule :  '')}</h4>
             </div>
             <CardComponent title={'liens utiles'} className={'utils'}>
-                <div className={'infos'} dangerouslySetInnerHTML={{__html:infos.value}}/>
+                <div className={'infos'} dangerouslySetInnerHTML={{__html:(infos === null ? '' : infos.value)}}/>
             </CardComponent>
         </section>
 

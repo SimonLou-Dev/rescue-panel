@@ -96,7 +96,7 @@ function ListPersonnel(props) {
                                 <SwitchBtn checked={u.crossService} disabled={!(gle.grade.admin || gle.grade.set_crossService)} number={'B'+u.id} callback={async () => {
                                     await axios({
                                         method: 'PUT',
-                                        url: '/data/users/setCrossService' + u.id
+                                        url: '/data/users/setCrossService/' + u.id
                                     }).then(r=>{UserList()})
                                 }}/>
                             </td>
