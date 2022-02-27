@@ -1,38 +1,38 @@
-FROM nginx:latest
+FROM php:8.1-fpm
 
-RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
-ENV TZ=UTC
+ARG user
+ARG uid
 
-# Copy & set WorkDir
-VOLUME /usr/share/nginx/lscofd/storage
-WORKDIR /usr/share/nginx/lscofd
-COPY . /usr/share/nginx/lscofd
+WORKDIR /var/www
 
-# Env Key & base pakadge
-RUN apt-get update \
-    && apt-get install -y gnupg gosu mysql\* curl ca-certificates zip curl lsb-release unzip git sqlite3 libcap2-bin libpng-dev python2 python3-pip \
-    && mkdir -p ~/.gnupg \
-    && chmod 600 ~/.gnupg \
-    && echo "disable-ipv6" >> ~/.gnupg/dirmngr.conf \
-    && apt-key adv --homedir ~/.gnupg --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys E5267A6C \
-    && apt-key adv --homedir ~/.gnupg --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys C300EE8C \
-    && echo "deb http://ppa.launchpad.net/ondrej/php/ubuntu focal main" > /etc/apt/sources.list.d/ppa_ondrej_php.list \
-    && apt-get update
+# Install system dependencies
+RUN apt-get update && apt-get install -y \
+    git \
+    curl \
+    libpng-dev \
+    libonig-dev \
+    libxml2-dev \
+    zip \
+    unzip
 
-# PHP
-RUN apt-get install -y php7.4-cli php7.4-dev \
-       php7.4-pgsql php7.4-sqlite3 php7.4-gd \
-       php7.4-curl php7.4-memcached\
-       php7.4-imap php7.4-mysql php7.4-mbstring \
-       php7.4-xml php7.4-zip php7.4-bcmath php7.4-soap php7.4-readline \
-       php7.4-msgpack php7.4-igbinary php7.4-ldap php7.4-fpm \
-       php7.4-redis
 
-RUN php -r "readfile('http://getcomposer.org/installer');" | php -- --install-dir=/usr/bin/ --filename=composer
-
+# Clear cache
+RUN apt-get clean && rm -rf /var/lib/apt/lists/*
 #mysql-client \
 RUN apt-get install -y wget
 
+#Get php extensions
+RUN apt-get install -y php8.1-cli php8.1-dev \
+       php8.1-pgsql php8.1-sqlite3 php8.1-gd \
+       php8.1-curl php8.1-memcached\
+       php8.1-imap php8.1-mysql php8.1-mbstring \
+       php8.1-xml php8.1-zip php8.1-bcmath php8.1-soap php8.1-readline \
+       php8.1-msgpack php8.1-igbinary php8.1-ldap php8.1-fpm \
+       php8.1-redis
+
+
+# Get latest Composer
+COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
 ## yarn and node
 RUN curl -sL https://deb.nodesource.com/setup_17.x | bash - \
@@ -42,23 +42,38 @@ RUN curl -sL https://deb.nodesource.com/setup_17.x | bash - \
   && apt-get update \
   && apt-get install -y yarn
 
-# Postgresql CLient
-RUN apt-get install -y postgresql-client \
-    && apt-get -y autoremove \
-    && apt-get clean \
-    && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 # Set php version
-RUN setcap "cap_net_bind_service=+ep" /usr/bin/php7.4
-RUN update-alternatives --set php /usr/bin/php7.4
+RUN setcap "cap_net_bind_service=+ep" /usr/bin/php8.1
+RUN update-alternatives --set php /usr/bin/php8.1
 
-#Prepare app
-COPY start-container /usr/local/bin/start-container
-COPY ./docker/default.conf /etc/nginx/conf.d/default.conf
-COPY start-container .
+# Create system user to run Composer and Artisan Commands
+RUN useradd -G www-data,root -u $uid -d /home/$user $user
+RUN mkdir -p /home/$user/.composer && \
+    chown -R $user:$user /home/$user
+
+# Set working directory & copy code
+COPY --chown=www:www-data . /var/www
+
+USER $user
 
 #Install And pm2
 RUN yarn global add pm2
 
+# Copy nginx/php/supervisor configs
+RUN cp ./docker/supervisor.conf /etc/supervisord.conf
+RUN cp ./docker/php.ini /usr/local/etc/php/conf.d/app.ini
+RUN cp ./docker/nginx.conf /etc/nginx/sites-enabled/default
+
+# PHP Error Log Files
+RUN mkdir /var/log/php
+RUN touch /var/log/php/errors.log && chmod 777 /var/log/php/errors.log
+
+# Deployment steps
+RUN composer install --optimize-autoloader --no-dev
+RUN yarn update
+RUN chmod +x /var/www/docker/run.sh
+
 EXPOSE 80
+ENTRYPOINT ["/var/www/docker/run.sh"]
 

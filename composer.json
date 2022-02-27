@@ -33,7 +33,8 @@
         "pusher/pusher-php-server": "^5.0",
         "sentry/sentry-laravel": "^2.9",
         "socialiteproviders/discord": "^4.1",
-        "textalk/websocket": "^1.5"
+        "textalk/websocket": "^1.5",
+      "ext-zip": "*"
     },
     "require-dev": {
         "spatie/laravel-ignition": "^1.0",
