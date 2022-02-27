@@ -74,6 +74,6 @@ RUN chmod +x /var/www/run.sh
 RUN cp ./docker/nginx.conf /etc/nginx/sites-enabled/default
 
 
-EXPOSE 80
+EXPOSE 8080
 ENTRYPOINT ["/var/www/run.sh"]
 
