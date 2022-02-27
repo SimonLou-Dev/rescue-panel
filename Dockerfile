@@ -71,7 +71,7 @@ RUN yarn install
 RUN chmod +x /var/www/run.sh
 
 #nginx config
-RUN cp ./docker/nginx.conf /etc/nginx/sites-enabled/default
+RUN cp ./docker/default.conf /etc/nginx/sites-enabled/default.conf
 
 
 EXPOSE 8080
