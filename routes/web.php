@@ -237,10 +237,10 @@ Route::delete('/data/formations/responses/{response_id}/delete', [AdminControlle
 */
 
 //Recap
-Route::get('/data/remboursements/get', [RemboursementsController::class, 'getRemboursementOfUser'])->middleware(['auth']);
-Route::get('/data/remboursements/get/admin/{weeknumber?}', [RemboursementsController::class, 'getRemboursementByWeek'])->middleware(['auth']);
-Route::post('/data/remboursements/post', [RemboursementsController::class, 'addRemboursement'])->middleware(['auth']);
-Route::delete('/data/remboursements/delete/{itemid}', [RemboursementsController::class, 'deleteRemboursement'])->middleware(['auth']);
+Route::get('/data/remboursements/me', [RemboursementsController::class, 'getRemboursementOfUser'])->middleware(['auth']);
+Route::get('/data/remboursements/all', [RemboursementsController::class, 'gelAllReqremboursement'])->middleware(['auth']);
+Route::patch('/data/remboursements/accept/{rmbId}', [RemboursementsController::class, 'acceptRemboursement'])->middleware(['auth']);
+Route::patch('/data/remboursements/refuse/{rmbId}', [RemboursementsController::class, 'refuseRemboursement'])->middleware(['auth']);
 
 //Acount infos
 Route::get('/data/user/infos/get', [UserController::class, 'getUserInfos'])->middleware(['auth']);

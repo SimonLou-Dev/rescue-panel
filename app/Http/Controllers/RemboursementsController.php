@@ -20,44 +20,28 @@ class RemboursementsController extends Controller
 
     public function getRemboursementOfUser(): \Illuminate\Http\JsonResponse
     {
-        $remboursements = RemboursementList::where('service', Session::get('service')[0])->where('user_id', Auth::user()->id)->where('week_number', ServiceGetterController::getWeekNumber())->orderByDesc('id')->get();
-        $obs = ObjRemboursement::where('service', Session::get('service')[0])->get();
-        foreach ($remboursements as $remboursement){
-            $remboursement->getItem;
-        }
-        return response()->json(['status'=>'OK', 'remboursements'=>$remboursements, 'obj'=>$obs]);
+        $remboursements = RemboursementList::where('service', Session::get('service')[0])->where('user_id', Auth::user()->id)->orderByDesc('id')->take(10)->get();
+        return response()->json(['status'=>'OK', 'remboursements'=>$remboursements]);
     }
 
     public function addRemboursement(Request $request): \Illuminate\Http\JsonResponse
     {
-        $item = (int) $request->item;
-        $item = ObjRemboursement::where('id', $item)->first();
-        $userRemboursements = WeekRemboursement::where('service', Session::get('service')[0])->where('week_number', ServiceGetterController::getWeekNumber())->where('user_id', Auth::user()->id)->first();
-        if(!isset($userRemboursements)){
-            $userRemboursements = new WeekRemboursement();
-            $userRemboursements->week_number = ServiceGetterController::getWeekNumber();
-            $userRemboursements->user_id = Auth::user()->id;
-            $userRemboursements->total = $item->price;
-            $userRemboursements->service = Session::get('service')[0];
-        }else{
-            $userRemboursements->total = (int) $userRemboursements->total + (int) $item->price;
-        }
+
         $rmbsem = new RemboursementList();
         $rmbsem->user_id = Auth::user()->id;
-        $rmbsem->item_id = $item->id;
-        $rmbsem->total = $item->price;
+        $rmbsem->reason = $request->reason;
+        $rmbsem->montant = $request->montant;
         $rmbsem->week_number = ServiceGetterController::getWeekNumber();
         $rmbsem->service = Session::get('service')[0];
         $rmbsem->save();
-        $userRemboursements->save();
         $embed = [
             [
-                'title'=>'Ajout d\'un remboursement :',
+                'title'=>'Demande de remboursement :',
                 'color'=>'16745560',
                 'fields'=>[
                     [
-                        'name'=>'Item : ',
-                        'value'=>$item->name . ' ($' . $item->price . ')',
+                        'name'=>'Raison : ',
+                        'value'=>$rmbsem->reason . ' ($' . $rmbsem->montant . ')',
                         'inline'=>true
                     ]
                 ],
@@ -68,64 +52,152 @@ class RemboursementsController extends Controller
         ];
 
         if(Session::get('service')[0] === 'SAMS'){
+            \Discord::postMessage(DiscordChannel::MedicRemboursement, $embed, $rmbsem);
+        }else{
+            \Discord::postMessage(DiscordChannel::FireRemboursement, $embed, $rmbsem);
+        }
+
+
+        Notify::broadcast('Demande postée',1, Auth::user()->id);
+        return response()->json(['stauts'=>'OK'],201);
+    }
+
+    public function acceptRemboursement(Request $request, string $rmbId){
+        $rmb= RemboursementList::where('id',$rmbId)->first();
+        $rmb->admin_id = Auth::user()->id;
+        $rmb->accepted = true;
+        $rmb->save();
+        $userRemboursements = WeekRemboursement::where('service', $rmb->getUser->service)->where('week_number', ServiceGetterController::getWeekNumber())->where('user_id', $rmb->getUser->id)->first();
+        if(!isset($userRemboursements)){
+            $userRemboursements = new WeekRemboursement();
+            $userRemboursements->week_number = ServiceGetterController::getWeekNumber();
+            $userRemboursements->user_id = $rmb->getUser->id;
+            $userRemboursements->total = $request->montant;
+            $userRemboursements->service = Session::get('service')[0];
+        }else{
+            $userRemboursements->total = (int) $userRemboursements->total + (int) $rmb->montant;
+        }
+
+        $embed = [
+            [
+                'title'=>'Validation d\'une demande de remboursement :',
+                'color'=>'65361',
+                'fields'=>[
+                    [
+                        'name'=>'Raison : ',
+                        'value'=>$rmb->reason . ' ($' . $rmb->montant . ')',
+                        'inline'=>true
+                    ],[
+                        'name'=>'Membre : ',
+                        'value'=>$rmb->getUser->name . ' ('.$rmb->service.')' ,
+                        'inline'=>true
+                    ]
+                ],
+                'footer'=>[
+                    'text' => 'Validé par : ' . Auth::user()->name . ' (' . Session::get('service')[0] . ')'
+                ]
+            ]
+        ];
+
+        if($rmb->discord_msg_id){
+            if(Session::get('service')[0] === 'SAMS'){
+                \Discord::updateMessage(DiscordChannel::MedicRemboursement,$rmb->discord_msg_id , $embed);
+            }else{
+                \Discord::updateMessage(DiscordChannel::FireRemboursement,$rmb->discord_msg_id, $embed);
+            }
+        }else{
+            if(Session::get('service')[0] === 'SAMS'){
+                \Discord::postMessage(DiscordChannel::MedicRemboursement, $embed);
+            }else{
+                \Discord::postMessage(DiscordChannel::FireRemboursement, $embed);
+            }
+        }
+
+        if(Session::get('service')[0] === 'SAMS'){
             \Discord::postMessage(DiscordChannel::MedicRemboursement, $embed);
         }else{
             \Discord::postMessage(DiscordChannel::FireRemboursement, $embed);
         }
 
 
-        Notify::broadcast('Remboursement pris en compte',1, Auth::user()->id);
+        Notify::broadcast('Remboursement validé',1, Auth::user()->id);
         return response()->json(['stauts'=>'OK'],201);
+
+
     }
 
-    public function deleteRemboursement(string $itemid): \Illuminate\Http\JsonResponse
-    {
-        $itemid = (int) $itemid;
-        $item = RemboursementList::where('id', $itemid)->first();
-        $userRemboursement = WeekRemboursement::where('user_id', Auth::user()->id)->where('week_number', ServiceGetterController::getWeekNumber())->first();
-        $userRemboursement->total = (int) $userRemboursement->total -  (int) $item->getItem->price;
-        $userRemboursement->save();
+    public function refuseRemboursement(Request $request, string $rmbId){
+        $rmb= RemboursementList::where('id',$rmbId)->first();
+        $rmb->admin_id = Auth::user()->id;
+        $rmb->accepted = false;
+        $rmb->save();
+
         $embed = [
             [
-                'title'=>'Suppression d\'un remboursement :',
-                'color'=>'16745560 ',
+                'title'=>'Remboursement (refusé) :',
+                'color'=>'16711684',
                 'fields'=>[
                     [
-                        'name'=>'Item : ',
-                        'value'=>$item->name . '($' . $item->price . ')',
+                        'name'=>'Raison : ',
+                        'value'=>$rmb->reason . ' ($' . $rmb->montant . ')',
+                        'inline'=>true
+                    ],[
+                        'name'=>'Membre : ',
+                        'value'=>$rmb->getUser->name . ' ('.$rmb->service.')' ,
                         'inline'=>true
                     ]
                 ],
                 'footer'=>[
-                    'text' => 'Membre : ' . Auth::user()->name
+                    'text' => 'Refusé par : ' . Auth::user()->name . ' (' . Session::get('service')[0] . ')'
                 ]
             ]
         ];
 
-        $this->dispatch(new ProcessEmbedPosting([env('WEBHOOK_REMBOURSEMENTS')],$embed, null));
-
-        $item->delete();
-        event(new Notify('Remboursement supprimé',1));
-        return response()->json(['status'=>'OK']);
-    }
-
-    public function getRemboursementByWeek(string $weeknumber = null): \Illuminate\Http\JsonResponse
-    {
-        if($weeknumber == '' || $weeknumber == null){
-            $weeknumber = ServiceGetterController::getWeekNumber();
+        if($rmb->discord_msg_id){
+            if(Session::get('service')[0] === 'SAMS'){
+                \Discord::updateMessage(DiscordChannel::MedicRemboursement,$rmb->discord_msg_id , $embed);
+            }else{
+                \Discord::updateMessage(DiscordChannel::FireRemboursement,$rmb->discord_msg_id, $embed);
+            }
         }else{
-            $weeknumber = (int) $weeknumber;
+            if(Session::get('service')[0] === 'SAMS'){
+                \Discord::postMessage(DiscordChannel::MedicRemboursement, $embed);
+            }else{
+                \Discord::postMessage(DiscordChannel::FireRemboursement, $embed);
+            }
         }
-        $list = WeekRemboursement::orderByDesc('id')->where('week_number', $weeknumber)->get();
-        foreach ($list as $item){
-            $item->GetUser;
-        }
-        return response()->json([
-            'status'=>'OK',
-            'list'=>$list,
-            'maxweek'=>ServiceGetterController::getWeekNumber(),
-        ]);
+
+
+        Notify::broadcast('Remboursement refusé',1, Auth::user()->id);
+        return response()->json(['stauts'=>'OK'],201);
+
+
     }
+
+    public function gelAllReqremboursement(){
+        //$this->authorize('viewAny', Prime::class);
+        $rmbs = RemboursementList::where('accepted', null)->where('service', Session::get('service')[0]);
+        if($rmbs->count() < 10){
+            $rmbs = RemboursementList::where('service', Session::get('service')[0])->get()->take(15);
+        }else{
+            $rmbs = $rmbs->get();
+        }
+
+        foreach ($rmbs as $rmb){
+            $rmb->getUser;
+            if($rmb->admin_id >= 0){
+
+                if($rmb->admin_id!== 0){
+                    $rmb->GetAdmin;
+                }
+            }
+        }
+        return response()->json(['remboursements'=>$rmbs]);
+    }
+
+
+
+
 
 
 }

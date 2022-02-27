@@ -4,8 +4,8 @@ import UserContext from "../../../context/UserContext";
 
 
 function MyRemboursements(props) {
-    const [remboursementReason, setRemboursementReason] = useState(0);
-    const [remboursementItem, setRemboursementItem] = useState([]);
+    const [remboursementReason, setRemboursementReason] = useState('');
+    const [remboursementMontant, setRemboursementMontant] = useState('');
     const user = useContext(UserContext)
     const [errors, setErrors] = useState([]);
     const [remboursementList, setRemboursementList] = useState([])
@@ -21,7 +21,6 @@ function MyRemboursements(props) {
             url: '/data/remboursements/get',
         }).then(r=>{
             setRemboursementList(r.data.remboursements);
-            setRemboursementItem(r.data.obj);
         });
     }
 
@@ -30,7 +29,8 @@ function MyRemboursements(props) {
             method: 'POST',
             url: '/data/remboursements/post',
             data:{
-                'item': remboursementReason,
+                'reason': remboursementReason,
+                'montant': remboursementMontant,
             }
         }).then(r => {
             getMyRemboursements()
@@ -53,12 +53,11 @@ function MyRemboursements(props) {
 
                 <div className={'form-part form-inline'}>
                     <label>raison </label>
-                    <select value={remboursementReason} className={(errors.tel ? 'form-error': '')} onChange={(e)=>{setRemboursementReason(e.target.value); }}>
-                        <option value={0} disabled={true}>choisir</option>
-                        {remboursementItem.map((i)=>
-                            <option key={i.id} value={i.id}>{i.name}</option>
-                        )}
-                    </select>
+                    <input type={'text'} value={remboursementReason} className={(errors.tel ? 'form-error': '')} onChange={(e)=>{setRemboursementReason(e.target.value); }}/>
+                </div>
+                <div className={'form-part form-inline'}>
+                    <label>montant </label>
+                    <input type={'text'} value={remboursementMontant} className={(errors.tel ? 'form-error': '')} onChange={(e)=>{setRemboursementMontant(e.target.value); }}/>
                 </div>
                 <ul className={'error-list'}>
                     {errors.reason && errors.reason.map((item)=>
@@ -77,14 +76,16 @@ function MyRemboursements(props) {
                             <th>semaine</th>
                             <th>raison</th>
                             <th>montant</th>
+                            <th>état</th>
                         </tr>
                         </thead>
                         <tbody>
                         {remboursementList && remboursementList.map((p)=>
                             <tr key={p.id}>
                                 <td>{p.week_number}</td>
-                                <td>{p.get_item.name}</td>
-                                <td>{p.total}</td>
+                                <td>{p.reason} </td>
+                                <td>${p.montant}</td>
+                                <td>{p.accepted === null ? 'en cours' : (p.accepted ? 'accepté' : 'refusé')}</td>
                             </tr>
                         )}
                         </tbody>
