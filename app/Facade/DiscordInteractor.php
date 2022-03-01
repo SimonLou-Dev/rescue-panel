@@ -20,8 +20,11 @@ class DiscordInteractor
         public CacheInterface $cache,
     ){}
 
-    public function chanUpdate(string $channel, string|Integer $path){
+    public function chanUpdate(string $channel, string|int $path){
         $this->cache->set('webhook.'.$channel, $path);
+        if(is_numeric($path))$path = (int) $path;
+        else $path = (string) $path;
+
         if($this->verifyIfChanExist($channel)){
             $db = Params::where('type',$channel)->first();
             $db->value = $path;

@@ -70,7 +70,7 @@ class LogsController extends Controller
     public function BCLogging(string $action, int $bcId, int $userid){
         $logs = new LogDb();
         $logs->user_id = $userid;
-        $logs->action = 'facture';
+        $logs->action = 'Black Code';
         $logs->desc = 'BC n°' . $bcId . ' ' . $action;
         $logs->save();
         File::append(base_path($this->fileList['bc']), '[' . date('d/m/Y H:i:s') . '] user ' . $userid . ' ' . $action . ' ' . ' BC n° ' . $bcId . "\n");
@@ -79,7 +79,7 @@ class LogsController extends Controller
     public function GradeLogging(string $action, int $gradeId, int $userid){
         $logs = new LogDb();
         $logs->user_id = $userid;
-        $logs->action = 'facture';
+        $logs->action = 'grade';
         $logs->desc = 'grade n°' . $gradeId . ' ' . $action;
         $logs->save();
         File::append(base_path($this->fileList['grade_editing']), '[' . date('d/m/Y H:i:s') . '] user ' . $userid . ' ' . $action . ' ' . ' grade n° ' . $gradeId . "\n");
@@ -88,7 +88,7 @@ class LogsController extends Controller
     public function ServiceLogging(string $action, int $userid){
         $logs = new LogDb();
         $logs->user_id = $userid;
-        $logs->action = 'facture';
+        $logs->action = 'service';
         $logs->desc = 'Service de user n°' . $userid . ' ' . $action;
         $logs->save();
         File::append(base_path($this->fileList['service']), '[' . date('d/m/Y H:i:s') . '] service of user n°' . $userid . ' ' . $action .  "\n");
@@ -112,7 +112,5 @@ class LogsController extends Controller
         $logs->save();
         File::append(base_path($this->fileList['sanctions']), '[' . date('d/m/Y H:i:s') . '] user ' . $userid . ' ' . $action . ' ' . ' user n° ' . $targetId . "\n");
     }
-
-
 
 }

@@ -28,7 +28,7 @@
         const env = '{{env('APP_ENV')}}';
     </script>
 
-    <title>LSCoFD- MDT</title>
+    <title>Rescue pannel - SAMS x LSCoFD</title>
 
     <!-- META -->
     <meta charset="utf-8">

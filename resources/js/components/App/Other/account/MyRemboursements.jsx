@@ -18,7 +18,7 @@ function MyRemboursements(props) {
     const getMyRemboursements = async () =>{
         await axios({
             method: 'GET',
-            url: '/data/remboursements/get',
+            url: '/data/remboursements/me',
         }).then(r=>{
             setRemboursementList(r.data.remboursements);
         });

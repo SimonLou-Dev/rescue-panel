@@ -53,7 +53,6 @@ class AuthServiceProvider extends ServiceProvider
         $this->registerPolicies();
 
         Gate::define('access', function (User $user){
-            if($user->isAdmin()) return true;
             if(is_null($user->GetFireGrade) ||  is_null($user->GetMedicGrade)) return false;
             return $user->isAdmin() || $user->GetFireGrade->access || $user->GetMedicGrade->access;
         });

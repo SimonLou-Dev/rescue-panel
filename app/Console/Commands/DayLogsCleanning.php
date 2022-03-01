@@ -45,23 +45,41 @@ class DayLogsCleanning extends Command
         $this->info('DB is cleared from logs who date <= ' . $date);
         $logs = LogDb::where('created_at', '<=', $date)->get();
         foreach ($logs as $log){
-            $log->delete();
+           // $log->delete();
         }
         $this->info('DB Cleared');
         $zip = new \ZipArchive();
-        $fileName = 'logs_'.date('d-m-Y').'.zip';
+        $fileName = 'logs_'.date('d-m-Y-H-I').'.zip';
+        $ListOffiles = array();
+
         if ($zip->open(storage_path('app/public/logs/'.$fileName), ZipArchive::CREATE) === TRUE)
         {
             $files = File::files(base_path('storage/logs'));
-            foreach ($files as $key => $value) {
-                $relativeNameInZipFile = basename($value);
-                $zip->addFile($value, $relativeNameInZipFile);
-                File::delete($value->getPath());
+            foreach ($files as $value) {
+                if($value->getExtension() === "log"){
+                    $relativeNameInZipFile = basename($value);
+                    $zip->addFile($value, $relativeNameInZipFile);
+                    array_push($ListOffiles, $value->getPathname());
+                }
+
             }
-            $zip->close();
+
+            if($zip->numFiles != 0){
+                $zip->close();
+            }
 
         }
         $this->info('Zip created in ' . storage_path('app/public/logs/'.$fileName));
+        $this->info('recreating new files & deleting alter');
+
+
+
+        foreach($ListOffiles as $alt){
+            File::delete($alt);
+            File::put($alt, '');
+        }
+        $this->info('logs saved');
+
 
 
     }

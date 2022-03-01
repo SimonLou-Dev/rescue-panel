@@ -68,7 +68,16 @@ Route::get('/personnel/{a?}/{c?}', function (){return redirect()->route('dashboa
 Route::get('/mdt/{a?}', function (){return redirect()->route('dashboard');});
 Route::get('/SAMS/{a?}/{b?}', function (){return redirect()->route('dashboard');});
 Route::get('/LSCoFD/{a?}/{b?}', function (){return redirect()->route('dashboard');});
-Route::get('/cantaccess', [HomeController::class, 'getIndex'])->name('cantaccess');
+Route::get('/cantaccess', function(){
+    Session::forget('service');
+    Session::forget('user');
+    \Illuminate\Support\Facades\Auth::logout();
+    \Illuminate\Support\Facades\Session::flush();
+    Session::invalidate();
+    Session::regenerateToken();
+    $homme = new HomeController();
+    return $homme->getIndex();
+})->middleware(['auth'])->name('cantaccess');
 Route::get('/servicenav', [HomeController::class, 'getIndex'])->name('servicenav');
 Route::get('/', function(){
     return redirect()->route('dashboard');
@@ -238,6 +247,7 @@ Route::delete('/data/formations/responses/{response_id}/delete', [AdminControlle
 
 //Recap
 Route::get('/data/remboursements/me', [RemboursementsController::class, 'getRemboursementOfUser'])->middleware(['auth']);
+Route::post('/data/remboursements/post', [RemboursementsController::class, 'addRemboursement'])->middleware(['auth']);
 Route::get('/data/remboursements/all', [RemboursementsController::class, 'gelAllReqremboursement'])->middleware(['auth']);
 Route::patch('/data/remboursements/accept/{rmbId}', [RemboursementsController::class, 'acceptRemboursement'])->middleware(['auth']);
 Route::patch('/data/remboursements/refuse/{rmbId}', [RemboursementsController::class, 'refuseRemboursement'])->middleware(['auth']);

@@ -37,6 +37,7 @@ class UserController extends Controller
      */
     public function getUser(Request $request): JsonResponse
     {
+
         $this->authorize('viewPersonnelList', User::class);
         $me = User::where('id', Auth::user()->id)->first();
         $meService = Session::get('service')[0];
@@ -73,11 +74,13 @@ class UserController extends Controller
 
         $finalList = $users->skip(($readedPage-1)*20)->take(20);
 
+
+
         foreach ($finalList as $user){
             if($meService === 'SAMS'){
                 $user->grade = $user->GetMedicGrade;
             }if($meService === 'LSCoFD'){
-                $user->grade =$this->GetFireGrade;
+                $user->grade = $user->GetFireGrade;
             }
 
         }
@@ -95,6 +98,7 @@ class UserController extends Controller
             'prev_page_url' => ($readedPage === 1 ? null : $url.($readedPage-1)),
             'total' => $totalItem,
         ];
+
 
         $grades = Grade::where('service', $meService)->get();
         $grades = $grades->filter(function ($item){
@@ -137,7 +141,8 @@ class UserController extends Controller
 
     public function setService(Request $request, string $service){
         $user = User::where('id',Auth::user()->id)->first();
-        Session::push('service', $service);
+        Session::forget('service');
+        Session::push('service',$service);
         $user->service = $service;
         $user->save();
         UserUpdated::dispatch($user);
