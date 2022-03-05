@@ -40,7 +40,10 @@ function TestPoudre(props) {
         }
     }
 
-    const patientList = async (search) => {
+    const patientList = async (search, newpage = page) => {
+        if(newpage !== page){
+            setPage(newpage);
+        }
         setSearch(search)
         await axios({
             url : '/data/poudre/get?query='+search+'&page='+page,
@@ -184,7 +187,7 @@ function TestPoudre(props) {
                     </section>
                 </section>
                 <section className={'footer'}>
-                    <button className={'btn'} onClick={postForm} disabled={!(user.grade.admin || user.poudretest_create)}>valdier</button>
+                    <button className={'btn'} onClick={postForm} disabled={!(user.grade.admin || user.poudretest_create)}>valider</button>
                 </section>
             </CardComponent>
 
@@ -192,7 +195,7 @@ function TestPoudre(props) {
         <section className={'test-table'}>
             <div className={'table-header'}>
                 <Searcher value={search} callback={(v) => {patientList(v)}}/>
-                <PageNavigator prev={()=> {setPage(page-1)}} next={()=> {setPage(page+1)}} prevDisabled={(paginate.prev_page_url === null)} nextDisabled={(paginate.next_page_url === null)}/>
+                <PageNavigator prev={()=> {patientList(search, page-1)}} next={()=> {patientList(search, page+1)}} prevDisabled={(paginate.prev_page_url === null)} nextDisabled={(paginate.next_page_url === null)}/>
             </div>
             <div className={'table-content'}>
                 <table>

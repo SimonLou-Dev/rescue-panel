@@ -249,7 +249,7 @@ class UserController extends Controller
                 $array['duration'] = $reqinfos['map_date'];
                 $text = "__**Type :**__ Mise à pied \n __**Durée :**__ " . $array['duration'];
                 break;
-            case "3": //dehors
+            case "4": //dehors
                 $array['type'] = "Exclusion";
                 $array['noteLic'] = $reqinfos['note_lic'];
                 $text = "__**Type:**__ Exclusion \n __**Infos licenciement:**__ " . $array['noteLic'];

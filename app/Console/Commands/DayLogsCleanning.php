@@ -5,6 +5,7 @@ namespace App\Console\Commands;
 use App\Models\LogDb;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\File;
+use Symfony\Component\Process\Process;
 use ZipArchive;
 
 class DayLogsCleanning extends Command
@@ -77,7 +78,12 @@ class DayLogsCleanning extends Command
         foreach($ListOffiles as $alt){
             File::delete($alt);
             File::put($alt, '');
+            File::chmod($alt, 777);
         }
+
+        $process = new Process(['chown', 'www-data', './storage/logs/*']);
+        $process->run();
+
         $this->info('logs saved');
 
 

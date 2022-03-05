@@ -41,6 +41,7 @@ class ServiceGetterController extends Controller
         }
         $users = User::where('medic', true)->orWhere('fire', true)->get();
         $users = $users->filter(function ($item, $key){
+            $item->grade = $item->getUserGradeInService;
             return \Gate::allows('view', $item) && ($item->grade->name !== 'default');
         });
 

@@ -190,7 +190,13 @@ class RapportController extends Controller
 
         $embed = $this::rapportEmbed($rapport);
 
-        \Discord::updateMessage(DiscordChannel::RI, $rapport->discord_msg_id, $embed, null);
+        if(isset($rapport->discord_msg_id)){
+            \Discord::updateMessage(DiscordChannel::RI, $rapport->discord_msg_id, $embed, null);
+        }else{
+            \Discord::postMessage(DiscordChannel::RI, $embed, $rapport);
+        }
+
+
         $logs = new LogsController();
         $logs->RapportLogging('update', $rapport->id, Auth::user()->id);
 
@@ -262,7 +268,7 @@ class RapportController extends Controller
                 'inline'=>false
             ],
         ];//pathologie
-        if($service == 'OMC'){
+        if($service == 'SAMS' && !is_null($rapport->pathology_id)){
             array_push($fields, [
                 'name'=>'pathologie : ',
                 'value'=>$rapport->GetPathology->name,

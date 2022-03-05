@@ -89,7 +89,13 @@ class UserGradeController extends Controller
     public function getGrade(): JsonResponse
     {
         \Gate::authorize('viewAny',Grade::class);
-        $grades = Grade::where('service', Session::get('service')[0])->orderBy('power','desc')->get();
+        $requester = User::where('id',Auth::user()->id)->first();
+        if($requester->dev){
+            $grades = Grade::orderBy('power','desc')->get();
+        }else{
+            $grades = Grade::where('service', Session::get('service')[0])->orderBy('power','desc')->get();
+        }
+
         $grades->filter(function ($item){
             return \Gate::allows('view', $item);
         });
@@ -118,14 +124,25 @@ class UserGradeController extends Controller
         }
         $this->authorize('update', $grade);
         $grade->save();
+        $users = User::where('medic_grade_id', $grade->id)->where('fire_grade_id')->get();
+        foreach ($users as $user){
+            UserUpdated::dispatch($user);
+            Notify::dispatch('Modification de vos permission',1,Auth::user()->id);
+        }
+
         Notify::dispatch('Mise à jour enregistrée',1,Auth::user()->id);
         return $this::getGrade();
     }
 
     public function deleteGrade(Request $request){
         \Gate::authorize('delete',Grade::class);
-        $grade = Grade::where('id', $request->grade_id);
+        $grade = Grade::where('id', $request->grade_id)->first();
+        $users = User::where('medic_grade_id', $grade->id)->where('fire_grade_id')->count();
         if($grade->default){
+            Notify::dispatch('Ce grade ne peut pas être supprimé',3, Auth::user()->id);
+            return $this->getGrade();
+        }
+        if($users != 0){
             Notify::dispatch('Ce grade ne peut pas être supprimé',3, Auth::user()->id);
             return $this->getGrade();
         }

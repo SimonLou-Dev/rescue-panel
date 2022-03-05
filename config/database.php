@@ -125,7 +125,7 @@ return [
             'host' => env('REDIS_HOST', '127.0.0.1'),
             'password' => env('REDIS_PASSWORD', null),
             'port' => env('REDIS_PORT', '6379'),
-            'database' => env('REDIS_DB', '7'),
+            'database' => env('REDIS_DB', (env('APP_ENV') != "local" ? 7 : 8)),
             'read_write_timeout' => 60,
             'queue' => 'default',
         ],

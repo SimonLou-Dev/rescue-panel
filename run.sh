@@ -8,6 +8,7 @@ php artisan storage:link
 php artisan key:generate
 
 echo 'building front ...'
+yarn sass .\resources\sass\app.scss .\public\css\app.css
 yarn build
 
 echo 'start worker & nginx... '

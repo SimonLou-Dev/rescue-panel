@@ -19,7 +19,7 @@ class ServiceSetterController extends Controller
         $user = User::where('id', $userid)->first();
         $this->authorize('setOtherService', $user);
         $logs = new LogsController();
-        $logs->ServiceLogging("service of user n°".$userid .  " was changed", Auth::user()->id);
+        $logs->ServiceLogging($userid .  " was changed", Auth::user()->id);
         OperatorController::setService($user, true);
         return response()->json(['status'=>'OK']);
     }
@@ -74,7 +74,7 @@ class ServiceSetterController extends Controller
         $user = User::where('id', Auth::id())->first();
         OperatorController::setService($user, false);
         $logs = new LogsController();
-        $logs->ServiceLogging("service was changed", Auth::user()->name);
+        $logs->ServiceLogging("service was changed", Auth::user()->id);
         return response()->json([
             'status'=>'OK',
             'user'=>$user,

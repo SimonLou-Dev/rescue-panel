@@ -10,3 +10,5 @@ apps:
     cwd: 'H:\dev\Web\TheoLou_BCFD\web'
     args: 'queue:work --queue pdfgeneration' # or queue:work
     interpreter: 'php'
+
+

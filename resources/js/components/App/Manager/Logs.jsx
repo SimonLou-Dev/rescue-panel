@@ -12,6 +12,9 @@ function Logs(props) {
     }, [])
 
     const navigate = async (newpage = page) => {
+        if(newpage !== page){
+            setPage(newpage);
+        }
         await axios({
             method: 'GET',
             url: '/data/user/logs?page=' + newpage

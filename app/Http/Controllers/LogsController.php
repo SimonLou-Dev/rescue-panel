@@ -108,7 +108,7 @@ class LogsController extends Controller
         $logs = new LogDb();
         $logs->user_id = $userid;
         $logs->action = 'sanctions';
-        $logs->desc = 'user n°' . $targetId . ' was ' . $action . " by ${$userid}" ;
+        $logs->desc = 'user n°' . $targetId . ' was ' . $action . " by ${userid}" ;
         $logs->save();
         File::append(base_path($this->fileList['sanctions']), '[' . date('d/m/Y H:i:s') . '] user ' . $userid . ' ' . $action . ' ' . ' user n° ' . $targetId . "\n");
     }

@@ -35,7 +35,7 @@ class Rapport extends Model
     use HasFactory, Searchable;
     protected $table = "Rapports";
     protected $guarded = [];
-    protected $fillable = ['user_id', 'interType', 'transport', 'description', 'price', 'ata', 'ATA_end', 'patient_id','discord_msg_id','service','started_at'];
+    protected $fillable = ['user_id', 'interType', 'discord_msg_id','transport', 'description', 'price', 'ata', 'ATA_end', 'patient_id','discord_msg_id','service','started_at'];
     protected array $cast = [
         'created_at'=>'datetime:d/m/Y H:i',
         'started_at'=>'datetime:d/m/Y H:i',

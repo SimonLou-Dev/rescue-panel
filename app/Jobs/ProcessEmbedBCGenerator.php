@@ -73,7 +73,7 @@ class ProcessEmbedBCGenerator implements ShouldQueue
                     'inline'=>true,
                 ],[
                     'name'=>'Liste des patients',
-                    'value'=>"nom | carte d'identité | couleur de vêtement",
+                    'value'=>"nom | carte d'identité" .  ($bc->service === "SAMS" ? ' | couleur de vêtement' : ''),
                     'inline'=>false,
                 ],
             ],
@@ -156,7 +156,7 @@ class ProcessEmbedBCGenerator implements ShouldQueue
 
         while($b < $max){
             $item = $b +$a;
-            $msg = $msg . ' '. $patients[$item]->name . ' ' . ($patients[$item]->idcard ? ':white_check_mark:' : ':x:') . ' ' . $patients[$item]->GetColor->name . " \n";
+            $msg = $msg . ' '. $patients[$item]->name . ' ' . ($patients[$item]->idcard ? ':white_check_mark:' : ':x:') . (!is_null($patients[$item]->couleur) ? ' ' . $patients[$item]->GetColor->name  : '') . " \n";
             $b++;
         }
         $embedpatient = [

@@ -71,10 +71,9 @@ class BlackCodePolicy
      * Determine whether the user can delete the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\BCList  $bCList
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function close(User $user, BCList $bCList)
+    public function close(User $user)
     {
         $grade = $user->getUserGradeInService();
         if($user->isAdmin() || $grade->BC_close) return true;

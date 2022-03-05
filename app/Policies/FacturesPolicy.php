@@ -35,6 +35,7 @@ class FacturesPolicy
     public function create(User $user)
     {
         $grade = $user->getUserGradeInService();
+        if($user->isAdmin()) return true;
         if($this->viewAny($user) && $grade->facture_create) return true;
         return false;
     }
@@ -43,12 +44,12 @@ class FacturesPolicy
      * Determine whether the user can paye facture.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\facture  $facture
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function paye(User $user, facture $facture)
+    public function paye(User $user)
     {
         $grade = $user->getUserGradeInService();
+        if($user->isAdmin()) return true;
         if($this->viewAny($user) && $grade->facture_paye) return true;
         return false;
     }
@@ -57,12 +58,12 @@ class FacturesPolicy
      * Determine whether the user can export the factures.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\facture  $facture
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function export(User $user, facture $facture)
+    public function export(User $user)
     {
         $grade = $user->getUserGradeInService();
+        if($user->isAdmin()) return true;
         if($this->viewAny($user) && $grade->facture_export) return true;
         return false;
     }

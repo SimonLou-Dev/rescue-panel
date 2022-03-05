@@ -711,7 +711,7 @@ body {
   height: 100vh;
   display: flex;
   overflow-y: auto;
-  background-image: url("assets/bg/BG_1.jpg");
+  background-image: url("/assets/bg/BG_1.jpg");
 }
 .Auth .Authentifier {
   margin: auto;
@@ -724,8 +724,10 @@ body {
 }
 .Auth .Authentifier .auth-header {
   padding: 20px;
+  display: flex;
 }
 .Auth .Authentifier .auth-header img {
+  margin: 0 auto;
   width: calc(100% - 20px);
 }
 .Auth .Authentifier .auth-content {
@@ -774,7 +776,7 @@ body {
 }
 
 .ServiceNav {
-  background-image: url("assets/bg/BG_2.jpg");
+  background-image: url("/assets/bg/BG_2.jpg");
   height: 100vh;
   width: 100vw;
   top: 0;
@@ -863,11 +865,11 @@ body {
   background-color: #3D487B;
   cursor: pointer;
   display: flex;
+  justify-content: center;
 }
 .layout .layout-header .header-logout img {
-  width: auto;
-  height: 90%;
-  margin: auto;
+  width: 55px;
+  height: 55px;
 }
 .layout .menu {
   position: fixed;
@@ -2342,7 +2344,7 @@ body {
 }
 .InfosAnnonces .Card .card-header {
   background-color: #1B2037;
-  z-index: 14;
+  z-index: 7;
   position: sticky;
   top: 0;
 }
@@ -2454,6 +2456,9 @@ body {
   height: calc(100% - 70px);
   overflow-y: auto;
   width: 100%;
+}
+.dashboard .left .utils a {
+  text-decoration: lightblue underline 1px;
 }
 
 /*# sourceMappingURL=app.css.map */

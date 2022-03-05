@@ -23,8 +23,6 @@ class UserUpdated implements ShouldBroadcastNow
     )
     {
         $this->user->grade = $this->user->getUserGradeInService();
-        $this->user->GetMedicGrade;
-        $this->user->GetFireGrade;
 
         $collect = collect($this->user->grade->getAttributes());
         $collect = $collect->except(['service','name','power','discord_role_id','id']);

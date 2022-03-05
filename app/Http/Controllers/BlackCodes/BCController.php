@@ -176,7 +176,7 @@ class BCController extends Controller
         $type = $request->type;
         $typeModel = BCType::where('id',$type)->first()->name;
         $fire = false;
-        if(str_contains($typeModel, 'fire') || str_contains($typeModel, 'feux') || str_contains($typeModel, 'incendie')){
+        if(str_contains($typeModel, 'fire') || str_contains($typeModel, 'feux') || str_contains($typeModel, 'Incendie') || str_contains($typeModel, 'feux') || str_contains($typeModel, 'Fire')|| str_contains($typeModel, 'incendie')){
             $fire = true;
         }
 
@@ -213,6 +213,7 @@ class BCController extends Controller
                 ]
             ]
         ];
+
         \Discord::postMessage(DiscordChannel::BC, $embed, $bc);
         BlackCodeListEdited::dispatch();
         NotifyForAll::broadcast('Début du BC #'.$bc->id . ' à ' . $bc->place, 1);

@@ -105,9 +105,9 @@ class FacturesController extends Controller
         }
         $service = $facture->service;
         if(!is_null($facture->rapport_id)){
-            $user = $facture->GetRapport->GetUser->name . " ({$service})";
+            $user = $facture->GetRapport->GetUser->name . " (${service})";
         }else{
-            $user = Auth::user()->name . " ({$service})";
+            $user = Auth::user()->name . " (${service})";
         }
 
         return [

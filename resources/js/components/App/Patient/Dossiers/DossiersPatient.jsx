@@ -182,7 +182,7 @@ function DossiersPatient(props) {
                         }
                     </div>
                     <div className={'form-item form-column'}>
-                        <label>Groupe saunguin</label>
+                        <label>Groupe sanguin</label>
                         <input type={'text'} className={'form-input'} value={bloodgroup} onChange={(e)=>{setbloodgroup(e.target.value)}}/>
                         {errors.bloodgroup &&
                             <div className={'errors-list'}>

@@ -225,7 +225,9 @@ body{
         border-radius: $border-radius;
         .auth-header{
             padding: 20px;
+            display: flex;
             img{
+                margin: 0 auto;
                 width: calc(100% - 20px);
             }
         }
@@ -370,10 +372,11 @@ body{
             background-color: $bg2;
             cursor: pointer;
             display: flex;
+            justify-content: center;
             img{
-                width: auto;
-                height: 90%;
-                margin: auto;
+                width: 55px;
+                height: 55px;
+
             }
         }
     }
