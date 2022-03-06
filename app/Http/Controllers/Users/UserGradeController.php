@@ -137,7 +137,7 @@ class UserGradeController extends Controller
     public function deleteGrade(Request $request){
         \Gate::authorize('delete',Grade::class);
         $grade = Grade::where('id', $request->grade_id)->first();
-        $users = User::where('medic_grade_id', $grade->id)->where('fire_grade_id')->count();
+        $users = User::where('medic_grade_id', $grade->id)->orWhere('fire_grade_id', $grade->id)->count();
         if($grade->default){
             Notify::dispatch('Ce grade ne peut pas être supprimé',3, Auth::user()->id);
             return $this->getGrade();
