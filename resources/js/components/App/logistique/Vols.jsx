@@ -27,8 +27,13 @@ function Vols(props) {
         await axios({
             method: 'GET',
             url: '/data/vols?querry'+searche+'&page='+pagee,
-        }).then((r)=>{
-            setVols(r.data.vols.data)
+        }).then((r) => {
+            let final = [];
+            let keys = Object.keys(r.data.vols.data);
+            keys.forEach((key) => {
+                final[key] = r.data.vols.data[key];
+            });
+            setVols(final)
             setPagination(r.data.vols)
             setLieuxList(r.data.places)
         })
