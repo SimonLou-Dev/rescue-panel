@@ -111,7 +111,7 @@ class RapportController extends Controller
         $rapport->price = (int) $request->montant;
         $rapport->user_id = Auth::user()->id;
         if(isset($request->ata)){
-            $rapport->ata = \TimeCalculate::stringToSec($request->ata);
+            $rapport->ata = $request->ata;
         }
         $rapport->service = Session::get('service')[0];
         if(isset($request->pathology)){
