@@ -216,8 +216,8 @@ Route::get('/data/gestion/content', [ContentManagement::class, 'getcontent'])->m
 Route::delete('/data/gestion/content/{type}/{id}', [ContentManagement::class, 'deletecontent'])->middleware(['auth']);
 
 //Carnet de vol
-Route::get('/data/vol/get/{page}/{name?}', [VolController::class, 'getVolsList'])->middleware(['auth']);
-Route::post('/data/vol/add', [VolController::class, 'addVol'])->middleware(['auth']);
+Route::get('/data/vols', [VolController::class, 'getVolsList'])->middleware(['auth']);
+Route::post('/data/vols', [VolController::class, 'addVol'])->middleware(['auth']);
 
 
 //Formation DISABLED
@@ -291,7 +291,6 @@ Route::post('/data/bug', [MainController::class, 'postBug']);
 */
 //Searching
 Route::get('/data/patient/search/{text}', [SearchController::class, 'searchPatient'])->middleware(['auth']);
-Route::get('/data/vol/searsh/{pilote?}', [VolController::class, 'seatchPilote'])->middleware(['auth']);
 Route::get('/data/users/search/{user}', [SearchController::class, 'searchUser'])->middleware(['auth']);
 
 

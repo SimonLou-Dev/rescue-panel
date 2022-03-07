@@ -30,6 +30,7 @@ import AnnoncesInfos from "./Manager/AnnoncesInfos";
 import MyAccount from "./Other/account/MyAccount";
 import ServiceNav from "../AuthComponent/ServiceNav";
 import Dashboard from "./Other/Dashboard";
+import Vols from "./logistique/Vols"
 
 
 function Layout(props) {
@@ -223,12 +224,17 @@ function Layout(props) {
                                                                       className={'menu-link'}>création</Link></li>
                                 </ul>
                             </section>
-                            <section className={"menu-item hidden"}>
+                            <section className={"menu-item"}>
                                 <h2><span>Logistique</span></h2>
                                 <ul className={"menu-nav-list"}>
-                                    <li className={'menu-puce'}><Link to={'/' + service + '/logistique/stock/view'}
+                                    <li className={'menu-puce hidden'}><Link to={'/' + service + '/logistique/stock/view'}
                                                                       className={'menu-link'}>gestion des stocks</Link>
                                     </li>
+                                    {(user.grade.admin || (user.onService && user.pilote)) &&
+                                        <li className={'menu-puce'}><Link to={'/' + service + '/vols'}
+                                        className={'menu-link'}>vols</Link></li>
+                                    }
+
                                 </ul>
                             </section>
                             <section className={"menu-item"}>
@@ -304,6 +310,7 @@ function Layout(props) {
 
                     <Route path={'/:service/logistique/stock/view'} component={GestionStocks}/>
                     <Route path={'/:service/logistique/stock/settings'} component={StockSettings}/>
+                    <Route path={'/:service/vols'} component={Vols}/>
 
                     <Route path={'/:service/personnel/grade'} component={Grade}/>
                     <Route path={'/:service/personnel/horaire'} component={RapportHoraire}/>

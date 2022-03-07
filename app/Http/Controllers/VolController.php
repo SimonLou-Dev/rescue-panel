@@ -2,11 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\DiscordChannel;
 use App\Events\Notify;
+use App\Facade\DiscordFacade;
 use App\Jobs\ProcessEmbedPosting;
 use App\Models\LieuxSurvol;
 use App\Models\User;
 use App\Models\Vol;
+use Illuminate\Auth\Access\Gate;
+use Illuminate\Contracts\Session\Session;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
@@ -14,80 +18,91 @@ use Illuminate\Support\Facades\Http;
 class VolController extends Controller
 {
 
-    public function __construct()
-    {
-        $this->middleware('auth');
-        $this->middleware('access');
-    }
 
-    public function getVolsList(int $page, string $pilote = null): \Illuminate\Http\JsonResponse
+
+    public function getVolsList(Request $request): \Illuminate\Http\JsonResponse
     {
-        $page--;
-        if($pilote == null || $pilote == 'null'){
-            $vols = Vol::orderByDesc('id')->skip(20 * $page)->take(20)->get();
-            $nbrVols = Vol::all()->count();
+        $this->authorize('viewAny', Vol::class);
+        if(Vol::all()->count() === 0){
+            $array = [];
         }else{
-            $pilote = User::where('pilote', true)->where('name', 'like', $pilote)->first();
-            if($pilote == null){
-                return response()->json([
-                    'status'=>'ERROR',
-                    'raison'=>'NO PILOTE'
-                ]);
+            $vols = Vol::search($request->query('query'))->get()->reverse();
+
+            $queryPage = (int) $request->query('page');
+            $readedPage = ($queryPage ?? 1) ;
+
+            $forgetable = [];
+
+            for($a = 0; $a < $vols->count(); $a++){
+                $searchedItem = $vols[$a];
+                if(!\Gate::allows('view',$searchedItem)){
+                    array_push($forgetable, $a);
+                }
             }
-            $vols = Vol::where('pilote_id', $pilote->id)->orderByDesc('id')->skip(20 * $page)->take(20)->get();
-            $nbrVols = Vol::where('pilote_id', $pilote->id)->get()->count();
-        }
-        $a = 0;
-        while ($a < count($vols)){
-            $vols[$a]->GetLieux;
-            $vols[$a]->GetUser;
-            $a++;
-        }
+            foreach ($forgetable as $forget){
+                $vols->forget($forget);
+            }
 
-        $pages = intval(ceil(($nbrVols) / 20));
-        $page++;
-        $lieux = LieuxSurvol::all();
 
-        return response()->json([
-            'status'=>'OK',
-            'datas'=>[
-                'vols'=>$vols,
-                'page'=>$page,
-                'pages'=>$pages,
-                'lieux'=>$lieux,
-            ]
-        ]);
+            $finalList = $vols->skip(($readedPage-1)*15)->take(15);
+            foreach ($finalList as $item){
+                $item->GetLieux;
+                $item->GetUser;
+            }
+
+            $url = $request->url() . '?query='.urlencode($request->query('query')).'&page=';
+            $totalItem = $vols->count();
+            $valueRounded = ceil($totalItem / 5);
+            $maxPage = (int) ($valueRounded == 0 ? 1 : $valueRounded);
+            //Creation of Paginate Searchable result
+            $array = [
+                'current_page'=>$readedPage,
+                'last_page'=>$maxPage,
+                'data'=> $finalList,
+                'next_page_url' => ($readedPage === $maxPage ? null : $url.($readedPage+1)),
+                'prev_page_url' => ($readedPage === 1 ? null : $url.($readedPage-1)),
+                'total' => $totalItem,
+            ];
+        }
+        //End Pagination
+
+
+          return response()->json([
+              'status'=>'OK',
+              'vols'=> $array,
+              'places'=>  LieuxSurvol::all(),
+          ]);
 
     }
 
     public function addVol(Request $request): \Illuminate\Http\JsonResponse
     {
-
+        $this->authorize('create',Vol::class);
         $request->validate([
-           'lieux'=>['required', 'string']
+           'lieux'=>['required', 'int'],
+           'reason'=>['required', 'string']
         ]);
 
-        $raison = $request->raison;
+        $raison = $request->reason;
         $pilote_id = Auth::user()->id;
-        $decollage = date_create();
         $vol = new Vol();
-        $vol->decollage = $decollage;
+        $vol->decollage = date_create();
         $vol->raison = $raison;
+        $vol->service = $request->session()->get('service')[0];
         $vol->pilote_id = $pilote_id;
         $vol->lieux_id = $request->lieux;
-        $lieux = LieuxSurvol::where('id', $request->lieux)->first();
         $vol->save();
 
-        event(new Notify('Votre vol est pris en compte',1));
+        event(new Notify('Votre vol est pris en compte',1, Auth::user()->id));
 
         $embeds = [
             [
-                'title'=>'hélicoptère déployé ',
+                'title'=>'hélicoptère déployé ' . $vol->service,
                 'color'=>'15158332',
                 'fields'=>[
                     [
                         'name'=>'Secteur : ',
-                        'value'=>$lieux->name,
+                        'value'=>$vol->GetLieux->name,
                         'inline'=>true
                     ],[
                         'name'=>'Motif : ',
@@ -100,21 +115,12 @@ class VolController extends Controller
                 ]
             ]
         ];
-        $this->dispatch(new ProcessEmbedPosting(env('WEBHOOK_VOLS'), $embeds));
-
-
+        \Discord::postMessage(DiscordChannel::Vols, $embeds);
 
         return response()->json(['status'=>'OK'],201);
 
     }
 
-    public function seatchPilote(string $pilote =null): \Illuminate\Http\JsonResponse
-    {
-        if(isset($pilote)){
-            $pilotes = User::where('name', 'LIKE', '%'.$pilote.'%')->take(5)->get();
-            return response()->json(['status'=>'OK', 'datas'=>['users'=>$pilotes]]);
-        }
-        return response()->json(['status'=>'OK']);
-    }
+
 
 }

@@ -11,6 +11,7 @@ use App\Models\Prime;
 use App\Models\Rapport;
 use App\Models\TestPoudre;
 use App\Models\User;
+use App\Models\Vol;
 use App\Policies\AbsencesPolicy;
 use App\Policies\BlackCodePolicy;
 use App\Policies\FacturesPolicy;
@@ -20,6 +21,7 @@ use App\Policies\PrimePolicy;
 use App\Policies\RapportsPolicy;
 use App\Policies\ServiceReqPolicy;
 use App\Policies\UserPolicy;
+use App\Policies\VolPolicy;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Gate;
 use function React\Promise\Stream\first;
@@ -41,6 +43,7 @@ class AuthServiceProvider extends ServiceProvider
         Grade::class=> GradePolicy::class,
         AbsencesList::class => AbsencesPolicy::class,
         ModifyServiceReq::class=> ServiceReqPolicy::class,
+        Vol::class => VolPolicy::class,
     ];
 
     /**
