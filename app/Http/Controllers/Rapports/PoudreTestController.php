@@ -134,7 +134,7 @@ class PoudreTestController extends Controller
         $logs = new LogsController();
         $logs->TestDePoudreLogging($test->id, $tester->id);
 
-        event(new Notify('Test enregistré',1));
+        event(new Notify('Test enregistré',1,Auth::user()->id));
 
         return response()->json(['status'=>'OK'],201);
     }

@@ -167,7 +167,7 @@ function RapportReview(props) {
                     <select value={intertype} onChange={(e)=>{setintertypes(e.target.value)}}>
                         <option key={0} value={0} disabled={true}>choisir</option>
                         {intertypeslist && intertypeslist.map((broum)=>
-                            <option key={broum.id} value={broum.id}>{broum.name}</option>
+                            <option key={broum.id} value={broum.id}>{broum.name}  ({broum.service})</option>
                         )}
                     </select>
                     {errors.intertype &&

@@ -40,13 +40,13 @@ function TestPoudre(props) {
         }
     }
 
-    const patientList = async (search, newpage = page) => {
+    const patientList = async (searche = search, newpage = page) => {
         if(newpage !== page){
             setPage(newpage);
         }
-        setSearch(search)
+        setSearch(searche)
         await axios({
-            url : '/data/poudre/get?query='+search+'&page='+page,
+            url : '/data/poudre/get?query='+searche+'&page='+page,
             method: 'GET'
         }).then(r => {
             setTest(r.data.tests.data)
@@ -82,6 +82,7 @@ function TestPoudre(props) {
                 setClothPresence(false)
                 setPrevPlace('')
                 searchPatient('')
+                patientList();
             }
             if(error.response.status === 422){
                 setErrors(error.response.data.errors)

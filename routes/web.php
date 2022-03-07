@@ -106,7 +106,6 @@ Route::get('/logout', function (Request $request){
 // scope=identify%20email%20guilds%20guilds.join%20guilds.members.read
 Route::get('/auth/redirect', function () {return Socialite::driver('discord')->scopes(['email','guilds'])->redirect();});
 Route::get('/auth/callback', [UserConnexionController::class, 'callback'])->middleware('guest');
-Route::get('/auth/fake', [UserConnexionController::class, 'fake'])->middleware('guest');//disable
 Route::get('/data/userInfos', [UserGradeController::class, 'GetUserPerm'])->middleware(['auth']);
 
 Route::post('/data/postuserinfos', [UserConnexionController::class, 'postInfos'])->middleware(['auth']);
@@ -295,22 +294,28 @@ Route::get('/data/patient/search/{text}', [SearchController::class, 'searchPatie
 Route::get('/data/vol/searsh/{pilote?}', [VolController::class, 'seatchPilote'])->middleware(['auth']);
 Route::get('/data/users/search/{user}', [SearchController::class, 'searchUser'])->middleware(['auth']);
 
-Route::get('/serch', function (Request $request){
-    Discord::chanUpdate(DiscordChannel::RI, 933706570552999946);
-    Discord::chanUpdate(DiscordChannel::Facture, 933706570552999946);
-    Discord::chanUpdate(DiscordChannel::BC, 933706570552999946);
-    Discord::chanUpdate(DiscordChannel::Service, 933706570552999946);
-    Discord::chanUpdate(DiscordChannel::MedicInfos, 923521332531048469);
-    Discord::chanUpdate(DiscordChannel::FireInfos,934029889122762773);
-    Discord::chanUpdate(DiscordChannel::FireRemboursement, 934029889122762773);
-    Discord::chanUpdate(DiscordChannel::MedicRemboursement, 923521332531048469);
-    Discord::chanUpdate(DiscordChannel::Absences, 933706570552999946);
-    Discord::chanUpdate(DiscordChannel::Bugs, 933706570552999946);
-    Discord::chanUpdate(DiscordChannel::FireSanctions, 934029889122762773);
-    Discord::chanUpdate(DiscordChannel::MedicSanctions, 923521332531048469);
-    Discord::chanUpdate(DiscordChannel::FireLogistique, 934029889122762773);
-    Discord::chanUpdate(DiscordChannel::MedicLogistique, 923521332531048469);
-})->middleware('web');
+
+if(env('APP_DEBUG') === true || env('APP_DEBUG') === "true"){
+    Route::get('/serch', function (Request $request){
+        Discord::chanUpdate(DiscordChannel::RI, 933706570552999946);
+        Discord::chanUpdate(DiscordChannel::Facture, 933706570552999946);
+        Discord::chanUpdate(DiscordChannel::BC, 933706570552999946);
+        Discord::chanUpdate(DiscordChannel::Service, 933706570552999946);
+        Discord::chanUpdate(DiscordChannel::MedicInfos, 923521332531048469);
+        Discord::chanUpdate(DiscordChannel::FireInfos,934029889122762773);
+        Discord::chanUpdate(DiscordChannel::FireRemboursement, 934029889122762773);
+        Discord::chanUpdate(DiscordChannel::MedicRemboursement, 923521332531048469);
+        Discord::chanUpdate(DiscordChannel::Absences, 933706570552999946);
+        Discord::chanUpdate(DiscordChannel::Bugs, 933706570552999946);
+        Discord::chanUpdate(DiscordChannel::FireSanctions, 934029889122762773);
+        Discord::chanUpdate(DiscordChannel::MedicSanctions, 923521332531048469);
+        Discord::chanUpdate(DiscordChannel::FireLogistique, 934029889122762773);
+        Discord::chanUpdate(DiscordChannel::MedicLogistique, 923521332531048469);
+    })->middleware('web');
+
+    Route::get('/auth/fake', [UserConnexionController::class, 'fake'])->middleware('guest');//disable
+}
+
 
 
 

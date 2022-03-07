@@ -28,7 +28,6 @@ class ServiceReqPolicy
      * Determine whether the user can view the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\ModifyServiceReq  $modifyServiceReq
      * @return \Illuminate\Auth\Access\Response|bool
      */
     public function viewMy(User $user)
@@ -43,7 +42,6 @@ class ServiceReqPolicy
      * Determine whether the user can view the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\ModifyServiceReq  $modifyServiceReq
      * @return \Illuminate\Auth\Access\Response|bool
      */
     public function create(User $user)
@@ -63,7 +61,7 @@ class ServiceReqPolicy
      * @param  \App\Models\ModifyServiceReq  $modifyServiceReq
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function update(User $user, ModifyServiceReq $modifyServiceReq)
+    public function update(User $user)
     {
         $grade = $user->getUserGradeInService();
         if($user->isAdmin()) return true;

@@ -162,39 +162,7 @@ class UserConnexionController extends Controller
             $createuser->email =  $userinfos->email;
             $createuser->discord_id = $userinfos->id;
             $createuser->save();
-            $user = $createuser;
-            $embed = [
-                [
-                    'title'=>'Compte créé : (environement : ' . env('APP_ENV') . ')',
-                    'color'=>'13436400 ',
-                    'fields'=>[
-                        [
-                            'name'=>'Discord id : ',
-                            'value'=>$createuser->discord_id,
-                            'inline'=>false
-                        ],[
-                            'name'=>'ID : ',
-                            'value'=>$createuser->id,
-                            'inline'=>false
-                        ],[
-                            'name'=>'email : ',
-                            'value'=>$createuser->email,
-                            'inline'=>false
-                        ],[
-                            'name'=>'Discord name : ',
-                            'value'=> $auth->nickname,
-                            'inline'=>false,
-                        ]
-                    ],
-                    'footer'=>[
-                        'text' => date('d/m/Y H:i:s'),
-                    ]
-                ]
-            ];
-
-            \Discord::postMessage(DiscordChannel::Bugs, $embed);
         }
-
         $user->GetMedicGrade;
         $user->GetFireGrade;
         Auth::login($user);
@@ -236,36 +204,6 @@ class UserConnexionController extends Controller
             $user = $createuser;
             $logs = new LogsController();
             $logs->accountCreated($createuser->id);
-            $ip = $header ?? $request->getClientIp();
-            $embed = [
-                [
-                    'title'=>'Compte créé : (environement : ' . env('APP_ENV') . ')',
-                    'color'=>'13436400 ',
-                    'fields'=>[
-                        [
-                            'name'=>'Discord id : ',
-                            'value'=>$createuser->discord_id,
-                            'inline'=>false
-                        ],[
-                            'name'=>'ID : ',
-                            'value'=>$createuser->id,
-                            'inline'=>false
-                        ],[
-                            'name'=>'email : ',
-                            'value'=>$createuser->email,
-                            'inline'=>false
-                        ],[
-                            'name'=>'Discord name : ',
-                            'value'=> 'TestUser#0000',
-                            'inline'=>false,
-                        ]
-                    ],
-                    'footer'=>[
-                        'text' => date('d/m/Y H:i:s'),
-                    ]
-                ]
-            ];
-            \Discord::postMessage(DiscordChannel::Bugs, $embed, null);
         }
 
         $user->GetFireGrade;

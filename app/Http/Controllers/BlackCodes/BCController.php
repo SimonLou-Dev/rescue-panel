@@ -109,9 +109,6 @@ class BCController extends Controller
         $user->bc_id = null;
         $user->save();
 
-
-
-
         return response()->json([],201);
     }
 

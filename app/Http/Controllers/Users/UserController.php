@@ -99,12 +99,14 @@ class UserController extends Controller
             'total' => $totalItem,
         ];
 
-
-        $grades = Grade::where('service', $meService)->get();
-        $grades = $grades->filter(function ($item){
-            return \Gate::allows('view', $item);
-        });
-
+        if($me->dev){
+            $grades = Grade::all();
+        }else{
+            $grades = Grade::where('service', $meService)->get();
+            $grades = $grades->filter(function ($item){
+                return \Gate::allows('view', $item);
+            });
+        }
 
         return response()->json([
             'status' => 'OK',
@@ -258,7 +260,7 @@ class UserController extends Controller
             default: break;
         }
         $array['reason'] = $reqinfos['reason'];
-        $final = ">>> ***__Nouvelle sanction :__*** \n __**De :**__". $array['prononcedby'] . "\n __**A :**__ " . ($baseuser->discord_id != null ? ("<@" . $baseuser->discord_id . "> ") : "") . $baseuser->name . " \n ". $text . "\n **__Prononcé le :__** " . $array['prononcedam'] . " \n **__Raison :__** " . $array['reason'];
+        $final = ">>> ***__Nouvelle sanction (" . $service .")  :__*** \n __**De :**__". $array['prononcedby'] . "\n __**A :**__ " . ($baseuser->discord_id != null ? ("<@" . $baseuser->discord_id . "> ") : "") . $baseuser->name . " \n ". $text . "\n **__Prononcé le :__** " . $array['prononcedam'] . " \n **__Raison :__** " . $array['reason'];
 
         array_push($sanctionsinfos, $array);
 
@@ -366,11 +368,11 @@ class UserController extends Controller
         UserUpdated::broadcast($user);
         $msg =   ">>> ***__Démission :__*** \n **__Personnel :__** " . ($user->discord_id != null ? ("<@" . $user->discord_id . "> ") : "") . $user->name . "\n **__Déclaré par :__** ".$prononcer->name;
 
-        if($user->isInFireUnit()){
+        if($user->service === Session::get('service')[0] && $user->service == "LSCoFD"){
             \Discord::postMessage(DiscordChannel::FireSanctions, [], null, $msg);
         }
 
-        if($user->isInMedicUnit()){
+        if($user->service === Session::get('service')[0] && $user->service == "SAMS"){
             \Discord::postMessage(DiscordChannel::MedicSanctions, [], null, $msg);
         }
 

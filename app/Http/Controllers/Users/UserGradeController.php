@@ -165,13 +165,18 @@ class UserGradeController extends Controller
         $user = User::where('id', $id)->first();
         $user->materiel = null;
         $user->matricule = null;
-        $user->medic_grade_id = 1;
-        $user->fire_grade_id = 1;
-        $user->fire=false;
-        $user->medic=false;
-        $user->crossService= false;
+        if( Session::get('service')[0] === "SAMS"){
+            $user->medic_grade_id = 1;
+            $user->medic=false;
+            $user->crossService= false;
+        }
+        else{
+            $user->fire_grade_id = 1;
+            $user->fire=false;
+            $user->crossService= false;
+        }
         $user->bc_id = null;
-        if($user->onService){
+        if($user->onService && $user->service == Session::get('service')[0]){
             OperatorController::setService($user, true);
         }
         $user->save();
