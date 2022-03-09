@@ -136,14 +136,7 @@ class UserConnexionController extends Controller
     public function callback(Request $request): JsonResponse|RedirectResponse
     {
 
-        try{
-            $auth = Socialite::driver('discord')->user();
-         }
-        catch (\Throwable $e) {
-            Log::alert('auth failed');
-            return redirect()->route('login');
-
-        }
+        $auth = Socialite::driver('discord')->user();
 
 
 

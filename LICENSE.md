@@ -1,4 +1,4 @@
-<p align="center"><a href="https://rescue-pannel.simon-lou.com" target="_blank"><img src="https://rescue-pannel.simon-lou.com/assets/images/LONG_EMS_BC_2.png" width="400"></a></p>
+<p align="center"><a href="https://rescue-panel.simon-lou.com" target="_blank"><img src="https://rescue-panel.simon-lou.com/assets/images/LONG_EMS_BC_2.png" width="400"></a></p>
 
 <br>
 
