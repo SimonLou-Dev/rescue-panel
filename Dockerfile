@@ -1,14 +1,8 @@
 FROM php:8.1-fpm
 
-ARG user
-ARG uid
 
 WORKDIR /var/www
 
-# Create system user to run Composer and Artisan Commands
-RUN useradd -G www-data,root -u $uid -d /home/$user $user
-RUN mkdir -p /home/$user/.composer && \
-    chown -R $user:$user /home/$user
 
 # Install system dependencies
 RUN apt-get update && apt-get install -y \
@@ -52,8 +46,8 @@ RUN curl -sL https://deb.nodesource.com/setup_17.x | bash - \
 
 
 # Set working directory & copy code
-COPY --chown=$user:www-data . /var/www
-RUN chown $user -R /var/www/*
+COPY --chown=www-data . /var/www
+RUN chown www-data -R /var/www/*
 RUN chmod 777 -R /var/www/*
 
 #Install And pm2
@@ -65,7 +59,6 @@ RUN mkdir /var/log/php
 RUN touch /var/log/php/errors.log && chmod 777 /var/log/php/errors.log
 
 # Deployment steps
-RUN composer remove fidelopper/proxy
 RUN composer install --optimize-autoloader --no-dev
 RUN yarn install
 RUN chmod +x /var/www/run.sh
@@ -75,5 +68,6 @@ RUN cp ./docker/default.conf /etc/nginx/sites-enabled/default.conf
 
 
 EXPOSE 8080
+USER www-data
 ENTRYPOINT ["/var/www/run.sh"]
 

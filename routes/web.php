@@ -24,10 +24,6 @@ use App\Http\Controllers\BlackCodes\BCController;
 use App\Http\Controllers\BlackCodes\BlesseController;
 use App\Http\Controllers\BlackCodes\PersonnelController;
 use App\Http\Controllers\Discord\DiscordApiController;
-use App\Http\Controllers\Formations\AdminController;
-use App\Http\Controllers\Formations\CertificationController;
-use App\Http\Controllers\Formations\FormationController;
-use App\Http\Controllers\Formations\ResponseController;
 use App\Http\Controllers\Rapports\ExporterController;
 use App\Http\Controllers\Rapports\FacturesController;
 use App\Http\Controllers\Rapports\PatientController;
@@ -62,7 +58,6 @@ Route::get('/dispatch', function (){return redirect()->route('dashboard');});
 Route::get('/patients/{a}/{b?}', function (){return redirect()->route('dashboard');});
 Route::get('/blackcodes/{a}/{b?}', function (){return redirect()->route('dashboard');});
 Route::get('/factures', function (){return redirect()->route('dashboard');});
-Route::get('/formation/{a}/{b?}', function (){return redirect()->route('dashboard');});
 Route::get('/logistique/{a?}', function (){return redirect()->route('dashboard');});
 Route::get('/personnel/{a?}/{c?}', function (){return redirect()->route('dashboard');});
 Route::get('/mdt/{a?}', function (){return redirect()->route('dashboard');});
@@ -220,29 +215,7 @@ Route::get('/data/vols', [VolController::class, 'getVolsList'])->middleware(['au
 Route::post('/data/vols', [VolController::class, 'addVol'])->middleware(['auth']);
 
 
-//Formation DISABLED
-/*
-Route::get('/data/certifications/admin/get', [CertificationController::class, 'getUsersCertifications']);
-Route::put('/data/certifications/admin/{forma_id}/change/{user_id}', [CertificationController::class, 'changeUserCertification']);
-Route::get('/data/formations/admin/{formation_id}/get', [AdminController::class, 'getFormationByIdAdmin']);
-Route::put('/data/formations/admin/{formation_id}/visibylity', [AdminController::class, 'changeFormationVisibility']);
-Route::post('/data/formations/admin/post', [AdminController::class, 'postFormation']);
-Route::put('/data/formations/admin/{formation_id}/update', [AdminController::class, 'updateFormation']);
-Route::delete('/data/formations/admin/{formation_id}/delete', [AdminController::class, 'deleteFormationById']);
-Route::post('/data/formations/{formation_id}/admin/question/post', [AdminController::class, 'addQuestion']);
-Route::put('/data/formations/admin/question/{question_id}/update', [AdminController::class, 'updateQuestion']);
-Route::delete('/data/formations/admin/question/{question_id}/delete', [AdminController::class, 'deleteQuestion']);
-Route::get('/data/formations/get/{page?}/{max?}', [FormationController::class, 'getFormations']);
-Route::get('/data/formations/{formation_id}/get', [FormationController::class, 'getFormationById']);
-Route::get('/data/formations/question/{question_id}', [FormationController::class, 'getQuestionById']);
-Route::post('/data/formations/response/{question_id}/save', [ResponseController::class, 'saveResponseState']);
-Route::get('/data/formations/userdeco/{formation_id}', [FormationController::class, 'userDisconnect']);
-Route::get('/data/formation/{formation_id}/final', [FormationController::class, 'getFinalDatas']);
-Route::post('/data/formations/question/{question_id}/image', [AdminController::class, 'postQuestionImage']);
-Route::post('/data/formations/{formation_id}/image', [AdminController::class, 'postFormationsImage']);
-Route::get('/data/formations/{formation_id}/responses', [ResponseController::class, 'getReponseOffFormations']);
-Route::delete('/data/formations/responses/{response_id}/delete', [AdminController::class, 'deleteResponseByID']);
-*/
+
 
 //Recap
 Route::get('/data/remboursements/me', [RemboursementsController::class, 'getRemboursementOfUser'])->middleware(['auth']);

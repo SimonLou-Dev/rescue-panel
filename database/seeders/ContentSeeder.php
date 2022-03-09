@@ -29,7 +29,7 @@ class ContentSeeder extends Seeder
     {
         foreach ($this->services as $service){
             $blessure = new Blessure();
-            $blessure->name = 'BPB';
+            $blessure->name = 'BPB ';
             $blessure->service = $service;
             $blessure->save();
 

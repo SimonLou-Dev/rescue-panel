@@ -5,6 +5,7 @@ namespace App\Console\Commands;
 use App\Models\DayService;
 use App\Models\WeekService;
 use Illuminate\Console\Command;
+use App\Models\User;
 
 class StartWeek extends Command
 {
@@ -40,8 +41,8 @@ class StartWeek extends Command
     public function handle()
     {
         $week =  date('W', time());
-        $users = \App\Exporter\Models\User::where('grade', '>', 1)->get();
-        $dayservice = WeekService::where('week', $week)->get('user_id');
+        $users = User::all();
+        $dayservice = WeekService::where('week_number', $week)->get('user_id');
         $b = 0;
         $array = array();
         while($b < count($dayservice)){
@@ -50,12 +51,18 @@ class StartWeek extends Command
         }
         $a = 0;
         $datas = array();
-        while ($a < count($users)){
-            if(!in_array($users[$a]->id, $array)){
-                array_push($datas, ['week'=>$week, 'user_id'=>$users[$a]->id]);
+
+        foreach($users as $usr){
+            if(($usr->isInFireUnit() || $usr->isInMedicUnit()) && !in_array($usr->id, $array) && !$usr->dev){
+                if($usr->isInFireUnit()){
+                    array_push($datas, ['week_number'=>$week, 'user_id'=>$users[$a]->id, 'service'=>'LSCoFD']);
+                }
+                if($usr->isInMedicUnit()){
+                    array_push($datas, ['week_number'=>$week, 'user_id'=>$users[$a]->id, 'service'=>'SAMS']);
+                }
             }
-            $a++;
         }
+
         WeekService::insert($datas);
         $this->info('Inserted');
         return 0;

@@ -93,17 +93,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(WeekRemboursement::class, 'user_id');
     }
-    public function GetCertifications(): \Illuminate\Database\Eloquent\Relations\HasMany
-    {
-        return $this->hasMany(Certification::class, 'user_id')->orderBy('formation_id');
-    }
     public function GetAllRemboursement(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
         return $this->hasMany(RemboursementList::class, 'user_id');
-    }
-    public function getResponses(): \Illuminate\Database\Eloquent\Relations\HasMany
-    {
-        return $this->hasMany(FormationsResponse::class, 'user_id');
     }
     public function getServiceState(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {

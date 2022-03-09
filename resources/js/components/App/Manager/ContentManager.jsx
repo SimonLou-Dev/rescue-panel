@@ -90,7 +90,7 @@ function ContentManager(props) {
                 <button className={'btn'}><img alt={''} src={'/assets/images/add.png'} onClick={()=>{postContent(2, hospValue)}}/></button>
             </div>
         </CardComponent>
-        <CardComponent title={'Types de BC'}>
+        <CardComponent title={'Types de BC (communs)'}>
             <div className={'list'}>
                 <table>
                     <tbody>
