@@ -72,6 +72,7 @@ class ModifierReqController extends Controller
             $week->user_id=$user->id;
             $week->total = $time;
             $week->ajustement = $time;
+            $week->service = Session::get('service')[0];
         }
         $week->save();
         $reqst->save();
