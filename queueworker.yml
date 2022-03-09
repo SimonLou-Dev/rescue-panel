@@ -5,13 +5,13 @@ apps:
     cwd       : '/var/www'
     args      : 'queue:work --queue discord' # or queue:work
     interpreter : 'php'
-    error_file: "./storage/logs/discordemebd_error_pm2.log",
+    error_file: "./storage/logs/discordemebd_error_pm2.log"
     out_file: "./storage/logs/discordemebd_outpm2.log"
   - script: 'artisan'
     name: 'artisan-pdfgeneration-worker'
     cwd: '/var/www'
     args: 'queue:work --queue pdfgeneration' # or queue:work
     interpreter: 'php'
-    error_file: "./storage/logs/pdfgeneration_error_pm2.log",
+    error_file: "./storage/logs/pdfgeneration_error_pm2.log"
     out_file: "./storage/logs/pdfgeneration_outpm2.log"
 
