@@ -34,7 +34,7 @@ class PrimesController extends Controller
                 'fields'=>[
                     [
                         'name'=>'Personnel : ',
-                        'value'=>$prime->getUser->name  . ' (' . Session::get('service')[0] . ')',
+                        'value'=>$user->name . ' (' . Session::get('service')[0] . ')',
                         'inline'=>false
                     ],[
                         'name'=>'Montant : ',
