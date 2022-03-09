@@ -9,7 +9,7 @@ php artisan key:generate
 php artisan schedule:run
 
 echo 'building front ...'
-yarn sass .\resources\sass\app.scss .\public\css\app.css
+yarn sass ./resources/sass/app.scss ./public/css/app.css
 yarn build
 
 echo 'start worker & nginx... '

@@ -53,12 +53,10 @@ RUN curl -sL https://deb.nodesource.com/setup_17.x | bash - \
 
 # Set working directory & copy code
 COPY --chown=$user:www-data . /var/www
-RUN chown $user -R /var/www/*
-RUN chmod 777 -R /var/www/*
 
 #Install And pm2
 RUN yarn global add pm2
-
+RUN mkdir /var/www/.pm2/
 
 # PHP Error Log Files
 RUN mkdir /var/log/php
@@ -69,11 +67,12 @@ RUN composer remove fidelopper/proxy
 RUN composer install --optimize-autoloader --no-dev
 RUN yarn install
 RUN chmod +x /var/www/run.sh
-
 #nginx config
 RUN cp ./docker/default.conf /etc/nginx/sites-enabled/default.conf
 
-USER www-data
+RUN chown $user -R /var/www/*
+RUN chmod 777 -R /var/www/*
+
 EXPOSE 8080
 ENTRYPOINT ["/var/www/run.sh"]
 
