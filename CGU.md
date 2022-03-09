@@ -6,12 +6,14 @@
     <a href="CGU.md" width="25%">mentions légales</a>
     <a href="SECURITY.md" width="25%">securité</a>
     <a href="LICENSE.md" width="25%">license</a>
-    <a href="README.ME" width="25%">informations</a>
+    <a href="README.md" width="25%">informations</a>
 </div>
 
 <br>
 
 # Conditions globales d'utilisation
+
+__*note :* responsable du projet :__ le webmaster et le chef de chaque service
 
 ## 1 Le site web
 

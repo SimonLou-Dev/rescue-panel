@@ -125,18 +125,18 @@ return [
             'host' => env('REDIS_HOST', '127.0.0.1'),
             'password' => env('REDIS_PASSWORD', null),
             'port' => env('REDIS_PORT', '6379'),
-            'database' => env('REDIS_DB', (env('APP_ENV') != "local" ? 7 : 8)),
+            'database' => env('REDIS_DB', (env('APP_DEBUG') ? 7 : 8)),
             'read_write_timeout' => 60,
-            'queue' => 'default',
+            'queue' => 'rescue_pannel_'.env('APP_ENV'),
         ],
 
         'cache' => [
-            'url' => env('REDIS_URL'),
             'host' => env('REDIS_HOST', '127.0.0.1'),
             'password' => env('REDIS_PASSWORD', null),
             'port' => env('REDIS_PORT', '6379'),
-            'database' => env('REDIS_CACHE_DB', '1'),
-            'queue' => 'default',
+            'database' => env('REDIS_DB', (env('APP_DEBUG') ? 7 : 8)),
+            'read_write_timeout' => 60,
+            'queue' => 'cache_rescue_pannel_'.env('APP_ENV'),
         ],
 
     ],

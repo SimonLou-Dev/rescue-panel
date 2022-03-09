@@ -128,8 +128,9 @@ function FactureList(props) {
                                 }).then(() => {
                                     patientList()
                                 })
-                            }}>payer</button>}{item.payed &&
-                                    payée
+                            }}>payer</button>}
+                                {item.payed &&
+                                    <p>payée</p>
                                 } </td>
                         </tr>
                     )}

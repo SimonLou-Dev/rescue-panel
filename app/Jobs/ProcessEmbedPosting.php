@@ -61,9 +61,9 @@ class ProcessEmbedPosting implements ShouldQueue
             'content'=>is_null($content) ? '' :  $content,
         ]
         );
+        $req = $req->json();
+        if(!is_null($model) && isset($req['id'])){
 
-        if(!is_null($model)){
-            $req = $req->json();
             $model->discord_msg_id = $req['id'];
             $model->save();
         }

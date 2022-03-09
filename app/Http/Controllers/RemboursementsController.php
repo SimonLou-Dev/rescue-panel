@@ -113,13 +113,6 @@ class RemboursementsController extends Controller
             }
         }
 
-        if(Session::get('service')[0] === 'SAMS'){
-            \Discord::postMessage(DiscordChannel::MedicRemboursement, $embed);
-        }else{
-            \Discord::postMessage(DiscordChannel::FireRemboursement, $embed);
-        }
-
-
         Notify::broadcast('Remboursement validé',1, Auth::user()->id);
         return response()->json(['stauts'=>'OK'],201);
 

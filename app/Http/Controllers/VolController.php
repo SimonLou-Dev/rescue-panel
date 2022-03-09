@@ -106,7 +106,7 @@ class VolController extends Controller
                         'inline'=>true
                     ],[
                         'name'=>'Motif : ',
-                        'value'=>$request->raison,
+                        'value'=>$vol->raison,
                         'inline'=>true
                     ]
                 ],

@@ -104,7 +104,7 @@ Route::get('/logout', function (Request $request){
 
 //Connexion management
 // scope=identify%20email%20guilds%20guilds.join%20guilds.members.read
-Route::get('/auth/redirect', function () {return Socialite::driver('discord')->scopes(['email','guilds'])->redirect();});
+Route::get('/auth/redirect', function () {return Socialite::driver('discord')->scopes(['email'])->redirect();});
 Route::get('/auth/callback', [UserConnexionController::class, 'callback'])->middleware('guest');
 Route::get('/data/userInfos', [UserGradeController::class, 'GetUserPerm'])->middleware(['auth']);
 
