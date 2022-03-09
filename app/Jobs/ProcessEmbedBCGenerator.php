@@ -2,6 +2,7 @@
 
 namespace App\Jobs;
 
+use App\Enums\DiscordChannel;
 use App\Http\Controllers\BlackCodes\BcEmbedController;
 use App\Models\BCList;
 use Illuminate\Bus\Queueable;
@@ -119,11 +120,9 @@ class ProcessEmbedBCGenerator implements ShouldQueue
             ]
         ]);
 
-        Http::post(env('WEBHOOK_PU'),[
-            'username'=> "LSCoFD - MDT",
-            'avatar_url'=>'https://lscofd.simon-lou.com/assets/images/LSCoFD.png',
-            'embeds'=>$finalembedslist,
-        ]);
+        \Discord::postMessage(DiscordChannel::BC, $finalembedslist);
+
+
     }
 
     private function manyPatientEmbed(int $number, object $patients, array $finalembedslist): array

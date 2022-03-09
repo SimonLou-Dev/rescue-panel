@@ -72,7 +72,7 @@ class ProcessEmbedPosting implements ShouldQueue
 
     private static function PostWebhook(string $webhook, ?array $embed = null, ?string $content = null){
         Http::post($webhook,[
-            'username'=> "LSCoFD - MDT",
+            'username'=> "rescue panel",
             'avatar_url'=>'https://lscofd.simon-lou.com/assets/images/LSCoFD.png',
             'embeds'=>$embed,
             'content'=>is_null($content) ? '' :  $content,

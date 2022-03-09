@@ -290,7 +290,7 @@ class RapportController extends Controller
                 'color'=>'1285790',
                 'fields'=>$fields,
                 'footer'=>[
-                    'text' => 'Rapport de : ' . Auth::user()->name . " ({$service})",
+                    'text' => 'Rapport de : ' . Auth::user()->name . " (${service})",
                 ]
             ]
         ];

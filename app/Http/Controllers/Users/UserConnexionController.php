@@ -25,6 +25,7 @@ use Illuminate\Support\Facades\Session;
 use Laravel\Socialite\Facades\Socialite;
 use Illuminate\Auth\EloquentUserProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Support\Facades\Log;
 
 class UserConnexionController extends Controller
 {
@@ -134,7 +135,16 @@ class UserConnexionController extends Controller
      */
     public function callback(Request $request): JsonResponse|RedirectResponse
     {
-        $auth = Socialite::driver('discord')->user();
+
+        try{
+            $auth = Socialite::driver('discord')->user();
+         }
+        catch (\Throwable $e) {
+            Log::alert('auth failed');
+            return redirect()->route('login');
+
+        }
+
 
 
         $servers = Http::withToken($auth->token)->get('https://discord.com/api/v9/users/@me/guilds')->body();

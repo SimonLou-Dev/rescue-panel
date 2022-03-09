@@ -30,7 +30,12 @@ function ListPersonnel(props) {
             url : '/data/users/getall' +'?query='+a+'&page='+c,
             method: 'GET'
         }).then(r => {
-            setUsers(r.data.users.data);
+            let final = [];
+            let keys = Object.keys(r.data.users.data);
+            keys.forEach((key) => {
+                final[key] = r.data.users.data[key];
+            });
+            setUsers(final);
             setPagination(r.data.users);
             setGradesList(r.data.serviceGrade);
 
