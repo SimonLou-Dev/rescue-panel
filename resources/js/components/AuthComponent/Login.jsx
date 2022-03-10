@@ -1,8 +1,27 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {NavLink, Redirect} from "react-router-dom";
 import axios from "axios";
+import {useNotifications} from "../context/NotificationProvider";
+import {v4} from "uuid";
+
 
 const Login = (props) => {
+    const dispatch = useNotifications();
+
+    useEffect(() => {
+        if (errors !== "") {
+
+            dispatch({
+                type: 'ADD_NOTIFICATION',
+                payload: {
+                    id: v4(),
+                    type: 'danger',
+                    message: errors
+                }
+            });
+
+      }
+    }, [])
 
         return (
             <div className={'Auth'}>

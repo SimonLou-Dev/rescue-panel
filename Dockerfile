@@ -4,6 +4,7 @@ ARG user
 ARG uid
 
 WORKDIR /var/www
+VOLUME /var/www/storage
 
 # Create system user to run Composer and Artisan Commands
 RUN useradd -G www-data,root -u $uid -d /home/$user $user

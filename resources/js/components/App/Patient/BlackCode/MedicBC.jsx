@@ -110,7 +110,7 @@ function MedicBC(props) {
                     await axios({method: 'PATCH', url: '/data/blackcode/quit'}).then(() => {
                         Redirection('/blackcodes/all')
                     })}}>retour</button>
-                <button  className={'btn'} disabled={!(user.grade.admin || user.BC_close)}  onClick={async () => {
+                <button  className={'btn'} disabled={(!(user.grade.admin || user.BC_close) || (bc && bc.ended))}  onClick={async () => {
                     await axios({
                         method: 'PUT',
                         url: '/data/blackcode/' + bcID + '/close'

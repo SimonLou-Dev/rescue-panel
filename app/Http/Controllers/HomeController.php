@@ -6,6 +6,7 @@ namespace App\Http\Controllers;
 use App\Models\LogDb;
 use App\Models\User;
 use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\Session\Session;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
@@ -17,8 +18,10 @@ class HomeController extends Controller
      * @param string|null $a
      * @return Application|Factory|View
      */
-    public function getIndex(string $a =null){
-        return view("home");
+    public function getIndex(Request $request, string $a =null){
+        $value = $request->session()->get('error', '');
+        $request->session()->forget('error');
+        return view("home",['errors'=> $value]);
     }
 
     public function getLogs(){

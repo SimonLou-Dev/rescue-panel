@@ -13,6 +13,7 @@ use App\Jobs\ProcessEmbedPosting;
 use App\Models\Grade;
 use App\Models\LogDb;
 use App\Models\User;
+use Exception;
 use Faker\Provider\Uuid;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
@@ -136,11 +137,14 @@ class UserConnexionController extends Controller
     public function callback(Request $request): JsonResponse|RedirectResponse
     {
 
-        $auth = Socialite::driver('discord')->user();
+        try {
+            $auth = Socialite::driver('discord')->user();
+        }catch(Exception $e){
 
+            Log::error('une errreur est survenue', collect($e)->toArray());
+            return redirect()->route('login')->with('error', 'une erreur est survenue');
+        }
 
-
-        $servers = Http::withToken($auth->token)->get('https://discord.com/api/v9/users/@me/guilds')->body();
 
 
         $userreq = Http::withToken($auth->token)->get('https://discord.com/api/v9/users/@me');

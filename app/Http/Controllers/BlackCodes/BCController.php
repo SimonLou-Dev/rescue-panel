@@ -24,6 +24,7 @@ use App\Models\Patient;
 use App\Models\Rapport;
 use App\Models\User;
 use App\Exporter\ExelPrepareExporter;
+use App\Jobs\ProcessEmbedBCGenerator;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
@@ -246,7 +247,7 @@ class BCController extends Controller
         $end = new \DateTime();
         $interval = $start->diff($end);
         $formated = $interval->format('%H h %I min(s)');
-        BcEmbedController::generateBCEndedEmbed($formated, $patients, $personnels, $bc);
+        ProcessEmbedBCGenerator::dispatch($formated, $bc, Auth::user()->name, \Discord::chanGet(DiscordChannel::BC));
         BlackCodeListEdited::dispatch();
         BlackCodeUpdated::dispatch($bc->id);
         NotifyForAll::broadcast('Fin du BC #'.$bc->id . ' à ' . $bc->place, 1);

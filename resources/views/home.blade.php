@@ -26,18 +26,26 @@
     <script>
         const csrf = '{{csrf_token()}}'
         const env = '{{env('APP_ENV')}}';
+        const errors = "{{$errors}}";
     </script>
 
-    <title>Rescue pannel - SAMS x LSCoFD</title>
+
+
+    <title>Rescue panel - SAMS x LSCoFD</title>
 
     <!-- META -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!--End META -->
 
+
     <!--Vite Assets-->
     {!! ViteGetAssets::asset('/js/app.jsx', ["react"])  !!}
     <!-- End Vite Assets -->
+
+    <!--Var with form errors-->
+    {!! ViteGetAssets::asset('/js/app.jsx', ["react"])  !!}
+    <!-- End Var with form errors -->
 
     <!-- JS LIBS - pusher -->
     <script src="https://js.pusher.com/7.0/pusher.min.js"></script>
@@ -47,8 +55,3 @@
 <div id="app"></div>
 </body>
 </html>
-<!--
-
-
-http://localhost:3000/assets/js/test/mains.jsx
-http://localhost:3000/assets/js/test/main/jsx
