@@ -16,5 +16,7 @@ class VerifyCsrfToken extends Middleware
         'http://127.0.0.1:8000/tunnel',
         'http://localhost:8000/tunnel',
         'https://rescue-panel.simon-lou.com/tunnel',
+        "https://rescue-panel.simon-lou.com/tunnel",
+        'tunnel','/tunnel'
     ];
 }

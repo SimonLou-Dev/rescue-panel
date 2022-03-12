@@ -287,6 +287,10 @@ if(env('APP_DEBUG') === true || env('APP_DEBUG') === "true"){
         Discord::chanUpdate(DiscordChannel::MedicLogistique, 923521332531048469);
     })->middleware('web');
 
+    Route::get('/auth/test', function (Request $req){
+        dd($req->getUri());
+    });
+
     Route::get('/auth/fake', [UserConnexionController::class, 'fake'])->middleware('guest');//disable
 }
 
