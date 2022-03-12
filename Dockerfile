@@ -56,7 +56,6 @@ RUN curl -sL https://deb.nodesource.com/setup_17.x | bash - \
 COPY --chown=$user:www-data . /var/www
 
 #Install And pm2
-RUN yarn global add pm2
 RUN mkdir /var/www/.pm2/
 
 # PHP Error Log Files

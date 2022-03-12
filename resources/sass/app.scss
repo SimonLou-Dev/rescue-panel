@@ -1198,8 +1198,9 @@ body{
         margin: 40px auto 0 auto;
         width: 85%;
         max-height: 80%;
-        overflow-y: hidden;
+        overflow-y: auto;
         border-radius: $border-radius;
+
         .table-header {
             display: flex;
             flex-direction: row;
