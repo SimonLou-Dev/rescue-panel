@@ -31,6 +31,7 @@ import MyAccount from "./Other/account/MyAccount";
 import ServiceNav from "../AuthComponent/ServiceNav";
 import Dashboard from "./Other/Dashboard";
 import Vols from "./logistique/Vols"
+import * as Sentry from "@sentry/react";
 
 
 function Layout(props) {
@@ -48,6 +49,7 @@ function Layout(props) {
             userid = response.data.user.id;
             setUser(response.data.user);
             setService(response.data.user.service);
+            Sentry.setUser({id: response.data.user.id, discord_id: response.data.user.discord_id, service: response.data.user.service})
         })
         const timerID = setInterval(
             () => tick(),
@@ -69,6 +71,7 @@ function Layout(props) {
 
         window.UserChannel.bind('UserUpdated', (e)=>{
             setUser(e.userInfos);
+            console.log(e)
             setService(e.userInfos.service);
         })
 

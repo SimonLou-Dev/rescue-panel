@@ -41,7 +41,7 @@ function DossiersPatient(props) {
             setbloodgroup(patient.blood_group);
             if (r.data.number === 0) {
                 setImpaye(false);
-                setImpayePhrase('aucun impayé auprès de l\'OMC ');
+                setImpayePhrase('aucun impayé');
             } else {
                 setImpaye(true);
                 setImpayePhrase(r.data.number + " factures à payer ($" + r.data.montant + ")");

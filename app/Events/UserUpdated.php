@@ -2,6 +2,7 @@
 
 namespace App\Events;
 
+use App\Models\Grade;
 use App\Models\User;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
@@ -22,7 +23,17 @@ class UserUpdated implements ShouldBroadcastNow
 
     )
     {
-        $this->user->grade = $this->user->getUserGradeInService();
+
+        if(is_null($this->user->service)){
+            $this->user->grade = Grade::first();
+        }else{
+            if($this->user->service === 'SAMS'){
+                $this->user->grade = Grade::where('id', $this->user->medic_grade_id)->first();
+            }else{
+                $this->user->grade = Grade::where('id', $this->user->fire_grade_id)->first();
+            }
+        }
+
 
         $collect = collect($this->user->grade->getAttributes());
         $collect = $collect->except(['service','name','power','discord_role_id','id']);
@@ -30,6 +41,12 @@ class UserUpdated implements ShouldBroadcastNow
             $b = $this->user->grade->getAttributeValue($key);
             $this->user->grade[$key] = ($b === "1" || $b === true || $b === 1 );
         }
+        $fireGrade = Grade::where('id', $this->user->fire_grade_id)->first();
+        $medicGrade = Grade::where('id', $this->user->medic_grade_id)->first();
+        $this->user->get_fire_grade = $fireGrade->name;
+        $this->user->get_medic_grade = $medicGrade->name;
+        $this->user->sanctions = json_decode($this->user->sanctions);
+        $this->user->materiel = json_decode($this->user->materiel);
     }
 
     /**

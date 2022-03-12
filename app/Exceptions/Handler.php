@@ -35,7 +35,7 @@ class Handler extends ExceptionHandler
             event(new Notify("Vous n'avez pas la permission",4, \Auth::user()->id));
         }
 
-        if (app()->bound('sentry') && $this->shouldReport($exception)) {
+        if (app()->bound('sentry')) {
             app('sentry')->captureException($exception);
         }
 

@@ -120,21 +120,38 @@ function FichePersonnel(props) {
             </section>
             <section className={'material'}>
                 <div className={'material-list'}>
-                    <div className={'material-item'}>
-                        <img src={'/assets/images/material/fire-extinguisher.png'} alt={''}/><p>extincteur</p>
-                    </div>
-                    <div className={'material-item'}>
-                        <img src={'/assets/images/material/flare.png'} alt={''}/> <p>flare</p>
-                    </div>
-                    <div className={'material-item'}>
-                        <img src={'/assets/images/material/flaregun.png'} alt={''}/> <p>flare-gun</p>
-                    </div>
-                    <div className={'material-item'}>
-                        <img src={'/assets/images/material/flashlights.png'} alt={''}/> <p>flashlights</p>
-                    </div>
-                    <div className={'material-item'}>
-                        <img src={'/assets/images/material/kevlar.png'} alt={''}/> <p>kevlar</p>
-                    </div>
+
+                    {user.length != 0 && user.materiel != null && user.materiel.extincteur &&
+                        <div className={'material-item'}>
+                            <img src={'/assets/images/material/fire-extinguisher.png'} alt={''}/><p>extincteur</p>
+                        </div>
+                    }
+                    {user.length != 0 && user.materiel != null && user.materiel.flare &&
+                        <div className={'material-item'}>
+                            <img src={'/assets/images/material/flaregun.png'} alt={''}/> <p>flare</p>
+                        </div>
+                    }
+                    {user.length != 0 && user.materiel != null && user.materiel.flaregun &&
+                        <div className={'material-item'}>
+                            <img src={'/assets/images/material/flaregun.png'} alt={''}/> <p>flare-gun</p>
+                        </div>
+                    }
+                    {user.length != 0 && user.materiel != null && user.materiel.flashlight &&
+                        <div className={'material-item'}>
+                            <img src={'/assets/images/material/flashlights.png'} alt={''}/> <p>flashlights</p>
+                        </div>
+
+                    }
+                    {user.length != 0 && user.materiel != null && user.materiel.kevlar &&
+                        <div className={'material-item'}>
+                            <img src={'/assets/images/material/kevlar.png'} alt={''}/> <p>kevlar</p>
+                        </div>
+                    }
+
+
+
+
+
                                     </div>
             </section>
         </section>

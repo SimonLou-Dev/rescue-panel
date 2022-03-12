@@ -20,9 +20,10 @@ class PrimesController extends Controller
     public static function AddValidPrimesToUser(int $userId, int $primeId){
         $prime = new Prime();
         $prime->week_number = ServiceGetterController::getWeekNumber();
-        $prime->user_id = 0;
+        $prime->user_id = $userId;
         $prime->montant = 700;
         $prime->reason = 'Participation à un BC';
+        $prime->admin_id = 0;
         $prime->accepted = true;
         $user = User::where('id',$userId)->first();
         $prime->service = ($user->medic ? 'SAMS' : 'LSCoFD');

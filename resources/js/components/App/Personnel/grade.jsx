@@ -206,7 +206,7 @@ function grade(props) {
                                     <td><SwitchBtn number={'18'} checked={gradeSelected.BC_fire_personnel_add} callback={()=>{updateGrade('BC_fire_personnel_add')}}/></td>
                                     <td><SwitchBtn number={'19'} checked={gradeSelected.BC_fire_view} callback={()=>{updateGrade('BC_fire_view')}}/></td>
                                     <td><SwitchBtn number={'20'} checked={gradeSelected.BC_medic_view} callback={()=>{updateGrade('BC_medic_view')}}/></td>
-                                    <td><SwitchBtn number={'21'} checked={gradeSelected.BC_BC_edit} callback={()=>{updateGrade('BC_BC_edit')}}/></td>
+                                    <td><SwitchBtn number={'21'} checked={gradeSelected.BC_edit} callback={()=>{updateGrade('BC_BC_edit')}}/></td>
                                 </tr>
                                 </tbody>
                             </table>

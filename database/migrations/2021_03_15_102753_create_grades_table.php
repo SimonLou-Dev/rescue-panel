@@ -39,7 +39,7 @@ class CreateGradesTable extends Migration
 
             //dossiers
             $table->boolean('dossier_view')->default(false);
-            $table->boolean('dosssier_HS')->default(false);
+            $table->boolean('dossier_HS')->default(false);
             $table->boolean('patient_edit')->default(false);
 
             //BC

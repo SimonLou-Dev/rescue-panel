@@ -16,7 +16,7 @@ import ReactDOM from 'react-dom';
 import '../../public/css/app.css';
 import * as Sentry from "@sentry/react";
 import NotificationsProvider from "./components/context/NotificationProvider";
-import {BrowserRouter, Route, Switch} from "react-router-dom";
+import {BrowserRouter, Route, Router, Switch} from "react-router-dom";
 import Login from "./components/AuthComponent/Login";
 import Register from "./components/AuthComponent/Register";
 import Maintenance from "./components/Maintenance";
@@ -24,6 +24,23 @@ import GetInfos from "./components/AuthComponent/GetInfos";
 import Cantaccess from "./components/AuthComponent/Cantaccess";
 import Layout from "./components/App/Layout";
 import ServiceNav from "./components/AuthComponent/ServiceNav";
+
+import {BrowserTracing} from "@sentry/tracing/dist/browser";
+import { createBrowserHistory } from "history";
+const history = createBrowserHistory();
+
+
+  Sentry.init({
+      dsn: "https://ec1a216e59c74431bf2c5fcf0567104f@sentry.simon-lou.com/3",
+      tunnel: "/tunnel",
+      integrations: [
+          new BrowserTracing({
+              routingInstrumentation: Sentry.reactRouterV5Instrumentation(history),
+          }),
+
+     ],
+      tracesSampleRate: 1.0,
+  });
 
 class App extends React.Component{
     constructor(props) {
@@ -34,8 +51,9 @@ class App extends React.Component{
     render() {
         return(
             <Sentry.ErrorBoundary showDialog>
+
                 <NotificationsProvider>
-                    <BrowserRouter>
+                    <Router history={history}>
                         <Switch>
                             <Route path='/login' component={Login}/>
                             <Route path='/register' component={Register}/>
@@ -46,7 +64,7 @@ class App extends React.Component{
 
                             <Layout/>
                         </Switch>
-                    </BrowserRouter>
+                    </Router>
                 </NotificationsProvider>
             </Sentry.ErrorBoundary>
         )

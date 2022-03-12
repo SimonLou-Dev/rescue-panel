@@ -2453,7 +2453,7 @@ body {
   margin: auto auto;
 }
 .dashboard .left .utils {
-  height: calc(100% - 70px);
+  height: calc(47%);
   overflow-y: auto;
   width: 100%;
 }

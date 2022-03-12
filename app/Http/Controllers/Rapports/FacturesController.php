@@ -73,7 +73,7 @@ class FacturesController extends Controller
         $facture->payement_confirm_id = Auth::user()->id;
         $facture->save();
         $embed = self::EmbedFactureCreator($facture);
-        if(!is_null($facture->discord_msg_id)){
+        if(is_null($facture->discord_msg_id)){
             \Discord::postMessage(DiscordChannel::Facture, $embed, $facture);
         }else{
             \Discord::updateMessage(DiscordChannel::Facture, $facture->discord_msg_id, $embed);

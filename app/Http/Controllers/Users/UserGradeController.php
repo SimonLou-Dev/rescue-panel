@@ -72,9 +72,23 @@ class UserGradeController extends Controller
     public function GetUserPerm(Request $request): JsonResponse
     {
         $user = User::where('id', Auth::id())->first();
-        $user->grade = $user->getUserGradeInService();
-        $user->GetMedicGrade;
-        $user->GetFireGrade;
+
+        if(is_null($user->service)){
+            $user->grade = Grade::first();
+        }else{
+            if($user->service === 'SAMS'){
+                $user->grade = Grade::where('id', $user->medic_grade_id)->first();
+            }else{
+                $user->grade = Grade::where('id', $user->fire_grade_id)->first();
+            }
+        }
+        $user->sanctions = json_decode($user->sanctions);
+        $user->materiel = json_decode($user->materiel);
+
+        $fireGrade = Grade::where('id', $user->fire_grade_id)->first();
+        $medicGrade = Grade::where('id', $user->medic_grade_id)->first();
+        $user->get_fire_grade = $fireGrade->name;
+        $user->get_medic_grade = $medicGrade->name;
 
         $collect = collect($user->grade->getAttributes());
         $collect = $collect->except(['service','name','power','discord_role_id','id']);

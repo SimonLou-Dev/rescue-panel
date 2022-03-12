@@ -259,9 +259,11 @@ Route::put('/data/infosutils/put', [MainController::class, 'updateUtilsInfos'])-
 //Errors & bug reporter DISABLED
 /*
 Route::post('/data/front/errors', [ErrorsController::class, 'frontErrors']);
-Route::any('/tunnel', [ErrorsController::class, 'tunelSentry']);
+
 Route::post('/data/bug', [MainController::class, 'postBug']);
 */
+
+Route::any('/tunnel', [ErrorsController::class, 'tunelSentry']);
 //Searching
 Route::get('/data/patient/search/{text}', [SearchController::class, 'searchPatient'])->middleware(['auth']);
 Route::get('/data/users/search/{user}', [SearchController::class, 'searchUser'])->middleware(['auth']);

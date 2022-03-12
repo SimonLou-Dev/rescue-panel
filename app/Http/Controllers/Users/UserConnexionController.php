@@ -169,6 +169,7 @@ class UserConnexionController extends Controller
             $createuser->email =  $userinfos->email;
             $createuser->discord_id = $userinfos->id;
             $createuser->save();
+            $user = $createuser;
         }
         $user->GetMedicGrade;
         $user->GetFireGrade;

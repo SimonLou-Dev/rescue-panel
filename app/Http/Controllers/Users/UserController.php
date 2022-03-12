@@ -87,7 +87,7 @@ class UserController extends Controller
 
         $url = $request->url() . '?query='.urlencode($request->query('query')).'&page=';
         $totalItem = $users->count();
-        $valueRounded = ceil($totalItem / 5);
+        $valueRounded = ceil($totalItem / 20);
         $maxPage = (int) ($valueRounded == 0 ? 1 : $valueRounded);
         //Creation of Paginate Searchable result
         $array = [
