@@ -64,7 +64,6 @@ class RapportController extends Controller
             'name'=>['required', 'string','regex:/[a-zA-Z.+_]+\s[a-zA-Z.+_]/'],
             'startinter'=>['required', 'different:0'],
             'tel'=>['tel'=> 'required','regex:/5{3}-\d\d/'],
-            'bloodgroup'=>['regex:/(A|B|AB|O)[+-]/'],
             'type'=>['required', 'different:0'],
             'transport'=>['required', 'different:0'],
             'desc'=>['required'],
@@ -91,7 +90,8 @@ class RapportController extends Controller
         if(isset($request->ddn)){
             $Patient->naissance  = $request->ddn;
         }
-        if(isset($request->bloodgroup)){
+        if(isset($request->bloodgroup) && $request->bloodgroup != ''){
+            $request->validate(['bloodgroup'=>['regex:/(A|B|AB|O)[+-]/']]);
             $Patient->blood_group  = $request->bloodgroup;
         }
         if(isset($request->liveplace)){

@@ -39,10 +39,14 @@ class ServiceGetterController extends Controller
         }else{
             $week = (int) $week;
         }
-        $users = User::where('medic', true)->orWhere('fire', true)->get();
+        $users = User::all();
         $users = $users->filter(function ($item, $key){
             $item->grade = $item->getUserGradeInService();
-            return \Gate::allows('view', $item) && ($item->grade->name !== 'default') && ($item->grade->name !== "staff");
+            $prq = \Gate::allows('view', $item) && (!is_null($item->service)) && ($item->grade->name !== 'default') && ($item->grade->name !== "staff");
+            if(($item->isInFireUnit() && Session::get('service')[0] === 'LSCoFD') || ($item->isInMedicUnit() && Session::get('service')[0] === 'SAMS')){
+                return $prq;
+            }
+            return false;
         });
 
         $column[] = array('Membre','grade', 'n° de compte','primes', 'Remboursements', 'dimanche', 'lundi', 'mardi', 'mercredi', 'jeudi', 'vendredi', 'samedi', 'ajustement', 'total');
@@ -50,12 +54,12 @@ class ServiceGetterController extends Controller
 
         foreach ($users as $user){
 
-            $service = $user->GetWeekServices->where('week_number', $week)->first();
-            $remboursement=$user->GetRemboursement->where('week_number', $week)->first();
-            $primes = Prime::where('user_id', $user->id)->where('week_number', $week)->get();
+            $service = $user->GetWeekServices->where('week_number', $week)->where('service', Session::get('service')[0])->first();
+            $remboursement=$user->GetRemboursement->where('week_number', $week)->where('service', Session::get('service')[0])->first();
+            $primes = Prime::where('user_id', $user->id)->where('service', Session::get('service')[0])->where('week_number', $week)->get();
             $total = 0;
             foreach ($primes as $prime){
-                $total = $total + $prime->montant;
+                $total =+ $prime->montant;
             }
             if(Session::get('service')[0] == 'SAMS'){
                 $grade = $user->GetMedicGrade;
@@ -68,7 +72,7 @@ class ServiceGetterController extends Controller
                     'Membre'=> $user->name,
                     'grade'=>$grade->name,
                     'n° de compte'=>$user->compte,
-                    'primes'=>$total,
+                    'primes'=>$total !== 0 ?? '0',
                     'Remboursements'=> isset($remboursement) ? $remboursement->total : '0',
                     'dimanche'=>$service->dimanche,
                     'lundi'=>$service->lundi,
@@ -106,18 +110,6 @@ class ServiceGetterController extends Controller
 
     public function getUserService(): \Illuminate\Http\JsonResponse
     {
-        /**
-         *
-         * $users = $users->filter(function ($item){
-        $medic = false;
-        $fire = false;
-        if($item->isInFireUnit() && $item->GetFireGrade->name !== 'default') $fire = true;
-        if($item->isInMedicUnit() && $item->GetMedicGrade->name !== 'default') $medic = true;
-
-        return \Gate::allows('view', $item) && ( $fire || $medic);
-        });
-         */
-
 
 
         $date = $this::getWeekNumber();
@@ -243,7 +235,7 @@ class ServiceGetterController extends Controller
 
         $url = $request->url() . '?query='.urlencode($request->query('query')).'&page=';
         $totalItem = $service->count();
-        $valueRounded = ceil($totalItem / 5);
+        $valueRounded = ceil($totalItem / 20);
         $maxPage = (int) ($valueRounded == 0 ? 1 : $valueRounded);
         //Creation of Paginate Searchable result
         $array = [
@@ -258,6 +250,17 @@ class ServiceGetterController extends Controller
         return response()->json([
             'service'=>$array,
             'maxweek'=>$max,
+        ]);
+    }
+
+    public function getUserOnServiceInUnit(Request $request){
+        $users = User::where('service', Session::get('service')[0])->where('OnService', true)->get();
+        $array = [];
+        foreach ($users as $user){
+            array_push($array, ['name'=>$user->name, 'id'=>$user->id]);
+        }
+        return response()->json([
+            'users'=>$array
         ]);
     }
 }

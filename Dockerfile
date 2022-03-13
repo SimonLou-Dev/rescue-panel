@@ -66,7 +66,6 @@ RUN touch /var/log/php/errors.log && chmod 777 /var/log/php/errors.log
 COPY crontab /etc/crontabs/root
 
 # Deployment steps
-RUN composer remove fidelopper/proxy
 RUN composer install --optimize-autoloader --no-dev
 RUN yarn install
 RUN chmod +x /var/www/run.sh

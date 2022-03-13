@@ -123,6 +123,7 @@ input, select, textarea {
     border: none;
     border-radius: $border-radius;
     padding: 10px;
+    height: 50px;
 
     &::placeholder {
         color: $lighttext;
@@ -199,7 +200,7 @@ a{
     flex-direction: column;
 }
 .form-input{
-    height: 50px;
+    height: 30px;
 }
 .form-error{
     p{

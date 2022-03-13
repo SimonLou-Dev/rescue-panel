@@ -2028,9 +2028,8 @@ body{
             }
         }
         .utils{
-            height: 90%;
+            height: 52%;
             width: 100%;
-
             a{
                 text-decoration: lightblue underline 1px;
             }
@@ -2038,6 +2037,34 @@ body{
                 height: calc(100% - 105px);
                 overflow-y: scroll;
             }
+        }
+        .service{
+            height: 32%;
+            width: 100%;
+            .card-content{
+                margin: auto auto;
+                width: 90%;
+                height: calc(100% - 105px);
+                overflow-y: scroll;
+                .list-user{
+                    display: flex;
+                    flex-direction: row;
+                    flex-wrap: wrap;
+                    justify-content: space-evenly;
+                }
+                .user-tag{
+                    margin: 5px;
+                    background-color: $bg2;
+                    border-radius: $border-radius;
+                    padding: 5px 12px;
+                    p{
+                        margin: 0;
+                        word-wrap: unset;
+                        word-break: keep-all;
+                    }
+                }
+            }
+
         }
     }
 }

@@ -96,7 +96,7 @@ return [
     'numeric' => 'The :attribute must be a number.',
     'password' => 'The password is incorrect.',
     'present' => 'The :attribute field must be present.',
-    'regex' => 'Ce champs doit être sous la forme : prénom nom',
+    'regex' => 'le format est invalide',
     'required' => 'Ce champs est obligatoire',
     'required_if' => 'The :attribute field is required when :other is :value.',
     'required_unless' => 'The :attribute field is required unless :other is in :values.',

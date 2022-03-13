@@ -121,38 +121,34 @@ function FichePersonnel(props) {
             <section className={'material'}>
                 <div className={'material-list'}>
 
-                    {user.length != 0 && user.materiel != null && user.materiel.extincteur &&
+                    {user.materiel != null && user.materiel.extincteur &&
                         <div className={'material-item'}>
                             <img src={'/assets/images/material/fire-extinguisher.png'} alt={''}/><p>extincteur</p>
                         </div>
                     }
-                    {user.length != 0 && user.materiel != null && user.materiel.flare &&
+                    {user.materiel != null && user.materiel.flare &&
                         <div className={'material-item'}>
                             <img src={'/assets/images/material/flaregun.png'} alt={''}/> <p>flare</p>
                         </div>
                     }
-                    {user.length != 0 && user.materiel != null && user.materiel.flaregun &&
+                    {user.materiel != null && user.materiel.flaregun &&
                         <div className={'material-item'}>
                             <img src={'/assets/images/material/flaregun.png'} alt={''}/> <p>flare-gun</p>
                         </div>
                     }
-                    {user.length != 0 && user.materiel != null && user.materiel.flashlight &&
+                    {user.materiel != null && user.materiel.flashlight &&
                         <div className={'material-item'}>
                             <img src={'/assets/images/material/flashlights.png'} alt={''}/> <p>flashlights</p>
                         </div>
 
                     }
-                    {user.length != 0 && user.materiel != null && user.materiel.kevlar &&
+                    {user.materiel != null && user.materiel.kevlar &&
                         <div className={'material-item'}>
                             <img src={'/assets/images/material/kevlar.png'} alt={''}/> <p>kevlar</p>
                         </div>
                     }
-
-
-
-
-
-                                    </div>
+                    
+                </div>
             </section>
         </section>
         <section className={'center-part ' + (sanctionPopup ? 'popupBg':'') + (materialPopup ? 'popupBg':'') }>
