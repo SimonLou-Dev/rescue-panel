@@ -25,6 +25,8 @@ function ListPersonnel(props) {
         }
         if(a !== search){
             setSearch(a);
+            c = 1;
+            setPage(1);
         }
         await axios({
             url : '/data/users/getall' +'?query='+a+'&page='+c,
@@ -86,7 +88,7 @@ function ListPersonnel(props) {
                             }}>
                                 <option value={1} disabled={true}>sans grade</option>
                                 {gradeList && gradeList.map((g)=>
-                                    <option key={g.id+'.'+u.id} value={g.id} disabled={(g.name === 'default')}>{g.name}</option>
+                                    <option key={g.id+'.'+u.id} value={g.id} disabled={(g.name === 'default')}>{g.name} {gle.dev === true && ' ' + g.service}</option>
                                 )}
                             </select></td>
                             <td>

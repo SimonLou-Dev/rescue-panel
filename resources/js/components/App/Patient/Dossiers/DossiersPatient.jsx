@@ -53,11 +53,20 @@ function DossiersPatient(props) {
        props.history.push(url)
     }
 
-    const searcher = async (v) => {
-        setSearch(v);
+    const searcher = async (v = search, p = page) => {
+        if(v !== search){
+            setPage(1)
+            p = 1
+            setSearch(v);
+        }
+        if(p != page){
+            setPage(p)
+        }
+
+
         await axios({
             method: 'GET',
-            url: '/data/patient/getAll?query='+v+"&page="+page,
+            url: '/data/patient/getAll?query='+v+"&page="+p,
         }).then(response => {
             setPatients(response.data.patients.data);
             setPagination(response.data.patients);
@@ -94,8 +103,8 @@ function DossiersPatient(props) {
     return (<div className={"dossiers"}>
         <section className={'table'}>
             <div className={'table-header'}>
-                <Searcher value={search} callback={(v) => {searcher(v)}}/>
-                <PageNavigator prev={()=> {setPage(page-1)}} next={()=> {setPage(page+1)}} prevDisabled={(pagination.prev_page_url === null)} nextDisabled={(pagination.next_page_url === null)}/>
+                <Searcher value={search} callback={(v) => {searcher(v.target.value)}}/>
+                <PageNavigator prev={()=> {searcher(search,page-1)}} next={()=> {searcher(search,page+1)}} prevDisabled={(pagination.prev_page_url === null)} nextDisabled={(pagination.next_page_url === null)}/>
             </div>
             <div className={'table-content'}>
                 <table>
@@ -130,7 +139,7 @@ function DossiersPatient(props) {
                 <CardComponent title={'Informations'}>
                     <div className={'form-item form-column'}>
                         <label>prénom nom</label>
-                        <input type={'text'} className={'form-input'} value={name} onChange={(e)=>{setName(e.target.value), searchPatient(e.target.value)}}/>
+                        <input type={'text'} className={'form-input'} value={name} onChange={(e)=>{setName(e.target.value)}}/>
                         {errors.name &&
                             <div className={'errors-list'}>
                                 <ul>

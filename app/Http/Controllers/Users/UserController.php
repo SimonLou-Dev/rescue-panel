@@ -42,11 +42,18 @@ class UserController extends Controller
         $me = User::where('id', Auth::user()->id)->first();
         $meService = Session::get('service')[0];
         if($meService === null || $meService === '') $meService = $me->service;
-        $users = User::search($request->query('query'))->get();
+        if(is_null($request->query('query'))){
+            $users = User::all();
+        }else{
+            $users = User::search($request->query('query'))->get();
+        }
+
+
         $queryPage = (int) $request->query('page');
         $readedPage = ($queryPage ?? 1) ;
         $readedPage = (max($readedPage, 1));
         $forgetable = array();
+
         for($a = 0; $a < $users->count(); $a++){
             if(!$me->dev){
                 $user = $users[$a];
@@ -62,9 +69,12 @@ class UserController extends Controller
             }
         }
 
+
         foreach ($forgetable as $it){
             $users->forget($it);
         }
+
+
 
 
         $users = $users->filter(function ($item){
@@ -411,15 +421,6 @@ class UserController extends Controller
         foreach ($forgetable as $it){
             $users->forget($it);
         }
-        foreach ($users as $user){
-            if($meService === 'SAMS'){
-                $user->grade = $user->GetMedicGrade;
-            }if($meService === 'LSCoFD'){
-                $user->grade =$this->GetFireGrade;
-            }
-
-        }
-
 
         $users = $users->filter(function ($item){
             $medic = false;
@@ -429,6 +430,16 @@ class UserController extends Controller
 
             return \Gate::allows('view', $item) && ( $fire || $medic);
         });
+
+        foreach ($users as $user){
+            if($meService === 'SAMS'){
+                $user->grade = $user->GetMedicGrade;
+            }if($meService === 'LSCoFD'){
+                $user->grade = $user->GetFireGrade;
+            }
+
+        }
+
 
         $column[] = array('id','nom', 'matricule', 'grade', 'discordid', 'tel', 'compte', 'pilote','service d\'arrivée','cross service', 'nombre de sanctions');
 

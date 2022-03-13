@@ -42,11 +42,15 @@ function FactureList(props) {
     }, []);
 
     const patientList = async (a = search , c = page) => {
+
+
         if(c !== page){
             setPage(c);
         }
         if(a !== search){
             setSearch(a);
+            setPage(1)
+            c = 1
         }
         await axios({
             url : '/data/facture/list?query='+a+'&page='+c,

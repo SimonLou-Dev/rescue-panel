@@ -121,7 +121,7 @@ function MyInfo(props) {
                 <section className={'sanctions'}>
                     <h1>sanctions</h1>
                     <ul>
-                        {user.sanctions.length !== 0 && user.sanctions.map((s)=>
+                        {user.sanctions !== null && user.sanctions.length !== 0 && user.sanctions.map((s)=>
                             <li className={'sanctionTag'} key={s.prononcedam} >
                                 {s.prononcedam} - {s.type} : {s.reason}
                             </li>

@@ -10,10 +10,9 @@
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
-
+import "../sass/app.scss";
 import React from 'react';
 import ReactDOM from 'react-dom';
-import '../../public/css/app.css';
 import * as Sentry from "@sentry/react";
 import NotificationsProvider from "./components/context/NotificationProvider";
 import {BrowserRouter, Route, Router, Switch} from "react-router-dom";
@@ -24,6 +23,9 @@ import GetInfos from "./components/AuthComponent/GetInfos";
 import Cantaccess from "./components/AuthComponent/Cantaccess";
 import Layout from "./components/App/Layout";
 import ServiceNav from "./components/AuthComponent/ServiceNav";
+import { ReportingObserver as ReportingObserverIntegration,
+    ExtraErrorData as ExtraErrorDataIntegration,
+    CaptureConsole as CaptureConsoleIntegration} from "@sentry/integrations";
 
 import {BrowserTracing} from "@sentry/tracing/dist/browser";
 import { createBrowserHistory } from "history";
@@ -33,11 +35,15 @@ const history = createBrowserHistory();
   Sentry.init({
       dsn: "https://ec1a216e59c74431bf2c5fcf0567104f@sentry.simon-lou.com/3",
       tunnel: "/tunnel",
+      environment: import.meta.env,
       integrations: [
           new BrowserTracing({
               routingInstrumentation: Sentry.reactRouterV5Instrumentation(history),
-          }),
-
+          }),new ExtraErrorDataIntegration({ depth: 3,}),
+          new CaptureConsoleIntegration({levels: ['warn', 'error'],}),
+          new ReportingObserverIntegration(
+              {types: ["crash", "deprecation","intervention"]}
+          )
      ],
       tracesSampleRate: 1.0,
   });

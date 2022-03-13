@@ -1,4 +1,4 @@
-<!DOCTYPE>
+<!DOCTYPE html>
 <html lang="{{str_replace('_','-', app()->getLocale())}}">
 <head>
 
@@ -43,9 +43,6 @@
     {!! ViteGetAssets::asset('/js/app.jsx', ["react"])  !!}
     <!-- End Vite Assets -->
 
-    <!--Var with form errors-->
-    {!! ViteGetAssets::asset('/js/app.jsx', ["react"])  !!}
-    <!-- End Var with form errors -->
 
     <!-- JS LIBS - pusher -->
     <script src="https://js.pusher.com/7.0/pusher.min.js"></script>

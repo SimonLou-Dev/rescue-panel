@@ -156,10 +156,10 @@ class RapportController extends Controller
         ]);
 
 
-        if(Session::get('service')[0] === 'OMC'){
+        if(Session::get('service')[0] === 'SAMS'){
 
             $request->validate([
-                'pathology'=>['different:0', 'integer']
+                'pathology'=>['integer']
             ]);
         }
 
@@ -175,7 +175,7 @@ class RapportController extends Controller
             $rapport->ata = $request->ata;
         }
         $rapport->service = Session::get('service')[0];
-        if(isset($request->pathology)){
+        if(isset($request->pathology) && $request->pathology != 0){
             $rapport->pathology_id = $request->pathology;
         }
         $rapport->save();
@@ -268,7 +268,7 @@ class RapportController extends Controller
                 'inline'=>false
             ],
         ];//pathologie
-        if($service == 'SAMS' && !is_null($rapport->pathology_id)){
+        if($service == 'SAMS' && !is_null($rapport->pathology_id) && $rapport->pathology_id != 0){
             array_push($fields, [
                 'name'=>'pathologie : ',
                 'value'=>$rapport->GetPathology->name,

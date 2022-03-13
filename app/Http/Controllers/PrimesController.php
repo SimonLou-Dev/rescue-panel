@@ -21,7 +21,7 @@ class PrimesController extends Controller
         $prime = new Prime();
         $prime->week_number = ServiceGetterController::getWeekNumber();
         $prime->user_id = $userId;
-        $prime->montant = 700;
+        $prime->montant = 0;
         $prime->reason = 'Participation à un BC';
         $prime->admin_id = 0;
         $prime->accepted = true;

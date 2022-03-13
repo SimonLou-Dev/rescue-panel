@@ -18,7 +18,7 @@ class HomeController extends Controller
      * @param string|null $a
      * @return Application|Factory|View
      */
-    public function getIndex(Request $request, string $a =null){
+    public function getIndex(Request $request){
         $value = $request->session()->get('error', '');
         $request->session()->forget('error');
         return view("home",['errors'=> $value]);

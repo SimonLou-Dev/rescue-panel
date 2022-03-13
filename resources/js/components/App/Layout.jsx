@@ -56,7 +56,7 @@ function Layout(props) {
             5*60*1000
         );
 
-        Pusher.logToConsole = true;
+        Pusher.logToConsole = false;
 
         let pusher = new Pusher('fd78f74e8faecbd2405b', {
             cluster: 'eu',
@@ -71,7 +71,6 @@ function Layout(props) {
 
         window.UserChannel.bind('UserUpdated', (e)=>{
             setUser(e.userInfos);
-            console.log(e)
             setService(e.userInfos.service);
         })
 
@@ -150,6 +149,10 @@ function Layout(props) {
             if(error.response.status === 503){
                 window.location.replace('/maintenance')
             }
+            if(error.response.status === 401){
+                window.location.replace('/login')
+            }
+            window.location.replace('/login');
         })
 
     }

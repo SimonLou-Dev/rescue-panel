@@ -18,9 +18,14 @@ class ServiceSetterController extends Controller
 
         $user = User::where('id', $userid)->first();
         $this->authorize('setOtherService', $user);
-        $logs = new LogsController();
-        $logs->ServiceLogging($userid .  " was changed", Auth::user()->id);
-        OperatorController::setService($user, true);
+        if(is_null($user->service) || is_null($user->name)){
+            Notify::dispatch("Impossible de modier le service de cet utilisateur", 4, Auth::user()->id);
+        }else{
+            $logs = new LogsController();
+            $logs->ServiceLogging($userid .  " was changed", Auth::user()->id);
+            OperatorController::setService($user, true);
+        }
+
         return response()->json(['status'=>'OK']);
     }
 

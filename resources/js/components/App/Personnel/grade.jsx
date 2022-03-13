@@ -47,7 +47,9 @@ function grade(props) {
                     <tbody>
                         {gradeList && gradeList.map((g)=>
                             <tr key={g.id} onClick={()=>{selectGrade(g)}}>
-                                <td className={'grade'}>{g.name}</td>
+                                <td className={'grade'}>{g.name}
+                                    {me.dev === true && ' ' + g.service}
+                                </td>
                                 <td className={'power'}>{g.power}</td>
                             </tr>
                         )}

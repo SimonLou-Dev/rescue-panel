@@ -80,7 +80,7 @@ class PatientController extends Controller
         return null;
     }
 
-    public function updatePatientInfos(Request $request, int $id): \Illuminate\Http\JsonResponse
+    public function updatePatientInfos(Request $request, string $id): \Illuminate\Http\JsonResponse
     {
         \Gate::authorize('patient-edit', User::where('id', \Auth::user()->id)->first());
         $request->validate([

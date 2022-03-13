@@ -44,9 +44,14 @@ function TestPoudre(props) {
         if(newpage !== page){
             setPage(newpage);
         }
-        setSearch(searche)
+
+        if(searche !== search){
+            setSearch(searche);
+            setPage(1)
+            newpage = 1
+        }
         await axios({
-            url : '/data/poudre/get?query='+searche+'&page='+page,
+            url : '/data/poudre/get?query='+searche+'&page='+newpage,
             method: 'GET'
         }).then(r => {
             setTest(r.data.tests.data)
