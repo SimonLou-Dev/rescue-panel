@@ -147,7 +147,7 @@ function FichePersonnel(props) {
                             <img src={'/assets/images/material/kevlar.png'} alt={''}/> <p>kevlar</p>
                         </div>
                     }
-                    
+
                 </div>
             </section>
         </section>

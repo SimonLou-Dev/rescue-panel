@@ -282,7 +282,7 @@ if(env('APP_DEBUG') === true || env('APP_DEBUG') === "true"){
     })->middleware('web');
 
     Route::get('/auth/test', function (Request $req){
-        dd($req->getUri());
+        return response()->json(['name'=>\App\Models\User::where('id',1)->first()]);
     });
 
     Route::get('/auth/fake', [UserConnexionController::class, 'fake'])->middleware('guest');//disable

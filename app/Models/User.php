@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -59,11 +60,20 @@ class User extends Authenticatable
         'sanctions'=>'array',
         'materiel'=>'array',
         'note'=>'array',
-        'notification_preference'=>'array'
+        'notification_preference'=>'array',
     ];
 
     protected $table = "Users";
     protected $fillable = ['grade_id','last_service_update', 'name', 'email', 'password', 'token', 'service', 'liveplace', 'tel', 'pilote', 'compte', 'timezone', 'bg_img','matricule','discord_id','sanctions','materiel','note'];
+
+    protected function discordId():Attribute
+    {
+        return new Attribute(
+            get: fn ($value) => ''.$value,
+            set: fn ($value) => (int) $value,
+        );
+    }
+
 
     public function GetRapports(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
