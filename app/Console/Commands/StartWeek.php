@@ -2,6 +2,8 @@
 
 namespace App\Console\Commands;
 
+use App\Http\Controllers\LayoutController;
+use App\Http\Controllers\Service\ServiceGetterController;
 use App\Models\DayService;
 use App\Models\WeekService;
 use Illuminate\Console\Command;
@@ -40,31 +42,36 @@ class StartWeek extends Command
      */
     public function handle()
     {
-        $week =  date('W', time());
+        $week = ServiceGetterController::getWeekNumber();
         $users = User::all();
-        $dayservice = WeekService::where('week_number', $week)->get('user_id');
-        $b = 0;
-        $array = array();
-        while($b < count($dayservice)){
-            array_push($array, $dayservice[$b]->user_id);
-            $b++;
+        $dayserviceFire = WeekService::where('week_number', $week)->where('service','LSCoFD')->get('user_id');
+        $dayserviceMedic = WeekService::where('week_number', $week)->where('service','SAMS')->get('user_id');
+        $FireArray = array();
+        $MedicArray = array();
+        foreach ($dayserviceFire as $fire){
+            array_push($FireArray, $fire->user_id);
         }
-        $a = 0;
+        foreach ($dayserviceMedic as $medic){
+            array_push($MedicArray, $medic->user_id);
+        }
         $datas = array();
 
+
         foreach($users as $usr){
-            if(($usr->isInFireUnit() || $usr->isInMedicUnit()) && !in_array($usr->id, $array) && !$usr->dev){
-                if($usr->isInFireUnit()){
-                    array_push($datas, ['week_number'=>$week, 'user_id'=>$users[$a]->id, 'service'=>'LSCoFD']);
+            if(($usr->isInFireUnit() || $usr->isInMedicUnit()) && !$usr->dev){
+                if($usr->isInFireUnit() && !in_array($usr->id, $FireArray)){
+                    array_push($datas, ['week_number'=>$week, 'user_id'=>$usr->id, 'service'=>'LSCoFD']);
                 }
-                if($usr->isInMedicUnit()){
-                    array_push($datas, ['week_number'=>$week, 'user_id'=>$users[$a]->id, 'service'=>'SAMS']);
+                if($usr->isInMedicUnit() && !in_array($usr->id, $MedicArray)){
+                    array_push($datas, ['week_number'=>$week, 'user_id'=>$usr->id, 'service'=>'SAMS']);
                 }
             }
         }
-
         WeekService::insert($datas);
         $this->info('Inserted');
+        $this->info('Importing for search');
+        $this->callSilently('scout:import', ['model'=>'App\Models\WeekService']);
+        $this->info('All entry of WeekService are imported');
         return 0;
     }
 }

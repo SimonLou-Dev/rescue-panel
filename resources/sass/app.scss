@@ -1197,8 +1197,7 @@ body{
     .PageCenter{
         margin: 40px auto 0 auto;
         width: 85%;
-        max-height: 80%;
-        overflow-y: auto;
+        height: calc(100vh - 130px);
         border-radius: $border-radius;
 
         .table-header {
@@ -1210,10 +1209,14 @@ body{
                 font-size: 28px;
                 margin: auto 0;
             }
+            select{
+                width: 200px !important;
+            }
             .selector{
                 margin: auto 0;
                 display: flex;
                 flex-direction: row;
+
                 input{
                     border-radius: $border-radius 0 0 $border-radius;
                     background-color: $bg1;
@@ -1221,6 +1224,7 @@ body{
                     &::-webkit-outer-spin-button, &::-webkit-inner-spin-button{
                         -webkit-appearance: none;
                     }
+
                 }
                 button{
                     margin: auto 0;
@@ -1239,7 +1243,12 @@ body{
                 }
             }
         }
+        td{
+            font-size: 18px;
+        }
         .table-container{
+            height: 90%;
+            overflow-y: auto;
             .link{
                 font-weight: 700;
                 cursor: pointer;
@@ -1672,11 +1681,12 @@ body{
 }
 
 .GradeList{
-    width: 100vw;
-    height: 100%;
+    width: calc(100vw - 40px);
+    height: calc(100vh - 120px);
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
+    padding: 20px;
     .grades-selector{
         width: 20%;
         min-width: 200px;
@@ -1965,6 +1975,7 @@ body{
         display: flex;
         flex-direction: column;
         justify-content: space-evenly;
+        height: 100%;
         .infos{
             padding: 10px;
             background-color: rgba(27,32,55,0.7);
@@ -1983,7 +1994,7 @@ body{
         .Card{
             width: 80%;
             margin: auto auto;
-            height: 55%;
+            height: 40%;
             overflow-y: auto;
         }
     }
@@ -1992,6 +2003,7 @@ body{
         flex-direction: row;
         justify-content: space-evenly;
         flex-wrap: wrap;
+
         .rect-item{
             margin: 5px;
             width: 45%;
@@ -2002,6 +2014,7 @@ body{
         padding-top: 10px;
         display: flex;
         flex-direction: column;
+        height: 100%;
         .me{
             padding: 10px;
             background-color: rgba(27,32,55,0.7);
@@ -2015,12 +2028,15 @@ body{
             }
         }
         .utils{
-            height: calc(47%);
-            overflow-y: auto;
+            height: 90%;
             width: 100%;
 
             a{
                 text-decoration: lightblue underline 1px;
+            }
+            .card-content{
+                height: calc(100% - 105px);
+                overflow-y: scroll;
             }
         }
     }

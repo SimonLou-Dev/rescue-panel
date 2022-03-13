@@ -42,7 +42,7 @@ class ServiceGetterController extends Controller
         $users = User::where('medic', true)->orWhere('fire', true)->get();
         $users = $users->filter(function ($item, $key){
             $item->grade = $item->getUserGradeInService();
-            return \Gate::allows('view', $item) && ($item->grade->name !== 'default');
+            return \Gate::allows('view', $item) && ($item->grade->name !== 'default') && ($item->grade->name !== "staff");
         });
 
         $column[] = array('Membre','grade', 'n° de compte','primes', 'Remboursements', 'dimanche', 'lundi', 'mardi', 'mercredi', 'jeudi', 'vendredi', 'samedi', 'ajustement', 'total');
@@ -191,7 +191,12 @@ class ServiceGetterController extends Controller
             $date = $this::getWeekNumber();
         }
 
-        $service = WeekService::search($request->query('query'))->get()->reverse();
+        if(is_null($request->query('query'))){
+            $service = WeekService::all();
+        }else{
+            $service = WeekService::search($request->query('query'))->get()->reverse();
+        }
+
         $queryPage = (int) $request->query('page');
         $readedPage = ($queryPage ?? 1) ;
         $readedPage = (max($readedPage, 1));
@@ -201,7 +206,8 @@ class ServiceGetterController extends Controller
 
         for($a = 0; $a < $service->count(); $a++){
             $searchedItem = $service[$a];
-            if($searchedItem->service !== $user->service){
+            $searchedItem->grade = $searchedItem->GetUser->getUserGradeInService();
+            if($searchedItem->service !== $user->service || $searchedItem->grade->name === "staff"){
                 array_push($forgetable, $a);
             }
 
