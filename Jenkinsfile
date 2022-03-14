@@ -21,15 +21,7 @@ pipeline {
       }
     }
 
-    stage('Cleaning assets') {
-      steps {
-        validateDeclarativePipeline 'Jenkinsfile'
-        sh 'rm ./public/assets/*.js'
-        sh 'rm ./public/assets/*.map'
-        sh "rm ./public/assets/*.css"
-        sh "rm ./public/assets/*.jpg"
-      }
-    }
+
 
     stage('Write .env [prod]') {
         steps{
@@ -92,7 +84,7 @@ pipeline {
 
     stage('Launch'){
         steps{
-            sh "ssh root@75.119.154.204 docker restart rescu-panel"
+            sh "ssh root@75.119.154.204 docker restart rescue-panel"
         }
     }
 
@@ -105,6 +97,16 @@ pipeline {
             sh "sentry-cli releases -p react files $SENTRY_RELEASE upload-sourcemaps --ext map ./public/assets/"
             sh "sentry-cli releases -p react -p laravel finalize $SENTRY_RELEASE"
             sh "sentry-cli releases -p react -p laravel deploys $SENTRY_RELEASE new -e $SENTRY_ENVIRONMENT"
+        }
+    }
+
+    stage('Clean'){
+        steps{
+            sh 'rm ./public/assets/*.js'
+            sh 'rm ./public/assets/*.map'
+            sh "rm ./public/assets/*.css"
+            sh "rm ./public/assets/*.jpg"
+            sh "rm .env"
         }
     }
   }
