@@ -50,7 +50,6 @@ pipeline {
 
     stage('Sentry version') {
         steps {
-            sh 'command -v sentry-cli || curl -sL https://sentry.io/get-cli/ | bash'
             sh "sentry-cli releases new -p laravel -p react $SENTRY_RELEASE"
             sh "sentry-cli releases set-commits $SENTRY_RELEASE --auto"
         }
