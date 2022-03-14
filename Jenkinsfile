@@ -76,13 +76,13 @@ pipeline {
     stage('Sentry version') {
         environment {
             SENTRY_AUTH_TOKEN = credentials('sentry-auth-token')
-            SENTRY_ORG = 'sample-organization-slug'
-            SENTRY_PROJECT = 'sample-project-slug'
+            SENTRY_ORG = 'simonlou'
             SENTRY_ENVIRONMENT = 'production'
+            SENTRY_RELEASE= '3.0.2'
+            SENTRY_URL='https://sentry.simon-lou.com/'
         }
         steps {
             sh 'command -v sentry-cli || curl -sL https://sentry.io/get-cli/ | bash'
-            sh "export SENTRY_RELEASE=$(sentry-cli releases propose-version)"
             sh "sentry-cli releases new -p laravel -p react $SENTRY_RELEASE"
             sh "sentry-cli releases set-commits $SENTRY_RELEASE --auto"
         }
@@ -97,11 +97,7 @@ pipeline {
 
     stage('Launch'){
         steps{
-            sh "ssh root@75.119.154.204 docker stop rescu-panel"
-            sh "ssh root@75.119.154.204 docker run -d --rm --env=DISCORD_REDIRECT_URI=https://rescue-panel.simon-lou.com/auth/callback --env=APP_URL=https://rescue-panel.simon-lou.com --volume=rescue-panel:/var/www/storage --network=nginx-proxy  --name rescue-panel simonloudev/rescue-panel:latest"
-            sh "sentry-cli releases files $SENTRY_RELEASE upload-sourcemaps ./public/"
-            sh "sentry-cli releases finalize $SENTRY_RELEASE"
-            sh "sentry-cli releases deploys $SENTRY_RELEASE new -e $SENTRY_ENVIRONMENT"
+            sh "ssh root@75.119.154.204 docker restart rescu-panel"
         }
     }
 
@@ -111,9 +107,9 @@ pipeline {
             sh "ssh root@75.119.154.204 mkdir /tmp/rescue-panel"
             sh "ssh root@75.119.154.204 docker cp rescue-panel:/var/www/public/assets/ /tmp/rescue-panel "
             sh "scp root@75.119.154.204:/tmp/rescue-panel/* ./public/assets/"
-            sh "sentry-cli releases files $SENTRY_RELEASE upload-sourcemaps --ext map ./public/assets/"
-            sh "sentry-cli releases finalize $SENTRY_RELEASE"
-            sh "sentry-cli releases deploys $SENTRY_RELEASE new -e $SENTRY_ENVIRONMENT"
+            sh "sentry-cli releases -p react files $SENTRY_RELEASE upload-sourcemaps --ext map ./public/assets/"
+            sh "sentry-cli releases -p react -p laravel finalize $SENTRY_RELEASE"
+            sh "sentry-cli releases -p react -p laravel deploys $SENTRY_RELEASE new -e $SENTRY_ENVIRONMENT"
         }
     }
   }
