@@ -103,7 +103,7 @@ function DossiersPatient(props) {
     return (<div className={"dossiers"}>
         <section className={'table'}>
             <div className={'table-header'}>
-                <Searcher value={search} callback={(v) => {searcher(v.target.value)}}/>
+                <Searcher value={search} callback={(v) => {searcher(v)}}/>
                 <PageNavigator prev={()=> {searcher(search,page-1)}} next={()=> {searcher(search,page+1)}} prevDisabled={(pagination.prev_page_url === null)} nextDisabled={(pagination.next_page_url === null)}/>
             </div>
             <div className={'table-content'}>
