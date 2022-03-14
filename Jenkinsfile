@@ -70,10 +70,6 @@ pipeline {
 
     stage('Finishing sentry version'){
         steps{
-            sh 'rm ./public/assets/*.js'
-            sh 'rm ./public/assets/*.map'
-            sh "rm ./public/assets/*.css"
-            sh "rm ./public/assets/*.jpg"
             sh "ssh root@75.119.154.204 mkdir /tmp/rescue-panel"
             sh "ssh root@75.119.154.204 docker cp rescue-panel:/var/www/public/assets/ /tmp/rescue-panel "
             sh "scp root@75.119.154.204:/tmp/rescue-panel/* ./public/assets/"
