@@ -8,6 +8,7 @@ use App\Events\Notify;
 use App\Events\UserUpdated;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\LogsController;
+use App\Http\Controllers\Service\OperatorController;
 use App\Jobs\ProcessEmbedPosting;
 use App\Models\Grade;
 use App\Models\Intervention;
@@ -42,11 +43,18 @@ class UserController extends Controller
         $me = User::where('id', Auth::user()->id)->first();
         $meService = Session::get('service')[0];
         if($meService === null || $meService === '') $meService = $me->service;
-        $users = User::search($request->query('query'))->get();
+        if(is_null($request->query('query'))){
+            $users = User::all();
+        }else{
+            $users = User::search($request->query('query'))->get();
+        }
+
+
         $queryPage = (int) $request->query('page');
         $readedPage = ($queryPage ?? 1) ;
         $readedPage = (max($readedPage, 1));
         $forgetable = array();
+
         for($a = 0; $a < $users->count(); $a++){
             if(!$me->dev){
                 $user = $users[$a];
@@ -62,9 +70,12 @@ class UserController extends Controller
             }
         }
 
+
         foreach ($forgetable as $it){
             $users->forget($it);
         }
+
+
 
 
         $users = $users->filter(function ($item){
@@ -87,7 +98,7 @@ class UserController extends Controller
 
         $url = $request->url() . '?query='.urlencode($request->query('query')).'&page=';
         $totalItem = $users->count();
-        $valueRounded = ceil($totalItem / 5);
+        $valueRounded = ceil($totalItem / 20);
         $maxPage = (int) ($valueRounded == 0 ? 1 : $valueRounded);
         //Creation of Paginate Searchable result
         $array = [
@@ -143,6 +154,10 @@ class UserController extends Controller
 
     public function setService(Request $request, string $service){
         $user = User::where('id',Auth::user()->id)->first();
+        $userSrv = $user->OnService;
+        if($userSrv){
+            OperatorController::setService($user);
+        }
         Session::forget('service');
         Session::push('service',$service);
         $user->service = $service;
@@ -411,15 +426,6 @@ class UserController extends Controller
         foreach ($forgetable as $it){
             $users->forget($it);
         }
-        foreach ($users as $user){
-            if($meService === 'SAMS'){
-                $user->grade = $user->GetMedicGrade;
-            }if($meService === 'LSCoFD'){
-                $user->grade =$this->GetFireGrade;
-            }
-
-        }
-
 
         $users = $users->filter(function ($item){
             $medic = false;
@@ -429,6 +435,16 @@ class UserController extends Controller
 
             return \Gate::allows('view', $item) && ( $fire || $medic);
         });
+
+        foreach ($users as $user){
+            if($meService === 'SAMS'){
+                $user->grade = $user->GetMedicGrade;
+            }if($meService === 'LSCoFD'){
+                $user->grade = $user->GetFireGrade;
+            }
+
+        }
+
 
         $column[] = array('id','nom', 'matricule', 'grade', 'discordid', 'tel', 'compte', 'pilote','service d\'arrivée','cross service', 'nombre de sanctions');
 

@@ -78,11 +78,10 @@ class DayLogsCleanning extends Command
         foreach($ListOffiles as $alt){
             File::delete($alt);
             File::put($alt, '');
-            File::chmod($alt, 777);
-        }
 
-        $process = new Process(['chown', 'www-data', './storage/logs/*']);
-        $process->run();
+        }
+        shell_exec('chown www-data /var/www/storage/logs/*');
+        shell_exec('chmod 777 /var/www/storage/logs/*');
 
         $this->info('logs saved');
 

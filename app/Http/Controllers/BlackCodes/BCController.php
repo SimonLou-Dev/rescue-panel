@@ -105,11 +105,12 @@ class BCController extends Controller
 
     public function quitBc(Request $request){
         $user = User::where('id', Auth::user()->id)->first();
-        $logs = new LogsController();
-        $logs->BCLogging('quit', $user->bc_id, $user->id);
-        $user->bc_id = null;
-        $user->save();
-
+        if($user->bc_id != null){
+            $logs = new LogsController();
+            $logs->BCLogging('quit', $user->bc_id, $user->id);
+            $user->bc_id = null;
+            $user->save();
+        }
         return response()->json([],201);
     }
 
@@ -164,10 +165,11 @@ class BCController extends Controller
      */
     public function addBc(Request $request): \Illuminate\Http\JsonResponse
     {
-        $this->authorize('create', BCList::class);
+
+        $bcTypes = BCType::all();
 
         $request->validate([
-            'type'=>['required'],
+            'type'=>['required','int','min:1'],
             'place'=>['required', 'string'],
         ]);
         $place = $request->place;

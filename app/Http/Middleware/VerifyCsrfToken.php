@@ -15,10 +15,8 @@ class VerifyCsrfToken extends Middleware
     protected $except = [
         'http://127.0.0.1:8000/tunnel',
         'http://localhost:8000/tunnel',
-        'http://dev-bcfd.simon-lou.com/tunnel',
-        'https://dev-bcfd.simon-lou.com/tunnel',
-        'http://bcfd.simon-lou.com/tunnel',
-        'https://bcfd.simon-lou.com/tunnel',
-        '/data/postuserinfos',
+        'https://rescue-panel.simon-lou.com/tunnel',
+        "https://rescue-panel.simon-lou.com/tunnel",
+        'tunnel','/tunnel'
     ];
 }

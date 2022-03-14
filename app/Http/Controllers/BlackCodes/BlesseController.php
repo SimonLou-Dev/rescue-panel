@@ -30,14 +30,20 @@ class BlesseController extends Controller
         $this->authorize('ModifyPatient', BCList::class);
         $request->validate([
             'name'=>['required', 'string','regex:/[a-zA-Z.+_]+\s[a-zA-Z.+_]/'],
-            'blessure'=>['required'],
+            'blessure'=>['required','int','min:1'],
             'payed'=>['required']
         ]);
 
 
 
+
         $Patient = PatientController::PatientExist($request->name);
         $bc = BCList::where('id', $id)->first();
+        if($bc->service === 'SAMS'){
+            $request->validate([
+                'color'=>['int','min:1']
+            ]);
+        }
 
 
 

@@ -80,20 +80,24 @@ class PatientController extends Controller
         return null;
     }
 
-    public function updatePatientInfos(Request $request, int $id): \Illuminate\Http\JsonResponse
+    public function updatePatientInfos(Request $request, string $id): \Illuminate\Http\JsonResponse
     {
         \Gate::authorize('patient-edit', User::where('id', \Auth::user()->id)->first());
         $request->validate([
             'name'=>['required', 'string','regex:/[a-zA-Z.+_]+\s[a-zA-Z.+_]/'],
             'tel'=>['tel'=> 'required','regex:/5{3}-\d\d/'],
-            'bloodgroup'=>['regex:/(A|B|AB|O)[+-]/'],
+
         ]);
+
 
         $patient = Patient::where('id', $id)->first();
         $patient->tel = $request->tel;
         $patient->name = $request->name;
         $patient->naissance  = $request->ddn;
-        $patient->blood_group  = $request->bloodgroup;
+        if(isset($request->bloodgroup) && $request->bloodgroup != ''){
+            $request->validate(['bloodgroup'=>['regex:/(A|B|AB|O)[+-]/']]);
+            $patient->blood_group  = $request->bloodgroup;
+        }
         $patient->living_place = $request->liveplace;
         $patient->save();
         event(new Notify('Informations mise à jour ! ',1, \Auth::id()));
@@ -106,7 +110,7 @@ class PatientController extends Controller
 
        foreach ($patients as $patient){
 
-           $rapports = Rapport::where('id', $patient->id)->where('created_at', '>', date('d/m/Y H:i', strtotime(date('Y-m-d H:i:s'). ' +5 days')))->count();
+           $rapports = Rapport::where('id', $patient->id)->where('created_at', '>', date('d/m/Y H:i', strtotime(date('Y-m-d H:i:s'). ' -5 days')))->count();
            $number = 0;
            if($rapports > 3 && $rapports < 5){
                $number = 1;

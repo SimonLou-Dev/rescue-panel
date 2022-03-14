@@ -85,7 +85,11 @@ return [
     'mimes' => 'The :attribute must be a file of type: :values.',
     'mimetypes' => 'The :attribute must be a file of type: :values.',
     'min' => [
+<<<<<<< HEAD
         'numeric' => 'Vous devez saisir une valeur supérieure ou égale :min.',
+=======
+        'numeric' => 'Vous devez choisir',
+>>>>>>> 7e8596cfb8d9ff5a36b9d2f8e8903ee85e4cdb2d
         'file' => 'The :attribute must be at least :min kilobytes.',
         'string' => 'The :attribute must be at least :min characters.',
         'array' => 'The :attribute must have at least :min items.',
@@ -96,7 +100,11 @@ return [
     'numeric' => 'The :attribute must be a number.',
     'password' => 'The password is incorrect.',
     'present' => 'The :attribute field must be present.',
+<<<<<<< HEAD
     'regex' => 'Ce champs n\' a pas le bon format',
+=======
+    'regex' => 'le format est invalide',
+>>>>>>> 7e8596cfb8d9ff5a36b9d2f8e8903ee85e4cdb2d
     'required' => 'Ce champs est obligatoire',
     'required_if' => 'The :attribute field is required when :other is :value.',
     'required_unless' => 'The :attribute field is required unless :other is in :values.',

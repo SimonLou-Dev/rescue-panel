@@ -62,21 +62,20 @@ class RapportController extends Controller
 
         $request->validate([
             'name'=>['required', 'string','regex:/[a-zA-Z.+_]+\s[a-zA-Z.+_]/'],
-            'startinter'=>['required', 'different:0'],
+            'startinter'=>['required'],
             'tel'=>['tel'=> 'required','regex:/5{3}-\d\d/'],
-            'bloodgroup'=>['regex:/(A|B|AB|O)[+-]/'],
-            'type'=>['required', 'different:0'],
-            'transport'=>['required', 'different:0'],
+            'type'=>['required','int', 'min:1'],
+            'transport'=>['required','int', 'min:1'],
             'desc'=>['required'],
             'payed'=>['required', 'boolean'],
             'montant'=>['required','integer'],
             'ata'=>['string']
         ]);
 
-        if(Session::get('service')[0] === 'OMC'){
+        if(isset($request->pathology) && Session::get('service')[0] === "SAMS"){
 
             $request->validate([
-                'pathology'=>['different:0', 'integer']
+                'pathology'=>['min:1', 'integer']
             ]);
         }
 
@@ -91,7 +90,8 @@ class RapportController extends Controller
         if(isset($request->ddn)){
             $Patient->naissance  = $request->ddn;
         }
-        if(isset($request->bloodgroup)){
+        if(isset($request->bloodgroup) && $request->bloodgroup != ''){
+            $request->validate(['bloodgroup'=>['regex:/(A|B|AB|O)[+-]/']]);
             $Patient->blood_group  = $request->bloodgroup;
         }
         if(isset($request->liveplace)){
@@ -146,9 +146,9 @@ class RapportController extends Controller
     public function updateRapport(Request $request, int $id): \Illuminate\Http\JsonResponse
     {
         $request->validate([
-            'startinter'=>['required', 'different:0'],
-            'type'=>['required', 'different:0'],
-            'transport'=>['required', 'different:0'],
+            'startinter'=>['required'],
+            'type'=>['required','int', 'min:1'],
+            'transport'=>['required','int', 'min:1'],
             'desc'=>['required'],
             'payed'=>['required', 'boolean'],
             'montant'=>['required','integer'],
@@ -156,10 +156,10 @@ class RapportController extends Controller
         ]);
 
 
-        if(Session::get('service')[0] === 'OMC'){
+        if(Session::get('service')[0] === 'SAMS'){
 
             $request->validate([
-                'pathology'=>['different:0', 'integer']
+                'pathology'=>['integer']
             ]);
         }
 
@@ -175,7 +175,7 @@ class RapportController extends Controller
             $rapport->ata = $request->ata;
         }
         $rapport->service = Session::get('service')[0];
-        if(isset($request->pathology)){
+        if(isset($request->pathology) && $request->pathology != 0){
             $rapport->pathology_id = $request->pathology;
         }
         $rapport->save();
@@ -268,7 +268,7 @@ class RapportController extends Controller
                 'inline'=>false
             ],
         ];//pathologie
-        if($service == 'SAMS' && !is_null($rapport->pathology_id)){
+        if($service == 'SAMS' && !is_null($rapport->pathology_id) && $rapport->pathology_id != 0){
             array_push($fields, [
                 'name'=>'pathologie : ',
                 'value'=>$rapport->GetPathology->name,

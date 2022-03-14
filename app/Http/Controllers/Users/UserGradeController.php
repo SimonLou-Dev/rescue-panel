@@ -25,28 +25,15 @@ class UserGradeController extends Controller
     public function setusergrade(Request $request, int $id, int $userid): JsonResponse
     {
         $user= User::where('id', $userid)->first();
-        $requester = User::where('id', Auth::user()->id)->first();
-        //TODO : Set un système de perm qui empèche de modif son propre grade sauf si DEV et ou ne peut pas changer un grade égal ou séprieur au siens
-
-        /*
-        if(true){
-            if($user->id == $requester->id){
-                event(new Notify('Impossible de modifier son propre grade ! ',4));
-                return \response()->json(['status'=>'OK']);
-            }
-            if($id >= $requester->grade_id){
-                event(new Notify('Impossible de mettre un grade plus haut que le siens ! ',4));
-                return \response()->json(['status'=>'OK']);
-            }
-        }*/
-        if(($user->medic_grade_id == 1  || $user->fire_grade_id == 1) && $id != 1){
+        $grade = Grade::where('id',$id)->first();
+        if($grade->having_matricule && !$user->dev && $id  != 1){
             $users = User::whereNotNull('matricule')->get();
             $matricules = array();
             foreach ($users as $usere){
                 array_push($matricules, $usere->matricule);
             }
             $generated = null;
-            while(is_null($generated) || array_search($generated, $matricules)){
+            while(is_null($generated) || in_array($generated, $matricules)){
                 $generated = random_int(10, 99);
             }
             $user->matricule = $generated;
@@ -72,9 +59,23 @@ class UserGradeController extends Controller
     public function GetUserPerm(Request $request): JsonResponse
     {
         $user = User::where('id', Auth::id())->first();
-        $user->grade = $user->getUserGradeInService();
-        $user->GetMedicGrade;
-        $user->GetFireGrade;
+
+        if(is_null($user->service)){
+            $user->grade = Grade::first();
+        }else{
+            if($user->service === 'SAMS'){
+                $user->grade = Grade::where('id', $user->medic_grade_id)->first();
+            }else{
+                $user->grade = Grade::where('id', $user->fire_grade_id)->first();
+            }
+        }
+        $user->sanctions = json_decode($user->sanctions);
+        $user->materiel = json_decode($user->materiel);
+
+        $fireGrade = Grade::where('id', $user->fire_grade_id)->first();
+        $medicGrade = Grade::where('id', $user->medic_grade_id)->first();
+        $user->fire_grade_name = $fireGrade->name;
+        $user->medic_grade_name = $medicGrade->name;
 
         $collect = collect($user->grade->getAttributes());
         $collect = $collect->except(['service','name','power','discord_role_id','id']);

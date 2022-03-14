@@ -26,6 +26,8 @@ function RapportHoraire(props) {
         }
         if(a !== search){
             setSearch(a);
+            c = 1;
+            setPage(1);
         }
         await axios({
             url : '/data/service/alluser/'+ (currentWeek ?? '')  +'?query='+a+'&page='+c,

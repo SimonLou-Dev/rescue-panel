@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Service;
 
 use App\Enums\DiscordChannel;
 use App\Events\Notify;
+use App\Events\ServiceUpdated;
 use App\Events\UserUpdated;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\LayoutController;
@@ -17,6 +18,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Session;
 use TimeCalculate;
 
 class OperatorController extends Controller
@@ -92,11 +94,12 @@ class OperatorController extends Controller
         //Il faut reverse les état de service
         $text = '';
         $embed = array();
+        $unit = $user->service;
         if($user->OnService){
             $text = 'Vous êtes en service !';
             $embed = [
                 [
-                    'title'=>'Prise de service de ' . $user->name,
+                    'title'=>'Prise de service de ' . $user->name . " (${unit})",
                     'color'=>'709104',
                     'footer'=>[
                         'text'=>($admin ? 'Mis en service par : ' . Auth::user()->name : '')
@@ -107,7 +110,7 @@ class OperatorController extends Controller
             $text = 'Vous n\'êtes plus en service';
             $embed = [
                 [
-                    'title'=>'Fin de service de ' . $user->name,
+                    'title'=>'Fin de service de ' . $user->name . " (${unit})",
                     'color'=>'20991',
                     'fields'=>[
                         [
@@ -124,6 +127,9 @@ class OperatorController extends Controller
         }
 
         UserUpdated::broadcast($user);
+        $users = User::where('service', Session::get('service')[0])->where('OnService', true)->get();
+
+        ServiceUpdated::dispatch($users, Session::get('service')[0]);
 
         Notify::dispatch($text, 1, $user->id);
         if($user->OnService){

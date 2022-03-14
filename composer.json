@@ -10,6 +10,7 @@
     "require": {
         "php": "^8.0.2",
         "ext-json": "*",
+        "ext-zip": "*",
         "algolia/algoliasearch-client-php": "^3.2",
         "barryvdh/laravel-dompdf": "^1.0.0",
         "bensampo/laravel-enum": "^v5.1.0",
@@ -30,10 +31,9 @@
         "phpunit/php-code-coverage": "^9.2",
         "predis/predis": "^1.1",
         "pusher/pusher-php-server": "^5.0",
-        "sentry/sentry-laravel": "^2.9",
+        "sentry/sentry-laravel": "^2.11",
         "socialiteproviders/discord": "^4.1",
-        "textalk/websocket": "^1.5",
-      "ext-zip": "*"
+        "textalk/websocket": "^1.5"
     },
     "require-dev": {
         "spatie/laravel-ignition": "^1.0",

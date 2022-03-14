@@ -24,14 +24,15 @@ function MyAccount(props) {
                     setRemboursement(false)
                     setAbsences(false)
                 }}> Mes infos</button>
-                <button className={(Service ? 'selected' : '')} disabled={!(user.grade.admin || user.view_service_req)} onClick={()=>{
+                {console.log(user.grade.admin , user.view_service_req)}
+                <button className={(Service ? 'selected' : '')} style={{display: ((user.grade.admin || user.grade.view_service_req) ? "bloc" : 'none')}} disabled={!(user.grade.admin || user.grade.view_service_req)} onClick={()=>{
                     setInfos(false)
                     setService(true)
                     setPrimes(false)
                     setRemboursement(false)
                     setAbsences(false)
                 }}>Service</button>
-                <button className={(Primes ? 'selected' : '')} disabled={!(user.grade.admin || user.view_prime_req)} onClick={()=>{
+                <button className={(Primes ? 'selected' : '')} style={{display: ((user.grade.admin || user.grade.view_prime_req) ? "bloc" : 'none')}} disabled={!(user.grade.admin || user.grade.view_prime_req)} onClick={()=>{
                     setInfos(false)
                     setService(false)
                     setPrimes(true)
@@ -45,7 +46,7 @@ function MyAccount(props) {
                     setRemboursement(true)
                     setAbsences(false)
                 }}>Remboursement</button>
-                <button className={(absences ? 'selected' : '')} disabled={!(user.grade.admin || user.view_absences_req)} onClick={()=>{
+                <button className={(absences ? 'selected' : '')} style={{display: ((user.grade.admin || user.grade.view_absences_req) ? "bloc" : 'none')}} disabled={!(user.grade.admin || user.grade.view_absences_req)} onClick={()=>{
                     setInfos(false)
                     setService(false)
                     setPrimes(false)

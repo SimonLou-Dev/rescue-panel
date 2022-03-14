@@ -15,6 +15,7 @@ function MyInfo(props) {
 
 
     const postInfos = async () => {
+
         await axios({
             method: 'PUT',
             url: '/data/user/infos/put',
@@ -72,14 +73,14 @@ function MyInfo(props) {
                 {(user.fire || (user.medic && user.crossService)) &&
                     <div className={'form-part form-column'}>
                         <label>Grade LSCoFD {user.service === 'LSCoFD' ? '(Service actuel)' : ''}</label>
-                        <input type={'text'} value={user.get_fire_grade.name} disabled={true}/>
+                        <input type={'text'} value={user.fire_grade_name} disabled={true}/>
                     </div>
                 }
 
                 {(user.medic || (user.fire && user.crossService)) &&
                     <div className={'form-part form-column'}>
                         <label>Grade SAMS {user.service === 'SAMS' ? '(Service actuel)' : ''}</label>
-                        <input type={'text'} value={user.get_medic_grade.name} disabled={true}/>
+                        <input type={'text'} value={user.medic_grade_name} disabled={true}/>
                     </div>
                 }
 
@@ -120,47 +121,42 @@ function MyInfo(props) {
                 <section className={'sanctions'}>
                     <h1>sanctions</h1>
                     <ul>
-                        <li className={'sanctionTag'}>
-                            15/15/2222 - Avertissement : Mirabilis, primus capios hic.
-                        </li>
-                        <li className={'sanctionTag'}>
-                            15/15/2222 - Avertissement : Mirabilis, primus capios hic.
-                        </li>
-                        <li className={'sanctionTag'}>
-                            15/15/2222 - Avertissement : Mirabilis, primus capios hic.
-                        </li>
-                        <li className={'sanctionTag'}>
-                            15/15/2222 - Avertissement : Mirabilis, primus capios hic.
-                        </li>
-                        <li className={'sanctionTag'}>
-                            15/15/2222 - Avertissement : Mirabilis, primus capios hic.
-                        </li>
-                        <li className={'sanctionTag'}>
-                            15/15/2222 - Avertissement : Mirabilis, primus capios hic.
-                        </li>
-                        <li className={'sanctionTag'}>
-                            15/15/2222 - Avertissement : Mirabilis, primus capios hic.
-                        </li>
+                        {user.sanctions !== null && user.sanctions.length !== 0 && user.sanctions.map((s)=>
+                            <li className={'sanctionTag'} key={s.prononcedam} >
+                                {s.prononcedam} - {s.type} : {s.reason}
+                            </li>
+                        )}
+
                     </ul>
                 </section>
                 <section className={'materiel'}>
                     <h1>Matériel</h1>
                     <ul>
-                        <li className={'materialTag'}>
-                            <img src={'/assets/images/material/kevlar.png'} alt={''}/> <p>kevlar</p>
-                        </li>
-                        <li className={'materialTag'}>
-                            <img src={'/assets/images/material/flashlights.png'} alt={''}/> <p>flashlights</p>
-                        </li>
-                        <li className={'materialTag'}>
-                            <img src={'/assets/images/material/flaregun.png'} alt={''}/> <p>flaregun</p>
-                        </li>
-                        <li className={'materialTag'}>
-                            <img src={'/assets/images/material/flare.png'} alt={''}/> <p>flare</p>
-                        </li>
-                        <li className={'materialTag'}>
-                            <img src={'/assets/images/material/fire-extinguisher.png'} alt={''}/> <p>extincteur</p>
-                        </li>
+                        {user.length != 0 && user.materiel != null && user.materiel.extincteur &&
+                            <div className={'material-item'}>
+                                <img src={'/assets/images/material/fire-extinguisher.png'} alt={''}/><p>extincteur</p>
+                            </div>
+                        }
+                        {user.length != 0 && user.materiel != null && user.materiel.flare &&
+                            <div className={'material-item'}>
+                                <img src={'/assets/images/material/flaregun.png'} alt={''}/> <p>flare</p>
+                            </div>
+                        }
+                        {user.length != 0 && user.materiel != null && user.materiel.flaregun &&
+                            <div className={'material-item'}>
+                                <img src={'/assets/images/material/flaregun.png'} alt={''}/> <p>flare-gun</p>
+                            </div>
+                        }
+                        {user.length != 0 && user.materiel != null && user.materiel.flashlight &&
+                            <div className={'material-item'}>
+                                <img src={'/assets/images/material/flashlights.png'} alt={''}/> <p>flashlights</p>
+                            </div>
+                        }
+                        {user.length != 0 && user.materiel != null && user.materiel.kevlar &&
+                            <div className={'material-item'}>
+                                <img src={'/assets/images/material/kevlar.png'} alt={''}/> <p>kevlar</p>
+                            </div>
+                        }
                     </ul>
 
                 </section>

@@ -67,7 +67,10 @@ class LogsController extends Controller
         File::append(base_path($this->fileList['testPoudre']), '[' . date('d/m/Y H:i:s') . '] user ' . $userid . ' created ' . ' TDP n° ' . $pouderTestId . "\n");
     }
 
-    public function BCLogging(string $action, int $bcId, int $userid){
+    public function BCLogging(string $action, int|null $bcId, int $userid){
+        if(is_null($bcId)){
+            $bcId = 0;
+        }
         $logs = new LogDb();
         $logs->user_id = $userid;
         $logs->action = 'Black Code';

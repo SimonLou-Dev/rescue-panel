@@ -14,17 +14,22 @@ use Illuminate\Http\Request;
 class HomeController extends Controller
 {
 
+
     /**
-     * @param string|null $a
-     * @return Application|Factory|View
+     * @return View|Factory|Application
      */
-    public function getIndex(Request $request, string $a =null){
-        $value = $request->session()->get('error', '');
-        $request->session()->forget('error');
+    public function getIndex(): View|Factory|Application
+    {
+        $value = \Illuminate\Support\Facades\Session::get('error', '');
+        \Illuminate\Support\Facades\Session::forget('error');
         return view("home",['errors'=> $value]);
     }
 
-    public function getLogs(){
+    /**
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function getLogs(): \Illuminate\Http\JsonResponse
+    {
         $user = User::where('id',\Auth::user()->id)->first();
         if($user->dev){
             $logs = LogDb::orderBy('id','desc')->paginate();

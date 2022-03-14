@@ -1662,7 +1662,7 @@ body {
   margin: 40px auto 0 auto;
   width: 85%;
   max-height: 80%;
-  overflow-y: hidden;
+  overflow-y: auto;
   border-radius: 10px;
 }
 .TablePage .PageCenter .table-header {
@@ -2453,7 +2453,7 @@ body {
   margin: auto auto;
 }
 .dashboard .left .utils {
-  height: calc(100% - 70px);
+  height: calc(47%);
   overflow-y: auto;
   width: 100%;
 }

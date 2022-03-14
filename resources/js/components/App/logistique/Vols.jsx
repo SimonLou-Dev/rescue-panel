@@ -22,8 +22,11 @@ function Vols(props) {
     const user = useContext(UserContext);
 
     const searchVols = async (searche = search, pagee = page) => {
-        if (searche !== search) setSearch(search);
-        if (pagee !== page) setPage(page);
+        if (searche !== search){
+            setSearch(search);
+            pagee = 1;
+        }
+        if (pagee !== page) setPage(pagee);
         await axios({
             method: 'GET',
             url: '/data/vols?querry'+searche+'&page='+pagee,

@@ -137,6 +137,8 @@ class UserConnexionController extends Controller
     public function callback(Request $request): JsonResponse|RedirectResponse
     {
 
+        $request->session()->flush();
+
         try {
             $auth = Socialite::driver('discord')->user();
         }catch(Exception $e){
@@ -167,6 +169,9 @@ class UserConnexionController extends Controller
             $createuser->password = Hash::make($auth->token);
             $createuser->email =  $userinfos->email;
             $createuser->discord_id = $userinfos->id;
+            $createuser->save();
+            $user = $createuser;
+
         }
         Auth::login($user);
         if($user->fire){
@@ -235,6 +240,7 @@ class UserConnexionController extends Controller
         if(is_null($user->name) || is_null($user->compte) || is_null($user->liveplace) || is_null($user->tel)){
             return redirect()->route('informations');
         }
+
 
         if(\Gate::allows('access', $user)){
             $redirect = redirect()->route('dashboard');

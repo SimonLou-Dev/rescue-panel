@@ -98,7 +98,6 @@ Route::get('/logout', function (Request $request){
 
 
 //Connexion management
-// scope=identify%20email%20guilds%20guilds.join%20guilds.members.read
 Route::get('/auth/redirect', function () {return Socialite::driver('discord')->scopes(['email'])->redirect();});
 Route::get('/auth/callback', [UserConnexionController::class, 'callback'])->middleware('guest');
 Route::get('/data/userInfos', [UserGradeController::class, 'GetUserPerm'])->middleware(['auth']);
@@ -108,11 +107,6 @@ Route::get('/data/check/connexion', [UserConnexionController::class, 'checkConne
 Route::get('/data/getstatus', [LayoutController::class, 'getservice'])->middleware(['auth']);
 //renommer la fonction
 Route::put('/data/users/setCrossService/{id}', [UserController::class, 'setCrossService'])->middleware(['auth']);
-//Route::post('/data/check/maintenance')
-Route::get('/data/user/reset/send/{mail?}',  [CredentialController::class, 'sendResetMail']);//delete
-Route::get('/pass/reset/token/{uuid}',[CredentialController::class,'tokenVerify']);//Delete
-Route::post('/data/user/reset/post',[CredentialController::class,'changepass'] );//Delete
-
 Route::get('/data/patient/{patientId}/impaye', [PatientController::class, 'getImpaye'])->middleware(['auth']);
 
 //Annonces & Utils & Actus
@@ -169,7 +163,7 @@ Route::get('/data/service/addwors', [ServiceSetterController::class, 'addRows'])
 Route::put('/data/service/setbyadmin/{userid}', [ServiceSetterController::class, 'setServiceByAdmin'])->middleware(['auth']);
 Route::put('/data/service/admin/modify', [ServiceSetterController::class, 'modifyTimeService'])->middleware(['auth']);
 Route::get('/data/service/admin/exel/{week?}', [ServiceGetterController::class, 'getWeekServiceExel'])->middleware(['auth']);
-
+Route::get('/data/service/users',[ServiceGetterController::class, 'getUserOnServiceInUnit']);
 
 //Time of Service modify Req
 Route::get('/data/service/req/mylist', [ModifierReqController::class,'getMyModifyTimeServiceRequest'])->middleware(['auth']);
@@ -259,9 +253,11 @@ Route::put('/data/infosutils/put', [MainController::class, 'updateUtilsInfos'])-
 //Errors & bug reporter DISABLED
 /*
 Route::post('/data/front/errors', [ErrorsController::class, 'frontErrors']);
-Route::any('/tunnel', [ErrorsController::class, 'tunelSentry']);
+
 Route::post('/data/bug', [MainController::class, 'postBug']);
 */
+
+Route::any('/tunnel', [ErrorsController::class, 'tunelSentry']);
 //Searching
 Route::get('/data/patient/search/{text}', [SearchController::class, 'searchPatient'])->middleware(['auth']);
 Route::get('/data/users/search/{user}', [SearchController::class, 'searchUser'])->middleware(['auth']);
@@ -284,6 +280,10 @@ if(env('APP_DEBUG') === true || env('APP_DEBUG') === "true"){
         Discord::chanUpdate(DiscordChannel::FireLogistique, 934029889122762773);
         Discord::chanUpdate(DiscordChannel::MedicLogistique, 923521332531048469);
     })->middleware('web');
+
+    Route::get('/auth/test', function (Request $req){
+        return response()->json(['name'=>\App\Models\User::where('id',1)->first()]);
+    });
 
     Route::get('/auth/fake', [UserConnexionController::class, 'fake'])->middleware('guest');//disable
 }

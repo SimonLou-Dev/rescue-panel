@@ -31,6 +31,7 @@ import MyAccount from "./Other/account/MyAccount";
 import ServiceNav from "../AuthComponent/ServiceNav";
 import Dashboard from "./Other/Dashboard";
 import Vols from "./logistique/Vols"
+import * as Sentry from "@sentry/react";
 
 
 function Layout(props) {
@@ -48,13 +49,14 @@ function Layout(props) {
             userid = response.data.user.id;
             setUser(response.data.user);
             setService(response.data.user.service);
+            Sentry.setUser({id: response.data.user.id, discord_id: response.data.user.discord_id, service: response.data.user.service})
         })
         const timerID = setInterval(
             () => tick(),
             5*60*1000
         );
 
-        Pusher.logToConsole = true;
+        Pusher.logToConsole = false;
 
         let pusher = new Pusher('fd78f74e8faecbd2405b', {
             cluster: 'eu',
@@ -147,6 +149,10 @@ function Layout(props) {
             if(error.response.status === 503){
                 window.location.replace('/maintenance')
             }
+            if(error.response.status === 401){
+                window.location.replace('/login')
+            }
+            window.location.replace('/login');
         })
 
     }

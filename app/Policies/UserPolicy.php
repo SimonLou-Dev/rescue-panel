@@ -48,7 +48,12 @@ class UserPolicy
     {
         $grade = $user->getUserGradeInService();
         $OtherGrade = $model->getUserGradeInService();
-        if($user->isAdmin()) return true;
+        if($user->isAdmin()){
+            if($user->dev && $model->dev) return true;
+            else if($user->dev && $model->moderator) return true;
+            else if($user->moderator && $model->moderator) return true;
+            else if(!$model->dev) return true;
+        }
         if($grade->power > $OtherGrade->power) return true;
         return false;
     }

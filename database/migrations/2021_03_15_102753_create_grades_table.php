@@ -39,7 +39,7 @@ class CreateGradesTable extends Migration
 
             //dossiers
             $table->boolean('dossier_view')->default(false);
-            $table->boolean('dosssier_HS')->default(false);
+            $table->boolean('dossier_HS')->default(false);
             $table->boolean('patient_edit')->default(false);
 
             //BC
@@ -91,8 +91,8 @@ class CreateGradesTable extends Migration
             $table->boolean('modify_absences_req')->default(false);
 
             //Service
-            $table->boolean('view_rappportHoraire')->default(true);
-            $table->boolean('set_service')->default(false);
+            $table->boolean('view_rappportHoraire')->default(false);
+            $table->boolean('set_service')->default(true);
             $table->boolean('set_other_service')->default(false);
 
             //Management
