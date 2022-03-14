@@ -17,7 +17,7 @@ pipeline {
         validateDeclarativePipeline 'Jenkinsfile'
         sh 'php -v'
         sh 'php -i'
-        sh "rm .env"
+
       }
     }
 
@@ -33,7 +33,7 @@ pipeline {
 
     stage('Write .env [prod]') {
         steps{
-            sh "rm .env.testing"
+
             withCredentials([file(credentialsId: 'env-rescue-panel-prod', variable: 'envfile')]) {
                 writeFile file: '.env', text: readFile(envfile)
             }
