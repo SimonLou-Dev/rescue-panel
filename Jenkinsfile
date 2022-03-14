@@ -57,7 +57,7 @@ pipeline {
 
     stage('Push un Pull on remote Docker container') {
         steps {
-            sh "docker push simonloudev/rescue-panel:latest simonloudev/rescue-panel:$SENTRY_RELEASE"
+            sh "docker push simonloudev/rescue-panel:latest && docker push simonloudev/rescue-panel:$SENTRY_RELEASE"
             sh "ssh root@75.119.154.204 docker pull simonloudev/rescue-panel:latest"
         }
     }
