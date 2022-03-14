@@ -4,6 +4,13 @@ pipeline {
     skipDefaultCheckout(true)
   }
   stages {
+    environment {
+        SENTRY_AUTH_TOKEN = credentials('sentry-auth-token')
+        SENTRY_ORG = 'simonlou'
+        SENTRY_ENVIRONMENT = 'production'
+        SENTRY_RELEASE= '3.0.2'
+        SENTRY_URL='https://sentry.simon-lou.com/'
+    }
 
     stage('Cleaning'){
         steps{
@@ -35,7 +42,7 @@ pipeline {
     stage('Build & tag container') {
         steps {
             sh "docker build --build-arg user=pannel --build-arg uid=45 -t simonloudev/rescue-panel:latest ."
-            sh "docker tag simonloudev/rescue-panel:latest simonloudev/rescue-panel:"
+            sh "docker tag simonloudev/rescue-panel:latest simonloudev/rescue-panel:$SENTRY_RELEASE"
         }
     }
 
@@ -61,13 +68,6 @@ pipeline {
     }
 
     stage('Sentry version') {
-        environment {
-            SENTRY_AUTH_TOKEN = credentials('sentry-auth-token')
-            SENTRY_ORG = 'simonlou'
-            SENTRY_ENVIRONMENT = 'production'
-            SENTRY_RELEASE= '3.0.2'
-            SENTRY_URL='https://sentry.simon-lou.com/'
-        }
         steps {
             sh 'command -v sentry-cli || curl -sL https://sentry.io/get-cli/ | bash'
             sh "sentry-cli releases new -p laravel -p react $SENTRY_RELEASE"
