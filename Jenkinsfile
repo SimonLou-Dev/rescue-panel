@@ -3,8 +3,7 @@ pipeline {
   options {
     skipDefaultCheckout(true)
   }
-  stages {
-    environment {
+  environment {
         SENTRY_AUTH_TOKEN = credentials('sentry-auth-token')
         SENTRY_ORG = 'simonlou'
         SENTRY_ENVIRONMENT = 'production'
@@ -12,7 +11,8 @@ pipeline {
         SENTRY_URL='https://sentry.simon-lou.com/'
     }
 
-    stage('Cleaning'){
+  stages {
+        stage('Cleaning'){
         steps{
             cleanWs()
             checkout scm
