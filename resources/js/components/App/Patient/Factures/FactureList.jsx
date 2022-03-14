@@ -100,7 +100,7 @@ function FactureList(props) {
                         <label>au</label>
                         <input type={'date'} value={to} onChange={(e)=>{setTo(e.target.value)}}/>
                     </div>
-                    {(user.grade.admin || user.facture_export) &&
+                    {(user.grade.admin || user.grade.facture_export) &&
                         <a href={'/PDF/facture/' + from  +'/'+to}  target={'_blank'} className={'bnt'}><img alt={''} src={'/assets/images/xls.png'}/></a>
                     }
 
@@ -125,7 +125,7 @@ function FactureList(props) {
                             <td className={'clickable'}><Link to={'/patients/' + item.getpatient.id +'/view'}>{item.getpatient.name}</Link></td>
                             <td>{item.created_at}</td>
                             <td>${item.price}</td>
-                            <td>{!item.payed && <button className={'btn'} disabled={!(user.grade.admin || user.facture_paye)} onClick={async () => {
+                            <td>{!item.payed && <button className={'btn'} disabled={!(user.grade.admin || user.grade.facture_paye)} onClick={async () => {
                                 await axios({
                                     method: 'PUT',
                                     url: '/data/facture/' + item.id + '/paye'

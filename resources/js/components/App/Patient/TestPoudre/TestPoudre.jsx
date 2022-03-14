@@ -193,7 +193,7 @@ function TestPoudre(props) {
                     </section>
                 </section>
                 <section className={'footer'}>
-                    <button className={'btn'} onClick={postForm} disabled={!(user.grade.admin || user.poudretest_create)}>valider</button>
+                    <button className={'btn'} onClick={postForm} disabled={!(user.grade.admin || user.grade.poudretest_create)}>valider</button>
                 </section>
             </CardComponent>
 

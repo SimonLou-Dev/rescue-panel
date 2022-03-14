@@ -32,10 +32,13 @@ function Vols(props) {
             url: '/data/vols?querry'+searche+'&page='+pagee,
         }).then((r) => {
             let final = [];
-            let keys = Object.keys(r.data.vols.data);
-            keys.forEach((key) => {
-                final[key] = r.data.vols.data[key];
-            });
+            if (r.data.vols.data != null) {
+                let keys = Object.keys(r.data.vols.data);
+                keys.forEach((key) => {
+                    final[key] = r.data.vols.data[key];
+                });
+            }
+
             setVols(final)
             setPagination(r.data.vols)
             setLieuxList(r.data.places)

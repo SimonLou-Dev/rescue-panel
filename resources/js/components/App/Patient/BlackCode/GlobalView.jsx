@@ -89,7 +89,7 @@ function GlobalView(props) {
         <section className={'new ' + (popupOpened ? 'popupBg':'')}>
             <CardComponent title={'en cours'}>
                 <div className={'header'}>
-                    <button className={'btn'} onClick={()=>{setpopupOpening(!popupOpened)}} disabled={!(user.grade.admin || user.BC_open)}>ajouter</button>
+                    <button className={'btn'} onClick={()=>{setpopupOpening(!popupOpened)}} disabled={!(user.grade.admin || user.grade.BC_open)}>ajouter</button>
                 </div>
                 <div className={'BCtable'}>
                     {runnings && runnings.map((running) =>

@@ -138,7 +138,7 @@ function Rapport(props) {
     return (
         <div className={"rapports"}>
             <div className={'fixed-top-right'}>
-                <Button value={'envoyer'} callback={postRapport} disabled={!(user.grade.admin || user.rapport_create)}/>
+                <Button value={'envoyer'} callback={postRapport} disabled={!(user.grade.admin || user.grade.rapport_create)}/>
             </div>
             <div className={'collumn'}>
                 <CardComponent title={'Patient'}>

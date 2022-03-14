@@ -110,7 +110,7 @@ function MedicBC(props) {
                     await axios({method: 'PATCH', url: '/data/blackcode/quit'}).then(() => {
                         Redirection('/blackcodes/all')
                     })}}>retour</button>
-                <button  className={'btn'} disabled={(!(user.grade.admin || user.BC_close) || (bc && bc.ended))}  onClick={async () => {
+                <button  className={'btn'} disabled={(!(user.grade.admin || user.grade.BC_close) || (bc && bc.ended))}  onClick={async () => {
                     await axios({
                         method: 'PUT',
                         url: '/data/blackcode/' + bcID + '/close'
@@ -128,7 +128,7 @@ function MedicBC(props) {
                 <div className={'BC-infosForm'}>
                     <div className={'form-group form-line form-title'}>
                         <label>Information</label>
-                        <button className={'btn img'} disabled={!(user.grade.admin || user.BC_edit)} onClick={async () => {
+                        <button className={'btn img'} disabled={!(user.grade.admin || user.grade.BC_edit)} onClick={async () => {
                             await axios({
                                 method: 'PATCH',
                                 url : '/data/blackcode/' + bcID + '/caserne',
@@ -161,7 +161,7 @@ function MedicBC(props) {
                 <div className={'BC-PatientAdder'}>
                     <div className={'form-group form-line form-title'}>
                         <label>Ajouter un patient</label>
-                        <button className={'btn'} onClick={postPatient} disabled={!(user.grade.admin || user.BC_modify_patient)}>ajouter</button>
+                        <button className={'btn'} onClick={postPatient} disabled={!(user.grade.admin || user.grade.BC_modify_patient)}>ajouter</button>
                         <button className={'btn'} onClick={()=>{
                             setPName("")
                             setblessure(0)
@@ -239,7 +239,7 @@ function MedicBC(props) {
                 <div className={'BC-InetDetails'}>
                     <div className={'form-group form-line form-title'}>
                         <label>Détails de l'intervetion</label>
-                        <button className={'btn img'} disabled={!(user.grade.admin || user.BC_edit)} onClick={async () => {
+                        <button className={'btn img'} disabled={!(user.grade.admin || user.grade.BC_edit)} onClick={async () => {
                             await axios({
                                 method: 'PATCH',
                                 url : '/data/blackcode/' + bcID + '/desc',

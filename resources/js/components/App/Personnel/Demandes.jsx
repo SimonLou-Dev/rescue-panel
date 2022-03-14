@@ -66,7 +66,7 @@ function Demandes(props) {
             {(user.grade.admin || user.grade.viewAll_prime_req) &&
                 <a href={'#primes'} className={'btn'}>primes</a>
             }
-            {(user.grade.admin || user.grade.viewAll_absences_req) &&
+            {(user.grade.admin || user.viewAll_absences_req) &&
                 <a href={'#abs'} className={'btn'}>absences</a>
             }
             <a href={'#rmb'} className={'btn'}>remboursements</a>

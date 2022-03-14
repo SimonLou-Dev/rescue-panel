@@ -24,7 +24,6 @@ function MyAccount(props) {
                     setRemboursement(false)
                     setAbsences(false)
                 }}> Mes infos</button>
-                {console.log(user.grade.admin , user.view_service_req)}
                 <button className={(Service ? 'selected' : '')} style={{display: ((user.grade.admin || user.grade.view_service_req) ? "bloc" : 'none')}} disabled={!(user.grade.admin || user.grade.view_service_req)} onClick={()=>{
                     setInfos(false)
                     setService(true)
