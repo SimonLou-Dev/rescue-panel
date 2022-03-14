@@ -46,16 +46,7 @@ pipeline {
         }
     }
 
-    stage('Scan  SonarQube') {
-        environment {
-            scannerHome = tool 'sonar'
-        }
-        steps {
-            withSonarQubeEnv(installationName: 'Le miens', credentialsId: 'Sonarqube - Token') {
-                sh '${scannerHome}/bin/sonar-scanner'
-            }
-        }
-    }
+
 
     stage('Sentry version') {
         steps {
