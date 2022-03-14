@@ -2,7 +2,7 @@
 
 use App\Enums\DiscordChannel;
 use App\Events\NotifyForAll;
-use App\Http\Controllers\AccountController;
+use App\Http\Controllers\Users\AccountController;
 use App\Http\Controllers\ContentManagement;
 use App\Http\Controllers\DiscordChannelController;
 use App\Http\Controllers\ErrorsController;

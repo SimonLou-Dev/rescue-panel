@@ -162,19 +162,24 @@ class UserConnexionController extends Controller
         }else if($countId == 1){
             $user = User::where('discord_id', $userinfos->id)->first();
             $user->password = Hash::make($auth->token);
-            $user->save();
         }else{
             $createuser = new User();
             $createuser->password = Hash::make($auth->token);
             $createuser->email =  $userinfos->email;
             $createuser->discord_id = $userinfos->id;
-            $createuser->save();
         }
-        $user->GetMedicGrade;
-        $user->GetFireGrade;
         Auth::login($user);
+        if($user->fire){
+            $user->service = 'LSCoFD';
+            Session::push('service', $user->service);
+        }
+        if($user->medic){
+            $user->service = 'SAMS';
+
+            Session::push('service', $user->service);
+        }
+        $user->save();
         Session::push('user', $user);
-        Session::push('service', $user->service);
 
         return $this::redirector($user);
     }
@@ -230,16 +235,6 @@ class UserConnexionController extends Controller
         if(is_null($user->name) || is_null($user->compte) || is_null($user->liveplace) || is_null($user->tel)){
             return redirect()->route('informations');
         }
-        if($user->fire){
-            $user->service = 'LSCoFD';
-            Session::push('service', $user->service);
-        }
-        if($user->medic){
-            $user->service = 'SAMS';
-
-            Session::push('service', $user->service);
-        }
-        $user->save();
 
         if(\Gate::allows('access', $user)){
             $redirect = redirect()->route('dashboard');

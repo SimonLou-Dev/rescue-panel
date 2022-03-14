@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Users;
 
 
 use App\Enums\DiscordChannel;
@@ -18,6 +18,7 @@ use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Storage;
 use Intervention\Image\Facades\Image;
 use function PHPUnit\Framework\directoryExists;
+use App\Http\Controllers\Controller;
 
 class AccountController extends Controller
 {
@@ -42,7 +43,7 @@ class AccountController extends Controller
             'tel'=> 'required|regex:/555-\d\d/',
             'name'=>['required', 'string','regex:/[a-zA-Z.+_]+\s[a-zA-Z.+_]/'],
             'liveplace'=> ['required'],
-            'matricule'=>['unique:App\Models\User,matricule','nullable']
+            'matricule'=>['unique:App\Models\User,matricule','nullable','int','between:9,99']
         ]);
 
         $name= $request->name;
