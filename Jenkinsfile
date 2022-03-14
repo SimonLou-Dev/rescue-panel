@@ -34,7 +34,7 @@ pipeline {
     stage('Write .env [prod]') {
         steps{
             sh "rm .env.testing"
-            withCredentials([file(credentialsId: 'lscofd-Prod', variable: 'envfile')]) {
+            withCredentials([file(credentialsId: 'env-rescue-panel-prod', variable: 'envfile')]) {
                 writeFile file: '.env', text: readFile(envfile)
             }
         }
@@ -47,15 +47,10 @@ pipeline {
         }
     }
 
-    stage('Write .env [testing]') {
-        steps{
-            withCredentials([file(credentialsId: 'lscofd-Test', variable: 'envfile')]) {
-                writeFile file: '.env.testing', text: readFile(envfile)
-                }
-            }
-    }
+
     stage('Setup project') {
         steps{
+            sh "php artisan key:generate"
             sh "composer install"
             sh "yarn install"
             sh "yarn build"
