@@ -46,16 +46,6 @@ pipeline {
         }
     }
 
-
-    stage('Setup project') {
-        steps{
-            sh "composer install"
-            sh "yarn install"
-            sh "yarn build"
-            sh "php artisan key:generate"
-        }
-    }
-
     stage('Scan  SonarQube') {
         environment {
             scannerHome = tool 'sonar'
