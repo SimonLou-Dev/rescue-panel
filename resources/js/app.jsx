@@ -33,7 +33,7 @@ const history = createBrowserHistory();
 
 
   Sentry.init({
-      dsn: "https://ec1a216e59c74431bf2c5fcf0567104f@sentry.simon-lou.com/3",
+      dsn: "https://58dd69b50a3d4472b479985e877e1b1c@sentry.simon-lou.com/3",
       tunnel: "/tunnel",
       environment: import.meta.env,
       beforeSend(event, hint) {
