@@ -74,8 +74,8 @@ class UserGradeController extends Controller
 
         $fireGrade = Grade::where('id', $user->fire_grade_id)->first();
         $medicGrade = Grade::where('id', $user->medic_grade_id)->first();
-        $user->get_fire_grade = $fireGrade->name;
-        $user->get_medic_grade = $medicGrade->name;
+        $user->fire_grade_name = $fireGrade->name;
+        $user->medic_grade_name = $medicGrade->name;
 
         $collect = collect($user->grade->getAttributes());
         $collect = $collect->except(['service','name','power','discord_role_id','id']);

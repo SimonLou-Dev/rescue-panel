@@ -231,13 +231,13 @@ class UserConnexionController extends Controller
         if(is_null($user->name) || is_null($user->compte) || is_null($user->liveplace) || is_null($user->tel)){
             return redirect()->route('informations');
         }
+        Session::forget('service');
         if($user->fire){
             $user->service = 'LSCoFD';
             Session::push('service', $user->service);
         }
         if($user->medic){
             $user->service = 'SAMS';
-
             Session::push('service', $user->service);
         }
         $user->save();

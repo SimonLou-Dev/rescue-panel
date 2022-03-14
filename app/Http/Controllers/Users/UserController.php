@@ -8,6 +8,7 @@ use App\Events\Notify;
 use App\Events\UserUpdated;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\LogsController;
+use App\Http\Controllers\Service\OperatorController;
 use App\Jobs\ProcessEmbedPosting;
 use App\Models\Grade;
 use App\Models\Intervention;
@@ -153,6 +154,10 @@ class UserController extends Controller
 
     public function setService(Request $request, string $service){
         $user = User::where('id',Auth::user()->id)->first();
+        $userSrv = $user->OnService;
+        if($userSrv){
+            OperatorController::setService($user);
+        }
         Session::forget('service');
         Session::push('service',$service);
         $user->service = $service;

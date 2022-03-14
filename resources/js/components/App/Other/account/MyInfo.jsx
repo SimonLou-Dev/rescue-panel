@@ -73,14 +73,14 @@ function MyInfo(props) {
                 {(user.fire || (user.medic && user.crossService)) &&
                     <div className={'form-part form-column'}>
                         <label>Grade LSCoFD {user.service === 'LSCoFD' ? '(Service actuel)' : ''}</label>
-                        <input type={'text'} value={user.get_fire_grade.name} disabled={true}/>
+                        <input type={'text'} value={user.fire_grade_name} disabled={true}/>
                     </div>
                 }
 
                 {(user.medic || (user.fire && user.crossService)) &&
                     <div className={'form-part form-column'}>
                         <label>Grade SAMS {user.service === 'SAMS' ? '(Service actuel)' : ''}</label>
-                        <input type={'text'} value={user.get_medic_grade.name} disabled={true}/>
+                        <input type={'text'} value={user.medic_grade_name} disabled={true}/>
                     </div>
                 }
 

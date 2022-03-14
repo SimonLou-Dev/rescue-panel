@@ -165,10 +165,11 @@ class BCController extends Controller
      */
     public function addBc(Request $request): \Illuminate\Http\JsonResponse
     {
-        $this->authorize('create', BCList::class);
+
+        $bcTypes = BCType::all();
 
         $request->validate([
-            'type'=>['required'],
+            'type'=>['required','int','min:1'],
             'place'=>['required', 'string'],
         ]);
         $place = $request->place;

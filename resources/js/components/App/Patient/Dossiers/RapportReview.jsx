@@ -170,10 +170,10 @@ function RapportReview(props) {
                             <option key={broum.id} value={broum.id}>{broum.name}  ({broum.service})</option>
                         )}
                     </select>
-                    {errors.intertype &&
+                    {errors.type &&
                         <div className={'errors-list'}>
                             <ul>
-                                {errors.intertype.map((error) =>
+                                {errors.type.map((error) =>
                                     <li>{error}</li>
                                 )}
                             </ul>
@@ -258,10 +258,10 @@ function RapportReview(props) {
                                 <option key={broum.id} value={broum.id}>{broum.name}</option>
                             )}
                         </select>
-                        {errors.transport &&
+                        {errors.pathology &&
                             <div className={'errors-list'}>
                                 <ul>
-                                    {errors.transport.map((error) =>
+                                    {errors.pathology.map((error) =>
                                         <li>{error}</li>
                                     )}
                                 </ul>

@@ -43,8 +43,8 @@ class UserUpdated implements ShouldBroadcastNow
         }
         $fireGrade = Grade::where('id', $this->user->fire_grade_id)->first();
         $medicGrade = Grade::where('id', $this->user->medic_grade_id)->first();
-        $this->user->get_fire_grade = $fireGrade->name;
-        $this->user->get_medic_grade = $medicGrade->name;
+        $this->user->fire_grade_name = $fireGrade->name;
+        $this->user->medic_grade_name = $medicGrade->name;
         $this->user->sanctions = json_decode($this->user->sanctions);
         $this->user->materiel = json_decode($this->user->materiel);
     }

@@ -62,20 +62,20 @@ class RapportController extends Controller
 
         $request->validate([
             'name'=>['required', 'string','regex:/[a-zA-Z.+_]+\s[a-zA-Z.+_]/'],
-            'startinter'=>['required', 'different:0'],
+            'startinter'=>['required'],
             'tel'=>['tel'=> 'required','regex:/5{3}-\d\d/'],
-            'type'=>['required', 'different:0'],
-            'transport'=>['required', 'different:0'],
+            'type'=>['required','int', 'min:1'],
+            'transport'=>['required','int', 'min:1'],
             'desc'=>['required'],
             'payed'=>['required', 'boolean'],
             'montant'=>['required','integer'],
             'ata'=>['string']
         ]);
 
-        if(Session::get('service')[0] === 'OMC'){
+        if(isset($request->pathology) && Session::get('service')[0] === "SAMS"){
 
             $request->validate([
-                'pathology'=>['different:0', 'integer']
+                'pathology'=>['min:1', 'integer']
             ]);
         }
 
@@ -146,9 +146,9 @@ class RapportController extends Controller
     public function updateRapport(Request $request, int $id): \Illuminate\Http\JsonResponse
     {
         $request->validate([
-            'startinter'=>['required', 'different:0'],
-            'type'=>['required', 'different:0'],
-            'transport'=>['required', 'different:0'],
+            'startinter'=>['required'],
+            'type'=>['required','int', 'min:1'],
+            'transport'=>['required','int', 'min:1'],
             'desc'=>['required'],
             'payed'=>['required', 'boolean'],
             'montant'=>['required','integer'],

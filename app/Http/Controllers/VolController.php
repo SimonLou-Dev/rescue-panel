@@ -79,7 +79,7 @@ class VolController extends Controller
     {
         $this->authorize('create',Vol::class);
         $request->validate([
-           'lieux'=>['required', 'int'],
+           'lieux'=>['required', 'int','min:1'],
            'reason'=>['required', 'string']
         ]);
 

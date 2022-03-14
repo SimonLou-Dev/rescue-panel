@@ -110,7 +110,7 @@ class PatientController extends Controller
 
        foreach ($patients as $patient){
 
-           $rapports = Rapport::where('id', $patient->id)->where('created_at', '>', date('d/m/Y H:i', strtotime(date('Y-m-d H:i:s'). ' +5 days')))->count();
+           $rapports = Rapport::where('id', $patient->id)->where('created_at', '>', date('d/m/Y H:i', strtotime(date('Y-m-d H:i:s'). ' -5 days')))->count();
            $number = 0;
            if($rapports > 3 && $rapports < 5){
                $number = 1;
