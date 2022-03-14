@@ -49,10 +49,10 @@ pipeline {
 
     stage('Setup project') {
         steps{
-            sh "php artisan key:generate"
             sh "composer install"
             sh "yarn install"
             sh "yarn build"
+            sh "php artisan key:generate"
         }
     }
 
