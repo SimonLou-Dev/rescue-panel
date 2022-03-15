@@ -64,7 +64,8 @@ pipeline {
 
     stage('Launch'){
         steps{
-            sh "ssh root@75.119.154.204 docker restart rescue-panel"
+            sh "ssh root@75.119.154.204 docker stop rescue-panel"
+            sh "ssh root@75.119.154.204 docker run -d --rm --env=DISCORD_REDIRECT_URI=https://rescue-panel.simon-lou.com/auth/callback --env=APP_URL=https://rescue-panel.simon-lou.com --volume=rescue-panel:/var/www/storage --network=nginx-proxy --name rescue-panel simonloudev/rescue-panel:latest"
         }
     }
 

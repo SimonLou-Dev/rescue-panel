@@ -137,8 +137,6 @@ class UserConnexionController extends Controller
     public function callback(Request $request): JsonResponse|RedirectResponse
     {
 
-        $request->session()->flush();
-
         try {
             $auth = Socialite::driver('discord')->user();
         }catch(Exception $e){
@@ -147,7 +145,7 @@ class UserConnexionController extends Controller
             return redirect()->route('login')->with('error', 'une erreur est survenue');
         }
 
-
+        $request->session()->flush();
 
         $userreq = Http::withToken($auth->token)->get('https://discord.com/api/v9/users/@me');
         $userinfos = json_decode($userreq->body());
