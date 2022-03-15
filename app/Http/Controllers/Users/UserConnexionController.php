@@ -171,18 +171,18 @@ class UserConnexionController extends Controller
             $user = $createuser;
 
         }
-        Auth::login($user);
-        if($user->fire){
+        if(!is_null($user->service)){
+            $service = $user->service;
+        }elseif ($user->fire){
             $user->service = 'LSCoFD';
-            Session::push('service', $user->service);
-        }
-        if($user->medic){
+        }elseif ($user->medic){
             $user->service = 'SAMS';
-
-            Session::push('service', $user->service);
         }
         $user->save();
         Session::push('user', $user);
+        Session::push('service', $user->service);
+
+        Auth::login($user);
 
         return $this::redirector($user);
     }
