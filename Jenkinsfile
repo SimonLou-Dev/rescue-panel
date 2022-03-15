@@ -72,11 +72,13 @@ pipeline {
     stage('Finishing sentry version'){
         steps{
             sh "ssh root@75.119.154.204 rm -r /tmp/rescue-panel && ssh root@75.119.154.204 mkdir /tmp/rescue-panel"
-            sh "ssh root@75.119.154.204 docker cp rescue-panel:/var/www/public/assets /tmp/rescue-panel"
-            sh "scp root@75.119.154.204:/tmp/rescue-panel ./public/assets"
+            sh "ssh root@75.119.154.204 docker cp rescue-panel:/var/www/public/assets/ /tmp/rescue-panel/"
+            sh "scp root@75.119.154.204:/tmp/rescue-panel/assets/*.map ./public/assets"
             sh "sentry-cli releases -p react files $SENTRY_RELEASE upload-sourcemaps --ext map ./public/assets/"
-            sh "sentry-cli releases -p react -p laravel finalize $SENTRY_RELEASE"
-            sh "sentry-cli releases -p react -p laravel deploys $SENTRY_RELEASE new -e $SENTRY_ENVIRONMENT"
+            sh "sentry-cli releases -p react finalize $SENTRY_RELEASE"
+            sh "sentry-cli releases -p laravel finalize $SENTRY_RELEASE"
+            sh "sentry-cli releases -p react deploys $SENTRY_RELEASE new -e $SENTRY_ENVIRONMENT"
+            sh "sentry-cli releases -p laravel deploys $SENTRY_RELEASE new -e $SENTRY_ENVIRONMENT"
         }
     }
 

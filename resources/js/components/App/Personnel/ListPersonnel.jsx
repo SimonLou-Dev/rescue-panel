@@ -12,6 +12,7 @@ function ListPersonnel(props) {
     const [search, setSearch] = useState("");
     const [users, setUsers]= useState([]);
     const [gradeList, setGradesList] = useState([]);
+    const [searchedGrade, setSearchedGrade]= useState('ALL');
     const gle = useContext(UserContext)
 
 
@@ -19,7 +20,7 @@ function ListPersonnel(props) {
         UserList();
     }, [])
 
-    const UserList = async (a = search , c = page) => {
+    const UserList = async (a = search , c = page, grade = searchedGrade) => {
         if(c !== page){
             setPage(c);
         }
@@ -28,8 +29,15 @@ function ListPersonnel(props) {
             c = 1;
             setPage(1);
         }
+        if(grade !== searchedGrade){
+            setSearchedGrade(grade)
+            a = "";
+            c= 1;
+            setPage(1);
+            setSearch(a);
+        }
         await axios({
-            url : '/data/users/getall' +'?query='+a+'&page='+c,
+            url : '/data/users/getall' +'?query='+a+'&page='+c+'&grade='+ grade,
             method: 'GET'
         }).then(r => {
             let final = [];
@@ -54,6 +62,18 @@ function ListPersonnel(props) {
             <div className={'table-header'}>
                 <PageNavigator prev={()=> {UserList(search,page-1)}} next={()=> {UserList(search,page+1)}} prevDisabled={(paginate.prev_page_url === null)} nextDisabled={(paginate.next_page_url === null)}/>
                 <Searcher value={search} callback={(v) => {UserList(v)}}/>
+                <div className={'selector'}>
+                    <select onChange={(e)=>{UserList(search, page, e.target.value)}} value={searchedGrade}>
+                        <option value={"ALL"}>tout le monde</option>
+                        <option value={"SERVICE"}>tout le service</option>
+                        <option value={"UNGRADED"}>sans grade</option>
+                        {gradeList && gradeList.map((g)=>
+                            <option key={+"GRADE_LIST"+  g.id} value={g.id}>{g.name} {gle.dev === true && ' ' + g.service}</option>
+                        )}
+                    </select>
+
+
+                </div>
                 <a href={'/data/users/export'} target={'_blank'} className={'btn exporter'}><img alt={''} src={'/assets/images/xls.png'}/></a>
             </div>
             <div className={'table-container'}>

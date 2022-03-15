@@ -1057,7 +1057,6 @@ body{
                 border-radius: $border-radius;
                 padding: 5px;
                 input{
-                    height: 40px;
                     margin: auto 6px;
                 }
                 a, label, .exporter-part{
@@ -1071,6 +1070,8 @@ body{
 
         }
         .table-container{
+            height: 60vh;
+            overflow-y: scroll;
             .link{
                 font-weight: 700;
                 cursor: pointer;
@@ -1083,6 +1084,14 @@ body{
                 button{
                     margin: 0 auto;
                     background-color: $bg2;
+                }
+                tr, td, th{
+                    height: 30px;
+                    overflow: hidden;
+                    p{
+                        margin: 0;
+                    }
+
                 }
             }
         }

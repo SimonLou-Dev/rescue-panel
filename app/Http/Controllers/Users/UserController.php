@@ -43,10 +43,17 @@ class UserController extends Controller
         $me = User::where('id', Auth::user()->id)->first();
         $meService = Session::get('service')[0];
         if($meService === null || $meService === '') $meService = $me->service;
+
         if(is_null($request->query('query'))){
             $users = User::all();
+
         }else{
-            $users = User::search($request->query('query'))->get();
+            $users = User::search($request->query('query'))->take(50)->get();
+        }
+
+        $grade = $request->query('grade');
+        if(is_null($grade) || !isset($grade)){
+            $grade = 'ALL';
         }
 
 
@@ -55,32 +62,30 @@ class UserController extends Controller
         $readedPage = (max($readedPage, 1));
         $forgetable = array();
 
+
         for($a = 0; $a < $users->count(); $a++){
-            if(!$me->dev){
-                $user = $users[$a];
-                if($meService === "SAMS"){
-                    if(!$user->isInMedicUnit()){
-                        array_push($forgetable, $a);
-                    }
-                }else if($meService === "LSCoFD"){
-                    if(!$user->isInFireUnit()){
-                        array_push($forgetable, $a);
-                    }
+            $user = $users[$a];
+            if(!self::compareGrade($user, $grade, $meService)) array_push($forgetable, $a);
+            if($meService === "SAMS"){
+                if(!$user->isInMedicUnit()){
+                    array_push($forgetable, $a);
+                }
+            }else if($meService === "LSCoFD"){
+                if(!$user->isInFireUnit()){
+                    array_push($forgetable, $a);
                 }
             }
         }
-
-
         foreach ($forgetable as $it){
             $users->forget($it);
         }
 
 
 
-
         $users = $users->filter(function ($item){
             return \Gate::allows('view', $item);
         });
+
 
 
         $finalList = $users->skip(($readedPage-1)*20)->take(20);
@@ -101,12 +106,13 @@ class UserController extends Controller
         $valueRounded = ceil($totalItem / 20);
         $maxPage = (int) ($valueRounded == 0 ? 1 : $valueRounded);
         //Creation of Paginate Searchable result
+
         $array = [
             'current_page'=>$readedPage,
             'last_page'=>$maxPage,
             'data'=> $finalList,
-            'next_page_url' => ($readedPage === $maxPage ? null : $url.($readedPage+1)),
-            'prev_page_url' => ($readedPage === 1 ? null : $url.($readedPage-1)),
+            'next_page_url' => ($readedPage === $maxPage ? null : $url.($readedPage+1).'&grade='.$grade),
+            'prev_page_url' => ($readedPage === 1 ? null : $url.($readedPage-1).'&grade='.$grade),
             'total' => $totalItem,
         ];
 
@@ -408,7 +414,6 @@ class UserController extends Controller
 
 
 
-
             if(!$me->dev){
                 $user = $users[$a];
                 if($meService === "SAMS"){
@@ -469,6 +474,30 @@ class UserController extends Controller
         $export = new ExelPrepareExporter($column);
 
         return Excel::download((object)$export, $meService.'_UserExport_'. now()->timestamp .'.xlsx');
+    }
+
+    private function compareGrade(User $user, string $grade, string $selectedService): bool
+    {
+        if($grade === "ALL") return true;
+
+
+        if($selectedService === "SAMS"){
+            $Usergrade = $user->GetMedicGrade->name;
+        }
+        if($selectedService === "LSCoFD"){
+            $Usergrade = $user->GetFireGrade->name;
+        }
+
+
+        if($grade === "SERVICE" && $Usergrade !== "default") return true;
+        if($grade === "UNGRADED" && $Usergrade === "default") return true;
+        if(is_numeric($grade)){
+            $grade = Grade::where('id',$grade)->first();
+
+                if($grade->name === $Usergrade) return true;
+        }
+
+        return false;
     }
 
 }

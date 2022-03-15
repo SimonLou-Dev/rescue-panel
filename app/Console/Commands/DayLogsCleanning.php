@@ -46,7 +46,7 @@ class DayLogsCleanning extends Command
         $this->info('DB is cleared from logs who date <= ' . $date);
         $logs = LogDb::where('created_at', '<=', $date)->get();
         foreach ($logs as $log){
-           // $log->delete();
+           $log->delete();
         }
         $this->info('DB Cleared');
         $zip = new \ZipArchive();
