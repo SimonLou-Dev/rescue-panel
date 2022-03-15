@@ -72,12 +72,6 @@ class RapportController extends Controller
             'ata'=>['string']
         ]);
 
-        if(isset($request->pathology) && Session::get('service')[0] === "SAMS"){
-
-            $request->validate([
-                'pathology'=>['min:1', 'integer']
-            ]);
-        }
 
         $Patient = PatientController::PatientExist($request->name);
         if(is_null($Patient)) {
@@ -155,13 +149,6 @@ class RapportController extends Controller
             'ata'=>['string', 'nullable']
         ]);
 
-
-        if(Session::get('service')[0] === 'SAMS'){
-
-            $request->validate([
-                'pathology'=>['integer']
-            ]);
-        }
 
         $rapport = Rapport::where('id', $id)->first();
         $this->authorize("update", $rapport);

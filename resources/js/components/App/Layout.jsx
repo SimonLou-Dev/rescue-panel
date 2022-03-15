@@ -194,15 +194,15 @@ function Layout(props) {
                             <section className={"menu-item"}>
                                 <h2><span>Patient</span></h2>
                                 <ul className={"menu-nav-list"}>
-                                    {(user.grade.admin || (user.onService && user.grade.rapport_view) || user.grade.rapport_HS) &&
+                                    {(user.grade.admin || (user.OnService && user.grade.rapport_view) || user.grade.rapport_HS) &&
                                         <li className={'menu-puce'}><Link to={'/patients/rapport'}
                                                                           className={'menu-link'}>rapports</Link></li>
                                     }
-                                    {(user.grade.admin || (user.onService && user.grade.dossier_view) || user.grade.dossier_HS) &&
+                                    {(user.grade.admin || (user.OnService && user.grade.dossier_view) || user.grade.dossier_HS) &&
                                         <li className={'menu-puce'}><Link to={'/patients/dossiers'}
                                                                           className={'menu-link'}>dossiers</Link></li>
                                     }
-                                    {(user.grade.admin || (user.onService && user.grade.poudretest_view) || user.grade.poudretest_HS) &&
+                                    {(user.grade.admin || (user.OnService && user.grade.poudretest_view) || user.grade.poudretest_HS) &&
                                         <li className={'menu-puce'}><Link to={'/patients/poudre'}
                                                                           className={'menu-link'}>tests de poudre</Link>
                                         </li>
@@ -236,7 +236,7 @@ function Layout(props) {
                                     <li className={'menu-puce hidden'}><Link to={'/' + service + '/logistique/stock/view'}
                                                                       className={'menu-link'}>gestion des stocks</Link>
                                     </li>
-                                    {(user.grade.admin || (user.onService && user.pilote)) &&
+                                    {(user.grade.admin || (user.OnService && user.pilote)) &&
                                         <li className={'menu-puce'}><Link to={'/' + service + '/vols'}
                                         className={'menu-link'}>vols</Link></li>
                                     }

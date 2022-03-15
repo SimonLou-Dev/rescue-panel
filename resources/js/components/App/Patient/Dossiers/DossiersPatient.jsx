@@ -10,7 +10,7 @@ function DossiersPatient(props) {
     const [patients, setPatients] = useState([]);
     const [pagination, setPagination] = useState([]);
     const [search, setSearch] = useState();
-    const [selected, setSelectede] = useState();
+    const [selected, setSelectede] = useState(null);
     const [name, setName] = useState();
     const [ddn , setDDn] = useState();
     const [tel, setTel] = useState();
@@ -92,7 +92,7 @@ function DossiersPatient(props) {
                 setDDn('');
                 setbloodgroup('')
                 searcher(search);
-                setSelectede()
+                setSelectede(null)
                 setErrors([])
                 setImpayePhrase(null)
                 setImpaye(null)

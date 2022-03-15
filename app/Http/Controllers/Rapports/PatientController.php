@@ -86,19 +86,28 @@ class PatientController extends Controller
         $request->validate([
             'name'=>['required', 'string','regex:/[a-zA-Z.+_]+\s[a-zA-Z.+_]/'],
             'tel'=>['tel'=> 'required','regex:/5{3}-\d\d/'],
-
         ]);
 
-
-        $patient = Patient::where('id', $id)->first();
-        $patient->tel = $request->tel;
-        $patient->name = $request->name;
-        $patient->naissance  = $request->ddn;
+        if(is_null($id) || $id === "null"){
+            $patient = new Patient();
+        }else{
+            $patient = Patient::where('id', $id)->first();
+        }
+        if(isset($request->tel)){
+            $patient->tel = $request->tel;
+        }
+        if(isset($request->ddn)){
+            $patient->naissance  = $request->ddn;
+        }
         if(isset($request->bloodgroup) && $request->bloodgroup != ''){
             $request->validate(['bloodgroup'=>['regex:/(A|B|AB|O)[+-]/']]);
             $patient->blood_group  = $request->bloodgroup;
         }
-        $patient->living_place = $request->liveplace;
+        if(isset($request->liveplace)){
+            $patient->living_place = $request->liveplace;
+        }
+        $patient->name = $request->name;
+
         $patient->save();
         event(new Notify('Informations mise à jour ! ',1, \Auth::id()));
         return response()->json(['status'=>'OK'],201);
