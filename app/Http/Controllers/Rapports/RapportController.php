@@ -114,7 +114,7 @@ class RapportController extends Controller
         $rapport->save();
         FacturesController::addFactureMethod($Patient, $request->payed, $request->montant, Auth::user()->id, $rapport->id);
 
-        $path =  "/public/RI/{$rapport->id}.pdf";
+        $path =  storage_path('app/public/RI/') . $rapport->id.'.pdf';
         $embed = $this::rapportEmbed($rapport);
         \Discord::postMessage(DiscordChannel::RI, $embed, $rapport);
         $this->dispatch(new ProcessRapportPDFGenerator($rapport, $path));
@@ -161,17 +161,16 @@ class RapportController extends Controller
         if(isset($request->ata)){
             $rapport->ata = $request->ata;
         }
-        $rapport->service = Session::get('service')[0];
         if(isset($request->pathology) && $request->pathology != 0){
             $rapport->pathology_id = $request->pathology;
         }
         $rapport->save();
         FacturesController::updateFactureMethod($rapport->GetPatient, $rapport, $request->payed, $request->montant);
 
-        $path = '/public/RI/'. $rapport->id . ".pdf";
+        $path =  storage_path('app/public/RI/') . $rapport->id.'.pdf';
 
-        if(Storage::exists($path)){
-            Storage::delete($path);
+        if(\Illuminate\Support\Facades\File::exists($path)){
+           \Illuminate\Support\Facades\File::delete($path);
         }
         $this->dispatch(new ProcessRapportPDFGenerator($rapport, $path));
 

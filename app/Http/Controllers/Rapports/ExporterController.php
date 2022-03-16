@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Jobs\ProcessRapportPDFGenerator;
 use App\Models\Facture;
 use App\Models\Rapport;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use Illuminate\Redis\Connections\PredisConnection;
 use Illuminate\Support\Facades\App;
@@ -26,37 +27,38 @@ class ExporterController extends Controller
 
 
         $rapport = Rapport::where('id', $id)->first();
-        $user = Auth::user()->name;
 
-        $path = '/public/RI/'. $rapport->id . ".pdf";
+
+        $path =  storage_path('app/public/RI/') . $rapport->id.'.pdf';
+        $user = $rapport->GetUser;
+
 
         if(!Storage::exists($path)){
-            $user = $rapport->GetUser->name;
-            ob_start();
-            require(base_path('/resources/PDF/RI/index.php'));
-            $content = ob_get_clean();
-            $pdf = App::make('dompdf.wrapper');
-            $pdf->loadHTML($content);
+            $pdf = Pdf::loadView('pdf.RI',['rapport'=>$rapport, 'user'=>$user]);
+            $pdf->save($path);
             return $pdf->stream();
         }else{
-            return \response()->file(Storage::path($path));
+            return \response()->file($path);
         }
 
     }
 
     public function makeImpayPdf(Request $request, string $from , string $to){
+
         $this->authorize("export", Facture::class);
         $impaye = Facture::where('payed', 0)->where('created_at', '>=', $from)->where('created_at', '<=', $to)->orderBy('id', 'desc')->get();
+        $total = 0;
+        $impaye = $impaye->filter(function ($item, $key){
+           return $item->price != 0;
+        });
+        foreach ($impaye as $imap){
+            $total = $total + $imap->price;
+        }
 
-        $infos = ['from'=>date('d/m/Y', strtotime($from)),'to'=>date('d/m/Y', strtotime($to))];
-        $data = ['infos'=>$infos, 'impaye'=>$impaye];
+        $infos = ['from'=>date('d/m/Y', strtotime($from)),'to'=>date('d/m/Y', strtotime($to)), 'total'=>$total];
+        $pdf = Pdf::loadView('pdf.facture',['infos'=>$infos, 'factures'=>$impaye]);
 
-        ob_start();
-        require(base_path('/resources/PDF/facture/index.php'));
-        $content = ob_get_clean();
 
-        $pdf = App::make('dompdf.wrapper');
-        $pdf->loadHTML($content);
         return $pdf->stream();
 
     }

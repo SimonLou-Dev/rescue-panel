@@ -13,6 +13,7 @@ use App\Models\Intervention;
 use App\Models\Patient;
 use App\Models\TestPoudre;
 use App\Models\User;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
@@ -75,7 +76,7 @@ class PoudreTestController extends Controller
         $test->save();
 
         $tester = User::where('id', Auth::id())->first();
-        $path = 'public/test/poudre/'. $test->id . ".pdf";
+        $path =  storage_path('app/public/test/poudre/') . "/pouder_".$test->id.'.pdf';
         $this->dispatch(new ProcesTestPoudrePDFGenerator($test, $path));
 
         $embed = [
@@ -129,7 +130,7 @@ class PoudreTestController extends Controller
                 ]
             ]
         ];
-        \Discord::postMessage(DiscordChannel::Poudre, $embed, $test, null);
+        \Discord::postMessage(DiscordChannel::Poudre, $embed, null);
 
         $logs = new LogsController();
         $logs->TestDePoudreLogging($test->id, $tester->id);
@@ -143,20 +144,15 @@ class PoudreTestController extends Controller
 
         $test = TestPoudre::where('id', $id)->first();
         $user = $test->GetPersonnel;
-        $user = $user->name;
-        $path = "public/test/poudre/pouder_". $test->id . ".pdf";
+        $path =  storage_path('app/public/test/poudre/') . "/pouder_".$test->id.'.pdf';
 
-        if(!file_exists(Storage::path($path))){
-            ob_start();
-            require(base_path('resources/PDF/test/poudre.php'));
-            $content = ob_get_clean();
-            $pdf = App::make('dompdf.wrapper');
-            $pdf->loadHTML($content);
-            $this->dispatch(new ProcesTestPoudrePDFGenerator($test, $path));
+        if(!file_exists($path)){
+            $pdf = Pdf::loadView('PDF.TDP',['test'=>$test, 'user'=>$user]);
+            $pdf->save($path);
             return $pdf->stream();
         }
 
-        return response()->file(Storage::path($path));
+        return response()->file($path);
     }
 
     public function getAllTests(Request $request): \Illuminate\Http\JsonResponse

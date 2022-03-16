@@ -1,30 +1,13 @@
 <!DOCTYPE html>
 <html lang="FR">
 <head>
-    <title>rapport_<?php echo $test->id ?>.pdf</title>
+    <title>TDP_{{$test->id}}.pdf</title>
     <style>
         body{
             display: flex;
             flex-direction: column;
         }
-        .head{
-            display: flex;
-            flex-direction: column;
-            width: 90%;
-            margin: 0 auto;
-            height: 220px;
-        }
-        .head img{
-            margin: 0 15%;
-            width: 70%;
-        }
-        .head h1{
-            text-align: center;
-            margin-top: 120px;
-            font-weight: 700;
-            font-family: "Baloo Thambi 2", monospace;
-            margin-bottom: 0;
-        }
+
         .card{
             border: #0C2646 2px solid;
             margin-bottom: 20px;
@@ -72,40 +55,28 @@
         .signature{
             display: flex;
             flex-direction: column;
-            height: 200px;
+            height: 100px;
         }
-        .contents{
-            margin-top: 110px;
-            margin-left: 120px;
-        }
-        .text,img{
-            margin-left: 100px;
-            margin-top: 25px;
-        }
-        .signiature{
-            font-weight: 700;
-            font-family: 'Brush Script MT', monospace;
-            font-size: 40px;
-            margin-top: 20px;
-            margin-left: 50px;
-        }
+
     </style>
 </head>
 <body>
-<div class="head">
-    <?php echo '<img src="'. public_path('assets/images/LONG_EMS_BC_2.png') .'" alt="">' ?>
-    <h1>Test de poudre #<?php echo $test->id ?></h1>
-</div>
+<table class="bordered" style="table-layout: fixed; width: 100%; margin-bottom: 15px">
+    <tr class="font-12" style="width: 90%">
+        <td style="width: 60%;"><h1 style=";font-weight: 700;font-family: 'Baloo Thambi 2', monospace;">Test de poudre</h1></td>
+        <td style="width: 20%;"><img src="{{public_path('assets/images/'. $test->service .'.png')}}" alt="" style="width: 150px; height: 150px; margin-left: 0px"></td>
+    </tr>
+</table>
 <div class="card">
     <div class="card-head">
         <h3>Identification du patient</h3>
     </div>
     <div class="card-content id">
         <div class="item">
-            <p><span class="fixed">prénom nom :</span><?php echo ' '.$test->GetPatient->name . ' ' . $test->GetPatient->vorname ?></p>
+            <p><span class="fixed">prénom nom :</span> {{$test->GetPatient->name}}</p>
         </div>
         <div class="item">
-            <p><span class="fixed">n° de téléphone :</span><?php echo ' '.$test->GetPatient->tel ?></p>
+            <p><span class="fixed">n° de téléphone :</span>{{$test->GetPatient->tel}}</p>
         </div>
     </div>
 </div>
@@ -115,10 +86,10 @@
     </div>
     <div class="card-content sa">
         <div class="item">
-            <p><span class="fixed">Date et heure du prélèvement :</span><?php echo ' '. date('d/m/y H:i', strtotime($test->started_at)) ?> </p>
+            <p><span class="fixed">Date et heure du prélèvement :</span>{{$test->started_at}}</p>
         </div>
         <div class="item">
-            <p><span class="fixed">Lieux de prélèvement :</span><?php echo ' '. $test->lieux_prelevement ?></p>
+            <p><span class="fixed">Lieux de prélèvement :</span>{{$test->lieux_prelevement}}</p>
         </div>
     </div>
 </div>
@@ -127,12 +98,13 @@
         <h3>Résultat</h3>
     </div>
     <div class="item">
-        <p><span class="fixed">Presence sur les vêtements :</span><?php echo ' '. ($test->on_clothes_positivity ? 'Positif': 'Negatif') ?> </p>
+        <p><span class="fixed">Presence sur les vêtements :</span>{{$test->on_clothes_positivity ? 'Positif': 'Negatif'}} </p>
     </div>
     <div class="item">
-        <p><span class="fixed">Presence sur la peau :</span><?php echo ' '. ($test->on_skin_positivity ? 'Positif': 'Negatif') ?> </p>
+        <p><span class="fixed">Presence sur la peau :</span>{{$test->on_skin_positivity ? 'Positif': 'Negatif'}}</p>
     </div>
 </div>
+
 
 <div class="card">
     <div class="card-head">
@@ -140,15 +112,13 @@
     </div>
     <div class="card-content pi">
         <div class="item">
-            <p><span class="fixed">prénom nom :</span> <?php echo $user  ?></p>
+            <p><span class="fixed">prénom nom :</span> {{$user->name}} ({{$test->service}})</p>
         </div>
+
         <div class="item signature">
             <p><span class="fixed">Signature :</span></p>
             <div class="contents">
-                <p class="signiature"> <?php echo $user  ?></p>
-                <div class="text"><?php echo '<img class="imgsignature" width="100px" alt=""src="'. public_path('assets/images/LSCoFD.png') .'" alt="">' ?></div>
-
-
+                <p style="font-weight: 700;font-family: 'Brush Script MT', monospace;font-size: 25px;margin-top: 20px; margin-left: 50%"> {{$user->name}} </p>
             </div>
         </div>
     </div>

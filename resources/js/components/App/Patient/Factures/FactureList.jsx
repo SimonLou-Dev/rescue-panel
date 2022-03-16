@@ -101,7 +101,7 @@ function FactureList(props) {
                         <input type={'date'} value={to} onChange={(e)=>{setTo(e.target.value)}}/>
                     </div>
                     {(user.grade.admin || user.grade.facture_export) &&
-                        <a href={'/PDF/facture/' + from  +'/'+to}  target={'_blank'} className={'bnt'}><img alt={''} src={'/assets/images/xls.png'}/></a>
+                        <a href={'/PDF/facture/' + from  +'/'+to}  target={'_blank'} className={'bnt'}><img alt={''} src={'/assets/images/pdf.png'}/></a>
                     }
 
                 </div>

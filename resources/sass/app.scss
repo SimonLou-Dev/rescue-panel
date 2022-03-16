@@ -607,6 +607,9 @@ body{
         .Card{
             margin: auto 0;
             height: 80vh;
+            .card-content{
+                height: 100%;
+            }
 
             .intervention-table{
                 padding: 10px;

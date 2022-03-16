@@ -116,11 +116,14 @@ class PatientController extends Controller
     public function getAllPatientsSearcher(Request $request){
        $patients = Patient::search($request->query('query'))->paginate();
        $colors = ['#04cf26','#99cf04','#cf6d04','#cf0404'];
+       $date = date('d/m/Y H:i', strtotime(date('Y-m-d H:i:s'). ' -5 days'));
+
 
        foreach ($patients as $patient){
 
-           $rapports = Rapport::where('id', $patient->id)->where('created_at', '>', date('d/m/Y H:i', strtotime(date('Y-m-d H:i:s'). ' -5 days')))->count();
+           $rapports = Rapport::where('created_at', '>=', $date)->where('patient_id',$patient->id)->count();
            $number = 0;
+
            if($rapports > 3 && $rapports < 5){
                $number = 1;
            }else if($rapports >= 5 && $rapports < 7){
