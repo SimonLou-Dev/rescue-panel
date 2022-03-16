@@ -11,7 +11,6 @@
         "php": "^8.0.2",
         "ext-json": "*",
         "ext-zip": "*",
-        "algolia/algoliasearch-client-php": "^3.2",
         "barryvdh/laravel-dompdf": "^1.0.0",
         "bensampo/laravel-enum": "^v5.1.0",
         "doctrine/dbal": "^3.2",
