@@ -42,7 +42,7 @@ class DayLogsCleanning extends Command
     public function handle()
     {
         $this->info('Starting logs cleaning');
-        $date = date('Y-m-d H:i:s', strtotime(date('Y-m-d H:i:s ',time()) . ' 48 hours'));
+        $date = date('Y-m-d H:i:s', strtotime(date('Y-m-d H:i:s ',time()) . ' - 48 hours'));
         $this->info('DB is cleared from logs who date <= ' . $date);
         $logs = LogDb::where('created_at', '<=', $date)->get();
         foreach ($logs as $log){

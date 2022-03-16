@@ -7,7 +7,7 @@ pipeline {
         SENTRY_AUTH_TOKEN = credentials('sentry-auth-token')
         SENTRY_ORG = 'simonlou'
         SENTRY_ENVIRONMENT = 'production'
-        SENTRY_RELEASE= '3.0.2'
+        SENTRY_RELEASE= '3.0.3'
         SENTRY_URL='https://sentry.simon-lou.com/'
     }
 
@@ -50,7 +50,7 @@ pipeline {
 
     stage('Sentry version') {
         steps {
-            sh "sentry-cli releases new -p laravel -p react $SENTRY_RELEASE"
+            sh "sentry-cli releases new -p laravel $SENTRY_RELEASE"
             sh "sentry-cli releases set-commits $SENTRY_RELEASE --auto"
         }
     }
