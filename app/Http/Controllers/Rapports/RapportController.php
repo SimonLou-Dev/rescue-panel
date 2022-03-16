@@ -18,6 +18,7 @@ use App\Models\Pathology;
 use App\Models\Patient;
 use App\Models\Rapport;
 use App\Facades\Discord;
+use App\Rules\StringTime;
 use Hoa\File\File;
 use http\Env\Response;
 use Illuminate\Http\Request;
@@ -69,7 +70,7 @@ class RapportController extends Controller
             'desc'=>['required'],
             'payed'=>['required', 'boolean'],
             'montant'=>['required','integer'],
-            'ata'=>['string']
+            'ata'=>['string',new StringTime]
         ]);
 
 
@@ -146,7 +147,7 @@ class RapportController extends Controller
             'desc'=>['required'],
             'payed'=>['required', 'boolean'],
             'montant'=>['required','integer'],
-            'ata'=>['string', 'nullable']
+            'ata'=>['string', new StringTime]
         ]);
 
 

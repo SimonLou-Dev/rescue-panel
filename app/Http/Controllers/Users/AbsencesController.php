@@ -176,7 +176,7 @@ class AbsencesController extends Controller
 
         $abs->save();
 
-        Notify::broadcast('Absence refusée',1, Auth::user()->id);
+        Notify::broadcast('Absence aceptée ',1, Auth::user()->id);
         return response()->json([],201);
 
     }

@@ -89,9 +89,8 @@ function TestPoudre(props) {
                 searchPatient('')
                 patientList();
             }
-            if(error.response.status === 422){
-                setErrors(error.response.data.errors)
-            }
+        }).catch(error => {
+            setErrors(error.response.data.errors)
         })
     }
 

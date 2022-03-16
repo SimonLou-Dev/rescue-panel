@@ -75,6 +75,7 @@ class User extends Authenticatable
     }
 
 
+
     public function GetRapports(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
         return $this->hasMany(Rapport::class, 'user_id');

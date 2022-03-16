@@ -107,7 +107,7 @@ function GlobalView(props) {
             <CardComponent title={'terminé(s)'}>
                 <div className={'header'}>
                     <Searcher value={search} callback={(v) => {UpdateBC(v)}}/>
-                    <button className={'btn'}><img alt={''} src={'/assets/images/xls.png'}/></button>
+                    <a className={'btn'} href={'/exel/allPList'} target={'_blank'}><img alt={''} src={'/assets/images/xls.png'}/></a>
                     <PageNavigator prev={()=> {UpdateBC(search, page-1)}} next={()=> {UpdateBC(search, page+1)}} prevDisabled={(pagination.prev_page_url === null)} nextDisabled={(pagination.next_page_url === null)}/>
                 </div>
                 <div className={'BCtable'}>

@@ -121,28 +121,28 @@ function FichePersonnel(props) {
             <section className={'material'}>
                 <div className={'material-list'}>
 
-                    {user.materiel != null && user.materiel.extincteur &&
+                    {user!= null && user.materiel != null && user.materiel.extincteur &&
                         <div className={'material-item'}>
                             <img src={'/assets/images/material/fire-extinguisher.png'} alt={''}/><p>extincteur</p>
                         </div>
                     }
-                    {user.materiel != null && user.materiel.flare &&
+                    {user!= null && user.materiel != null && user.materiel.flare &&
                         <div className={'material-item'}>
                             <img src={'/assets/images/material/flaregun.png'} alt={''}/> <p>flare</p>
                         </div>
                     }
-                    {user.materiel != null && user.materiel.flaregun &&
+                    {user!= null && user.materiel != null && user.materiel.flaregun &&
                         <div className={'material-item'}>
                             <img src={'/assets/images/material/flaregun.png'} alt={''}/> <p>flare-gun</p>
                         </div>
                     }
-                    {user.materiel != null && user.materiel.flashlight &&
+                    {user!= null && user.materiel != null && user.materiel.flashlight &&
                         <div className={'material-item'}>
                             <img src={'/assets/images/material/flashlights.png'} alt={''}/> <p>flashlights</p>
                         </div>
 
                     }
-                    {user.materiel != null && user.materiel.kevlar &&
+                    {user!= null && user.materiel != null && user.materiel.kevlar &&
                         <div className={'material-item'}>
                             <img src={'/assets/images/material/kevlar.png'} alt={''}/> <p>kevlar</p>
                         </div>

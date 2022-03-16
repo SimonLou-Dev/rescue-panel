@@ -119,7 +119,7 @@ class UserController extends Controller
         if($me->dev){
             $grades = Grade::all();
         }else{
-            $grades = Grade::where('service', $meService)->get();
+            $grades = Grade::where('service', $meService)->orderBy('power','asc')->get();
             $grades = $grades->filter(function ($item){
                 return \Gate::allows('view', $item);
             });
@@ -161,13 +161,13 @@ class UserController extends Controller
     public function setService(Request $request, string $service){
         $user = User::where('id',Auth::user()->id)->first();
         $userSrv = $user->OnService;
-        if($userSrv){
-            OperatorController::setService($user);
-        }
+        $user->service = $service;
         Session::forget('service');
         Session::push('service',$service);
-        $user->service = $service;
         $user->save();
+        if($userSrv){
+            OperatorController::setService($user, false);
+        }
         UserUpdated::dispatch($user);
         return \response()->json([],202);
     }
