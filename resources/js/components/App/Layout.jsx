@@ -33,11 +33,11 @@ import Dashboard from "./Other/Dashboard";
 import Vols from "./logistique/Vols"
 import * as Sentry from "@sentry/react";
 
-
 function Layout(props) {
     const [collapsed, setCollasping] = useState(true);
     const [user, setUser] = useState(null);
     const [service, setService] = useState('');
+    const [serviceDisabled, disableService] = useState(false);
     const dispatch = useNotifications();
 
     useEffect(async ()=>{
@@ -157,6 +157,22 @@ function Layout(props) {
 
     }
 
+    const serviceRequester = async (e) => {
+        if(serviceDisabled) e.preventDefault()
+
+       if(!serviceDisabled){
+           disableService(true)
+           await axios({
+               method: 'PATCH',
+               url: '/data/service/user'
+           })
+           const serviceID = setInterval(
+               () => {disableService(false); clearInterval(serviceID)},
+               10*1000
+           );
+       }
+    }
+
     if(user === null) return (<div className={'layout'}>
 
     </div> )
@@ -181,13 +197,7 @@ function Layout(props) {
                         <Link className={"menu-link-big"} to="/account">mon compte</Link>
                         <Link className={"menu-link-big hidden"} to={"/dispatch/" + service}>dispatch</Link>
                         <Link className={"menu-link-big"} to="/servicenav">changer de service</Link>
-                        <h4 className={"menu-link-big"} onClick={async () => {
-                            await axios({
-                                method: 'PATCH',
-                                url: '/data/service/user'
-                            })
-                        }
-                        }>service : <label htmlFor="service-state">{user.OnService ? 'on' : 'off'}</label></h4>
+                        <h4 className={"menu-link-big " + (serviceDisabled ? 'ServicebtnDisabled':'')} onClick={(e)=>serviceRequester(e)}>service : <label htmlFor="service-state">{user.OnService ? 'on' : 'off'}</label></h4>
                     </section>
                     <section className={"menu-scrollable"}>
                         <div className={"menu-item-list"}>
