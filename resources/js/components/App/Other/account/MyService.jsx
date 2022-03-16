@@ -187,7 +187,7 @@ function MyService(props) {
                     </div>
                     <div className={'form-part form-inline'}>
                         <label>temps </label>
-                        <input type={'text'} placeholder={'hh:mm (h heures & m minutes)'} value={modifierTime} className={(errors.time ? 'form-error': '')} onChange={(e)=>{setModifierTime(e.target.value); }}/>
+                        <input type={'time'} placeholder={'hh:mm (h heures & m minutes)'} value={modifierTime} className={(errors.time ? 'form-error': '')} onChange={(e)=>{setModifierTime(e.target.value); }}/>
                         <ul className={'error-list'}>
                             {errors.time_quantity && errors.time_quantity.map((item)=>
                                 <li>{item}</li>
