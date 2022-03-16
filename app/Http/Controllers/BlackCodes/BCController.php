@@ -114,16 +114,6 @@ class BCController extends Controller
         return response()->json([],201);
     }
 
-    public function getBCState(string $id): \Illuminate\Http\JsonResponse
-    {
-        $id = (int) $id;
-       $bc = BCList::where('id',$id)->first();
-       return response()->json([
-           'status'=>'OK',
-           'ended'=>$bc->ended ? true : false,
-       ]);
-    }
-
     public function getBCByid(string $id): \Illuminate\Http\JsonResponse
     {
 
@@ -282,7 +272,7 @@ class BCController extends Controller
 
         $export = new ExelPrepareExporter($columns);
         return Excel::download((object)$export, 'ListePatientsBc'. $id .'.xlsx');
-    }
+    } #a refaire
 
     public function casernePatcher (Request $request, string $id){
         $this->authorize('update', BCList::class);

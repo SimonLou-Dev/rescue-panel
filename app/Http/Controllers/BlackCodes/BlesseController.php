@@ -17,6 +17,7 @@ use App\Models\Facture;
 use App\Models\Patient;
 use App\Models\Rapport;
 use App\Exporter\ExelPrepareExporter;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
@@ -114,13 +115,16 @@ class BlesseController extends Controller
         return response()->json(['status'=>'OK']);
     }
 
-    public function generateListWithAllPatients(Request $request, string $from, string $to): \Symfony\Component\HttpFoundation\BinaryFileResponse
+    public function generateListWithAllPatients(Request $request): \Symfony\Component\HttpFoundation\BinaryFileResponse
     {
 
-        $Bcs = BCList::where('ended', true)->where('created_at', '>', $from . ' 00:00:00')->where('created_at', '<', $to . ' 00:00:00')->orderBy('id', 'desc')->get();
+        $Bcs = BCList::where('ended', true)->orderBy('id', 'desc')->take(40)->get();
+
 
         $patientsId = $this::getOrderedListOfPatientIdPresent($Bcs)[0];
         $arrayOrdered = $this::getOrderedListOfPatientIdPresent($Bcs)[1];
+
+
 
         $bcList = array();
 
@@ -156,12 +160,12 @@ class BlesseController extends Controller
         }
 
         $export = new ExelPrepareExporter($columns);
-        return Excel::download((object)$export, 'listeDesPatientsDansLesBC.xlsx');
+        return Excel::download((object)$export, 'listePatiensBC40Last.xlsx');
     }
 
-    private static function getOrderedListOfPatientIdPresent(BCList $Bcs): array
+    private static function getOrderedListOfPatientIdPresent(Collection $bcs): array
     {
-        foreach ($Bcs as $bc){
+        foreach ($bcs as $bc){
             $patients = $bc->GetPatients;
             foreach ($patients as $patient){
                 $idList[] = $patient->patient_id;
@@ -171,7 +175,8 @@ class BlesseController extends Controller
         arsort($arrayOrdered);
         return [array_keys($arrayOrdered), $arrayOrdered];
     }
-    private static function fillBclist(BCList $Bcs,array $patientsId){
+
+    private static function fillBclist(Collection $Bcs,array $patientsId){
         foreach ($Bcs as $bc){
             $patients = $bc->GetPatients;
             foreach ($patients as $patient){

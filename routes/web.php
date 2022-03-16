@@ -141,7 +141,7 @@ Route::post('/data/blackcode/create', [BCController::class, 'addBc'])->middlewar
 Route::put('/data/blackcode/{id}/close', [BCController::class, 'endBc'])->middleware(['auth']);
 Route::delete('/data/blackcode/delete/patient/{patient_id}', [BlesseController::class, 'removePatient'])->middleware(['auth']);
 Route::delete('/data/blackcode/{id}/delete/personnel', [PersonnelController::class, 'removePersonnel'])->middleware(['auth']);
-Route::get('/exel/allPList/{from}/{to}', [BlesseController::class, 'generateListWithAllPatients'])->middleware(['auth']);
+Route::get('/exel/allPList', [BlesseController::class, 'generateListWithAllPatients'])->middleware(['auth']);
 Route::get('/data/bc/rapport/{id}', [BCController::class, 'generateRapport'])->middleware(['auth']);
 
 Route::patch('/data/blackcode/{id}/caserne', [BCController::class, 'casernePatcher'])->middleware(['auth']);
