@@ -72,11 +72,12 @@ class RemboursementsController extends Controller
             $userRemboursements = new WeekRemboursement();
             $userRemboursements->week_number = ServiceGetterController::getWeekNumber();
             $userRemboursements->user_id = $rmb->getUser->id;
-            $userRemboursements->total = $request->montant;
+            $userRemboursements->total = $rmb->montant;
             $userRemboursements->service = Session::get('service')[0];
         }else{
             $userRemboursements->total = (int) $userRemboursements->total + (int) $rmb->montant;
         }
+        $userRemboursements->save();
 
         $embed = [
             [

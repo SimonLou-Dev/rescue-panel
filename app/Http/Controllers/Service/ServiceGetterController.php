@@ -59,7 +59,7 @@ class ServiceGetterController extends Controller
             $primes = Prime::where('user_id', $user->id)->where('service', Session::get('service')[0])->where('week_number', $week)->get();
             $total = 0;
             foreach ($primes as $prime){
-                $total =+ $prime->montant;
+                $total = $total + $prime->montant;
             }
             if(Session::get('service')[0] == 'SAMS'){
                 $grade = $user->GetMedicGrade;
@@ -72,7 +72,7 @@ class ServiceGetterController extends Controller
                     'Membre'=> $user->name,
                     'grade'=>$grade->name,
                     'n° de compte'=>$user->compte,
-                    'primes'=>$total !== 0 ?? '0',
+                    'primes'=>$total !== 0 ? $total : '0',
                     'Remboursements'=> isset($remboursement) ? $remboursement->total : '0',
                     'dimanche'=>$service->dimanche,
                     'lundi'=>$service->lundi,
@@ -89,7 +89,7 @@ class ServiceGetterController extends Controller
                     'Membre'=> $user->name,
                     'grade'=>$grade->name,
                     'n° de compte'=>$user->compte,
-                    'primes'=>$total,
+                    'primes'=>$total !== 0 ? $total : '0',
                     'Remboursements'=> isset($remboursement) ? $remboursement->total : '0' ,
                     'dimanche'=>'00:00:00',
                     'lundi'=>'00:00:00',
@@ -219,11 +219,12 @@ class ServiceGetterController extends Controller
             $item->remboursement = 0;
             $item->prime = 0;
 
-            $remboursements = WeekRemboursement::where('week_number', $date)->where('user_id', $user->id);
+            $remboursements = WeekRemboursement::where('week_number', $date)->where('user_id', $user->id)->where('service', Session::get('service')[0]);
             if($remboursements->count() === 1){
                 $item->remboursement =  $remboursements->first()->total;
             }
-            $primes = Prime::where('week_number', $date)->where('user_id', $user->id)->get();
+            $primes = Prime::where('week_number', $date)->where('user_id', $user->id)->where('service', Session::get('service')[0])->get();
+
             if($primes->count() > 0){
                 foreach ($primes as $prime){
                     $item->prime += $prime->montant;
