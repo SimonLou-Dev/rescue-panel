@@ -7,7 +7,7 @@ pipeline {
         SENTRY_AUTH_TOKEN = credentials('sentry-auth-token')
         SENTRY_ORG = 'simonlou'
         SENTRY_ENVIRONMENT = 'production'
-        SENTRY_RELEASE= '3.0.4'
+        SENTRY_RELEASE= '3.0.5'
         SENTRY_URL='https://sentry.simon-lou.com/'
     }
 

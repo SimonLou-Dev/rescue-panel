@@ -8,7 +8,6 @@ use Laravel\Scout\Searchable;
 
 class LogDb extends Model
 {
-    use HasFactory, Searchable;
     protected $table = 'Logs';
     protected $casts = [
         'created_at'=>'datetime:d/m/Y H:i'

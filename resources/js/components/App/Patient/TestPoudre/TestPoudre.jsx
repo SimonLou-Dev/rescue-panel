@@ -29,7 +29,7 @@ function TestPoudre(props) {
                 url: '/data/patient/search/'+search,
             }).then((response)=>{
                 setsearching(response.data.patients);
-                if (response.data.patients.length === 1 && response.data.patients[0].name === search) {
+                if (response.data.patients.length === 1 && response.data.patients[0].name.toLowerCase() === search.toLowerCase()) {
                     let patient = response.data.patients[0];
                     setName(patient.name);
                     setDDn(patient.naissance);

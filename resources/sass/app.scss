@@ -858,7 +858,7 @@ body{
                 .Personnel-list{
                     border: rgba(233, 233, 233,0.4) 1px solid;
                     max-height: 250px;
-                    height: calc(90% - 20px);
+                    height: 100px;
                     overflow-y: auto;
                     background-color: $bg2;
                     border-radius: $border-radius;
@@ -873,14 +873,12 @@ body{
                         padding: 5px 7px;
                         list-style: none;
                         background-color: $bg1;
+                        height: min-content;
                         border-radius: $border-radius;
                         img{
-                            margin: auto 0 auto 5px;
+                            margin: 0 0 0 5px;
                             width: 30px;
-                            height: auto;
-                        }
-                        h6{
-                            margin: auto 0;
+                            height: 30px;
                         }
                     }
                 }
@@ -939,7 +937,7 @@ body{
 
 }
 .PatientList{
-    .card{
+    .Card{
         height: 80vh;
         width: 100%;
         .patient-listing{
