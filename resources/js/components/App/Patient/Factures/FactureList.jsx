@@ -6,6 +6,7 @@ import axios from "axios";
 import CardComponent from "../../../props/CardComponent";
 import SwitchBtn from "../../../props/SwitchBtn";
 import UserContext from "../../../context/UserContext";
+import UpdaterBtn from "../../../props/UpdaterBtn";
 
 function FactureList(props) {
     const [popupDisplayed, displayPopup] = useState(false);
@@ -91,6 +92,7 @@ function FactureList(props) {
             <div className={'table-header'}>
                 <PageNavigator prev={()=> {patientList(search,page-1)}} next={()=> {patientList(search,page+1)}} prevDisabled={(paginate.prev_page_url === null)} nextDisabled={(paginate.next_page_url === null)}/>
                 <Searcher value={search} callback={(v) => {patientList(v)}}/>
+                <UpdaterBtn callback={patientList}/>
                 <div className={'exporter'}>
                     <div className={'exporter-part'}>
                         <label>du</label>

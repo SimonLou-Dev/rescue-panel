@@ -5,6 +5,7 @@ import SwitchBtn from "../../../props/SwitchBtn";
 import Searcher from "../../../props/Searcher";
 import PageNavigator from "../../../props/PageNavigator";
 import UserContext from "../../../context/UserContext";
+import UpdaterBtn from "../../../props/UpdaterBtn";
 
 function TestPoudre(props) {
     const [name, setName] = useState();
@@ -200,6 +201,7 @@ function TestPoudre(props) {
         <section className={'test-table'}>
             <div className={'table-header'}>
                 <Searcher value={search} callback={(v) => {patientList(v)}}/>
+                <UpdaterBtn callback={patientList}/>
                 <PageNavigator prev={()=> {patientList(search, page-1)}} next={()=> {patientList(search, page+1)}} prevDisabled={(paginate.prev_page_url === null)} nextDisabled={(paginate.next_page_url === null)}/>
             </div>
             <div className={'table-content'}>

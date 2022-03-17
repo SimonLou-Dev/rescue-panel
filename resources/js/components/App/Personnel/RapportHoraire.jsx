@@ -2,6 +2,7 @@ import React, {useEffect, useState} from 'react';
 import PageNavigator from "../../props/PageNavigator";
 import Searcher from "../../props/Searcher";
 import axios from "axios";
+import UpdaterBtn from "../../props/UpdaterBtn";
 
 
 function RapportHoraire(props) {
@@ -53,6 +54,7 @@ function RapportHoraire(props) {
             <div className={'table-header'}>
                 <PageNavigator prev={()=> {UserList(search,page-1)}} next={()=> {UserList(search,page+1)}} prevDisabled={(paginate.prev_page_url === null)} nextDisabled={(paginate.next_page_url === null)}/>
                 <Searcher value={search} callback={(v) => {UserList(v)}}/>
+                <UpdaterBtn callback={UserList}/>
                 <a href={'/data/service/admin/exel/'+currentWeek} target={'_blank'} className={'btn exporter'}><img alt={''} src={'/assets/images/xls.png'}/></a>
                 <div className={'selector'}>
                     <input type={'number'} placeholder={'semaine n°'} max={maxWeek} value={currentWeek} onChange={(e)=>{setCurrentWeek(e.target.value)}}/>

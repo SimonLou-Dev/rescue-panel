@@ -4,6 +4,7 @@ import Searcher from "../../props/Searcher";
 import axios from "axios";
 import SwitchBtn from "../../props/SwitchBtn";
 import UserContext from "../../context/UserContext";
+import UpdaterBtn from "../../props/UpdaterBtn";
 
 function ListPersonnel(props) {
 
@@ -62,6 +63,7 @@ function ListPersonnel(props) {
             <div className={'table-header'}>
                 <PageNavigator prev={()=> {UserList(search,page-1)}} next={()=> {UserList(search,page+1)}} prevDisabled={(paginate.prev_page_url === null)} nextDisabled={(paginate.next_page_url === null)}/>
                 <Searcher value={search} callback={(v) => {UserList(v)}}/>
+                <UpdaterBtn callback={UserList}/>
                 <div className={'selector'}>
                     <select onChange={(e)=>{UserList(search, page, e.target.value)}} value={searchedGrade}>
                         <option value={"ALL"}>tout le monde</option>

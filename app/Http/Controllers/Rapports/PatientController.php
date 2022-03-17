@@ -36,19 +36,6 @@ class PatientController extends Controller
         ]);
     }
 
-    public function search(Request $request, string $text): \Illuminate\Http\JsonResponse
-    {
-        $text = explode(" ", $text);
-        $prenom = $text[0];
-        if(count($text) > 1){
-            $nom = $text[1];
-        }else{
-            $nom = null;
-        }
-        $patient = Patient::where('vorname', 'LIKE', $prenom.'%')->where('name', 'LIKE', '%'.$nom.'%')->take(6)->get();
-        return response()->json(['status'=>'OK', 'list'=>$patient]);
-    }
-
     public function getPatient(Request $request, string $id): \Illuminate\Http\JsonResponse
     {
         $patient = Patient::where('id',$id)->first();
@@ -116,7 +103,7 @@ class PatientController extends Controller
     public function getAllPatientsSearcher(Request $request){
        $patients = Patient::search($request->query('query'))->paginate();
        $colors = ['#04cf26','#99cf04','#cf6d04','#cf0404'];
-       $date = date('d/m/Y H:i', strtotime(date('Y-m-d H:i:s'). ' -5 days'));
+       $date = date('Y-m-d H:i:s', strtotime(date('Y-m-d H:i:s'). ' -5 days'));
 
 
        foreach ($patients as $patient){

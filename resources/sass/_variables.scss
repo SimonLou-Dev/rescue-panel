@@ -43,6 +43,20 @@ $border-radius: 10px;
     visibility: hidden;
 }
 
+.updater{
+    margin: auto 0;
+    img{
+        transition: all 400ms cubic-bezier(0.28,-0.46, 0.33, 1.5);
+    }
+    &:hover{
+        transform: scale(1) !important;
+
+        img{
+            transform: rotate(180deg);
+        }
+    }
+}
+
 .fixed-top-right{
     position: fixed;
     top: 70px;

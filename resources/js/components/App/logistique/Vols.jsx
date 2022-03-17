@@ -5,6 +5,7 @@ import {Link} from "react-router-dom";
 import axios from "axios";
 import CardComponent from "../../props/CardComponent";
 import UserContext from "../../context/UserContext";
+import UpdaterBtn from "../../props/UpdaterBtn";
 
 function Vols(props) {
     const [popupDisplayed, displayPopup] = useState(false);
@@ -77,6 +78,7 @@ function Vols(props) {
             <div className={'table-header'}>
                 <PageNavigator prev={()=> {searchVols(search,page-1)}} next={()=> {searchVols(search,page+1)}} prevDisabled={(paginate.prev_page_url === null)} nextDisabled={(paginate.next_page_url === null)}/>
                 <Searcher value={search} callback={(v) => {searchVols(v)}}/>
+                <UpdaterBtn callback={searchVols}/>
                 <button className={'btn'} disabled={!(user.grade.admin || user.pilote)} onClick={()=>{displayPopup(true)}}>ajouter</button>
             </div>
             <div className={'table-container'}>

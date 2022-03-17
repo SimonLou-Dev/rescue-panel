@@ -5,6 +5,7 @@ import PageNavigator from "../../../props/PageNavigator";
 import CardComponent from "../../../props/CardComponent";
 import dateFormat from "dateformat";
 import UserContext from "../../../context/UserContext";
+import UpdaterBtn from "../../../props/UpdaterBtn";
 
 function DossiersPatient(props) {
     const [patients, setPatients] = useState([]);
@@ -104,6 +105,7 @@ function DossiersPatient(props) {
         <section className={'table'}>
             <div className={'table-header'}>
                 <Searcher value={search} callback={(v) => {searcher(v)}}/>
+                <UpdaterBtn callback={searcher}/>
                 <PageNavigator prev={()=> {searcher(search,page-1)}} next={()=> {searcher(search,page+1)}} prevDisabled={(pagination.prev_page_url === null)} nextDisabled={(pagination.next_page_url === null)}/>
             </div>
             <div className={'table-content'}>
