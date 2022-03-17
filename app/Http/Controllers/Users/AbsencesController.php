@@ -103,6 +103,10 @@ class AbsencesController extends Controller
     public function acceptReqAbsence(Request $request, string $id){
         $this->authorize('update', AbsencesList::class);
         $abs = AbsencesList::where('id', $id)->first();
+        if(!isset($abs)){
+            Notify::broadcast('l\'absence a été supprimée',4, Auth::user()->id);
+            return response()->json([],201);
+        }
         $abs->accepted = true;
         $abs->admin_id = Auth::user()->id;
 
@@ -131,10 +135,10 @@ class AbsencesController extends Controller
 
             $weekNumber = ServiceGetterController::getWeekNumber($dayTime);
             if($fire){
-                self::updateWeekService($fireName, $user->id, $dayName, $weekNumber);
+                self::updateWeekService($fireName, $user->id, $dayName, $weekNumber, 'absent(e)');
             }
             if ($medic){
-                self::updateWeekService($medicName, $user->id, $dayName, $weekNumber);
+                self::updateWeekService($medicName, $user->id, $dayName, $weekNumber, 'absent(e)');
             }
             $day = date('Y-m-d', strtotime($day . ' + 1 day'));
         }
@@ -181,7 +185,7 @@ class AbsencesController extends Controller
 
     }
 
-    private static function updateWeekService(string $service,int $userID, string $day, int $weekNumber){
+    private static function updateWeekService(string $service,int $userID, string $day, int $weekNumber, string $replace){
         $weekService = WeekService::where('user_id', $userID)->where('week_number', $weekNumber)->where('service', $service);
         if($weekService->count() === 1){
             $weekService = $weekService->first();
@@ -191,13 +195,17 @@ class AbsencesController extends Controller
             $weekService->week_number = $weekNumber;
             $weekService->service = $service;
         }
-        $weekService[$day] = 'absent(e)';
+        $weekService[$day] = $replace;
         $weekService->save();
     }
 
     public function refuseReqAbsence(Request $request, string $id){
         $this->authorize('update', AbsencesList::class);
         $abs = AbsencesList::where('id', $id)->first();
+        if(!isset($abs)){
+            Notify::broadcast('l\'absence a été supprimée',4, Auth::user()->id);
+            return response()->json([],201);
+        }
         $abs->accepted = false;
         $abs->admin_id = Auth::user()->id;
         $abs->save();
@@ -239,6 +247,85 @@ class AbsencesController extends Controller
         Notify::broadcast('Absence refusée',1, Auth::user()->id);
         return response()->json([],201);
     }
+
+    public function deleteAbsence(Request $request, string $id){
+        $this->authorize('viewMy', AbsencesList::class);
+        $abs = AbsencesList::where("id", $id)->first();
+        if ($abs->accepted){
+            //Creating Date var
+            $from = date_create($abs->start_at);
+            $to = date_create($abs->end_at);
+            $interval = date_diff($from, $to);
+            $NumberOfDay = (int) $interval->format('%a') +1;
+
+            //Get Start day
+            $day = $abs->start_at;
+            //Get user
+            $user = $abs->GetUser;
+
+            //User Service
+            $fire = false;
+            if($user->fire || ($user->medic && $user->crossService)) $fire = true;
+            $medic = false;
+            if($user->medic || ($user->fire && $user->crossService)) $medic = true;
+            $medicName = 'SAMS';
+            $fireName = 'LSCoFD';
+
+            for ($a = 1; $a <= $NumberOfDay; $a++){
+                $dayTime = strtotime($day);
+                $dayName = LayoutController::getdaystring($dayTime);
+
+                $weekNumber = ServiceGetterController::getWeekNumber($dayTime);
+                if($fire){
+                    self::updateWeekService($fireName, $user->id, $dayName, $weekNumber, '00:00:00');
+                }
+                if ($medic){
+                    self::updateWeekService($medicName, $user->id, $dayName, $weekNumber, '00:00:00');
+                }
+                $day = date('Y-m-d', strtotime($day . ' + 1 day'));
+            }
+
+        }
+
+        Notify::broadcast('Absence supprimé',1, Auth::user()->id);
+        $embed = [
+            [
+                'title'=>'Absence annulée : ',
+                'color'=>'16539139',
+                'fields'=>[
+                    [
+                        'name'=>'Personnel : ',
+                        'value'=>$abs->GetUser->name,
+                        'inline'=>false
+                    ],[
+                        'name'=>'Dates : ',
+                        'value'=>'Du ' . date('d/m/Y', strtotime($abs->start_at)) . ' au ' . date('d/m/Y', strtotime($abs->end_at)),
+                        'inline'=>false
+                    ],[
+                        'name'=>'Raison : ',
+                        'value'=>$abs->reason,
+                        'inline'=>false
+                    ]
+                ],
+                'footer'=>[
+                    'text' => 'Acceptée par : ' . Auth::user()->name,
+                ]
+            ]
+        ];
+
+        $logs = new LogsController();
+        $logs->DemandesLogging('delete req of user n°'.$abs->user_id, 'absence', $abs->id, Auth::user()->id);
+        $abs->delete();
+
+        if($abs->discord_msg_id){
+            \Discord::updateMessage(DiscordChannel::Absences, $abs->discord_msg_id, $embed);
+        }else{
+            \Discord::postMessage(DiscordChannel::Absences, $embed, $abs);
+        }
+        return response()->json([],201);
+
+    }
+
 
 
 }

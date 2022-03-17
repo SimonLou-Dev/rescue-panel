@@ -47,6 +47,15 @@ function MyAbs(props) {
         })
     }
 
+    const deleteAbs = async (id) => {
+        await axios({
+            method: 'DELETE',
+            url: '/data/absence/'+id
+        }).then(()=>{
+            getMyAbs()
+        })
+    }
+
     return (
         <section className={'PageDisplayed MyAbs'}>
             <section className={'Form'}>
@@ -98,6 +107,7 @@ function MyAbs(props) {
                             <th>début</th>
                             <th>fin</th>
                             <th>état</th>
+                            <th>action</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -106,6 +116,7 @@ function MyAbs(props) {
                                 <td>{p.start_at}</td>
                                 <td>{p.end_at}</td>
                                 <td>{p.accepted === null ? 'en cours' : (p.accepted ? 'accepté' : 'refusée')}</td>
+                                <td><button className={'btn'}onClick={()=>{deleteAbs(p.id)}}><img alt={''} src={'/assets/images/decline.png'}/></button></td>
                             </tr>
                         )}
                         </tbody>

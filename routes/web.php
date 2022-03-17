@@ -175,9 +175,11 @@ Route::get('/data/service/req/waitinglist', [ModifierReqController::class,'getAl
 //Absence req
 Route::get('/data/absence', [AbsencesController::class, 'getMyAbsences'])->middleware(['auth']);
 Route::post('/data/absence', [AbsencesController::class, 'postMyReqAbsence'])->middleware(['auth']);
+Route::delete('/data/absence/{id}', [AbsencesController::class, 'deleteAbsence'])->middleware(['auth']);
 Route::put('/data/absence/accept/{id}', [AbsencesController::class, 'acceptReqAbsence'])->middleware(['auth']);
 Route::put('/data/absence/refuse/{id}', [AbsencesController::class, 'refuseReqAbsence'])->middleware(['auth']);
 Route::get('/data/admin/absence', [AbsencesController::class, 'getAbsences'])->middleware(['auth']);
+
 
 // Primes Req
 Route::get('/data/primes/getall', [PrimesController::class, 'gelAllReqPrimes'])->middleware(['auth']);
@@ -208,9 +210,6 @@ Route::delete('/data/gestion/content/{type}/{id}', [ContentManagement::class, 'd
 Route::get('/data/vols', [VolController::class, 'getVolsList'])->middleware(['auth']);
 Route::post('/data/vols', [VolController::class, 'addVol'])->middleware(['auth']);
 
-
-
-
 //Recap
 Route::get('/data/remboursements/me', [RemboursementsController::class, 'getRemboursementOfUser'])->middleware(['auth']);
 Route::post('/data/remboursements/post', [RemboursementsController::class, 'addRemboursement'])->middleware(['auth']);
@@ -239,23 +238,11 @@ Route::patch('/data/user/service/{service}', [UserController::class, 'setService
 Route::get('/data/user/logs',[HomeController::class, 'getLogs'])->middleware(['auth']);
 
 
-//Temp upload DISABLED
-/*
-Route::post('/data/tempupload', [FileController::class, 'uploadFile'])->middleware('auth');
-Route::put('/data/finish/tempupload/{uuid}', [FileController::class, 'endOffUpload'])->middleware('auth');
-Route::delete('/data/delete/tempupload', [FileController::class, 'deleteTempFile'])->middleware('auth');
-*/
 
 //Infos utils
 Route::get('/data/infosutils/get', [MainController::class, 'getUtilsInfos'])->middleware(['auth']);
 Route::put('/data/infosutils/put', [MainController::class, 'updateUtilsInfos'])->middleware(['auth']);
 
-//Errors & bug reporter DISABLED
-/*
-Route::post('/data/front/errors', [ErrorsController::class, 'frontErrors']);
-
-Route::post('/data/bug', [MainController::class, 'postBug']);
-*/
 
 Route::any('/tunnel', [ErrorsController::class, 'tunelSentry']);
 //Searching
@@ -287,36 +274,5 @@ if(env('APP_DEBUG') === true || env('APP_DEBUG') === "true"){
 
     Route::get('/auth/fake', [UserConnexionController::class, 'fake'])->middleware('guest');//disable
 }
-
-
-
-
-
-
-/*
-Auth with token
-
-Http::withHeader([
-    'Authorization'=> 'Bot '.env('DISCORD_BOT_TOKEN')
-])->get('https://discord.com/api/v9/users/@me/guilds')->body();
-
-
-
-*/
-
-
-//Post message https://discord.com/api/v9/channels/{chan id}/messages => content comme les embeds
-    //=> response id (id msg), channel_id
-
-//Patch msg https://discord.com/api/v9/channels/{chan}/messages/{id} => content comme les messages
-    //=> response id (id msg), channel_id
-
-//delete msg  https://discord.com/api/v9/channels/{channel.id}/messages/{message.id}
-
-//get msg https://discord.com/api/v9/channels/923521378248974347/messages/926904661238251561
-    // si reaction reactions => en array
-
-//Post reaction https://discord.com/api/v9/channels/{channel.id}/messages/{message.id}/reactions/{emoji}/@me
-//Emoji in url encoded
 
 
