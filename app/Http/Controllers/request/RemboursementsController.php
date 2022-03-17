@@ -1,9 +1,10 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\request;
 
 use App\Enums\DiscordChannel;
 use App\Events\Notify;
+use App\Http\Controllers\Controller;
 use App\Http\Controllers\Service\OperatorController;
 use App\Http\Controllers\Service\ServiceGetterController;
 use App\Jobs\ProcessEmbedPosting;

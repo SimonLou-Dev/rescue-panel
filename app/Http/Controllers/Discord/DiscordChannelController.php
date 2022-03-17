@@ -1,17 +1,16 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Discord;
 
 use App\Enums\DiscordChannel;
-use App\Models\User;
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
 class DiscordChannelController extends Controller
 {
-
     public function getChannel(){
         $this->authorize('modify_discord',User::class);
-       return response()->json([
+        return response()->json([
             'channels'=>$this->getCachedChannel(),
         ]);
     }
@@ -44,5 +43,4 @@ class DiscordChannelController extends Controller
         }
         return $finalArray;
     }
-
 }

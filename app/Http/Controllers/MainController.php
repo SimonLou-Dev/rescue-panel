@@ -19,26 +19,6 @@ use Illuminate\Support\Facades\Session;
 class MainController extends Controller
 {
 
-    public function getInServices(Request $request): \Illuminate\Http\JsonResponse
-    {
-        $userInServie = User::where('service', true)->orderByDesc('grade_id')->get();
-        $allStates = ServiceState::all();
-        $userNumber = array();
-        $userStates = array();
-
-        foreach ($userInServie as $user){
-            $user->getServiceState;
-            if(!in_array($user->serviceState, $userNumber)){
-                if($user->serviceState != null){
-                    array_push($userNumber, $user->serviceState);
-                    array_push($userStates, $user->getServiceState);
-                }
-            }
-
-        }
-        return response()->json(['status'=>'OK', 'users'=>$userInServie, 'states'=>$allStates, 'userStates'=>$userStates]);
-    }
-
     public function getDashboard(Request $request): \Illuminate\Http\JsonResponse
     {
         $service = Session::get('service')[0];

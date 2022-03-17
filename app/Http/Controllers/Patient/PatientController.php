@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Rapports;
+namespace App\Http\Controllers\Patient;
 
 use App\Events\Notify;
 use App\Http\Controllers\Controller;

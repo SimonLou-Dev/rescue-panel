@@ -6,8 +6,8 @@ use App\Enums\DiscordChannel;
 use App\Events\Notify;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\LogsController;
+use App\Http\Controllers\Patient\PatientController;
 use App\Jobs\ProcessEmbedPosting;
-use App\Jobs\ProcesTestPoudrePDFGen;
 use App\Jobs\ProcesTestPoudrePDFGenerator;
 use App\Models\Intervention;
 use App\Models\Patient;
@@ -21,12 +21,6 @@ use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use PHPUnit\Util\Test;
-use TheCodingMachine\Gotenberg\Client;
-use TheCodingMachine\Gotenberg\ClientException;
-use TheCodingMachine\Gotenberg\DocumentFactory;
-use TheCodingMachine\Gotenberg\FilesystemException;
-use TheCodingMachine\Gotenberg\HTMLRequest;
-use TheCodingMachine\Gotenberg\RequestException;
 
 class PoudreTestController extends Controller
 {

@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Users;
 
 use App\Enums\DiscordChannel;
 use App\Events\Notify;
-use App\Events\UserRegisterEvent;
 use App\Events\UserUpdated;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\LogsController;

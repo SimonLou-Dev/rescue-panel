@@ -6,7 +6,6 @@ use App\Events\Notify;
 use App\Events\UserUpdated;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\Service\OperatorController;
-use App\Http\Controllers\ServiceController;
 use App\Models\Grade;
 use App\Models\User;
 use Illuminate\Http\JsonResponse;

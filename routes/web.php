@@ -2,31 +2,28 @@
 
 use App\Enums\DiscordChannel;
 use App\Events\NotifyForAll;
+use App\Http\Controllers\Discord\DiscordChannelController;
 use App\Http\Controllers\Users\AccountController;
 use App\Http\Controllers\ContentManagement;
-use App\Http\Controllers\DiscordChannelController;
 use App\Http\Controllers\ErrorsController;
-use App\Http\Controllers\FileController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\LayoutController;
 use App\Http\Controllers\MainController;
-use App\Http\Controllers\PrimesController;
+use App\Http\Controllers\request\PrimesController;
 use App\Http\Controllers\Rapports\PoudreTestController;
-use App\Http\Controllers\RemboursementsController;
+use App\Http\Controllers\request\RemboursementsController;
 use App\Http\Controllers\SearchController;
-use App\Http\Controllers\Service\ModifierReqController;
+use App\Http\Controllers\request\ModifierReqController;
 use App\Http\Controllers\Service\ServiceGetterController;
 use App\Http\Controllers\Service\ServiceSetterController;
-use App\Http\Controllers\Users\AbsencesController;
-use App\Http\Controllers\Users\CredentialController;
+use App\Http\Controllers\request\AbsencesController;
 use App\Http\Controllers\VolController;
 use App\Http\Controllers\BlackCodes\BCController;
 use App\Http\Controllers\BlackCodes\BlesseController;
 use App\Http\Controllers\BlackCodes\PersonnelController;
-use App\Http\Controllers\Discord\DiscordApiController;
 use App\Http\Controllers\Rapports\ExporterController;
 use App\Http\Controllers\Rapports\FacturesController;
-use App\Http\Controllers\Rapports\PatientController;
+use App\Http\Controllers\Patient\PatientController;
 use App\Http\Controllers\Rapports\RapportController;
 use App\Http\Controllers\Users\UserConnexionController;
 use App\Http\Controllers\Users\UserController;
@@ -235,7 +232,7 @@ Route::put('/data/management/discord', [DiscordChannelController::class, 'postCh
 Route::patch('/data/user/service/{service}', [UserController::class, 'setService'])->middleware(['auth']);
 
 //Logs getting
-Route::get('/data/user/logs',[HomeController::class, 'getLogs'])->middleware(['auth']);
+Route::get('/data/user/logs',[ContentManagement::class, 'getLogs'])->middleware(['auth']);
 
 
 

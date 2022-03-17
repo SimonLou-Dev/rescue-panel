@@ -11,7 +11,7 @@ use App\Events\Notify;
 use App\Events\NotifyForAll;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\LogsController;
-use App\Http\Controllers\PrimesController;
+use App\Http\Controllers\request\PrimesController;
 use App\Jobs\ProcessEmbedPosting;
 use App\Models\BCList;
 use App\Models\BCPatient;

@@ -1,10 +1,11 @@
 <?php
 
-namespace App\Http\Controllers\Service;
+namespace App\Http\Controllers\request;
 
 use App\Events\Notify;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\LogsController;
+use App\Http\Controllers\Service\ServiceGetterController;
 use App\Models\ModifyServiceReq;
 use App\Models\User;
 use App\Models\WeekService;

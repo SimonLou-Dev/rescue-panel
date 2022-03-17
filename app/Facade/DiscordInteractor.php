@@ -4,7 +4,7 @@
 namespace App\Facade;
 
 use App\Enums\DiscordChannel;
-use App\Http\Controllers\Discord\DiscordApiController;
+use App\Http\Controllers\request\request\Discord\DiscordApiController;
 use App\Jobs\ProcessEmbedPosting;
 use App\Models\Params;
 use Illuminate\Database\Eloquent\Model;

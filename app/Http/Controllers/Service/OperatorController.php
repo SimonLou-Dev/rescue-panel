@@ -8,7 +8,7 @@ use App\Events\ServiceUpdated;
 use App\Events\UserUpdated;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\LayoutController;
-use App\Http\Controllers\ServiceController;
+use App\Http\Controllers\Service\ServiceGetterController;
 use App\Jobs\ProcessEmbedPosting;
 use App\Models\LogServiceState;
 use App\Models\Service;

@@ -1,7 +1,7 @@
 <?php
 
 
-use App\Http\Controllers\Users\UserConnexionController;
+use App\Http\Controllers\request\UserConnexionController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\Route;

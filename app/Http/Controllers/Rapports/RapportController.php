@@ -6,21 +6,15 @@ use App\Enums\DiscordChannel;
 use App\Events\Notify;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\LogsController;
+use App\Http\Controllers\Patient\PatientController;
 use App\Jobs\ProcessEmbedPosting;
 use App\Jobs\ProcessRapportPDFGenerator;
 use App\Models\Facture;
-use App\Models\Factures;
 use App\Models\Hospital;
-use App\Models\HospitalList;
-use App\Models\InterType;
 use App\Models\Intervention;
 use App\Models\Pathology;
 use App\Models\Patient;
 use App\Models\Rapport;
-use App\Facades\Discord;
-use App\Rules\StringTime;
-use Hoa\File\File;
-use http\Env\Response;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
@@ -28,12 +22,7 @@ use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Storage;
-use TheCodingMachine\Gotenberg\Client;
-use TheCodingMachine\Gotenberg\ClientException;
-use TheCodingMachine\Gotenberg\DocumentFactory;
-use TheCodingMachine\Gotenberg\FilesystemException;
-use TheCodingMachine\Gotenberg\HTMLRequest;
-use TheCodingMachine\Gotenberg\RequestException;
+
 
 class RapportController extends Controller
 {

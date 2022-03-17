@@ -3,22 +3,11 @@
 namespace App\Http\Controllers\Rapports;
 
 use App\Http\Controllers\Controller;
-use App\Jobs\ProcessRapportPDFGenerator;
 use App\Models\Facture;
 use App\Models\Rapport;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
-use Illuminate\Redis\Connections\PredisConnection;
-use Illuminate\Support\Facades\App;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
-use TheCodingMachine\Gotenberg\Client;
-use TheCodingMachine\Gotenberg\ClientException;
-use TheCodingMachine\Gotenberg\DocumentFactory;
-use TheCodingMachine\Gotenberg\FilesystemException;
-use TheCodingMachine\Gotenberg\HTMLRequest;
-use TheCodingMachine\Gotenberg\RequestException;
 
 class ExporterController extends Controller
 {

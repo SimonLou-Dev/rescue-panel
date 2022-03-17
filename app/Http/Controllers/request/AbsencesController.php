@@ -1,9 +1,10 @@
 <?php
 
-namespace App\Http\Controllers\Users;
+namespace App\Http\Controllers\request;
 
 use App\Enums\DiscordChannel;
 use App\Events\Notify;
+
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\LayoutController;
 use App\Http\Controllers\LogsController;

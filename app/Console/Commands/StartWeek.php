@@ -2,8 +2,8 @@
 
 namespace App\Console\Commands;
 
-use App\Http\Controllers\LayoutController;
-use App\Http\Controllers\Service\ServiceGetterController;
+use App\Http\Controllers\request\request\LayoutController;
+use App\Http\Controllers\request\ServiceGetterController;
 use App\Models\DayService;
 use App\Models\WeekService;
 use Illuminate\Console\Command;

@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Events\Notify;
-use App\Http\Controllers\Service\ModifierReqController;
+use App\Http\Controllers\request\ModifierReqController;
 use App\Models\Annonces;
 use App\Models\BCList;
 use App\Models\BCType;
@@ -13,6 +13,7 @@ use App\Models\Facture;
 use App\Models\Hospital;
 use App\Models\Intervention;
 use App\Models\LieuxSurvol;
+use App\Models\LogDb;
 use App\Models\LogServiceState;
 use App\Models\ModifyServiceReq;
 use App\Models\ObjRemboursement;
@@ -124,85 +125,14 @@ class ContentManagement extends Controller
         return self::getcontent($request);
     }
 
-    public function getLogs(string $range,string $page, string $type): \Illuminate\Http\JsonResponse
+    public function getLogs(): \Illuminate\Http\JsonResponse
     {
-        $datas = null; $pages = null; $row = null;
-        $range = (int) $range;
-        $page = (int) $page -1;
-       switch ($type){
-           case "1":
-               $counter = count(Rapport::all());
-               $datas = Rapport::orderByDesc('id')->skip($range * $page)->take($range)->get();
-               $pages = intval(ceil(($counter) / $range));
-               $row = $counter;
-               $a = 0;
-               while($a < count($datas)){
-                   $datas[$a]->GetPatient;
-                   $datas[$a]->GetType;
-                   $datas[$a]->GetFacture;
-                   $a++;
-               }
-               break;
-           case "2":
-               $counter = count(Service::all());
-               $datas = Service::orderByDesc('id')->skip($range * $page)->take($range)->get();
-               $pages = intval(ceil(($counter) / $range));
-               $row = $counter;
-               $a = 0;
-               while($a < count($datas)){
-                   $datas[$a]->getUser;
-                   $a++;
-               }
-               break;
-           case "3":
-               $counter = count(Facture::all());
-               $datas = Facture::orderByDesc('id')->skip($range * $page)->take($range)->get();
-               $pages = intval(ceil(($counter) / $range));
-               $row = $counter;
-               $a = 0;
-               while($a < count($datas)){
-                   $datas[$a]->GetPatient;
-                   $a++;
-               }
-
-               break;
-           case "4":
-               $counter = count(BCList::all());
-               $datas = BCList::orderByDesc('id')->skip($range * $page)->take($range)->get();
-               $pages = intval(ceil(($counter) / $range));
-               $row = $counter;
-               $a = 0;
-               while($a < count($datas)){
-                   $datas[$a]->GetUser;
-                   $a++;
-               }
-               break;
-           case "5":
-               $counter = count(LogServiceState::all());
-               $datas = LogServiceState::orderByDesc('id')->skip($range * $page)->take($range)->get();
-               $pages = intval(ceil(($counter) / $range));
-               $row = $counter;
-
-               foreach ($datas as $data){
-                   $data->GetUser;
-                   $data->GetState;
-               }
-               break;
-           case "6":
-               $counter = count(ModifyServiceReq::all());
-               $datas = ModifyServiceReq::orderByDesc('id')->skip($range * $page)->take($range)->get();
-               $pages = intval(ceil(($counter) / $range));
-               $row = $counter;
-               $a = 0;
-               while($a < count($datas)){
-                   $datas[$a]->GetUser;
-                   $datas[$a]->GetAdmin;
-                   $a++;
-               }
-               break;
-           default: break;
-
-       }
-        return response()->json(['status'=>'OK', 'datas'=>$datas, 'pages'=>$pages, 'lignes'=>$row]);
+        $user = User::where('id',\Auth::user()->id)->first();
+        if($user->dev){
+            $logs = LogDb::orderBy('id','desc')->paginate();
+        }else{
+            $logs = LogDb::where('action','!=','authentifications')->orderBy('id','desc')->paginate();
+        }
+        return response()->json(['logs'=>$logs]);
     }
 }

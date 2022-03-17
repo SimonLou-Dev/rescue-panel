@@ -25,17 +25,5 @@ class HomeController extends Controller
         return view("home",['errors'=> $value]);
     }
 
-    /**
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function getLogs(): \Illuminate\Http\JsonResponse
-    {
-        $user = User::where('id',\Auth::user()->id)->first();
-        if($user->dev){
-            $logs = LogDb::orderBy('id','desc')->paginate();
-        }else{
-            $logs = LogDb::where('action','!=','authentifications')->orderBy('id','desc')->paginate();
-        }
-        return response()->json(['logs'=>$logs]);
-    }
+
 }

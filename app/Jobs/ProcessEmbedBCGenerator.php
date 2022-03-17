@@ -3,7 +3,7 @@
 namespace App\Jobs;
 
 use App\Enums\DiscordChannel;
-use App\Http\Controllers\BlackCodes\BcEmbedController;
+use App\Http\Controllers\request\request\BlackCodes\BcEmbedController;
 use App\Models\BCList;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldBeUnique;
