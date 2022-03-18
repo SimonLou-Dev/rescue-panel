@@ -888,6 +888,21 @@ body{
                     }
                 }
             }
+            .BC-InetDetails{
+                .form-title{
+                    button{
+                        background-color: $bg1;
+                    }
+                }
+                background-color: $bg1;
+                border-radius: $border-radius;
+                padding: 5px;
+                textarea{
+                    width: calc(100% - 25px);
+                    height: 100px;
+                    overflow-y: auto;
+                }
+            }
         }
         .BC-Patient{
             width: 30%;
@@ -903,8 +918,10 @@ body{
                 }
                 background-color: $bg1;
                 border-radius: $border-radius;
-
                 padding: 15px;
+                .form-group{
+                    margin: 15px 0;
+                }
                 .form-line{
                     display: flex;
                     flex-direction: row;
@@ -914,23 +931,29 @@ body{
                         margin-top: 20px;
                     }
                 }
-
-            }
-            .BC-InetDetails{
-                .form-title{
-                    button{
-                        background-color: $bg1;
+                .PatientOtherInfos{
+                    border-top: 1px $boom solid;
+                    margin-top: 10px;
+                    display: flex;
+                    flex-direction: column;
+                    width: 100%;
+                    padding-top: 10px;
+                    .form-group{
+                        display: flex;
+                        margin: 5px 0;
+                        label{
+                            color: $heavytext;
+                            font-weight: 600;
+                        }
+                        span{
+                            font-weight: 500;
+                            color: $lighttext;
+                        }
                     }
                 }
-                background-color: $bg1;
-                border-radius: $border-radius;
-                padding: 5px;
-                textarea{
-                    width: 100%;
-                    height: 100px;
-                    overflow-y: auto;
-                }
+
             }
+
         }
         .PatientList{
             width: 45%;

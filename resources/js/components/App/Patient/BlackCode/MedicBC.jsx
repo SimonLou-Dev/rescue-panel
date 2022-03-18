@@ -156,6 +156,21 @@ function MedicBC(props) {
                         )}
                     </ul>
                 </div>
+                <div className={'BC-InetDetails'}>
+                    <div className={'form-group form-line form-title'}>
+                        <label>Détails de l'intervetion</label>
+                        <button className={'btn img'} disabled={!(user.grade.admin || user.grade.BC_edit)} onClick={async () => {
+                            await axios({
+                                method: 'PATCH',
+                                url : '/data/blackcode/' + bcID + '/desc',
+                                data: {
+                                    description,
+                                }
+                            })
+                        }}><img src={'/assets/images/save.png'} alt={''}/></button>
+                    </div>
+                    <textarea value={description} onChange={(e)=>{setDescription(e.target.value)}}/>
+                </div>
             </section>
             <section className={'BC-Patient'}>
                 <div className={'BC-PatientAdder'}>
@@ -235,22 +250,22 @@ function MedicBC(props) {
                         <label>Payé : </label>
                         <SwitchBtn number={'A1'} checked={payed} callback={()=>{setPayed(!payed)}}/>
                     </div>
+                    {searching.length === 1 &&
+                        <div className={'PatientOtherInfos'}>
+                            <div className={'form-group form-line'}>
+                                <label>Date de naissance : <span>{searching[0].naissance}</span></label>
+                            </div>
+                            <div className={'form-group form-line'}>
+                                <label>Groupe saunguin : <span>{searching[0].blood_group}</span></label>
+                            </div>
+                            <div className={'form-group form-line'}>
+                                <label>Tel : <span>{searching[0].tel}</span></label>
+                            </div>
+                        </div>
+                    }
+
                 </div>
-                <div className={'BC-InetDetails'}>
-                    <div className={'form-group form-line form-title'}>
-                        <label>Détails de l'intervetion</label>
-                        <button className={'btn img'} disabled={!(user.grade.admin || user.grade.BC_edit)} onClick={async () => {
-                            await axios({
-                                method: 'PATCH',
-                                url : '/data/blackcode/' + bcID + '/desc',
-                                data: {
-                                    description,
-                                }
-                            })
-                        }}><img src={'/assets/images/save.png'} alt={''}/></button>
-                    </div>
-                    <textarea value={description} onChange={(e)=>{setDescription(e.target.value)}}/>
-                </div>
+
 
             </section>
             <PatientList list={bc.get_patients} history={props.history}/>
