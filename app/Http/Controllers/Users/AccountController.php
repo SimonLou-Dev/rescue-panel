@@ -43,7 +43,7 @@ class AccountController extends Controller
             'tel'=> 'required|regex:/555-\d\d/',
             'name'=>['required', 'string','regex:/[a-zA-Z.+_]+\s[a-zA-Z.+_]/'],
             'liveplace'=> ['required'],
-            'matricule'=>['unique:App\Models\User,matricule','nullable','int','between:9,99']
+            'matricule'=>['nullable','int','between:9,99']
         ]);
 
         $name= $request->name;
@@ -54,7 +54,12 @@ class AccountController extends Controller
 
 
 
+
         $user= User::where('id', Auth::user()->id)->first();
+
+        if($request->matricule != $user->matricule){
+            $request->validate(['unique:App\Models\User,matricule']);
+        }
 
         $changed = false;
         $nameC = $user->name != $name;
