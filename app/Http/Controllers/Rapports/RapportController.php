@@ -15,6 +15,7 @@ use App\Models\Intervention;
 use App\Models\Pathology;
 use App\Models\Patient;
 use App\Models\Rapport;
+use App\Rules\StringTime;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
