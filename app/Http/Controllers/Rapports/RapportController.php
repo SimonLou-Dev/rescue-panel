@@ -186,7 +186,7 @@ class RapportController extends Controller
         $rapports = $patient->GetRapports;
         $rapportsList = array();
         foreach ($rapports as $rapport){
-            if ($this->authorize('view', $rapport)){
+            if (Gate::allows('view', $rapport)){
                 $rapport->GetType;
                 $rapport->GetFacture;
                 $rapport->GetTransport;

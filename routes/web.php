@@ -75,6 +75,8 @@ Route::get('/', function(){
     return redirect()->route('dashboard');
 });
 
+Route::get('/data/bg', [LayoutController::class, 'getRandomBackGround'])->name('randomBg');
+
 //Maintenance
 Route::get('/maintenance/{a?}', [HomeController::class, 'getIndex'])->name('mnt');
 //informations
@@ -101,7 +103,6 @@ Route::get('/data/userInfos', [UserGradeController::class, 'GetUserPerm'])->midd
 
 Route::post('/data/postuserinfos', [UserConnexionController::class, 'postInfos'])->middleware(['auth']);
 Route::get('/data/check/connexion', [UserConnexionController::class, 'checkConnexion']);
-Route::get('/data/getstatus', [LayoutController::class, 'getservice'])->middleware(['auth']);
 //renommer la fonction
 Route::put('/data/users/setCrossService/{id}', [UserController::class, 'setCrossService'])->middleware(['auth']);
 Route::get('/data/patient/{patientId}/impaye', [PatientController::class, 'getImpaye'])->middleware(['auth']);

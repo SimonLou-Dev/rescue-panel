@@ -214,7 +214,8 @@ body{
     height: 100vh;
     display: flex;
     overflow-y: auto;
-    background-image: url('/assets/bg/BG_1.jpg');
+    background-repeat: round;
+    background-position: center;
     .Authentifier{
         margin: auto;
         width: 95%;
@@ -281,7 +282,8 @@ body{
 
 //Service Selector
 .ServiceNav{
-    background-image: url("/assets/bg/BG_2.jpg");
+    background-repeat: round;
+    background-position: center;
     height: 100vh;
     width: 100vw;
     top: 0;
@@ -332,6 +334,9 @@ body{
 .layout{
     height: 100vh;
     width: 100vw;
+    position: relative;
+    background-repeat: round;
+    background-position: center;
     .layout-header{
         display: flex;
         flex-direction: row;

@@ -1,11 +1,25 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {NavLink, Redirect} from "react-router-dom";
 import axios from "axios";
 
 const Register = (props) => {
+    const [image, setImage] = useState('')
+
+    useEffect(() => {
+        updateUserImage()
+    }, [])
+
+    const updateUserImage = async () => {
+        await axios({
+            method: 'GET',
+            url: '/data/bg'
+        }).then(r => {
+            setImage(r.data.image)
+        })
+    }
 
         return (
-            <div className={'Auth'}>
+            <div className={'Auth'}  style={{backgroundImage: 'url('+image+')'}}>
                 <div className={'Authentifier'}>
                     <div className={'auth-header'}>
                         <img alt={""} src={'/assets/images/LONG_EMS_BC_2.png'}/>

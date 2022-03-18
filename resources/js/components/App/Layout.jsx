@@ -38,10 +38,12 @@ function Layout(props) {
     const [user, setUser] = useState(null);
     const [service, setService] = useState('');
     const [serviceDisabled, disableService] = useState(false);
+    const [image, setImage] = useState('');
     const dispatch = useNotifications();
 
     useEffect(async ()=>{
         let userid = undefined
+        updateUserImage()
         await axios({
             method: 'GET',
             url: '/data/userInfos',
@@ -55,6 +57,7 @@ function Layout(props) {
             () => tick(),
             5*60*1000
         );
+
 
         Pusher.logToConsole = false;
 
@@ -70,6 +73,7 @@ function Layout(props) {
         })
 
         window.UserChannel.bind('UserUpdated', (e)=>{
+            updateUserImage()
             setUser(e.userInfos);
             setService(e.userInfos.service);
         })
@@ -89,6 +93,15 @@ function Layout(props) {
         }
 
     }, [])
+
+    const updateUserImage = async () => {
+        await axios({
+            method: 'GET',
+            url: '/data/bg'
+        }).then(r => {
+            setImage(r.data.image)
+        })
+    }
 
     const addNotification = (data) => {
         if(!data.type){
@@ -177,7 +190,7 @@ function Layout(props) {
 
     </div> )
     else{
-        return(<div className={"layout"}>
+        return(<div className={"layout"} style={{backgroundImage: 'url('+image+')'}}>
             <header className={"layout-header"}>
                 <div className={"header-menu"} onClick={() => {
                     setCollasping(!collapsed)

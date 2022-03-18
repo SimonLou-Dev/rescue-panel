@@ -36,16 +36,6 @@ const history = createBrowserHistory();
       dsn: "https://58dd69b50a3d4472b479985e877e1b1c@sentry.simon-lou.com/3",
       tunnel: "/tunnel",
       environment: import.meta.env,
-      beforeSend(event, hint) {
-        // Check if it is an exception, and if so, show the report dialog
-        if (event.exception) {
-            Sentry.showReportDialog({
-                eventId: event.event_id, user: {
-                    email : 'fake@gmail.com'
-          }, });
-        }
-        return event;
-      },
       integrations: [
           new BrowserTracing({
               routingInstrumentation: Sentry.reactRouterV5Instrumentation(history),
@@ -66,7 +56,7 @@ class App extends React.Component{
 
     render() {
         return(
-            <Sentry.ErrorBoundary showDialog>
+            <Sentry.ErrorBoundary showDialog={false}>
 
                 <NotificationsProvider>
                     <Router history={history}>

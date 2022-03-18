@@ -11,18 +11,22 @@ use Illuminate\Support\Facades\Http;
 
 class LayoutController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('auth');
-        $this->middleware('access');
-    }
 
 
+    public function getRandomBackGround(){
+        $ext = '.png';
+        $service = '';
+        if(Auth::user() && \Session::has('service')){
+            $service = \Session::get('service')[0].'_';
+        }
+        $item = 'gle';
+        while (!\Storage::exists('public/background/'.$item)){
+            $item = $service.rand(0,10).$ext;
+        }
 
-    public function getservice(Request $request): \Illuminate\Http\JsonResponse
-    {
-        $user = User::where('id', Auth::id())->first();
-        return response()->json(['service'=>$user->service]);
+        return response()->json(['image'=> '/storage/background/'.$item]);
+
+
     }
 
     public static function getdaystring(int $a = null): string

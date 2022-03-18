@@ -35,7 +35,7 @@ class GradePolicy
     {
         if($user->isAdmin()) return true;
         $requesterGrade = $user->getUserGradeInService();
-        if($requesterGrade->power < $grade->power) return true;
+        if($requesterGrade->power > $grade->power) return true;
         return false;
     }
 

@@ -12,6 +12,11 @@ const GetInfos = (props) => {
     const [compte, setcompte]= useState('');
     const [errors, seterrors]= useState([]);
     const [service, setService]= useState('aucun');
+    const [image, setImage] = useState('');
+
+    useEffect(() => {
+        updateUserImage()
+    }, [])
 
     const sendinfos = async (e) => {
         e.preventDefault();
@@ -44,8 +49,17 @@ const GetInfos = (props) => {
         })
     }
 
+    const updateUserImage = async () => {
+        await axios({
+            method: 'GET',
+            url: '/data/bg'
+        }).then(r => {
+            setImage(r.data.image)
+        })
+    }
+
     return (
-        <div className={'Auth'}>
+        <div className={'Auth'}  style={{backgroundImage: 'url('+image+')'}}>
             <div className={'Authentifier'}>
                 <form method={'POST'} onSubmit={sendinfos}>
                     <div className={'auth-header'}>

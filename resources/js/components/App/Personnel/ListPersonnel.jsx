@@ -41,6 +41,7 @@ function ListPersonnel(props) {
             url : '/data/users/getall' +'?query='+a+'&page='+c+'&grade='+ grade,
             method: 'GET'
         }).then(r => {
+            //Reconstruction in array user List
             let final = [];
             let keys = Object.keys(r.data.users.data);
             keys.forEach((key) => {
@@ -48,7 +49,13 @@ function ListPersonnel(props) {
             });
             setUsers(final);
             setPagination(r.data.users);
-            setGradesList(r.data.serviceGrade);
+            //Reconstruction in array of grade List
+            let FinaleGradefinal = [];
+            let Gradekeys = Object.keys(r.data.serviceGrade);
+            Gradekeys.forEach((key) => {
+                FinaleGradefinal[key] = r.data.serviceGrade[key];
+            });
+            setGradesList(FinaleGradefinal);
 
         })
 

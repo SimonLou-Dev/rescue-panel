@@ -1,11 +1,25 @@
-import React, {useContext} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import axios from "axios";
 import userContext from "../context/UserContext";
 
 function ServiceNav(props) {
     const user = useContext(userContext);
+    const [image, setImage] = useState('')
 
-    return (<div className={'ServiceNav'}>
+    useEffect(() => {
+        updateUserImage()
+    }, [])
+
+    const updateUserImage = async () => {
+        await axios({
+            method: 'GET',
+            url: '/data/bg'
+        }).then(r => {
+            setImage(r.data.image)
+        })
+    }
+
+    return (<div className={'ServiceNav'} style={{backgroundImage: 'url('+image+')'}}>
 
         <div className={'ServiceSelector'}>
             <ul>
