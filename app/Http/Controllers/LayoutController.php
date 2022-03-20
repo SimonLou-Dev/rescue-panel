@@ -36,7 +36,7 @@ class LayoutController extends Controller
             $service . '9',
         ];
         $a = 0;
-        while (!\File::exists('/storage/background/'.$selected) && $a < 15){
+        while (!\File::exists('storage/background/'.$selected) && $a < 15){
             $selected = $bg[random_int(0,9)] . '.png';
             $a++;
         }
@@ -44,7 +44,7 @@ class LayoutController extends Controller
         if($a == 15){
             $selected = $error. '.png';
         }
-
+   
         return response()->json(['image'=> '/storage/background/'.$selected]);
 
 
