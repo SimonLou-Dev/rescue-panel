@@ -17,6 +17,8 @@ class CreateObjRemboursementsTable extends Migration
             $table->id();
             $table->string('name');
             $table->integer('price');
+            $table->string('service');
+            $table->softDeletes();
             $table->timestamps();
         });
     }
@@ -28,6 +30,6 @@ class CreateObjRemboursementsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('obj_remboursements');
+        Schema::dropIfExists('ObjRemboursements');
     }
 }

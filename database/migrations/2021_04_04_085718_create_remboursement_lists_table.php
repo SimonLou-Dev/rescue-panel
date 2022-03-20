@@ -13,12 +13,16 @@ class CreateRemboursementListsTable extends Migration
      */
     public function up()
     {
-        Schema::create('remboursement_lists', function (Blueprint $table) {
+        Schema::create('RemboursementLists', function (Blueprint $table) {
             $table->id();
             $table->integer('user_id');
-            $table->integer('item_id');
+            $table->boolean('accepted')->nullable()->default(null);
+            $table->integer('admin_id')->nullable()->default(null);
+            $table->integer('montant');
             $table->integer('week_number');
-            $table->integer('total');
+            $table->string('reason');
+            $table->string('service');
+            $table->bigInteger('discord_msg_id')->nullable()->default(null);
             $table->timestamps();
         });
     }
@@ -30,6 +34,6 @@ class CreateRemboursementListsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('remboursement_lists');
+        Schema::dropIfExists('RemboursementLists');
     }
 }

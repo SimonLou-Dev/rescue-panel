@@ -35,6 +35,7 @@ class ViteAssetLoader
         $this->isDev = $isDev;
         $this->manifest = $manifest;
         $this->cache = $cache;
+
     }
 
     public function asset(string $url, array $deps){

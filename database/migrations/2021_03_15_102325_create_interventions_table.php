@@ -16,6 +16,8 @@ class CreateInterventionsTable extends Migration
         Schema::create('Interventions', function (Blueprint $table) {
             $table->id();
             $table->string('name');
+            $table->string('service');
+            $table->softDeletes();
             $table->timestamps();
         });
     }
@@ -27,6 +29,6 @@ class CreateInterventionsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('interventions');
+        Schema::dropIfExists('Interventions');
     }
 }

@@ -1,0 +1,57 @@
+{
+    "name": "lscofd_Dev",
+    "workspaceFolder": "/workspace/lscofd",
+    "workspaceMount": "source=remote-workspacelscofd,target=/workspace/lscofd,type=volume",
+    "build": {
+        "dockerfile": "Dockerfile",
+        "args": { "VARIANT": "focal" }
+    },
+
+
+
+    // Set *default* container specific settings.json values on container create.
+    "settings": {
+        "php.validate.executablePath": "/usr/local/bin/php",
+        "terminal.integrated.shell.linux": "/bin/zsh",
+
+        "editor.fontSize": 16,
+        "editor.formatOnType": true,
+        "editor.minimap.enabled": false,
+        "workbench.colorTheme": "Atom Material Theme",
+        "workbench.iconTheme": "material-icon-theme",
+        "terminal.integrated.cursorStyle": "line"
+    },
+
+
+    // Add the IDs of extensions you want installed when the container is created.
+    "extensions": [
+        "dbaeumer.vscode-eslint",
+        "felixfbecker.php-debug",
+        "bmewburn.vscode-intelephense-client",
+        "mrmlnc.vscode-apache",
+        "amiralizadeh9480.laravel-extra-intellisense",
+        "onecentlin.laravel-extension-pack",
+        "onecentlin.laravel5-snippets",
+        "jawandarajbir.react-vscode-extension-pack",
+        "walter-ribeiro.full-react-snippets",
+        "dsznajder.es7-react-js-snippets",
+        "tobiasalthoff.atom-material-theme",
+        "idleberg.icon-fonts",
+        "tobias-faller.vt100-syntax-highlighting",
+        "formulahendry.terminal"
+    ],
+
+    // Use 'forwardPorts' to make a list of ports inside the container available locally.
+    "forwardPorts": ["8000:8000","3000:3000"],
+    "appPort": ["8000:8000","3000:3000"],
+    "portsAttributes": {
+        "8000": {
+            "label": "Hello Remote World",
+            "onAutoForward": "notify"
+        },
+        "3000": {
+            "label": "Hello Remote World",
+            "onAutoForward": "notify"
+        }
+    }
+}

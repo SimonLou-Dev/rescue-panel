@@ -49,7 +49,8 @@ const Notification = (props) => {
             onMouseEnter={handlePauseTimer}
             onMouseLeave={handleStartTimer}
             onClick={handleCloseNotifications}
-            className={'notification-item ' + props.type + (exit ? ' exit' : '')}>
+            className={'notification-item ' + props.type + (exit ? ' exit' : '')}
+            key={props.key}>
 
             <p>{props.message}</p>
             <div className={'bar'}>

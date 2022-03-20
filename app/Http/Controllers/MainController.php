@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\DiscordChannel;
 use App\Events\Notify;
+use App\Models\Actualities;
 use App\Models\Annonce;
 use App\Models\Annonces;
 use App\Models\Params;
@@ -12,67 +14,68 @@ use GrahamCampbell\Markdown\Facades\Markdown;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Session;
 
 class MainController extends Controller
 {
 
-    public function getInServices(Request $request): \Illuminate\Http\JsonResponse
+    public function getDashboard(Request $request): \Illuminate\Http\JsonResponse
     {
-        $userInServie = User::where('service', true)->orderByDesc('grade_id')->get();
-        $allStates = ServiceState::all();
-        $userNumber = array();
-        $userStates = array();
+        $service = Session::get('service')[0];
 
-        foreach ($userInServie as $user){
-            $user->getServiceState;
-            if(!in_array($user->serviceState, $userNumber)){
-                if($user->serviceState != null){
-                    array_push($userNumber, $user->serviceState);
-                    array_push($userStates, $user->getServiceState);
-                }
-            }
+        $annonces = Annonces::orderByDesc('id')->where('service', $service)->get();
+        $actus = Actualities::orderByDesc('id')->where('service', $service)->get();
+        $infosUtils = Params::where('type', 'utilsInfos'.Session::get('service')[0])->first();
 
-        }
-        return response()->json(['status'=>'OK', 'users'=>$userInServie, 'states'=>$allStates, 'userStates'=>$userStates]);
+        return response()->json(['status'=>'OK', 'annonces'=>$annonces, 'actus'=>$actus, 'infos'=>$infosUtils]);
     }
 
-    public function getAnnonces(Request $request): \Illuminate\Http\JsonResponse
-    {
-        $annonces = Annonces::orderByDesc('id')->get();
-        foreach ($annonces as $annonce){
-            $annonce->content = Markdown::convertToHtml($annonce->content);
-        }
-        return response()->json(['status'=>'OK', 'annonces'=>$annonces]);
-    }
-
-
-    /**
-     * @param Request $request
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function postBug(Request $request): \Illuminate\Http\JsonResponse
-    {
-        Http::post(env('WEBHOOK_BUGS'),[
-            'embeds'=>[
-                [
-                    'title'=>'Nouveau BUG :',
-                    'color'=>'1285790',
-                    'description'=>$request->text,
-                    'footer'=>[
-                        'text' => 'Signalé par : ' . Auth::user()->name,
-                    ]
+    public function createAnnonce(Request $request){
+        $this->authorize('post_annonces', User::class);
+        $annonce = new Annonces();
+        $annonce->service = Session::get('service')[0];
+        $annonce->content = $request->text;
+        $annonce->save();
+        $embed = [
+            [
+                'title'=>'Nouvelle annonce :',
+                'color'=>'1285790',
+                'fields'=>[
+                    'name'=>'Description : ',
+                    'value'=>self::prepareForDiscord($request->text),
+                    'inline'=>false
+                ],
+                'footer'=>[
+                    'text' => 'Rapport de : ' . Auth::user()->name . " ()",
                 ]
             ]
-        ]);
-        return response()->json([],201);
+        ];
+
+        if(Session::get('service')[0] === 'LSCoFD'){
+            \Discord::postMessage(DiscordChannel::FireAnnonce, $embed, $annonce);
+        }else{
+            \Discord::postMessage(DiscordChannel::MedicAnnonce, $embed, $annonce);
+        }
+        Notify::dispatch('Annonce postée', 1, Auth::user()->id);
+        return response()->json();
     }
 
-    /**
-     * @return \Illuminate\Http\JsonResponse
-     */
+    public function createActu(Request $request){
+        $this->authorize('post_actualities', User::class);
+        $annonce = new Actualities();
+        $annonce->service = Session::get('service')[0];
+        $annonce->content = $request->text;
+        $annonce->save();
+
+        Notify::dispatch('Actu postée', 1, Auth::user()->id);
+        return response()->json();
+
+    }
+
+
     public function getUtilsInfos(): \Illuminate\Http\JsonResponse
     {
-        $infos = Params::where('type', 'utilsInfos')->first();
+        $infos = Params::where('type', 'utilsInfos'.Session::get('service')[0])->first();
         if(!isset($infos->value)){
             $infos = '';
         }else{
@@ -80,22 +83,35 @@ class MainController extends Controller
         }
 
         return response()->json(['status'=>'OK', 'infos'=>$infos]);
-    }
+    } //TODO : mettre dans getDashbaord
 
     public function updateUtilsInfos(Request $request){
+        $this->authorize('edit_infos_utils', User::class);
         $text = $request->text;
-        $infos = Params::where('type', 'utilsInfos')->first();
+        $infos = Params::where('type', 'utilsInfos'.Session::get('service')[0])->first();
         if(!isset($infos)){
             $infos = new Params();
-            $infos->type = 'utilsInfos';
+            $infos->type = 'utilsInfos'.Session::get('service')[0];
             $infos->value=$text;
         }else{
             $infos->value = $text;
         }
 
         $infos->save();
-        event(new Notify('Informations sauvegardées', 1));
-        return response()->json(['status'=>"ok"],201);
+        Notify::dispatch('Infos mises à jour', 1, Auth::user()->id);
+        return $this->getUtilsInfos();
+
+    }
+
+    private function prepareForDiscord(string $text){
+        $text = str_replace(['<strong>','</strong>'],'**',$text);
+        $text = str_replace(['<em>','</em>'],'*',$text);
+        $text = str_replace(['<u>','</u>'],'__',$text);
+        $text = str_replace(['<h1>','</h1>','<ul>','</ul>','<li>','</li>','</ol>','<ol>'],'',$text);
+        $text = str_replace(['<p>'],'',$text);
+        $text = str_replace(['</p>','<br>'],'',$text);
+
+        return $text;
 
     }
 

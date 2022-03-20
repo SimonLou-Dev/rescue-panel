@@ -2,7 +2,7 @@
 
 namespace App\Jobs;
 
-use App\Http\Controllers\BlackCodes\BcEmbedController;
+use App\Enums\DiscordChannel;
 use App\Models\BCList;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldBeUnique;
@@ -12,6 +12,7 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
 
 class ProcessEmbedBCGenerator implements ShouldQueue
 {
@@ -19,24 +20,19 @@ class ProcessEmbedBCGenerator implements ShouldQueue
 
     public $tries = 2;
 
-    protected $formated;
-    protected $patients;
-    protected $personnels;
-    protected $bc;
-    protected $endername;
 
     /**
      * Create a new job instance.
      *
      * @return void
      */
-    public function __construct(string $formated, object $patients, object $personnels,BCList $bc, string $endername)
+    public function __construct(
+     private string $formated,
+     private BCList $bc,
+     private string $endername,
+     private int|string $channIdentifier)
     {
-        $this->formated = $formated;
-        $this->patients = $patients;
-        $this->personnels = $personnels;
-        $this->bc = $bc;
-        $this->endername = $endername;
+        $this->onQueue('discord');
     }
 
     /**
@@ -46,13 +42,11 @@ class ProcessEmbedBCGenerator implements ShouldQueue
      */
     public function handle()
     {
-        $patients = $this->patients;
         $formated = $this->formated;
-        $personnels = $this->personnels;
         $bc = $this->bc;
 
 
-        $number = count($patients);
+        $number = count($bc->GetPatients);
         $finalembedslist = array();
         array_push($finalembedslist,[
             'title'=>'Fin du Black Code #' . $bc->id .' :',
@@ -63,15 +57,15 @@ class ProcessEmbedBCGenerator implements ShouldQueue
                     'inline'=>false,
                 ],[
                     'name'=>'patients',
-                    'value'=>count($patients),
+                    'value'=>$number,
                     'inline'=>true,
                 ],[
                     'name'=>'secouristes',
-                    'value'=>count($personnels),
+                    'value'=>count($bc->GetPersonnel),
                     'inline'=>true,
                 ],[
                     'name'=>'Liste des patients',
-                    'value'=>"nom | carte d'identité | couleur de vêtement",
+                    'value'=>"nom | carte d'identité" .  ($bc->service === "SAMS" ? ' | couleur de vêtement' : ''),
                     'inline'=>false,
                 ],
             ],
@@ -79,19 +73,19 @@ class ProcessEmbedBCGenerator implements ShouldQueue
         ]);
         if($number != 0){
             if($number > 20){
-                $finalembedslist = $this->manyPatientEmbed($number, $patients, $finalembedslist);
+                $finalembedslist = $this->manyPatientEmbed($number, $bc->GetPatients, $finalembedslist);
             }else{
-                array_push($finalembedslist,$this::onePatientEmbed($patients, 1,1,0)[1]);
+                array_push($finalembedslist,$this::onePatientEmbed($bc->GetPatients, 1,1,0)[1]);
             }
         }
 
         $a = 0;
         $msg = "";
-        while ($a < count($personnels)){
+        while ($a < count($bc->GetPersonnel)){
             if($a == 0){
-                $msg = 'Secouristes : ' . $personnels[$a]->name;
+                $msg = 'Secouristes : ' . $bc->GetPersonnel[$a]->name;
             }else{
-                $msg = $msg . ', ' . $personnels[$a]->name;
+                $msg = $msg . ', ' . $bc->GetPersonnel[$a]->name;
             }
             $a++;
         }
@@ -117,11 +111,33 @@ class ProcessEmbedBCGenerator implements ShouldQueue
             ]
         ]);
 
-        Http::post(env('WEBHOOK_PU'),[
-            'username'=> "LSCoFD - MDT",
-            'avatar_url'=>'https://lscofd.simon-lou.com/assets/images/LSCoFD.png',
-            'embeds'=>$finalembedslist,
-        ]);
+        if(isset($bc->discord_msg_id)){
+            Http::withHeaders([
+                'Authorization'=> 'Bot '.env('DISCORD_BOT_TOKEN')
+            ])->patch("https://discord.com/api/v9/channels/".$this->channIdentifier . "/messages/".$bc->discord_msg_id,
+                [
+                    'embeds'=>$finalembedslist,
+                    'content'=>'',
+                ]
+            );
+        }else if(is_numeric($this->channIdentifier)){
+            Http::withHeaders([
+                'Authorization'=> 'Bot '.env('DISCORD_BOT_TOKEN')
+            ])->post("https://discord.com/api/v9/channels/".$this->channIdentifier."/messages",
+            [
+                'embeds'=>$finalembedslist,
+                'content'=>'',
+            ]);
+        }else {
+            Http::post($this->channIdentifier,[
+                'username'=> "rescue panel",
+                'avatar_url'=>'https://lscofd.simon-lou.com/assets/images/LSCoFD.png',
+                'embeds'=>$finalembedslist,
+                'content'=>'',
+            ]);
+        }
+
+
     }
 
     private function manyPatientEmbed(int $number, object $patients, array $finalembedslist): array
@@ -154,7 +170,7 @@ class ProcessEmbedBCGenerator implements ShouldQueue
 
         while($b < $max){
             $item = $b +$a;
-            $msg = $msg . ' '. $patients[$item]->name . ' ' . ($patients[$item]->idcard ? ':white_check_mark:' : ':x:') . ' ' . $patients[$item]->GetColor->name . " \n";
+            $msg = $msg . ' '. $patients[$item]->name . ' ' . ($patients[$item]->idcard ? ':white_check_mark:' : ':x:') . (!is_null($patients[$item]->couleur) ? ' ' . $patients[$item]->GetColor->name  : '') . " \n";
             $b++;
         }
         $embedpatient = [

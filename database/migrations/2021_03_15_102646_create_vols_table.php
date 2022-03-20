@@ -19,6 +19,7 @@ class CreateVolsTable extends Migration
             $table->string('raison');
             $table->integer('pilote_id');
             $table->integer('lieux_id');
+            $table->string('service');
             $table->timestamps();
         });
     }
@@ -30,6 +31,6 @@ class CreateVolsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('vols');
+        Schema::dropIfExists('Vols');
     }
 }

@@ -14,6 +14,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property DateTime started_at
  * @property DateTime ended_at
  * @property string total
+ * @property string service
  * @method static where(string $column, mixed $value)
  * @method static orderByDesc(string $string)
  *
@@ -22,7 +23,7 @@ class Service extends Model
 {
     use HasFactory;
     protected $table = "Services";
-    protected $fillable = ['user_id', 'started_at', 'ended_at', 'total'];
+    protected $fillable = ['user_id', 'started_at', 'ended_at', 'total', 'service'];
 
     public function GetUser(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {

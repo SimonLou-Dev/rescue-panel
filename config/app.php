@@ -174,9 +174,11 @@ return [
          */
         App\Providers\AppServiceProvider::class,
         App\Providers\AuthServiceProvider::class,
-        // App\Providers\BroadcastServiceProvider::class,
+        App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
+        \SocialiteProviders\Manager\ServiceProvider::class
+
     ],
 
     /*
@@ -233,6 +235,10 @@ return [
         'Markdown' => GrahamCampbell\Markdown\Facades\Markdown::class,
         'ViteGetAssets'=> \App\Facade\ViteFacade::class,
         'Excel' => Maatwebsite\Excel\Facades\Excel::class,
+        'UserNotify'=> \App\Facade\UserNotifyFacade::class,
+        'Discord'=> \App\Facade\DiscordFacade::class,
+        'TimeCalculate'=> \App\Facade\TimeCalculatorFacade::class,
+
     ],
 
 ];

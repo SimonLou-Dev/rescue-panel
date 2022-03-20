@@ -4,6 +4,7 @@ namespace App\Http\Controllers\BlackCodes;
 
 use App\Events\Notify;
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\LogsController;
 use App\Models\BCList;
 use App\Models\BCPersonnel;
 use App\Models\User;
@@ -12,37 +13,42 @@ use Illuminate\Support\Facades\Auth;
 
 class PersonnelController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('auth');
-        $this->middleware('access');
-    }
 
-    public static function addPersonel(string $id): \Illuminate\Http\JsonResponse
+    public static function addPersonel(string $BCId, string $userId): \Illuminate\Http\JsonResponse
     {
-        $id = (int) $id;
-        $bc = BCList::where('id', $id)->firstOrFail();
-        $personnel = BCPersonnel::where('BC_id', $id)->where('user_id', Auth::user()->id)->get()->count();
+
+        \Gate::authorize('ModifyPatient', BCList::class);
+        $BCId = (int) $BCId;
+        if(is_numeric($userId)){
+            $userId = (int) $userId;
+            $user = User::where('id', $userId)->first();
+        }else{
+            $user = User::where('name', $userId)->first();
+            $userId = (int) $user->id;
+        }
+        $bc = BCList::where('id', $BCId)->firstOrFail();
+        $userId = (int) $userId;
+
+
+        $personnel = BCPersonnel::where('BC_id', $BCId)->where('user_id', $userId)->get()->count();
         if($personnel == 0){
             $personnel = new BCPersonnel();
-            $personnel->user_id = Auth::user()->id;
-            $personnel->name = Auth::user()->name;
+            $personnel->user_id = $user->id;
+            $personnel->name = $user->name;
+            $personnel->service = ($user->medic ? 'SAMS' : 'LSCoFD');
             $personnel->BC_id = $bc->id;
             $personnel->save();
         }
-        $user = User::where('id', Auth::user()->id)->first();
+
         $user->bc_id = $bc->id;
         $user->save();
-        event(new Notify('Vous avez été affecté à ce BC ! ',1));
+        if($user->id != Auth::user()->id){
+            Notify::broadcast('Vous avez affecté ' . $user->name,1, Auth::user()->id);
+        }
+        $logs = new LogsController();
+        $logs->BCLogging('join', $bc->id, Auth::user()->id);
+        Notify::broadcast('Vous avez été affecté au BC #' . $bc->id,1, $user->id);
         return response()->json(['status'=>'OK'],201);
     }
 
-    public static function removePersonnel(int $id): \Illuminate\Http\JsonResponse
-    {
-        $user = User::where('id', Auth::user()->id)->first();
-        $user->bc_id = null;
-        $user->save();
-        event(new Notify('Vous avez été désaffecté de ce BC ! ',1));
-        return response()->json(['status'=>'OK'],202);
-    }
 }

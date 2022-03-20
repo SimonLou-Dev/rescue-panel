@@ -20,7 +20,7 @@ class CreateFacturesTable extends Migration
             $table->boolean('payed')->default(false);
             $table->integer('price');
             $table->integer('payement_confirm_id')->nullable();
-            $table->integer('msg_discord_id')->nullable();
+            $table->bigInteger('discord_msg_id')->nullable()->default(null);
             $table->timestamps();
         });
     }
@@ -32,6 +32,6 @@ class CreateFacturesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('factures');
+        Schema::dropIfExists('Factures');
     }
 }

@@ -11,39 +11,23 @@ use Illuminate\Support\Facades\Http;
 
 class LayoutController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('auth');
-        $this->middleware('access');
+
+
+    public function getRandomBackGround(){
+        $ext = '.png';
+        $service = '';
+        
+
+        return response()->json(['image'=> '/storage/background/0.png');
+
+
     }
 
-    public function setservice(Request $request): \Illuminate\Http\JsonResponse
+    public static function getdaystring(int $a = null): string
     {
-        $user = User::where('id', Auth::id())->first();
-        OperatorController::setService($user, false);
-        $text = "";
-        if($user->service){
-            $text = 'Vous êtes en service !';
-        }else{
-            $text = 'Vous n\'êtes plus en service';
-        }
-        event(new Notify($text,2));
-        return response()->json([
-            'status'=>'OK',
-            'user'=>$user,
-        ]);
-    }
-
-    public function getservice(Request $request): \Illuminate\Http\JsonResponse
-    {
-        $user = User::where('id', Auth::id())->first();
-        return response()->json(['service'=>$user->service]);
-    }
-
-    public static function getdaystring(): string
-    {
+        if(is_null($a))$a = time();
         $string = null;
-        switch (date('D', time())){
+        switch (date('D', $a)){
             case "Mon":
                 $string = 'lundi';
                 break;

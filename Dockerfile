@@ -1,38 +1,46 @@
-FROM nginx:latest
+FROM php:8.1-fpm
 
-RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
-ENV TZ=UTC
+ARG user
+ARG uid
 
-# Copy & set WorkDir
-VOLUME /usr/share/nginx/lscofd/storage
-WORKDIR /usr/share/nginx/lscofd
-COPY . /usr/share/nginx/lscofd
+WORKDIR /var/www
+VOLUME /var/www/storage
 
-# Env Key & base pakadge
-RUN apt-get update \
-    && apt-get install -y gnupg gosu mysql\* curl ca-certificates zip curl lsb-release unzip git sqlite3 libcap2-bin libpng-dev python2 python3-pip \
-    && mkdir -p ~/.gnupg \
-    && chmod 600 ~/.gnupg \
-    && echo "disable-ipv6" >> ~/.gnupg/dirmngr.conf \
-    && apt-key adv --homedir ~/.gnupg --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys E5267A6C \
-    && apt-key adv --homedir ~/.gnupg --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys C300EE8C \
-    && echo "deb http://ppa.launchpad.net/ondrej/php/ubuntu focal main" > /etc/apt/sources.list.d/ppa_ondrej_php.list \
-    && apt-get update
+# Create system user to run Composer and Artisan Commands
+RUN useradd -G www-data,root -u $uid -d /home/$user $user
+RUN mkdir -p /home/$user/.composer && \
+    chown -R $user:$user /home/$user
 
-# PHP
-RUN apt-get install -y php7.4-cli php7.4-dev \
-       php7.4-pgsql php7.4-sqlite3 php7.4-gd \
-       php7.4-curl php7.4-memcached\
-       php7.4-imap php7.4-mysql php7.4-mbstring \
-       php7.4-xml php7.4-zip php7.4-bcmath php7.4-soap php7.4-readline \
-       php7.4-msgpack php7.4-igbinary php7.4-ldap php7.4-fpm \
-       php7.4-redis
+# Install system dependencies
+RUN apt-get update && apt-get install -y \
+    git \
+    curl \
+    libpng-dev \
+    libonig-dev \
+    libxml2-dev \
+    lua-zlib-dev \
+    libmemcached-dev \
+    nginx \
+    zip \
+    unzip
 
-RUN php -r "readfile('http://getcomposer.org/installer');" | php -- --install-dir=/usr/bin/ --filename=composer
 
-#mysql-client \
-RUN apt-get install -y wget
+# Clear cache
+RUN apt-get clean && rm -rf /var/lib/apt/lists/*
 
+
+# Add docker php ext repo
+ADD https://github.com/mlocati/docker-php-extension-installer/releases/latest/download/install-php-extensions /usr/local/bin/
+
+# Install php extensions
+RUN chmod +x /usr/local/bin/install-php-extensions && sync && \
+    install-php-extensions mbstring pdo_mysql zip exif pcntl gd memcached
+
+#Get php extensions
+RUN php -m
+
+# Get latest Composer
+COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
 ## yarn and node
 RUN curl -sL https://deb.nodesource.com/setup_17.x | bash - \
@@ -42,23 +50,28 @@ RUN curl -sL https://deb.nodesource.com/setup_17.x | bash - \
   && apt-get update \
   && apt-get install -y yarn
 
-# Postgresql CLient
-RUN apt-get install -y postgresql-client \
-    && apt-get -y autoremove \
-    && apt-get clean \
-    && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
-# Set php version
-RUN setcap "cap_net_bind_service=+ep" /usr/bin/php7.4
-RUN update-alternatives --set php /usr/bin/php7.4
 
-#Prepare app
-COPY start-container /usr/local/bin/start-container
-COPY ./docker/default.conf /etc/nginx/conf.d/default.conf
-COPY start-container .
+# Set working directory & copy code
+COPY --chown=$user:www-data . /var/www
 
 #Install And pm2
-RUN yarn global add pm2
+RUN mkdir /var/www/.pm2/
 
-EXPOSE 80
+# PHP Error Log Files
+RUN mkdir /var/log/php
+RUN touch /var/log/php/errors.log && chmod 777 /var/log/php/errors.log
+
+# Deployment steps
+RUN composer install --optimize-autoloader --no-dev
+RUN yarn install
+RUN chmod +x /var/www/run.sh
+#nginx config
+RUN cp ./docker/default.conf /etc/nginx/sites-enabled/default.conf
+
+RUN chown $user -R /var/www/*
+RUN chmod 777 -R /var/www/*
+
+EXPOSE 8080
+ENTRYPOINT ["/var/www/run.sh"]
 

@@ -1,8 +1,24 @@
 apps:
   # Run php artisan queue:listen to execute queue job
   - script    : 'artisan'
-    name      : 'artisan-queue-worker'
-    cwd       : '/usr/share/nginx/lscofd'
-    args      : 'queue:work' # or queue:work
+    name      : 'artisan-discordemebd-worker'
+    cwd       : '/var/www'
+    args      : 'queue:work --queue discord' # or queue:work
     interpreter : 'php'
+    error_file: "./storage/logs/discordemebd_error_pm2.log"
+    out_file: "./storage/logs/discordemebd_outpm2.log"
+  - script: 'artisan'
+    name: 'artisan-pdfgeneration-worker'
+    cwd: '/var/www'
+    args: 'queue:work --queue pdfgeneration' # or queue:work
+    interpreter: 'php'
+    error_file: "./storage/logs/pdfgeneration_error_pm2.log"
+    out_file: "./storage/logs/pdfgeneration_outpm2.log"
+  - script: 'artisan'
+    name: 'artisan-schedule-runner'
+    cwd: '/var/www'
+    args: 'schedule:run' # or queue:work
+    interpreter: 'php'
+    error_file: "./storage/logs/schedule_error_pm2.log"
+    out_file: "./storage/logs/schedule_outpm2.log"
 

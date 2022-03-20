@@ -2,9 +2,12 @@
 
 namespace App\Console\Commands;
 
+use App\Http\Controllers\request\request\LayoutController;
+use App\Http\Controllers\request\ServiceGetterController;
 use App\Models\DayService;
 use App\Models\WeekService;
 use Illuminate\Console\Command;
+use App\Models\User;
 
 class StartWeek extends Command
 {
@@ -39,25 +42,36 @@ class StartWeek extends Command
      */
     public function handle()
     {
-        $week =  date('W', time());
-        $users = \App\Exporter\Models\User::where('grade', '>', 1)->get();
-        $dayservice = WeekService::where('week', $week)->get('user_id');
-        $b = 0;
-        $array = array();
-        while($b < count($dayservice)){
-            array_push($array, $dayservice[$b]->user_id);
-            $b++;
+        $week = ServiceGetterController::getWeekNumber();
+        $users = User::all();
+        $dayserviceFire = WeekService::where('week_number', $week)->where('service','LSCoFD')->get('user_id');
+        $dayserviceMedic = WeekService::where('week_number', $week)->where('service','SAMS')->get('user_id');
+        $FireArray = array();
+        $MedicArray = array();
+        foreach ($dayserviceFire as $fire){
+            array_push($FireArray, $fire->user_id);
         }
-        $a = 0;
+        foreach ($dayserviceMedic as $medic){
+            array_push($MedicArray, $medic->user_id);
+        }
         $datas = array();
-        while ($a < count($users)){
-            if(!in_array($users[$a]->id, $array)){
-                array_push($datas, ['week'=>$week, 'user_id'=>$users[$a]->id]);
+
+
+        foreach($users as $usr){
+            if(($usr->isInFireUnit() || $usr->isInMedicUnit()) && !$usr->dev){
+                if($usr->isInFireUnit() && !in_array($usr->id, $FireArray)){
+                    array_push($datas, ['week_number'=>$week, 'user_id'=>$usr->id, 'service'=>'LSCoFD']);
+                }
+                if($usr->isInMedicUnit() && !in_array($usr->id, $MedicArray)){
+                    array_push($datas, ['week_number'=>$week, 'user_id'=>$usr->id, 'service'=>'SAMS']);
+                }
             }
-            $a++;
         }
         WeekService::insert($datas);
         $this->info('Inserted');
+        $this->info('Importing for search');
+        $this->callSilently('scout:import', ['model'=>'App\Models\WeekService']);
+        $this->info('All entry of WeekService are imported');
         return 0;
     }
 }

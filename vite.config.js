@@ -1,6 +1,6 @@
 import { defineConfig } from 'vite'
 import reactRefresh from '@vitejs/plugin-react-refresh'
-const env = 'production';
+const env = "development";
 const Global = "var process = { env: {NODE_ENV: '" + env + "'}}"
 
 
@@ -18,19 +18,21 @@ export default defineConfig({
     },
     build: {
       outDir: '../public/assets',
-        assetsDir: '',
-        manifest: true,
-        minify: true,
-        rollupOptions: {
-          output: {
-              manualChunks: undefined,
-              banner: Global
-          },
-          input:{
-              'app.jsx': './resources/js/app.jsx'
-          },
+      assetsDir: '',
+      manifest: true,
+      minify: false,
+      sourcemap: true,
+      rollupOptions: {
+        output: {
+         manualChunks: undefined,
+           banner: Global
+        },
+        input:{
+          'app': './resources/js/app.jsx',
+        },
 
-        }
-    }
+      }
+    },
+
 })
 

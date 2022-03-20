@@ -12,6 +12,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property int user_id
  * @property string name
  * @property int BC_id
+ * @property string service
  * @method static where(string $column, string $operator = null, mixed $value = null)
  * @method static orderByDesc(string $string)
  *

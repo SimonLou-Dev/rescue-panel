@@ -25,7 +25,8 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        $schedule->command('week:start')->weeklyOn(0, '0:0')->timezone('Europe/Brussels');
+        $schedule->command('logs:day')->daily();
+        $schedule->command('week:start')->weeklyOn(6, '0:01');
     }
 
     /**

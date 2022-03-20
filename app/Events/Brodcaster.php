@@ -50,7 +50,7 @@ class Brodcaster implements ShouldBroadcastNow
 
     public function broadcastAs(): string
     {
-        return 'notify_';
+        //return 'Notification';
     }
 
     public function broadcastWith(): array

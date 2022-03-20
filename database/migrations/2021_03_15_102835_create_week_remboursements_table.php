@@ -18,6 +18,7 @@ class CreateWeekRemboursementsTable extends Migration
             $table->string('user_id');
             $table->string('week_number');
             $table->integer('total')->default(0);
+            $table->string('service');
             $table->timestamps();
         });
     }
@@ -29,6 +30,6 @@ class CreateWeekRemboursementsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('week_remboursements');
+        Schema::dropIfExists('WeekRemboursements');
     }
 }

@@ -3,6 +3,7 @@
 namespace App\Jobs;
 
 use App\Models\TestPoudre;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldBeUnique;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -34,6 +35,8 @@ class ProcesTestPoudrePDFGenerator implements ShouldQueue
     {
         $this->test = $test;
         $this->path = $path;
+
+        $this->onQueue('pdfgeneration');
     }
 
     /**
@@ -44,16 +47,12 @@ class ProcesTestPoudrePDFGenerator implements ShouldQueue
     public function handle()
     {
         $user = $this->test->GetPersonnel;
-        $user=$user->name;
         $test = $this->test;
         $path = $this->path;
 
-        ob_start();
-        require(base_path('/resources/PDF/test/poudre.php'));
-        $content = ob_get_clean();
-        $pdf = App::make('dompdf.wrapper');
-        $pdf->loadHTML($content);
-        $pdf->save(Storage::path($path));
+        $pdf = Pdf::loadView('PDF.TDP',['test'=>$test, 'user'=>$user]);
+
+        $pdf->save($path);
 
     }
 }

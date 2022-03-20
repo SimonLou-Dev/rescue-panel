@@ -3,10 +3,16 @@
 namespace App\Http\Controllers\BlackCodes;
 
 
+use App\Enums\DiscordChannel;
+use App\Events\BlackCodeListEdited;
+use App\Events\BlackCodeUpdated;
 use App\Events\Brodcaster;
 use App\Events\Notify;
+use App\Events\NotifyForAll;
 use App\Http\Controllers\Controller;
-use App\Http\Controllers\PrimesController;
+use App\Http\Controllers\LogsController;
+use App\Http\Controllers\request\PrimesController;
+use App\Jobs\ProcessEmbedPosting;
 use App\Models\BCList;
 use App\Models\BCPatient;
 use App\Models\BCPersonnel;
@@ -18,6 +24,7 @@ use App\Models\Patient;
 use App\Models\Rapport;
 use App\Models\User;
 use App\Exporter\ExelPrepareExporter;
+use App\Jobs\ProcessEmbedBCGenerator;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
@@ -28,87 +35,112 @@ use function GuzzleHttp\json_encode;
 
 class BCController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('auth');
-        $this->middleware('access');
-    }
 
-    public function getUserInfos(): \Illuminate\Http\JsonResponse
+    public function getMainPage(Request $request): \Illuminate\Http\JsonResponse
     {
+        $this->authorize('viewAny', BCList::class);
+        $returned = null;
         $user = User::where('id', Auth::user()->id)->first();
-        return response()->json([
-            'status'=>'OK',
-            'bc'=>$user->bc_id
-        ]);
-    }
+        if(!is_null($user->bc_id)){
+            $bc = BCList::where('id', $user->bc_id)->first();
+            $returned = [
+              'bc_id' => $bc->id,
+              'service' => ($bc->service === 'LSCoFD' ? 'fire' : 'medic')
+            ];
+        }
 
-    public function getMainPage(): \Illuminate\Http\JsonResponse
-    {
-        $ActiveBc = BCList::where('ended', false)->orderByDesc('id')->get();
-        $a = 0;
-        while ($a < count($ActiveBc)){
-            $ActiveBc[$a]->GetUser;
-            $ActiveBc[$a]->GetType;
-            $ActiveBc[$a]->GetPatients;
-            $ActiveBc[$a]->GetPersonnel;
-            $ActiveBc[$a]->patients = count($ActiveBc[$a]->GetPatients);
-            $ActiveBc[$a]->secouristes = count($ActiveBc[$a]->GetPersonnel);
-            $a++;
+        //Pagination for searh ended BC and forget
+        $ActiveBcs = BCList::where('ended', false)->orderByDesc('id')->get();
+        foreach ($ActiveBcs as $activeBc){
+            $activeBc->GetType;
         }
-        $EndedBC = BCList::where('ended', true)->orderByDesc('id')->take(15)->get();
-        $a = 0;
-        while ($a < count($EndedBC)){
-            $EndedBC[$a]->GetUser;
-            $EndedBC[$a]->GetType;
-            $EndedBC[$a]->GetPatients;
-            $EndedBC[$a]->GetPersonnel;
-            $EndedBC[$a]->patients = count($EndedBC[$a]->GetPatients);
-            $EndedBC[$a]->secouristes = count($EndedBC[$a]->GetPersonnel);
-            $a++;
+
+        $queryPage = (int) $request->query('page');
+        $readedPage = ($queryPage ?? 1) ;
+
+        $searchedList = BCList::search($request->query('query'))->get()->reverse();
+        $forgetable = [];
+
+        for($a = 0; $a < $searchedList->count(); $a++){
+            $searchedItem = $searchedList[$a];
+            if(!$searchedItem->ended){
+                array_push($forgetable, $a);
+            }
+            if(!\Gate::allows('view',$searchedItem)){
+                array_push($forgetable, $a);
+            }
         }
-        $puTypes = BCType::all();
+        foreach ($forgetable as $forget){
+            $searchedList->forget($forget);
+        }
+        foreach ($searchedList as $item) $item->GetType;
+
+        $finalList = $searchedList->skip(($readedPage-1)*5)->take(5);
+
+        $url = $request->url() . '?query='.urlencode($request->query('query')).'&page=';
+        $totalItem = $searchedList->count();
+        $valueRounded = ceil($totalItem / 5);
+        $maxPage = (int) ($valueRounded == 0 ? 1 : $valueRounded);
+         //Creation of Paginate Searchable result
+        $array = [
+            'current_page'=>$readedPage,
+            'last_page'=>$maxPage,
+            'data'=> $finalList,
+            'next_page_url' => ($readedPage === $maxPage ? null : $url.($readedPage+1)),
+            'prev_page_url' => ($readedPage === 1 ? null : $url.($readedPage-1)),
+            'total' => $totalItem,
+        ];
+        //End Pagination
+
+        $types = BCType::all();
         return response()->json([
             "status"=>'OK',
-            'active'=>$ActiveBc,
-            'ended'=>$EndedBC,
-            'types'=>$puTypes,
+            'active'=>$ActiveBcs,
+            'ended'=>$array,
+            'types'=>$types,
+            'userBC'=>$returned,
         ]);
     }
 
 
-    public function getBCState(string $id): \Illuminate\Http\JsonResponse
-    {
-        $id = (int) $id;
-       $bc = BCList::where('id',$id)->first();
-       return response()->json([
-           'status'=>'OK',
-           'ended'=>$bc->ended ? true : false,
-       ]);
+    public function quitBc(Request $request){
+        $user = User::where('id', Auth::user()->id)->first();
+        if($user->bc_id != null){
+            $logs = new LogsController();
+            $logs->BCLogging('quit', $user->bc_id, $user->id);
+            $user->bc_id = null;
+            $user->save();
+        }
+        return response()->json([],201);
     }
 
     public function getBCByid(string $id): \Illuminate\Http\JsonResponse
     {
-        if($id == "undefined"){
-            $id = User::where('id', Auth::user()->id)->first()->bc_id;
-        }else{
-            $id = (int) $id;
-        }
+
+
         $bc = BCList::where('id', $id)->first();
         $bc->GetType;
         $bc->GetUser;
+
         $bc->GetPersonnel;
+
         $bc->GetPatients;
+        $user = User::where('id', Auth::user()->id)->first();
+        if($bc->service === 'SAMS' && !$bc->ended && $user->bc_id != $bc->id){
+            PersonnelController::addPersonel($bc->id, Auth::user()->id);
+        }
         foreach ($bc->GetPatients as $patient){
             $patient->GetColor;
         }
+
         if($bc->ended){
-            $blessures = Blessure::withTrashed()->get();
-            $color= CouleurVetement::withTrashed()->get();
+            $blessures = Blessure::where('service', \Session::get('service')[0])->withTrashed()->get();
+            $color= CouleurVetement::where('service', \Session::get('service')[0])->withTrashed()->get();
         }else{
-            $blessures = Blessure::all();
-            $color = CouleurVetement::all();
+            $blessures = Blessure::where('service', \Session::get('service')[0])->get();
+            $color = CouleurVetement::where('service', \Session::get('service')[0])->get();
         }
+
         return response()->json([
             'status'=>'OK',
             'bc'=>$bc,
@@ -123,50 +155,62 @@ class BCController extends Controller
      */
     public function addBc(Request $request): \Illuminate\Http\JsonResponse
     {
-        $request->validate([
-            'type'=>['required'],
-            'place'=>['required'],
-        ]);
 
-        $type = $request->type;
+        $bcTypes = BCType::all();
+
+        $request->validate([
+            'type'=>['required','int','min:1'],
+            'place'=>['required', 'string'],
+        ]);
         $place = $request->place;
+        $type = $request->type;
+        $typeModel = BCType::where('id',$type)->first()->name;
+        $fire = false;
+        if(str_contains($typeModel, 'fire') || str_contains($typeModel, 'feux') || str_contains($typeModel, 'Incendie') || str_contains($typeModel, 'feux') || str_contains($typeModel, 'Fire')|| str_contains($typeModel, 'incendie')){
+            $fire = true;
+        }
+
         $bc = new BCList();
         $bc->starter_id = Auth::user()->id;
         $bc->place = $place;
         $bc->type_id = $type;
+        $bc->service = ($fire ? 'LSCoFD' : 'SAMS');
         $bc->save();
-        PersonnelController::addPersonel((string)$bc->id);
-        Http::post(env('WEBHOOK_PU'),[
-            'username'=> "LSCoFD - MDT",
-            'avatar_url'=>'https://lscofd.simon-lou.com/assets/images/LSCoFD.png',
-            'embeds'=>[
-                [
-                    'title'=>'Black Code #' . $bc->id . ' en cours :',
-                    'fields'=>[
-                      [
-                          'name'=>'type :',
-                          'value'=>$bc->GetType->name,
-                          'inline'=>true,
-                      ],
-                      [
-                          'name'=>'lieux :',
-                          'value'=>$request->place,
-                          'inline'=>true,
-                      ]
+
+        $logs = new LogsController();
+        $logs->BCLogging('create', $bc->id, Auth::user()->id);
+
+        PersonnelController::addPersonel($bc->id, Auth::user()->id);
+
+        $embed = [
+            [
+                'title'=>'Black Code #' . $bc->id . ' en cours :',
+                'fields'=>[
+                    [
+                        'name'=>'type :',
+                        'value'=>$bc->GetType->name,
+                        'inline'=>true,
                     ],
-                    'color'=>'10368531',
-                    'footer'=> [
-                        'text' => 'Information de : ' . Auth::user()->name
+                    [
+                        'name'=>'lieux :',
+                        'value'=>$request->place,
+                        'inline'=>true,
                     ]
+                ],
+                'color'=>'16775936',
+                'footer'=> [
+                    'text' => 'Information de : ' . Auth::user()->name
                 ]
             ]
-        ]);
+        ];
 
-        event(new Brodcaster('Début du BC #'.$bc->id . ' à ' . $bc->place));
+        \Discord::postMessage(DiscordChannel::BC, $embed, $bc);
+        BlackCodeListEdited::dispatch();
+        NotifyForAll::broadcast('Début du BC #'.$bc->id . ' à ' . $bc->place, 1);
 
         return response()->json([
             'status'=>'OK',
-            'bc_id'=>$bc->id,
+            'endUrl'=>($fire ? 'fire' : 'medic')."/".$bc->id,
         ],201);
     }
 
@@ -176,6 +220,8 @@ class BCController extends Controller
      */
     public function endBc(int $id=9): \Illuminate\Http\JsonResponse
     {
+        $this->authorize('close', BCList::class);
+
         $bc = BCList::where('id', $id)->firstOrFail();
         $bc->ended = true;
         $bc->save();
@@ -193,14 +239,19 @@ class BCController extends Controller
         $end = new \DateTime();
         $interval = $start->diff($end);
         $formated = $interval->format('%H h %I min(s)');
-        BcEmbedController::generateBCEndedEmbed($formated, $patients, $personnels, $bc);
-        event(new Brodcaster('Fin du BC #'.$bc->id));
+        ProcessEmbedBCGenerator::dispatch($formated, $bc, Auth::user()->name, \Discord::chanGet(DiscordChannel::BC));
+        BlackCodeListEdited::dispatch();
+        BlackCodeUpdated::dispatch($bc->id);
+        NotifyForAll::broadcast('Fin du BC #'.$bc->id . ' à ' . $bc->place, 1);
         foreach ($users as $user){
             $user->bc_id = null;
             $user->save();
         }
 
-        return response()->json(['status'=>'OK'],201);
+        $logs = new LogsController();
+        $logs->BCLogging('close', $bc->id, Auth::user()->id);
+
+        return response()->json(['status'=>'OK'],202);
     }
 
     /**
@@ -221,5 +272,57 @@ class BCController extends Controller
 
         $export = new ExelPrepareExporter($columns);
         return Excel::download((object)$export, 'ListePatientsBc'. $id .'.xlsx');
+    } #a refaire
+
+    public function casernePatcher (Request $request, string $id){
+        $this->authorize('update', BCList::class);
+        $bc = BCList::where('id', $id)->first();
+        $bc->caserne = $request->caserne;
+        $bc->save();
+
+        $logs = new LogsController();
+        $logs->BCLogging('update caserne', $bc->id, Auth::user()->id);
+
+        Notify::dispatch('Mise à jour effectuée',1,Auth::user()->id);
+        BlackCodeUpdated::dispatch($bc->id);
+
+        return response()->json([
+            'status'=>'OK'
+        ], 204);
+    }
+
+    public function descPatcher (Request $request, string $id){
+        $this->authorize('update', BCList::class);
+        $bc = BCList::where('id', $id)->first();
+        $bc->description = $request->description;
+        $bc->save();
+
+        $logs = new LogsController();
+        $logs->BCLogging('update desc', $bc->id, Auth::user()->id);
+
+        Notify::dispatch('Mise à jour effectuée',1,Auth::user()->id);
+        BlackCodeUpdated::dispatch($bc->id);
+
+        return response()->json([
+            'status'=>'OK'
+        ], 204);
+    }
+
+    public function infosPatcher(Request $request, string $id){
+        $this->authorize('update', BCList::class);
+        $bc = BCList::where('id', $id)->first();
+        $bc->caserne = $request->caserne;
+        $bc->place = $request->place;
+        $bc->save();
+
+        $logs = new LogsController();
+        $logs->BCLogging('update infos', $bc->id, Auth::user()->id);
+
+        Notify::dispatch('Mise à jour effectuée',1,Auth::user()->id);
+        BlackCodeUpdated::dispatch($bc->id);
+
+        return response()->json([
+            'status'=>'OK'
+        ], 204);
     }
 }

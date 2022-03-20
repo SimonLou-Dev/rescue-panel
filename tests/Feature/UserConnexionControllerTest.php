@@ -25,7 +25,7 @@ class UserConnexionControllerTest extends TestCase
      * A basic feature test example.
      *
      * @return void
-     * @covers \App\Http\Controllers\Rapports\UserController::register
+     * @covers \App\Http\Controllers\request\request\Patient\UserController::register
      */
 
     public function test_register()
@@ -62,7 +62,7 @@ class UserConnexionControllerTest extends TestCase
      * A basic feature test example.
      *
      * @return void
-     * @covers \App\Http\Controllers\Rapports\UserController::login
+     * @covers \App\Http\Controllers\request\request\Patient\UserController::login
      */
     public function test_login(){
         $user = User::orderBy('id', 'Desc')->first();

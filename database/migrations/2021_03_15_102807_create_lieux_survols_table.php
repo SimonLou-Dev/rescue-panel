@@ -16,6 +16,7 @@ class CreateLieuxSurvolsTable extends Migration
         Schema::create('LieuxSurvols', function (Blueprint $table) {
             $table->id();
             $table->string('name');
+            $table->softDeletes();
             $table->timestamps();
         });
     }
@@ -27,6 +28,6 @@ class CreateLieuxSurvolsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('lieux_survols');
+        Schema::dropIfExists('LieuxSurvols');
     }
 }

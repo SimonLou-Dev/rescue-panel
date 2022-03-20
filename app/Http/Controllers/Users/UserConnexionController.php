@@ -2,18 +2,40 @@
 
 namespace App\Http\Controllers\Users;
 
+use App\Enums\DiscordChannel;
 use App\Events\Notify;
+use App\Events\UserUpdated;
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\LogsController;
+use App\Jobs\ProcessEmbedBCGenerator;
+use App\Jobs\ProcessEmbedPosting;
+use App\Models\Grade;
+use App\Models\LogDb;
 use App\Models\User;
+use Exception;
+use Faker\Provider\Uuid;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Session;
+use Laravel\Socialite\Facades\Socialite;
+use Illuminate\Auth\EloquentUserProvider;
+use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Support\Facades\Log;
 
 class UserConnexionController extends Controller
 {
+
+    use AuthenticatesUsers;
+
+        public function __construct() {
+           // $this->middleware(['web']);
+        }
+
     /**
      * @return JsonResponse
      */
@@ -32,193 +54,198 @@ class UserConnexionController extends Controller
     public function postInfos(Request $request): JsonResponse
     {
         $request->validate([
-            'compte'=> 'required|digits_between:3,7|integer',
-            'tel'=> 'required|digits_between:6,15|integer',
+            'compte'=> 'required|digits_between:2,8|integer',
+            'tel'=> 'required|regex:/555-\d\d/',
+            'name'=>['required', 'string','regex:/[a-zA-Z.+_]+\s[a-zA-Z.+_]/'],
+            'staff'=>['boolean'],
+            'service'=>['string']
         ]);
 
         $user = User::where('id', Auth::id())->first();
         $user->liveplace= $request->living;
+        $user->name = $request->name;
         $user->tel = $request->tel;
         $user->compte = $request->compte;
+        $user->moderator = $request->staff;
+        if($request->service === 'LSCoFD' || $request->service === 'OMC') $user->service = $request->service;
+        $service = '';
+        if($request->service === 'LSCoFD'){
+            $service = 'Fire';
+            $user->fire = true;
+            $user->service = 'LSCoFD';
+        }
+        if($request->service === 'SAMS'){
+            $service = 'Medic';
+            $user->medic = true;
+            $user->service = 'SAMS';
+        }
+
+
         $user->save();
-        Http::post(env('WEBHOOK_INFOS'),[
-            'username'=> "LSCoFD - MDT",
-            'avatar_url'=>'https://lscofd.simon-lou.com/assets/images/LSCoFD.png',
-            'embeds'=>[
-                [
-                    'title'=>'Numéro de compte',
-                    'color'=>'16776960',
-                    'fields'=>[
-                        [
-                            'name'=>'Prénom Nom : ',
-                            'value'=>Auth::user()->name,
-                            'inline'=>false
-                        ],[
-                            'name'=>'Numéro de téléphone : ',
-                            'value'=>$user->tel,
-                            'inline'=>false
-                        ],[
-                            'name'=>'Conté habité : ',
-                            'value'=>$user->liveplace,
-                            'inline'=>false
-                        ],[
-                            'name'=>'Numéro de compte : ',
-                            'value'=>$user->compte,
-                            'inline'=>false
-                        ]
-                    ],
-                ]
+        $embed = [
+            [
+                'title'=>'Numéro de compte',
+                'color'=>'16776960',
+                'fields'=>[
+                    [
+                        'name'=>'Prénom Nom : ',
+                        'value'=>$user->name .' (' . (!is_null($user->service) ? $user->service : ($user->moderator ? 'staff' : '')) . ')',
+                        'inline'=>false
+                    ],[
+                        'name'=>'Numéro de téléphone : ',
+                        'value'=>$user->tel,
+                        'inline'=>false
+                    ],[
+                        'name'=>'Conté habité : ',
+                        'value'=>$user->liveplace,
+                        'inline'=>false
+                    ],[
+                        'name'=>'Numéro de compte : ',
+                        'value'=>$user->compte,
+                        'inline'=>false
+                    ]
+                ],
             ]
-        ]);
-        return \response()->json(['status'=>'OK', 'accessRight'=>$user->grade_id>1],201);
+        ];
+
+        if($user->service === 'LSCoFD'){
+            \Discord::postMessage(DiscordChannel::FireInfos, $embed);
+        }else{
+            \Discord::postMessage(DiscordChannel::MedicInfos, $embed);
+        }
+
+        $access = Gate::allows('access', $user);
+
+        Auth::logout();
+        Session::flush();
+        Auth::login($user);
+        Session::push('user', $user);
+        Session::push('service', $user->service);
+        UserUpdated::broadcast($user);
+
+        return \response()->json([
+            'status'=>'OK',
+            'accessRight'=>$access
+        ],201);
     }
 
     /**
      * @param Request $request
-     * @return JsonResponse
+     * @return JsonResponse|RedirectResponse
      */
-    public function register(Request  $request): JsonResponse
+    public function callback(Request $request): JsonResponse|RedirectResponse
     {
-        $pseudo = $request->pseudo;
-        $mail = $request->email;
-        $psw = $request->psw;
-        if($user = User::where('email', $mail)->count() != 0){
+
+        try {
+            $auth = Socialite::driver('discord')->user();
+        }catch(Exception $e){
+
+            Log::error('une errreur est survenue', collect($e)->toArray());
+            return redirect()->route('login')->with('error', 'une erreur est survenue');
+        }
+
+        $request->session()->flush();
+
+        $userreq = Http::withToken($auth->token)->get('https://discord.com/api/v9/users/@me');
+        $userinfos = json_decode($userreq->body());
+
+        $countMail = User::where('email', $userinfos->email)->count();
+        $countId = User::where('discord_id', $userinfos->id)->count();
+
+        if($countMail != $countId){
             return response()->json([
                 'status' => 'ERROR',
-                'raison'=> 'Email taken',
+                'raison'=> 'Email or account taken',
                 'datas' => []
             ], 200);
+        }else if($countId == 1){
+            $user = User::where('discord_id', $userinfos->id)->first();
+            $user->password = Hash::make($auth->token);
         }else{
             $createuser = new User();
-            $createuser->name = $pseudo;
-            $createuser->email = $mail;
-            $createuser->password = Hash::make($psw);
+            $createuser->password = Hash::make($auth->token);
+            $createuser->email =  $userinfos->email;
+            $createuser->discord_id = $userinfos->id;
             $createuser->save();
-            $newuser = User::where('email', $mail)->first();
-            Auth::login($newuser);
-            Session::push('user_grade', $newuser->GetGrade);
-            if(Auth::check()){
-                Http::post(env('WEBHOOK_BUGS'),[
-                    'username'=> "lscofd - MDT | " . env('APP_ENV'),
-                    'avatar_url'=>'https://lscofd.simon-lou.com/assets/images/lscofd.png',
-                    'embeds'=>[
-                        [
-                            'title'=>'Compte créé :',
-                            'color'=>'13436400 ',
-                            'fields'=>[
-                                [
-                                    'name'=>'Nom : ',
-                                    'value'=>$newuser->name,
-                                    'inline'=>false
-                                ],[
-                                    'name'=>'ID : ',
-                                    'value'=>$newuser->id,
-                                    'inline'=>false
-                                ],[
-                                    'name'=>'email : ',
-                                    'value'=>$newuser->email,
-                                    'inline'=>false
-                                ],[
-                                    'name'=>'IP : ',
-                                    'value'=>$request->ip(),
-                                    'inline'=>false
-                                ]
-                            ],
-                            'footer'=>[
-                                'text' => date('d/m/Y H:i:s'),
-                            ]
-                        ]
-                    ]
-                ]);
+            $user = $createuser;
 
-                return response()->json([
-                    'status' => 'OK',
-                    'datas' => [
-                        'user' => $newuser,
-                        'authed' => true,
-                    ]
-                ], 201);
-            }else{
-                return response()->json([
-                    'status' => 'error',
-                    'user' => null,
-                    'authed' => false,
-                    'check' => Auth::check(),
-                ], 200);
-            }
         }
+        if(!is_null($user->service)){
+            $service = $user->service;
+        }elseif ($user->fire){
+            $user->service = 'LSCoFD';
+        }elseif ($user->medic){
+            $user->service = 'SAMS';
+        }
+        $user->save();
+        Session::push('user', $user);
+        Session::push('service', $user->service);
+
+        Auth::login($user);
+
+        return $this::redirector($user);
     }
 
     /**
      * @param Request $request
-     * @return JsonResponse
+     * @return JsonResponse|RedirectResponse
      */
-    public function login(Request $request): JsonResponse
+    public function fake(Request $request): JsonResponse|RedirectResponse
     {
-        $email = $request->email;
-        $psw = $request->psw;
-        if(User::where('email', $email)->count() == 0){
-            $returned = response()->json([
-                'status'=> 'adresse mail non existante',
-                'user' => null,
-                'authed' => false,
-            ], 202);
+        $id = $request->query('id');
+        $mail = $request->query('email');
+        $token = 'azkgenjazehr';
+
+        $countMail = User::where('email', $mail)->count();
+        $countId = User::where('discord_id', $id)->count();
+
+        if($countMail != $countId){
+            return response()->json([
+                'status' => 'ERROR',
+                'raison'=> 'Email or account taken',
+                'datas' => []
+            ], 200);
+        }else if($countId == 1){
+            $user = User::where('discord_id', $id)->first();
+            $user->password = Hash::make($token);
+            $user->save();
         }else{
-            $user= User::where('email', $email)->first();
-            if(Hash::check($psw, $user->password)){
-                Auth::login($user);
-                Session::push('user_grade', $user->GetGrade);
+            $createuser = new User();
+            $createuser->password = Hash::make($token);
+            $createuser->email =  $mail;
+            $createuser->discord_id = $id;
+            $createuser->save();
+            $user = $createuser;
+            $logs = new LogsController();
+            $logs->accountCreated($createuser->id);
+        }
 
-                if(($user->grade_id >= 2 && $user->grade_id < 12) && is_null($user->matricule)){
-                    $users = User::whereNotNull('matricule')->where('grade_id', '>',1)->where('grade_id', '<',12)->get();
-                    $matricules = array();
-                    foreach ($users as $usere){
-                        array_push($matricules, $usere->matricule);
-                    }
-                    $generated = null;
-                    while(is_null($generated) || array_search($generated, $matricules)){
-                        $generated = random_int(10, 99);
-                    }
-                    $user->matricule = $generated;
-                    $user->save();
-                    event(new Notify('Vous avez le matricule ' . $generated,1));
-                }
+        $user->GetFireGrade;
+        $user->GetMedicGrade;
+        Auth::login($user);
+        Session::push('user', $user);
+        if(!is_null($user->service)){
+            Session::push('service', $user->service);
+        }
+        return $this::redirector($user);
+
+    }
+
+    private static  function redirector(User $user){
 
 
-                if($user->liveplace != null && $user->tel != null && $user->compte != null){
-                    if($user->grade_id > 1 ){
-                        $returned = response()->json([
-                            'status'=>'OK',
-                            'user'=>$user,
-                            'authed'=>Auth::check(),
-                        ]);
-                    }else{
-                        $returned = response()->json([
-                            'status'=>"ANA",
-                            'user'=>$user,
-                            'authed'=>Auth::check(),
-                        ]);
-                    }
-                }else{
-                    $returned = response()->json([
-                        'status'=>'INFOS',
-                        'user'=>$user,
-                        'authed'=>Auth::check(),
-                    ]);
-                }
-            }else{
-                $returned = response()->json([
-                    'status'=>'Mot de passe invalide',
-                    'user' => null,
-                    'authed'=>false
-                ], 202);
-            }
+        if(is_null($user->name) || is_null($user->compte) || is_null($user->liveplace) || is_null($user->tel)){
+            return redirect()->route('informations');
         }
 
 
+        if(\Gate::allows('access', $user)){
+            $redirect = redirect()->route('dashboard');
+        }
 
-
-
-        return $returned;
+        else{
+            $redirect = redirect()->route('cantaccess');
+        }
+        return $redirect;
     }
 }

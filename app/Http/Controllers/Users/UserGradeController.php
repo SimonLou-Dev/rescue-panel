@@ -3,14 +3,15 @@
 namespace App\Http\Controllers\Users;
 
 use App\Events\Notify;
+use App\Events\UserUpdated;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\Service\OperatorController;
-use App\Http\Controllers\ServiceController;
 use App\Models\Grade;
 use App\Models\User;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
 
 class UserGradeController extends Controller
 {
@@ -23,36 +24,31 @@ class UserGradeController extends Controller
     public function setusergrade(Request $request, int $id, int $userid): JsonResponse
     {
         $user= User::where('id', $userid)->first();
-        $requester = User::where('id', Auth::user()->id)->first();
-        if($requester->grade_id < 10){
-            if($user->id == $requester->id){
-                event(new Notify('Impossible de modifier son propre grade ! ',4));
-                return \response()->json(['status'=>'OK']);
-            }
-            if($id >= $requester->grade_id){
-                event(new Notify('Impossible de mettre un grade plus haut que le siens ! ',4));
-                return \response()->json(['status'=>'OK']);
-            }
-        }
-        if($id == 1){
-            $this::removegradeFromuser($userid);
-        }
-        if($user->grade_id == 1 && $id != 1){
-            $users = User::whereNotNull('matricule')->where('grade_id', '>',1)->where('grade_id', '<',12)->get();
+        $grade = Grade::where('id',$id)->first();
+
+        if($grade->having_matricule && !$user->dev && $id  != 1 && is_null($user->matricule)){
+            $users = User::whereNotNull('matricule')->get();
             $matricules = array();
             foreach ($users as $usere){
                 array_push($matricules, $usere->matricule);
             }
             $generated = null;
-            while(is_null($generated) || array_search($generated, $matricules)){
-                $generated = random_int(10, 99);
+            while(is_null($generated) || in_array($generated, $matricules)){
+                $generated = random_int(9, 99);
             }
             $user->matricule = $generated;
             $user->save();
             event(new Notify($user->name . ' a le matricule ' . $generated,1));
         }
-        $user->grade_id = $id;
+
+        if(Session::get('service')[0] === 'LSCoFD'){
+            $user->fire_grade_id = $id;
+        }
+        if(Session::get('service')[0] === 'SAMS'){
+            $user->medic_grade_id = $id;
+        }
         $user->save();
+        UserUpdated::broadcast($user);
         event(new Notify('Le grade a été bien changé ! ',1));
         return \response()->json(['status'=>'OK']);
     }
@@ -64,62 +60,99 @@ class UserGradeController extends Controller
     public function GetUserPerm(Request $request): JsonResponse
     {
         $user = User::where('id', Auth::id())->first();
-        $grade = Grade::where('id', $user->grade_id)->first();
-        $perm = [
-            'acces'=>$grade->perm_0,
-            'HS_rapport'=>$grade->perm_1,
-            'HS_dossier'=>$grade->perm_2,
-            'HS_BC'=>$grade->perm_3,
-            'factures_PDF'=>$grade->perm_4,
-            'add_factures'=>$grade->perm_5,
-            'rapport_create'=>$grade->perm_6,
-            'add_BC'=>$grade->perm_7,
-            'remboursement'=>$grade->perm_8,
-            'infos_edit'=>$grade->perm_9,
-            'vol'=>$grade->perm_10,
-            'rapport_horaire'=>$grade->perm_11,
-            'service_modify'=>$grade->perm_12,
-            'time_modify'=>$grade->perm_13,
-            'perso_list'=>$grade->perm_14,
-            'set_pilot'=>$grade->perm_15,
-            'edit_perm'=>$grade->perm_16,
-            'post_annonces'=>$grade->perm_17,
-            'logs_acces'=>$grade->perm_18,
-            'validate_forma'=>$grade->perm_19,
-            'create_forma'=>$grade->perm_20,
-            'forma_publi'=>$grade->perm_21,
-            'forma_delete'=>$grade->perm_22,
-            'grade_modify'=>$grade->perm_23,
-            'HS_facture'=>$grade->perm_24,
-            'content_mgt'=>$grade->perm_25,
 
-            'view_member_sheet'=>$grade->perm_26,
-            'set_discordid'=>$grade->perm_27,
-            'sanction_MAP'=>$grade->perm_28,
-            'sanction_exclu'=>$grade->perm_29,
-            'sanction_warn'=>$grade->perm_30,
-            'sanction_degrade'=>$grade->perm_31,
-            'sanction_remove'=>$grade->perm_32,
-            'modify_material'=>$grade->perm_33,
-            'membersheet_note'=>$grade->perm_34,
-            'HS_poudre'=>$grade->perm_35,
-            'HS_poudre_history'=>$grade->perm_36,
-            'timeserviceupdate_request'=>$grade->perm_37,
-            'primesupdate_request'=>$grade->perm_38,
-            'useless'=>$grade->perm_39,
+        if(is_null($user->service)){
+            $user->grade = Grade::first();
+        }else{
+            if($user->service === 'SAMS'){
+                $user->grade = Grade::where('id', $user->medic_grade_id)->first();
+            }else{
+                $user->grade = Grade::where('id', $user->fire_grade_id)->first();
+            }
+        }
+        $user->sanctions = json_decode($user->sanctions);
+        $user->materiel = json_decode($user->materiel);
 
+        $fireGrade = Grade::where('id', $user->fire_grade_id)->first();
+        $medicGrade = Grade::where('id', $user->medic_grade_id)->first();
+        $user->fire_grade_name = $fireGrade->name;
+        $user->medic_grade_name = $medicGrade->name;
 
-            'user_id'=>$user->id
-        ];
-        return \response()->json(['status'=>'ok', 'perm'=>$perm, 'user'=>$user]);
+        $collect = collect($user->grade->getAttributes());
+        $collect = $collect->except(['service','name','power','discord_role_id','id']);
+        foreach ($collect as $key => $item){
+            $b = $user->grade->getAttributeValue($key);
+            $user->grade[$key] = ($b === "1" || $b === true || $b === 1 );
+        }
+
+        return \response()->json(['status'=>'ok', 'user'=>$user]);
     }
 
-    public function getAllGrades(): JsonResponse
+    public function getGrade(): JsonResponse
     {
-        $user = User::where('id', Auth::user()->id)->first();
-        $grades = Grade::where('id', '<=', $user->grade_id)->get();
+        \Gate::authorize('viewAny',Grade::class);
+        $requester = User::where('id',Auth::user()->id)->first();
+        if($requester->dev){
+            $grades = Grade::orderBy('power','desc')->get();
+        }else{
+            $grades = Grade::where('service', Session::get('service')[0])->orderBy('power','desc')->get();
+        }
+
+        $grades->filter(function ($item){
+            return \Gate::allows('view', $item);
+        });
         return \response()->json(['status'=>'OK','grades'=>$grades]);
     }
+
+    public function createGrade(Request $request): JsonResponse
+    {
+        \Gate::authorize('create',Grade::class);
+        $grade = new Grade();
+        $grade->name = 'nouveau grade';
+        $grade->power = 0;
+        $grade->service = Session::get('service')[0];
+        $grade->save();
+
+        return $this::getGrade();
+    }
+
+    public function updateGrade(Request $request){
+        $grade = Grade::where('id', $request->grade['id'])->first();
+        $exept = ['id', 'service', 'created_at','updated_at'];
+        $updater = collect($request->grade)->except($exept);
+
+        foreach ($updater  as $key => $value){
+            $grade[$key] = $value;
+        }
+        $this->authorize('update', $grade);
+        $grade->save();
+        $users = User::where('medic_grade_id', $grade->id)->where('fire_grade_id')->get();
+        foreach ($users as $user){
+            UserUpdated::dispatch($user);
+            Notify::dispatch('Modification de vos permission',1,Auth::user()->id);
+        }
+
+        Notify::dispatch('Mise à jour enregistrée',1,Auth::user()->id);
+        return $this::getGrade();
+    }
+
+    public function deleteGrade(Request $request){
+        \Gate::authorize('delete',Grade::class);
+        $grade = Grade::where('id', $request->grade_id)->first();
+        $users = User::where('medic_grade_id', $grade->id)->orWhere('fire_grade_id', $grade->id)->count();
+        if($grade->default){
+            Notify::dispatch('Ce grade ne peut pas être supprimé',3, Auth::user()->id);
+            return $this->getGrade();
+        }
+        if($users != 0){
+            Notify::dispatch('Ce grade ne peut pas être supprimé',3, Auth::user()->id);
+            return $this->getGrade();
+        }
+        $grade->delete();
+        Notify::dispatch('Grade supprimé',1, Auth::user()->id);
+        return $this->getGrade();
+    }
+
 
     public function changePerm(string $perm, string $grade_id): JsonResponse
     {
@@ -134,15 +167,25 @@ class UserGradeController extends Controller
         $user = User::where('id', $id)->first();
         $user->materiel = null;
         $user->matricule = null;
-        $user->grade_id = 1;
+        if( Session::get('service')[0] === "SAMS"){
+            $user->medic_grade_id = 1;
+            $user->medic=false;
+            $user->crossService= false;
+        }
+        else{
+            $user->fire_grade_id = 1;
+            $user->fire=false;
+            $user->crossService= false;
+        }
         $user->bc_id = null;
-        if($user->service){
+        if($user->onService && $user->service == Session::get('service')[0]){
             OperatorController::setService($user, true);
         }
         $user->save();
+        UserUpdated::broadcast($user);
 
         // mettre un embed de réinit du matériel
 
-        event(new Notify($user->name .' ne fait plus partie du service',1));
+        Notify::dispatch($user->name .' ne fait plus partie du service',1, Auth::user()->id);
     }
 }

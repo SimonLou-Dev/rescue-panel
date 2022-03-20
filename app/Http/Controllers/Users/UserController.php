@@ -3,8 +3,13 @@
 namespace App\Http\Controllers\Users;
 
 use _HumbugBox15516bb2b566\Nette\Utils\DateTime;
+use App\Enums\DiscordChannel;
 use App\Events\Notify;
+use App\Events\UserUpdated;
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\LogsController;
+use App\Http\Controllers\Service\OperatorController;
+use App\Jobs\ProcessEmbedPosting;
 use App\Models\Grade;
 use App\Models\Intervention;
 use App\Models\LogServiceState;
@@ -33,17 +38,97 @@ class UserController extends Controller
      */
     public function getUser(Request $request): JsonResponse
     {
+
+        $this->authorize('viewPersonnelList', User::class);
         $me = User::where('id', Auth::user()->id)->first();
-        if (!is_null($request->query('orderBy')) && is_null($request->query('grade'))) {
-            $users = User::where('grade_id', '<=', $me->grade_id)->orderBy($request->query('orderBy'), $request->query('oderdir'))->get();
-        } else {
-            $users = User::where('grade_id', '<=', $me->grade_id)->orderBy($request->query('orderBy'), $request->query('oderdir'))->where('grade_id', $request->query('grade'))->get();
+        $meService = Session::get('service')[0];
+        if($meService === null || $meService === '') $meService = $me->service;
+
+        if(is_null($request->query('query'))){
+            $users = User::all();
+
+        }else{
+            $users = User::search($request->query('query'))->take(50)->get();
+        }
+
+        $grade = $request->query('grade');
+        if(is_null($grade) || !isset($grade)){
+            $grade = 'ALL';
+        }
+
+
+        $queryPage = (int) $request->query('page');
+        $readedPage = ($queryPage ?? 1) ;
+        $readedPage = (max($readedPage, 1));
+        $forgetable = array();
+
+
+        for($a = 0; $a < $users->count(); $a++){
+            $user = $users[$a];
+            if(!self::compareGrade($user, $grade, $meService)) array_push($forgetable, $a);
+            if($meService === "SAMS"){
+                if(!$user->isInMedicUnit()){
+                    array_push($forgetable, $a);
+                }
+            }else if($meService === "LSCoFD"){
+                if(!$user->isInFireUnit()){
+                    array_push($forgetable, $a);
+                }
+            }
+        }
+        foreach ($forgetable as $it){
+            $users->forget($it);
+        }
+
+
+
+        $users = $users->filter(function ($item){
+            return \Gate::allows('view', $item);
+        });
+
+
+
+        $finalList = $users->skip(($readedPage-1)*20)->take(20);
+
+
+
+        foreach ($finalList as $user){
+            if($meService === 'SAMS'){
+                $user->grade = $user->GetMedicGrade;
+            }if($meService === 'LSCoFD'){
+                $user->grade = $user->GetFireGrade;
+            }
+
+        }
+
+        $url = $request->url() . '?query='.urlencode($request->query('query')).'&page=';
+        $totalItem = $users->count();
+        $valueRounded = ceil($totalItem / 20);
+        $maxPage = (int) ($valueRounded == 0 ? 1 : $valueRounded);
+        //Creation of Paginate Searchable result
+
+        $array = [
+            'current_page'=>$readedPage,
+            'last_page'=>$maxPage,
+            'data'=> $finalList,
+            'next_page_url' => ($readedPage === $maxPage ? null : $url.($readedPage+1).'&grade='.$grade),
+            'prev_page_url' => ($readedPage === 1 ? null : $url.($readedPage-1).'&grade='.$grade),
+            'total' => $totalItem,
+        ];
+
+        if($me->dev){
+            $grades = Grade::all();
+        }else{
+            $grades = Grade::where('service', $meService)->orderBy('power','asc')->get();
+            $grades = $grades->filter(function ($item){
+                return \Gate::allows('view', $item);
+            });
         }
 
         return response()->json([
             'status' => 'OK',
-            'users' => $users,
-            'number' => count($users)
+            'users' => $array,
+            'serviceGrade'=>$grades,
         ]);
     }
 
@@ -66,42 +151,27 @@ class UserController extends Controller
     {
         $user_id = (int)$user_id;
         $user = User::where('id', $user_id)->first();
+        $this->authorize('setPilote', $user);
         $user->pilote = !$user->pilote;
         $user->save();
+        UserUpdated::broadcast($user);
         return \response()->json(['status' => 'OK'], 201);
     }
 
-    /**
-     * @param Request $request
-     * @param string $user_id
-     * @param string $state
-     * @return JsonResponse
-     */
-    public function changeState(Request $request, string $user_id, string $state): JsonResponse
-    {
-        $user = User::where('id', (int)$user_id)->first();
-        $user->serviceState = ($state == 'null' ? null : $state);
+    public function setService(Request $request, string $service){
+        $user = User::where('id',Auth::user()->id)->first();
+        $userSrv = $user->OnService;
+        $user->service = $service;
+        Session::forget('service');
+        Session::push('service',$service);
         $user->save();
-        if($state != 'null'){
-            $logsState = new LogServiceState();
-            $logsState->user_id = $user_id;
-            $logsState->state_id=$state;
-
-        }else{
-            $logsState = LogServiceState::where('user_id', $user->id)->first();
-            $logsState->ended = true;
-            $start = date_create($logsState->started_at);
-            $interval = $start->diff(date_create(date('Y-m-d H:i:s', time())));
-            $diff = $interval->d*24 + $interval->h;
-            $formated = $diff . ':' . $interval->format('%i:%S');
-            $logsState->total = $formated;
-
+        if($userSrv){
+            OperatorController::setService($user, false);
         }
-        $logsState->save();
-
-        event(new Notify('Etat de service mis à jour', 1));
-        return response()->json(['status' => 'OK'], 200);
+        UserUpdated::dispatch($user);
+        return \response()->json([],202);
     }
+
 
     /**
      * @param Request $request
@@ -109,88 +179,50 @@ class UserController extends Controller
      * @param string $id
      * @return JsonResponse
      */
-    public function setDiscordId(Request $request, string $discordid, string $id): JsonResponse
+    public function setCrossService(Request $request, string $id): JsonResponse
     {
+
         $user = User::where('id', $id)->first();
-        if ($discordid == null) {
-            $user->discord_id = null;
-        } else {
-            $user->discord_id = $discordid;
+        if($user->crossService){
+            if($user->fire)$user->medic_grade_id = 1;
+            if($user->medic)$user->fire_grade_id = 1;
+            Notify::broadcast('Grade retiré',1, Auth::user()->id);
         }
+
+        $user->crossService=!$user->crossService;
         $user->save();
+
+        Notify::broadcast('Modification enregistrée',1, Auth::user()->id);
         return response()->json(['status' => 'OK'], 200);
     }
 
-    /**
-     * @param string $user_id
-     * @return JsonResponse
-     */
-    public function getUserNote(string $user_id): JsonResponse
-    {
-        $user = User::where('id', $user_id)->first();
+
+
+    public function getSheet(string $user_id){
+        $user = User::where('id',$user_id)->first();
+        $user->GetMedicGrade;
+        $user->GetFireGrade;
+        $user->note = ($user->note !== null ? json_decode($user->note) : null);
+        $user->materiel = ($user->materiel !== null ? json_decode($user->materiel) : null);
+        $user->sanctions = ($user->sanctions !== null ? json_decode($user->sanctions) : null);
         return \response()->json([
-            'status'=> 'ok',
-            'note'=> (array) $user->note != null ? array_reverse(json_decode($user->note)) : null,
+            'user'=>$user,
         ]);
+
     }
 
-    /**
-     * @param string $user_id
-     * @return JsonResponse
-     */
-    public function getUserSanctions(string $user_id): JsonResponse
-    {
-        $user = User::where('id', $user_id)->first();
-        return \response()->json([
-            'status'=> 'ok',
-            'sanctions'=> (array) $user->sanctions != null ? array_reverse(json_decode($user->sanctions)) : null,
-        ]);
-    }
-
-    /**
-     * @param string|null $user_id
-     * @return JsonResponse
-     */
-    public function getUserInfos(string $user_id = NULL): JsonResponse
-    {
-        if(is_null($user_id)){
-            $user_id = Auth::id();
-        }
-        $user = User::where('id', $user_id)->first();
-        $user->GetGrade;
-
-        return \response()->json([
-            'status'=> 'ok',
-            'infos'=> $user
-        ]);
-    }
-
-    /**
-     * @param string $user_id
-     * @return JsonResponse
-     */
-    public function getUserMaterial(string $user_id): JsonResponse
-    {
-        if($user_id === 'null'){$user_id = Auth::user()->id;}
-        $user = User::where('id', $user_id)->first();
-        $base = (array) ($user->materiel != null ? json_decode($user->materiel) : null);
-
-        return \response()->json([
-            'status'=> 'ok',
-            'material'=>(array) $base
-        ]);
-    }
 
     public function addUserNote(Request $request, string $id)
     {
         $user = User::where('id', $id)->first();
+        $service = Session::get('service')[0];
 
         $request->validate([
             'note'=>'required'
         ]);
         $newnote = [
             'id' => Str::uuid(),
-            'sender' => Auth::user()->name,
+            'sender' => Auth::user()->name ." (${service})",
             'note' => $request->note,
             'posted_at'=>date('d/m/Y à H:i')
         ];
@@ -208,32 +240,6 @@ class UserController extends Controller
         return \response()->json([],201);
     }
 
-    public function removeUserNote(Request $request, string $id, string $note_id)
-    {
-        $user = User::where('id',  $id)->first();
-        $notes = json_decode($user->note);
-        $find = null;
-        $a = 0;
-
-        while($a < count($notes)){
-            if($notes[$a]->id = $note_id){
-                $find =$a;
-            }
-            $a++;
-        }
-
-        if(!is_null($find)){
-            unset($notes[$find]);
-            $user->note = $notes;
-            $user->save();
-            event(new Notify('Cette note à été supprimée',1));
-        }else{
-            event(new Notify('Une erreur est survenue',4));
-        }
-        return \response()->json([]);
-
-    }
-
     /**
      * @param Request $request
      * @param string $id
@@ -241,38 +247,30 @@ class UserController extends Controller
      */
     public function addUserSanction(Request $request, string $id): JsonResponse
     {
-        $user = User::where('id',  $id)->first();
-        $baseuser = $user;
-        $sanctionsinfos[] = array();
-        if(!is_null($user->sanctions)){
-            $sanctionsinfos = (array) json_decode($user->sanctions);
-        }
-        $array = array();
+        $baseuser = User::where('id',  $id)->first();
         $prononcer = User::where('id', Auth::user()->id)->first();
-        $reqinfos= $request->get('infos');
-        $array['prononcedam'] = date('d/m/Y \à H\hi');
-        $array['prononcedby'] = $prononcer->name;
 
-        switch ($request->sanctions){
+        $service = Session::get('service')[0];
+
+        $sanctionsinfos[] = array();
+
+        if(!is_null($baseuser->sanctions)){
+            $sanctionsinfos = (array) json_decode($baseuser->sanctions);
+        }
+
+        $reqinfos= $request->get('infos');
+        $array['prononcedam'] = date('d/m/Y');
+        $array['prononcedby'] = $prononcer->name ." (${service})";
+
+        switch ($request->sanction){
             case "1": //Avertissement
                 $array['type'] = "Avertissement";
                 $text = "__**Type :**__ Avertissement";
                 break;
             case "2": //MAP
                 $array['type'] = "Mise à pied";
-                $array['ended_at'] = date('d/m/Y', strtotime($reqinfos['map_date'])) . ' à ' . date('H:i', strtotime($reqinfos['map_time']));
-                $format = 'Y-m-d H:i';
-                $end= DateTime::createFromformat($format, $reqinfos['map_date'] . ' ' . $reqinfos['map_time']);
-                $now = new DateTime('now');
-                $diff = $end->diff($now);
-                $array['diff'] = $diff->format('%d jours et %H heures');
-                $text = "__**Type :**__ Mise à pied \n __**Durée :**__ " . $array['diff'] . " \n __**Fin le :**__ " . $array['ended_at'];
-                break;
-            case "3": //degradation
-                $array['type'] = "Dégradation";
-                $array['ungrad'] = $baseuser->GetGrade->name . ' -> ' . Grade::where('id', $baseuser->GetGrade->id - 1)->first()->name;
-                $text = "__**Type :**__ Perte d'un grade \n __**Ancien grade :**__  ". $baseuser->GetGrade->name . "\n __**Nouveau grade :**__" . Grade::where('id', $baseuser->GetGrade->id - 1)->first()->name;
-                $user->grade_id = $user->grade_id -1;
+                $array['duration'] = $reqinfos['map_date'];
+                $text = "__**Type :**__ Mise à pied \n __**Durée :**__ " . $array['duration'];
                 break;
             case "4": //dehors
                 $array['type'] = "Exclusion";
@@ -280,23 +278,28 @@ class UserController extends Controller
                 $text = "__**Type:**__ Exclusion \n __**Infos licenciement:**__ " . $array['noteLic'];
                 UserGradeController::removegradeFromuser((int) $id);
                 break;
+            default: break;
         }
-        $array['raison'] = $reqinfos['raison'];
-        $final = ">>> ***__Nouvelle sanction :__*** \n __**De :**__". $array['prononcedby'] . "\n __**A :**__ " . ($user->discord_id != null ? ("<@" . $user->discord_id . "> ") : "") . $user->name . " \n ". $text . "\n **__Prononcé le :__** " . $array['prononcedam'] . " \n **__Raison :__** " . $array['raison'];
+        $array['reason'] = $reqinfos['reason'];
+        $final = ">>> ***__Nouvelle sanction (" . $service .")  :__*** \n __**De :**__". $array['prononcedby'] . "\n __**A :**__ " . ($baseuser->discord_id != null ? ("<@" . $baseuser->discord_id . "> ") : "") . $baseuser->name . " \n ". $text . "\n **__Prononcé le :__** " . $array['prononcedam'] . " \n **__Raison :__** " . $array['reason'];
 
         array_push($sanctionsinfos, $array);
 
-        $user->sanctions = json_encode($sanctionsinfos);
+        $baseuser->sanctions = json_encode($sanctionsinfos);
 
-        $user->save();
+        $baseuser->save();
+        UserUpdated::broadcast($baseuser);
 
-        Http::post(env('WEBHOOK_SANCTIONS'),[
-            'username'=> "LSCoFD- MDT",
-            'avatar_url'=>'https://lscofd.simon-lou.com/assets/images/LSCoFD.png',
-            'content'=>$final
+        if($baseuser->isInFireUnit()){
+            \Discord::postMessage(DiscordChannel::FireSanctions, [], null, $final);
+        }
 
-        ]);
+        if($baseuser->isInMedicUnit()){
+            \Discord::postMessage(DiscordChannel::MedicSanctions, [], null, $final);
+        }
 
+        $logs = new LogsController();
+        $logs->SanctionsLogging($array['type'], $baseuser->id, $prononcer->id);
 
         return \response()->json(['status'=>'ok'],201);
 
@@ -328,44 +331,44 @@ class UserController extends Controller
                 $attribute .= (empty($attribute) ? $keys[$a] : ', '.$keys[$a]);
             }
         }
+        $embed = [
+            [
+                'title'=>$title,
+                'color'=>'752251',
+                "thumbnail"=> [
+                    "url"=> "https://media.discordapp.net/attachments/772181497515737149/846364157821321256/bodyArmor-bulletproof-kevlar-vest-512.png"
+                ],
+                'fields'=>[
+                    [
+                        'name'=>'Matricule : ',
+                        'value'=>($user->matricule != null ? $user->matricule : 'non définie'),
+                        'inline'=>false
+                    ],[
+                        'name'=>'Prénom nom : ',
+                        'value'=>$user->name,
+                        'inline'=>false
+                    ],[
+                        'name'=>'Item attribués : ',
+                        'value'=>$attribute,
+                        'inline'=>false
+                    ],[
+                        'name'=>'email : ',
+                        'value'=>($user->discord_id != null ? '<@'.$user->discord_id.'>' : 'non définie'),
+                        'inline'=>false
+                    ]
+                ],
+            ]
+        ];
 
+        if($user->isInFireUnit()){
+            \Discord::postMessage(DiscordChannel::FireLogistique, $embed);
+        }
 
+        if($user->isInMedicUnit()){
+            \Discord::postMessage(DiscordChannel::MedicLogistique, $embed);
+        }
 
-        Http::post(env('WEBHOOK_LOGISTIQUE'),[
-            'username'=> "LSCoFD - MDT",
-            'avatar_url'=>'https://lscofd.simon-lou.com/assets/images/LSCoFD.png',
-            'embeds'=>[
-                [
-                    'title'=>$title,
-                    'color'=>'752251',
-                    "thumbnail"=> [
-                        "url"=> "https://media.discordapp.net/attachments/772181497515737149/846364157821321256/bodyArmor-bulletproof-kevlar-vest-512.png"
-                    ],
-                    'fields'=>[
-                        [
-                            'name'=>'Matricule : ',
-                            'value'=>($user->matricule != null ? $user->matricule : 'non définie'),
-                            'inline'=>false
-                        ],[
-                            'name'=>'Prénom nom : ',
-                            'value'=>$user->name,
-                            'inline'=>false
-                        ],[
-                            'name'=>'Item attribués : ',
-                            'value'=>$attribute,
-                            'inline'=>false
-                        ],[
-                            'name'=>'email : ',
-                            'value'=>($user->discord_id != null ? '<@'.$user->discord_id.'>' : 'non définie'),
-                            'inline'=>false
-                        ]
-                    ],
-                ]
-            ],
-
-        ]);
-
-
+        UserUpdated::broadcast($user);
         return \response()->json([
             'status'=>'ok',
         ]);
@@ -383,12 +386,17 @@ class UserController extends Controller
 
         event(new Notify('La démission a été prise en compte',1));
         $prononcer = User::where('id', Auth::user()->id)->first();
+        UserUpdated::broadcast($user);
+        $msg =   ">>> ***__Démission :__*** \n **__Personnel :__** " . ($user->discord_id != null ? ("<@" . $user->discord_id . "> ") : "") . $user->name . "\n **__Déclaré par :__** ".$prononcer->name;
 
-        Http::post(env('WEBHOOK_SANCTIONS'),[
-            'username'=> "LSCoFD - MDT",
-            'avatar_url'=>'https://lscofd.simon-lou.com/assets/images/LSCoFD.png',
-            'content'=>">>> ***__Démission :__*** \n **__Personnel :__** " . ($user->discord_id != null ? ("<@" . $user->discord_id . "> ") : "") . $user->name . "\n **__Déclaré par :__** ".$prononcer->name
-        ]);
+        if($user->service === Session::get('service')[0] && $user->service == "LSCoFD"){
+            \Discord::postMessage(DiscordChannel::FireSanctions, [], null, $msg);
+        }
+
+        if($user->service === Session::get('service')[0] && $user->service == "SAMS"){
+            \Discord::postMessage(DiscordChannel::MedicSanctions, [], null, $msg);
+        }
+
 
     }
 
@@ -397,9 +405,53 @@ class UserController extends Controller
      */
     public function exportListPersonnelExel(): \Symfony\Component\HttpFoundation\BinaryFileResponse
     {
-        $users = User::where('grade_id', '>', 1)->where('grade_id', '<', 10)->orderByDesc('grade_id')->get();
+        $this->authorize('viewPersonnelList', User::class);
+        $me = User::where('id', Auth::user()->id)->first();
+        $meService = Session::get('service')[0];
+        $users = User::all();
+        $forgetable = array();
+        for($a = 0; $a < $users->count(); $a++){
 
-        $column[] = array('id','nom', 'matricule', 'grade', 'discordid', 'tel', 'compte', 'pilote', 'nombre de sanctions');
+
+
+            if(!$me->dev){
+                $user = $users[$a];
+                if($meService === "SAMS"){
+                    if(!($user->isInMedicUnit())){
+                        array_push($forgetable, $a);
+                    }
+                }else if($meService === "LSCoFD"){
+                    if(!($user->isInFireUnit())){
+                        array_push($forgetable, $a);
+                    }
+                }
+            }
+        }
+
+        foreach ($forgetable as $it){
+            $users->forget($it);
+        }
+
+        $users = $users->filter(function ($item){
+            $medic = false;
+            $fire = false;
+            if($item->isInFireUnit() && $item->GetFireGrade->name !== 'default') $fire = true;
+            if($item->isInMedicUnit() && $item->GetMedicGrade->name !== 'default') $medic = true;
+
+            return \Gate::allows('view', $item) && ( $fire || $medic);
+        });
+
+        foreach ($users as $user){
+            if($meService === 'SAMS'){
+                $user->grade = $user->GetMedicGrade;
+            }if($meService === 'LSCoFD'){
+                $user->grade = $user->GetFireGrade;
+            }
+
+        }
+
+
+        $column[] = array('id','nom', 'matricule', 'grade', 'discordid', 'tel', 'compte', 'pilote','service d\'arrivée','cross service', 'nombre de sanctions');
 
         foreach ($users as $user){
 
@@ -408,18 +460,44 @@ class UserController extends Controller
                 'id' => $user->id,
                 'nom' => $user->name,
                 'matricule' => $user->matricule ? $user->matricule : '',
-                'grade' => $user->GetGrade->name,
+                'grade' => $user->grade->name,
                 'discordid' => $user->discord_id ? $user->discord_id : '',
                 'tel' => $user->tel,
                 'compte' => $user->compte,
                 'pilote' => $user->pilote ? 'oui' : 'non',
+                "service d'arrivée"=>$user->medic ? 'SAMS' : 'LSCoFD',
+                'cross service'=>$user->crossService ? 'oui' : 'non',
                 'nombre de sanctions' => count($sanctions),
             ];
 
         }
         $export = new ExelPrepareExporter($column);
 
-        return Excel::download((object)$export, 'BCFD_UserExport_'. now()->timestamp .'.xlsx');
+        return Excel::download((object)$export, $meService.'_UserExport_'. now()->timestamp .'.xlsx');
+    }
+
+    private function compareGrade(User $user, string $grade, string $selectedService): bool
+    {
+        if($grade === "ALL") return true;
+
+
+        if($selectedService === "SAMS"){
+            $Usergrade = $user->GetMedicGrade->name;
+        }
+        if($selectedService === "LSCoFD"){
+            $Usergrade = $user->GetFireGrade->name;
+        }
+
+
+        if($grade === "SERVICE" && $Usergrade !== "default") return true;
+        if($grade === "UNGRADED" && $Usergrade === "default") return true;
+        if(is_numeric($grade)){
+            $grade = Grade::where('id',$grade)->first();
+
+                if($grade->name === $Usergrade) return true;
+        }
+
+        return false;
     }
 
 }

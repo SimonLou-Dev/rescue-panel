@@ -18,6 +18,7 @@ class CreateBCPersonnelsTable extends Migration
             $table->integer('user_id');
             $table->string('name');
             $table->integer('BC_id');
+            $table->string('service');
             $table->timestamps();
         });
     }
@@ -29,6 +30,6 @@ class CreateBCPersonnelsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('b_c__personnels');
+        Schema::dropIfExists('BCPersonnels');
     }
 }

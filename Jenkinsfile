@@ -1,74 +1,95 @@
 pipeline {
   agent any
+  options {
+    skipDefaultCheckout(true)
+  }
+  environment {
+        SENTRY_AUTH_TOKEN = credentials('sentry-auth-token')
+        SENTRY_ORG = 'simonlou'
+        SENTRY_ENVIRONMENT = 'production'
+        SENTRY_RELEASE= '3.0.5'
+        SENTRY_URL='https://sentry.simon-lou.com/'
+    }
+
   stages {
+        stage('Cleaning'){
+        steps{
+            cleanWs()
+            checkout scm
+        }
+    }
+
     stage('Verification') {
       steps {
         validateDeclarativePipeline 'Jenkinsfile'
         sh 'php -v'
         sh 'php -i'
-        sh "rm .env"
+
       }
     }
 
-    stage('Write .env [testing]') {
-        steps{
-            withCredentials([file(credentialsId: 'lscofd-Test', variable: 'envfile')]) {
-                writeFile file: '.env.testing', text: readFile(envfile)
-                }
-            }
-    }
-    stage('Setup project') {
-        steps{
-            sh "composer install"
-            sh "yarn install"
-            sh "yarn build"
-        }
-    }
 
-    stage('Scan  SonarQube') {
-        environment {
-            scannerHome = tool 'sonar'
-        }
-        steps {
-            withSonarQubeEnv(installationName: 'Le miens', credentialsId: 'Sonarqube - Token') {
-                sh '${scannerHome}/bin/sonar-scanner'
-            }
-        }
-    }
 
     stage('Write .env [prod]') {
-            steps{
-                sh "rm .env.testing"
-                withCredentials([file(credentialsId: 'lscofd-Prod', variable: 'envfile')]) {
-                    writeFile file: '.env', text: readFile(envfile)
-                }
+        steps{
+
+            withCredentials([file(credentialsId: 'env-rescue-panel-prod', variable: 'envfile')]) {
+                writeFile file: '.env', text: readFile(envfile)
             }
         }
+    }
 
-    stage('Build & Push Docker container') {
+    stage('Build & tag container') {
         steps {
-            sh "docker build -t lscofd_web ."
-            sh "docker tag lscofd_web simonloudev/lscofd_web"
-            sh "docker push simonloudev/lscofd_web"
-            sh "cat docker-compose.yml | ssh root@75.119.154.204 'cat - > /infra/web/lscofd/docker-compose.yml'"
+            sh "docker build --build-arg user=pannel --build-arg uid=45 -t simonloudev/rescue-panel:latest ."
+            sh "docker tag simonloudev/rescue-panel:latest simonloudev/rescue-panel:$SENTRY_RELEASE"
+        }
+    }
+
+
+
+    stage('Sentry version') {
+        steps {
+            sh "sentry-cli releases new -p laravel $SENTRY_RELEASE"
+            sh "sentry-cli releases set-commits $SENTRY_RELEASE --auto"
+        }
+    }
+
+    stage('Push un Pull on remote Docker container') {
+        steps {
+            sh "docker push simonloudev/rescue-panel:latest && docker push simonloudev/rescue-panel:$SENTRY_RELEASE"
+            sh "ssh root@75.119.154.204 docker pull simonloudev/rescue-panel:latest"
         }
     }
 
     stage('Launch'){
         steps{
-            sh "ssh root@75.119.154.204 docker-compose -f /infra/web/lscofd/docker-compose.yml down"
-            sh "ssh root@75.119.154.204 docker-compose -f /infra/web/lscofd/docker-compose.yml up -d"
-            sh "ssh root@75.119.154.204 docker exec -i LSCoFD service php7.4-fpm start"
-            sh "ssh root@75.119.154.204 docker exec -i LSCoFD chmod 777 /var/run/php/php7.4-fpm.sock"
-            sh "ssh root@75.119.154.204 docker exec -i LSCoFD chmod 777 -R /usr/share/nginx/lscofd/"
-            sh "ssh root@75.119.154.204 docker exec -i LSCoFD chown www-data -R /usr/share/nginx/lscofd/"
-            sh "ssh root@75.119.154.204 docker exec -i LSCoFD pm2 start queueworker.yml"
-            sh "ssh root@75.119.154.204 docker exec -i LSCoFD php artisan storage:link"
-            sh "cat .env | ssh root@75.119.154.204 'cat - > /infra/web/lscofd/.env'"
-            sh "ssh root@75.119.154.204 docker cp /infra/web/lscofd/.env LSCoFD:/usr/share/nginx/lscofd/.env"
-            sh "ssh root@75.119.154.204 rm /infra/web/lscofd/.env"
+            sh "ssh root@75.119.154.204 docker stop rescue-panel"
+            sh "ssh root@75.119.154.204 docker run -d --rm --env=DISCORD_REDIRECT_URI=https://rescue-panel.simon-lou.com/auth/callback --env=APP_URL=https://rescue-panel.simon-lou.com --volume=rescue-panel:/var/www/storage --network=nginx-proxy --name rescue-panel simonloudev/rescue-panel:latest"
         }
     }
 
+    stage('Finishing sentry version'){
+        steps{
+            sh "ssh root@75.119.154.204 rm -r /tmp/rescue-panel && ssh root@75.119.154.204 mkdir /tmp/rescue-panel"
+            sh "ssh root@75.119.154.204 docker cp rescue-panel:/var/www/public/assets/ /tmp/rescue-panel/"
+            sh "scp root@75.119.154.204:/tmp/rescue-panel/assets/*.map ./public/assets"
+            sh "sentry-cli releases -p react files $SENTRY_RELEASE upload-sourcemaps --ext map ./public/assets/"
+            sh "sentry-cli releases -p react finalize $SENTRY_RELEASE"
+            sh "sentry-cli releases -p laravel finalize $SENTRY_RELEASE"
+            sh "sentry-cli releases -p react deploys $SENTRY_RELEASE new -e $SENTRY_ENVIRONMENT"
+            sh "sentry-cli releases -p laravel deploys $SENTRY_RELEASE new -e $SENTRY_ENVIRONMENT"
+        }
+    }
+
+    stage('Clean'){
+        steps{
+            sh 'rm ./public/assets/*.js'
+            sh 'rm ./public/assets/*.map'
+            sh "rm ./public/assets/*.css"
+            sh "rm ./public/assets/*.jpg"
+            sh "rm .env"
+        }
+    }
   }
 }

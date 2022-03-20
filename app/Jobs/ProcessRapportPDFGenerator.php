@@ -4,6 +4,7 @@ namespace App\Jobs;
 
 use App\Events\Notify;
 use App\Models\Rapport;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldBeUnique;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -13,12 +14,7 @@ use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
-use TheCodingMachine\Gotenberg\Client;
-use TheCodingMachine\Gotenberg\ClientException;
-use TheCodingMachine\Gotenberg\DocumentFactory;
-use TheCodingMachine\Gotenberg\FilesystemException;
-use TheCodingMachine\Gotenberg\HTMLRequest;
-use TheCodingMachine\Gotenberg\RequestException;
+
 
 class ProcessRapportPDFGenerator implements ShouldQueue
 {
@@ -39,6 +35,7 @@ class ProcessRapportPDFGenerator implements ShouldQueue
         $this->rapport = $rapport;
         $this->path = $path;
 
+        $this->onQueue('pdfgeneration');
     }
 
     /**
@@ -49,16 +46,11 @@ class ProcessRapportPDFGenerator implements ShouldQueue
     public function handle()
     {
 
-        $user = $this->rapport->GetUser->name;
+        $user = $this->rapport->GetUser;
         $rapport = $this->rapport;
-
         $path = $this->path;
 
-        ob_start();
-        require(base_path('/resources/PDF/RI/index.php'));
-        $content = ob_get_clean();
-        $pdf = App::make('dompdf.wrapper');
-        $pdf->loadHTML($content);
-        $pdf->save(Storage::path($path));
+        $pdf = Pdf::loadView('pdf.RI',['rapport'=>$rapport, 'user'=>$user]);
+        $pdf->save($path);
     }
 }

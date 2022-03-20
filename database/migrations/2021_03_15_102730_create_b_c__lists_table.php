@@ -16,9 +16,14 @@ class CreateBCListsTable extends Migration
         Schema::create('BCLists', function (Blueprint $table) {
             $table->id();
             $table->integer('starter_id');
+            $table->string("service");
             $table->string('place');
             $table->integer('type_id');
+            $table->string('caserne')->nullable();
+            $table->mediumText('description')->nullable();
             $table->boolean('ended')->default(false);
+            $table->bigInteger('discord_msg_id')->nullable()->default(null);
+            $table->softDeletes();
             $table->timestamps();
         });
     }
@@ -30,6 +35,6 @@ class CreateBCListsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('b_c__lists');
+        Schema::dropIfExists('BCLists');
     }
 }

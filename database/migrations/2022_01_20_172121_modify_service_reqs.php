@@ -1,0 +1,39 @@
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+class ModifyServiceReqs extends Migration
+{
+    /**
+     * Run the migrations.
+     *
+     * @return void
+     */
+    public function up()
+    {
+        Schema::create('ModifyServiceReqs', function (Blueprint $table) {
+            $table->id();
+            $table->integer('user_id');
+            $table->integer('week_number');
+            $table->string('service');
+            $table->string('reason');
+            $table->boolean('adder'); //true add time / false remove time
+            $table->bigInteger('time_quantity'); // in Sec
+            $table->boolean('accepted')->nullable()->default(null); //null : non traitré
+            $table->integer('admin_id')->nullable()->default(null);
+            $table->timestamps();
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
+    public function down()
+    {
+        Schema::dropIfExists('ModifyServiceReqs');
+    }
+}

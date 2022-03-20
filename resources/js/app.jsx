@@ -10,32 +10,43 @@
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
-
+import "../sass/app.scss";
 import React from 'react';
 import ReactDOM from 'react-dom';
-import '../../public/css/app.css';
 import * as Sentry from "@sentry/react";
-import { Integrations } from "@sentry/tracing";
 import NotificationsProvider from "./components/context/NotificationProvider";
-import {BrowserRouter, Route, Switch} from "react-router-dom";
-import Login from "./components/Login";
-import Register from "./components/Register";
-import Mdpreset from "./components/Mdpreset";
-import Emailsender from "./components/Emailsender";
-import Error from "./components/Error";
+import {BrowserRouter, Route, Router, Switch} from "react-router-dom";
+import Login from "./components/AuthComponent/Login";
+import Register from "./components/AuthComponent/Register";
 import Maintenance from "./components/Maintenance";
-import GetInfos from "./components/GetInfos";
-import Layout from "./components/Layout";
+import GetInfos from "./components/AuthComponent/GetInfos";
+import Cantaccess from "./components/AuthComponent/Cantaccess";
+import Layout from "./components/App/Layout";
+import ServiceNav from "./components/AuthComponent/ServiceNav";
+import { ReportingObserver as ReportingObserverIntegration,
+    ExtraErrorData as ExtraErrorDataIntegration,
+    CaptureConsole as CaptureConsoleIntegration} from "@sentry/integrations";
 
-Sentry.init({
-        dsn: "https://4ef83bdc75054cc88ab4d44ef8c749d7@o1059354.ingest.sentry.io/6047890",
-        integrations: [new Integrations.BrowserTracing()],
-        tunnel: '/tunnel',
-        // Set tracesSampleRate to 1.0 to capture 100%
-        // of transactions for performance monitoring.
-        // We recommend adjusting this value in production
-        tracesSampleRate: 1.0,
-});
+import {BrowserTracing} from "@sentry/tracing/dist/browser";
+import { createBrowserHistory } from "history";
+const history = createBrowserHistory();
+
+
+  Sentry.init({
+      dsn: "https://58dd69b50a3d4472b479985e877e1b1c@sentry.simon-lou.com/3",
+      tunnel: "/tunnel",
+      environment: import.meta.env,
+      integrations: [
+          new BrowserTracing({
+              routingInstrumentation: Sentry.reactRouterV5Instrumentation(history),
+          }),new ExtraErrorDataIntegration({ depth: 3,}),
+          new CaptureConsoleIntegration({levels: ['warn', 'error'],}),
+          new ReportingObserverIntegration(
+              {types: ["crash", "deprecation","intervention"]}
+          )
+     ],
+      tracesSampleRate: 1.0,
+  });
 
 class App extends React.Component{
     constructor(props) {
@@ -45,20 +56,21 @@ class App extends React.Component{
 
     render() {
         return(
-            <Sentry.ErrorBoundary showDialog>
+            <Sentry.ErrorBoundary showDialog={false}>
+
                 <NotificationsProvider>
-                    <BrowserRouter>
+                    <Router history={history}>
                         <Switch>
                             <Route path='/login' component={Login}/>
                             <Route path='/register' component={Register}/>
-                            <Route path='/reset' component={Mdpreset}/>
-                            <Route path='/sendmail' component={Emailsender}/>
-                            <Route path='/ANA' component={Error}/>
-                            <Route path='/maintenance' component={Maintenance}/>
+                            <Route path='/cantaccess' component={Cantaccess}/>
                             <Route path='/informations' component={GetInfos}/>
-                            <Layout />
+                            <Route path='/maintenance' component={Maintenance}/>
+
+
+                            <Layout/>
                         </Switch>
-                    </BrowserRouter>
+                    </Router>
                 </NotificationsProvider>
             </Sentry.ErrorBoundary>
         )

@@ -12,6 +12,8 @@ use Illuminate\Database\Eloquent\Model;
  * @property int user_id
  * @property int week_number
  * @property int total
+ * @property string service
+ * @property int admin_id
  * @method static where(string $column, string $operator = null, mixed $value = null)
  * @method static orderByDesc(string $string)
  *
@@ -19,6 +21,7 @@ use Illuminate\Database\Eloquent\Model;
 class WeekRemboursement extends Model
 {
     use HasFactory;
+
     protected $table = "WeekRemboursements";
     protected $fillable = ['user_id', 'week_number', 'total'];
     public function GetUser(): \Illuminate\Database\Eloquent\Relations\BelongsTo

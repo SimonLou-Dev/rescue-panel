@@ -2,10 +2,14 @@
 
 namespace App\Http\Controllers\Service;
 
+use App\Enums\DiscordChannel;
 use App\Events\Notify;
+use App\Events\ServiceUpdated;
+use App\Events\UserUpdated;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\LayoutController;
-use App\Http\Controllers\ServiceController;
+use App\Http\Controllers\Service\ServiceGetterController;
+use App\Jobs\ProcessEmbedPosting;
 use App\Models\LogServiceState;
 use App\Models\Service;
 use App\Models\User;
@@ -14,143 +18,133 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Session;
+use TimeCalculate;
 
 class OperatorController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('auth');
-        $this->middleware('access');
-    }
 
     public static function setService(User $user, bool $admin): bool
     {
-        if ($user->last_service_update != null && !$admin){
-            if($user->last_service_update + 120 > now()->timestamp) {
-                event(new Notify('Stop SPAMMMMMMM !!!!! ;)', 4));
-                return true;
+        if(!$user->OnService){
+            $thisWeek = WeekService::where('week_number', ServiceGetterController::getWeekNumber())
+                ->where('user_id', $user->id)
+                ->where('service',$user->service);
+
+            if($thisWeek->count() > 0 ){
+                $thisWeek = $thisWeek->first();
+                if($thisWeek[LayoutController::getdaystring()] === 'absent(e)'){
+                    if($user->id === Auth::user()->id){
+                        Notify::dispatch('Impossible vous êtes absent(e)', 3, $user->id);
+                    }else{
+                        Notify::dispatch( 'Impossible ' . $user->name .  ' est absent(e)', 3, Auth::user()->id);
+                    }
+                    return false;
+                }
             }
         }
 
-        if(!$admin){
-            $user->last_service_update = now()->timestamp;
-        }
 
-
-        if($user->service){
-            $user->service = false;
-            $user->serviceState = null;
+        if($user->OnService){
+            $user->OnService = false;
             $user->save();
-            if($user->serviceState != null){
-                $logsState = LogServiceState::where('user_id', $user->id)->first();
-                $logsState->ended = true;
-                $start = date_create($logsState->started_at);
-                $interval = $start->diff(date_create(date('Y-m-d H:i:s', time())));
-                $diff = $interval->d*24 + $interval->h;
-                $formated = $diff . ':' . $interval->format('%i:%S');
-                $logsState->total = $formated;
-                $logsState->save();
-            }
 
-
-
-            $service = Service::where('user_id', $user->id)->whereNull('Total')->first();
+            $service = Service::where('user_id', $user->id)->whereNull('total')->first();
             $start = date_create($service->started_at);
             $interval = $start->diff(date_create(date('Y-m-d H:i:s', time())));
             $diff = $interval->d*24 + $interval->h;
-            $formated = $diff . ':' . $interval->format('%i:%S');
+            $formated = ($diff < 10 ? '0'.$diff : $diff) . ':' . $interval->format('%I:%S');
             $week =  ServiceGetterController::getWeekNumber();
-            $service->ended_at = date('H:I:s', time());
+            $service->ended_at = date('H:i:s', time());
+            $service->service = $user->service;
             $service->total = $formated;
-
             $service->save();
 
-            $WeekService = WeekService::where('week_number', $week)->where('user_id', $user->id);
+            $WeekService = WeekService::where('week_number', $week)->where('user_id', $user->id)->where('service',$user->service);
             if($WeekService->count() == 1){
                 $WeekService = $WeekService->first();
                 $total = $WeekService->total;
                 $day = $WeekService[LayoutController::getdaystring()];
-                $service = new OperatorController();
-                $WeekService->total = $service::addTime($formated, $total);
-                $WeekService[LayoutController::getdaystring()] = $service::addTime($formated, $day);
+                if($day === 'absent(e)'){
+                    $day = '00:00:00';
+                }
+                $WeekService->total = TimeCalculate::HoursAdd($total, $formated);
+                $WeekService[LayoutController::getdaystring()] = TimeCalculate::HoursAdd($day, $formated);
                 $WeekService->save();
 
             }else{
                 $WeekService = new WeekService();
                 $WeekService->user_id = $user->id;
+                $WeekService->service = $user->service;
                 $WeekService['week_number'] = $week;
                 $WeekService[LayoutController::getdaystring()] = $formated;
                 $WeekService->total = $formated;
                 $WeekService->save();
             }
-            $user->save();
-            $formated = explode(':', $formated);
-            if($admin){
-                Http::post(env('WEBHOOK_SERVICE') ,[
-                    'username'=> "LSCoFD - MDT",
-                    'avatar_url'=>'https://lscofd.simon-lou.com/assets/images/LSCoFD.png',
-                    'embeds'=>[
-                        [
-                            'title'=>'Fin de service de ' . $user->name,
-                            'description'=> 'temps de service : ' . $formated[0]. ' h et ' . $formated[1]. ' min(s)',
-                            'color'=>'15158332',
-                            'footer'=>[
-                                'text'=>'stoppé par : ' . Auth::user()->name
-                            ]
-                        ]
-                    ]
-                ]);
-            }else{
-                Http::post(env('WEBHOOK_SERVICE'),[
-                    'username'=> "LSCoFD - MDT",
-                    'avatar_url'=>'https://lscofd.simon-lou.com/assets/images/LSCoFD.png',
-                    'embeds'=>[
-                        [
-                            'title'=>'Fin de service de ' . $user->name,
-                            'description'=> 'temps de service : ' . $formated[0]. ' h et ' . $formated[1] . ' min(s)',
-                            'color'=>'15158332',
-                        ]
-                    ]
-                ]);
-            }
-            return true;
-
         }else{
-            $user->service= true;
+            $user->OnService= true;
             $service = new Service();
             $service->user_id = $user->id;
             $service->started_at = date('Y-m-d H:i:s',time());
+            $service->service = $user->service;
             $service->save();
             $user->save();
-            Auth::user()->service = true;
-            if($admin){
-                Http::post(env('WEBHOOK_SERVICE'),[
-                    'username'=> "LSCoFD - MDT",
-                    'avatar_url'=>'https://lscofd.simon-lou.com/assets/images/LSCoFD.png',
-                    'embeds'=>[
-                        [
-                            'title'=>'Prise de service de ' . $user->name,
-                            'color'=>'3066993',
-                            'footer'=>[
-                                'text'=>'Mis en service par : ' . Auth::user()->name
-                            ]
-                        ]
-                    ]
-                ]);
-            }else{
-                Http::post(env('WEBHOOK_SERVICE'),[
-                    'username'=> "LSCoFD - MDT",
-                    'avatar_url'=>'https://lscofd.simon-lou.com/assets/images/LSCoFD.png',
-                    'embeds'=>[
-                        [
-                            'title'=>'Prise de service de ' . $user->name,
-                            'color'=>'3066993',
-                        ]
-                    ]
-                ]);
-            }
-            return true;
         }
+
+        //Il faut reverse les état de service
+        $text = '';
+        $embed = array();
+        $unit = $user->service;
+        if($user->OnService){
+            $text = 'Vous êtes en service !';
+            $embed = [
+                [
+                    'title'=>'Prise de service de ' . $user->name . " (${unit})",
+                    'color'=>'709104',
+                    'footer'=>[
+                        'text'=>($admin ? 'Mis en service par : ' . Auth::user()->name : '')
+                    ]
+                ]
+            ];
+        }else{
+            $text = 'Vous n\'êtes plus en service';
+            $embed = [
+                [
+                    'title'=>'Fin de service de ' . $user->name . " (${unit})",
+                    'color'=>'20991',
+                    'fields'=>[
+                        [
+                            'name'=>'Duréee : ',
+                            'value'=>$formated,
+                            'inline'=>true
+                        ]
+                    ],
+                    'footer'=>[
+                        'text'=>($admin ? 'Mis en service par : ' . Auth::user()->name : '')
+                    ]
+                ]
+            ];
+        }
+
+        UserUpdated::broadcast($user);
+        $users = User::where('service', Session::get('service')[0])->where('OnService', true)->get();
+
+        ServiceUpdated::dispatch($users, Session::get('service')[0]);
+
+        Notify::dispatch($text, 1, $user->id);
+        if($user->OnService){
+            \Discord::postMessage(DiscordChannel::Service, $embed, $service);
+        }else{
+            if(is_null($service->discord_msg_id)){
+                \Discord::postMessage(DiscordChannel::Service, $embed, $service);
+            }else{
+                \Discord::updateMessage(DiscordChannel::Service, $service->discord_msg_id, $embed);
+            }
+
+        }
+
+
+        return  true;
     }
 
     public static function addTime(string $base, string $toadd): string
@@ -236,7 +230,7 @@ class OperatorController extends Controller
             if($base == '00:00:00'){
                 $final = '+'.$modifier;
             }else{
-                $symbole = substr($base, 0, 1-(strlen($base)) );
+                $symbole = substr($base, 0, 1-(strlen($base)));
                 if($symbole == '+'){
                     $final = '+'.OperatorController::addTime(substr($base,1), $modifier);
                 }else{

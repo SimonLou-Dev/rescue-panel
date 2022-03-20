@@ -15,8 +15,9 @@ class CreateAnnoncesTable extends Migration
     {
         Schema::create('Annonces', function (Blueprint $table) {
             $table->id();
-            $table->string('title');
+            $table->string('service');
             $table->longText('content');
+            $table->bigInteger('discord_msg_id')->nullable()->default(null);
             $table->timestamps();
         });
     }
@@ -28,6 +29,6 @@ class CreateAnnoncesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('annonces');
+        Schema::dropIfExists('Annonces');
     }
 }
