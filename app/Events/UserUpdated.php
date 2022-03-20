@@ -35,6 +35,10 @@ class UserUpdated implements ShouldBroadcastNow
         }
 
 
+        $this->user->sanctions = json_decode($this->user->sanctions);
+        $this->user->materiel = json_decode($this->user->materiel);
+
+
         $collect = collect($this->user->grade->getAttributes());
         $collect = $collect->except(['service','name','power','discord_role_id','id']);
         foreach ($collect as $key => $item){
