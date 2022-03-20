@@ -16,9 +16,36 @@ class LayoutController extends Controller
     public function getRandomBackGround(){
         $ext = '.png';
         $service = '';
-        
+        $error = '0';
+        $selected = 'gle';
 
-        return response()->json(['image'=> '/storage/background/0.png');
+        if(Auth::user() && isset(\Session::get('service')[0])){
+            $service = \Session::get('service')[0] . '_';
+        }
+
+        $bg = [
+            $service . '0',
+            $service . '1',
+            $service . '2',
+            $service . '3',
+            $service . '4',
+            $service . '5',
+            $service . '6',
+            $service . '7',
+            $service . '8',
+            $service . '9',
+        ];
+        $a = 0;
+        while (!\File::exists('/storage/background/'.$selected) && $a < 15){
+            $selected = $bg[random_int(0,9)] . '.png';
+            $a++;
+        }
+
+        if($a == 15){
+            $selected = $error. '.png';
+        }
+
+        return response()->json(['image'=> '/storage/background/'.$selected]);
 
 
     }

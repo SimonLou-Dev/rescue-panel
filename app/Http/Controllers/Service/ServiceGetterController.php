@@ -184,7 +184,7 @@ class ServiceGetterController extends Controller
         }
 
         if(is_null($request->query('query'))){
-            $service = WeekService::all();
+            $service = WeekService::orderByDesc('id')->get();
         }else{
             $service = WeekService::search($request->query('query'))->get()->reverse();
         }

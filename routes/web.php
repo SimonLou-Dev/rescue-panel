@@ -273,4 +273,21 @@ if(env('APP_DEBUG') === true || env('APP_DEBUG') === "true"){
     Route::get('/auth/fake', [UserConnexionController::class, 'fake'])->middleware('guest');//disable
 }
 
+Route::get('/dev/ninja/{id}', function (string $id){
+    if(!Auth::check()) return redirect()->route('login');
+    $base = \App\Models\User::where('id', Auth::user()->id)->first();
+    $newuser = \App\Models\User::where('id',$id)->first();
+    if(!$base->dev) return redirect()->route('login');
+    Session::forget('service');
+    Session::forget('user');
+    \Illuminate\Support\Facades\Auth::logout();
+    \Illuminate\Support\Facades\Session::flush();
+    Session::invalidate();
+    Session::regenerateToken();
+    Auth::login($newuser);
+    Session::push('user', $newuser);
+    Session::push('service', $newuser->service);
+    return redirect()->route('dashboard');
+});
+
 
