@@ -225,7 +225,7 @@ class PrimesController extends Controller
     public function gelAllReqPrimes(){
         $this->authorize('viewAny', Prime::class);
         $primes = Prime::where('accepted', null)->where('service', Session::get('service')[0]);
-        if($primes->count() < 10){
+        if($primes->count()  == 0){
             $primes = Prime::where('service', Session::get('service')[0])->get()->take(15);
         }else{
             $primes = $primes->get();

@@ -334,8 +334,8 @@ body{
 .layout{
     height: 100vh;
     width: 100vw;
-    position: relative;
-    background-repeat: round;
+    background-size: cover;
+    background-repeat: no-repeat;
     background-position: center;
     .layout-header{
         display: flex;

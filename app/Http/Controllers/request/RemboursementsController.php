@@ -172,7 +172,7 @@ class RemboursementsController extends Controller
     public function gelAllReqremboursement(){
         //$this->authorize('viewAny', Prime::class);
         $rmbs = RemboursementList::where('accepted', null)->where('service', Session::get('service')[0]);
-        if($rmbs->count() < 10){
+        if($rmbs->count()  == 0){
             $rmbs = RemboursementList::where('service', Session::get('service')[0])->get()->take(15);
         }else{
             $rmbs = $rmbs->get();

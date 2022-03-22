@@ -23,8 +23,8 @@ class ModifierReqController extends Controller
 
         $request->validate([
             'reason'=>'required',
-            'action'=>'digits_between:1,2',
-            'time_quantity'=>'regex:/[0-60]+:+[0-59]/'
+            'action'=>['int','digits_between:1,2'],
+            'time_quantity'=>'required'
         ]);
         $req = new ModifyServiceReq();
         $req->user_id = Auth::user()->id;
@@ -100,7 +100,7 @@ class ModifierReqController extends Controller
     {
         $this->authorize('viewAny', ModifyServiceReq::class);
         $reqs = ModifyServiceReq::where('accepted', null)->where('service', Session::get('service')[0]);
-        if($reqs->count() < 10){
+        if($reqs->count() == 0){
             $reqs = ModifyServiceReq::where('service', Session::get('service')[0])->get()->take(15);
         }else{
             $reqs = $reqs->get();
