@@ -80,7 +80,7 @@ Route::get('/data/bg', [LayoutController::class, 'getRandomBackGround'])->name('
 //Maintenance
 Route::get('/maintenance/{a?}', [HomeController::class, 'getIndex'])->name('mnt');
 //informations
-Route::get('/informations/{a?}', [HomeController::class, 'getIndex'])->name('informations'); //->middleware('auth');
+Route::get('/informations/{a?}', [HomeController::class, 'getIndex'])->name('informations')->middleware('auth');
 Route::get('/register/{a?}', [HomeController::class, 'getIndex'])->name('register')->middleware('guest');
 Route::get('/login/{a?}', [HomeController::class, 'getIndex'])->name('login')->middleware('guest');
 Route::get('/logout', function (Request $request){

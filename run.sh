@@ -9,7 +9,7 @@ echo 'caching data ... '
 php artisan cache:clear
 php artisan storage:link
 php artisan key:generate
-php artisan schedule:run
+php artisan schedule-monitor:sync
 
 echo 'building front ...'
 yarn sass ./resources/sass/app.scss ./public/css/app.css

@@ -17,7 +17,7 @@ apps:
   - script: 'artisan'
     name: 'artisan-schedule-runner'
     cwd: '/var/www'
-    args: 'schedule:run' # or queue:work
+    args: 'schedule:run-cronless' # or queue:work
     interpreter: 'php'
     error_file: "./storage/logs/schedule_error_pm2.log"
     out_file: "./storage/logs/schedule_outpm2.log"

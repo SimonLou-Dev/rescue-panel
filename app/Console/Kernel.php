@@ -25,8 +25,8 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        $schedule->command('logs:day')->daily();
-        $schedule->command('week:start')->weeklyOn(6, '0:01');
+        $schedule->command('logs:day')->daily()->storeOutputInDb();;
+        $schedule->command('week:start')->weeklyOn(6, '0:01')->storeOutputInDb();;
     }
 
     /**
