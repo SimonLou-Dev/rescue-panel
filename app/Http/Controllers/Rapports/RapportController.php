@@ -53,14 +53,18 @@ class RapportController extends Controller
 
         $request->validate([
             'name'=>['required', 'string','regex:/[a-zA-Z.+_]+\s[a-zA-Z.+_]/'],
-            'startinter'=>['required'],
-            'tel'=>['tel'=> 'required','regex:/5{3}-\d\d/'],
+            'startinter'=>['required','date_format:Y-m-d H:i'],
             'type'=>['required','int', 'min:1'],
             'transport'=>['required','int', 'min:1'],
-            'desc'=>['required'],
+            'desc'=>['required','string'],
             'payed'=>['required', 'boolean'],
             'montant'=>['required','integer'],
-            'ata'=>['string',new StringTime]
+            'pathology'=> ['nullable','int', 'min:1'],
+            'bloodgroup'=>['nullable','regex:/(A|B|AB|O)[+-]/'],
+            'liveplace'=> ['nullable','alpha_num'],
+            'ddn'=>['nullable','date_format:Y-m-d'],
+            'tel'=> ['nullable', 'regex:/5{3}-\d\d/'],
+            'ata'=>['nullable', 'string', new StringTime]
         ]);
 
 
@@ -76,7 +80,6 @@ class RapportController extends Controller
             $Patient->naissance  = $request->ddn;
         }
         if(isset($request->bloodgroup) && $request->bloodgroup != ''){
-            $request->validate(['bloodgroup'=>['regex:/(A|B|AB|O)[+-]/']]);
             $Patient->blood_group  = $request->bloodgroup;
         }
         if(isset($request->liveplace)){

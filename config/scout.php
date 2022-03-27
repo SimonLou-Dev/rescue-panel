@@ -28,7 +28,7 @@ return [
     |
     */
 
-    'prefix' => env('SCOUT_PREFIX', 'RS-'.env('APP_ENV')),
+    'prefix' => env('SCOUT_PREFIX', 'RS-'.env('APP_ENV'). '-'),
 
     /*
     |--------------------------------------------------------------------------

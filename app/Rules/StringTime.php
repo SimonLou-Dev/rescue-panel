@@ -25,16 +25,21 @@ class StringTime implements Rule
      */
     public function passes($attribute, $value)
     {
-        if (! is_string($value) && ! is_numeric($value)) {
+        if($value == "") return true;
+
+        if (!is_string($value) && ! is_numeric($value)) {
             return false;
         }
 
         $validation = true;
         $explodedParts = explode(' ', $value);
+
         $a = 0;
         while ($a < count($explodedParts) && $validation){
             $tested= $explodedParts[$a];
-            $validation = preg_match('/(\s?(\d{1,2}(h|m|s)))/', $tested) > 0;
+            $validation = preg_match('/^(\s?(\d{1,2}(h|m|s)))$/', $tested) > 0;
+            $tested =  substr($tested, 0,-1);
+            if(!is_numeric($tested)) return false;
             $a++;
         }
 
