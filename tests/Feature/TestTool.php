@@ -2,8 +2,13 @@
 
 namespace Tests\Feature;
 
+use App\Models\Facture;
 use App\Models\Grade;
+use App\Models\Patient;
+use App\Models\Rapport;
 use App\Models\User;
+use Database\Factories\PatientFactory;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Session;
@@ -107,6 +112,29 @@ class TestTool {
         if(!is_null($user->service)){
             Session::push('service', $user->service);
         }
+    }
+
+    public static function createPatient(): Patient
+    {
+        $patient = Patient::factory()->make();
+        $patient->save();
+
+        return $patient;
+    }
+
+    public static function createRapport(): Rapport
+    {
+
+        //Creating and save rapport
+        $rapport = Rapport::factory()
+            ->has(Patient::factory()->count(1), 'GetPatient')
+            ->has(Facture::factory()->count(1)->state(function (array $att, Rapport $rapport){
+                return ['rapport_id' => $rapport->id, 'patient_id'=>$rapport->GetPatient->id];
+            }), 'GetFacture')
+            ->create();
+
+
+        return $rapport;
     }
 
 

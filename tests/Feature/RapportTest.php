@@ -101,7 +101,6 @@ class RapportTest extends TestCase
         $response->assertStatus(403);
     }
 
-
     public function test_sendRapport()
     {
         //service : off - rapport_create, rapport_HS
@@ -118,5 +117,25 @@ class RapportTest extends TestCase
         $this->assertDatabaseHas('Rapports', [
             'description' => $rapport['desc'],
         ]);
+    }
+
+    public function test_getRapportOfPatient(){
+        //service : off - admin user
+        $user = TestTool::getAdminUser('SAMS');
+        TestTool::logIn($user);
+        $rapport = TestTool::createRapport();
+
+        $resp = $this->getJson('/data/rapport/get/'.$rapport->GetPatient->id);
+        $resp->assertSuccessful();
+    }
+
+    public function test_getPdfOfRapport(){
+
+        $user = TestTool::getAdminUser('SAMS');
+        TestTool::logIn($user);
+        $rapport = TestTool::createRapport();
+
+        $resp = $this->getJson('/pdf/rapport/'.$rapport->id);
+        $resp->assertStatus(200);
     }
 }
