@@ -58,7 +58,8 @@ class UserConnexionController extends Controller
             'tel'=> 'required|regex:/555-\d\d/',
             'name'=>['required', 'string','regex:/[a-zA-Z.+_]+\s[a-zA-Z.+_]/'],
             'staff'=>['boolean'],
-            'service'=>['string']
+            'service'=>['string'],
+            'living'=>['required', 'string']
         ]);
 
         $user = User::where('id', Auth::id())->first();

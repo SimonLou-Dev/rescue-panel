@@ -2,7 +2,11 @@
 
 namespace Tests\Feature;
 
+use App\Models\Grade;
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Session;
 
 class TestTool {
 
@@ -62,6 +66,47 @@ class TestTool {
 
         return $user;
 
+    }
+
+    public static function getUserWithAnyInfos(string $discordId, string $email): User
+    {
+        $user = new User();
+        $user->email = $email;
+        $user->discord_id = $discordId;
+        $user->password = Hash::make('zaeaze45');
+        $user->save();
+        return $user;
+    }
+
+    public static function setPermToGradeId(int $gradeId, string $perm, bool $authorized):void
+    {
+        $grade = Grade::where('id',$gradeId)->first();
+        $grade[$perm] = $authorized;
+        $grade->save();
+
+    }
+
+    public static function logOut(): void
+    {
+        if(Auth::check()){
+            Session::forget('service');
+            Session::forget('user');
+            Auth::logout();
+            Session::flush();
+            Session::invalidate();
+            Session::regenerateToken();
+        }
+    }
+
+    public static function logIn(User $user): void
+    {
+        if(Auth::check()) self::logOut();
+
+        Auth::login($user);
+        Session::push('user', $user);
+        if(!is_null($user->service)){
+            Session::push('service', $user->service);
+        }
     }
 
 

@@ -28,10 +28,10 @@ class UserFactory extends Factory
             'discord_id'=> ''. $this->faker->randomNumber(9).$this->faker->randomNumber(9),
             'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi',
             'token' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi',
-            'remember_token' => Str::random(10),
             'OnService'=>false,
             'liveplace'=>'LS',
-            'tel'=>'555-'.$this->faker->randomNumber(3)
+            'tel'=>'555-'.$this->faker->randomNumber(3),
+            'compte'=>$this->faker->randomNumber(5)
         ];
     }
 }

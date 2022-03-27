@@ -72,9 +72,7 @@ class RouteTest extends TestCase
 
         $response->assertStatus(302);
     }
-
-
-
+    
     public function test_unloged_logout()
     {
         $response = $this->get('/logout');
