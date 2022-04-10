@@ -4,6 +4,7 @@ import CardComponent from "../../../props/CardComponent";
 import SwitchBtn from "../../../props/SwitchBtn";
 import Button from "../../../props/Button";
 import UserContext from "../../../context/UserContext";
+import {useLocation, useParams} from "react-router-dom";
 
 
 function Rapport(props) {
@@ -35,6 +36,9 @@ function Rapport(props) {
     const [searching, setsearching] = useState();
     const [patient, setpatient] = useState();
     const user = useContext(UserContext);
+    const search = useLocation().search;
+    const patientId =  new URLSearchParams(search).get('patientId');
+
 
 
     useEffect(async ()=>{
@@ -46,6 +50,9 @@ function Rapport(props) {
             setintertypeslist(resp.data.intertype);
             setpathologysList(resp.data.pathology)
         })
+        if(patientId != null){
+            searchPatient(patientId);
+        }
 
     }, [])
 
@@ -73,7 +80,7 @@ function Rapport(props) {
                 url: '/data/patient/search/'+search,
             }).then((response)=>{
                 setsearching(response.data.patients);
-                if (response.data.patients.length === 1 && response.data.patients[0].name.toLowerCase() === search.toLowerCase()) {
+                if ((response.data.patients.length === 1 && response.data.patients[0].name.toLowerCase() === search.toLowerCase()) || ''+response.data.patients[0].id === patientId) {
                     let patient = response.data.patients[0];
                     setName(patient.name);
                     setDDn(patient.naissance);

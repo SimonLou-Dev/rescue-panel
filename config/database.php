@@ -127,7 +127,7 @@ return [
             'port' => env('REDIS_PORT', '6379'),
             'database' => (env('APP_DEBUG') ? 8 : 7),
             'read_write_timeout' => 60,
-            'queue' => 'rescue_pannel_'.env('APP_ENV'),
+            'queue' => 'default',
         ],
 
         'cache' => [
@@ -136,7 +136,7 @@ return [
             'port' => env('REDIS_PORT', '6379'),
             'database' => (env('APP_DEBUG') ? 8 : 7),
             'read_write_timeout' => 60,
-            'queue' => 'cache_rescue_pannel_'.env('APP_ENV'),
+            'queue' => 'laravel_cache',
         ],
 
     ],

@@ -96,11 +96,11 @@ class PoudreTestController extends Controller
                         'inline'=>false
                     ],[
                         'name'=>'Reaction sur la peau : ',
-                        'value'=>($request->peau ? 'Positif :white_check_mark: ': 'Négatif :x:'),
+                        'value'=>($test->on_skin_positivity ? 'Positif :white_check_mark: ': 'Négatif :x:'),
                         'inline'=>false
                     ],[
                         'name'=>'Reaction sur les vetements : ',
-                        'value'=>($request->vetements ? 'Positif :white_check_mark: ' : 'Négatif :x:'),
+                        'value'=>($test->on_clothes_positivity ? 'Positif :white_check_mark: ' : 'Négatif :x:'),
                         'inline'=>false
                     ],[
                         'name'=>'Date et heure du test : ',

@@ -192,12 +192,18 @@ function Layout(props) {
     else{
         return(<div className={"layout"} style={{backgroundImage: 'url('+image+')'}}>
             <header className={"layout-header"}>
-                <div className={"header-menu"} onClick={() => {
-                    setCollasping(!collapsed)
-                }}>
-                    <img src={'/assets/images/menu.png'} alt={""}/>
-                    <h1>menu</h1>
-                    <img src={'/assets/images/' + service + '.png'} alt={""} className={'service-name'}/>
+                <div className={'header-left'}>
+                    <div className={"header-menu"} onClick={() => {
+                        setCollasping(!collapsed)
+                    }}>
+                        <img src={'/assets/images/menu.png'} alt={""}/>
+                        <h1>menu</h1>
+                        <img src={'/assets/images/' + service + '.png'} alt={""} className={'service-name'}/>
+                    </div>
+                    <div className={'service-BTN'}>
+                        <button className={'btn service ' + (serviceDisabled ? 'ServicebtnDisabled':'') + ' '  + (user.OnService ? 'serviceActive' : 'serviceDisabled')}
+                                onClick={(e)=>serviceRequester(e)}>{user.OnService ? 'en service' : 'hors service'}</button>
+                    </div>
                 </div>
                 <div className={"header-logout"}>
                     <a href={'/logout'}><img src={'/assets/images/logout.png'} alt={""}/></a>
@@ -210,7 +216,6 @@ function Layout(props) {
                         <Link className={"menu-link-big"} to="/account">mon compte</Link>
                         <Link className={"menu-link-big hidden"} to={"/dispatch/" + service}>dispatch</Link>
                         <Link className={"menu-link-big"} to="/servicenav">changer de service</Link>
-                        <h4 className={"menu-link-big " + (serviceDisabled ? 'ServicebtnDisabled':'')} onClick={(e)=>serviceRequester(e)}>service : <label htmlFor="service-state">{user.OnService ? 'on' : 'off'}</label></h4>
                     </section>
                     <section className={"menu-scrollable"}>
                         <div className={"menu-item-list"}>

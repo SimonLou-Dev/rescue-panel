@@ -23,7 +23,7 @@ $green: #38c172;
 $teal: #4dc0b5;
 $cyan: #6cb2eb;
 
-$disabled: #303030;
+$disabled: #202020;
 $green_light: #00FF00;
 $red_light: #FF0000;
 
@@ -32,7 +32,7 @@ $border-radius: 10px;
 
 //Glow function
 @function text_glow($color){
-    @return 0 0 30px $color;
+    @return 0 0 10px $color;
 }
 @function box_glow($color, $blur: 20px, $size: 7px){
     @return 0 0 $blur $size $color;

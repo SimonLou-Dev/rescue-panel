@@ -9,9 +9,12 @@ use Illuminate\Http\Request;
 class SearchController extends Controller
 {
     public function searchPatient(string $test){
+
+
+
         $patients = Patient::where('name', $test);
-        if($patients->count() === 1){
-            $patients = $patients->get()->take(1);
+        if(is_numeric($test)){
+            $patients = Patient::where('id', $test)->get();
         }else{
             $patients = Patient::search($test)->get()->take(5);
         }

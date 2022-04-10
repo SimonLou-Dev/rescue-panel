@@ -2,12 +2,12 @@ apps:
   # Run php artisan queue:listen to execute queue job
   - script    : 'artisan'
     name      : 'artisan-discordemebd-worker'
-    cwd       : 'H:\dev\Web\rescue-panel'
+    cwd       : '/mnt/e/rescue-panel'
     args      : 'queue:work --queue discord' # or queue:work
     interpreter : 'php'
   - script: 'artisan'
     name: 'artisan-pdfgeneration-worker'
-    cwd: 'H:\dev\Web\rescue-panel'
+    cwd: '/mnt/e/rescue-panel'
     args: 'queue:work --queue pdfgeneration' # or queue:work
     interpreter: 'php'
 

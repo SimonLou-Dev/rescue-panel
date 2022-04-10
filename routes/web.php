@@ -264,6 +264,7 @@ if(env('APP_DEBUG') === true || env('APP_DEBUG') === "true"){
         Discord::chanUpdate(DiscordChannel::MedicSanctions, 923521332531048469);
         Discord::chanUpdate(DiscordChannel::FireLogistique, 934029889122762773);
         Discord::chanUpdate(DiscordChannel::MedicLogistique, 923521332531048469);
+        Discord::chanUpdate(DiscordChannel::Poudre, 933706570552999946);
     })->middleware('web');
 
     Route::get('/auth/test', function (Request $req){
