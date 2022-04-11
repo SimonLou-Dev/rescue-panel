@@ -2,6 +2,7 @@
 
 use App\Enums\DiscordChannel;
 use App\Events\NotifyForAll;
+use App\Http\Controllers\BlackCodes\FireReportController;
 use App\Http\Controllers\Discord\DiscordChannelController;
 use App\Http\Controllers\Users\AccountController;
 use App\Http\Controllers\ContentManagement;
@@ -122,7 +123,7 @@ Route::get('/data/patient/get/{id}', [PatientController::class, 'getPatient'])->
 Route::get('/data/rapport/get/{patientId}', [RapportController::class, 'getPatientInter'])->middleware(['auth']);
 Route::put('/data/rapport/update/{id}', [RapportController::class, 'updateRapport'])->middleware(['auth']);
 Route::put('/data/patient/update/{id}', [PatientController::class, 'updatePatientInfos'])->middleware(['auth']);
-Route::get('/pdf/rapport/{id}', [ExporterController::class, 'makeRapportPdf'])->middleware(['auth']);
+Route::get('/pdf/rapport/{id}', [ExporterController::class, 'makeRapportPdf']);
 Route::get('/data/patient/getAll', [PatientController::class, 'getAllPatientsSearcher'])->middleware(['auth']);
 //Tests de poudre
 
@@ -141,11 +142,17 @@ Route::delete('/data/blackcode/delete/patient/{patient_id}', [BlesseController::
 Route::delete('/data/blackcode/{id}/delete/personnel', [PersonnelController::class, 'removePersonnel'])->middleware(['auth']);
 Route::get('/exel/allPList', [BlesseController::class, 'generateListWithAllPatients'])->middleware(['auth']);
 Route::get('/data/bc/rapport/{id}', [BCController::class, 'generateRapport'])->middleware(['auth']);
+Route::get('/pdf/bc/{id}', [BCController::class, 'generatePDF']);
 
 Route::patch('/data/blackcode/{id}/caserne', [BCController::class, 'casernePatcher'])->middleware(['auth']);
 Route::patch('/data/blackcode/{id}/desc', [BCController::class, 'descPatcher'])->middleware(['auth']);
 Route::patch('/data/blackcode/{id}/infos', [BCController::class, 'infosPatcher'])->middleware(['auth']);
 Route::patch('/data/blackcode/quit', [BCController::class, 'quitBc'])->middleware(['auth']);
+Route::post('/data/blackcode/{id}/firereport', [FireReportController::class, 'postFireReport'])->middleware(['auth']);
+//ARSON
+Route::get('/pdf/arson/{id}', [FireReportController::class, 'exportFireReport']);
+Route::get('/data/arson/get', [FireReportController::class, 'getFireReportList'])->middleware(['auth']);
+
 
 //Les factures
 Route::get('/data/facture/list', [FacturesController::class, 'getAllimpaye'])->middleware(['auth']);
@@ -265,6 +272,7 @@ if(env('APP_DEBUG') === true || env('APP_DEBUG') === "true"){
         Discord::chanUpdate(DiscordChannel::FireLogistique, 934029889122762773);
         Discord::chanUpdate(DiscordChannel::MedicLogistique, 923521332531048469);
         Discord::chanUpdate(DiscordChannel::Poudre, 933706570552999946);
+        Discord::chanUpdate(DiscordChannel::FireReport, 934029889122762773);
     })->middleware('web');
 
     Route::get('/auth/test', function (Request $req){

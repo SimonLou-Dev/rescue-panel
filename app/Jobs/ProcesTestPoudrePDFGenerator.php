@@ -50,7 +50,7 @@ class ProcesTestPoudrePDFGenerator implements ShouldQueue
         $test = $this->test;
         $path = $this->path;
 
-        $pdf = Pdf::loadView('PDF.TDP',['test'=>$test, 'user'=>$user]);
+        $pdf = Pdf::loadView('pdf.TDP',['test'=>$test, 'user'=>$user]);
 
         $pdf->save($path);
 

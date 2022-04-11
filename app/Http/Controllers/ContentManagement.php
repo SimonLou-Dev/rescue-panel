@@ -10,6 +10,7 @@ use App\Models\BCType;
 use App\Models\Blessure;
 use App\Models\CouleurVetement;
 use App\Models\Facture;
+use App\Models\FireReportType;
 use App\Models\Hospital;
 use App\Models\Intervention;
 use App\Models\LieuxSurvol;
@@ -77,6 +78,11 @@ class ContentManagement extends Controller
                 $content->stock_item= json_encode([]);
                 $content->save();
                 break;
+            case '8':
+                $content =new FireReportType();
+                $content->name= $request->name;
+                $content->save();
+                break;
             default:
                 return response()->json('error', 404);
         }
@@ -93,6 +99,7 @@ class ContentManagement extends Controller
             'Color'=>CouleurVetement::where('service', Session::get('service')[0])->get(),
             'LieuxSurvol'=>LieuxSurvol::all(),
             'Pathologies'=>Pathology::all(),
+            'FireReport'=>FireReportType::all(),
         ]);
 
     }
@@ -118,6 +125,9 @@ class ContentManagement extends Controller
                 break;
             case '7':
                 Pathology::where('id',$id)->first()->delete();
+                break;
+            case '8':
+                FireReportType::where('id',$id)->first()->delete();
                 break;
             default: break;
         }

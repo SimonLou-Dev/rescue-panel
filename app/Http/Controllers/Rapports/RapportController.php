@@ -261,7 +261,7 @@ class RapportController extends Controller
             'inline'=>false
         ],[
             'name'=>'PDF',
-            'value'=>":link: [`PDF`](".env('APP_URL').'/storage/RI/'.$rapport->id . ".pdf)"
+            'value'=>":link: [`PDF`](".env('APP_URL').'/pdf/rapport/'.$rapport->id . ")"
         ]);
 
         return $embed = [

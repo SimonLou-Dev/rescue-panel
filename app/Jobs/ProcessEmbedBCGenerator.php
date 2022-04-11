@@ -64,6 +64,10 @@ class ProcessEmbedBCGenerator implements ShouldQueue
                     'value'=>count($bc->GetPersonnel),
                     'inline'=>true,
                 ],[
+                  'name'=>'pdf',
+                  'inline'=>false,
+                  'value'=>":link: [`PDF`](".env('APP_URL').'/pdf/bc/'.$bc->id . ")",
+                ],[
                     'name'=>'Liste des patients',
                     'value'=>"nom | carte d'identité" .  ($bc->service === "SAMS" ? ' | couleur de vêtement' : ''),
                     'inline'=>false,

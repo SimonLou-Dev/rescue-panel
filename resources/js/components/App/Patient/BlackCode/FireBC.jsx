@@ -26,6 +26,13 @@ function FireBC(props) {
 
     const [description, setDescription] = useState("");
 
+    const [popup, setPopup] = useState(false);
+    const [popupErrors, setPopupErrors] = useState([])
+    const [property, setProperty] = useState('')
+    const [compte, setCompte] = useState('')
+    const [typeList, setTypesList] = useState([]);
+    const [typeSelected, selectType] = useState(0);
+
     const Redirection = (url) => {
         props.history.push(url)
     }
@@ -79,6 +86,7 @@ function FireBC(props) {
             setCaserne(r.data.bc.caserne);
             setDescription(r.data.bc.description)
             setPlace(r.data.bc.place)
+            setTypesList(r.data.fireType)
         })
     }
 
@@ -99,6 +107,27 @@ function FireBC(props) {
             }
         }).catch(error => {
             if(error.response.status === 422){
+                setPopupErrors(error.response.data.errors)
+            }
+        })
+
+    }
+
+    const closeBC = async () => {
+        await axios({
+            url: '/data/blackcode/' + bcID + '/firereport',
+            method: 'POST',
+            data: {
+                property,
+                compte,
+                type: typeSelected
+            }
+        }).then(r => {
+            if(r.status === 202){
+                Redirection('/blackcodes/all')
+            }
+        }).catch(error => {
+            if(error.response.status === 422){
                 setErrors(error.response.data.errors)
             }
         })
@@ -106,7 +135,7 @@ function FireBC(props) {
     }
 
     return (<div className={'BC-View'}>
-        <section className={'BC-Header'}>
+        <section className={'BC-Header ' + (popup ? 'popupBg':'')}>
             <div className={'BC-Place'}>
                 <h5>{bc.place ? bc.place + ' ' + (bc.ended ? '(terminé)' : '(en cours)') : 'chargement'}</h5>
             </div>
@@ -119,20 +148,11 @@ function FireBC(props) {
                         Redirection('/blackcodes/all')
                     })
                 }}>retour</button>
-                <button  className={'btn'} disabled={(!(user.grade.admin || user.grade.BC_close) || (bc && bc.ended))} onClick={async () => {
-                    await axios({
-                        method: 'PUT',
-                        url: '/data/blackcode/' + bcID + '/close'
-                    }).then(r => {
-                        if(r.status === 202){
-                            Redirection('/blackcodes/all')
-                        }
-                    })
-                }}>terminer</button>
-                <button  className={'btn'}><img alt={''} src={'/assets/images/pdf.png'}/></button>
+                <button  className={'btn'} disabled={(!(user.grade.admin || user.grade.BC_close) || (bc && bc.ended))} onClick={()=>{setPopup(true)}}>terminer</button>
+                <a  target={"_blank"} href={'/pdf/bc/'+bcID} className={'btn'}><img alt={''} src={'/assets/images/pdf.png'}/></a>
             </div>
         </section>
-        <section className={'BC-Content'}>
+        <section className={'BC-Content ' + (popup ? 'popupBg':'')}>
             <section className={'BC-infos'}>
                 <div className={'BC-infosForm'}>
                     <div className={'form-group form-line form-title'}>
@@ -289,6 +309,57 @@ function FireBC(props) {
                 </CardComponent>
             </div>
         </section>
+        {popup &&
+            <section className={'popup'}>
+                <CardComponent  title={'Déclarer le feu éteint'}>
+                    <div className={'form-group form-column'}>
+                        <label>numéro de propriété</label>
+                        <input type={'text'} className={'form-input'} list={'autocomplete'} value={property} onChange={(e)=>{setProperty(e.target.value)}}/>
+
+                        {popupErrors.property &&
+                            <div className={'errors-list'}>
+                                <ul>
+                                    {popupErrors.property.map((error) =>
+                                        <li>{error}</li>
+                                    )}
+                                </ul>
+                            </div>
+                        }
+                    </div>
+                    <div className={'form-group form-column'}>
+                        <label>compté</label>
+                        <input type={'text'} className={'form-input'} value={compte} onChange={(e)=>{setCompte(e.target.value)}}/>
+                        {popupErrors.compte &&
+                            <div className={'errors-list'}>
+                                <ul>
+                                    {popupErrors.compte.map((error) =>
+                                        <li>{error}</li>
+                                    )}
+                                </ul>
+                            </div>
+                        }
+                    </div>
+                    <div className={'form-group form-line'}>
+                        <label>type : </label>
+                        <select className={'form-input'} onChange={(e)=>{selectType(e.target.value)}} value={typeSelected}>
+                            <option value={0} disabled={true}>choisir</option>
+                            {typeList && typeList.map((t)=>
+                                <option value={t.id} key={'fire'+t.id} >{t.name}</option>
+                            )}
+                        </select>
+                    </div>
+                    <div className={'form-group form-line'}>
+                        <button className={'btn'} onClick={()=>{
+                            setCompte('');
+                            setProperty('')
+                            selectType(0);
+                        }}>effacer</button>
+                        <button className={'btn'} onClick={closeBC}>envoyer</button>
+                        <button className={'btn'} onClick={()=>{setPopup(false)}}>fermer</button>
+                    </div>
+                </CardComponent>
+            </section>
+        }
     </div> )
 }
 

@@ -120,7 +120,7 @@ function MedicBC(props) {
                         }
                     })
                 }}>terminer</button>
-                <button  className={'btn'}><img alt={''} src={'/assets/images/pdf.png'}/></button>
+                <a  target={"_blank"} href={'/pdf/bc/'+bcID} className={'btn'}><img alt={''} src={'/assets/images/pdf.png'}/></a>
             </div>
         </section>
         <section className={'BC-Content'}>

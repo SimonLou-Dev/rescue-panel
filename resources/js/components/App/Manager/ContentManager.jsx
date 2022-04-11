@@ -1,6 +1,7 @@
-import React, {useEffect, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import CardComponent from "../../props/CardComponent";
 import axios from "axios";
+import UserContext from "../../context/UserContext";
 
 function ContentManager(props) {
     const [data, setData] = useState(null);
@@ -13,6 +14,8 @@ function ContentManager(props) {
     const[ survolValue, setSurvolvalue] = useState('');
     const[ pathoValue, setpathovalue] = useState('');
     const[ pathoDesc, setpathoDesc] = useState('');
+    const[FireReportTypeValue,setFireReportTypeValue] = useState('');
+    const user = useContext(UserContext);
 
     useEffect(async () => {
         await axios({
@@ -41,6 +44,7 @@ function ContentManager(props) {
             setSurvolvalue('')
             setpathovalue('')
             setpathoDesc('')
+            setFireReportTypeValue('')
         })
     }
 
@@ -162,29 +166,53 @@ function ContentManager(props) {
                 <button className={'btn'}><img alt={''} src={'/assets/images/add.png'} onClick={()=>{postContent(6, survolValue)}}/></button>
             </div>
         </CardComponent>
-        <CardComponent title={'Pathologies'}>
-            <div className={'list'}>
-                <table>
-                    <tbody>
-                    {data && data.Pathologies.map((i)=>
-                        <tr key={'Pathologies'+ i.id}>
-                            <td className={'name'}>{i.name}</td>
-                            <td><img alt={''} src={'/assets/images/decline.png'} onClick={()=>{deleteContent(7,i.id)}}/></td>
-                        </tr>
-                    )}
-                    </tbody>
-                </table>
-            </div>
-            <div className={'form-diviser'}>
-                <div className={'form-divider'}>
-                    <textarea value={pathoDesc} onChange={(e)=>{setpathoDesc(e.target.value)}}/>
+        {user.service === 'SAMS' &&
+            <CardComponent title={'Pathologies'}>
+                <div className={'list'}>
+                    <table>
+                        <tbody>
+                        {data && data.Pathologies.map((i)=>
+                            <tr key={'Pathologies'+ i.id}>
+                                <td className={'name'}>{i.name}</td>
+                                <td><img alt={''} src={'/assets/images/decline.png'} onClick={()=>{deleteContent(7,i.id)}}/></td>
+                            </tr>
+                        )}
+                        </tbody>
+                    </table>
                 </div>
-                <div className={'form-divider'}>
-                    <input type={"text"} placeholder={'nom'} value={pathoValue} onChange={(e)=>{setpathovalue(e.target.value)}}/>
-                    <button className={'btn'}><img alt={''} src={'/assets/images/add.png'} onClick={()=>{postContent(7, pathoValue, pathoDesc)}}/></button>
+                <div className={'form-diviser'}>
+                    <div className={'form-divider'}>
+                        <textarea value={pathoDesc} onChange={(e)=>{setpathoDesc(e.target.value)}}/>
+                    </div>
+                    <div className={'form-divider'}>
+                        <input type={"text"} placeholder={'nom'} value={pathoValue} onChange={(e)=>{setpathovalue(e.target.value)}}/>
+                        <button className={'btn'}><img alt={''} src={'/assets/images/add.png'} onClick={()=>{postContent(7, pathoValue, pathoDesc)}}/></button>
+                    </div>
                 </div>
-            </div>
-        </CardComponent>
+            </CardComponent>
+        }
+        {user.service === "LSCoFD" &&
+            <CardComponent title={'Types incendie'}>
+                <div className={'list'}>
+                    <table>
+                        <tbody>
+                        {data && data.FireReport.map((i)=>
+                            <tr key={'fireType'+ i.id}>
+                                <td className={'name'}>{i.name}</td>
+                                <td><img alt={''} src={'/assets/images/decline.png'} onClick={()=>{deleteContent(8,i.id)}} /></td>
+                            </tr>
+                        )}
+                        </tbody>
+                    </table>
+                </div>
+                <div className={'form'}>
+                    <input type={"text"} placeholder={'nom'} value={FireReportTypeValue} onChange={(e)=>{setFireReportTypeValue(e.target.value)}}/>
+                    <button className={'btn'}><img alt={''} src={'/assets/images/add.png'} onClick={()=>{postContent(8, FireReportTypeValue)}} /></button>
+                </div>
+            </CardComponent>
+        }
+
+
 
     </div> )
 }

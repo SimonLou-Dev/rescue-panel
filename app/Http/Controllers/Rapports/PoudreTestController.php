@@ -141,7 +141,7 @@ class PoudreTestController extends Controller
         $path =  storage_path('app/public/test/poudre/') . "/pouder_".$test->id.'.pdf';
 
         if(!file_exists($path)){
-            $pdf = Pdf::loadView('PDF.TDP',['test'=>$test, 'user'=>$user]);
+            $pdf = Pdf::loadView('pdf.TDP',['test'=>$test, 'user'=>$user]);
             $pdf->save($path);
             return $pdf->stream();
         }

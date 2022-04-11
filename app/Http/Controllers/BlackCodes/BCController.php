@@ -20,11 +20,14 @@ use App\Models\BCType;
 use App\Models\Blessure;
 use App\Models\CouleurVetement;
 use App\Models\Facture;
+use App\Models\FireReport;
+use App\Models\FireReportType;
 use App\Models\Patient;
 use App\Models\Rapport;
 use App\Models\User;
 use App\Exporter\ExelPrepareExporter;
 use App\Jobs\ProcessEmbedBCGenerator;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
@@ -58,24 +61,29 @@ class BCController extends Controller
         $queryPage = (int) $request->query('page');
         $readedPage = ($queryPage ?? 1) ;
 
-        $searchedList = BCList::search($request->query('query'))->get()->reverse();
-        $forgetable = [];
+        if(BCList::where('ended', true)->count() != 0){
+            $searchedList = BCList::search($request->query('query'))->get()->reverse();
+            $forgetable = [];
 
-        for($a = 0; $a < $searchedList->count(); $a++){
-            $searchedItem = $searchedList[$a];
-            if(!$searchedItem->ended){
-                array_push($forgetable, $a);
+            for($a = 0; $a < $searchedList->count(); $a++){
+                $searchedItem = $searchedList[$a];
+                if(!$searchedItem->ended){
+                    array_push($forgetable, $a);
+                }
+                if(!\Gate::allows('view',$searchedItem)){
+                    array_push($forgetable, $a);
+                }
             }
-            if(!\Gate::allows('view',$searchedItem)){
-                array_push($forgetable, $a);
+            foreach ($forgetable as $forget){
+                $searchedList->forget($forget);
             }
-        }
-        foreach ($forgetable as $forget){
-            $searchedList->forget($forget);
-        }
-        foreach ($searchedList as $item) $item->GetType;
+            foreach ($searchedList as $item) $item->GetType;
 
-        $finalList = $searchedList->skip(($readedPage-1)*5)->take(5);
+            $finalList = $searchedList->skip(($readedPage-1)*5)->take(5);
+        }else{
+            $finalList = collect([]);
+            $searchedList = collect([]);
+        }
 
         $url = $request->url() . '?query='.urlencode($request->query('query')).'&page=';
         $totalItem = $searchedList->count();
@@ -136,9 +144,11 @@ class BCController extends Controller
         if($bc->ended){
             $blessures = Blessure::where('service', \Session::get('service')[0])->withTrashed()->get();
             $color= CouleurVetement::where('service', \Session::get('service')[0])->withTrashed()->get();
+            $report = FireReportType::withTrashed()->get();
         }else{
             $blessures = Blessure::where('service', \Session::get('service')[0])->get();
             $color = CouleurVetement::where('service', \Session::get('service')[0])->get();
+            $report = FireReportType::withoutTrashed()->get();
         }
 
         return response()->json([
@@ -146,6 +156,7 @@ class BCController extends Controller
             'bc'=>$bc,
             'colors'=>$color,
             'blessures'=>$blessures,
+            'fireType'=>$report
         ]);
     }
 
@@ -222,17 +233,24 @@ class BCController extends Controller
     {
         $this->authorize('close', BCList::class);
 
+
         $bc = BCList::where('id', $id)->firstOrFail();
+        if($bc->service== 'LSCoFD') return response()->json([],404);
+
+        self::closBlackCode($bc);
+
+
+        return response()->json(['status'=>'OK'],202);
+    }
+
+    public static function closBlackCode($bc){
         $bc->ended = true;
         $bc->save();
-        $users = User::where('bc_id', $id)->get();
+        $users = User::where('bc_id', $bc->id)->get();
         $personnels = $bc->GetPersonnel;
-
-
         foreach ($personnels as $personnel){
             PrimesController::AddValidPrimesToUser($personnel->user_id, 1);
         }
-
         $patients = $bc->GetPatients;
 
         $start = date_create($bc->created_at);
@@ -250,8 +268,6 @@ class BCController extends Controller
 
         $logs = new LogsController();
         $logs->BCLogging('close', $bc->id, Auth::user()->id);
-
-        return response()->json(['status'=>'OK'],202);
     }
 
     /**
@@ -325,4 +341,12 @@ class BCController extends Controller
             'status'=>'OK'
         ], 204);
     }
+
+    public function generatePDF(string $id){
+        $bc = BCList::where('id',$id)->first();
+        $pdf = Pdf::loadView('pdf.BC',['bc'=>$bc]);
+
+        return $pdf->stream();
+    }
+
 }

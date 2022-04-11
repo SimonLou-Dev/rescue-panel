@@ -31,6 +31,7 @@ class CreateGradesTable extends Migration
             $table->boolean('rapport_view')->default(false);
             $table->boolean('rapport_HS')->default(false);
             $table->boolean('rapport_modify')->default(false);
+            $table->boolean('dispensaire')->default(false);
 
             //test de poudre
             $table->boolean('poudretest_create')->default(false);
@@ -51,6 +52,7 @@ class CreateGradesTable extends Migration
             $table->boolean('BC_medic_view')->default(false);
             $table->boolean('BC_fire_view')->default(false);
             $table->boolean('BC_edit')->default(false);
+            $table->boolean('ARSON')->default(false);
 
             //facture
             $table->boolean('facture_HS')->default(false);

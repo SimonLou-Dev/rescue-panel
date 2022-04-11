@@ -32,6 +32,7 @@ import ServiceNav from "../AuthComponent/ServiceNav";
 import Dashboard from "./Other/Dashboard";
 import Vols from "./logistique/Vols"
 import * as Sentry from "@sentry/react";
+import FireReportList from "./Patient/BlackCode/FireReportList";
 
 function Layout(props) {
     const [collapsed, setCollasping] = useState(true);
@@ -237,6 +238,11 @@ function Layout(props) {
                                     }
                                     <li className={'menu-puce'}><Link to={'/blackcodes/all'} className={'menu-link'}>BC
                                         - Incendies</Link></li>
+                                    {(user.grade.admin || user.grade.ARSON) &&
+                                        <li className={'menu-puce'}><Link to={'/blackcodes/arson/list'}
+                                                                          className={'menu-link'}>ARSON</Link>
+                                        </li>
+                                    }
                                 </ul>
                             </section>
                             <section className={"menu-item"}>
@@ -341,6 +347,7 @@ function Layout(props) {
                     <Route path={'/blackcodes/all'} component={GlobalView}/>
                     <Route path={'/blackcodes/medic/:bcID'} component={MedicBC}/>
                     <Route path={'/blackcodes/fire/:bcID'} component={FireBC}/>
+                    <Route path={'/blackcodes/arson/list'} component={FireReportList}/>
 
                     <Route path={'/:service/logistique/stock/view'} component={GestionStocks}/>
                     <Route path={'/:service/logistique/stock/settings'} component={StockSettings}/>

@@ -142,6 +142,7 @@ function grade(props) {
                                     <td><SwitchBtn number={'7'} checked={gradeSelected.rapport_modify} callback={()=>{updateGrade('rapport_modify')}}/></td>
                                     <td><SwitchBtn number={'5'} checked={gradeSelected.rapport_view} callback={()=>{updateGrade('rapport_view')}}/></td>
                                     <td><SwitchBtn number={'6'} checked={gradeSelected.rapport_HS} callback={()=>{updateGrade('rapport_HS')}}/></td>
+                                    <td><SwitchBtn number={'7'} checked={gradeSelected.dispensaire} callback={()=>{updateGrade('dispensaire')}}/></td>
                                 </tr>
                                 </tbody>
                             </table>
@@ -209,6 +210,7 @@ function grade(props) {
                                     <td><SwitchBtn number={'19'} checked={gradeSelected.BC_fire_view} callback={()=>{updateGrade('BC_fire_view')}}/></td>
                                     <td><SwitchBtn number={'20'} checked={gradeSelected.BC_medic_view} callback={()=>{updateGrade('BC_medic_view')}}/></td>
                                     <td><SwitchBtn number={'21'} checked={gradeSelected.BC_edit} callback={()=>{updateGrade('BC_edit')}}/></td>
+                                    <td><SwitchBtn number={'22'} checked={gradeSelected.ARSON} callback={()=>{updateGrade('ARSON')}}/></td>
                                 </tr>
                                 </tbody>
                             </table>

@@ -120,6 +120,10 @@ function DiscordBots(props) {
                         <label>Absences</label>
                         <input type={'text'} value={channel.Absences} onChange={(e)=>{changeChannel(Object.keys(channel)[19],e.target.value)}}/>
                     </div>
+                    <div className={'chann-item'}>
+                        <label>FireReport</label>
+                        <input type={'text'} value={channel.FireReport} onChange={(e)=>{changeChannel(Object.keys(channel)[20],e.target.value)}}/>
+                    </div>
                 </div>
             </div>
         }
