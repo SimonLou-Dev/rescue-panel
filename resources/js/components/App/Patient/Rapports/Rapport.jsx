@@ -131,6 +131,9 @@ function Rapport(props) {
                 setpayed(false)
                 setata('')
                 setbloodgroup('')
+                setImpaye(false);
+                setImpayePhrase('');
+                seterros([]);
             }
 
         }).catch(error => {

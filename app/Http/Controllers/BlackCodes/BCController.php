@@ -62,8 +62,9 @@ class BCController extends Controller
         $readedPage = ($queryPage ?? 1) ;
 
         if(BCList::where('ended', true)->count() != 0){
-            $searchedList = BCList::search($request->query('query'))->get()->reverse();
+            $searchedList = BCList::search($request->query('query'))->get()->reverse()->values();
             $forgetable = [];
+
 
             for($a = 0; $a < $searchedList->count(); $a++){
                 $searchedItem = $searchedList[$a];
@@ -77,6 +78,7 @@ class BCController extends Controller
             foreach ($forgetable as $forget){
                 $searchedList->forget($forget);
             }
+
             foreach ($searchedList as $item) $item->GetType;
 
             $finalList = $searchedList->skip(($readedPage-1)*5)->take(5);

@@ -2,8 +2,7 @@
 
 namespace App\Console\Commands;
 
-use App\Http\Controllers\request\request\LayoutController;
-use App\Http\Controllers\request\ServiceGetterController;
+use App\Http\Controllers\Service\ServiceGetterController;
 use App\Models\DayService;
 use App\Models\WeekService;
 use Illuminate\Console\Command;
@@ -42,6 +41,16 @@ class StartWeek extends Command
      */
     public function handle()
     {
+        $this->info('Starting User clening');
+        $base = User::count();
+        $users = User::where('fire', false)->where('medic','false')->where('moderator',false)->get();
+        foreach ($users as $user){
+            $user->delete();
+        }
+        $final = $base - User::count();
+        $this->info($final . ' user(s) deleted');
+        $this->info('Creating WeekService Lines');
+        $base = WeekService::count();
         $week = ServiceGetterController::getWeekNumber();
         $users = User::all();
         $dayserviceFire = WeekService::where('week_number', $week)->where('service','LSCoFD')->get('user_id');
@@ -68,7 +77,8 @@ class StartWeek extends Command
             }
         }
         WeekService::insert($datas);
-        $this->info('Inserted');
+        $final = $base - WeekService::count();
+        $this->info( $final . ' line(s) inserted');
         $this->info('Importing for search');
         $this->callSilently('scout:import', ['model'=>'App\Models\WeekService']);
         $this->info('All entry of WeekService are imported');

@@ -69,7 +69,7 @@ function ServiceNav(props) {
                         await axios({
                             method: 'PATCH',
                             url: '/data/user/service/dev'
-                        }).then(()=>{props.history.push('/dashboard')})
+                        }).then(()=>{props.history.push('/dev/dashboard')})
                     }}>
                         <div>
                             <img src={'/assets/images/dev.png'} alt={""} />

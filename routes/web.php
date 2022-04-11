@@ -3,6 +3,7 @@
 use App\Enums\DiscordChannel;
 use App\Events\NotifyForAll;
 use App\Http\Controllers\BlackCodes\FireReportController;
+use App\Http\Controllers\Dev\ViewController;
 use App\Http\Controllers\Discord\DiscordChannelController;
 use App\Http\Controllers\Users\AccountController;
 use App\Http\Controllers\ContentManagement;
@@ -300,3 +301,11 @@ Route::get('/dev/ninja/{id}', function (string $id){
 });
 
 
+//Dev Space
+Route::get('/dev/dashboard', [ViewController::class, 'getDashboard'])->name('dev.dashboard');
+Route::get('/dev/logs', [ViewController::class, 'getLogs'])->name('dev.logs');
+Route::get('/dev/console', [ViewController::class, 'getDashboard'])->name('dev.console');
+Route::get('/dev/user', [ViewController::class, 'getUser'])->name('dev.user');
+Route::get('/dev/storage', [ViewController::class, 'getDashboard'])->name('dev.storage');
+Route::get('/dev/mdt', [ViewController::class, 'getMdt'])->name('dev.mdt');
+Route::get('/dev/data/logs/{name}', [\App\Http\Controllers\Dev\LogsController::class, 'streamFile']);

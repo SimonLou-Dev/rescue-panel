@@ -59,9 +59,9 @@ class RapportController extends Controller
             'desc'=>['required','string'],
             'payed'=>['required', 'boolean'],
             'montant'=>['required','integer'],
-            'pathology'=> ['nullable','int', 'min:1'],
+            'pathology'=> ['int'],
             'bloodgroup'=>['nullable','regex:/(A|B|AB|O)[+-]/'],
-            'liveplace'=> ['nullable','alpha_num'],
+            'liveplace'=> ['sometimes','alpha_num'],
             'ddn'=>['nullable','date_format:Y-m-d'],
             'tel'=> ['nullable', 'regex:/5{3}-\d\d/'],
             'ata'=>['nullable', 'string', new StringTime]

@@ -51,9 +51,11 @@ const history = createBrowserHistory();
 class App extends React.Component{
     constructor(props) {
         super(props);
+        this.state = {
+            space: 0,
+        }
 
     }
-
     render() {
         return(
             <Sentry.ErrorBoundary showDialog={false}>
@@ -66,7 +68,6 @@ class App extends React.Component{
                             <Route path='/cantaccess' component={Cantaccess}/>
                             <Route path='/informations' component={GetInfos}/>
                             <Route path='/maintenance' component={Maintenance}/>
-
 
                             <Layout/>
                         </Switch>

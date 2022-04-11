@@ -42,6 +42,23 @@ $border-radius: 10px;
     display: none;
     visibility: hidden;
 }
+//scroll bar
+/* width */
+*::-webkit-scrollbar {
+    width: 5px;
+}
+*{
+    scrollbar-color: $disabled;
+    scrollbar-width: thin;
+}
+*::-webkit-scrollbar-track {
+    border-radius: 10px;
+}
+*::-webkit-scrollbar-thumb {
+    background: $disabled;
+    border-radius: 10px;
+}
+
 
 .updater{
     margin: auto 0;
