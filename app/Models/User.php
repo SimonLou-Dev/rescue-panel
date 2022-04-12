@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Laravel\Scout\Searchable;
+use phpDocumentor\Reflection\Types\Static_;
 use Psy\Util\Json;
 
 /**
@@ -43,6 +44,7 @@ use Psy\Util\Json;
  * @method static where(string $column, string $operator = null, mixed $value = null)
  * @method static orderByDesc(string $string)
  * @method static orderBy(string $column, string $sens)
+ * @method static first()
  *
  */
 class User extends Authenticatable

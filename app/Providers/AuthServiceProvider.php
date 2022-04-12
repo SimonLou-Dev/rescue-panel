@@ -94,5 +94,9 @@ class AuthServiceProvider extends ServiceProvider
             return ($user->isAdmin() || $grade->edit_infos_utils) ;
         });
 
+        Gate::define('dev', function (User $user){
+           return $user->dev && $user->medic_grade_id === 7 && $user->fire_grade_id === 7;
+        });
+
     }
 }

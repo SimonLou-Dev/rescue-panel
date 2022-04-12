@@ -50,15 +50,14 @@ function ServiceNav(props) {
                         </div>
                     </li>
                 }
-                {(user.moderator && false) &&
+                {(user.moderator || user.dev) &&
                     <li onClick={async () => {
                         await axios({
                             method: 'PATCH',
                             url: '/data/user/service/staff'
-                        }).then(()=>{props.history.push('/dashboard')})
+                        }).then(()=>{props.history.push('/staff/dashboard')})
                     }}>
                         <div>
-
                             <img src={'/assets/images/admin.png'} alt={""} />
                             <h2>Staff</h2>
                         </div>

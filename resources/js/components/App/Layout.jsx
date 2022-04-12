@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import axios from "axios";
 import GetInfos from "../AuthComponent/GetInfos";
-import {Link, Route} from "react-router-dom";
+import {Link, Route, useHistory} from "react-router-dom";
 import Maintenance from "../Maintenance";
 import {useNotifications} from "../context/NotificationProvider";
 import UserContext from "../context/UserContext";
@@ -33,6 +33,9 @@ import Dashboard from "./Other/Dashboard";
 import Vols from "./logistique/Vols"
 import * as Sentry from "@sentry/react";
 import FireReportList from "./Patient/BlackCode/FireReportList";
+import DevDashboard from "./DevSpace/DevDashboard";
+import DevUsersList from "./DevSpace/DevUsersList";
+import DevStorage from "./DevSpace/DevStorage";
 
 function Layout(props) {
     const [collapsed, setCollasping] = useState(true);
@@ -41,6 +44,7 @@ function Layout(props) {
     const [serviceDisabled, disableService] = useState(false);
     const [image, setImage] = useState('');
     const dispatch = useNotifications();
+    const  history  = useHistory();
 
     useEffect(async ()=>{
         let userid = undefined
@@ -53,6 +57,8 @@ function Layout(props) {
             setUser(response.data.user);
             setService(response.data.user.service);
             Sentry.setUser({id: response.data.user.id, discord_id: response.data.user.discord_id, service: response.data.user.service})
+            if(response.data.user.service === 'staff') history.push('/staff/dashboard')
+            if(response.data.user.service === 'dev') history.push('/dev/dashboard')
         })
         const timerID = setInterval(
             () => tick(),
@@ -201,7 +207,7 @@ function Layout(props) {
                         <h1>menu</h1>
                         <img src={'/assets/images/' + service + '.png'} alt={""} className={'service-name'}/>
                     </div>
-                    <div className={'service-BTN'}>
+                    <div className={'service-BTN ' + (user && (user.service === 'SAMS' || user.service === 'LSCoFD') ? '' : 'hidden' )}>
                         <button className={'btn service ' + (serviceDisabled ? 'ServicebtnDisabled':'') + ' '  + (user.OnService ? 'serviceActive' : 'serviceDisabled')}
                                 onClick={(e)=>serviceRequester(e)}>{user.OnService ? 'en service' : 'hors service'}</button>
                     </div>
@@ -213,14 +219,14 @@ function Layout(props) {
             {!collapsed &&
                 <div className={"menu"}>
                     <section className={"menu-header"}>
-                        <Link className={"menu-link-big"} to="/dashboard">tableau de bord</Link>
+                        <Link className={"menu-link-big " + (user && (user.service === 'SAMS' || user.service === 'LSCoFD') ? '' : 'hidden' )} to="/dashboard">tableau de bord</Link>
                         <Link className={"menu-link-big"} to="/account">mon compte</Link>
                         <Link className={"menu-link-big hidden"} to={"/dispatch/" + service}>dispatch</Link>
                         <Link className={"menu-link-big"} to="/servicenav">changer de service</Link>
                     </section>
                     <section className={"menu-scrollable"}>
                         <div className={"menu-item-list"}>
-                            <section className={"menu-item"}>
+                            <section className={"menu-item " + (user && (user.service === 'SAMS' || user.service === 'LSCoFD') ? '' : 'hidden' )}>
                                 <h2><span>Patient</span></h2>
                                 <ul className={"menu-nav-list"}>
                                     {(user.grade.admin || (user.OnService && user.grade.rapport_view) || user.grade.rapport_HS) &&
@@ -245,7 +251,7 @@ function Layout(props) {
                                     }
                                 </ul>
                             </section>
-                            <section className={"menu-item"}>
+                            <section className={"menu-item " + (user && (user.service === 'SAMS' || user.service === 'LSCoFD') ? '' : 'hidden' )}>
                                 <h2><span>Factures</span></h2>
                                 <ul className={"menu-nav-list"}>
                                     {(user.grade.admin || (user.onService && user.grade.facture_view) || user.grade.facture_HS) &&
@@ -255,7 +261,7 @@ function Layout(props) {
 
                                 </ul>
                             </section>
-                            <section className={"menu-item hidden"}>
+                            <section className={"menu-item hidden " + (user && (user.service === 'SAMS' || user.service === 'LSCoFD') ? '' : 'hidden' )}>
                                 <h2><span>Formations</span></h2>
                                 <ul className={"menu-nav-list"}>
                                     <li className={'menu-puce'}><Link to={'/formation/questionnaires'}
@@ -264,7 +270,7 @@ function Layout(props) {
                                                                       className={'menu-link'}>création</Link></li>
                                 </ul>
                             </section>
-                            <section className={"menu-item"}>
+                            <section className={"menu-item " + (user && (user.service === 'SAMS' || user.service === 'LSCoFD') ? '' : 'hidden' )}>
                                 <h2><span>Logistique</span></h2>
                                 <ul className={"menu-nav-list"}>
                                     <li className={'menu-puce hidden'}><Link to={'/' + service + '/logistique/stock/view'}
@@ -277,7 +283,7 @@ function Layout(props) {
 
                                 </ul>
                             </section>
-                            <section className={"menu-item"}>
+                            <section className={"menu-item " + (user && (user.service === 'SAMS' || user.service === 'LSCoFD') ? '' : 'hidden' )}>
                                 <h2><span>Personnel</span></h2>
                                 <ul className={"menu-nav-list"}>
                                     {(user.grade.admin || user.grade.view_grade_list) &&
@@ -300,7 +306,7 @@ function Layout(props) {
                                     }
                                 </ul>
                             </section>
-                            <section className={"menu-item"}>
+                            <section className={"menu-item " + (user && (user.service === 'SAMS' || user.service === 'LSCoFD') ? '' : 'hidden' )}>
                                 <h2><span>Gestion MDT</span></h2>
                                 <ul className={"menu-nav-list"}>
                                     {(user.grade.admin || user.grade.modify_discordChann) &&
@@ -321,6 +327,22 @@ function Layout(props) {
                                                                           className={'menu-link'}>info / annonces</Link>
                                         </li>
                                     }
+                                </ul>
+                            </section>
+                            <section className={"menu-item " + (user && (user.service === 'dev') ? '' : 'hidden' )}>
+                                <h2><span>Developpeur</span></h2>
+                                <ul className={"menu-nav-list"}>
+                                    <li className={'menu-puce'}><Link to={'/dev/dashboard'}
+                                                                      className={'menu-link'}>dashboard</Link></li>
+                                    <li className={'menu-puce'}><Link to={'/dev/users'}
+                                                                      className={'menu-link'}>users</Link></li>
+                                    <li className={'menu-puce'}><Link to={'/dev/logs'}
+                                                                      className={'menu-link'}>logs</Link></li>
+                                    <li className={'menu-puce'}><Link to={'/dev/storage'}
+                                                                      className={'menu-link'}>storage</Link></li>
+                                    <li className={'menu-puce'}><Link to={'/dev/console'}
+                                                                      className={'menu-link'}>console</Link></li>
+
                                 </ul>
                             </section>
                         </div>
@@ -364,8 +386,12 @@ function Layout(props) {
                     <Route path={'/:service/mdt/content'} component={ContentManager}/>
                     <Route path={'/:service/mdt/infos'} component={AnnoncesInfos}/>
 
-
                     <Route path='/servicenav' component={ServiceNav}/>
+
+                    <Route path={'/dev/dashboard'} component={DevDashboard}/>
+                    <Route path={'/dev/users'} component={DevUsersList}/>
+                    <Route path={'/dev/logs'} component={Logs}/>
+                    <Route path={'/dev/storage'} component={DevStorage}/>
 
                 </UserContext.Provider>
             </div>

@@ -57,7 +57,6 @@ class UserConnexionController extends Controller
             'compte'=> 'required|digits_between:2,8|integer',
             'tel'=> 'required|regex:/555-\d\d/',
             'name'=>['required', 'string','regex:/[a-zA-Z.+_]+\s[a-zA-Z.+_]/'],
-            'staff'=>['boolean'],
             'service'=>['string'],
             'living'=>['required', 'string']
         ]);
@@ -67,7 +66,7 @@ class UserConnexionController extends Controller
         $user->name = $request->name;
         $user->tel = $request->tel;
         $user->compte = $request->compte;
-        $user->moderator = $request->staff;
+        $user->moderator = false;
         if($request->service === 'LSCoFD' || $request->service === 'OMC') $user->service = $request->service;
         $service = '';
         if($request->service === 'LSCoFD'){
@@ -116,6 +115,11 @@ class UserConnexionController extends Controller
         }
 
         $access = Gate::allows('access', $user);
+
+        if($user->service == 'dev' || $user->service == 'staff'){
+            $user->service = 'SAMS';
+            $user->save();
+        }
 
         Auth::logout();
         Session::flush();
@@ -223,8 +227,12 @@ class UserConnexionController extends Controller
 
         $user->GetFireGrade;
         $user->GetMedicGrade;
-        Auth::login($user);
         Session::push('user', $user);
+        if($user->service == 'dev' || $user->service == 'staff'){
+            $user->service = 'SAMS';
+            $user->save();
+        }
+        Auth::login($user);
         if(!is_null($user->service)){
             Session::push('service', $user->service);
         }

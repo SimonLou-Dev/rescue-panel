@@ -3,7 +3,7 @@
 use App\Enums\DiscordChannel;
 use App\Events\NotifyForAll;
 use App\Http\Controllers\BlackCodes\FireReportController;
-use App\Http\Controllers\Dev\ViewController;
+use App\Http\Controllers\Dev\DashboardController;
 use App\Http\Controllers\Discord\DiscordChannelController;
 use App\Http\Controllers\Users\AccountController;
 use App\Http\Controllers\ContentManagement;
@@ -62,6 +62,7 @@ Route::get('/personnel/{a?}/{c?}', function (){return redirect()->route('dashboa
 Route::get('/mdt/{a?}', function (){return redirect()->route('dashboard');});
 Route::get('/SAMS/{a?}/{b?}', function (){return redirect()->route('dashboard');});
 Route::get('/LSCoFD/{a?}/{b?}', function (){return redirect()->route('dashboard');});
+Route::get('/dev/{a}', function (){return redirect()->route('dashboard');});
 Route::get('/cantaccess', function(){
     Session::forget('service');
     Session::forget('user');
@@ -283,29 +284,17 @@ if(env('APP_DEBUG') === true || env('APP_DEBUG') === "true"){
     Route::get('/auth/fake', [UserConnexionController::class, 'fake'])->middleware('guest');//disable
 }
 
-Route::get('/dev/ninja/{id}', function (string $id){
-    if(!Auth::check()) return redirect()->route('login');
-    $base = \App\Models\User::where('id', Auth::user()->id)->first();
-    $newuser = \App\Models\User::where('id',$id)->first();
-    if(!$base->dev) return redirect()->route('login');
-    Session::forget('service');
-    Session::forget('user');
-    \Illuminate\Support\Facades\Auth::logout();
-    \Illuminate\Support\Facades\Session::flush();
-    Session::invalidate();
-    Session::regenerateToken();
-    Auth::login($newuser);
-    Session::push('user', $newuser);
-    Session::push('service', $newuser->service);
-    return redirect()->route('dashboard');
-});
-
+Route::get('/dev/ninja/{id}', [DashboardController::class, 'ninjaMod']);
 
 //Dev Space
-Route::get('/dev/dashboard', [ViewController::class, 'getDashboard'])->name('dev.dashboard');
-Route::get('/dev/logs', [ViewController::class, 'getLogs'])->name('dev.logs');
-Route::get('/dev/console', [ViewController::class, 'getDashboard'])->name('dev.console');
-Route::get('/dev/user', [ViewController::class, 'getUser'])->name('dev.user');
-Route::get('/dev/storage', [ViewController::class, 'getDashboard'])->name('dev.storage');
-Route::get('/dev/mdt', [ViewController::class, 'getMdt'])->name('dev.mdt');
-Route::get('/dev/data/logs/{name}', [\App\Http\Controllers\Dev\LogsController::class, 'streamFile']);
+Route::get('/data/dev/services', [DashboardController::class, 'getService']);
+Route::get('/data/dev/files/{name}', [DashboardController::class, 'getFiles']);
+Route::get('/data/dev/users', [\App\Http\Controllers\Dev\UserController::class, 'getUser']);
+Route::put('/data/dev/user/{userId}/staff', [\App\Http\Controllers\Dev\UserController::class, 'setStaff']);
+Route::put('/data/dev/user/{userId}/dev', [\App\Http\Controllers\Dev\UserController::class, 'setDev']);
+Route::delete('/data/dev/user/{userId}', [\App\Http\Controllers\Dev\UserController::class, 'deleteUser']);
+Route::put('/data/dev/user/{userId}/service/{service}', [\App\Http\Controllers\Dev\UserController::class, 'setService']);
+Route::put('/data/dev/user/{userId}/grade/{service}/{gradeId}', [\App\Http\Controllers\Dev\UserController::class, 'setGrade']);
+Route::put('/data/dev/user/{userId}/cross', [\App\Http\Controllers\Dev\UserController::class, 'setCrossService']);
+Route::get('/data/dev/storage', [\App\Http\Controllers\Dev\StorageController::class, 'getFiles']);
+Route::delete('/data/dev/storage/{name}', [\App\Http\Controllers\Dev\StorageController::class, 'deleteFile']);
