@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Laravel\Scout\Searchable;
 use phpDocumentor\Reflection\Types\Static_;
@@ -49,7 +50,7 @@ use Psy\Util\Json;
  */
 class User extends Authenticatable
 {
-    use HasFactory, Searchable;
+    use HasFactory, Searchable, SoftDeletes;
 
     protected $casts = [
         'moderator'=>'boolean',
@@ -63,6 +64,7 @@ class User extends Authenticatable
         'materiel'=>'array',
         'note'=>'array',
         'notification_preference'=>'array',
+        'created_at'=>'datetime:d/m/Y H:i'
     ];
 
     protected $table = "Users";

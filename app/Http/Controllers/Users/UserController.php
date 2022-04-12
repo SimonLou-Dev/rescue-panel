@@ -451,7 +451,7 @@ class UserController extends Controller
         }
 
 
-        $column[] = array('id','nom', 'matricule', 'grade', 'discordid', 'tel', 'compte', 'pilote','service d\'arrivée','cross service', 'nombre de sanctions');
+        $column[] = array('id','nom', 'matricule', 'grade', 'discordid', 'tel', 'compte', 'pilote','service d\'arrivée','cross service', 'nombre de sanctions', 'date d\'inscription');
 
         foreach ($users as $user){
 
@@ -468,6 +468,7 @@ class UserController extends Controller
                 "service d'arrivée"=>$user->medic ? 'SAMS' : 'LSCoFD',
                 'cross service'=>$user->crossService ? 'oui' : 'non',
                 'nombre de sanctions' => count($sanctions),
+                'date d\'inscription'=>$user->created_at
             ];
 
         }

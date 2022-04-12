@@ -196,20 +196,26 @@ class ServiceGetterController extends Controller
 
         $forgetable = [];
 
+
         for($a = 0; $a < $service->count(); $a++){
             $searchedItem = $service[$a];
-            $searchedItem->grade = $searchedItem->GetUser->getUserGradeInService();
-            if($searchedItem->service !== $user->service || $searchedItem->grade->name === "staff"){
-                array_push($forgetable, $a);
+
+            if(User::where('id',$searchedItem->user_id)->count() == 0) array_push($forgetable, $a);
+
+
+            if($searchedItem->week_number !== $date && !in_array($a, $forgetable))array_push($forgetable, $a);
+
+            if(!\Gate::allows('view', $searchedItem->GetUser) && !in_array($a, $forgetable))array_push($forgetable, $a);
+
+
+            if(!in_array($a, $forgetable)){
+                $searchedItem->grade = $searchedItem->GetUser->getUserGradeInService();
+                if($searchedItem->service !== $user->service || $searchedItem->grade->name === "staff")array_push($forgetable, $a);
             }
 
-            if($searchedItem->week_number !== $date){
-                array_push($forgetable, $a);
-            }
-            if(!\Gate::allows('view', $searchedItem->GetUser)){
-                array_push($forgetable, $a);
-            }
+
         }
+
 
         foreach ($forgetable as $forget){
             $service->forget($forget);

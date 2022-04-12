@@ -65,11 +65,18 @@ function RapportHoraire(props) {
                 <table>
                     <thead>
                     <tr>
-                        <th>personnel</th>
+                        <th>nom</th>
                         <th>remboursement</th>
                         <th>primes</th>
-                        <th>ajoutement horaire</th>
-                        <th>total horaire</th>
+                        <th>dimanche</th>
+                        <th>lundi</th>
+                        <th>mardi</th>
+                        <th>mercredi</th>
+                        <th>jeudi</th>
+                        <th>vendredi</th>
+                        <th>samedi</th>
+                        <th>modif</th>
+                        <th>total</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -78,7 +85,14 @@ function RapportHoraire(props) {
                             <td onClick={()=>{Redirection('/personnel/fiche/'+u.get_user.id)}} className={'clickable'}>{u.get_user.name}</td>
                             <td>${u.remboursement}</td>
                             <td>${u.prime}</td>
-                            <td>{u.ajustement}</td>
+                            <td>{u.dimanche}</td>
+                            <td>{u.lundi}</td>
+                            <td>{u.mardi}</td>
+                            <td>{u.mercredi}</td>
+                            <td>{u.jeudi}</td>
+                            <td>{u.vendredi}</td>
+                            <td>{u.samedi}</td>
+                            <td>{u.dimanche}</td>
                             <td>{u.total}</td>
                         </tr>
                     )}

@@ -144,11 +144,32 @@ function Rapport(props) {
 
     }
 
+    const setBobologie = () => {
+        let now = new Date();
+        let day = now.getDate();
+        let month = now.getMonth()+1
+        day = (day > 10 ? day : '0'+day);
+        month = (month > 10 ? month : '0'+month);
+        setinterdate(now.getFullYear()+'-'+(month)+'-'+day);
+        setinterhour(now.getHours()+':'+now.getMinutes());
+
+        intertypeslist.forEach((a)=>{
+            if(a.name.toLowerCase() === 'régulière')setintertypes(a.id)
+        })
+        transportlist.forEach((a)=>{
+            if(a.name.toLowerCase() === 'pas de transport')settransport(a.id)
+        })
+        setdesc('bobologie')
+        setmontant(200)
+
+    }
+
 
     return (
         <div className={"rapports"}>
             <div className={'fixed-top-right'}>
                 <Button value={'envoyer'} callback={postRapport} disabled={!(user.grade.admin || user.grade.rapport_create)}/>
+                <Button value={'bobologie'} callback={setBobologie}/>
             </div>
             <div className={'collumn'}>
                 <CardComponent title={'Patient'}>
