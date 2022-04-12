@@ -99,12 +99,7 @@ class ModifierReqController extends Controller
     public function getAllModifyTimeServiceRequest(): \Illuminate\Http\JsonResponse
     {
         $this->authorize('viewAny', ModifyServiceReq::class);
-        $reqs = ModifyServiceReq::where('accepted', null)->where('service', Session::get('service')[0]);
-        if($reqs->count() == 0){
-            $reqs = ModifyServiceReq::where('service', Session::get('service')[0])->get()->take(15);
-        }else{
-            $reqs = $reqs->get();
-        }
+        $reqs = ModifyServiceReq::where('service', Session::get('service')[0])->orderBy('id','desc')->paginate();
 
         foreach ($reqs as $req){
             if ($req->admin_id){

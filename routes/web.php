@@ -168,7 +168,7 @@ Route::get('/data/service/user', [ServiceGetterController::class, 'getUserServic
 Route::get('/data/service/alluser/{semaine?}', [ServiceGetterController::class, 'getAllservice'])->middleware(['auth']);
 Route::get('/data/service/addwors', [ServiceSetterController::class, 'addRows'])->middleware(['auth']);
 Route::put('/data/service/setbyadmin/{userid}', [ServiceSetterController::class, 'setServiceByAdmin'])->middleware(['auth']);
-Route::put('/data/service/admin/modify', [ServiceSetterController::class, 'modifyTimeService'])->middleware(['auth']);
+Route::put('/data/service/admin/modify/{userId}', [ServiceSetterController::class, 'modifyTimeService'])->middleware(['auth']);
 Route::get('/data/service/admin/exel/{week?}', [ServiceGetterController::class, 'getWeekServiceExel'])->middleware(['auth']);
 Route::get('/data/service/users',[ServiceGetterController::class, 'getUserOnServiceInUnit']);
 

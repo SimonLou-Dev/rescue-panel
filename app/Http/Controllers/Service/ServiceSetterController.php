@@ -52,20 +52,21 @@ class ServiceSetterController extends Controller
         return response()->json(['status'=>"OK"],201);
     }
 
-    public function modifyTimeService(Request $request): \Illuminate\Http\JsonResponse
+    public function modifyTimeService(Request $request, string $userId): \Illuminate\Http\JsonResponse
     {
-        $name = (string) $request->name;
+        $request->validate([
+            'time'=>['required'],
+            'action'=>['int','between:0,1']
+        ]);
+
         $action = (int) $request->action;
         $time = (string) $request->time.':00';
 
-        $user =User::where('name', $name)->firstOrFail();
-        $WeekService= WeekService::where('user_id', $user->id)->where('week_number', ServiceGetterController::getWeekNumber())->first();
-        $WeekService->ajustement = OperatorController::ajustementCalculator($WeekService->ajustement, $time, $action === 1);
-        if($action === 1){
-            $WeekService->total = OperatorController::addTime($WeekService->total, $time);
-        }else{
-            $WeekService->total = OperatorController::removeTime($WeekService->total, $time);
-        }
+        User::where('id', $userId)->firstOrFail();
+        $WeekService= WeekService::where('user_id', $userId)->where('week_number', ServiceGetterController::getWeekNumber())->first();
+        $WeekService->ajustement = \TimeCalculate::HoursAdd($WeekService->ajustement, $time);
+        $WeekService->total = \TimeCalculate::HoursAdd($WeekService->total, $time);
+
 
 
         $WeekService->save();

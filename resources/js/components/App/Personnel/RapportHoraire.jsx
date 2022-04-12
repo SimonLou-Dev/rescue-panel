@@ -3,6 +3,8 @@ import PageNavigator from "../../props/PageNavigator";
 import Searcher from "../../props/Searcher";
 import axios from "axios";
 import UpdaterBtn from "../../props/UpdaterBtn";
+import Button from "../../props/Button";
+import CardComponent from "../../props/CardComponent";
 
 
 function RapportHoraire(props) {
@@ -12,6 +14,12 @@ function RapportHoraire(props) {
     const [users, setUsers]= useState([]);
     const [maxWeek, setMaxWeek] = useState(undefined);
     const [currentWeek, setCurrentWeek] = useState(undefined);
+    const [popup, setPoup] = useState(false)
+    const [modifiedId,setModifidedId] = useState(null)
+    const [modifiedName, setModifiedname] = useState('')
+    const [action, setAction] = useState(0)
+    const [time, setTime] = useState('')
+    const [popupErrors, setPopupErrors] = useState([])
 
     const Redirection = (url) => {
         props.history.push(url)
@@ -49,8 +57,41 @@ function RapportHoraire(props) {
 
     }
 
+    const openPopup = (userId = null, userName = null) => {
+        if(popup){
+            setPoup(false)
+            setModifiedname('')
+            setModifidedId(null)
+            setAction(0)
+            setTime('')
+        }else{
+            setPoup(true)
+            setModifiedname(userName)
+            setModifidedId(userId)
+        }
+    }
+
+    const sendModif = async () => {
+        await axios({
+            method: 'PUT',
+            url: '/data/service/admin/modify/'+modifiedId,
+            data: {
+                action: (action - 1),
+                time,
+            }
+        }).then(r => {
+            openPopup()
+            UserList()
+        }).catch(error => {
+            if (error.response.status === 422) {
+                setPopupErrors(error.response.data.errors)
+            }
+        })
+
+    }
+
     return (<div className={'TablePage'}>
-        <div className={'PageCenter'}>
+        <div className={'PageCenter ' + (popup ? 'popupBg':'')}>
             <div className={'table-header'}>
                 <PageNavigator prev={()=> {UserList(search,page-1)}} next={()=> {UserList(search,page+1)}} prevDisabled={(paginate.prev_page_url === null)} nextDisabled={(paginate.next_page_url === null)}/>
                 <Searcher value={search} callback={(v) => {UserList(v)}}/>
@@ -91,8 +132,8 @@ function RapportHoraire(props) {
                             <td>{u.mercredi}</td>
                             <td>{u.jeudi}</td>
                             <td>{u.vendredi}</td>
-                            <td>{u.samedi}</td>
-                            <td>{u.dimanche}</td>
+                            <td >{u.samedi}</td>
+                            <td className={'clickable'} onClick={()=>{openPopup(u.get_user.id, u.get_user.name)}}>{u.ajustement}</td>
                             <td>{u.total}</td>
                         </tr>
                     )}
@@ -100,6 +141,50 @@ function RapportHoraire(props) {
                 </table>
             </div>
         </div>
+        {popup &&
+            <section className={'popup'}>
+                <CardComponent  title={'Modification du temps de service de ' + modifiedName}>
+                    <div className={'form-group form-column'}>
+                        <label>action</label>
+                        <select value={action} onChange={(e)=>{setAction(e.target.value)}}>
+                            <option value={0} disabled={true}>choisir</option>
+                            <option value={1}>enlever</option>
+                            <option value={2}>ajouter</option>
+                        </select>
+                        {popupErrors.action &&
+                            <div className={'errors-list'}>
+                                <ul>
+                                    {popupErrors.action.map((error) =>
+                                        <li>{error}</li>
+                                    )}
+                                </ul>
+                            </div>
+                        }
+                    </div>
+                    <div className={'form-group form-column'}>
+                        <label>Temps (23h59 max)</label>
+                        <input type={'time'} className={'form-input'} value={time} onChange={(e)=>{setTime(e.target.value)}}/>
+                        {popupErrors.time &&
+                            <div className={'errors-list'}>
+                                <ul>
+                                    {popupErrors.time.map((error) =>
+                                        <li>{error}</li>
+                                    )}
+                                </ul>
+                            </div>
+                        }
+                    </div>
+                    <div className={'form-group form-line'}>
+                        <button className={'btn'} onClick={()=>{
+                            setTime('');
+                            setAction(0);
+                        }}>effacer</button>
+                        <button className={'btn'} onClick={sendModif}>envoyer</button>
+                        <button className={'btn'} onClick={()=>{openPopup()}}>fermer</button>
+                    </div>
+                </CardComponent>
+            </section>
+        }
 
     </div>  )
 }

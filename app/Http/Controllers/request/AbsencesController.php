@@ -80,12 +80,7 @@ class AbsencesController extends Controller
     public function getAbsences(){
 
         \Gate::authorize('viewAny', AbsencesList::class);
-        $abs = AbsencesList::where('accepted', null);
-        if($abs->count()  == 0){
-            $abs = AbsencesList::all()->take(15);
-        }else{
-            $abs = $abs->get();
-        }
+        $abs = AbsencesList::orderBy('id', 'desc')->paginate();
 
         foreach ($abs as $ab){
             $ab->GetUser;

@@ -224,7 +224,6 @@ class OperatorController extends Controller
     // $action = 1 add  else remove
     public static function ajustementCalculator(string $base, string $modifier, int $action){
         $final = "";
-        Log::critical($base. ' | ' . $modifier . ' | ' . $action);
 
         if($action === 1){
             if($base == '00:00:00'){

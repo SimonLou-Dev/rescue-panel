@@ -2,12 +2,17 @@ import React, {useContext, useEffect, useState} from 'react';
 import axios from "axios";
 import {Link} from "react-router-dom";
 import UserContext from "../../context/UserContext";
+import PageNavigator from "../../props/PageNavigator";
 
 function Demandes(props) {
     const [serviceList, setServiceList] = useState([])
+    const [servicePage, setServicePage] = useState(1);
     const [primeList, setPrimeList] = useState([])
+    const [primePage, setPrimePage] = useState(1)
     const [absenceList, setAbsenceList] = useState([])
+    const [absPage, setAbsPage] = useState(1);
     const [remboursementList, setRemboursementList] =  useState([]);
+    const [rmbPage, setRmbPage] = useState(1);
     const user = useContext(UserContext)
 
     useEffect(()=>{
@@ -17,43 +22,47 @@ function Demandes(props) {
         getRemboursements()
     },[])
 
-    const getService = async () => {
+    const getService = async (page = servicePage) => {
+        if(page !== servicePage) setServicePage(page);
         await axios({
             method: 'GET',
-            url: '/data/service/req/waitinglist',
+            url: '/data/service/req/waitinglist?page='+page,
         }).then(r=>{
             setServiceList(r.data.list)
         })
 
     }
 
-    const getRemboursements = async () => {
+    const getRemboursements = async (page = rmbPage) => {
+        if(page !== rmbPage) setRmbPage(page);
         await axios({
             method: 'GET',
-            url: '/data/remboursements/all',
+            url: '/data/remboursements/all?page='+page,
         }).then(r=>{
             setRemboursementList(r.data.remboursements)
         })
 
     }
 
-    const getPrime = async () => {
+    const getPrime = async (page = primePage) => {
+        if(page !== primePage) setPrimePage(page);
         await axios({
             method: 'GET',
-            url: '/data/primes/getall',
+            url: '/data/primes/getall?page='+page,
         }).then(r=>{
             setPrimeList(r.data.primes)
         })
     }
 
-    const getAbs = async () => {
+    const getAbs = async (page = absPage) => {
+        if(page !== absPage) setAbsPage(page);
         await axios({
             method: 'GET',
-            url: '/data/admin/absence',
+            url: '/data/admin/absence?page='+page,
         }).then(r=>{
             setAbsenceList(r.data.abs)
         })
-        //t
+       // ICICI
     }
 
 
@@ -76,7 +85,14 @@ function Demandes(props) {
         <section className={'page-container'}>
             {(user.grade.admin || user.grade.viewAll_service_req) &&
                 <section className={'request-container'}>
-                    <h1 id={"service"}>Service</h1>
+                    <div className={'table-header'}>
+                        <h1 id={"service"}>Service</h1>
+                        {serviceList.length !== 0 &&
+                            <PageNavigator prev={()=>getService(servicePage-1)} prevDisabled={(  serviceList.prev_page_url === null)}
+                                           next={()=>{getService(servicePage+1)}} nextDisabled={(serviceList.next_page_url === null)}/>
+                        }
+
+                    </div>
                     <section className={'table-container'}>
                         <table>
                             <thead>
@@ -92,7 +108,7 @@ function Demandes(props) {
                             </tr>
                             </thead>
                             <tbody>
-                            {serviceList && serviceList.map((s)=>
+                            {serviceList.length !== 0 && serviceList.data.map((s)=>
                                 <tr key={s.id}>
                                     <td className={'clickable'}><Link to={'/personnel/fiche/'+s.get_user.id}>{s.get_user.name}</Link></td>
                                     <td>{s.week_number}</td>
@@ -127,7 +143,14 @@ function Demandes(props) {
             }
             {(user.grade.admin || user.grade.viewAll_prime_req) &&
                 <section className={'request-container'}>
-                    <h1 id={'primes'}> Primes</h1>
+                    <div className={'table-header'}>
+                        <h1 id={'abs'}>Primes</h1>
+                        {primeList.length !== 0 &&
+                            <PageNavigator prev={()=>getPrime(primePage-1)} prevDisabled={( primeList.prev_page_url === null)}
+                                           next={()=>{getPrime(primePage+1)}} nextDisabled={(primeList.next_page_url === null)}/>
+                        }
+
+                    </div>
                     <section className={'table-container'}>
                         <table>
                             <thead>
@@ -143,7 +166,7 @@ function Demandes(props) {
                             </tr>
                             </thead>
                             <tbody>
-                            {primeList && primeList.map((s)=>
+                            {primeList.length !== 0  && primeList.data.map((s)=>
                                 <tr key={s.id}>
                                     <td className={'clickable'}><Link to={'/personnel/fiche/'+s.get_user.id}>{s.get_user.name}</Link></td>
                                     <td>{s.week_number}</td>
@@ -179,7 +202,14 @@ function Demandes(props) {
             }
             {(user.grade.admin || user.grade.viewAll_absences_req) &&
                 <section className={'request-container'}>
-                    <h1 id={'abs'}>Absences</h1>
+                    <div className={'table-header'}>
+                        <h1 id={'abs'}>Absences</h1>
+                        {absenceList.length !== 0  &&
+                            <PageNavigator prev={()=>getAbs(absPage-1)} prevDisabled={(absenceList.prev_page_url === null)}
+                                           next={()=>{getAbs(absPage+1)}} nextDisabled={(absenceList.next_page_url === null)}/>
+                        }
+
+                    </div>
                     <section className={'table-container'}>
                         <table>
                             <thead>
@@ -195,7 +225,7 @@ function Demandes(props) {
                             </tr>
                             </thead>
                             <tbody>
-                            {absenceList && absenceList.map((s)=>
+                            {absenceList.length !== 0  && absenceList.data.map((s)=>
                                 <tr key={s.id}>
                                     <td className={'clickable'}><Link to={'/personnel/fiche/'+s.get_user.id}>{s.get_user.name}</Link></td>
                                     <td>{s.created_at}</td>
@@ -231,7 +261,15 @@ function Demandes(props) {
             }
 
             <section className={'request-container'}>
-                <h1 id={'rmb'}>Remboursements</h1>
+
+                <div className={'table-header'}>
+                    <h1 id={'rmb'}>Remboursements</h1>
+                    {remboursementList.length !== 0 &&
+                        <PageNavigator prev={()=>getRemboursements(rmbPage-1)} prevDisabled={(remboursementList.prev_page_url === null)}
+                        next={()=>{getRemboursements(rmbPage+1)}} nextDisabled={(remboursementList.next_page_url === null)}/>
+                    }
+
+                </div>
                 <section className={'table-container'}>
                     <table>
                         <thead>
@@ -246,7 +284,7 @@ function Demandes(props) {
                         </tr>
                         </thead>
                         <tbody>
-                        {remboursementList && remboursementList.map((s)=>
+                        {remboursementList.length !== 0  && remboursementList.data.map((s)=>
                             <tr key={s.id}>
                                 <td className={'clickable'}><Link to={'/personnel/fiche/'+s.get_user.id}>{s.get_user.name}</Link></td>
                                 <td>{s.created_at}</td>

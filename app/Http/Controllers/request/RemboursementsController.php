@@ -21,7 +21,7 @@ class RemboursementsController extends Controller
 
     public function getRemboursementOfUser(): \Illuminate\Http\JsonResponse
     {
-        $remboursements = RemboursementList::where('service', Session::get('service')[0])->where('user_id', Auth::user()->id)->orderByDesc('id')->take(10)->get();
+        $remboursements = RemboursementList::where('service', Session::get('service')[0])->where('user_id', Auth::user()->id)->orderByDesc('id')->paginate();
         return response()->json(['status'=>'OK', 'remboursements'=>$remboursements]);
     }
 
