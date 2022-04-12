@@ -26,6 +26,7 @@ class UserGradeController extends Controller
         $user= User::where('id', $userid)->first();
         $grade = Grade::where('id',$id)->first();
 
+        /*
         if($grade->having_matricule && !$user->dev && $id  != 1 && is_null($user->matricule)){
             $users = User::whereNotNull('matricule')->get();
             $matricules = array();
@@ -40,7 +41,7 @@ class UserGradeController extends Controller
             $user->save();
             event(new Notify($user->name . ' a le matricule ' . $generated,1));
         }
-
+        */
         if(Session::get('service')[0] === 'LSCoFD'){
             $user->fire_grade_id = $id;
         }

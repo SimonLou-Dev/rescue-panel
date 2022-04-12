@@ -6,6 +6,7 @@ use App\Events\UserUpdated;
 use App\Http\Controllers\Controller;
 use App\Models\Grade;
 use App\Models\User;
+use Auth;
 use Illuminate\Http\Request;
 use Session;
 
@@ -42,7 +43,7 @@ class DashboardController extends Controller
             foreach ($files as $file){
                 $ThisFileName = explode('.', $file->getFilename())[0];
 
-                //if($ThisFileName === $name) $selected = $file;
+                if($ThisFileName === $name) $selected = $file;
             }
 
             if(is_null($selected)){

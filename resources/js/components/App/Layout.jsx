@@ -340,8 +340,6 @@ function Layout(props) {
                                                                       className={'menu-link'}>logs</Link></li>
                                     <li className={'menu-puce'}><Link to={'/dev/storage'}
                                                                       className={'menu-link'}>storage</Link></li>
-                                    <li className={'menu-puce'}><Link to={'/dev/console'}
-                                                                      className={'menu-link'}>console</Link></li>
 
                                 </ul>
                             </section>
