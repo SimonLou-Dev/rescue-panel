@@ -14,9 +14,9 @@ class UserController extends Controller
     public function getUser(Request $request){
         $this->authorize('dev');
         if($request->query('query') == ''){
-            $users = User::all();
+            $users = User::withTrashed()->get();
         }else{
-            $users = User::search($request->query('query'))->get();
+            $users = User::search($request->query('query'))->withTrashed()->get();
         }
         $medicGrade = Grade::where('service', 'SAMS')->orWhere('service', 'staff')->orWhere('service', 'dev')->get();
         $fireGrade = Grade::where('service', 'LSCoFD')->orWhere('service', 'staff')->orWhere('service', 'dev')->get();
@@ -68,8 +68,13 @@ class UserController extends Controller
 
     public function deleteUser(Request $request, string $userId){
         $this->authorize('dev');
-        $user = User::where('id',$userId)->first();
-        $user->delete();
+        $user = User::withTrashed()->where('id',$userId)->first();
+        if(is_null($user->deleted_at)){
+            $user->delete();
+        }else{
+            $user->restore();
+        }
+
         return response()->json([],202);
     }
 

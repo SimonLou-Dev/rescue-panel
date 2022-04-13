@@ -143,7 +143,7 @@ function DevUsersList(props) {
                             </select>
                         </td>
                         <td>
-                            <button className={'btn'} onClick={()=>remove(u)}><img alt={''} src={'/assets/images/decline.png'}/></button>
+                            <button className={'btn'} onClick={()=>remove(u)}><img alt={''} src={'/assets/images/'+ (u.deleted_at !== null ? 'accept' : 'decline') +'.png'}/></button>
                         </td>
                     </tr>
                 )}
