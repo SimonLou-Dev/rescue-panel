@@ -64,10 +64,12 @@ class ServiceSetterController extends Controller
 
         User::where('id', $userId)->firstOrFail();
         $WeekService= WeekService::where('user_id', $userId)->where('week_number', ServiceGetterController::getWeekNumber())->first();
-        $WeekService->ajustement = \TimeCalculate::HoursAdd($WeekService->ajustement, $time);
-        $WeekService->total = \TimeCalculate::HoursAdd($WeekService->total, $time);
-
-
+        if($request->action){
+            $WeekService->ajustement = \TimeCalculate::HoursAdd($WeekService->ajustement, $time);
+            $WeekService->total = \TimeCalculate::HoursAdd($WeekService->total, $time);
+        }else{$WeekService->ajustement = \TimeCalculate::HoursRemove($WeekService->ajustement, $time);
+            $WeekService->total = \TimeCalculate::HoursRemove($WeekService->total, $time);
+        }
 
         $WeekService->save();
 

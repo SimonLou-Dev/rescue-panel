@@ -24,15 +24,14 @@ class TimeInteractor
     public function HoursRemove(string|int $base, string|int $operator):string
     {
         if(is_string($base)){
-            $base = $this->dateToSec($base);
+            $base = $this->hoursToSec($base);
         }
         if(is_string($operator)){
-            $operator = $this->dateToSec($operator);
+            $operator = $this->hoursToSec($operator);
         }
 
 
-
-        return  '';
+        return  $this->secToHours($base - $operator);
     }
 
     public function dateToSec(string|null $base):int

@@ -383,7 +383,6 @@ class UserController extends Controller
         $user = User::where('id', $id)->first();
         UserGradeController::removegradeFromuser($user->id);
 
-
         event(new Notify('La démission a été prise en compte',1));
         $prononcer = User::where('id', Auth::user()->id)->first();
         UserUpdated::broadcast($user);
